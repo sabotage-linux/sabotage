@@ -10,6 +10,8 @@ fi
 export H="$PWD"
 . "$H"/config
 
+mkdir -p "$R"/src/tarballs
+
 mount --rbind /dev "$R"/dev
 mount --rbind /proc "$R"/proc
 mount --bind "$C" "$R"/src/tarballs
