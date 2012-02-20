@@ -6,6 +6,7 @@ filesize=19973532
 sha512=ffe8ef263ef99183e8cc823fe8487ff7d0f7bf9a8efd2853b5f4636aca0023850d13de4eac7d77a5f69413d8a50e6f95bb14569be53df86c0bce38034525ab74
 
 [mirrors]
+http://ftpmirror.gnu.org/binutils/binutils-2.22.tar.bz2
 http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
 
 [build]

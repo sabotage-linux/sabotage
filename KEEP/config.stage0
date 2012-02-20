@@ -1,18 +1,25 @@
-export K=$(pwd)/KEEP
-export C=$(pwd)/tarballs
-export S=/tmp/sabotage/src
-export R=/tmp/sabotage/root
-export LOGPATH=$S/logs
+## set paths
+# K is the directory where patches and configs are kept
+# T is the directory to place the downloaded tarbars
+# S is the directory to extract tarbars and place sources for building
+# R is the directory underwhich the new filesystem will be created
+# LOGPATH is the directory to place logfiles of builds
+export K="$PWD/KEEP"
+export T="$PWD/tarballs"
+export S="/tmp/sabotage/src"
+export R="/tmp/sabotage/root"
+export LOGPATH="$S/logs"
 
-#set your arch
+## set your arch, or try `uname -m`
 export A=i386
 #export A=x86_64
 #export A=arm
 
-#export your compiler env
+## set the compiler environment
 export CC=gcc
 export HOSTCC=gcc
 #export CROSS_COMPILE=armv6l
 
-#export your core count for faster builds...
+## set your core count for faster builds
 export MAKE_THREADS=1
+

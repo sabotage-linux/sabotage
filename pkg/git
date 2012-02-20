@@ -2,12 +2,12 @@
 curl
 
 [main]
-filesize=2806337
-sha512=91508a9ec0510e8c2416a5ccd16d17984bd188c5a0acea1bd3fb15fac9d2f58bb85ca880d16fdbc40b395bbe44d430f7430763505dd3d7269f97183f10cd9ea9
+filesize=3399942
+sha512=b8b5a17de1c08ed220b0be958e153af63055df2af408781fcb4855577cab57b911f86477e235ba8d83804dbe7675df9a36b18ccb360a03cd4ee407cb02e09d3a
 
 [mirrors]
-http://www.kernel.org/pub/software/scm/git/git-1.7.6.tar.bz2
-http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/software/scm/git/git-1.7.6.tar.bz2
+http://git-core.googlecode.com/files/git-1.7.6.5.tar.gz
+http://www.kernel.org/pub/software/scm/git/git-1.7.6.5.tar.gz
 
 [build]
 

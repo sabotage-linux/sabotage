@@ -1,11 +1,11 @@
 [deps]
 
 [main]
-filesize=544640
-sha512=83ce467787903b7e90ece203aaea0be42174b9cf4a9aa16fe3f72925a4993b549d50154dec4cc76b4cb1aa0b7b966118772aca3d73efa0601167256ff7ce7a12
+filesize=557220
+sha512=f812ab3049fc2920a8da4649f6e60340ac365d58a0e76ace5219426aeb0759c0a474cfb2b9902cd0471158fa32a4d2c35692309d266e66013444bdced8ed00d9
 
 [mirrors]
-http://zlib.net/zlib-1.2.5.tar.gz
+http://zlib.net/zlib-1.2.6.tar.gz
 
 [build]
 CC="$CC -static" ./configure --prefix=/ --static || exit 1

@@ -14,7 +14,7 @@ sha512=a9812039b5588cd46d61b933e6d58b031397ff8ae0d7567d00845f9e71001fbe4dffdddc5
 tardir=gcc-4.5.3
 
 [mirrors]
-ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.3/gcc-core-4.5.3.tar.bz2
+http://ftpmirror.gnu.org/gcc/gcc-4.5.3/gcc-core-4.5.3.tar.bz2
 
 [build]
 
@@ -42,7 +42,7 @@ if [[ ! -e $TC_PATH/usr ]] ; then
         cd $SELF
 fi
 
-export CC="$CC -static -D_GNU_SOURCE -I$R/include -L$R/lib" 
+export CC="$CC -static -D_GNU_SOURCE -I$R/include -L$R/lib"
 
 CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" ./configure --with-newlib --with-headers=no --prefix=/ \
   --disable-multilib --disable-nls --disable-shared --disable-mudflap \
@@ -72,6 +72,7 @@ fi
 rm $TC_PATH/lib/gcc/$host_tuple/4.5.3/include/stddef.h
 
 #add a link to "cc"
-ln -sf gcc $TC_PATH/bin/cc 
+ln -sf gcc $TC_PATH/bin/cc
 
 [ "$A" = x86_64 ] && mv $TC_PATH/lib64/libgcc* $TC_PATH/lib/ || true
+

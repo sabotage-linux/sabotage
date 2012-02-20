@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# new filesystem should be owned by root
+#uid="$(id -u $LOGNAME)"
+#if [ $(( uid != 0 )) ]; then
+#    local limit=3
+#    local try=0
+#    printf -- "current user id: %d\n" "$uid"
+#    printf -- "must be root to create new filesystem\n"
+#    while [ $(( limit != try )) ]; do
+#        su -c "$0" || printf -- "wrong password. %d tries remaining\n" "$((limit-try))"
+#        try=$((try+1))
+#    done
+#fi
+#
+# ..but then everything else should too - executables, configs etc
+#
+
+# FIXME: is this really needed ?
+mountpoint -q "$R" || rm -rf "$R"
+mkdir -p "$S" "$R"
+
+cd "$R"
+mkdir -p boot bin dev etc home lib mnt proc root share srv src sys tmp var
+mkdir -p src/logs var/log/sshd var/log/crond var/log/dmesg
+mkdir -p var/empty var/service var/tmp var/spool/cron/crontabs
+
+# usr and sbin are a mistake
+ln -s . usr
+ln -s bin sbin
+
+chmod 1777 tmp
+

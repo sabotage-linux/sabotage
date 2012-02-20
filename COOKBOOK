@@ -58,21 +58,20 @@ and adjust the variables:
 
 Next steps:
 
-  % . ./config       # required!
-
-  % ./build-stage0   # build toolchain (~15min on a modern machine)
-  % ./enter-chroot   # enter $R chrooted, needs root password
+  % ./build-stage0       # build toolchain (~15min on a modern machine)
+  % ./enter-chroot       # enter $R chrooted, needs root password
 
 Inside the chroot, you need to build stage1:
 
-  # cd /tmp/src/sabotage   # absolute path required!
-  # mk stage1        # rebuild stuff, build kernel (~1h)
+  # cd /src              # absolute path required!
+  # . ./config           # required! new config has been created for stage1
+  # butch install stage1 # rebuild stuff, build kernel (~1h)
 
 You can now really boot the system (potentially install extlinux), or
 continue in the chroot:
 
-  # mk pkg           # additional stuff
-  # mk xorg          # build X.org
+  # mk pkg               # additional stuff
+  # mk xorg              # build X.org
 
 
 == Making a release
@@ -157,7 +156,7 @@ http://busybox.net/~vda/init_vs_runsv.html.
 
 The base system has a few services, which you find in /var/service
 (note that these are symlinks to /etc/service):
-  
+
   dmesg - logs kernel messages
   sshd  - opensshd, down by default
   tty2, tty3, tty4 - three gettys

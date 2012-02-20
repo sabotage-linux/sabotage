@@ -1,24 +1,25 @@
-#!/bin/bash
+#!/bin/sh
 
-if [ $UID -ne 0 ]; then
-  su -c $0
-  exit $?
+uid="$(id -u)"
+if [ "$uid" != "0" ]; then
+    printf -- "need to be root. please enter password.\n"
+    su -c "$0"
+    exit $?
 fi
 
-export H=$(pwd)
-. $H/config
+export H="$PWD"
+. "$H"/config
 
-mount --rbind /dev $R/dev
-mount --rbind /proc $R/proc
-mount --bind $C $R/src/tarballs
+mount --rbind /dev "$R"/dev
+mount --rbind /proc "$R"/proc
+mount --bind "$C" "$R"/src/tarballs
 
 echo "Entering chroot..."
-SHELL=/bin/sh chroot $R /bin/sh
+SHELL=/bin/sh chroot "$R" /bin/sh
 
-umount $R/src/tarballs
-umount $R/dev/pts
-umount $R/dev/shm
-umount $R/dev
-umount $R/proc
-
+umount "$R"/src/tarballs
+umount "$R"/dev/pts
+umount "$R"/dev/shm
+umount "$R"/dev
+umount "$R"/proc
 

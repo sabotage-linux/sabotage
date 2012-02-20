@@ -1,8 +1,28 @@
-#TODO compare filesize and sha512 of the download with the one from the butch package
+#!/bin/sh
 
 tarxf https://github.com/downloads/rofl0r/butch/ butch-0.0.4 .tar.bz2 butch
+filesize='58248'
+sha512='710ba50379756bf77c692da68ae741f6bbc4af84c204bfd0eec09ee6fa762132825d8c1a3e62d96073d9a8c1c5906323b6aae50ed0d8601859e545c105555b5b'
 
-./build.sh || exit 1
-cp butch/butch $S/butch.bin
-cp $S/butch-0.0.4.tar.bz2 $C/
+read sz _ <<EOF
+$(du -b "$S"/butch-0.0.4.tar.bz2)
+EOF
+
+if [ "$sz" != "$filesize" ]; then
+    printf -- "error: build-butch: wrong filesize. got: %d expected: %d\n" "$sz" "$filesize"
+    exit 1
+fi
+
+read sha _ <<EOF
+$(sha512sum "$S"/butch-0.0.4.tar.bz2)
+EOF
+
+if [ "$sha" != "$sha512" ]; then
+    printf -- "error: build-butch: hash doesn't match.\n"
+    exit 1
+fi
+
+./build.sh
+cp butch/butch "$S"/butch.bin
+cp "$S"/butch-0.0.4.tar.bz2 "$C"/
 

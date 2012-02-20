@@ -6,25 +6,22 @@
 stage0_make
 
 [build]
-mkdir -p $R/src/tarballs
-mkdir -p $R/src/logs
-cp -r $H/KEEP $R/src/
-cp -r $H/pkg $R/src/
+cp -r "$H"/KEEP "$R"/src/
+cp -r "$H"/pkg "$R"/src/
 
-cp $K/extlinux.conf $R/boot/
-cp $K/runsvdir-start $R/bin/
-cp -r $K/etc/* $R/etc/
-chmod 0600 $R/etc/shadow
-for s in $R/etc/service/*; do
-  bn=`basename $s`
-  ln -s /etc/service/${bn} `(echo $s | sed s,etc,var)`
+cp "$K"/extlinux.conf "$R"/boot/
+cp "$K"/runsvdir-start "$R"/bin/
+cp -r "$K"/etc/* "$R"/etc/
+chmod 0600 "$R"/etc/shadow
+
+cd "$R"
+for s in etc/service/*; do
+    ln -s "$s" "var${s#etc}"
 done
 
-#cp -r $H $R/src/sabotage
+cp "$K"/config.stage1 "$R"/src/config
+echo "export A=$A" >> "$R"/src/config
 
-#cp -r $S/*.tar.* $S/musl $R/src
-cp $K/config.stage1 $R/src/config
-echo export A=$A >> $R/src/config
+cp /etc/resolv.conf "$R"/etc
+ln -s /proc/mounts "$R"/etc/mtab
 
-cp /etc/resolv.conf $R/etc
-ln -s /proc/mounts $R/etc/mtab

@@ -3,7 +3,8 @@ filesize=2063647
 sha512=9a337673725d3190c76da7e61f9b5e6df348eb4e08a3f7a7a1b5869d0bec6514d97782dffbb56ec5c4897e8f2ec9994b401c00fe0b47e0510e11eb963c9c2efb
 
 [mirrors]
-ftp://ftp.gnu.org/pub/gnu/gawk/gawk-4.0.0.tar.bz2
+http://ftpmirror.gnu.org/gawk/gawk-4.0.0.tar.bz2
+http://ftp.gnu.org/pub/gnu/gawk/gawk-4.0.0.tar.bz2
 
 [build]
 CC="$CC -static" ./configure --prefix=/ --libexecdir=/lib --disable-nls ac_cv_header_dlfcn_h=no || exit 1
