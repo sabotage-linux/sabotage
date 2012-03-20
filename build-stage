@@ -1,0 +1,60 @@
+#!/bin/sh
+
+export H="$PWD"
+
+if [ ! -r "$H"/config ]; then
+    printf -- "couldn't read configuration file: %s\n" "$H/config"
+    printf -- "copy %s to %s and edit appropriately\n" "$K/config.stage0" "$H/config"
+    exit 1
+fi
+
+# ./build-stage 1 is only for building a fresh stage1 from WITHIN sabotage. To
+# build from out of sabotage, you need to ./build-stage 0, then build stage1
+# with butch from within the built system.
+STAGE="$1"
+if [ ! "$STAGE" ]
+then
+    printf -- "Please specify a stage to build.\n"
+    exit 1
+fi
+printf -- "Building stage %d\n" "$STAGE"
+
+# enable verbose printing, abord on error
+set -e -x
+
+. "$H"/config
+mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
+
+. "$H"/utils/utils
+. "$H"/utils/prepare-rootfs
+if [ "$STAGE" = "0" ]
+then
+    . "$H"/utils/build-butch
+fi
+
+# update-buildroot - copy to sources
+cp -r "$H"/pkg "$S"/
+cp -r "$H"/KEEP "$S"/
+
+# NOTE
+# installation starts all over if installed.dat is not there.
+# to manually continue a stage0 build, run
+#     $S/butch.bin install stage0
+# in case the build failed or was interrupted.
+rm -f "$S"/pkg/installed.dat
+
+if [ "$STAGE" = "0" ]
+then
+    # build stage0
+    "$S"/butch.bin install stage0
+else
+    # build stage1
+    butch install stage1
+
+    # build butch
+    butch install butch
+
+    # and finalize the chroot
+    "$H"/utils/finish
+fi
+

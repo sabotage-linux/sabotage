@@ -1,0 +1,33 @@
+#!/bin/sh
+# This script finishes a chroot after stage0 or stage1 is built into it
+
+if [[ ! $H || ! $R || ! $K ]] ; then
+	echo "some required env variables not set. run . ./config before executing this"
+	exit 1
+fi
+
+cp -r "$H"/KEEP "$R"/src/
+cp -r "$H"/pkg "$R"/src/
+
+# For building a stage1 chroot from in sabotage
+mkdir -p "$R"/src/utils
+cp "$H"/utils/utils "$H"/utils/prepare-rootfs "$H"/utils/finish "$R"/src/utils/
+cp "$H"/build-stage "$R"/src/
+cp "$H"/enter-chroot "$R"/src/
+
+cp "$K"/extlinux.conf "$R"/boot/
+cp "$K"/runsvdir-start "$R"/bin/
+cp -r "$K"/etc/* "$R"/etc/
+chmod 0600 "$R"/etc/shadow
+
+cd "$R"
+for s in etc/service/*; do
+    ln -s /"$s" "var${s#etc}"
+done
+
+cp "$K"/config.stage1 "$R"/src/config
+echo "export A=$A" >> "$R"/src/config
+
+cp /etc/resolv.conf "$R"/etc
+ln -s /proc/mounts "$R"/etc/mtab
+

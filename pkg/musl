@@ -26,8 +26,8 @@ if [[ ! -e $TC_PATH/usr ]] ; then
 fi
 
 make clean
-make CC=$R/bin/gcc -j$MAKE_THREADS
-make DESTDIR=$TC_PATH install
+make CC=$R/opt/toolchain/bin/gcc -j$MAKE_THREADS || exit 1
+make DESTDIR=$TC_PATH install || exit 1
 
 #remove dependency on libgcc_eh, which doesnt get built
 #when gcc is built using --disable-shared

@@ -2,5 +2,5 @@
 busybox
 
 [build]
-cp $K/man.config /etc/
+cp $K/man.config $R/etc/
 

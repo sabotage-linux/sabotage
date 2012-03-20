@@ -77,7 +77,7 @@ and adjust the variables:
 
 Next steps:
 
-  % ./build-stage0       # build toolchain (~15min on a modern machine)
+  % ./build-stage 0      # build toolchain (~15min on a modern machine)
   % ./enter-chroot       # enter $R chrooted, needs root password
 
 Inside the chroot, you need to build stage1:

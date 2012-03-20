@@ -43,6 +43,10 @@ make allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG=my.config || exit 
 
 make ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest headers_install || exit 1
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
+# musl installs its own include/linux. If that gets symlinked by
+# relocate_toolchain, then we're in trouble. Use rm -f (not -r) to remove it if
+# and only if it's a link, and ignore it otherwise.
+rm -f $R/include/linux
 cp -rv dest/include/* $R/include/
 
 #let make create dependencies, otherwise parallel build wont work
