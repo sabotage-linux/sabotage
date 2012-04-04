@@ -19,7 +19,7 @@ or use a ready-to-boot disk image either for netinstall or with sets
 included (put it on an USB stick, burning a CD will not work), to be
 found at:
 
-           http://xmw.de/mirror/sabotage/sabotage-2011-04-30/
+           http://xmw.de/mirror/sabotage/
 
 You also can netboot the install kernel directly (use pxelinux from
 somewhere).
