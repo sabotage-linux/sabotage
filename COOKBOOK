@@ -89,9 +89,14 @@ Inside the chroot, you need to build stage1:
 You can now really boot the system (potentially install extlinux), or
 continue in the chroot:
 
-  # mk pkg               # additional stuff
-  # mk xorg              # build X.org
+  # butch install xorg              # build X.org
 
+
+etc.. you can look around in /src/pkg to see which additional useful
+packages you can find... install them using butch, i.e.
+
+ # butch install nano
+ # butch install gdb
 
 == Making a release
 
