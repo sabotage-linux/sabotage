@@ -1,6 +1,7 @@
 [deps]
 intltool
 gettext
+xkbcomp
 
 [main]
 filesize=559151
