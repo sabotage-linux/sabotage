@@ -12,5 +12,9 @@ http://codu.org/~rofl/butch-0.0.9.tar.bz2
 http://mirror.wzff.de/butch/butch-0.0.9.tar.bz2
 
 [build]
+package_version=0.0.9
 ./build.sh
-cp butch/butch $R/bin/butch
+mkdir -p "$butch_install_dir/bin" || exit 1
+cp butch/butch "$butch_install_dir/bin/butch" || exit 1
+mkdir -p "$butch_install_dir/share/butch" || exit 1
+cp butch/custom_buildscript.txt "$butch_install_dir/share/butch/sample" || exit 1
