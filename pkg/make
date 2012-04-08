@@ -10,7 +10,7 @@ sha512=3260be0d1a9a7c5eb0dbb87179a9a9521fdfc7809ca51f13ee5a37ba5e63d21ad50a4249e
 http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 
 [build]
-./configure --prefix=/ --disable-nls || exit 1
+CC="$CC -static" ./configure --prefix=/ --disable-nls || exit 1
 # __BEOS__ to use a shipped ar.h
 make -j$MAKE_THREADS CFLAGS=-D__BEOS__ || exit 1
 make DESTDIR=$R install || exit 1
