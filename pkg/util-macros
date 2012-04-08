@@ -7,4 +7,4 @@ http://xorg.freedesktop.org/releases/individual/util/util-macros-1.13.0.tar.bz2
 
 [build]
 ./configure --prefix=/ || exit 1
-make DESTDIR=$R -j$MAKE_THREADS install || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1

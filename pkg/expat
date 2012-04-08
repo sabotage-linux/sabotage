@@ -11,4 +11,4 @@ http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure --prefix=/ --mandir=/share/man || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

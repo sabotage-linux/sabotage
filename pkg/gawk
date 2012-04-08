@@ -9,5 +9,5 @@ http://ftp.gnu.org/pub/gnu/gawk/gawk-4.0.0.tar.bz2
 [build]
 CC="$CC -static" ./configure --prefix=/ --libexecdir=/lib --disable-nls ac_cv_header_dlfcn_h=no || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
 ln -sf gawk $R/bin/awk

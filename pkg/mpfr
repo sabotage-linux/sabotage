@@ -11,5 +11,5 @@ http://ftp.gnu.org/gnu/mpfr/mpfr-3.0.1.tar.bz2
 [build]
 CC="$CC -static -L$R/lib -I$R/include" ./configure --prefix=/ --disable-shared || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
 rm -f $R/lib/libmpfr.la

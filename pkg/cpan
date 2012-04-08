@@ -10,5 +10,5 @@ http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/CPAN-1.9800.tar.gz
 
 [build]
 perl Makefile.PL || exit 1
-make && make test && make DESTDIR=$R install
+make && make test && make DESTDIR="$butch_install_dir" install
 

@@ -15,5 +15,5 @@ ftp://ftp.x.org/pub/individual/lib/libXfont-1.4.3.tar.bz2
 
 [build]
 CFLAGS="-DNOFILES_MAX=256 -Dfd_mask=long" ./configure --prefix=/ || exit 1
-make DESTDIR=$R -j$MAKE_THREADS install || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
 

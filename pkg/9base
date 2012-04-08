@@ -23,7 +23,7 @@ make -j$MAKE_THREADS || exit 1
 for f in ascii bc cleanname dc ed factor fmt freq getflags hoc join \
          look mk mtime pbd primes rc read sam troff unicode
 do
-  make -C $f DESTDIR=$R install || exit 1
+  make -C $f DESTDIR="$butch_install_dir" install || exit 1
 done
 
 cd $R/bin

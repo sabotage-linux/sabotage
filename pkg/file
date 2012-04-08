@@ -9,4 +9,4 @@ ftp://ftp.astron.com/pub/file/file-5.07.tar.gz
 CC="$CC -static -L$R/lib -I$R/include -D_GNU_SOURCE" ./configure --prefix=/ --disable-shared || exit 1
 sed -i 's/memory.h/string.h/' src/encoding.c src/ascmagic.c
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

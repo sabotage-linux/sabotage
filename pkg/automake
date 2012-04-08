@@ -11,4 +11,4 @@ ftp://ftp.gnu.org/pub/gnu/automake/automake-1.11.1.tar.bz2
 [build]
 ./configure --prefix=/ || exit 1
 make || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

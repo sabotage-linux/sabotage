@@ -13,4 +13,4 @@ http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.8.0.tar.gz
 [build]
 ./configure --prefix=/ || exit 1
 make || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

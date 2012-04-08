@@ -18,4 +18,4 @@ http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.5.tar.gz
 [build]
 ./configure --prefix=/ || exit 1
 make -j$MAKE_THREADS LIBS="-lfontconfig -lexpat -lfreetype -lz -lXrender -lXext -lXpm -lX11 -lxcb -lXau -lSM -lICE -lXdmcp" || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

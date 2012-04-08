@@ -29,4 +29,4 @@ chmod 0755 /var/empty
 
 #key generation is disabled for packaging
 #use pkg/sshd-keys to make the keys "manually"
-make DESTDIR=$R install-nokeys || exit 1
+make DESTDIR="$butch_install_dir" install-nokeys || exit 1

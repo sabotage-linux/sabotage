@@ -12,5 +12,5 @@ ftp://ftp.x.org/pub/individual/lib/libXaw-1.0.9.tar.bz2
 
 [build]
 ./configure --prefix=/ || exit 1
-make DESTDIR=$R -j$MAKE_THREADS install || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
 

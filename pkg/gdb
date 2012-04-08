@@ -29,5 +29,5 @@ CC="$CC -static -L$R/lib -I$R/include -D_GNU_SOURCE -DUT_NAMESIZE=32" ../configu
   --with-system-zlib=yes --enable-gdbserver=no || exit 1
 
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install-gdb || exit 1
+make DESTDIR="$butch_install_dir" install-gdb || exit 1
 

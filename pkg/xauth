@@ -14,4 +14,4 @@ http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.5.tar.bz2
 [build]
 ./configure --prefix=/ || exit 1
 make LIBS="-lX11 -lxcb -lXau -lXdmcp" -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

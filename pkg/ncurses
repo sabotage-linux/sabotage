@@ -20,4 +20,4 @@ CC="$CC -static -I$R/include -L$R/lib -D_GNU_SOURCE" ./configure \
    --prefix=/ --includedir=/include --mandir=/share/man \
    --disable-nls --without-dlsym --without-cxx-binding </dev/ptmx || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

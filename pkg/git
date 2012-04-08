@@ -15,4 +15,4 @@ make CURL_LIBCURL="/lib/libcurl.a /lib/libssl.a /lib/libcrypto.a" \
   CC="$CC" HOSTCC="$HOSTCC" \
   prefix=/ gitexecdir=/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_PTHREADS=1 NO_MEMMEM=1 NO_EXPAT=1 \
-  DESTDIR=$R -j$MAKE_THREADS all install  || exit 1
+  DESTDIR="$butch_install_dir" -j$MAKE_THREADS all install  || exit 1

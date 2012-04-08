@@ -15,4 +15,4 @@ mkdir hack
 cp /bin/cat hack/xsltproc
 PATH=hack:$PATH ./configure --prefix=/ --disable-build-docs || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -12,4 +12,4 @@ ftp://ftp.x.org/pub/individual/lib/pixman-0.21.6.tar.bz2
 CFLAGS="-DPIXMAN_NO_TLS" ./configure --prefix=/ || exit 1
 sed -i -e '/TOOLCHAIN_SUPPORTS_ATTRIBUTE_CONSTRUCTOR/d' -e '/TOOLCHAIN_SUPPORTS__THREAD/d' config.h
 make -j$MAKE_THREADS  || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

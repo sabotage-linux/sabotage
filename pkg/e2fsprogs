@@ -15,4 +15,4 @@ CC="$CC -static -L$R/lib -I$R/include -fgnu89-inline" ./configure --prefix=/ --w
 sed -i 's:sys/signal.h:signal.h:' misc/fsck.c
 make -j$MAKE_THREADS V=1 CFLAGS="-D_GNU_SOURCE -include math.h -Dopen64=open" || exit 1
 # dont fail because of makeinfo
-make DESTDIR=$R install -k
+make DESTDIR="$butch_install_dir" install -k
