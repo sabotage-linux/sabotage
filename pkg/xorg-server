@@ -27,4 +27,4 @@ make DESTDIR="$butch_install_dir" install || exit 1
 
 #ln -sf Xfbdev $R/bin/X
 #copy our hacky X launcher script to /bin...
-cp $K/X $R/bin/X
+cp $K/X "$butch_install_dir/bin/X"
