@@ -27,4 +27,4 @@ sed -i '/setenv/d' src/auto/osdef.h
 sed -i '/putenv/d' src/auto/osdef.h
 
 make || exit 1
-make -j1 VIMRCLOC=/etc DESTDIR=$R install || exit 1
+make -j1 VIMRCLOC=/etc DESTDIR="$butch_install_dir" install || exit 1

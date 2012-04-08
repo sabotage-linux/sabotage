@@ -11,4 +11,4 @@ http://pkgconfig.freedesktop.org/releases/pkg-config-0.25.tar.gz
 [build]
 ./configure --prefix=/ || exit 1
 make || exit 1
-make -j$MAKE_THREADS DESTDIR=$R install || exit 1
+make -j$MAKE_THREADS DESTDIR="$butch_install_dir" install || exit 1

@@ -11,5 +11,5 @@ http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.41.tar.gz
 
 [build]
 perl Makefile.PL || exit 1
-make && make test && make DESTDIR=$R install
+make && make test && make DESTDIR="$butch_install_dir" install
 

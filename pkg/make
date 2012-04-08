@@ -13,4 +13,4 @@ http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 CC="$CC -static" ./configure --prefix=/ --disable-nls || exit 1
 # __BEOS__ to use a shipped ar.h
 make -j$MAKE_THREADS CFLAGS=-D__BEOS__ || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

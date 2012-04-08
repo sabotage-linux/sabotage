@@ -11,5 +11,5 @@ ftp://ftp.x.org/pub/individual/lib/libXpm-3.5.9.tar.bz2
 [build]
 sed -i 's/USE_GETTEXT="yes"/USE_GETTEXT="no"/' configure || exit 1
 ./configure --prefix=/ || exit 1
-make DESTDIR=$R -j$MAKE_THREADS install || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
 

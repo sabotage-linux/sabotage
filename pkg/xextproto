@@ -7,5 +7,5 @@ ftp://ftp.x.org/pub/individual/proto/xextproto-7.2.0.tar.bz2
 
 [build]
 ./configure --prefix=/ || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
 

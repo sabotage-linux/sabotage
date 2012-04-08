@@ -16,4 +16,4 @@ echo -ne "#include <fcntl.h>\n" > /tmp/libssh.h
 cat include/libssh/libssh.h >> /tmp/libssh.h
 cp /tmp/libssh.h include/libssh/libssh.h
 CFLAGS="-Os -s -D_GNU_SOURCE -I./include -std=gnu99 -Wall -Wextra" make src || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

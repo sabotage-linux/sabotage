@@ -16,4 +16,4 @@ sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userd
 ./configure --prefix=/ --sysconfdir=/etc --mandir=/share/man \
   --with-ssl --disable-nls --enable-ipv6  || exit 1
 make || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

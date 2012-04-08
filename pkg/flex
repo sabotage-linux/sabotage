@@ -8,4 +8,4 @@ http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.35.tar.bz2
 [build]
 ./configure --prefix=/ --disable-nls --infodir=/share/info --mandir=/share/man || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
