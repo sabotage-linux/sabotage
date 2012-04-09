@@ -12,6 +12,7 @@ export H="$PWD"
 
 mkdir -p "$R"/src/tarballs
 
+echo "Mounting directories."
 mount --rbind /dev "$R"/dev
 mount --rbind /proc "$R"/proc
 mount --bind "$C" "$R"/src/tarballs
@@ -21,6 +22,10 @@ chroot "$R" /bin/env -i \
     HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
     /bin/sh --login
 
+echo -e "\nDeleting files in $R/tmp"
+rm -r $R/tmp/*
+
+echo "Unmounting directories."
 umount "$R"/src/tarballs
 umount "$R"/dev/pts
 umount "$R"/dev/shm
