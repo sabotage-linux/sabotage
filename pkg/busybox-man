@@ -1,0 +1,20 @@
+[deps]
+musl
+kernel
+perl
+
+[main]
+filesize=2168055
+sha512=e28c1f0e4ca2308862c609ec86744d8eef1dfab07b33ecb2b3c6b44dcaad5cdb2a8270a9c8d761848532565ad9f796aebd4d2aa5ba371aa1331794f9828f939f
+
+[mirrors]
+http://www.busybox.net/downloads/busybox-1.19.2.tar.bz2
+
+[build]
+
+cp $K/busybox.stage1.config .config
+
+make docs/busybox.1
+
+mkdir -p "$butch_install_dir/share/man/man1" || exit 1
+cp docs/busybox.1 "$butch_install_dir/share/man/man1" || exit 1

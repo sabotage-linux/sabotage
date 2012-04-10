@@ -23,8 +23,6 @@ make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
 
 mkdir -p "$butch_install_dir/bin" || exit 1
 cp busybox "$butch_install_dir/bin" || exit 1
-mkdir -p "$butch_install_dir/share/man/man1" || exit 1
-cp docs/busybox.1 "$butch_install_dir/share/man/man1" || exit 1
 cd "$butch_install_dir/bin"
 for f in $(./busybox --list); do
   [ ! -f $f ] || [ $(readlink $f) = busybox ] && ln -sf busybox $f
