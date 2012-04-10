@@ -1,6 +1,7 @@
 [deps]
 musl
 kernel
+perl
 
 [main]
 filesize=2168055
