@@ -12,7 +12,6 @@ sha512=cb9af291487a07421353a9ed8975e59b9eaaa0fa205abb90ed227989320b7bd47d3abc116
 http://python.org/ftp/python/2.7.2/Python-2.7.2.tar.bz2
 
 [build]
-# we don't have lround on i386, thus -fno-builtin.
-CFLAGS="-fno-builtin -D_GNU_SOURCE" ./configure --prefix=/ || exit 1
+CFLAGS="-D_GNU_SOURCE" ./configure --prefix=/ || exit 1
 make -j$MAKE_THREADS  || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

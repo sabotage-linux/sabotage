@@ -13,12 +13,13 @@ http://prdownloads.sourceforge.net/libpng/zlib-1.2.6.tar.gz
 
 [build]
 CC="$CC -static" ./configure --prefix=/ --static || exit 1
-
+#busybox mktemp -u is broken and returns empty string
+sed -i 's,mktemp -u,mktemp,g' Makefile
 make -j$MAKE_THREADS || exit 1
 
 # make install is broken
 ranlib libz.a
-mkdir -p $R/lib
-install -m644 libz.a $R/lib/
-mkdir -p $R/include
-install -m644 zlib.h zconf.h $R/include/
+mkdir -p "$butch_install_dir/lib"
+install -m644 libz.a "$butch_install_dir/lib/"
+mkdir -p "$butch_install_dir/include"
+install -m644 zlib.h zconf.h "$butch_install_dir/include/"

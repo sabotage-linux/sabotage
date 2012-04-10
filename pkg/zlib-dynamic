@@ -14,6 +14,7 @@ http://prdownloads.sourceforge.net/libpng/zlib-1.2.6.tar.gz
 
 [build]
 ./configure --prefix=/ || exit 1
-
+#busybox mktemp -u is broken and returns empty string
+sed -i 's,mktemp -u,mktemp,g' Makefile
 make -j$MAKE_THREADS || exit 1
-make install || exit 1
+make install DESTDIR="$butch_install_dir" || exit 1
