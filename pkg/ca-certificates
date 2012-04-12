@@ -1,0 +1,29 @@
+[deps]
+python
+
+[main]
+tardir=ca-certificates-20120212
+filesize=279619
+sha512=c5644dd715cc20721ebc4eb66a8bfdb922c9b0b428f75a2f11c6356c1fbce2fcfa7032f1d1a2ded32cec6e7689b25b0fbbb7a28e4151e7aa3edbb880a59d7f98
+
+[mirrors]
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20120212.tar.gz
+
+[build]
+
+patch -p1 < $K/ca-certificates.patch || exit 1
+make || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
+mkdir -p "$butch_install_dir/etc/ssl/certs" || exit 1
+
+( cd "$butch_install_dir/share/ca-certificates/"
+  find . -name '*.crt' | sort | cut -b3- > "$butch_install_dir/etc/ca-certificates.conf" )
+
+cp sbin/update-ca-certificates . || exit 1
+sed -e 's#=/etc/#=${DESTDIR}/etc/#' -i update-ca-certificates
+sed -e 's#=/share/#=${DESTDIR}/share/#' -i update-ca-certificates
+sed -e 's#=/local/#=${DESTDIR}/local/#' -i update-ca-certificates
+
+DESTDIR="$butch_install_dir" sh ./update-ca-certificates --fresh || exit 1
+

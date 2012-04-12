@@ -10,6 +10,6 @@ http://curl.haxx.se/download/curl-7.21.4.tar.bz2
 
 [build]
 
-./configure --prefix=/ --disable-shared --enable-ipv6 --with-random=/dev/urandom || exit 1
+./configure --with-ca-path=/etc/ssl/certs --prefix=/ --disable-shared --enable-ipv6 --with-random=/dev/urandom || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

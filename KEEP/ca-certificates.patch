@@ -1,0 +1,80 @@
+diff -ur ca-certificates-20120212.orig//Makefile ca-certificates-20120212/Makefile
+--- ca-certificates-20120212.orig//Makefile	2011-12-05 20:03:08.000000000 -0600
++++ ca-certificates-20120212/Makefile	2012-04-11 02:44:50.215557836 -0500
+@@ -2,8 +2,8 @@
+ # Makefile
+ #
+ 
+-CERTSDIR = /usr/share/ca-certificates
+-SUBDIRS = mozilla cacert.org debconf.org spi-inc.org
++CERTSDIR = /share/ca-certificates
++SUBDIRS = mozilla cacert.org spi-inc.org
+ 
+ all:
+ 	for dir in $(SUBDIRS); do \
+@@ -17,7 +17,7 @@
+ 
+ install:
+ 	for dir in $(SUBDIRS); do \
+-	  mkdir $(DESTDIR)/$(CERTSDIR)/$$dir; \
++	  mkdir -p $(DESTDIR)/$(CERTSDIR)/$$dir; \
+ 	  $(MAKE) -C $$dir install CERTSDIR=$(DESTDIR)/$(CERTSDIR)/$$dir; \
+ 	done
+ 	for dir in sbin; do \
+diff -ur ca-certificates-20120212.orig//cacert.org/Makefile ca-certificates-20120212/cacert.org/Makefile
+--- ca-certificates-20120212.orig//cacert.org/Makefile	2011-11-06 19:23:23.000000000 -0600
++++ ca-certificates-20120212/cacert.org/Makefile	2012-04-11 02:44:23.709557557 -0500
+@@ -9,5 +9,5 @@
+ 
+ install:
+ 	cat root.crt class3.crt > cacert.org.crt
+-	install -m 644 cacert.org.crt $(CERTSDIR)/cacert.org.crt
++	install -D -m 644 cacert.org.crt $(CERTSDIR)/cacert.org.crt
+ 
+Only in ca-certificates-20120212.orig/: debconf.org
+Only in ca-certificates-20120212.orig/: debian
+diff -ur ca-certificates-20120212.orig//mozilla/Makefile ca-certificates-20120212/mozilla/Makefile
+--- ca-certificates-20120212.orig//mozilla/Makefile	2011-11-06 19:23:24.000000000 -0600
++++ ca-certificates-20120212/mozilla/Makefile	2012-04-11 02:45:30.691561468 -0500
+@@ -10,5 +10,5 @@
+ 
+ install:
+ 	for p in *.crt; do \
+-	 install -m 644 $$p $(CERTSDIR)/$$p ; \
++	 install -D -m 644 $$p $(CERTSDIR)/$$p ; \
+ 	done
+diff -ur ca-certificates-20120212.orig//sbin/Makefile ca-certificates-20120212/sbin/Makefile
+--- ca-certificates-20120212.orig//sbin/Makefile	2007-02-02 00:23:19.000000000 -0600
++++ ca-certificates-20120212/sbin/Makefile	2012-04-11 02:53:36.755557626 -0500
+@@ -8,4 +8,5 @@
+ clean:
+ 
+ install:
+-	install -m755 update-ca-certificates $(DESTDIR)/usr/sbin/
++	mkdir -p $(DESTDIR)/bin
++	install -m755 update-ca-certificates $(DESTDIR)/bin/
+diff -ur ca-certificates-20120212.orig//sbin/update-ca-certificates ca-certificates-20120212/sbin/update-ca-certificates
+--- ca-certificates-20120212.orig//sbin/update-ca-certificates	2011-11-06 19:23:24.000000000 -0600
++++ ca-certificates-20120212/sbin/update-ca-certificates	2012-04-11 02:35:01.190560840 -0500
+@@ -38,8 +38,8 @@
+ done
+ 
+ CERTSCONF=/etc/ca-certificates.conf
+-CERTSDIR=/usr/share/ca-certificates
+-LOCALCERTSDIR=/usr/local/share/ca-certificates
++CERTSDIR=/share/ca-certificates
++LOCALCERTSDIR=/local/share/ca-certificates
+ CERTBUNDLE=ca-certificates.crt
+ ETCCERTSDIR=/etc/ssl/certs
+ 
+diff -ur ca-certificates-20120212.orig//spi-inc.org/Makefile ca-certificates-20120212/spi-inc.org/Makefile
+--- ca-certificates-20120212.orig//spi-inc.org/Makefile	2007-02-02 00:23:19.000000000 -0600
++++ ca-certificates-20120212/spi-inc.org/Makefile	2012-04-11 02:44:35.435558255 -0500
+@@ -8,6 +8,6 @@
+ 
+ install:
+ 	for p in *.crt; do \
+-	 install -m 644 $$p $(CERTSDIR)/$$p ; \
++	 install -D -m 644 $$p $(CERTSDIR)/$$p ; \
+ 	done
+ 
