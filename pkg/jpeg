@@ -8,9 +8,19 @@ http://prdownloads.sourceforge.net/libjpeg/jpegsrc.v6b.tar.gz
 
 [build]
 
-./configure --prefix=/ --disable-shared --disable-dso || exit 1
+LDFLAGS="-static" ./configure --prefix=/ --disable-shared --disable-dso || exit 1
+
+sed -i -e 's, $(bindir), $(DESTDIR)/$(bindir),' Makefile
+sed -i -e 's, $(libdir), $(DESTDIR)/$(libdir),' Makefile
+sed -i -e 's, $(includedir), $(DESTDIR)/$(includedir),' Makefile
+sed -i -e 's, $(mandir), $(DESTDIR)/$(mandir),' Makefile
+
+mkdir -p "$butch_install_dir/bin"
+mkdir -p "$butch_install_dir/lib"
+mkdir -p "$butch_install_dir/include"
+mkdir -p "$butch_install_dir/man/man1"
 
 make -j$MAKE_THREADS || exit 1
-make install || exit 1
-make install-lib || exit 1
-make install-headers || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+make DESTDIR="$butch_install_dir" install-lib || exit 1
+make DESTDIR="$butch_install_dir" install-headers || exit 1

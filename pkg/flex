@@ -6,6 +6,6 @@ sha512=aa5aebbc7ccaa4697d7f0cfa3ba899dd3b327bc8551ba341c26bece7f9044951d0532e3eb
 http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.35.tar.bz2
 
 [build]
-./configure --prefix=/ --disable-nls --infodir=/share/info --mandir=/share/man || exit 1
+CC="$CC -static" ./configure --prefix=/ --disable-nls --infodir=/share/info --mandir=/share/man || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

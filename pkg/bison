@@ -6,6 +6,6 @@ sha512=b789f55d9cb95c1b4fba004691ed9f79b76da55020c9b202e1704a02aab1ba43b9fc1015e
 ftp://ftp.gnu.org/gnu/bison/bison-2.4.3.tar.bz2
 
 [build]
-./configure --prefix=/ --disable-nls || exit 1
+CFLAGS="-static" ./configure --prefix=/ --disable-nls || exit 1
 make -j$MAKE_THREADS  || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

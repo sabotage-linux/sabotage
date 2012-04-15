@@ -6,6 +6,6 @@ sha512=2106a9f403b0b1eb578057dc726068d5861cb283d9a5c5cc5db0631a79d79a00d3156216b
 http://ftp.gnu.org/gnu/grep/grep-2.9.tar.gz
 
 [build]
-./configure --prefix=/ || exit 1
+CC="$CC -static" ./configure --prefix=/ || exit 1
 make || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

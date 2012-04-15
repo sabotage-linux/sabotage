@@ -6,6 +6,6 @@ sha512=9c93735d1da1eb668b33b8763a1e504c1ffb5ffb2ebccce91f289e7eb51cd5342ab481c60
 ftp://ftp.gnu.org/gnu/diffutils/diffutils-3.0.tar.gz
 
 [build]
-./configure --prefix=/ --disable-nls || exit 1
+CC="$CC -static" ./configure --prefix=/ --disable-nls || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

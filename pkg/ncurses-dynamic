@@ -19,5 +19,8 @@ CC="$CC -fPIC -I$R/include -D_GNU_SOURCE" ./configure \
    --enable-sigwinch --with-fallbacks="linux vt100 xterm xterm256-color" \
    --prefix=/ --includedir=/include --mandir=/share/man \
    --disable-nls --without-dlsym --without-cxx-binding </dev/ptmx || exit 1
-make -j$MAKE_THREADS || exit 1
-make DESTDIR="$butch_install_dir" install || exit 1
+   
+make -j$MAKE_THREADS libs || exit 1
+
+mkdir -p "$butch_install_dir/lib"
+cp lib/* "$butch_install_dir/lib"
