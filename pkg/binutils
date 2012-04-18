@@ -10,6 +10,7 @@ http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
 
 [build]
 patch -p1 < $K/binutils-arm.diff || exit 1
+patch -p1 < $K/binutils-as-needed.patch || exit 1
 
 #create directory structure for static toolchain
 TC_PATH=$R/opt/toolchain

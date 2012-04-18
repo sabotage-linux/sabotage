@@ -1,0 +1,49 @@
+diff -ur binutils-2.22.orig//bfd/elf-bfd.h binutils-2.22//bfd/elf-bfd.h
+--- binutils-2.22.orig//bfd/elf-bfd.h	2012-04-18 01:35:58.138000025 +0000
++++ binutils-2.22//bfd/elf-bfd.h	2012-04-18 01:38:02.835000025 +0000
+@@ -168,6 +168,8 @@
+   /* Symbol has a non-weak reference from a non-shared object (other than
+      the object in which it is defined).  */
+   unsigned int ref_regular_nonweak : 1;
++  /* Symbol has a non-weak reference from a shared object */
++  unsigned int ref_dynamic_nonweak : 1;
+   /* Dynamic symbol has been adjustd.  */
+   unsigned int dynamic_adjusted : 1;
+   /* Symbol needs a copy reloc.  */
+diff -ur binutils-2.22.orig//bfd/elflink.c binutils-2.22//bfd/elflink.c
+--- binutils-2.22.orig//bfd/elflink.c	2012-04-18 01:35:58.147000025 +0000
++++ binutils-2.22//bfd/elflink.c	2012-04-18 01:44:37.442000025 +0000
+@@ -4351,7 +4351,9 @@
+ 		  if (h->def_dynamic)
+ 		    {
+ 		      h->def_dynamic = 0;
++		      /* FIXME: How does the assumption here work? */
+ 		      h->ref_dynamic = 1;
++		      h->ref_dynamic_nonweak = 1;
+ 		    }
+ 		}
+ 	      if (! info->executable
+@@ -4362,7 +4364,11 @@
+ 	  else
+ 	    {
+ 	      if (! definition)
+-		h->ref_dynamic = 1;
++		{
++		  h->ref_dynamic = 1;
++		  if (bind != STB_WEAK)
++	 	    h->ref_dynamic_nonweak = 1;
++		}
+ 	      else
+ 		{
+ 		  h->def_dynamic = 1;
+@@ -4443,8 +4449,8 @@
+ 	  if (!add_needed
+ 	      && definition
+ 	      && ((dynsym
+-		   && h->ref_regular)
+-		  || (h->ref_dynamic
++		   && h->ref_regular_nonweak)
++		  || (h->ref_dynamic_nonweak
+ 		      && (elf_dyn_lib_class (abfd) & DYN_AS_NEEDED) != 0
+ 		      && !on_needed_list (elf_dt_name (abfd), htab->needed))))
+ 	    {
