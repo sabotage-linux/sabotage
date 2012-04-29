@@ -10,7 +10,7 @@ http://ftpmirror.gnu.org/gmp/gmp-5.0.2.tar.bz2
 ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2
 
 [build]
-CC="$CC -static" ./configure -C --prefix=/ --disable-shared || exit 1
+CC="$CC -static" CFLAGS="-O2 -g -Wno-implicit" ./configure -C --prefix=/ --disable-shared || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
 rm -f $R/lib/libgmp.la
