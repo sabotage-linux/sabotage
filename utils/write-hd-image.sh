@@ -57,6 +57,9 @@ run_echo() {
 mountdir=
 
 which extlinux 2>&1 > /dev/null || die 'extlinux must be in PATH (try installing syslinux)'
+if [ -z "$UID" ] ; then
+	UID=`id -u`
+fi
 [ "$UID" = "0" ] || die "must be root"
 
 imagefile="$1"
@@ -78,10 +81,10 @@ for mbr_bin in mbr.bin /usr/lib/syslinux/mbr.bin /usr/share/syslinux/mbr.bin
 [ -z "$mbr_bin" ] && die 'Could not find mbr.bin'
 
 echo_bold "1) make the image file"
-if [ "$zero_fill = "1" ] ; then
-	time dd if=/dev/zero of="$imagefile" bs=1 count="$imagesize" || die "Failed to create $imagefile"
+if [ "$zero_fill" = "1" ] ; then
+	dd if=/dev/zero of="$imagefile" bs=1 count="$imagesize" || die "Failed to create $imagefile"
 else
-	dd if=/dev/zero of="$imagefile" bs=1 count=1 seek="$imagesize" || die "Failed to create $imagefile"
+	dd if=/dev/zero of="$imagefile" bs=1 count=0 seek="$imagesize" || die "Failed to create $imagefile"
 fi
 
 echo_bold "2) fdisk"
@@ -145,16 +148,16 @@ then
 		cp -f "$C/"* "$mountdir/src/tarballs/"
 	fi
 
-	time cp -a "$contents"/* "$mountdir"/ || die_unmount 'Failed to copy /'
+	cp -a "$contents"/* "$mountdir"/ || die_unmount 'Failed to copy /'
 	if [ "$zero_fill" = "1" ] ; then
 		echo_bold "filling rest of image with 0"
-		time dd if=/dev/zero of="$mountdir"/tmp/zero.img
+		dd if=/dev/zero of="$mountdir"/tmp/zero.img
 		rm -f "$mountdir"/tmp/zero.img
 	fi
 	ls_contents=`ls "$mountdir/"`
 	printf "%s\n" "$ls_contents"
 else
-	time tar -C "$mountdir" -zxf "$contents" || die_unmount 'Failed to extract /'
+	tar -C "$mountdir" -zxf "$contents" || die_unmount 'Failed to extract /'
 fi
 rm -f "$mountdir"/boot/*
 echo '/dev/sda1 /boot ext3 defaults 0 0' >> "$mountdir"/etc/fstab || die_unmount 'Failed to extend fstab'
