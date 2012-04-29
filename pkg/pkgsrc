@@ -1,0 +1,26 @@
+[deps]
+relocate_toolchain
+openssh
+patch
+arpaftph
+bsdtar-dynamic
+
+[main]
+filesize=36251677
+sha512=b5e2b6bd1c9d17eb62d9bd0ab97786b52e0d1b25a0d6afb44d9e0262a984f09a1c8b54a38825664bb5ebcccdcd25b3a4c7c89cb9ca41c0278abad116d6b1b11a
+
+[mirrors]
+ftp://ftp.netbsd.org/pub/pkgsrc/pkgsrc-2012Q1/pkgsrc.tar.gz
+
+[build]
+PKGSRC_EXT="$PWD"
+mkdir -p /opt
+cd /opt || exit 1
+if test -e pkgsrc; then rm -rf pkgsrc; fi || exit 1
+mv "$PKGSRC_EXT" pkgsrc || exit 1
+cd pkgsrc || exit 1
+patch -p1 -i "$K"/pkgsrc.diff || exit 1
+cd bootstrap || exit 1
+# env -u is broken
+sh -c 'unset A; unset R; unset H; CC="gcc -D_GNU_SOURCE -D_BSD_SOURCE -Wl,-rpath-link=/lib" ./bootstrap --prefix=/opt/pkg' || exit 1
+echo 'PREFER.openssl=pkgsrc' >> /opt/pkg/etc/mk.conf || exit 1

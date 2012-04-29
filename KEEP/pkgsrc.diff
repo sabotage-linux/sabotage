@@ -1,0 +1,905 @@
+diff -r ee94013015bb Makefile
+--- a/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -91,6 +91,7 @@
+ SUBDIR+=	wm
+ SUBDIR+=	www
+ .endif
++_WRAP_EXTRA_ARGS.CC+=	-DNOFILES_MAX=256
+ 
+ SUBDIR+=	${USER_ADDITIONAL_PKGS}
+ 
+diff -r ee94013015bb archivers/pax/files/getid.c
+--- a/archivers/pax/files/getid.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/archivers/pax/files/getid.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -152,12 +152,14 @@
+ 	if (!grstart() || !pwstart())
+ 		return (0);
+ 
++#if 0
+ 				/* switch pwcache(3) lookup functions */
+ 	if (pwcache_groupdb(gi_setgroupent, gi_endgrent,
+ 			    gi_getgrnam, gi_getgrgid) == -1
+ 	    || pwcache_userdb(gi_setpassent, gi_endpwent,
+ 			    gi_getpwnam, gi_getpwuid) == -1)
+ 		return (0);
++#endif
+ 
+ 	return (1);
+ }
+diff -r ee94013015bb archivers/pax/files/options.c
+--- a/archivers/pax/files/options.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/archivers/pax/files/options.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -107,6 +107,8 @@
+ #include "mtree.h"
+ #endif	/* SMALL */
+ 
++#include <strings.h>
++
+ /*
+  * Routines which handle command line options
+  */
+diff -r ee94013015bb chat/irssi/Makefile
+--- a/chat/irssi/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/chat/irssi/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -20,9 +20,9 @@
+ USE_LIBTOOL=		yes
+ USE_TOOLS+=		pkg-config
+ 
++# [Gregor] Removed --without-ncurses, since there's no other libtermcap
+ CONFIGURE_ARGS+=	--with-terminfo \
+ 			--with-proxy \
+-			--without-ncurses \
+ 			--sysconfdir=${PKG_SYSCONFDIR}
+ 
+ EGDIR=		${PREFIX}/share/examples/irssi
+diff -r ee94013015bb databases/db4/distinfo
+--- a/databases/db4/distinfo	Sat Apr 28 14:40:44 2012 +0000
++++ b/databases/db4/distinfo	Sat Apr 28 17:23:40 2012 +0000
+@@ -7,3 +7,4 @@
+ SHA1 (patch-ab) = 8f9ecc47527d338e28ee1ce71e694eaf2bdceb92
+ SHA1 (patch-ac) = 045a3b83b9c6c164382ec546b06ae248620552cf
+ SHA1 (patch-ae) = 43e574154de93dba60392b09d6ebddbca1036849
++SHA1 (patch-aq) = 3baa90e922dc9cb075deee2a2a37d607affead9b
+diff -r ee94013015bb databases/db4/patches/patch-aq
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/databases/db4/patches/patch-aq	Sat Apr 28 17:23:40 2012 +0000
+@@ -0,0 +1,11 @@
++diff -r 7a6cd6105754 dist/configure
++--- dist/configure	Sat Apr 28 15:23:22 2012 +0000
+++++ dist/configure	Sat Apr 28 15:24:05 2012 +0000
++@@ -18792,6 +18792,7 @@
++ /* end confdefs.h.  */
++ 
++ #include <pthread.h>
+++#include <stdlib.h>
++ main() {
++ 	pthread_cond_t cond;
++ 	pthread_mutex_t mutex;
+diff -r ee94013015bb devel/bison/Makefile
+--- a/devel/bison/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/bison/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -28,6 +28,7 @@
+ # Avoid rebuilding manpage
+ pre-build:
+ 	${TOUCH} ${WRKSRC}/doc/bison.1
++	sed -i 's/#elif 0/#elif 1/' -i ${WRKSRC}/lib/fseterr.c
+ 
+ # "bison" wants a recent version of "gettext" which at least some
+ # NetBSD versions don't provide. Figure out whether it will install
+diff -r ee94013015bb devel/bmake/files/configure
+--- a/devel/bmake/files/configure	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/bmake/files/configure	Sat Apr 28 17:23:40 2012 +0000
+@@ -3535,7 +3535,7 @@
+   $as_echo "#define _ALL_SOURCE 1" >>confdefs.h
+ 
+   $as_echo "#define _GNU_SOURCE 1" >>confdefs.h
+-
++  
+   $as_echo "#define _POSIX_PTHREAD_SEMANTICS 1" >>confdefs.h
+ 
+   $as_echo "#define _TANDEM_SOURCE 1" >>confdefs.h
+diff -r ee94013015bb devel/bmake/files/suff.c
+--- a/devel/bmake/files/suff.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/bmake/files/suff.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -67,6 +67,8 @@
+  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  * SUCH DAMAGE.
+  */
++ 
++#include <strings.h> /* for ffs */
+ 
+ #ifndef MAKE_NATIVE
+ static char rcsid[] = "$NetBSD: suff.c,v 1.4 2009/09/18 21:27:25 joerg Exp $";
+diff -r ee94013015bb devel/bmake/files/targ.c
+--- a/devel/bmake/files/targ.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/bmake/files/targ.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -67,6 +67,8 @@
+  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  * SUCH DAMAGE.
+  */
++ 
++#include <strings.h> /* for ffs */
+ 
+ #ifndef MAKE_NATIVE
+ static char rcsid[] = "$NetBSD: targ.c,v 1.5 2011/06/18 22:39:46 bsiegert Exp $";
+diff -r ee94013015bb devel/bmake/files/unit-tests/test.exp
+--- a/devel/bmake/files/unit-tests/test.exp	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/bmake/files/unit-tests/test.exp	Sat Apr 28 17:23:40 2012 +0000
+@@ -27,6 +27,7 @@
+ make: "error" line 3: just FYI
+ make: "error" line 4: warning: this could be serious
+ make: "error" line 5: this is fatal
++*** Error code 1 (ignored)
+ UT_DOLLAR=This is $UT_FU
+ UT_FOO=foobar is fubar
+ UT_FU=fubar
+@@ -46,9 +47,9 @@
+ At first, I am
+ happy
+ and now: sad
+-.ERROR: Looks like 'sad' is upset.
+ *** Error code 1
+ 
++.ERROR: Looks like 'sad' is upset.
+ Stop.
+ make: stopped in unit-tests
+ simple.1
+@@ -75,11 +76,11 @@
+ shared.2.1
+ shared.2.99
+ shared.2.99
++cycle.1.99
+ make: Graph cycles through `cycle.2.99'
+ make: Graph cycles through `cycle.2.98'
+ make: Graph cycles through `cycle.2.97'
+ cycle.1.99
+-cycle.1.99
+ .for with :S;... OK
+ b2af338b
+ 3360ac65
+@@ -343,4 +344,3 @@
+ six v=is y k=is y
+ show-v v=override k=override
+ *** Error code 1 (ignored)
+-*** Error code 1 (ignored)
+diff -r ee94013015bb devel/flex/PLIST
+--- a/devel/flex/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/flex/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -6,19 +6,3 @@
+ lib/libfl.a
+ lib/libfl_pic.a
+ man/man1/flex.1
+-share/locale/ca/LC_MESSAGES/flex.mo
+-share/locale/da/LC_MESSAGES/flex.mo
+-share/locale/de/LC_MESSAGES/flex.mo
+-share/locale/es/LC_MESSAGES/flex.mo
+-share/locale/fr/LC_MESSAGES/flex.mo
+-share/locale/ga/LC_MESSAGES/flex.mo
+-share/locale/ko/LC_MESSAGES/flex.mo
+-share/locale/nl/LC_MESSAGES/flex.mo
+-share/locale/pl/LC_MESSAGES/flex.mo
+-share/locale/pt_BR/LC_MESSAGES/flex.mo
+-share/locale/ro/LC_MESSAGES/flex.mo
+-share/locale/ru/LC_MESSAGES/flex.mo
+-share/locale/sv/LC_MESSAGES/flex.mo
+-share/locale/tr/LC_MESSAGES/flex.mo
+-share/locale/vi/LC_MESSAGES/flex.mo
+-share/locale/zh_CN/LC_MESSAGES/flex.mo
+diff -r ee94013015bb devel/glib2/Makefile
+--- a/devel/glib2/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/glib2/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -46,6 +46,10 @@
+ 
+ LIBS.SunOS+=	-lnsl -lsocket
+ 
++# [Gregor] dl bugs in musl
++pre-build:
++	sed -i 's/if (msg)/if (!p \&\& msg)/' ${WRKSRC}/gmodule/gmodule-dl.c
++
+ .include "../../converters/libiconv/buildlink3.mk"
+ .include "../../devel/gettext-lib/buildlink3.mk"
+ .include "../../devel/pcre/buildlink3.mk"
+diff -r ee94013015bb devel/imake/Makefile
+--- a/devel/imake/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/imake/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -42,6 +42,9 @@
+ SUBST_FILES.xmkmf=	xmkmf
+ SUBST_SED.xmkmf=	-e "s/^configdirspec= */configdirspec=/"
+ 
++pre-build:
++	sed 's/-x c -/-x c - -x none/' -i ${WRKSRC}/imake.c
++
+ .include "../../x11/xproto/buildlink3.mk"
+ 
+ .include "../../mk/bsd.pkg.mk"
+diff -r ee94013015bb devel/ncurses/Makefile
+--- a/devel/ncurses/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/ncurses/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -38,6 +38,9 @@
+ 
+ PLIST_SRC=	${PKGDIR}/PLIST ${WRKDIR}/PLIST.terminfo
+ 
++# [Gregor] C++ build doesn't work
++CONFIGURE_ARGS+=	--without-cxx
++
+ post-configure:
+ 	cd ${WRKSRC}/man;					\
+ 	for f in *.1m; do					\
+diff -r ee94013015bb devel/ncurses/Makefile.common
+--- a/devel/ncurses/Makefile.common	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/ncurses/Makefile.common	Sat Apr 28 17:23:40 2012 +0000
+@@ -16,14 +16,15 @@
+ PKG_INSTALLATION_TYPES=	overwrite pkgviews
+ PKG_DESTDIR_SUPPORT=	user-destdir
+ 
+-USE_LANGUAGES=		c c++
++USE_LANGUAGES=		c
+ USE_LIBTOOL=		yes
+ USE_TOOLS+=		tbl
+ GNU_CONFIGURE=		yes
+ CONFIGURE_ARGS+=	--with-libtool
+ CONFIGURE_ARGS+=	--enable-bsdpad
+ CONFIGURE_ARGS+=	--enable-overwrite
+-CONFIGURE_ARGS+=	--with-cxx-binding
++# [Gregor] No C++
++#CONFIGURE_ARGS+=	--with-cxx-binding
+ CONFIGURE_ARGS+=	--without-ada
+ CONFIGURE_ARGS+=	--without-gpm
+ CONFIGURE_ARGS+=	--with-manpage-format=normal
+diff -r ee94013015bb devel/ncurses/PLIST
+--- a/devel/ncurses/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/ncurses/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -11,14 +11,7 @@
+ bin/tput
+ bin/tset
+ include/ncurses/curses.h
+-include/ncurses/cursesapp.h
+-include/ncurses/cursesf.h
+-include/ncurses/cursesm.h
+-include/ncurses/cursesp.h
+-include/ncurses/cursesw.h
+-include/ncurses/cursslk.h
+ include/ncurses/eti.h
+-include/ncurses/etip.h
+ include/ncurses/form.h
+ include/ncurses/menu.h
+ include/ncurses/nc_tparm.h
+@@ -32,7 +25,6 @@
+ include/ncurses/unctrl.h
+ lib/libform.la
+ lib/libmenu.la
+-lib/libncurses++.la
+ lib/libncurses.la
+ lib/libpanel.la
+ man/man1/captoinfo.1
+diff -r ee94013015bb devel/pcre/Makefile
+--- a/devel/pcre/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/pcre/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -21,6 +21,8 @@
+ CONFIGURE_ARGS+=	--enable-utf8 --enable-unicode-properties
+ CONFIGURE_ARGS+=	--enable-pcre16
+ 
++CONFIGURE_ARGS+=	--disable-cpp
++
+ SUBST_CLASSES+=		rpath
+ SUBST_STAGE.rpath=	pre-configure
+ SUBST_MESSAGE.rpath=	Fixing rpath output in pcre-config
+diff -r ee94013015bb devel/pcre/PLIST
+--- a/devel/pcre/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/devel/pcre/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -3,18 +3,12 @@
+ bin/pcregrep
+ bin/pcretest
+ include/pcre.h
+-include/pcre_scanner.h
+-include/pcre_stringpiece.h
+-include/pcrecpp.h
+-include/pcrecpparg.h
+ include/pcreposix.h
+ lib/libpcre.la
+ lib/libpcre16.la
+-lib/libpcrecpp.la
+ lib/libpcreposix.la
+ lib/pkgconfig/libpcre.pc
+ lib/pkgconfig/libpcre16.pc
+-lib/pkgconfig/libpcrecpp.pc
+ lib/pkgconfig/libpcreposix.pc
+ man/man1/pcre-config.1
+ man/man1/pcregrep.1
+@@ -75,7 +69,6 @@
+ man/man3/pcrebuild.3
+ man/man3/pcrecallout.3
+ man/man3/pcrecompat.3
+-man/man3/pcrecpp.3
+ man/man3/pcrejit.3
+ man/man3/pcrelimits.3
+ man/man3/pcrematching.3
+@@ -127,7 +120,6 @@
+ share/doc/pcre/html/pcrebuild.html
+ share/doc/pcre/html/pcrecallout.html
+ share/doc/pcre/html/pcrecompat.html
+-share/doc/pcre/html/pcrecpp.html
+ share/doc/pcre/html/pcredemo.html
+ share/doc/pcre/html/pcregrep.html
+ share/doc/pcre/html/pcrejit.html
+diff -r ee94013015bb graphics/MesaLib/Makefile
+--- a/graphics/MesaLib/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/graphics/MesaLib/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -72,6 +72,7 @@
+ 
+ pre-build:
+ 	cd ${WRKSRC} && ${RM} -fr src/glu src/glut progs
++	sed -i 's/#if defined(__linux__) && defined(__i386__)/#if 0/' ${WRKSRC}/src/mesa/main/glheader.h
+ 
+ .include "../../mk/compiler.mk"
+ 
+diff -r ee94013015bb graphics/cairo/Makefile
+--- a/graphics/cairo/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/graphics/cairo/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -38,6 +38,8 @@
+ # For snprintf() and ctime_r()
+ CPPFLAGS.SunOS+=		-D__EXTENSIONS__ -D_POSIX_PTHREAD_SEMANTICS
+ 
++CPPFLAGS+=		-Dffs=__builtin_ffs
++
+ TEST_TARGET=			check
+ 
+ # PR#43928
+diff -r ee94013015bb graphics/gdk-pixbuf2/PLIST
+--- a/graphics/gdk-pixbuf2/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/graphics/gdk-pixbuf2/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -72,104 +72,3 @@
+ share/gtk-doc/html/gdk-pixbuf/rn02.html
+ share/gtk-doc/html/gdk-pixbuf/style.css
+ share/gtk-doc/html/gdk-pixbuf/up.png
+-share/locale/af/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ang/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ar/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/as/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ast/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/az/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/be/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/be@latin/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/bg/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/bn/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/bn_IN/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/br/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/bs/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ca/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ca@valencia/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/crh/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/cs/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/cy/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/da/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/de/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/dz/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/el/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/en@shaw/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/en_CA/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/en_GB/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/eo/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/es/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/et/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/eu/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/fa/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/fi/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/fr/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ga/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/gl/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/gu/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/he/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/hi/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/hr/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/hu/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/hy/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ia/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/id/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/io/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/is/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/it/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ja/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ka/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/kn/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ko/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ku/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/li/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/lt/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/lv/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/mai/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/mi/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/mk/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ml/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/mn/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/mr/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ms/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/my/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/nb/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/nds/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ne/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/nl/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/nn/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/nso/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/oc/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/or/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/pa/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/pl/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ps/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/pt/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/pt_BR/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ro/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ru/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/si/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sk/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sl/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sq/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sr/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sr@ije/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sr@latin/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/sv/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ta/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/te/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/th/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/tk/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/tr/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/tt/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/ug/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/uk/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/uz/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/uz@cyrillic/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/vi/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/wa/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/xh/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/yi/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/zh_CN/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/zh_HK/LC_MESSAGES/gdk-pixbuf.mo
+-share/locale/zh_TW/LC_MESSAGES/gdk-pixbuf.mo
+diff -r ee94013015bb lang/f2c/distinfo
+--- a/lang/f2c/distinfo	Sat Apr 28 14:40:44 2012 +0000
++++ b/lang/f2c/distinfo	Sat Apr 28 17:23:40 2012 +0000
+@@ -6,3 +6,4 @@
+ SHA1 (patch-aa) = f1224ff17cdc96f083a247dce88b690e8b939eb0
+ SHA1 (patch-ad) = 7f204a45891e3632589ea8fb0e4e379a0a792dea
+ SHA1 (patch-ak) = 8652a54df300ddd60d9b1a9594d312349b782cf4
++SHA1 (patch-aq) = dd5d4e79bd1d61d7ce152b0934667ba4a1888692
+diff -r ee94013015bb lang/f2c/patches/patch-aq
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/lang/f2c/patches/patch-aq	Sat Apr 28 17:23:40 2012 +0000
+@@ -0,0 +1,13 @@
++diff -r 6bba7eaf719c src/sysdep.c
++--- src/sysdep.c	Sat Apr 28 14:46:46 2012 +0000
+++++ src/sysdep.c	Sat Apr 28 14:47:22 2012 +0000
++@@ -83,6 +83,9 @@
++ #include <sys/wait.h>
++ #include <unistd.h>
++ 
+++#include <sys/types.h>
+++#include <sys/stat.h>
+++
++  void
++ #ifdef KR_headers
++ Un_link_all(cdelete)
+diff -r ee94013015bb lang/perl5/Makefile
+--- a/lang/perl5/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/lang/perl5/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -50,6 +50,7 @@
+ CONFIGURE_ARGS+=	-sde
+ CONFIGURE_ARGS+=	-D ccflags=${CFLAGS:Q}
+ CONFIGURE_ARGS+=	-D ldflags=${LDFLAGS:Q}
++CONFIGURE_ARGS+=        -D inc_version_list=none
+ MAKE_ENV+=		LC_ALL="C"
+ 
+ TEST_TARGET=		test
+@@ -320,6 +321,10 @@
+ 
+ pre-configure:
+ 	cd ${WRKSRC} && find `pwd` -name "*.orig" -type f -exec ${RM} -f {} \;
++	sed 's/-fstack-protector/-fno-stack-protector/g' -i ${WRKSRC}/Configure
++	
++pre-build:	
++	sed 's/define HAS_CRYPT_R/undef HAS_CRYPT_R/g' -i ${WRKSRC}/config.h
+ 
+ post-build:
+ 	${SED}	-e "s,@PERL5@,"${PERL5:Q}",g"				\
+diff -r ee94013015bb lang/python26/Makefile
+--- a/lang/python26/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/lang/python26/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -118,22 +118,7 @@
+ .endif
+ 
+ PLIST_VARS+=	dll nis no-nis
+-.if ${OPSYS} == "IRIX"
+-.  if ${ABI} == "64"
+-PLIST.no-nis=	yes
+-.  else
+-PLIST.nis=	yes
+-.  endif
+-.else
+ PLIST.dll=	yes
+-.  if ${OPSYS} == "MirBSD"
+-# neither nis nor no-nis
+-.  elif ${OPSYS} != "NetBSD" || exists(/usr/bin/ypcat)
+-PLIST.nis=	yes
+-.  else
+-PLIST.no-nis=	yes
+-.  endif
+-.endif
+ 
+ .include "../../mk/bdb.buildlink3.mk"
+ MAKE_ENV+=	PY_BDB_TYPE=${BDB_TYPE}
+diff -r ee94013015bb net/libfetch/files/ftp.c
+--- a/net/libfetch/files/ftp.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/net/libfetch/files/ftp.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -59,8 +59,10 @@
+ 
+ #ifdef __linux__
+ /* Keep this down to Linux, it can create surprises else where. */
++#ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
+ #endif
++#endif
+ 
+ #if HAVE_CONFIG_H
+ #include "config.h"
+diff -r ee94013015bb net/libfetch/files/http.c
+--- a/net/libfetch/files/http.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/net/libfetch/files/http.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -65,8 +65,10 @@
+ 
+ #if defined(__linux__) || defined(__MINT__)
+ /* Keep this down to Linux or MiNT, it can create surprises elsewhere. */
++#ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
+ #endif
++#endif
+ 
+ /* Needed for gmtime_r on Interix */
+ #define _REENTRANT
+diff -r ee94013015bb net/tightvnc/Makefile
+--- a/net/tightvnc/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/net/tightvnc/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -28,6 +28,7 @@
+ .if !empty(MACHINE_PLATFORM:MNetBSD-*-x86_64)
+ _WRAP_EXTRA_ARGS.CC+=	-DDDXTIME -D_XSERVER64 -DGCCUSESGAS
+ .endif
++_WRAP_EXTRA_ARGS.CC+=	-DNOFILES_MAX=256
+ 
+ .if ${X11_TYPE} == "modular"
+ DEPENDS+=		rgb>=1.0.1:../../x11/rgb
+@@ -56,6 +57,11 @@
+ 
+ INSTALLATION_DIRS=	bin ${PKGMANDIR}/man1 share/examples/tightvnc
+ 
++pre-build:
++	echo '#define DEFAULT_CPP "cpp"' >> ${WRKSRC}/Xvnc/config/imake/imakemdep.h
++	sed -i 's/alloca/malloc/g ; s/-x c -/-x c - -x none/' ${WRKSRC}/Xvnc/config/imake/imake.c
++	sed -i 's/HasFfsl[ \t]*YES/HasFfsl NO/' ${WRKSRC}/Xvnc/config/cf/linux.cf
++
+ do-install:
+ 	${INSTALL_PROGRAM} ${WRKSRC}/Xvnc/programs/Xserver/Xvnc \
+ 	    ${DESTDIR}${PREFIX}/bin/Xvnc
+diff -r ee94013015bb net/tnftp/files/libedit/tty.c
+--- a/net/tnftp/files/libedit/tty.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/net/tnftp/files/libedit/tty.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -40,6 +40,7 @@
+  * tty.c: tty interface stuff
+  */
+ #include <assert.h>
++#include <strings.h>
+ #include "tty.h"
+ #include "el.h"
+ 
+diff -r ee94013015bb pkgtools/bootstrap-mk-files/files/mods/Linux.bsd.man.mk
+--- a/pkgtools/bootstrap-mk-files/files/mods/Linux.bsd.man.mk	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/bootstrap-mk-files/files/mods/Linux.bsd.man.mk	Sat Apr 28 17:23:40 2012 +0000
+@@ -13,6 +13,7 @@
+ .endif
+ 
+ .PHONY:		catinstall maninstall catpages manpages catlinks manlinks cleanman html installhtml cleanhtml
++MKMAN?=no
+ .if ${MKMAN} != "no"
+ realinstall:	${MANINSTALL}
+ .endif
+@@ -40,11 +41,10 @@
+ TMACDIR?=	${DESTDIR}/usr/share/groff/tmac
+ .endif
+ HTMLDIR?=	${DESTDIR}/usr/share/man
+-CATDEPS?=	${TMACDIR}/mandoc.tmac \
+-		${TMACDIR}/doc.tmac
++CATDEPS?=
+ MANTARGET?=	cat
+-NROFF?=		nroff -Tascii
+-GROFF?=		groff -Tascii
++NROFF?=		cat
++GROFF?=		cat
+ TBL?=		tbl
+ 
+ 
+diff -r ee94013015bb pkgtools/libnbcompat/files/lchflags.c
+--- a/pkgtools/libnbcompat/files/lchflags.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/libnbcompat/files/lchflags.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -39,6 +39,7 @@
+ int
+ lchflags(const char *path, unsigned long flags)
+ {
++#if 0
+ 	struct stat psb;
+ 
+ 	if (lstat(path, &psb) == -1)
+@@ -47,4 +48,6 @@
+ 		return 0;
+ 	}
+ 	return (chflags(path, flags));
++#endif
++	return -1;
+ }
+diff -r ee94013015bb pkgtools/libnbcompat/files/unvis.c
+--- a/pkgtools/libnbcompat/files/unvis.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/libnbcompat/files/unvis.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -83,6 +83,8 @@
+ #define	isoctal(c)	(((unsigned char)(c)) >= '0' && ((unsigned char)(c)) <= '7')
+ #define xtod(c)		(isdigit(c) ? (c - '0') : ((tolower(c) - 'a') + 10))
+ 
++int __nbcompat_unvis13(char *cp, int c, int *astate, int flag);
++
+ int
+ unvis(cp, c, astate, flag)
+ 	char *cp;
+diff -r ee94013015bb pkgtools/pkg_install-info/files/install-info.c
+--- a/pkgtools/pkg_install-info/files/install-info.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install-info/files/install-info.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -21,6 +21,8 @@
+ #include "system.h"
+ #include <getopt.h>
+ 
++#include <stdlib.h>
++
+ static char *progname = "install-info";
+ 
+ int menu_line_equal (), menu_line_lessp ();
+diff -r ee94013015bb pkgtools/pkg_install-info/files/system.h
+--- a/pkgtools/pkg_install-info/files/system.h	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install-info/files/system.h	Sat Apr 28 17:23:40 2012 +0000
+@@ -21,7 +21,9 @@
+ #ifndef TEXINFO_SYSTEM_H
+ #define TEXINFO_SYSTEM_H
+ 
++#ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
++#endif
+ 
+ #include <config.h>
+ 
+diff -r ee94013015bb pkgtools/pkg_install-info/files/xexit.c
+--- a/pkgtools/pkg_install-info/files/xexit.c	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install-info/files/xexit.c	Sat Apr 28 17:23:40 2012 +0000
+@@ -19,6 +19,8 @@
+ 
+ #include "system.h"
+ 
++#include <stdlib.h>
++
+ /* SunOS 4.1.1 gets STDC_HEADERS defined, but it doesn't provide
+    EXIT_FAILURE.  So far no system has defined one of EXIT_FAILURE and
+    EXIT_SUCCESS without the other.  */
+diff -r ee94013015bb pkgtools/pkg_install/files/add/Makefile.in
+--- a/pkgtools/pkg_install/files/add/Makefile.in	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install/files/add/Makefile.in	Sat Apr 28 17:23:40 2012 +0000
+@@ -22,7 +22,7 @@
+ 
+ LIBS=		-linstall -lfetch
+ .if !empty(SSL_SUPPORT)
+-LIBS+=		-lcrypto
++LIBS+=		-lcrypto -lz
+ .endif
+ LIBS+=		@LIBS@
+ 
+diff -r ee94013015bb pkgtools/pkg_install/files/admin/Makefile.in
+--- a/pkgtools/pkg_install/files/admin/Makefile.in	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install/files/admin/Makefile.in	Sat Apr 28 17:23:40 2012 +0000
+@@ -30,7 +30,7 @@
+ .if empty(BOOTSTRAP)
+ LIBS=		-linstall -lfetch
+ .if !empty(SSL_SUPPORT)
+-LIBS+=		-lcrypto
++LIBS+=		-lcrypto -lz
+ CFLAGS+=	-DHAVE_SSL
+ .endif
+ LIBS+=		@LIBS@
+diff -r ee94013015bb pkgtools/pkg_install/files/info/Makefile.in
+--- a/pkgtools/pkg_install/files/info/Makefile.in	Sat Apr 28 14:40:44 2012 +0000
++++ b/pkgtools/pkg_install/files/info/Makefile.in	Sat Apr 28 17:23:40 2012 +0000
+@@ -19,7 +19,7 @@
+ .if empty(BOOTSTRAP)
+ LIBS=		-linstall -lfetch @LIBS@
+ .if !empty(SSL_SUPPORT)
+-LIBS+=		-lcrypto
++LIBS+=		-lcrypto -lz
+ .endif
+ CPPFLAGS=	@CPPFLAGS@ -I. -I$(srcdir) -I../lib
+ .else
+diff -r ee94013015bb security/libgpg-error/PLIST
+--- a/security/libgpg-error/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/security/libgpg-error/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -8,13 +8,3 @@
+ share/common-lisp/source/gpg-error/gpg-error-package.lisp
+ share/common-lisp/source/gpg-error/gpg-error.asd
+ share/common-lisp/source/gpg-error/gpg-error.lisp
+-share/locale/cs/LC_MESSAGES/libgpg-error.mo
+-share/locale/de/LC_MESSAGES/libgpg-error.mo
+-share/locale/fr/LC_MESSAGES/libgpg-error.mo
+-share/locale/it/LC_MESSAGES/libgpg-error.mo
+-share/locale/nl/LC_MESSAGES/libgpg-error.mo
+-share/locale/pl/LC_MESSAGES/libgpg-error.mo
+-share/locale/ro/LC_MESSAGES/libgpg-error.mo
+-share/locale/sv/LC_MESSAGES/libgpg-error.mo
+-share/locale/vi/LC_MESSAGES/libgpg-error.mo
+-share/locale/zh_CN/LC_MESSAGES/libgpg-error.mo
+diff -r ee94013015bb security/openssl/Makefile
+--- a/security/openssl/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/security/openssl/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -61,6 +61,7 @@
+ # back to ./config's autodetection if not.
+ .  if defined(OPENSSL_MACHINE_ARCH) && !empty(OPENSSL_MACHINE_ARCH)
+ CONFIGURE_SCRIPT=	./Configure
++CONFIGURE_ARGS+=	no-shared no-dso zlib enable-md2 -Wa,--noexecstack
+ .    if !empty(CC_VERSION:Mgcc*)
+ CONFIGURE_ARGS+=	solaris${${ABI}==64:?64:}-${OPENSSL_MACHINE_ARCH}-gcc
+ .    else
+@@ -154,8 +155,16 @@
+ 
+ INSTALLATION_DIRS+=	share/examples/openssl
+ 
++pre-build:
++	touch ${WRKSRC}/include/memory.h
++	cd ${WRKSRC} && $(MAKE) depend
++
+ # Fix the path to perl in various scripts.
+ pre-configure:
+ 	cd ${WRKSRC} && ${PERL5} util/perlpath.pl ${PERL5}
+-
++	sed -i '/^"linux-x86_64/s/-DTERMIO/-DTERMIOS/' ${WRKSRC}/Configure
++	sed -i '/^"linux-elf/s/-DTERMIO/-DTERMIOS/' ${WRKSRC}/Configure
++	sed -i 's/defined(linux)/0/' ${WRKSRC}/crypto/ui/ui_openssl.c
++	sed -i 's/\!defined(_UNICOS)/0/' ${WRKSRC}/apps/speed.c
++	
+ .include "../../mk/bsd.pkg.mk"
+diff -r ee94013015bb textproc/groff/PLIST
+--- a/textproc/groff/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/textproc/groff/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -15,9 +15,6 @@
+ bin/grops
+ bin/grotty
+ bin/hpftodit
+-bin/${GNU_PREFIX}indxbib
+-bin/lkbib
+-bin/${GNU_PREFIX}lookbib
+ bin/mmroff
+ bin/${GNU_PREFIX}neqn
+ bin/${GNU_PREFIX}nroff
+@@ -28,7 +25,6 @@
+ bin/post-grohtml
+ bin/pre-grohtml
+ bin/preconv
+-bin/${GNU_PREFIX}refer
+ bin/roff2dvi
+ bin/roff2html
+ bin/roff2pdf
+diff -r ee94013015bb textproc/libxml2/Makefile
+--- a/textproc/libxml2/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/textproc/libxml2/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -24,6 +24,7 @@
+ CONFIGURE_ARGS+=	--with-iconv=${BUILDLINK_PREFIX.iconv}
+ CONFIGURE_ARGS+=	--with-html-subdir=libxml2
+ CONFIGURE_ARGS+=	--without-python
++CONFIGURE_ARGS+=	--without-threads
+ 
+ .include "options.mk"
+ 
+@@ -43,6 +44,9 @@
+ SUBST_SED.cat=	-e "s,@@SGML_DEFAULT_CATALOG@@,${SGML_DEFAULT_CATALOG},g"
+ SUBST_SED.cat+=	-e "s,@@XML_DEFAULT_CATALOG@@,${XML_DEFAULT_CATALOG},g"
+ 
++pre-build:
++	sed 's/NO_ADDRESS/-1/' -i ${WRKSRC}/nanohttp.c
++
+ .include "../../mk/pthread.buildlink3.mk"
+ .include "../../devel/zlib/buildlink3.mk"
+ .include "../../converters/libiconv/buildlink3.mk"
+diff -r ee94013015bb textproc/xmlto/Makefile
+--- a/textproc/xmlto/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/textproc/xmlto/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -16,6 +16,7 @@
+ DEPENDS+=		getopt-[0-9]*:../../misc/getopt
+ DEPENDS+=		docbook-xsl>=1.67.0nb1:../../textproc/docbook-xsl
+ DEPENDS+=		libxml2>=2.6.2:../../textproc/libxml2
++DEPENDS+=		dash:../../shells/dash
+ 
+ USE_PKGLOCALEDIR=	yes
+ USE_TOOLS+=		bash:run mktemp
+@@ -31,5 +32,8 @@
+ 
+ INSTALLATION_DIRS=	share/xmlto/format/docbook share/xmlto/format/fo
+ 
++pre-configure:
++	find ${WRKSRC} -type f | xargs sed -i 's#/bin/bash#'"${PREFIX}"/bin/dash#g'
++
+ .include "../../textproc/libxslt/buildlink3.mk"
+ .include "../../mk/bsd.pkg.mk"
+diff -r ee94013015bb wm/bsetroot/PLIST
+--- a/wm/bsetroot/PLIST	Sat Apr 28 14:40:44 2012 +0000
++++ b/wm/bsetroot/PLIST	Sat Apr 28 17:23:40 2012 +0000
+@@ -3,37 +3,3 @@
+ bin/bsetroot
+ man/man1/bsetbg.1
+ man/man1/bsetroot.1
+-share/bsetroot/nls/POSIX
+-share/bsetroot/nls/US_ASCII
+-share/bsetroot/nls/de
+-share/bsetroot/nls/en
+-share/bsetroot/nls/en_GB
+-share/bsetroot/nls/en_US
+-share/bsetroot/nls/es
+-share/bsetroot/nls/es_MX
+-share/bsetroot/nls/fr
+-share/bsetroot/nls/it
+-share/bsetroot/nls/nl
+-share/bsetroot/nls/C/blackbox.cat
+-share/bsetroot/nls/da_DK/blackbox.cat
+-share/bsetroot/nls/de_DE/blackbox.cat
+-share/bsetroot/nls/es_AR/blackbox.cat
+-share/bsetroot/nls/es_ES/blackbox.cat
+-share/bsetroot/nls/fr_FR/blackbox.cat
+-share/bsetroot/nls/hu_HU/blackbox.cat
+-share/bsetroot/nls/it_IT/blackbox.cat
+-share/bsetroot/nls/ja_JP/blackbox.cat
+-share/bsetroot/nls/ko_KR/blackbox.cat
+-share/bsetroot/nls/lv_LV/blackbox.cat
+-share/bsetroot/nls/nl_NL/blackbox.cat
+-share/bsetroot/nls/no_NO/blackbox.cat
+-share/bsetroot/nls/pl_PL/blackbox.cat
+-share/bsetroot/nls/pt_BR/blackbox.cat
+-share/bsetroot/nls/ro_RO/blackbox.cat
+-share/bsetroot/nls/ru_RU/blackbox.cat
+-share/bsetroot/nls/sk_SK/blackbox.cat
+-share/bsetroot/nls/sl_SI/blackbox.cat
+-share/bsetroot/nls/sv_SE/blackbox.cat
+-share/bsetroot/nls/uk_UA/blackbox.cat
+-share/bsetroot/nls/zh_CN/blackbox.cat
+-share/bsetroot/nls/zh_TW/blackbox.cat
+diff -r ee94013015bb x11/libFS/Makefile
+--- a/x11/libFS/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/x11/libFS/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -25,6 +25,8 @@
+ CONFIGURE_ARGS+=	--disable-malloc0returnsnull
+ .endif
+ 
++CONFIGURE_ARGS+=	CFLAGS="-O2 -g -DNOFILES_MAX=256"
++
+ .include "../../x11/fontsproto/buildlink3.mk"
+ .include "../../x11/xproto/buildlink3.mk"
+ .include "../../x11/xtrans/buildlink3.mk"
+diff -r ee94013015bb x11/libXfont/Makefile
+--- a/x11/libXfont/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/x11/libXfont/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -20,6 +20,7 @@
+ PKGCONFIG_OVERRIDE+=	xfont.pc.in
+ 
+ CONFIGURE_ARGS+=	--disable-devel-docs
++CONFIGURE_ARGS+=	CFLAGS="-O2 -g -DNOFILES_MAX=256"
+ 
+ .include "../../devel/zlib/buildlink3.mk"
+ .include "../../graphics/freetype2/buildlink3.mk"
+diff -r ee94013015bb x11/pixman/Makefile
+--- a/x11/pixman/Makefile	Sat Apr 28 14:40:44 2012 +0000
++++ b/x11/pixman/Makefile	Sat Apr 28 17:23:40 2012 +0000
+@@ -42,5 +42,8 @@
+ post-extract:
+ 	${CP} ${FILESDIR}/pixman.sym ${WRKDIR}
+ 	${CP} ${FILESDIR}/solaris-hwcap.mapfile ${WRKSRC}/pixman
+-
++	
++pre-configure:
++	sed -i 's/support_for__thread=yes/support_for__thread=no/' ${WRKSRC}/configure	
++	
+ .include "../../mk/bsd.pkg.mk"
