@@ -19,7 +19,7 @@ then
 fi
 printf -- "Building stage %d\n" "$STAGE"
 
-# enable verbose printing, abord on error
+# enable verbose printing, abort on error
 set -e -x
 
 . "$H"/config
@@ -35,6 +35,7 @@ fi
 # update-buildroot - copy to sources
 cp -r "$H"/pkg "$S"/
 cp -r "$H"/KEEP "$S"/
+[ "$A" = "arm" ] && cp -f "$H"/pkg/stage0_gcc4 "$S"/pkg/stage0_gcc3
 
 # NOTE
 # installation starts all over if installed.dat is not there.
