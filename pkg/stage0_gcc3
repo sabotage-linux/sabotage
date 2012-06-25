@@ -20,7 +20,11 @@ sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386
 
 archflags=
 #[ "$A" = "arm" ] && archflags="--with-float=soft --enable-multilib --enable-interwork"
-[ "$A" = "arm" ] && archflags="--with-float=soft"
+# gcc 3.4.6 is broken, it emits code for __floatsisf, which according to linaro staff shouldn't be used
+# it is supposed to be in libgcc for some archs. should not be too hard to fix, but it yet has to be done
+# musl-0.9.2/src/malloc/malloc.c:120: undefined reference to `__floatsisf'
+
+[ "$A" = "arm" ] && archflags="--with-float=soft --with-fpu=vfp --disable-multilib"
 [ "$A" = "x86_64" ] && archflags=--disable-multilib
 [ "$A" = "i386" ] && archflags=--disable-multilib
 

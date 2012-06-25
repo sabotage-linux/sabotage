@@ -9,9 +9,6 @@ tardir=gcc-4.2.4
 http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 
 [build]
-if [ ! $CC ] ; then
-	CC=cc
-fi
 
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
@@ -25,7 +22,8 @@ for i in strsignal putenv random setenv strstr strtod strtol strtoul; do
 done
 
 armflags=
-[ "$A" = "arm" ] && armflags=--with-float=softfp
+[ "$A" = "arm" ] && armflags="--with-float=softfp --with-fpu=vfp"
+#[ "$A" = "arm" ] && armflags="--with-float=hard --with-fpu=neon"
 
 echo ac_cv_func_strsignal=yes > config.site
 ./configure --prefix=/ \
@@ -39,7 +37,11 @@ echo ac_cv_func_strsignal=yes > config.site
 $armflags  || exit 1
 make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
  -DHAVE_GETRLIMIT" LDFLAGS="-static" -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install-gcc || exit 1
+make DESTDIR="$butch_install_dir" install-gcc || exit 1
 
-[ "$A" = x86_64 ] && mv $R/lib64/* $R/lib/ || true
+[ "$A" = x86_64 ] && mv "$butch_install_dir/lib64/"* "$butch_install_dir/lib/" || true
+
+# rename gcc to rawcc so musl-gcc can call the *right* gcc
+mv "$butch_install_dir/bin/gcc" "$butch_install_dir/bin/rawcc"
+ln -sf "$butch_install_dir/bin/rawcc" "$butch_install_dir/bin/gcc"
 
