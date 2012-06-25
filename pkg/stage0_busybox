@@ -15,9 +15,22 @@ cp $K/busybox.stage0.config .config
 patch -p1 <$K/busybox.patch || exit 1
 patch -p1 <$K/busybox-sed.patch || exit 1
 
-make LDFLAGS=-static CFLAGS_busybox="-Wl,-z,muldefs -Werror-implicit-function-declaration" HOSTCC=gcc CC=$R/bin/musl-gcc -j$MAKE_THREADS || exit 1
+if [ ! -z "$DEBUGBUILD" ] ; then
+	debugcflags="-O0 -g"
+	sed -i s/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/ .config
+	sed -i s/# CONFIG_DEBUG_PESSIMIZE is not set/CONFIG_DEBUG_PESSIMIZE=y/ .config
+	sed -i s/CONFIG_NO_DEBUG_LIB=y/# CONFIG_NO_DEBUG_LIB is not set/ .config
+fi
+
+make V=1 LDFLAGS=-static CFLAGS_busybox="$debugcflags -Wl,-z,muldefs -Werror-implicit-function-declaration" \
+HOSTCC="$HOSTCC" CC=$R/bin/musl-gcc -j$MAKE_THREADS || exit 1
+echo busybox build complete
 cp busybox $R/bin
+echo cp complete
 cd $R/bin
+echo check if busybox works:
+./busybox --list || exit 1
 for f in $(./busybox --list); do
-  ln -sf busybox $f
+  ln -sf busybox $f | exit 1
 done
+echo ln done
