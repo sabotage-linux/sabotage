@@ -18,6 +18,10 @@ patch -p1 < "$K/busybox-sed.patch" || exit 1
 #__inline seems to get activated when -std=gnu99 is used, causing havoc 
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
 
+# --sort-section renders busybox unusable on ARM: http://sourceware.org/bugzilla/show_bug.cgi?id=14156
+sed -i 's,SORT_SECTION=,SORT_SECTION= #,' scripts/trylink
+
+
 make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
      HOSTCFLAGS=-D_GNU_SOURCE -j$MAKE_THREADS || exit 1
 

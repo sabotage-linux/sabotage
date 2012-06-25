@@ -15,6 +15,10 @@ cp $K/busybox.stage0.config .config
 patch -p1 <$K/busybox.patch || exit 1
 patch -p1 <$K/busybox-sed.patch || exit 1
 
+# --sort-section renders busybox unusable on ARM: http://sourceware.org/bugzilla/show_bug.cgi?id=14156
+sed -i 's,SORT_SECTION=,SORT_SECTION= #,' scripts/trylink
+
+
 if [ ! -z "$DEBUGBUILD" ] ; then
 	debugcflags="-O0 -g"
 	sed -i 's/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/' .config
