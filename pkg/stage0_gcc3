@@ -9,10 +9,6 @@ tardir=gcc-3.4.6
 http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2
 
 [build]
-if [ ! $CC ] ; then
-	CC=cc
-fi
-
 #apparently some control freak gcc used by ubuntu enforces that the mode arg is set in open calls
 sed -i 's@O_CREAT@O_CREAT, 0770@' gcc/collect2.c
 
@@ -22,12 +18,19 @@ sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
 
-armflags=
-[ "$A" = "arm" ] && armflags=--with-float=soft
+archflags=
+#[ "$A" = "arm" ] && archflags="--with-float=soft --enable-multilib --enable-interwork"
+[ "$A" = "arm" ] && archflags="--with-float=soft"
+[ "$A" = "x86_64" ] && archflags=--disable-multilib
+[ "$A" = "i386" ] && archflags=--disable-multilib
 
-./configure --prefix=/ --disable-bootstrap --disable-shared --disable-multilib --disable-nls $armflags || exit 1
+./configure --prefix=/ --disable-bootstrap --disable-shared --disable-nls $archflags || exit 1
 make CFLAGS="-DSTDC_HEADERS -Werror-implicit-function-declaration" LDFLAGS="-static" -j$MAKE_THREADS || exit 1
-make DESTDIR=$R install-gcc || exit 1
+make DESTDIR="$butch_install_dir" install-gcc || exit 1
 
-[ "$A" = x86_64 ] && mv $R/lib64/* $R/lib/ || true
+# rename gcc to rawcc so musl-gcc can call the *right* gcc
+mv "$butch_install_dir/bin/gcc" "$butch_install_dir/bin/rawcc"
+ln -sf "$butch_install_dir/bin/rawcc" "$butch_install_dir/bin/gcc"
+
+[ "$A" = x86_64 ] && mv "$butch_install_dir/lib64/"* "$butch_install_dir/lib/" || true
 

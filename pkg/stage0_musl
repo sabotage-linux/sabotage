@@ -20,9 +20,15 @@ echo "SHARED_LIBS =" >> config.mak
 [ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
 
 make CC=$R/bin/gcc -j$MAKE_THREADS || exit 1
-make install DESTDIR=$R || exit 1
-#sed -i 's:libc_prefix=".*":libc_prefix="'$R'":' $R/bin/musl-gcc
-sed -i 's://lib/:$R/lib/:' "$R/bin/musl-gcc"
-sed -i 's,//,'"$R"'/,g' "$R/lib/musl-gcc.specs"
-sed -i 's,/lib/ld-musl,/xxx/xxx/,' "$R/lib/musl-gcc.specs"
+make install DESTDIR="$butch_install_dir" || exit 1
+
+echo '#!/bin/sh' > "$butch_install_dir/bin/musl-gcc"
+echo 'self=`readlink -f "$0"`' >> "$butch_install_dir/bin/musl-gcc"
+echo 'selfdir=`dirname "$self"`' >> "$butch_install_dir/bin/musl-gcc"
+echo 'exec "$selfdir/rawcc" "$@" -specs "$selfdir/../lib/musl-gcc.specs"' >> "$butch_install_dir/bin/musl-gcc"
+chmod +x "$butch_install_dir/bin/musl-gcc"
+
+
+sed -i 's,//,'"$R"'/,g' "$butch_install_dir/lib/musl-gcc.specs"
+sed -i 's,/lib/ld-musl,/xxx/xxx/,' "$butch_install_dir/lib/musl-gcc.specs"
 
