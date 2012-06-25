@@ -1,0 +1,45 @@
+[main]
+filesize=18927613
+sha512=3b29aba3d90525d6cc4fcc2e0b99ac9f65a5cda488937346c2c742647b8b2f3b93644bfef801eda358945f9beef6a2cd108bb43071d0b13dce384f282921a7ca
+tardir=gcc-4.2.4
+
+[deps]
+
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
+
+[build]
+if [ ! $CC ] ; then
+	CC=cc
+fi
+
+sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
+sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
+sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
+
+for i in strsignal putenv random setenv strstr strtod strtol strtoul; do
+	culprit=libiberty/$i.c
+	rm $culprit
+	touch $culprit
+done
+
+armflags=
+[ "$A" = "arm" ] && armflags=--with-float=softfp
+
+echo ac_cv_func_strsignal=yes > config.site
+./configure --prefix=/ \
+--with-newlib --with-headers=no \
+--disable-bootstrap \
+--disable-shared \
+--disable-multilib \
+--disable-nls \
+--disable-mudflap --disable-libmudflap --disable-libssp \
+--disable-libgomp \
+$armflags  || exit 1
+make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
+ -DHAVE_GETRLIMIT" LDFLAGS="-static" -j$MAKE_THREADS || exit 1
+make DESTDIR=$R install-gcc || exit 1
+
+[ "$A" = x86_64 ] && mv $R/lib64/* $R/lib/ || true
+
