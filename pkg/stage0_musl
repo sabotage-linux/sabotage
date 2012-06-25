@@ -10,7 +10,7 @@ http://www.etalabs.net/musl/releases/musl-0.9.2.tar.gz
 
 [build]
 cp "$K/musl.config.mak" config.mak
-#patch -p1 < "$K/musl-0.8.9-XXX.patch" || exit 1
+patch -p1 < "$K/musl-0.9.2-arm_init.patch" || exit 1
 
 #disable building shared libs. the mere presence of libc.so messes up stuff.
 #we do not want anything in stage0 to be dynamically linked.

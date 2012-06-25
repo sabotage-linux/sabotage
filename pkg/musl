@@ -16,8 +16,7 @@ cp "$K/musl.config.mak" config.mak
 [ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
 
 
-#patch -p1 < "$K/musl-0.8.9-XXX.patch" || exit 1
-
+patch -p1 < "$K/musl-0.9.2-arm_init.patch" || exit 1
 
 #create directory structure for static toolchain
 TC_PATH=$R/opt/toolchain
