@@ -22,7 +22,7 @@ for i in strsignal putenv random setenv strstr strtod strtol strtoul; do
 done
 
 armflags=
-[ "$A" = "arm" ] && armflags="--with-float=softfp --with-fpu=vfp"
+[ "$A" = "arm" ] && armflags="--with-float=softfp --with-fpu=vfp --target=arm-linux-gnueabi --host=arm-linux-gnueabi --build=arm-linux-gnueabi"
 #[ "$A" = "arm" ] && armflags="--with-float=hard --with-fpu=neon"
 
 echo ac_cv_func_strsignal=yes > config.site
@@ -43,5 +43,5 @@ make DESTDIR="$butch_install_dir" install-gcc || exit 1
 
 # rename gcc to rawcc so musl-gcc can call the *right* gcc
 mv "$butch_install_dir/bin/gcc" "$butch_install_dir/bin/rawcc"
-ln -sf "$butch_install_dir/bin/rawcc" "$butch_install_dir/bin/gcc"
+ln -sf "rawcc" "$butch_install_dir/bin/gcc"
 
