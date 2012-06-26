@@ -51,12 +51,25 @@ ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t='4'}
 #IFi386#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
 #IFi386#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
 
+#IFarm#ac_cv_sizeof_long=${ac_cv_sizeof_long='4'}
+#IFarm#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='8'}
+#IFarm#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='4'}
+#IFarm#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
+#IFarm#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='4'}
+#IFarm#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='4'}
+#IFarm#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='4'}
+#IFarm#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='4'}
+#IFarm#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
+#IFarm#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
+
 
 #IFx86_64#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='no'}
 #IFx86_64#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
 
 #IFi386#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
 #IFxxxi386#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
+
+#IFarm#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
 
 
 # gnulib patches - no, we don't want your printf replacement!
