@@ -34,7 +34,7 @@ make DESTDIR="$butch_install_dir" install-gcc || exit 1
 
 # rename gcc to rawcc so musl-gcc can call the *right* gcc
 mv "$butch_install_dir/bin/gcc" "$butch_install_dir/bin/rawcc"
-ln -sf "$butch_install_dir/bin/rawcc" "$butch_install_dir/bin/gcc"
+ln -sf "rawcc" "$butch_install_dir/bin/gcc"
 
 [ "$A" = x86_64 ] && mv "$butch_install_dir/lib64/"* "$butch_install_dir/lib/" || true
 
