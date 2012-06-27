@@ -3,15 +3,14 @@ ncurses
 intltool
 
 [main]
-filesize=382389
-sha512=3a7993b452f4c8fd6feed7c414ef82af2f4f5556b6e7d67c8979bf4c0e411bbb23e399d8d6efe7e1615113ff37689a5300f6ae35f75ddeda979d5952027a807f
+filesize=492733
+sha512=8f4526e53c80a3bc19430b5721610b733f59a330ee0230a3a285d104f99969c092421cb59b4e535aff3337c4de2118c148e2ea2e7019b704a28b22eff40b19d3
 
 [mirrors]
-http://downloads.sourceforge.net/psmisc/psmisc-22.13.tar.gz
+http://downloads.sourceforge.net/psmisc/psmisc-22.19.tar.gz
 
 [build]
-patch -p1 < $K/psmisc-sed.patch || exit 1
-LDFLAGS="-lintl" ./configure -C --prefix=/ || exit 1
+LDFLAGS="-lintl" ./configure -C --prefix=/ --disable-harden-flags || exit 1
 echo "#include <limits.h>" >>config.h
 sed -i 's/!strcmp(__progname, "pstree.x11")/0/' src/pstree.c
 sed -i '/__progname/d' src/pstree.c
