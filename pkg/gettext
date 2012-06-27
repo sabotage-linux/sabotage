@@ -10,7 +10,7 @@ sha512=1735599307a2d12be609ecfe1141815a11af144c6b94301f6c7101242e0b628251a3613d1
 http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
 
 [build]
-./configure -C --prefix="$R/" || exit 1
+./configure -C --prefix=/ || exit 1
 make -j$MAKE_THREADS || exit 1
-make install || exit 1
+make install DESTDIR="$butch_install_dir" || exit 1
 
