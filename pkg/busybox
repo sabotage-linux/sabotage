@@ -1,6 +1,6 @@
 [deps]
 musl
-kernel
+kernel-headers
 
 [main]
 filesize=2190170

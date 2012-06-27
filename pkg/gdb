@@ -1,5 +1,5 @@
 [deps]
-kernel
+kernel-headers
 ncurses
 patch
 

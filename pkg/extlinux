@@ -1,5 +1,6 @@
 [deps]
 perl
+kernel-headers
 
 [main]
 filesize=5340791
