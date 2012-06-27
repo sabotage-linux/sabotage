@@ -1,6 +1,6 @@
 [deps]
 ncurses
-intltool
+libintl-dummy
 
 [main]
 filesize=492733
