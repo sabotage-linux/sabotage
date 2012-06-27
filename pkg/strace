@@ -12,7 +12,7 @@ http://switch.dl.sourceforge.net/project/strace/strace/4.6/strace-4.6.tar.xz
 
 [build]
 patch -p1 < $K/strace-patch
-CFLAGS="-static -D_GNU_SOURCE -DHAVE_LONG_LONG_OFF_T -DFPE_FLTUND=5 -DHAVE_SYS_REG_H -D__sched_priority=sched_priority -Dbool=int -DPTRACE_POKEUSR=PTRACE_POKEUSER -DMSG_EXCEPT=020000 -Dloff_t=int64_t" ./configure -C --prefix=/
+CFLAGS="-static -D_GNU_SOURCE -DHAVE_LONG_LONG_OFF_T -DFPE_FLTUND=5 -DHAVE_SYS_REG_H -D__sched_priority=sched_priority -Dbool=int -DPTRACE_POKEUSR=PTRACE_POKEUSER -DMSG_EXCEPT=020000 -Dloff_t=int64_t" ./configure -C --prefix=/ || exit 1
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/
-make -j$MAKE_THREADS 
-make DESTDIR="$butch_install_dir" install
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
