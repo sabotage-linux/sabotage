@@ -34,6 +34,8 @@ dopatch $K/linux-fixsh4.patch
 dopatch $K/linux-mips64fix.patch
 dopatch $K/linux-pmacorder.patch
 dopatch $K/linux-fixubi.patch
+# fix the broken "ncurses detector" which fails, and even worse removes our HOSTLDFLAGS
+dopatch $K/linux-menuconfig.patch
 
 #grsecurity and pax
 #dopatch $K/pax-linux-3.3.4-test9.patch
