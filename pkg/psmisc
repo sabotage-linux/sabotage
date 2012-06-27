@@ -1,5 +1,6 @@
 [deps]
 ncurses
+intltool
 
 [main]
 filesize=382389
@@ -10,7 +11,7 @@ http://downloads.sourceforge.net/psmisc/psmisc-22.13.tar.gz
 
 [build]
 patch -p1 < $K/psmisc-sed.patch || exit 1
-./configure -C --prefix=/ || exit 1
+LDFLAGS="-lintl" ./configure -C --prefix=/ || exit 1
 echo "#include <limits.h>" >>config.h
 sed -i 's/!strcmp(__progname, "pstree.x11")/0/' src/pstree.c
 sed -i '/__progname/d' src/pstree.c

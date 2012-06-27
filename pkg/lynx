@@ -17,7 +17,7 @@ http://lynx.isc.org/current/lynx2.8.8dev.9.tar.bz2
 
 sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userdefs.h
 
-CFLAGS="-include termcap.h -D_GNU_SOURCE -Wl,-rpath-link=/lib" ./configure -C --prefix=/ --sysconfdir=/etc --mandir=/share/man \
+CFLAGS="-include termcap.h -D_GNU_SOURCE -Wl,-rpath-link=/lib -I/include/openssl" ./configure -C --prefix=/ --sysconfdir=/etc --mandir=/share/man \
   --with-ssl --disable-nls --enable-ipv6  || exit 1
 #passing -jXXX to make has no effect on this pkg
 make || exit 1

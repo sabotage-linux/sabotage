@@ -1,6 +1,6 @@
 [deps]
 musl
-pkg-config
+pkgconf
 apr
 apr-util
 zlib-dynamic

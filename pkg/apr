@@ -1,6 +1,6 @@
 [deps]
 musl
-pkg-config
+pkgconf
 
 [main]
 filesize=785724

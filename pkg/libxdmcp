@@ -1,5 +1,5 @@
 [deps]
-pkg-config
+pkgconf
 
 [main]
 filesize=288256

@@ -1,7 +1,7 @@
 [deps]
 apr
 musl
-pkg-config
+pkgconf
 
 [main]
 filesize=635000
