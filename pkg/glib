@@ -1,0 +1,18 @@
+[deps]
+musl
+xz
+libffi
+
+[main]
+filesize=6117764
+sha512=6b18e2cdf4c832acc78703a155b27eda363e5ee5b4c4524c3a1b9e9e5e3e6228f48096dc52d10247b4ea7214989fab1429be14c313af0e9922534ad91c57bc76
+
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/glib/2.32/glib-2.32.2.tar.xz
+
+[build]
+this_dir="$PWD"
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix=/ || exit 1
+echo '#include <string.h>' >> config.h
+make -j$MAKE_THREADS DESTDIR="$butch_install_dir" LDFLAGS="-Wl,-rpath-link=$this_dir/gthread/.libs/ -Wl,-rpath-link=$this_dir/gmodule/.libs/" || exit 1
+make install || exit 1
