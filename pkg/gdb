@@ -16,10 +16,12 @@ http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2
 find . -name 'configure' -exec sed -i 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=true,' '{}' \;
 
 #fix linux_thread_db.c into compliance...
-$R/bin/patch -p1 < $K/gdb-linux_threaddb.patch || exit 1
-$R/bin/patch -p1 < $K/gdb-linux_nat.patch || exit 1
-$R/bin/patch -p1 < $K/gdb-disable_dlopen.patch || exit 1
-$R/bin/patch -p1 < $K/gdb-amd64-debugreg.patch || exit 1
+$R/bin/patch -p1 < "$K/gdb-linux_threaddb.patch" || exit 1
+$R/bin/patch -p1 < "$K/gdb-linux_nat.patch" || exit 1
+$R/bin/patch -p1 < "$K/gdb-disable_dlopen.patch" || exit 1
+$R/bin/patch -p1 < "$K/gdb-amd64-debugreg.patch" || exit 1
+$R/bin/patch -p1 < "$K/gdb-arm-gentmap.patch" || exit 1
+$R/bin/patch -p1 < "$K/gdb-arm-wrapper.patch" || exit 1
 
 mkdir build
 cd build

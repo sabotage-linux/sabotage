@@ -1,0 +1,11 @@
+--- gdb-7.4.org/sim/arm/wrapper.c	2012-06-27 16:43:47.942378497 +0000
++++ gdb-7.4/sim/arm/wrapper.c	2012-06-27 17:50:37.902321247 +0000
+@@ -36,6 +36,8 @@
+ #include "run-sim.h"
+ #include "gdb/sim-arm.h"
+ #include "gdb/signals.h"
++#include "libiberty.h"
++#include "iwmmxt.h"
+ 
+ host_callback *sim_callback;
+ 
