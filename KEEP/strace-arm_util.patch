@@ -1,0 +1,11 @@
+--- strace-4.6.org/util.c	2012-06-27 20:07:41.112333861 +0000
++++ strace-4.6/util.c	2012-06-27 20:26:42.362321871 +0000
+@@ -49,7 +49,7 @@
+ #include <link.h>
+ #endif /* SUNOS4 */
+ 
+-#if defined(linux) && (__GLIBC__ < 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 1))
++#if defined(linux) && defined(__GLIBC__) && (__GLIBC__ < 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 1))
+ #include <linux/ptrace.h>
+ #endif
+ 
