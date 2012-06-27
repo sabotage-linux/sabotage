@@ -34,6 +34,8 @@ make clean
 make CC="$TC_PATH/bin/gcc" -j$MAKE_THREADS || exit 1
 make DESTDIR="$TC_PATH" install || exit 1
 
+ln -sf /lib/libc.so "$TC_PATH/bin/ldd"
+
 musl_gcc="$TC_PATH/bin/musl-gcc"
 
 cp "$K/musl-gcc" "$musl_gcc"
