@@ -1,5 +1,5 @@
 This is sabotage, an experimental distribution based on musl libc and busybox.
-As of this release, sabotage supports both i386 and x86_64.
+Currently sabotage supports i386 and x86_64, and ARM.
 
 Requirements:
 - ~4G free disk space
@@ -9,7 +9,7 @@ Requirements:
 - a bootloader of your choice (extlinux is favored)
 - lots of time and a fair bit of Linux knowledge
 
-This system has been built on up-to-date Gentoo, Exherbo and Arch systems.
+This system has been built on up-to-date Debian, Ubuntu, Suse, Gentoo, Exherbo and Arch systems.
 
 You can bootstrap your own build from the scripts at 
 
@@ -19,7 +19,7 @@ or use a ready-to-boot disk image either for netinstall or with sets
 included (put it on an USB stick, burning a CD will not work), to be
 found at:
 
-           http://xmw.de/mirror/sabotage/
+           http://xmw.de/mirror/sabotage/ (very much outdated)
 
 You also can netboot the install kernel directly (use pxelinux from
 somewhere).
@@ -37,7 +37,7 @@ DO NOT RUN SCRIPTS YOU HAVE NOT READ.
 
 % . ./config       # required!
 
-% ./build-stage 0  # build toolchain (~15min on a modern machine)
+% ./build-stage 0  # build toolchain (~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz)
 % ./enter-chroot   # enter $R chrooted, needs root password
 % cd /src
 % vi config        # set your MAKE_THREADS, etc
@@ -56,11 +56,29 @@ copy $R to a ext4 file-system
 # butch install pkg           # additional stuff
 # butch install  xorg          # build X.org
 
-See "butch" for further options.
+Run "butch" and look at the usage information it outputs for further options.
+butch uses build templates, please take a look at KEEP/butch_template_configure_cached.txt
+to see how it works.
 
 The default root password is "sabotage".
+
+
+NOTE TO CONTRIBUTORS
+if you want to add packages, start from KEEP/package.template .
+please do not use HTTPS or FTP mirrors.
+HTTPS is unsupported by busybox wget, and FTP is a broken protocol from the 70ies
+which needs a second data connection (i.e. open port on the client).
+this prevents FTP from working when behind a NAT router or socks proxy.
+Downloads from git or other source repositories is an absolute no-go.
+
+since sabotage ships all tarballs when an ISO or HD image is distributed (to
+fulfill the GPL), space considerations are a top issue.
+so if available, ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
+in the former case, xz has to be added to the [deps] section.
+
 
 
 There is a mailinglist sabotage@lists.openwall.com, mail
 sabotage-subscribe@lists.openwall.com and follow instructions to get
 on it.  Archives are at http://openwall.com/lists/sabotage/
+You can also /join #musl on irc.freenode.net for realtime help.
