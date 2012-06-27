@@ -1,0 +1,15 @@
+[main]
+filesize=782725
+sha512=56101bf01aea6f0c082b85382be34acada51d70036252581cd76ac4b2bdbc144633b97c63a94bfdba434ffb80884e11299a38853e2d805dc7ce6cf9d452c81c8
+
+[mirrors]
+http://downloads.sourceforge.net/re2c/re2c-0.13.5.tar.gz
+
+[deps]
+g++
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

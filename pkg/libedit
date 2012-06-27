@@ -1,0 +1,20 @@
+[main]
+filesize=472640
+sha512=64e83c2dc174da266e52f54ba87ca22e91145d69adffd2e676afbeb1c09b243d8a5bc2cce7f7d2476ab141b478768ab8bf1368125496ba35eb49bc2974f92291
+
+[mirrors]
+http://www.thrysoee.dk/editline/libedit-20120601-3.0.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+#some crap assumptions for location of headers...
+mkdir -p examples/sys
+ln -s /include/errno.h examples/sys/errno.h
+mkdir -p src/sys
+touch src/sys/ttydefaults.h
+#these things need fixing later... 
+CFLAGS="-D_GNU_SOURCE -D__STDC_ISO_10646__" ./configure -C --prefix=/ --enable-widec || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,18 @@
+[main]
+filesize=1233989
+sha512=9d990569ea5c743967e308e4f09a1c2f64b0e87ed99acee29401c3b069ecb035c3dba4918f6aa2377070df90cc58ccb321fb856a339dd1faf74da38c2c785e3f
+
+[mirrors]
+http://apache.cu.be//apr/apr-iconv-1.2.1.tar.gz
+http://www.eu.apache.org/dist/apr/apr-iconv-1.2.1.tar.gz
+http://www.apache.org/dist/apr/apr-iconv-1.2.1.tar.gz
+
+[deps]
+apr
+apr-util
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS="-include stdlib.h -include pwd.h -D_GNU_SOURCE -DSTDC_HEADERS" ./configure -C --prefix=/ --with-apr=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

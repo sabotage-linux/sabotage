@@ -1,0 +1,16 @@
+[main]
+filesize=1248556
+sha512=0d6fd24baaf75819e254898763ae0918a6455b822b0d72043c7c52d2b5e5880352ba1981544a5966b387bd2b242085cd4f418067e9faf8e93e809b42951c6ca8
+
+[mirrors]
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.30.tar.bz2
+http://sourceforge.net/projects/pcre/files/pcre/8.30/pcre-8.30.tar.bz2
+
+[deps]
+zlib
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ --enable-utf8 --enable-unicode-properties --enable-pcregrep-libz --disable-cpp || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

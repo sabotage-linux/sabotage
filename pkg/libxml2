@@ -1,0 +1,19 @@
+[main]
+filesize=4915203
+sha512=e36ca96e5ba18f767346f1310c43d3c8c9a35c53252de18ad63ebce7f1f8df7ae40dd0719b2c6d78f5a64e61be154eec63a36ae738d29e93a9139c524a289ad4
+
+[mirrors]
+ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz
+ftp://gd.tuwien.ac.at/pub/libxml/libxml2-2.8.0.tar.gz
+http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz
+
+
+[deps]
+ncurses
+zlib
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ --without-iconv --without-iso8859x --without-legacy --without-threads --without-python || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,15 @@
+[main]
+filesize=2942652
+sha512=d84360b51b966f19ac3f1728265ff25e46d3a3ce6d9e7e30b154f0975bb10ce4f82f5ca3f308d2ff169c2b5dd97b0243e910d2e8ad59a5857aef7a70b9026b19
+
+[mirrors]
+ftp://ftp.gnu.org/non-gnu/cvs/source/stable/1.11.23/cvs-1.11.23.tar.bz2
+http://ftp.gnu.org/non-gnu/cvs/source/stable/1.11.23/cvs-1.11.23.tar.bz2
+
+[deps]
+
+[build]
+patch -p0 /src/build/cvs-1.11.23/lib/getline.h  < "$K/cvs1.patch"
+CFLAGS="-D_GNU_SOURCE -Dssize_t=int" ./configure -C --prefix=/ --enable-case-sensitivity || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

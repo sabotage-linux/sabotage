@@ -1,0 +1,16 @@
+[main]
+filesize=35062469
+sha512=e09a08002b723a056b7a53dea275794a9df104296e7733ec1d7023888f23466095b38614f3ab1acbbb095d10cca70cc14c35c3519a41800eadd6863beb85e3a9
+
+[mirrors]
+http://download.oracle.com/berkeley-db/db-5.3.21.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+cd build_unix
+CFLAGS=-D_GNU_SOURCE ../dist/configure --prefix=/ --enable-compat185 \
+    --enable-shared --enable-static --enable-dbm || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,19 @@
+[main]
+filesize=20810
+sha512=895d1d363b3756c9ba19dbf06af34be753c1ae5971d540113d7f8901ad174c2e5944ef769b43e65f7b700f34832bb24082bc91d999b287610c9925182ce70c00
+
+[mirrors]
+http://dl.suckless.org/dwm/dwm-6.0.tar.gz
+
+[deps]
+libx11
+libxcb
+libxau
+libxdmcp
+
+[build]
+cp $K/dwm.config.mk config.mk
+#patch -p1 < "$K/some.patch" #download patches from suckless.org and put in /src/KEEP and modify this row in the build...
+#CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
