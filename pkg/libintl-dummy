@@ -1,4 +1,8 @@
 [build]
+
+# test if gettext is already installed so that we don't overwrite it:
+cat $S/pkg/installed.dat | grep gettext > /dev/null && exit 0
+
 dest="$butch_install_dir/lib"
 mkdir -p "$dest"
 
