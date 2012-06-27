@@ -30,7 +30,7 @@ cd build
 #-Dfeof_unlocked=feof
 CC="$CC -static -L$R/lib -I$R/include -D_GNU_SOURCE -D_LARGEFILE64_SOURCE" ../configure -C \
   --prefix=/ --disable-werror --disable-tls \
-  --with-system-zlib=yes --enable-gdbserver=no || exit 1
+  --with-system-zlib=yes --enable-gdbserver=no --disable-sim || exit 1
 
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install-gdb || exit 1
