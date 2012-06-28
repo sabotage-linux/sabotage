@@ -10,14 +10,8 @@ sha512=a701392b8ee6f30e08ab7a3250f1c8592dad9bd0453c758e457335309860a3f2837efa172
 http://www.greenwoodsoftware.com/less/less-444.tar.gz
 
 [build]
-
 #configure is missing some includes... which lead to implicit declarations
-insertline configure 4074 '#include <termcap.h>'
-insertline configure 4104 '#include <termcap.h>'
-insertline configure 4134 '#include <termcap.h>'
-insertline configure 4164 '#include <termcap.h>'
-
-chmod +x configure
+patch -p1 < "$K/less.patch"
 
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
 make -j$MAKE_THREADS || exit 1
