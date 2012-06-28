@@ -15,4 +15,4 @@ this_dir="$PWD"
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix=/ || exit 1
 echo '#include <string.h>' >> config.h
 make -j$MAKE_THREADS DESTDIR="$butch_install_dir" LDFLAGS="-Wl,-rpath-link=$this_dir/gthread/.libs/ -Wl,-rpath-link=$this_dir/gmodule/.libs/" || exit 1
-make install || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
