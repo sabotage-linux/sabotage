@@ -1,0 +1,32 @@
+--- heirloom-sh/makefile.orig	2010-12-16 02:22:05.400000007 -0430
++++ heirloom-sh/makefile	2010-12-16 02:24:37.463333339 -0430
+@@ -1,3 +1,5 @@
++PREFIX=/local
++
+ #
+ # Root directory. Mainly useful for package building; leave empty for
+ # normal installation.
+@@ -7,12 +9,12 @@
+ #
+ # The destination directory for the "sh" and "jsh" binaries.
+ #
+-SV3BIN=/usr/5bin
++SV3BIN=$(PREFIX)/bin
+ 
+ #
+ # Location for manual pages (with man1 below).
+ #
+-MANDIR=/usr/share/man/5man
++MANDIR=$(PREFIX)/share/man
+ 
+ #
+ # Enable this definition if spell checking should be done for the
+@@ -23,7 +25,7 @@
+ #
+ # A BSD-compatible install command.
+ #
+-UCBINST=/usr/ucb/install
++UCBINST=install
+ 
+ #
+ # The strip command that is used at installation time.

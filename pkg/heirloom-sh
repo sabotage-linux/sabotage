@@ -1,0 +1,18 @@
+[deps]
+cvs
+
+[build]
+dest="$S/build"
+cd $dest
+
+cvs -d:pserver:anonymous:@heirloom.cvs.sourceforge.net:/cvsroot/heirloom login
+
+cvs -d:pserver:anonymous:@heirloom.cvs.sourceforge.net:/cvsroot/heirloom co -P heirloom-sh
+
+cd $dest/heirloom-sh
+
+patch -p1 < "$K/heirloom-sh.patch" #putting binaries in /local/bin, which is first in default PATH
+patch -p0 defs.h < "$K/heirloom-sh-defs.patch" #disable dependency on sys/acct.h
+CFLAGS="-D_GNU_SOURCE -static" #making static to avoid hosed system after libc update
+make -j$MAKE_THREADS || exit 1
+make install || exit 1 #do not set ROOT since binaries are put in /local 
