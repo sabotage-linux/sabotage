@@ -37,16 +37,7 @@ static int dladdr(void *addr, Dl_info *info) {
 #endif
 EOF
 
-#this header gets installed systemwide so we have to patch it
-#instead of just passing -Du_int8_t=uint8_t -Du_int16_t=uint16_t -Du_int32_t=uint32_t -Du_int64_t=uint64_t
-FU=include/pcm.h
-
-sed -i 's,u_int8_t,uint8_t,' $FU || exit 1
-sed -i 's,u_int16_t,uint16_t,' $FU || exit 1
-sed -i 's,u_int32_t,uint32_t,' $FU || exit 1
-sed -i 's,u_int64_t,uint64_t,' $FU || exit 1
-
-insertline "$FU" "35" '#include <stdint.h>'
+patch -p1 < "$K/alsa-lib_pcm_h.patch"
 
 FU=include/global.h
 sed -i 's,#include <time.h>,#include <sys/time.h>,' $FU || exit 1
@@ -62,15 +53,15 @@ FU=src/conf.c
 sed -i 's@PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP@{{{1,0,0,0,0,0,0,0,0,0}}}@' src/conf.c
 
 
-#lol alsa uses %L instead of %ll. such idiots
+#lol alsa uses %L instead of %ll
 sed -i 's,%L,%ll,g' $FU || exit 1
 FU=test/midiloop.c
 sed -i 's,%L,%ll,g' $FU || exit 1
 
-insertline src/pcm/mask_inline.h 22 '#include <strings.h>'
+patch -p1 < "$K/alsa-lib_mask_inline.patch"
 
 THIS="$PWD"
-CFLAGS="-include stdlib.h -include $THIS/dladdr_hack.c -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE -DF_SETSIG=10 -Dversionsort=alphasort -g -O0" ./configure -C \
+CFLAGS="-include stdlib.h -include $THIS/dladdr_hack.c -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE -DF_SETSIG=10 -g -O0" ./configure -C \
 	 --prefix=/ --disable-python --enable-debug --with-debug || exit 1
 
 find . -name Makefile -exec sed -i 's,STRIP = strip,STRIP = echo,' "{}" \; || exit 1
