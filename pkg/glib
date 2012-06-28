@@ -2,6 +2,7 @@
 musl
 xz
 libffi
+gettext
 
 [main]
 filesize=6117764
