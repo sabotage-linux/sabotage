@@ -12,8 +12,9 @@ sha512=6b18e2cdf4c832acc78703a155b27eda363e5ee5b4c4524c3a1b9e9e5e3e6228f48096dc5
 http://ftp.gnome.org/pub/gnome/sources/glib/2.32/glib-2.32.2.tar.xz
 
 [build]
+patch -p1 < "$K/glib-skip-tests.patch" || exit 1
 this_dir="$PWD"
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix=/ || exit 1
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix=/ --disable-modular-tests --disable-selinux --disable-fam || exit 1
 echo '#include <string.h>' >> config.h
 make -j$MAKE_THREADS DESTDIR="$butch_install_dir" LDFLAGS="-Wl,-rpath-link=$this_dir/gthread/.libs/ -Wl,-rpath-link=$this_dir/gmodule/.libs/" || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
