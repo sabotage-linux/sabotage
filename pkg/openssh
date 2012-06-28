@@ -11,13 +11,8 @@ openssl
 sabotage-utils
 
 [build]
-
-insertline configure 7668 '#include <stdlib.h>'
-insertline configure 10954 '#include <openssl/crypto.h>'
-insertline configure 8177 '#include <stdlib.h>'
-insertline configure 10831 '#include <stdlib.h>'
-
-chmod +x configure
+# fix implicit declarations
+patch -p1 < "$K/openssh-configure.patch"
 
 cp $K/openssh-hacks.h .
 CC="gcc -include openssh-hacks.h -D_BSD_SOURCE -DMISSING_HOWMANY -DMISSING_FD_MASK -DMISSING_NFDBITS" ./configure -C --prefix=/ \
