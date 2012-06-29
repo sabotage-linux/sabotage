@@ -1,5 +1,6 @@
 [deps]
 pkgconf
+xproto
 
 [main]
 filesize=288256
