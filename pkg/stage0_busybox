@@ -4,6 +4,7 @@ sha512=9ad2af7216ae79c2c8cf246654a2c591983d347d22bfe4cd54ae41eaee0ea17f7bf8d6834
 
 [deps]
 stage0_mini-kernel-headers
+stage0_patch
 stage0_musl
 
 [mirrors]
@@ -12,8 +13,9 @@ http://www.busybox.net/downloads/busybox-1.20.1.tar.bz2
 [build]
 
 cp $K/busybox.stage0.config .config
-patch -p1 <$K/busybox.patch || exit 1
-patch -p1 <$K/busybox-sed.patch || exit 1
+# we use stage0_patch to patch, because aboriginal uses the (formerly?) broken bb patch
+$R/bin/patch -p1 <$K/busybox.patch || exit 1
+$R/bin/patch -p1 <$K/busybox-sed.patch || exit 1
 
 # --sort-section renders busybox unusable on ARM: http://sourceware.org/bugzilla/show_bug.cgi?id=14156
 sed -i 's,SORT_SECTION=,SORT_SECTION= #,' scripts/trylink

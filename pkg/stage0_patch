@@ -3,7 +3,7 @@ filesize=303692
 sha512=26d528000c207118b239716d629805ff61a898cc5f5417a67bf50a32303ea1a896d7dd26c9e02193367d3f0e0954b510ab1e3887fb3069fbdeac6b1acd9ae7cc
 
 [deps]
-stage0_busybox
+stage0_musl
 
 [mirrors]
 ftp://ftp.gnu.org/gnu/patch/patch-2.6.1.tar.gz
