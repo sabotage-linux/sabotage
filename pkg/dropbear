@@ -1,0 +1,15 @@
+[main]
+filesize=1581421
+sha512=34d4b15fc6d46508b5b93a3bf63e4de9de7a72fa3da56fba4815bacbd2df9e683b3f710d71baee492dfb6d3cfb2c6a454f39e3b752649e1024cd160f96fad0a9
+
+[mirrors]
+http://matt.ucc.asn.au/dropbear/releases/dropbear-2012.55.tar.bz2
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+# TODO : edit generated options.h
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
