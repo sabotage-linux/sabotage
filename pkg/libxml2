@@ -11,6 +11,7 @@ http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz
 [deps]
 ncurses
 zlib
+xz
 
 [build]
 #patch -p1 < "$K/some.patch"
