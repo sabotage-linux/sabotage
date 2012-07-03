@@ -1,0 +1,14 @@
+[main]
+filesize=340953
+sha512=40e4f7efd82fac732ff6da439a1ca95944d4ecfa8a673c7466e93134f29f8863f4d86f4e6e859a7be0096a25837047bd167a625cc0c61d6b919b55c5a47a76e8
+
+[mirrors]
+http://oss.metaparadigm.com/json-c/json-c-0.9.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
