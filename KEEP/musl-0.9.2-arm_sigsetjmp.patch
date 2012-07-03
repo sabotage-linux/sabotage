@@ -1,0 +1,35 @@
+From e6129e6d836e5f4725d9b14ba7457b32e24adc61 Mon Sep 17 00:00:00 2001
+From: Rich Felker <dalias@aerifal.cx>
+Date: Mon, 2 Jul 2012 22:49:25 -0400
+Subject: [PATCH] fix sigsetjmp on arm (needs asm)
+
+no idea why gcc refuses to compile the C code to use a tail call, but
+it's best to use asm anyway so we don't have to rely on the quality of
+the compiler's optimizations for correct code.
+---
+ src/signal/arm/sigsetjmp.s |   13 +++++++++++++
+ 1 files changed, 13 insertions(+), 0 deletions(-)
+ create mode 100644 src/signal/arm/sigsetjmp.s
+
+diff --git a/src/signal/arm/sigsetjmp.s b/src/signal/arm/sigsetjmp.s
+new file mode 100644
+index 0000000..acb0301
+--- /dev/null
++++ b/src/signal/arm/sigsetjmp.s
+@@ -0,0 +1,13 @@
++.global sigsetjmp
++.type sigsetjmp,%function
++sigsetjmp:
++	str a2,[a1,#256]
++	tst a2,a2
++	beq setjmp
++	push {a1,lr}
++	add a3,a1,#260
++	mov a2,#0
++	mov a1,#2
++	bl sigprocmask
++	pop {a1,lr}
++	b setjmp
+-- 
+1.7.3.4
+
