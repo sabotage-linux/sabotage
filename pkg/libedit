@@ -8,12 +8,10 @@ http://www.thrysoee.dk/editline/libedit-20120601-3.0.tar.gz
 [deps]
 
 [build]
-#patch -p1 < "$K/some.patch"
+patch -p0 src/editline/readline.h -i "$K/readlineh.patch"
 #some crap assumptions for location of headers...
 mkdir -p examples/sys
 ln -s /include/errno.h examples/sys/errno.h
-mkdir -p src/sys
-touch src/sys/ttydefaults.h
 #these things need fixing later... 
 CFLAGS="-D_GNU_SOURCE -D__STDC_ISO_10646__" ./configure -C --prefix=/ --enable-widec || exit 1
 make -j$MAKE_THREADS || exit 1
