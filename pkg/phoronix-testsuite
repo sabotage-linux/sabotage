@@ -1,0 +1,13 @@
+[main]
+tardir=phoronix-test-suite
+filesize=471257
+sha512=74c55145d9fd87c0463307c43f23dee5432193699cb665046b9ccc5c711cef89f9967ca1fa4c6ab236424621e14926e6b7b0e5692829d9efadb8fe3f722713dd
+
+[mirrors]
+http://www.phoronix.net/downloads/phoronix-test-suite/releases/phoronix-test-suite-3.8.0.tar.gz
+
+[deps]
+php
+
+[build]
+DESTDIR="$butch_install_dir" ./install-sh / || exit 1
