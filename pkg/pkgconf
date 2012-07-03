@@ -7,6 +7,7 @@ sha512=f9d653ed40ff24176bc4ad08d11abfbe42cacf06633c711a2ab5d271992b48b6cc2862fd0
 
 [mirrors]
 http://tortois.es/~nenolod/distfiles/pkgconf-0.8.tar.bz2
+http://nenolod.net/~nenolod/distfiles/pkgconf-0.8.tar.bz2
 
 [build]
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix=/ || exit 1
