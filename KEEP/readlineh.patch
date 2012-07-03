@@ -1,0 +1,6 @@
+78,80c78
+< #if !defined(__sun) && !defined(__hpux) && !defined(_AIX)
+< #include <sys/ttydefaults.h>
+< #endif
+---
+> /* sys/ttydefaults.h commented out in musl version */
