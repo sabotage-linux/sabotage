@@ -8,6 +8,7 @@ http://www.php.net/distributions/php-5.4.4.tar.bz2
 [deps]
 sed
 gettext
+freetype
 libedit
 re2c
 curl
@@ -15,9 +16,12 @@ db
 openssl
 openssh
 jpeg
+png
 zlib
 pcre
 libxml2
+json-c
+bzip2
 
 [build]
 #for some reason "-include string.h" does not work in CFLAGS even after adding defines to overide php.h...
@@ -27,16 +31,13 @@ patch -p0 ext/spl/php_spl.c < "$K/phpstringh.patch"
 patch -p0 ext/standard/php_crypt_r.c < "$K/phpstringh2.patch"
 patch -p0 main/snprintf.c < "$K/phpstringh3.patch"
 patch -p0 main/php_ini.c < "$K/phpstringh3.patch" 
- 
-mkdir -p  include/sys
-touch include/sys/ttydefaults.h #faking it, libedit needs it -should be properly solved.
 
 #musl-git #needs crypt_r, currenlty fixed with hack during configure.
 
 CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -I/include -DHAVE_STRLCPY -DHAVE_STRLCAT -DHAVE_STRTOK_R -DHAVE_POSIX_READDIR_R -I$S/build/php-5.4.4/include" \
 ac_cv_func_crypt_r="0"  ./configure -C --prefix=/ --enable-re2c-cgoto --enable-embed=static \
---with-curlwrappers --with-libxml-dir=/opt/libxml2 --with-openssl-dir=/opt/openssl --with-sqlite \
---with-pcre-regex=/opt/pcre --with-pcre-dir=/opt/pcre --with-zlib=/opt/zlib --with-curl=/opt/curl --with-db4=/opt/db  \
--with-gettext=/opt/gettext --with-gmp=/opt/gmp --with-libedit=/opt/libedit || exit 1
+--with-curlwrappers --with-libxml-dir=/ --with-jpeg-dir=/ --with-png-dir=/ --with-openssl-dir=/ --with-sqlite \
+--with-pcre-regex=/ --with-pcre-dir=/ --with-zlib=/ --with-zlib-dir=/ --with-curl=/ --with-bz2=/ --with-db4=/  \
+-with-gettext=/ --with-gmp=/ --with-libedit=/ --with-freetype-dir=/ || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
