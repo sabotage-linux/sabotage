@@ -6,7 +6,6 @@ sha512=f297203c75ca10dc98b19f1b923d6549da8b56df227b5bf409e9d21f8e19ea858f6681d84
 http://www.php.net/distributions/php-5.4.4.tar.bz2
 
 [deps]
-sed
 gettext
 freetype
 libedit
@@ -15,8 +14,8 @@ curl
 db
 openssl
 openssh
-jpeg
-png
+libjpeg
+libpng
 zlib
 pcre
 libxml2
@@ -24,17 +23,9 @@ json-c
 bzip2
 
 [build]
-#for some reason "-include string.h" does not work in CFLAGS even after adding defines to overide php.h...
-patch -p0 ext/standard/php_string.h < "$K/phpstringh.patch" 
-patch -p0 ext/dba/dba.c < "$K/phpstringh.patch"
-patch -p0 ext/spl/php_spl.c < "$K/phpstringh.patch"
-patch -p0 ext/standard/php_crypt_r.c < "$K/phpstringh2.patch"
-patch -p0 main/snprintf.c < "$K/phpstringh3.patch"
-patch -p0 main/php_ini.c < "$K/phpstringh3.patch" 
-
 #musl-git #needs crypt_r, currenlty fixed with hack during configure.
 
-CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -I/include -DHAVE_STRLCPY -DHAVE_STRLCAT -DHAVE_STRTOK_R -DHAVE_POSIX_READDIR_R \
+CFLAGS="-D_BSD_SOURCE -DSTDC_HEADERS -I/include -DHAVE_STRLCPY -DHAVE_STRLCAT -DHAVE_STRTOK_R -DHAVE_POSIX_READDIR_R \
 ac_cv_func_crypt_r="0"  ./configure -C --prefix=/ --enable-re2c-cgoto --enable-embed=static \
 --with-curlwrappers --with-libxml-dir=/ --with-jpeg-dir=/ --with-png-dir=/ --with-openssl-dir=/ --with-sqlite \
 --with-pcre-regex=/ --with-pcre-dir=/ --with-zlib=/ --with-zlib-dir=/ --with-curl=/ --with-bz2=/ --with-db4=/  \

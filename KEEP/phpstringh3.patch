@@ -1,6 +1,0 @@
-20a21,23
-> #include "/include/string.h"
-> size_t strlcat (char *, const char *, size_t);
-> size_t strlcpy (char *, const char *, size_t);
-
-
