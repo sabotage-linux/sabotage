@@ -27,7 +27,10 @@ EOF
 
 
 echo "PREFIX = /" >>config.mk
-echo "CFLAGS += -D_GNU_SOURCE -DPLAN9PORT -D__USE_MISC -include getdents.h" >>config.mk
+# the dc calculator, called by bc, assumes a signed char,
+# which is not true for ARM. it fails on "4 - 3" resp. "4 3 -ps."
+# without -fsigned-char.
+echo "CFLAGS += -fsigned-char -D_GNU_SOURCE -DPLAN9PORT -D__USE_MISC -include getdents.h" >>config.mk
 
 sed -i 's/__linux__/__not_linux__/;s/__sun__/__linux__/' lib9/dirread.c
 sed -i '/sys.termios.h/d' lib9/readcons.c
