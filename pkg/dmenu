@@ -1,0 +1,17 @@
+[main]
+filesize=11543
+sha512=872dee68c35a93c663eb0a941653eaaa4aa83d8379e05b4dbca089a2c9335036b496de85d8ddf7af1228a5625490a06a89031fb1aac726236b608b952962c248
+
+[mirrors]
+http://dl.suckless.org/tools/dmenu-4.5.tar.gz
+
+[deps]
+libx11
+libxcb
+libxau
+libxdmcp
+
+[build]
+cp "$K/dmenu.config.mk" config.mk
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

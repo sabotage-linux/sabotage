@@ -1,0 +1,15 @@
+[main]
+filesize=705772
+sha512=b2d7dba02f801112248fb3c361b134b852820ea4704c86bfb178687d503779a887eeeff060f1b42a3df1c2f2df433f072eb0d0ff086a191bd55957e1b48cc9b6
+
+[mirrors]
+http://downloads.sourceforge.net/sourceforge/libpng/libpng-1.5.11.tar.xz
+
+[deps]
+zlib
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
