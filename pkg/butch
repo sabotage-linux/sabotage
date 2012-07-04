@@ -1,15 +1,15 @@
 [main]
-filesize=61306
-sha512=e5bf1e307ecd25cb9397e5f789201b1888f4ce2362a1c1313f15173aec464c9972b3515a1b659a6c579a1efd7e4a306a69c5c5bfaa0766f5b9072f2c3c8d2026
+filesize=62697
+sha512=eef9a6d6c11aaed8c59193b77953d5bc910a60da047cd56415b54b3f58cf5d5f18a80bf48e094acc0829a5457ef65d8c173d6ba059af08826fcb0bee75361d01
 tardir=butch
 
 [deps]
 musl
 
 [mirrors]
-https://github.com/downloads/rofl0r/butch/butch-0.1.0.tar.bz2
-http://codu.org/~rofl/butch-0.1.0.tar.bz2
-http://mirror.wzff.de/butch/butch-0.1.0.tar.bz2
+https://github.com/downloads/rofl0r/butch/butch-0.1.1.tar.bz2
+http://codu.org/~rofl/butch-0.1.1.tar.bz2
+http://mirror.wzff.de/butch/butch-0.1.1.tar.bz2
 
 [build]
 ./build.sh

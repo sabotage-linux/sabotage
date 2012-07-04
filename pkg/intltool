@@ -10,7 +10,7 @@ sha512=87769800d88fe16965e59b919d1c219e928fcc4e6708f07ecba7f97c33aa5e4955635d487
 http://ftp.gnome.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.bz2
 
 [build]
-./configure -C --prefix="$R/" || exit 1
+./configure -C --prefix=/ || exit 1
 make -j$MAKE_THREADS || exit 1
-make install || exit 1
+make install DESTDIR="$butch_install_dir" || exit 1
 

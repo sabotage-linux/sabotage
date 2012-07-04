@@ -23,7 +23,7 @@ sed -i 's,#include <sys/signal.h>,#include <signal.h>,' alsaloop/alsaloop.c
 # this hardcoded initializer is hack and must be changed whenever musl's internal representation changes
 sed -i 's@PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP@{{{1,0,0,0,0,0,0,0,0,0}}}@' alsaloop/pcmjob.c
 
-insertline alsamixer/mixer_widget.c 20 '#include <strings.h>'
+patch -p1 < "$K/alsa-utils_mixer_widget.patch"
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -D_LARGEFILE64_SOURCE" ./configure -C \
 	--prefix=/ --disable-xmlto --disable-alsatest || exit 1

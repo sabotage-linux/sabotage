@@ -1,0 +1,10 @@
+--- alsa-lib-1.0.25/src/pcm/mask_inline.h
++++ alsa-lib-1.0.25.patched/src/pcm/mask_inline.h
+@@ -20,6 +20,7 @@
+  */
+   
+ #include <sys/types.h>
++#include <strings.h>
+ 
+ #define MASK_INLINE static inline
+ 

@@ -21,6 +21,7 @@ openal
 openssh
 patch
 patchutils
+posix-man
 psmisc
 python
 perl

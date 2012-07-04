@@ -1,0 +1,34 @@
+--- less-444/configure
++++ less-444.patched/configure
+@@ -4072,6 +4072,7 @@
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
++#include <termcap.h>
+ int
+ main ()
+ {
+@@ -4101,6 +4102,7 @@
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
++#include <termcap.h>
+ int
+ main ()
+ {
+@@ -4130,6 +4132,7 @@
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
++#include <termcap.h>
+ int
+ main ()
+ {
+@@ -4159,6 +4162,7 @@
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
++#include <termcap.h>
+ int
+ main ()
+ {

@@ -1,23 +1,41 @@
 [main]
-filesize=2190170
-sha512=9ad2af7216ae79c2c8cf246654a2c591983d347d22bfe4cd54ae41eaee0ea17f7bf8d6834add3f1f843494d6980707e0443aaf663075fda6e4e7e29728606c53
+filesize=2186738
+sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837ebc3cc9954deef3e8f766d16a1928aecb2c169fe3de5a722eea7ea3dd
 
 [deps]
 stage0_mini-kernel-headers
+stage0_patch
 stage0_musl
 
 [mirrors]
-http://www.busybox.net/downloads/busybox-1.20.1.tar.bz2
+http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
 
 [build]
 
 cp $K/busybox.stage0.config .config
-patch -p1 <$K/busybox.patch || exit 1
-patch -p1 <$K/busybox-sed.patch || exit 1
+# we use stage0_patch to patch, because aboriginal uses the (formerly?) broken bb patch
+$R/bin/patch -p1 <$K/busybox.patch || exit 1
 
-make LDFLAGS=-static CFLAGS_busybox="-Wl,-z,muldefs -Werror-implicit-function-declaration" HOSTCC=gcc CC=$R/bin/musl-gcc -j$MAKE_THREADS || exit 1
+# --sort-section renders busybox unusable on ARM: http://sourceware.org/bugzilla/show_bug.cgi?id=14156
+sed -i 's,SORT_SECTION=,SORT_SECTION= #,' scripts/trylink
+
+
+if [ ! -z "$DEBUGBUILD" ] ; then
+	debugcflags="-O0 -g"
+	sed -i 's/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/' .config
+	sed -i 's/# CONFIG_DEBUG_PESSIMIZE is not set/CONFIG_DEBUG_PESSIMIZE=y/' .config
+	sed -i 's/CONFIG_NO_DEBUG_LIB=y/# CONFIG_NO_DEBUG_LIB is not set/' .config
+fi
+
+make V=1 LDFLAGS=-static CFLAGS_busybox="$debugcflags -Wl,-z,muldefs -Werror-implicit-function-declaration" \
+HOSTCC="$HOSTCC" CC=$R/bin/musl-gcc -j$MAKE_THREADS || exit 1
+echo busybox build complete
 cp busybox $R/bin
+echo cp complete
 cd $R/bin
+echo check if busybox works:
+./busybox --list || exit 1
 for f in $(./busybox --list); do
-  ln -sf busybox $f
+  ln -sf busybox $f | exit 1
 done
+echo ln done

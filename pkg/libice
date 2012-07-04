@@ -1,5 +1,5 @@
 [deps]
-pkg-config
+pkgconf
 xproto
 xtrans
 

@@ -11,8 +11,7 @@ http://www.openssl.org/source/openssl-1.0.1.tar.gz
 
 [build]
 patch -p1 < "$K/openssl-1.0.1-parallel-build.patch" || exit 1
-sed -i '/^"linux-x86_64/s/-DTERMIO/-DTERMIOS/' Configure
-sed -i '/^"linux-elf/s/-DTERMIO/-DTERMIOS/' Configure
+sed -i 's/-DTERMIO/-DTERMIOS/g' Configure
 sed -i 's/defined(linux)/0/' crypto/ui/ui_openssl.c
 ./config --prefix=/ --openssldir=/etc/ssl --libdir=lib no-shared no-dso zlib enable-md2 -D_GNU_SOURCE -Wa,--noexecstack
 touch include/memory.h

@@ -1,0 +1,34 @@
+--- openssh-6.0p1/configure
++++ openssh-6.0p1.patched/configure
+@@ -7666,6 +7666,7 @@
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+  #include <stdio.h>
++#include <stdlib.h>
+ int
+ main ()
+ {
+@@ -8174,6 +8175,7 @@
+ /* end confdefs.h.  */
+ 
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <zlib.h>
+ 
+ int
+@@ -10827,6 +10829,7 @@
+ 
+ #include <stdio.h>
+ #include <string.h>
++#include <stdlib.h>
+ #include <openssl/opensslv.h>
+ #define DATA "conftest.sslincver"
+ 
+@@ -10951,6 +10954,7 @@
+ 
+ #include <string.h>
+ #include <openssl/opensslv.h>
++#include <openssl/crypto.h>
+ 
+ int
+ main ()

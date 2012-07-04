@@ -1,6 +1,6 @@
 [deps]
-pkg-config
-kernel
+pkgconf
+kernel-headers
 
 [main]
 filesize=4512157

@@ -1,0 +1,15 @@
+--- openal-soft-1.14.org/OpenAL32/Include/alu.h	2012-06-29 23:13:01.376886254 +0000
++++ openal-soft-1.14/OpenAL32/Include/alu.h	2012-06-29 23:16:25.866604379 +0000
+@@ -239,9 +239,11 @@
+ #if defined(HAVE__CONTROLFP)
+     fpuState = _controlfp(0, 0);
+     (void)_controlfp(_RC_CHOP|_PC_24, _MCW_RC|_MCW_PC);
+-#elif defined(HAVE_FESETROUND)
++#elif defined(HAVE_FESETROUND) && defined(FE_TOWARDZERO)
+     fpuState = fegetround();
+     fesetround(FE_TOWARDZERO);
++#else
++    fpuState = fegetround();
+ #endif
+ #endif
+     return fpuState;

@@ -1,0 +1,10 @@
+--- strace-4.6.org/process.c	2012-06-27 20:07:41.162331610 +0000
++++ strace-4.6/process.c	2012-06-27 20:30:33.412321497 +0000
+@@ -66,6 +66,7 @@
+ #endif
+ #endif
+ 
++#undef HAVE_LINUX_PTRACE_H
+ #ifdef HAVE_LINUX_PTRACE_H
+ #undef PTRACE_SYSCALL
+ # ifdef HAVE_STRUCT_IA64_FPREG

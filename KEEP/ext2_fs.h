@@ -176,17 +176,6 @@ struct ext2_group_desc
 /* Flags that are appropriate for non-directories/regular files. */
 #define EXT2_OTHER_FLMASK (EXT2_NODUMP_FL | EXT2_NOATIME_FL)
 
-/* Mask out flags that are inappropriate for the given type of inode. */
-static __inline__ __u32 ext2_mask_flags(__fu16 mode, __fu32 flags)
-{
-	if (S_ISDIR(mode))
-		return flags;
-	else if (S_ISREG(mode))
-		return flags & EXT2_REG_FLMASK;
-	else
-		return flags & EXT2_OTHER_FLMASK;
-}
-
 /*
  * ioctl commands
  */

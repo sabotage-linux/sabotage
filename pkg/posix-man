@@ -1,0 +1,14 @@
+[deps]
+man
+
+[main]
+filesize=893996
+sha512=1db07377a63aefddd2dc996f153075e86db9b8577c4b86fda47a9787645068ae8cf0c8c72e568d73b4ddef584dc00bceebd9e8420021f61b89a7c57a24eb960c
+
+[mirrors]
+http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2003-a.tar.xz
+
+[build]
+
+make DESTDIR="$butch_install_dir" install || exit 1
+

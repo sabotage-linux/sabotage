@@ -34,6 +34,8 @@ dopatch $K/linux-fixsh4.patch
 dopatch $K/linux-mips64fix.patch
 dopatch $K/linux-pmacorder.patch
 dopatch $K/linux-fixubi.patch
+# fix the broken "ncurses detector" which fails, and even worse removes our HOSTLDFLAGS
+dopatch $K/linux-menuconfig.patch
 
 #grsecurity and pax
 #dopatch $K/pax-linux-3.3.4-test9.patch
@@ -62,6 +64,12 @@ find dest/include \( -name .install -o -name ..install.cmd \) -delete
 # and only if it's a link, and ignore it otherwise.
 rm -f $R/include/linux
 cp -rv dest/include/* $R/include/
+#fix ext2 header...
+cp -f $K/ext2_fs.h $R/include/linux/
+
+# usually when using an ARM system you dont want to build a generic kernel
+# you have to use a heavily patched vendor specific one
+if [ ! "$A" = "arm" ] ; then
 
 #let make create dependencies, otherwise parallel build wont work
 make CC="$CC" HOSTCC="$HOSTCC" ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y dep || exit 1
@@ -79,7 +87,6 @@ else
 fi
 cp $kpath $R/boot/vmlinuz
 
-#fix ext2 header...
-cp -f $K/ext2_fs.h $R/include/linux/
+fi
 
 exit 0

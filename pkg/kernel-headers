@@ -1,0 +1,9 @@
+[deps]
+kernel
+
+[build]
+# placeholder for kernel headers.
+# currently only asserts that the kernel is installed,
+# which will take care of installing the headers.
+
+true

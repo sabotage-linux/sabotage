@@ -17,7 +17,7 @@ ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.9.5.tar.bz2
 sed -i 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h 
 # XXX implement me, for now cast float to int.
 sed -i 's/lroundf\?//' dix/getevents.c
-CFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE -I/include/pixman-1" \
+LDFLAGS="-lfontenc -lfreetype -lz -lxcb -lXdmcp -lXau" CFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE -I/include/pixman-1" \
   ./configure -C --prefix=/ \
     --disable-glx --disable-dri \
     --disable-xorg \

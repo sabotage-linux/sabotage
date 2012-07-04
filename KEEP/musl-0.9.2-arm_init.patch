@@ -1,0 +1,47 @@
+From 9abab94b211c5103e3f6baf97ad76523618a553c Mon Sep 17 00:00:00 2001
+From: Rich Felker <dalias@aerifal.cx>
+Date: Mon, 25 Jun 2012 16:06:09 -0400
+Subject: [PATCH] fix arm crti/crtn code
+
+lr must be saved because init/fini-section code from the compiler
+clobbers it. this was not a problem when i tested without gcc's
+crtbegin/crtend files present, but with them, musl on arm fails to
+work (infinite loop in _init).
+---
+ crt/arm/crti.s |    2 ++
+ crt/arm/crtn.s |    2 ++
+ 2 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/crt/arm/crti.s b/crt/arm/crti.s
+index 2eb23ed..0dd978a 100644
+--- a/crt/arm/crti.s
++++ b/crt/arm/crti.s
+@@ -1,7 +1,9 @@
+ .section .init
+ .global _init
+ _init:
++	push {lr}
+ 
+ .section .fini
+ .global _fini
+ _fini:
++	push {lr}
+diff --git a/crt/arm/crtn.s b/crt/arm/crtn.s
+index 9d7107d..5d5d645 100644
+--- a/crt/arm/crtn.s
++++ b/crt/arm/crtn.s
+@@ -1,9 +1,11 @@
+ .section .init
++	pop {lr}
+ 	tst lr,#1
+ 	moveq pc,lr
+ 	bx lr
+ 
+ .section .fini
++	pop {lr}
+ 	tst lr,#1
+ 	moveq pc,lr
+ 	bx lr
+-- 
+1.7.3.4
+

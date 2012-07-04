@@ -123,6 +123,11 @@ if $have_files ; then
 
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into /
+		echo relocating...
+		if [ -d usr ] ; then
+			mv usr/* .
+		fi
+
 		for loc in bin etc include lib share var ; do
 			relocate "$butch_root" $loc ..
 		done
