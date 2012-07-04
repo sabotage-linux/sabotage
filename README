@@ -71,13 +71,20 @@ which needs a second data connection (i.e. open port on the client).
 this prevents FTP from working when behind a NAT router or socks proxy.
 Downloads from git or other source repositories is an absolute no-go.
 
+please use unified diff format  (diff -u) for patches, as this usually allows
+to use the same patches on newer versions as well.
+
 since sabotage ships all tarballs when an ISO or HD image is distributed (to
 fulfill the GPL), space considerations are a top issue.
 so if available, ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
 in the former case, xz has to be added to the [deps] section.
 
+it is recommend that you create a git branches for your work:
+this allows me to checkout your changes and rebase as i see fit,
+and you can easily pull back into your master without getting merge conflicts.
 
 
+CONTACT
 There is a mailinglist sabotage@lists.openwall.com, mail
 sabotage-subscribe@lists.openwall.com and follow instructions to get
 on it.  Archives are at http://openwall.com/lists/sabotage/
