@@ -1,0 +1,103 @@
+From d6c0efe106b1016108207fb6872820c06dcef4f8 Mon Sep 17 00:00:00 2001
+From: Rich Felker <dalias@aerifal.cx>
+Date: Tue, 3 Jul 2012 20:07:33 -0400
+Subject: [PATCH] jmp_buf overhaul fixing several issues
+
+on arm, the location of the saved-signal-mask flag and mask were off
+by one between sigsetjmp and siglongjmp, causing incorrect behavior
+restoring the signal mask. this is because the siglongjmp code assumed
+an extra slot was in the non-sig jmp_buf for the flag, but arm did not
+have this. now, the extra slot is removed for all archs since it was
+useless.
+
+also, arm eabi requires jmp_buf to have 8-byte alignment. we achieve
+that using long long as the type rather than with non-portable gcc
+attribute tags.
+---
+ arch/arm/bits/setjmp.h    |    2 +-
+ arch/i386/bits/setjmp.h   |    2 +-
+ arch/x86_64/bits/setjmp.h |    2 +-
+ include/setjmp.h          |    6 +++++-
+ src/signal/siglongjmp.c   |    9 ++++-----
+ src/signal/sigsetjmp.c    |    8 +++-----
+ 6 files changed, 15 insertions(+), 14 deletions(-)
+
+diff --git a/arch/arm/bits/setjmp.h b/arch/arm/bits/setjmp.h
+index a4baec4..3938cb8 100644
+--- a/arch/arm/bits/setjmp.h
++++ b/arch/arm/bits/setjmp.h
+@@ -1 +1 @@
+-typedef unsigned long jmp_buf [64];
++typedef unsigned long long jmp_buf[32];
+diff --git a/arch/i386/bits/setjmp.h b/arch/i386/bits/setjmp.h
+index b6595bd..5610be9 100644
+--- a/arch/i386/bits/setjmp.h
++++ b/arch/i386/bits/setjmp.h
+@@ -1 +1 @@
+-typedef unsigned long jmp_buf [7];
++typedef unsigned long jmp_buf[6];
+diff --git a/arch/x86_64/bits/setjmp.h b/arch/x86_64/bits/setjmp.h
+index c5b9e4a..81d4968 100644
+--- a/arch/x86_64/bits/setjmp.h
++++ b/arch/x86_64/bits/setjmp.h
+@@ -1 +1 @@
+-typedef unsigned long jmp_buf [9];
++typedef unsigned long jmp_buf[8];
+diff --git a/include/setjmp.h b/include/setjmp.h
+index 83ad749..28ff92e 100644
+--- a/include/setjmp.h
++++ b/include/setjmp.h
+@@ -11,7 +11,11 @@ extern "C" {
+ #if defined(_POSIX_SOURCE) || defined(_POSIX_C_SOURCE) \
+  || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE) \
+  || defined(_BSD_SOURCE)
+-typedef unsigned long sigjmp_buf[(128+sizeof(jmp_buf))/sizeof(long)];
++typedef struct {
++	jmp_buf __jb;
++	unsigned long __fl;
++	unsigned long __ss[128];
++} sigjmp_buf[1];
+ int sigsetjmp (sigjmp_buf, int);
+ void siglongjmp (sigjmp_buf, int);
+ #endif
+diff --git a/src/signal/siglongjmp.c b/src/signal/siglongjmp.c
+index 600d560..9b4a539 100644
+--- a/src/signal/siglongjmp.c
++++ b/src/signal/siglongjmp.c
+@@ -1,12 +1,11 @@
+ #include <setjmp.h>
+ #include <signal.h>
+ #include <stdlib.h>
++#include "syscall.h"
+ 
+ void siglongjmp(sigjmp_buf buf, int ret)
+ {
+-	unsigned long *flag = buf + sizeof(jmp_buf)/sizeof(long) - 1;
+-	sigset_t *mask = (void *)(flag + 1);
+-	if (*flag)
+-		sigprocmask (SIG_SETMASK, mask, NULL);
+-	longjmp((void *)buf, ret);
++	if (buf->__fl)
++		__syscall(SYS_rt_sigprocmask, SIG_SETMASK, buf->__ss, 0, 8);
++	longjmp(buf->__jb, ret);
+ }
+diff --git a/src/signal/sigsetjmp.c b/src/signal/sigsetjmp.c
+index 5c93707..01ba0df 100644
+--- a/src/signal/sigsetjmp.c
++++ b/src/signal/sigsetjmp.c
+@@ -9,9 +9,7 @@
+ 
+ int sigsetjmp(sigjmp_buf buf, int save)
+ {
+-	unsigned long *flag = buf + sizeof(jmp_buf)/sizeof(long);
+-	sigset_t *mask = (void *)(flag + 1);
+-	if ((*flag = save))
+-		sigprocmask (SIG_SETMASK, NULL, mask);
+-	return setjmp((void *)buf);
++	if ((buf->__fl = save))
++		pthread_sigmask(SIG_SETMASK, 0, (sigset_t *)buf->__ss);
++	return setjmp(buf->__jb);
+ }
+-- 
+1.7.3.4
+
