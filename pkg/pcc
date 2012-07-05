@@ -1,0 +1,15 @@
+[main]
+filesize=770726
+sha512=59547c26b625476b956d57bbfbea237df7ede73d14d989cef0cb6e784f87b87ed962093b6649b50e1bb659f7e8cf706b1b9676e3b3cd650568fd8ae5578bc6f9
+
+[mirrors]
+http://pcc.ludd.ltu.se/ftp/pub/pcc/pcc-20120705.tgz
+
+[deps]
+yasm
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_BSD_SOURCE ./configure -C --prefix=/ --with-yasm || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
