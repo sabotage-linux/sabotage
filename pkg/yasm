@@ -1,0 +1,14 @@
+[main]
+filesize=1436502
+sha512=e80ace766e145f6486e76da1a5a9819221b7f406745a02529b4ad220ef7f51ddd67f23d0d8b187bffc9725d9f9742ae5f3a0bb23ee5b2a61153332fb3e286b77
+
+[mirrors]
+http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
