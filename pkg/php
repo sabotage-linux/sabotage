@@ -27,8 +27,8 @@ bzip2
 
 CFLAGS="-D_BSD_SOURCE -DSTDC_HEADERS -I/include -DHAVE_STRLCPY -DHAVE_STRLCAT -DHAVE_STRTOK_R -DHAVE_POSIX_READDIR_R \
 ac_cv_func_crypt_r="0"  ./configure -C --prefix=/ --enable-re2c-cgoto --enable-embed=static \
---with-curlwrappers --with-libxml-dir=/ --with-jpeg-dir=/ --with-png-dir=/ --with-openssl-dir=/ --with-sqlite \
+--with-libxml-dir=/ --with-jpeg-dir=/ --with-png-dir=/ --with-openssl-dir=/ --with-sqlite \
 --with-pcre-regex=/ --with-pcre-dir=/ --with-zlib=/ --with-zlib-dir=/ --with-curl=/ --with-bz2=/ --with-db4=/  \
 -with-gettext=/ --with-gmp=/ --with-libedit=/ --with-freetype-dir=/ || exit 1
 make -j$MAKE_THREADS || exit 1
-make DESTDIR="$butch_install_dir" install || exit 1
+make INSTALL_ROOT=/opt/php/ install || exit 1
