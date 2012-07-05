@@ -1,0 +1,17 @@
+[main]
+tardir=icu/source
+filesize=19010646
+sha512=83997878222ada25be281c35b766906a9997da350068d4f7400874ea37133baeef0e8277dc117219c37ab486b643125b4b73ace956507d2237c1c9002173a140
+
+[mirrors]
+http://download.icu-project.org/files/icu4c/49.1.2/icu4c-49_1_2-src.tgz
+
+[deps]
+g++
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS="-D_GNU_SOURCE -D__timezone=timezone" CXXFLAGS=$CFLAGS ./configure -C --prefix=/ --sysconfdir=/etc --mandir=/share/man \
+--with-library-bits --enable-static || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
