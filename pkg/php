@@ -31,4 +31,4 @@ ac_cv_func_crypt_r="0"  ./configure -C --prefix=/ --enable-re2c-cgoto --enable-e
 --with-pcre-regex=/ --with-pcre-dir=/ --with-zlib=/ --with-zlib-dir=/ --with-curl=/ --with-bz2=/ --with-db4=/  \
 -with-gettext=/ --with-gmp=/ --with-libedit=/ --with-freetype-dir=/ || exit 1
 make -j$MAKE_THREADS || exit 1
-make INSTALL_ROOT=/opt/php/ install || exit 1
+make INSTALL_ROOT="${butch_install_dir}" install || exit 1
