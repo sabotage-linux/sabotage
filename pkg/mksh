@@ -1,0 +1,19 @@
+[main]
+tardir=mksh
+filesize=332942
+sha512=4d8c98fef1f63c31844a0f0fc7416cf11b98cdfded6e958c84eff8811397902b15c2e6dfc49dfaf876859b7ee08d8816e30a3788c58ca35b38025200e0f6be0b
+
+[mirrors]
+https://github.com/downloads/staalmannen/sabotage/mksh-R40f.tar.gz
+
+[deps]
+wget
+
+[build]
+#local mirror used since cpio is not supported by butch
+CFLAGS="-D_BSD_SOURCE -static" export CFLAGS || exit 1
+sh Build.sh -r -c lto
+install -D -m 755 mksh "${butch_install_dir}/bin/mksh" || exit 1
+install -D -m 644 mksh.1 "${butch_install_dir}/share/man/man1/mksh.1"
+
+

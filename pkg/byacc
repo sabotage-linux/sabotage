@@ -1,0 +1,16 @@
+[main]
+tardir=byacc-20120526
+filesize=241153
+sha512=a5dc6d57e91f3155cbaa2d64ef12843055db8a4eab441eb1b5834f67214b6a11d89d48c4afb691dddbd7ab104ed0e5a545a145900193160ad57ddebe746d4745
+
+[mirrors]
+http://invisible-island.net/datafiles/release/byacc.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch"
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix=/ || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
