@@ -1,0 +1,23 @@
+[main]
+tardir=mksh
+filesize=331196
+sha512=a396ef02aecd713d44597da286bac2bdfe12f12f9712ebc21825283f3900bfca5b79125ca7e191c9970bde761e7873fc68ad3c822238e70697d65eb373560c75
+
+[deps]
+wget
+cpio
+
+[build]
+#sorry for the ugly build file. Somehow the cpio archive is not compatible with butch.
+#suggestions for improvements of build welcome!
+cd $S/tarballs
+wget -c --no-check-certificate https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz
+rm -rf $S/build/mksh
+zcat mksh-R40f.cpio.gz | cpio -mid
+mv mksh $S/build/
+cd $S/build/mksh
+#patch -p1 < "$K/some.patch"
+CFLAGS="-D_BSD_SOURCE -static" export CFLAGS || exit 1
+sh Build.sh -r -c lto
+install -D -m 755 mksh "${butch_install_dir}/bin/mksh" || exit 1
+install -D -m 644 mksh.1 "${butch_install_dir}/share/man/man1/mksh.1"
