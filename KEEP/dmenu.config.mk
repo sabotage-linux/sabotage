@@ -9,8 +9,8 @@ X11INC = /include/X11
 X11LIB = /lib
 
 # Xinerama, comment if you don't want it
-#XINERAMALIBS  = -lXinerama
-#XINERAMAFLAGS = -DXINERAMA
+XINERAMALIBS  = -lXinerama
+XINERAMAFLAGS = -DXINERAMA
 
 # includes and libs
 INCS = -I${X11INC}

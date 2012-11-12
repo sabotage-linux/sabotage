@@ -1,0 +1,17 @@
+[main]
+filesize=9892896
+sha512=1b5c436ac9816770c014765336b24980c199aada0dd78ebd7c30eb7fd08e648c7b3877e47adf8e4b4a1aa46ff49c4cc2fbe05e8fc18c51cff9d0d475f3ffb855
+
+[mirrors]
+http://download.enlightenment.org/releases/eina-1.7.1.tar.gz
+
+[deps]
+musl
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+cp $K/eina_cpu.c src/lib/
+cp $K/eina_sched.c src/lib/
+CFLAGS="-D_GNU_SOURCE" ./configure --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

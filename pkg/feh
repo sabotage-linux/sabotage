@@ -1,0 +1,17 @@
+[main]
+filesize=2239395
+sha512=b0518c3a9040e7dc18836e6f15ebec260c055642a2cea41b8ed9184a02c6c5d5ce0f8de355408408123c0d076b7e85036e9336e37431a41df04b8c7370a800c5
+
+[mirrors]
+http://feh.finalrewind.org/feh-2.7.tar.bz2
+
+[deps]
+curl
+giblib
+libxinerama
+libexif
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE make -j$MAKE_THREADS PREFIX="$butch_prefix" exif=1 help=1 || exit 1
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install || exit 1

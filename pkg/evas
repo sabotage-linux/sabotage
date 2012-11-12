@@ -1,0 +1,32 @@
+[main]
+filesize=10142455
+sha512=a6233d09391feab9969e6147e8d1259eb60fb82e31d36015dce78d4becf67b2e7fb1726238f78145443031d9e76d7a4dbe435e0d54d4c4de49c2adc3bbafbfd5
+
+[mirrors]
+http://download.enlightenment.org/releases/evas-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+evas_generic_loaders
+freetype
+libx11
+libxcb
+fontconfig
+libpng
+libjpeg
+libtiff
+sdl
+cairo
+
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+# for future EFL releases, wayland support can be enabled with:
+# --enable-wayland-shm --enable-wayland-egl --enable-gl-flavor-gles --enable-gles-variety-sgx
+CFLAGS="-D_GNU_SOURCE -Duseconds_t=unsigned" ./configure -C --prefix="$butch_prefix" --enable-fontconfig --enable-fb=static \
+--disable-harfbuzz --enable-buffer=static --disable-directfb --enable-static-software-generic --enable-software-xlib=static \
+--enable-software-xcb --enable-sdl-primitive --enable-image-loader-jpeg --enable-image-loader-png --enable-image-loader-tiff \
+--disable-install-examples --disable-tests --disable-doc || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

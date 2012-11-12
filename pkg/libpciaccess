@@ -1,0 +1,19 @@
+[main]
+filesize=352351
+sha512=2f2a78894451ce46ce35f86ca4c8fd05559a7ed840eeafb91dbc8727066239d5b3805904d68b472e00d678f05a24974491acc42f42bbb6126cb35d29f3bcbfa7
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libpciaccess-0.13.1.tar.bz2
+
+[deps]
+musl
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+#crap missing header
+mkdir -p include/sys
+cp $K/fcntl.h include/sys/fcntl.h
+CFLAGS="-D_POSIX_SOURCE -D_BSD_SOURCE -DPATH_MAX=4096 -U__i386__ -U__x86_64__ -U__arm__" \
+./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

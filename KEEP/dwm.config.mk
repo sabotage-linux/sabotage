@@ -11,8 +11,8 @@ X11INC = /opt/libx11/include
 X11LIB = /opt/libx11/lib
 
 # Xinerama
-#XINERAMALIBS = -L${X11LIB} -lXinerama
-#XINERAMAFLAGS = -DXINERAMA
+XINERAMALIBS = -L${X11LIB} -lXinerama
+XINERAMAFLAGS = -DXINERAMA
 
 # includes and libs
 INCS = -I. -I/include -I${X11INC}

@@ -1,0 +1,14 @@
+[main]
+filesize=119584
+sha512=404c72a0f54f31ed639a08b72cbdb6f4d28b76885759df12cdd76fc3ea3b2930c1c8fb7460cd49a36c3a799dc5fd809ffce7da35ff67e1c9604c3c21cca9cb63
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/glproto-1.4.16.tar.bz2
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

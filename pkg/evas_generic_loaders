@@ -1,0 +1,20 @@
+[main]
+filesize=235134
+sha512=6b1e691840e05f37856bf2ee29dc9ec6e606199f59d21f690dd7baa27ca76fa0cf43d09e89c31a4729ef5f79d7f7bae01cdb0f6d1fa315b64817610fa7980340
+
+[mirrors]
+http://download.enlightenment.org/releases/evas_generic_loaders-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+gstreamer01
+libraw
+
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+# there are more optional plugins: poppler, librsvg, libspectre but they depend on lots of stuff
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --enable-libraw --enable-gstreamer || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

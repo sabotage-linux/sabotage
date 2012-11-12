@@ -1,0 +1,16 @@
+[main]
+filesize=6096540
+sha512=e982c017d5b58463db9827ff7c026625304117dd7fc7ea783b55cef1cfd38655ad45ada259d766f78f4078aa80784e6e848f07fb3779ea4b9394fecfdae40657
+
+[mirrors]
+http://download.enlightenment.org/releases/expedite-1.7.1.tar.gz
+
+[deps]
+musl
+evas
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

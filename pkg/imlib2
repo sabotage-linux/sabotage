@@ -1,0 +1,20 @@
+[main]
+filesize=895624
+sha512=3016f68305bf431644c1ba159ce56f58cb31318bc36a8c794603bbcd8d7f19cb3408d671bc255ad47d105e5b6693f0985341a61592bc6f6a1f3674aed1862faa
+
+[mirrors]
+http://downloads.sourceforge.net/enlightenment/imlib2-1.4.5.tar.bz2
+
+[deps]
+bzip2
+libxext
+freetype
+libpng
+libjpeg
+giflib
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

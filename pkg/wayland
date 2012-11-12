@@ -1,0 +1,15 @@
+[main]
+filesize=390124
+sha512=88559f9ba0c3c72d1bf6ad5fd0273c66c23f42ac1ea4303fd877738b3d4de4030254388f4da7081df575aa1bf8836f46c798dde1b72907aae5bb79ab1e1af724
+
+[mirrors]
+http://wayland.freedesktop.org/releases/wayland-1.0.0.tar.xz
+
+[deps]
+libffi
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS="-DTFD_CLOEXEC=O_CLOEXEC" ./configure --prefix="$butch_prefix" --disable-documentation || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

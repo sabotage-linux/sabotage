@@ -1,0 +1,16 @@
+[main]
+filesize=3025876
+sha512=7468abb578398681d2adb0e9bbc9ee8ae25aaef72369d45a66ada6c67d1759afdce606cb32e68d9e30ae813196bdfef3d4d33202bc77839cc1fbf5fc436c1bd8
+
+[mirrors]
+http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.xz
+
+[deps]
+libxml2
+glib
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --disable-examples || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

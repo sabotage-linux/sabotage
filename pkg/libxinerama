@@ -1,0 +1,16 @@
+[main]
+filesize=279682
+sha512=3bddf3daec22476e02bedaf3a995943c45810033dea022472130b05500985fc402e3d766c4d86acefc0237fc1b5d06ddb28377093097eeef0f9bfcbd7e2e84dc
+
+[mirrors]
+http://xorg.freedesktop.org//releases/individual/lib/libXinerama-1.1.2.tar.bz2
+
+[deps]
+libxext
+xineramaproto
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

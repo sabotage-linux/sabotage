@@ -1,0 +1,15 @@
+[main]
+filesize=1366794
+sha512=b0c8753a7cd6448f3353ffd3755c159b6b0b777d7b2c0e803b04d1081e50d76083aac80218764fa9f313dc49abf4be00c8eba0b25dd89b87a38ce9085bac695f
+
+[mirrors]
+http://www.libraw.org/data/LibRaw-0.14.7.tar.gz
+
+[deps]
+liblcms
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

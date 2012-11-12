@@ -10,6 +10,7 @@ libx11
 libxcb
 libxau
 libxdmcp
+libxinerama
 
 [build]
 cp $K/dwm.config.mk config.mk

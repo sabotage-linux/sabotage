@@ -1,0 +1,16 @@
+[main]
+filesize=492962
+sha512=48629dd72623ff98468a991770ef90209b6f82826b94ae70fe591969e8d1efaa0431cb4b48a011e376368e16bdb3da1be82e90e95c765956aeeed7fc77819dfa
+
+[mirrors]
+http://dri.freedesktop.org/libdrm/libdrm-2.4.40.tar.bz2
+
+[deps]
+musl
+libpciaccess
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
