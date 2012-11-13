@@ -1,0 +1,15 @@
+[main]
+filesize=432611
+sha512=a03eafe1a102a6dd532bbe758878bd92548ed367c39909c6e8fde205c145b9581405011379fa5e031df53e208feb54d9f4886039fab6e261c8ca27ceec69b45d
+
+[mirrors]
+http://switch.dl.sourceforge.net/project/libusbx/releases/1.0.14/source/libusbx-1.0.14.tar.bz2
+
+[deps]
+musl
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS="-D_POSIX_SOURCE -D_BSD_SOURCE -DTIMESPEC_TO_TIMEVAL=" ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
