@@ -1,0 +1,14 @@
+[main]
+filesize=983500
+sha512=24a65ac93c9d640670b015a76378eb7e0f167bec685d03f7dc68005d5a6d693d98b2189f7a0ab5bb9e5dc700de7d417c215230f9dbe062ba119240a8da535dad
+
+[mirrors]
+http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
