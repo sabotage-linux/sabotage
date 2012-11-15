@@ -18,15 +18,16 @@ libjpeg
 libtiff
 sdl
 cairo
+wayland
 
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
 # for future EFL releases, wayland support can be enabled with:
-# --enable-wayland-shm --enable-wayland-egl --enable-gl-flavor-gles --enable-gles-variety-sgx
+#  --enable-wayland-egl --enable-gl-flavor-gles --enable-gles-variety-sgx
 CFLAGS="-D_GNU_SOURCE -Duseconds_t=unsigned" ./configure -C --prefix="$butch_prefix" --enable-fontconfig --enable-fb=static \
 --disable-harfbuzz --enable-buffer=static --disable-directfb --enable-static-software-generic --enable-software-xlib=static \
 --enable-software-xcb --enable-sdl-primitive --enable-image-loader-jpeg --enable-image-loader-png --enable-image-loader-tiff \
---disable-install-examples --disable-tests --disable-doc || exit 1
+--disable-install-examples --enable-wayland-shm --disable-tests --disable-doc || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

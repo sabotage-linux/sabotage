@@ -1,0 +1,58 @@
+[main]
+filesize=3790752
+sha512=03b823b6c4f0e257caae26f2e5d4b110ebcbf2894965a06a046b3b208c9384fe478cc7cd7bb41fabbf5c063f336613cc7e75faf3ae9d221f3e5c2d3396dcf994
+
+[mirrors]
+http://download.enlightenment.org/releases/ecore-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+evas
+libx11
+libxcb
+libxinerama
+openssl
+curl
+sdl
+glib
+wayland
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS="-fvisibility=hidden -ffunction-sections -fdata-sections -D_GNU_SOURCE" \
+CXXFLAGS=$CFLAGS \ 
+LDFLAGS="-fvisibility=hidden -ffunction-sections -fdata-sections -Wl,--gc-sections -Wl,--as-needed" \
+./configure -C --prefix="$butch_prefix" \
+    --disable-install-examples \
+    --disable-ecore-timer-dump \
+    --disable-nls \
+    --disable-rpath \
+    --enable-glib \
+    --enable-glib-integration-always \
+    --enable-simple-x11 \
+    --enable-ecore-x-xfixes \
+    --enable-ecore-x-xinerama \
+    --enable-ecore-x-damage \
+    --enable-ecore-x-xcb \
+    --enable-ecore-x \
+    --enable-curl \
+    --disable-gnutls  \
+    --enable-openssl \
+    --enable-ecore-sdl \
+    --enable-ecore-fb \
+    --enable-ecore-evas \
+    --enable-ecore-evas-software-x11 \
+    --enable-ecore-wayland \
+    --enable-ecore-evas-wayland-shm \
+    --disable-tests \
+    --disable-coverage \
+    --disable-doc|| exit 1
+#dns.c:3377:25: error: compound literal has variable size
+#and more similar errors...
+#disabling ecore_con messes up configure
+#better solution wanted!
+rm src/lib/ecore_con/dns.c
+touch src/lib/ecore_con/dns.c
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
