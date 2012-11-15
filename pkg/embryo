@@ -1,0 +1,16 @@
+[main]
+filesize=524238
+sha512=fd74406fefa8b322584494566e2b89b96ea6c8552e31b1601d8479b2e88d86cecbf1f5657cb42c4544032874df6381382f037e37f30765f9e751549b8d78cafe
+
+[mirrors]
+http://download.enlightenment.org/releases/embryo-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
