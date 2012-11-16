@@ -1,4 +1,3 @@
-[main]
 filesize=249882
 sha512=d0548d2cc2aa4fb4b5ae19d0ff675027370e3ee22d6e1ba448651c6f1f6f5e6b6214c81b760a23954f1e270936248bc021b9594a75191de4c1921e73d1ae48fb
 
@@ -10,6 +9,6 @@ musl
 libedit
 
 [build]
-#patch -p1 < "$K/some.patch" || exit 1
-CFLAGS="-D_GNU_SOURCE -fPIC" make MYCFLAGS=$CFLAGS MYLDFLAGS=$LDFLAGS -j$MAKE_THREADS linux || exit 1
+patch -p1 -i "$K/lua.so.patch" || exit 1
+make CFLAGS="-D_GNU_SOURCE -DLUA_COMPAT_ALL -fPIC" MYCFLAGS=$CFLAGS MYLDFLAGS=$LDFLAGS -j$MAKE_THREADS linux || exit 1
 make TO_LIB="liblua.a liblua.so liblua.so.5.2 liblua.so.5.2.1" INSTALL_DATA="cp -d" INSTALL_TOP="$butch_install_dir" install || exit 1
