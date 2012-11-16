@@ -1,0 +1,15 @@
+[main]
+filesize=9973050
+sha512=dde6467366f472e4a77181f91ac3478b4ecd434d2baa47bd1ecadc297258397d5142b012764294785a360f8ff00a23ce37b6e95231dcfd2238101edbed99a85b
+
+[mirrors]
+http://download.enlightenment.org/releases/elementary-1.7.1.tar.gz
+
+[deps]
+edje
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
