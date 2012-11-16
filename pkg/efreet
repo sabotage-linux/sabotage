@@ -1,0 +1,19 @@
+[main]
+filesize=546437
+sha512=61ad9003c0daead83ba6d7b665c9b6b88d35102a4268e7a7afb76b150116216ca67c5a596aa256e61404b83505520a70417039f8fbe3edfd2cbddbcc2f1d24ad
+
+[mirrors]
+http://download.enlightenment.org/releases/efreet-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+ecore
+eet
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+# ecore dns needs to be fixed!
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
