@@ -1,0 +1,18 @@
+[main]
+filesize=575641
+sha512=8c8068dfb76a51786d252977e985474e2639a1cc4b8c8817751573f554d230b2543bebf0da2666ca88f7d5cf5611636b91d632031c138a8a0a1b38f7e5d93b61
+
+[mirrors]
+http://download.enlightenment.org/releases/emotion-1.7.1.tar.gz
+
+[deps]
+eina
+evas
+ecore
+edje
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
