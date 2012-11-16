@@ -1,0 +1,15 @@
+[main]
+filesize=476287
+sha512=678b78a47391d79a90b28dcb4349dd15b540f67fbf683105c1dc262d061e16da5f9113b28669893620bde0b88d06f64f30b32ca214dd245b34eac641b1958737
+
+[mirrors]
+http://download.enlightenment.org/releases/ethumb-1.7.1.tar.gz
+
+[deps]
+edje
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
