@@ -1,0 +1,19 @@
+[main]
+filesize=551212
+sha512=959ed5a936eee4bdf39a8ac6cb1438ad6e8128bd74a53f581032d438736490a0baf7b235fb19f2d2195c5051e49b622372f2745f1317b2e40c0aecffb5b1153f
+
+[mirrors]
+http://download.enlightenment.org/releases/e_dbus-1.7.1.tar.gz
+
+[deps]
+musl
+dbus
+eina
+ecore
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+# depends on ecore dns.c!!!
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
