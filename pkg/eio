@@ -1,0 +1,19 @@
+[main]
+filesize=420742
+sha512=ab89996aae9f9addadaf2164857f5f8376bba9e6addc004fac87b2ad6b7a6da7f6ece7793cdac630e6bb45ac745bf458de497dbbbfc92bd89d716d36625ceadd
+
+[mirrors]
+http://download.enlightenment.org/releases/eio-1.7.1.tar.gz
+
+[deps]
+musl
+eina
+eet
+ecore
+
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

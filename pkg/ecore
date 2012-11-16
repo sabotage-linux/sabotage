@@ -49,10 +49,10 @@ LDFLAGS="-fvisibility=hidden -ffunction-sections -fdata-sections -Wl,--gc-sectio
     --disable-coverage \
     --disable-doc|| exit 1
 #dns.c:3377:25: error: compound literal has variable size
-#and more similar errors...
+#and more similar errors... Making a mock dns.c with function stubs
 #disabling ecore_con messes up configure
 #better solution wanted!
 rm src/lib/ecore_con/dns.c
-touch src/lib/ecore_con/dns.c
+cp $K/ecore_dns.c src/lib/ecore_con/dns.c
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
