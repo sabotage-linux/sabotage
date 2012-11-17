@@ -16,6 +16,7 @@ efreet
 embryo
 edje
 e_dbus
+eio
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
