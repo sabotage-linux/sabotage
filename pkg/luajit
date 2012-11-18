@@ -1,14 +1,13 @@
 [mirrors]
-http://luajit.org/download/LuaJIT-2.0.0-beta11.tar.gz
+http://luajit.org/download/LuaJIT-2.0.0.tar.gz
 
 [main]
-filesize=836244
-sha512=7fbe3d0204c93d09265843d481d864870bc9d036c77166b9e507e43d18048d927af6a96b5c29e7816b0c7ac95e36d4ecd6026b0a04522c0256a35239e22989b4
+filesize=837408
+sha512=7aee798e68d0a5b2f1aaaf61b558e0734d48f2501a255d8e3c7208c1319586fdec1ebc4f80238ab1f58dfd3c9d0042b806a567ccce5b769ab4d6345f70844b36
 
 [deps]
 
 [build]
-patch -p1 < "$K/luajit_beta11_hotfix1.patch" || exit 1
 sed -i 's,export PREFIX=,-include config.mak #,' Makefile
 echo "export PREFIX = $butch_prefix" > config.mak
 echo "export DESTDIR = $butch_install_dir" >> config.mak
