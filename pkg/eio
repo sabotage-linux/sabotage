@@ -1,9 +1,9 @@
 [main]
-filesize=420742
-sha512=ab89996aae9f9addadaf2164857f5f8376bba9e6addc004fac87b2ad6b7a6da7f6ece7793cdac630e6bb45ac745bf458de497dbbbfc92bd89d716d36625ceadd
+filesize=445867
+sha512=998a3c79c09052e0dfe89666b9df87517146a2f3911e2a61f39789fc8a745ba90ea5774203831a3aca466f664437f51e8ba044836b23d8dd8ca23d555d02b5ac
 
 [mirrors]
-http://download.enlightenment.org/releases/eio-1.7.1.tar.gz
+http://download.enlightenment.org/releases/eio-1.7.2.tar.gz
 
 [deps]
 musl

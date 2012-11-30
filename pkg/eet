@@ -1,9 +1,9 @@
 [main]
-filesize=647306
-sha512=e83ff297e1d81cf9648c00a267ca6c7745f244a695cb2bd4dd96dcc62c999918224770f70f0bb3ac8647f5ff952c5c248b84eb0ce193fd56ba91274ad16bdb52
+filesize=669601
+sha512=e2e6d3e087d2a559e917d6eb108a38ec7e48d2c53600d55354d89909d96092c50cd0eeec91776ab5ac3a7a5f00ae93b855b9a7c4e84484eb983d0f2df0666003
 
 [mirrors]
-http://download.enlightenment.org/releases/eet-1.7.1.tar.gz
+http://download.enlightenment.org/releases/eet-1.7.2.tar.gz
 
 [deps]
 musl

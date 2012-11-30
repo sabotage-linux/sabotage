@@ -1,9 +1,9 @@
 [main]
-filesize=551212
-sha512=959ed5a936eee4bdf39a8ac6cb1438ad6e8128bd74a53f581032d438736490a0baf7b235fb19f2d2195c5051e49b622372f2745f1317b2e40c0aecffb5b1153f
+filesize=582875
+sha512=f03dbf91f750e6e01a9978b8a6db45562b56a54df25a1bf4ccac52ef9757c30c8acb643dfb39db369a231353061ca9447326ad066d157712ad39a72bafa262b3
 
 [mirrors]
-http://download.enlightenment.org/releases/e_dbus-1.7.1.tar.gz
+http://download.enlightenment.org/releases/e_dbus-1.7.2.tar.gz
 
 [deps]
 musl

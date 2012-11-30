@@ -1,9 +1,9 @@
 [main]
-filesize=9973050
-sha512=dde6467366f472e4a77181f91ac3478b4ecd434d2baa47bd1ecadc297258397d5142b012764294785a360f8ff00a23ce37b6e95231dcfd2238101edbed99a85b
+filesize=9999044
+sha512=cc96abadb66b1997f73e919e84742a519787f0d40062db5d9c1d7b3cbb2985435583faa555fe090e20fa3cf2689c797e98f1674cd720a6a424bf79510aebe88d
 
 [mirrors]
-http://download.enlightenment.org/releases/elementary-1.7.1.tar.gz
+http://download.enlightenment.org/releases/elementary-1.7.2.tar.gz
 
 [deps]
 edje

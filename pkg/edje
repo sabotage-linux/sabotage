@@ -1,9 +1,9 @@
 [main]
-filesize=1329063
-sha512=93129354c9fb949b1ce81e249ee4e2262d5a981fdd34ede25ba7b6667b7f90d1014913b6e9001090adfbbfff6d0add0c24840375ea2b8ba1b583a3ee05529e3c
+filesize=1352206
+sha512=6aa30da89783f2c140cc7fecc8214807b9cb9345646d3ae5d8360370250f1671462465c516cc79d1a9a97a318b037491b3cad1c14d92e55ade924a19aa0233c7
 
 [mirrors]
-http://download.enlightenment.org/releases/edje-1.7.1.tar.gz
+http://download.enlightenment.org/releases/edje-1.7.2.tar.gz
 
 [deps]
 musl

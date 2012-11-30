@@ -1,9 +1,9 @@
 [main]
-filesize=546437
-sha512=61ad9003c0daead83ba6d7b665c9b6b88d35102a4268e7a7afb76b150116216ca67c5a596aa256e61404b83505520a70417039f8fbe3edfd2cbddbcc2f1d24ad
+filesize=571923
+sha512=f23d1daa43b7e6c63bc601b5c1f0224006a324301f8c83f4bb3d7d35f97937e53a0b480d2ec3fb2c23a995ea2cfdc66a30bec0adaf932241e9570b761451ebf6
 
 [mirrors]
-http://download.enlightenment.org/releases/efreet-1.7.1.tar.gz
+http://download.enlightenment.org/releases/efreet-1.7.2.tar.gz
 
 [deps]
 musl

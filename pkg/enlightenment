@@ -1,9 +1,9 @@
 [main]
-filesize=21743148
-sha512=c62ea460198b0ca728d91e7f427d9794d2c0abf7b936044e4975440a95ba2cb7193391d5f6b6fb3ee45737c5d5ccc62d16df55c040fb85c1607ee1a423abc1c5
+filesize=22135649
+sha512=cedfd6f94c152ffb63811811ad2d0d2b441043413c3b21e1b46691e6d068299c0a6600328da68a9e50e49d6c95f3252e35bd9f09e44b7c0952e17dd534c7a185
 
 [mirrors]
-http://download.enlightenment.org/releases/enlightenment-0.17.0-alpha3.tar.gz
+http://download.enlightenment.org/releases/enlightenment-0.17.0-alpha6.tar.gz
 
 [deps]
 libxcb
@@ -16,7 +16,6 @@ efreet
 embryo
 edje
 e_dbus
-eio
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

@@ -1,9 +1,9 @@
 [main]
-filesize=524238
-sha512=fd74406fefa8b322584494566e2b89b96ea6c8552e31b1601d8479b2e88d86cecbf1f5657cb42c4544032874df6381382f037e37f30765f9e751549b8d78cafe
+filesize=546595
+sha512=7c0808b88632116d187f3cb1c7cd81a25959bf1609951525de95edff197858b523ccb959951c961ad1bb617d995dd1359fdbd200e5fa1d2f13862ad02e4a6ff4
 
 [mirrors]
-http://download.enlightenment.org/releases/embryo-1.7.1.tar.gz
+http://download.enlightenment.org/releases/embryo-1.7.2.tar.gz
 
 [deps]
 musl

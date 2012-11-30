@@ -1,9 +1,9 @@
 [main]
-filesize=235134
-sha512=6b1e691840e05f37856bf2ee29dc9ec6e606199f59d21f690dd7baa27ca76fa0cf43d09e89c31a4729ef5f79d7f7bae01cdb0f6d1fa315b64817610fa7980340
+filesize=253759
+sha512=b853580dac7ecff866b64c78b36827dc666f6eecd002b4e53660b98366eee44b56400a50c6b39a14a0ff060079aa251c9deddcc0c4bf595c2896afcce9a3f5e4
 
 [mirrors]
-http://download.enlightenment.org/releases/evas_generic_loaders-1.7.1.tar.gz
+http://download.enlightenment.org/releases/evas_generic_loaders-1.7.2.tar.gz
 
 [deps]
 musl

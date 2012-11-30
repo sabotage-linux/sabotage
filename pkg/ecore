@@ -1,9 +1,9 @@
 [main]
-filesize=3790752
-sha512=03b823b6c4f0e257caae26f2e5d4b110ebcbf2894965a06a046b3b208c9384fe478cc7cd7bb41fabbf5c063f336613cc7e75faf3ae9d221f3e5c2d3396dcf994
+filesize=3816463
+sha512=7dc6d4944076da20004e48738df3ca7482e013ccbf001a48f5e687e98b836d0fbed7bc014182cbd8435ced9fe647958cc1cab913dd676516ac41c4f6d5df59fa
 
 [mirrors]
-http://download.enlightenment.org/releases/ecore-1.7.1.tar.gz
+http://download.enlightenment.org/releases/ecore-1.7.2.tar.gz
 
 [deps]
 musl

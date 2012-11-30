@@ -1,9 +1,9 @@
 [main]
-filesize=575641
-sha512=8c8068dfb76a51786d252977e985474e2639a1cc4b8c8817751573f554d230b2543bebf0da2666ca88f7d5cf5611636b91d632031c138a8a0a1b38f7e5d93b61
+filesize=594639
+sha512=24bb290b63fadaab670bda07b980bf4df7794fcd487ee454bd41aa6423f6ffa5f220cf667138de1b001f2eac903e7cf4bb61896fa16f0c5f04a00da9644f5b25
 
 [mirrors]
-http://download.enlightenment.org/releases/emotion-1.7.1.tar.gz
+http://download.enlightenment.org/releases/emotion-1.7.2.tar.gz
 
 [deps]
 eina
