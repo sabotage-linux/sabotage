@@ -1,0 +1,15 @@
+[main]
+filesize=131683
+sha512=b4e276847deed9f52b86d89e4b14b5521aabc409fabb840aaaec6097fae2284be3c0f723b60e77267b6bea37c24ea8ad84afb81c4104e5f22049810e9ad6802e
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/util/makedepend-1.0.4.tar.bz2
+
+[deps]
+libx11
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
