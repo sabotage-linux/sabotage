@@ -12,7 +12,7 @@ musl
 #patch -p1 < "$K/some.patch" || exit 1
 #crap missing header
 mkdir -p include/sys
-cp $K/fcntl.h include/sys/fcntl.h
+ln -s /include/fcntl.h include/sys/fcntl.h
 CFLAGS="-D_POSIX_SOURCE -D_BSD_SOURCE -DPATH_MAX=4096 -U__i386__ -U__x86_64__ -U__arm__" \
 ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
