@@ -2,11 +2,11 @@
 python
 
 [main]
-filesize=92829
-sha512=c6672cc4c9972ff6a2c5109ac69598fe8b9eafb8092248b3c4a6856651fa095a17168b646f1b7bbfbc9544c29971255817d9fae508092ce833194d52dea23138
+filesize=125072
+sha512=181fee36ab4c842b8b3eaa244ff94c31be2488cb24bdb82cc23082b229d1994746c00307dc0a37d00ae0b7c92f804f90f1ad9ba29f4d5134c5c64a4f23c696ab
 
 [mirrors]
-http://xcb.freedesktop.org/dist/xcb-proto-1.6.tar.bz2
+http://xcb.freedesktop.org/dist/xcb-proto-1.8.tar.bz2
 
 [build]
 # xcb-proto will create ${destdir}lib when prefix is empty (missing slash)
