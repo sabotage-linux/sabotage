@@ -1,0 +1,13 @@
+[main]
+filesize=373750
+sha512=bb00216640eb45491b1d1d6b1bdca7d5e314935403a6298116b1394e4997b3bb09293330c73e2efaf4315b46b70c483380ba70e6444651164ec4071295e731d0
+tardir=hwids-master
+
+[mirrors]
+https://github.com/gentoo/hwids/archive/master.tar.gz
+
+[deps]
+
+[build]
+mkdir -p "$butch_install_dir"/share/hwdata
+cp pci.ids usb.ids "$butch_install_dir"/share/hwdata/ || exit 1
