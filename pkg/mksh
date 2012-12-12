@@ -1,16 +1,18 @@
-[mirrors]
-http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz
-
 [main]
+tardir=mksh
 filesize=341489
 sha512=b28c52face5227964fee8dd60f088e4c0866c3572240a0d9529c31f49892f7589fb68db4ed58528b51e4dd7cfc1f94713755eb4cd0fc6bd257c39954f9a463f3
-tardir=mksh
+
+[mirrors]
+https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz
+
 [deps]
 
 [build]
+#local mirror used since cpio is not supported by butch
 CFLAGS="-D_BSD_SOURCE -static" export CFLAGS || exit 1
-sh Build.sh -r -c lto || exit 1
-install -D -m 755 mksh "$butch_install_dir""$butch_prefix"/bin/mksh || exit 1
-install -D -m 644 mksh.1 "$butch_install_dir""$butch_prefix"/share/man/man1/mksh.1
+sh Build.sh -r -c lto
+install -D -m 755 mksh "${butch_install_dir}/bin/mksh" || exit 1
+install -D -m 644 mksh.1 "${butch_install_dir}/share/man/man1/mksh.1"
 
 
