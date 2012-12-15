@@ -1,0 +1,17 @@
+[main]
+filesize=480924
+sha512=7f37a8dcfce047ada9968681e07f66f014f8090aa5ce99358944a60715c7ef2bc62abf4b5c146fe99a0c812f2286ff0c009683b702a4e20c66617d955cf80caa
+
+[mirrors]
+http://iweb.dl.sourceforge.net/project/cmph/cmph/cmph-2.0.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+#http://cmph.sourceforge.net/gperf.html
+#+ gperf pulls in lots of GNU stuff
+

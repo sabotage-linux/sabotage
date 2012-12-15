@@ -1,0 +1,16 @@
+[main]
+filesize=1120592
+sha512=76e9c24221db0d239da415c4409a0bfef6ea2665e7aae39a4a852b6392311a97bf057758a3b11b45a22d0ab9134be3eeead5c0abf8d47848106732a3ce83425d
+
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.31/gobject-introspection-1.31.22.tar.xz
+
+[deps]
+python
+glib
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,16 @@
+[main]
+filesize=284717
+sha512=594243f2d0275a3036754e5cfd3f440f2faae78f6c836e6787129d54a559af0ceba6fefe18d98d6908aa75ea322875a188a3b3ffee7e3deec1168c7656e7a96a
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.2.tar.bz2
+
+[deps]
+libxext
+xf86vidmodeproto
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

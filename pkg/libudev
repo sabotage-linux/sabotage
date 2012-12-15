@@ -1,0 +1,21 @@
+[main]
+filesize=594628
+sha512=f94f66140f6d4d2d3fbb1ee3a4ec97bcb35fe8b6c377e1cbd0cab2d0d9e84e116d3059fb90bb4e87c8ba4a1edb4b126d6aa68a6c91d57d201981dd5007d0c40b
+tardir=udev-141
+
+[mirrors]
+http://udev.sourcearchive.com/downloads/141/udev_141.orig.tar.gz
+
+[deps]
+musl
+gobject-introspection
+dbus
+usbutils
+hwids
+gperf
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS="-D_GNU_SOURCE -DSO_RCVBUFFORCE=0x100b" ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
