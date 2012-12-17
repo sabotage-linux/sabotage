@@ -1,13 +1,12 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=505308
+sha512=1b7a18cfdd67962c2dc5832dd619213a5fba01d0c483b9edad47e82eed9de3f45455daa75b53826561ee25549b30afc4e14321a4bad1675b68f1cfa7b1c3b4be
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://download.enlightenment.org/releases/ethumb-1.7.2.tar.gz
 
 [deps]
-musl
-evas
+edje
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

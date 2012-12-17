@@ -1,0 +1,16 @@
+[main]
+filesize=286075
+sha512=0c7f9afea5886145760ff055fa9d38ac886306bca926b00c0c7da770b5e9a941887383922b144441d82fd071784cf94334773eae39b59aee094d570778f8f8f8
+
+[mirrors]
+http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.3.9.tar.bz2
+
+[deps]
+libxcb
+xcb-utils
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

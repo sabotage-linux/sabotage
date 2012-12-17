@@ -1,0 +1,20 @@
+[main]
+filesize=1352206
+sha512=6aa30da89783f2c140cc7fecc8214807b9cb9345646d3ae5d8360370250f1671462465c516cc79d1a9a97a318b037491b3cad1c14d92e55ade924a19aa0233c7
+
+[mirrors]
+http://download.enlightenment.org/releases/edje-1.7.2.tar.gz
+
+[deps]
+musl
+eet
+ecore
+embryo
+evas
+lua
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS="-D_POSIX_SOURCE -D_BSD_SOURCE -DLUA_COMPAT_ALL" ./configure -C --prefix="$butch_prefix" --with-pic || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

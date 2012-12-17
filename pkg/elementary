@@ -1,13 +1,12 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=9999044
+sha512=cc96abadb66b1997f73e919e84742a519787f0d40062db5d9c1d7b3cbb2985435583faa555fe090e20fa3cf2689c797e98f1674cd720a6a424bf79510aebe88d
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://download.enlightenment.org/releases/elementary-1.7.2.tar.gz
 
 [deps]
-musl
-evas
+edje
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

@@ -1,0 +1,24 @@
+[main]
+filesize=22135649
+sha512=cedfd6f94c152ffb63811811ad2d0d2b441043413c3b21e1b46691e6d068299c0a6600328da68a9e50e49d6c95f3252e35bd9f09e44b7c0952e17dd534c7a185
+
+[mirrors]
+http://download.enlightenment.org/releases/enlightenment-0.17.0-alpha6.tar.gz
+
+[deps]
+libxcb
+xcb-keysums
+eina
+eet
+evas
+ecore
+efreet
+embryo
+edje
+e_dbus
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

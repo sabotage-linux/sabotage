@@ -18,7 +18,7 @@ sha512=1fc5866b7bdbd3d6b89d92797ea4ad612a3dd6b77c4b9dde9feae64ce6c70013ea1b4d208
 # the prefix equals "/"
 [ "$butch_prefix" = "/" ] && butch_prefix=
 
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC" ./configure -C --prefix="$butch_prefix" \
   --with-system-expat --with-system-ffi || exit 1
 make -j$MAKE_THREADS  || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

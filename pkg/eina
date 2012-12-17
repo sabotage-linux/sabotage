@@ -1,9 +1,9 @@
 [main]
-filesize=9892896
-sha512=1b5c436ac9816770c014765336b24980c199aada0dd78ebd7c30eb7fd08e648c7b3877e47adf8e4b4a1aa46ff49c4cc2fbe05e8fc18c51cff9d0d475f3ffb855
+filesize=9905928
+sha512=a4d910490a20ef190217fb09f4dd778011b7e8658b86bc660cd6ae20ef5ae38593837b75f564c29390bad722039b563fa8b79ae5ba4672261ffd6c1508a83b8c
 
 [mirrors]
-http://download.enlightenment.org/releases/eina-1.7.1.tar.gz
+http://download.enlightenment.org/releases/eina-1.7.2.tar.gz
 
 [deps]
 musl

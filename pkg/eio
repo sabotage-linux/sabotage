@@ -1,13 +1,16 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=445867
+sha512=998a3c79c09052e0dfe89666b9df87517146a2f3911e2a61f39789fc8a745ba90ea5774203831a3aca466f664437f51e8ba044836b23d8dd8ca23d555d02b5ac
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://download.enlightenment.org/releases/eio-1.7.2.tar.gz
 
 [deps]
 musl
-evas
+eina
+eet
+ecore
+
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

@@ -12,7 +12,7 @@ libx11
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
 mkdir -p dbus/sys
-cp $K/fcntl.h dbus/sys/fcntl.h
+ln -s /include/fcntl.h dbus/sys/fcntl.h
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --disable-tests --disable-verbose-mode || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

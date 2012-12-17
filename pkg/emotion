@@ -1,13 +1,15 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=594639
+sha512=24bb290b63fadaab670bda07b980bf4df7794fcd487ee454bd41aa6423f6ffa5f220cf667138de1b001f2eac903e7cf4bb61896fa16f0c5f04a00da9644f5b25
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://download.enlightenment.org/releases/emotion-1.7.2.tar.gz
 
 [deps]
-musl
+eina
 evas
+ecore
+edje
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

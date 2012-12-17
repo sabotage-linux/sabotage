@@ -1,13 +1,11 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=983500
+sha512=24a65ac93c9d640670b015a76378eb7e0f167bec685d03f7dc68005d5a6d693d98b2189f7a0ab5bb9e5dc700de7d417c215230f9dbe062ba119240a8da535dad
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz
 
 [deps]
-musl
-evas
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

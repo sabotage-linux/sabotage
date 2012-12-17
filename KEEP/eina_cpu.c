@@ -183,7 +183,7 @@ _eina_cpu_count_internal(void)
   #define cpu_set_t fdset 
   #define CPU_ZERO FD_ZERO
   #define CPU_ISSET FD_ISSET
-  int cpus = get_nprocs(void);
+  int cpus = 1;
    return cpus;
 /* returning 1 most likely disables threading */   
 /* end of musl modifications */

@@ -1,13 +1,13 @@
 [main]
-filesize=6121003
-sha512=0d63b44d855c2e42a28b016a2fcc02f030ed697baed9167326ddd1b0a2cf4e719592cc264b385c8b8642750121be4e067bac9a624795669f56b1b45fb827b365
+filesize=546595
+sha512=7c0808b88632116d187f3cb1c7cd81a25959bf1609951525de95edff197858b523ccb959951c961ad1bb617d995dd1359fdbd200e5fa1d2f13862ad02e4a6ff4
 
 [mirrors]
-http://download.enlightenment.org/releases/expedite-1.7.2.tar.gz
+http://download.enlightenment.org/releases/embryo-1.7.2.tar.gz
 
 [deps]
 musl
-evas
+eina
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
