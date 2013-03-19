@@ -1,12 +1,14 @@
 [main]
-filesize=770726
-sha512=59547c26b625476b956d57bbfbea237df7ede73d14d989cef0cb6e784f87b87ed962093b6649b50e1bb659f7e8cf706b1b9676e3b3cd650568fd8ae5578bc6f9
+filesize=781298
+sha512=55b45e9456c4b790137671570ba83fb34df7dfb4429b97a0d1517dd35172b51e96ca349d5eb7ce543d79961ce8628700e5c92ffb147644c780f27b0dde8b06e2
 
 [mirrors]
-http://pcc.ludd.ltu.se/ftp/pub/pcc/pcc-20120705.tgz
+http://pcc.ludd.ltu.se/ftp/pub/pcc/pcc-20130319.tgz
 
 [deps]
 yasm
+bison
+flex
 
 [build]
 #patch -p1 < "$K/some.patch"
