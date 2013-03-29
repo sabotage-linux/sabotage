@@ -16,8 +16,14 @@ http://nginx.org/download/nginx-1.2.7.tar.gz
 patch -p1 < "$K"/nginx.patch || exit 1
 
 ./configure \
-  --prefix="$butch_install_dir" \
-  --with-http_ssl_module || exit 1
+  --prefix="$butch_prefixi/etc/nginx" --sbin-path="$butch_prefix/sbin/nginx" --conf-path="$butch_prefix/etc/nginx/nginx.conf" \
+  --error-log-path="$butch_prefix/var/log/nginx/error.log" --http-client-body-temp-path="$butch_prefix/var/spool/nginx/body" \
+  --http-fastcgi-temp-path="$butch_prefix/var/spool/nginx/fastcgi" --http-log-path="$butch_prefix/var/log/nginx/access.log" \
+  --http-proxy-temp-path="$butch_prefix/var/spool/nginx/proxy" --http-scgi-temp-path="$butch_prefix/var/spool/nginx/scgi" \
+  --http-uwsgi-temp-path="$butch_prefix/var/spool/nginx/uwsgi" --lock-path="$butch_prefix/var/lock/nginx.lock" \
+  --pid-path="$butch_prefix/var/run/nginx.pid" \
+  --with-http_ssl_module --with-ipv6 || exit 1
 
 make -j$MAKE_THREADS || exit 1
-make install || exit 1
+make install DESTDIR=$butch_install_dir || exit 1
+mkdir -p $butch_install_dir/var/spool/nginx
