@@ -8,7 +8,7 @@ sha512=a5af5772d00dfedcf1c3449b1d74d45af25d111c91931735ad80f2c7a3b7837b51807eb3a
 [deps]
 
 [build]
-wget -q -O - http://luajit.org/download/v2.0.1_hotfix1.patch | patch -p1 || exit 1
+patch -p1 < "$K"/luajit-2.0.1-hotfix1.patch || exit 1
 
 sed -i 's,export PREFIX=,-include config.mak #,' Makefile
 echo "export PREFIX = $butch_prefix" > config.mak
