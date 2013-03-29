@@ -1,0 +1,12 @@
+Only in nginx-1.2.7-patched: Makefile
+--- nginx-1.2.7/src/os/unix/ngx_user.c
++++ nginx-1.2.7-patched/src/os/unix/ngx_user.c
+@@ -31,8 +31,6 @@
+     struct crypt_data   cd;
+ 
+     cd.initialized = 0;
+-    /* work around the glibc bug */
+-    cd.current_salt[0] = ~salt[0];
+ 
+     value = crypt_r((char *) key, (char *) salt, &cd);
+ 
