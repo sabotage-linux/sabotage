@@ -9,8 +9,23 @@ tardir=mksh
 [deps]
 
 [build]
-LDFLAGS=-static sh Build.sh -r -c lto || exit 1
-install -D -m 755 mksh "$butch_install_dir""$butch_prefix"/bin/mksh || exit 1
+set -e
+
+CFLAGS='-Os -ftree-dce' LDSTATIC=-static \
+    sh Build.sh -r -M
+
+make -j$MAKE_THREADS -f - all <<'EOF'
+include Makefrag.inc
+CFLAGS+=	-flto=jobserver
+VPATH=		.
+all: $(PROG)
+$(PROG): $(OBJS_BP)
+	+$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS_BP) $(LIBS)
+$(OBJS_BP): $(SRCS_FP) $(NONSRCS)
+.c.o:
+	+$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
+EOF
+
+strip -s -R .note -R .comment mksh
+install -D -m 755 mksh "$butch_install_dir""$butch_prefix"/bin/mksh
 install -D -m 644 mksh.1 "$butch_install_dir""$butch_prefix"/share/man/man1/mksh.1
-
-
