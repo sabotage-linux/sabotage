@@ -10,7 +10,6 @@ http://ftp.gnu.org/gnu/wget/wget-1.13.tar.xz
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-patch -p1 < $K/wget-patch || exit 1
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --with-ssl=openssl || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
