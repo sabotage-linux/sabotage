@@ -29,7 +29,8 @@ mkdir -p var/empty var/service var/lib var/tmp var/spool/cron/crontabs
 ln -s . usr
 ln -s bin sbin
 
-chmod 1777 tmp
+chmod 1777 tmp var/tmp
+chmod 700 root
 
 cp -r "$K"/etc/* "$R"/etc/
 cp -r "$K"/bin/* "$R"/bin/
