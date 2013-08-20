@@ -2,11 +2,11 @@
 libice
 
 [main]
-filesize=284287
-sha512=09fd78a060d4527ae2dcd9458bbb23d9b57d9cbf1bad61a5fcfe7d16436d074cbe3bb6d701a6591d828ef7ed172b05cf198e1c051d3319c3ae082c5ae30f811c
+filesize=334696
+sha512=cf2091224206a273fdfaae9602e241fe2195057254a3504cb502f3eca64dae7f88aad3bfa12b0c8c052094e38cc8727bf3663e62b67f717ed02aada0379252d7
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libSM-1.2.0.tar.bz2
+ftp://ftp.x.org/pub/individual/lib/libSM-1.2.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

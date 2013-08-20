@@ -7,11 +7,11 @@ xcmiscproto
 libxkbfile
 
 [main]
-filesize=5172054
-sha512=f17baa6e871c7df4dc61330e32e235906d9e4c842a70226b0833d2b64ab62811131b960eb942f4dc9359ea828676ce60afd82802aa7cffc711d27c4946c32345
+filesize=5490488
+sha512=5a8caf61039b1605a85da9cba36ff525ccf9deda2f52be2b3f6360171d058b929a3a49e97db24b0587c4933009b2c479514f31d364eba54918a20a7e26a9060c
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.9.5.tar.bz2
+ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.14.2.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in

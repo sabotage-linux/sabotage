@@ -3,11 +3,11 @@ libxext
 libxt
 
 [main]
-filesize=360663
-sha512=c89e19ca1aaef50b9fb05ea5186606d6d74243dad0dab4cb2b0b831c674d4a6f1e2b5acc32f2c9e5a1062243a4bfe0a522e7610cfaf962b9608ae2e6e4b0f592
+filesize=383473
+sha512=fb3baf697bb93fd5c2a26af318b9f7632b83bb2efe9cb4570b799ecca54e7de93248930fb8fd14d973c67612ad31502733417b1a6eb6d0c91ebafa204371c953
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXmu-1.1.0.tar.bz2
+ftp://ftp.x.org/pub/individual/lib/libXmu-1.1.1.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"  || exit 1

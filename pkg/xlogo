@@ -6,11 +6,11 @@ libxaw
 libxmu
 
 [main]
-filesize=115587
-sha512=10f91015c0c2f57dfe854906774d3ff7c015690de613c1ccefdd63e430753843dd5b5aac771252bb28b11e098a6fa78d529079d824795b035145f874060aa7cc
+filesize=125967
+sha512=cbfcd48425e697950907ddeaec2f06e0607ebf2e93e6799bd263230f036b3021279c2f379de55fae15b403af5f18292caa79159ed544a4a3314b90c85ac9804d
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xlogo-1.0.3.tar.bz2
+http://xorg.freedesktop.org/releases/individual/app/xlogo-1.0.4.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

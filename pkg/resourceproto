@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=94970
-sha512=20514a760d27f36f880e1fafde1e25787a1a0b504348a756d6c18c4a0efcb10e2b08e20ec3127d1fc07beaeee9e4d04e59562887d430a4a205bf46fecf0d80a5
+filesize=102992
+sha512=ce8c8fda178ac7fb22b192d4a0f707a96f42ecd550ae8e6ddd7e1ed0067951ef955f7bee60f63a2b2422176e5f093c38e3903f7c4e5e3bea230b934b7abcc4ca
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/resourceproto-1.1.1.tar.bz2
+ftp://ftp.x.org/pub/individual/proto/resourceproto-1.2.0.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

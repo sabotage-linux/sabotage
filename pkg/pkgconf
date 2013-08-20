@@ -2,12 +2,12 @@
 musl
 
 [mirrors]
-http://tortois.es/~nenolod/distfiles/pkgconf-0.8.9.tar.bz2
-http://nenolod.net/~nenolod/distfiles/pkgconf-0.8.9.tar.bz2
+http://tortois.es/~nenolod/distfiles/pkgconf-0.9.2.tar.bz2
+http://nenolod.net/~nenolod/distfiles/pkgconf-0.9.2.tar.bz2
 
 [main]
-filesize=80211
-sha512=3acb571412dedc2587203ed05537ce3adbaa64f2fab4f561da9824917c15e2ea771db7525f9a026261086f4ae196c3a5183e1bb3d33e14fdd779fbe74e6215c3
+filesize=82140
+sha512=b4e0c6d1004b91ba45d982b0b74045aeac06d14067899de96ced189ce89994e93af8dab86ef18fd144e30b097205298949fa0869489860757ac17c8c5b42aaf3
 
 [build]
 patch -p1 < "$K"/pkgconf-fix-empty-prefix.patch || exit 1
