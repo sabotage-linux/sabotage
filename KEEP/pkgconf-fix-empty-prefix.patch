@@ -1,6 +1,6 @@
-From 7cae28f35a80a069f51ae4dfc3f9e2550527f372 Mon Sep 17 00:00:00 2001
-From: rofl0r <retnyg@gmx.net>
-Date: Fri, 28 Sep 2012 00:02:04 +0200
+From 2fbf33172d39b5af4d1c9c171b075c153591ce27 Mon Sep 17 00:00:00 2001
+From: Prasanna Balan <prazzb@gmail.com>
+Date: Wed, 14 Aug 2013 08:20:44 +0530
 Subject: [PATCH] remove superfluous is_system_libdir check
 
 this caused -L/lib not being printed when prefix= was used.
@@ -8,14 +8,14 @@ the test was bogus anyway, because it used strcmp on non-reduced paths
 directly. so //lib and /lib were 2 different things, when in reality
 they are not.
 ---
- main.c |   21 ---------------------
- 1 files changed, 0 insertions(+), 21 deletions(-)
+ main.c | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
 diff --git a/main.c b/main.c
-index a5eff0a..345846b 100644
+index 618d49a..3efd2d0 100644
 --- a/main.c
 +++ b/main.c
-@@ -55,24 +55,6 @@ static char *sysroot_dir = NULL;
+@@ -56,30 +56,9 @@ static char *sysroot_dir = NULL;
  
  FILE *error_msgout = NULL;
  
@@ -37,10 +37,6 @@ index a5eff0a..345846b 100644
 -	return false;
 -}
 -
- static inline const char *
- print_sysroot_dir(pkg_fragment_t *frag)
- {
-@@ -93,9 +75,6 @@ print_sysroot_dir(pkg_fragment_t *frag)
  static void
  print_fragment(pkg_fragment_t *frag)
  {
@@ -48,8 +44,8 @@ index a5eff0a..345846b 100644
 -		return;
 -
  	if (frag->type)
- 		printf("-%c%s%s ", frag->type, print_sysroot_dir(frag), frag->data);
+ 		printf("-%c%s ", frag->type, frag->data);
  	else
 -- 
-1.7.3.4
+1.8.1.5
 

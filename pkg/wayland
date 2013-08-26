@@ -1,12 +1,13 @@
 [main]
-filesize=390124
-sha512=88559f9ba0c3c72d1bf6ad5fd0273c66c23f42ac1ea4303fd877738b3d4de4030254388f4da7081df575aa1bf8836f46c798dde1b72907aae5bb79ab1e1af724
+filesize=406208
+sha512=48c6929d3d278f146037e08536eafb8a6780b6e4c3e1b7b484f92f3f7757b22ba4e38b8f7f8d20f2df1b8135e013e42b9e1714d7f68c78439d210cf81c3adf02
 
 [mirrors]
-http://wayland.freedesktop.org/releases/wayland-1.0.0.tar.xz
+http://wayland.freedesktop.org/releases/wayland-1.2.0.tar.xz
 
 [deps]
 libffi
+expat
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

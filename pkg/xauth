@@ -5,11 +5,11 @@ libxmu
 libxau
 
 [main]
-filesize=129568
-sha512=d459dc2b8e38ed46eb45075306edbe2cb5a927823944a693e44cb7ab63ed0c10a8a04aa4697dfa74b13240f5407191dfbc190515a8de00c16f7e207554a26b86
+filesize=139436
+sha512=db4f00518bd19523fa8146e5c6dd4975a65c7c2f7c20a1fe43854fad58270078aedb868e25083fef20b918a12ad5eea1265fae84b74e5619f047c4f2192d117d
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.5.tar.bz2
+http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.7.tar.bz2
 
 [build]
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" || exit 1

@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=152547
-sha512=ac28264c3b5e2b7f8fb3e566c64c5e6fe61f350d0da90ddaf7514eada09655886e1a74e56aa9d63f6958fb18559673ed2fb94303232878f291c4c72df0b535e9
+filesize=195642
+sha512=4bc3986a49273777850342cfa086641eeba0fd95ad428a2f025bd44e9ea04516cb6e190b3fd2a99fe21c63d9fe4010bebe57aefe3807050d00f8b301289ec43a
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/inputproto-2.0.1.tar.bz2
+ftp://ftp.x.org/pub/individual/proto/inputproto-2.3.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

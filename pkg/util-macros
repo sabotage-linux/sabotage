@@ -1,9 +1,9 @@
 [main]
-filesize=68189
-sha512=2cfda53ec8a69a356e06c027086010a040279a0c3ce214c961aed5de6a32933306ed445c73eae8a5c56bedceed3ab30a3a37850963e38994b1d8d5041e2ef50c
+filesize=77029
+sha512=75c9a3d962bb0009ef25a6a19aa6426971a94539851c0a5ba8229a6ae3783032e263860bbc06a3263eba47f0aa888f7611f23dd90c0a3722ea51d1496c68b4b6
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/util/util-macros-1.13.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

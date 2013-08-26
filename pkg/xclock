@@ -9,11 +9,11 @@ libxmu
 freetype
 
 [main]
-filesize=165367
-sha512=bbd5d0a0cf7c0e95adb13e051b5570163fed7ca6e8330136228d15aba2827afe2ebe2b763d027b83f5df83156f0d1aece6fae4b115cb2029571eb841299e65cc
+filesize=192473
+sha512=a7449988815f7564cf2c08607c2a5255813776fcf01834822ed36fe6d3f509d30164a87cb95ccbe743533f342545bf9ea6f4ec62eceacd8ae8f6b7b1836043a5
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.5.tar.gz
+http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.6.tar.gz
 
 [build]
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" || exit 1

@@ -5,11 +5,11 @@ libxft
 termcap
 
 [main]
-filesize=958656
-sha512=c13d618e2849460747e59c5cde74d0554b283e906452d356f14a3c8d31db1ad63b5ebbcd1afc8515f48c9bb6490eb92f8b31383c27dadb7ae9fd833e23bca66c
+filesize=1112847
+sha512=601efe93cc5278f937065c6f503a13b1fb58c2cbb6a9e71419c13b95ea5db9aa3367a5b40eec369c40dd65be074fa3a5f689e29829c3047f77134f32f87b62c6
 
 [mirrors]
-ftp://invisible-island.net/xterm/xterm-269.tgz
+ftp://invisible-island.net/xterm/xterm-296.tgz
 
 [build]
 # Gleiches mit gleichem vergelten.

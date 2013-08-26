@@ -3,11 +3,11 @@ libx11
 libxkbfile
 
 [main]
-filesize=217437
-sha512=cdb6c643b4f1eac828e8da8be5e8293deab883de0318e337d356af14bbc6240c86359dc7982d2e1c4394f2919b253ebabf16a7b5d67187619c696ecdb8bcad27
+filesize=242185
+sha512=51d6ba1dc4d9c4b8f52320990326f50ac4cc4fb45a939875308d23fe366dc287cbd252759a839a4780c165fc1e972b8cf031cd26622a10a19cb190e38d1d68c4
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/app/xkbcomp-1.2.1.tar.bz2
+ftp://ftp.x.org/pub/individual/app/xkbcomp-1.2.4.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

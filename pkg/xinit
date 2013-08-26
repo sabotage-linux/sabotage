@@ -3,11 +3,11 @@ libx11
 libxdmcp
 
 [main]
-filesize=138315
-sha512=afb525e8fce9e460f513926a7aeb3344b064834b1d5031ba30400fa2bcb5bddada57b4e42b49f839bbcd177b8ee8fd30b75844c69b5ec786508ab2b221fe528e
+filesize=148443
+sha512=bafe4706ee09b7980518af54dbc7d4cb971fcf4aaf4ea575d58c7102258e63a838c7e4acd6a4267d10fb8253dd779c1a008a8ab64164442b902bc0b19716197a
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xinit-1.3.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/app/xinit-1.3.2.tar.bz2
 
 [build]
 patch -p1 < "$K"/xinit-startx_hostname.patch || exit 1

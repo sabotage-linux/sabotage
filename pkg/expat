@@ -2,11 +2,11 @@
 musl
 
 [main]
-filesize=446456
-sha512=934a2999923eda9296f838a4846daac4bdd47929ec6e81f8104d5a54adc0dae348c8fc38f07eb61ad30fa27fc8b76e2549550b94fb90ea14851492eab9a332e2
+filesize=562616
+sha512=2a9ad2b44b87b84087979fe4114d661838df3b03dbdcb74d590cb74096bf35ce9d5a86617b0941a2655ea441a94537bcbcd78252da92342238823be36de2d09d
 
 [mirrors]
-http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz
+http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

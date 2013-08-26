@@ -3,11 +3,11 @@ fontconfig
 libxrender
 
 [main]
-filesize=290451
-sha512=948ba8918895e49705b4b925b7821a3885c6b9de2e1fe1e95e3fcfee10d06906bf00eeb8035b0ae1a911c28028de0bd109fd6bda54695a3bbd2a19a80f0de37a
+filesize=311556
+sha512=737d6ab892daf829da8b2fed954b31b2657d29033f35e806599cd67c6e044ab94b0f035804a1c4c9e3e0cbdc74a117cd274128a57f4b2cf81383561d62eb9f1f
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXft-2.2.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXft-2.3.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1
