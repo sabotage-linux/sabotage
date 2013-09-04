@@ -11,6 +11,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2
 [build]
 VERSION=3.4.6
 patch -p1 < "$K"/gcc-346-unwind2.patch || exit 1
+patch -p1 < "$K"/gcc-346-unlink.patch || exit 1
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \; || exit 1
 

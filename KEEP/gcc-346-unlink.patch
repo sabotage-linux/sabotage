@@ -1,0 +1,65 @@
+Stolen from Gentoo.  Thanks Mike Frysinger.
+Following the logic of the binutils change upstream (the addition of the 
+new unlink_if_ordinary() function), we update collect2 so that it will 
+only unlink files if they are 'ordinary' (in other words, a regular file 
+or a symlink).
+
+This allows us to do fun things like `gcc test.c -o /dev/null` and not 
+have to worry about the toolchain doing unlink(/dev/null) on us (cause 
+that sucks huge wang).  For example, this is common on a parisc/mips 
+machine:
+# gcc test.c -o /dev/null
+/usr/hppa2.0-unknown-linux-gnu/bin/ld: final link failed: Nonrepresentable section on output
+collect2: ld returned 1 exit status
+# ls /dev/null
+ls: /dev/null: No such file or directory
+
+http://bugs.gentoo.org/79836
+
+this has been fixed in upstream gcc via different means
+
+--- gcc/gcc/collect2.c
++++ gcc/gcc/collect2.c
+@@ -34,6 +34,12 @@
+ #if ! defined( SIGCHLD ) && defined( SIGCLD )
+ #  define SIGCHLD SIGCLD
+ #endif
++#ifdef HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++#if HAVE_SYS_STAT_H
++#include <sys/stat.h>
++#endif
+ 
+ #ifdef vfork /* Autoconf may define this to fork for us.  */
+ # define VFORK_STRING "fork"
+@@ -1574,14 +1603,24 @@
+   do_wait (prog);
+ }
+ 
+-/* Unlink a file unless we are debugging.  */
+-
++/* Unlink a file unless we are debugging or file is not normal.  */
++#ifndef S_ISLNK
++#ifdef S_IFLNK
++#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
++#else
++#define S_ISLNK(m) 0
++#define lstat stat
++#endif
++#endif
+ static void
+ maybe_unlink (const char *file)
+ {
+-  if (!debug)
+-    unlink (file);
+-  else
++  if (!debug) {
++    struct stat st;
++    if (lstat (file, &st) == 0
++        && (S_ISREG (st.st_mode) || S_ISLNK (st.st_mode)))
++      unlink (file);
++  } else
+     notice ("[Leaving %s]\n", file);
+ }
+ 
