@@ -41,6 +41,10 @@ dopatch "$K"/linux-virtio9p.patch
 dopatch "$K"/linux-3.8-trap.patch
 dopatch "$K"/linux-3.8-posix_sed.patch
 
+# Fix bug with /proc/timer_list that breaks dropbear.  Patch
+# should be available in 3.11.
+dopatch "$K"/linux-3.10-timer_list.patch
+
 if [ -z "$DISABLE_GRSEC" ] ; then
 	patchname="$GRSEC_VER".patch
 	tar xf "$C"/"$patchname".tar.xz || exit 1
