@@ -1,16 +1,17 @@
+[mirrors]
+http://downloads.sourceforge.net/project/htop/htop/1.0.2/htop-1.0.2.tar.gz
+
 [main]
 filesize=388499
 sha512=50ae0e8ace862520c01a707b3cf9a19591dc1081f6fc38c7fdccc81e36dd94b3cbe9db00cbb90f782c22d9b73f22526e24d04fad8368c6f2a7de0c58f9d92191
 
-[mirrors]
-http://sourceforge.net/projects/htop/files/htop/1.0.2/htop-1.0.2.tar.gz
 [deps]
+ncurses
 
 [build]
-#patch -p1 < "$K"/some.patch || exit 1
-
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" --disable-unicode || exit 1
-
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+  --disable-unicode \
+  || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
