@@ -1,0 +1,18 @@
+[main]
+filesize=479927
+sha512=981912cd335978cde22864e977947fc75326572fb29518e559cc4a8ac1edc84b3604165218a666e36353f17da4f89f8e967acdb88696f816748eb946d79eaa15
+tardir=ctags-5.8
+
+[mirrors]
+http://sourceforge.net/projects/ctags/files/ctags/5.8/ctags-5.8.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" --enable-etags || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
