@@ -1,0 +1,15 @@
+[main]
+filesize=38600
+sha512=07805a2ca90354ed0f8feac3ab0005cc4bba64200172e019f00eb50786776c94a6f976a7c383b17b30373e628838ef94cced510d475d557cafb1a2b309d058f0
+
+[mirrors]
+http://podgorny.cz/unionfs-fuse/releases/unionfs-fuse-0.26.tar.xz
+
+[deps]
+fuse
+xz
+
+[build]
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  make -j$MAKE_THREADS DESTDIR="$butch_install_dir" PREFIX="$butch_prefix" \
+  SBINDIR="$butch_prefix/bin" install || exit 1
