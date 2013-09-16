@@ -7,9 +7,8 @@ http://gnu.mirrors.hoobly.com/gnu/gperf/gperf-3.0.4.tar.gz
 [deps]
 
 [build]
-#patch -p1 < "$K"/some.patch || exit 1
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+CFLAGS="-D_GNU_SOURCE " \
   ./configure -C --prefix="$butch_prefix" || exit 1
 
 make -j$MAKE_THREADS || exit 1
