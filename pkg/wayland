@@ -1,9 +1,9 @@
 [main]
-filesize=390124
-sha512=88559f9ba0c3c72d1bf6ad5fd0273c66c23f42ac1ea4303fd877738b3d4de4030254388f4da7081df575aa1bf8836f46c798dde1b72907aae5bb79ab1e1af724
+filesize=407420
+sha512=7ad99856dc4b6ceeef5905a0bbe56cbf58476870c39129dd09801e505f82101c023356e1c0b601360210147ff4bf36c6b60d382d7b8918f73b49d06657d055c0
 
 [mirrors]
-http://wayland.freedesktop.org/releases/wayland-1.0.0.tar.xz
+http://wayland.freedesktop.org/releases/wayland-1.2.1.tar.xz
 
 [deps]
 libffi
