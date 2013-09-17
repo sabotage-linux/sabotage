@@ -8,7 +8,6 @@ sha512=fc47f5d25197c631754efe05a349edb556d072807ecef19b41f17c1a8f39c95221be64926
 [deps]
 
 [build]
-patch -p1 < "$K"/libffi-powerpc-ld64.patch
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
