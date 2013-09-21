@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=122915
-sha512=5aabf757c0c57059a022ebd7181e04caeca43c68461304fe19af719879d0ae5cc1babcb01be2613561b6370f4b939b73b50b09375da7e7b598e27399ae77d66d
+filesize=133300
+sha512=7880360e0f63a9bf88bc4ea76160311ba1d64af30414068df90d6b613b5cc24c2cc7986f2e68ee9a2fcde1359108da25017dd32885b09e878406e66aefe06f0d
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/randrproto-1.3.2.tar.bz2
+ftp://ftp.x.org/pub/individual/proto/randrproto-1.4.0.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1
