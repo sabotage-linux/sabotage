@@ -1,9 +1,9 @@
 [main]
-filesize=131683
-sha512=b4e276847deed9f52b86d89e4b14b5521aabc409fabb840aaaec6097fae2284be3c0f723b60e77267b6bea37c24ea8ad84afb81c4104e5f22049810e9ad6802e
+filesize=143498
+sha512=e28d71c3ce4f74ca6479771fcdd123c19ab18e3f2aa690a7798237f21f13fca4c4d66d7b7b1d708c2c214b8e17f8fe37e6cf5b75a4d2b88514c50addea2600cb
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/util/makedepend-1.0.4.tar.bz2
+http://xorg.freedesktop.org/archive/individual/util/makedepend-1.0.5.tar.bz2
 
 [deps]
 libx11
