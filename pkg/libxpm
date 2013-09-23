@@ -2,11 +2,11 @@
 libx11
 
 [main]
-filesize=383818
-sha512=6e0f35758caef06379f92bc5ad7b5f00a921944eccf907d859405359b3a5e3c143ab8b47547fc8d54b96801838ac048e1b050a541c44f356c69655c107d5de09
+filesize=443496
+sha512=c089056108d4598f6c4603d6440d9ef6216e87c5cf1e30d143b0e7abc9c5d6f40050c747a57a27d751bc80786ded0390d97cbe221be628241c881d21a3ce6024
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXpm-3.5.9.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.11.tar.bz2
 
 [build]
 sed -i 's/USE_GETTEXT="yes"/USE_GETTEXT="no"/' configure || exit 1
