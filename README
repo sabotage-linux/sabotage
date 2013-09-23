@@ -20,8 +20,8 @@ You can bootstrap your own build from the scripts at
 
                https://github.com/rofl0r/sabotage
 
-or use a ready-to-boot disk image either for qemu, vbox or to extract the rootfs,
-to be found at:
+or use a ready-to-boot disk image either for qemu, vbox 
+or to extract the rootfs, to be found at:
 
            http://ftp.barfooze.de/pub/sabotage/ 
 
@@ -34,7 +34,7 @@ somewhere).
 
 READ THE COOKBOOK FIRST.
 
-Build instructions:  Caveat emptor, this is all pre-alpha!
+Build instructions:
 DO NOT RUN SCRIPTS YOU HAVE NOT READ.
 
 % cp KEEP/config.stage0 config
@@ -43,8 +43,9 @@ DO NOT RUN SCRIPTS YOU HAVE NOT READ.
   # if you have an appropriate kernel and no root privs, set SUPER.
   # the other values can be left as-is usually.
 
-% ./build-stage 0  # build toolchain (~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz)
-% ./enter-chroot   # enter $R chrooted, needs root password
+% ./build-stage 0  # build toolchain 
+                   # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz
+% ./enter-chroot   # enter $R chrooted, needs root password or SUPER, see above
 % cd /src
 % vi config        # set your MAKE_THREADS, etc
 % butch install stage1
@@ -54,32 +55,44 @@ DO NOT RUN SCRIPTS YOU HAVE NOT READ.
 # if you want the default kernel (otherwise you have to build it yourself)
 % butch install kernel
 
+% butch install core # installs a sane subset needed for a developer base system
 % butch install xorg # install everything needed to get xfbdev
-% butch install pkg # installs useful things, such as file, git, gdb ...
+% butch install pkg # installs additional things, such as file, git, gdb ...
 % butch install world #installs almost everything
 
 Run "butch" and look at the usage information it outputs for further options.
-butch uses build templates, please take a look at KEEP/butch_template_configure_cached.txt
-to see how it works.
 
-when you're done, exit the chroot and use utils/write-hd-image.sh to create an image file.
-this can be directly booted in qemu, to use it in vbox use VBoxManage convertfromraw.
-or you can simply copy the rootfs in $R to your medium of choice.
+butch uses build templates that allow a high level of customization.
+in case you're interested, take a look at 
+KEEP/butch_template_configure_cached.txt to see how it works. 
+this is the base template used by sabotage, which
+is responsible for things like providing a tuned config.cache for faster
+configure runs, installing packages into a custom directory in /opt, 
+creation of filelists, etc.
+
+when you're done, exit the chroot and
+- either use the rootfs directly (by copying it to some disk)
+- use utils/run-emulator.sh to boot the system directly in qemu.
+  running the rootfs directly in qemu has pretty poor hdd performance,
+  because the FS is mounted via 9P network, so it's not recommended
+  to build packages, but it's practical for testing.
+- use utils/write-hd-image.sh to create an image file.
+  the image file can be directly booted in qemu.
+  to convert it into virtual box format use "VBoxManage convertfromraw".
+
 
 *** RUNNING SABOTAGE FOR THE FIRST TIME ***
 
 The default root password is "sabotage".
 
-you may want to generate some sshd-keys for sshd to use; use
+the sshd service can be started using "sv u sshd"
+(will create keys automatically on first use).
+to make the service autostart on boot, remove /etc/service/sshd/down.
 
-% butch install sshd-keys
-
-the sshd itself can be started using /sbin/sshd
-
-check and edit /etc/rc.local for things you may want to autostart,
+check and edit /etc/rc.local for other things to autostart,
 such as network config, dhcp, linux console keymap...
 
-if you have X installed, you may want to edit /bin/X for the correct evdev
+if you have X installed, you want to edit /bin/X for the correct evdev
 settings (see examples provided in there), then run "startx".
 also check /etc/xinitrc for X11 keyboard config.
 
@@ -90,18 +103,19 @@ use utils/dlinfo.sh http://1.2.3.4/my_new_pkg.tar.xz
 that'll spit out the filesize, sha512sum boilerplate for easy copy&paste.
 
 please do not use HTTPS or FTP mirrors.
-HTTPS is unsupported by busybox wget, and FTP is a broken protocol from the 70ies
+HTTPS is unsupported by busybox wget, and FTP is a broken, ancient protocol
 which needs a second data connection (i.e. open port on the client).
-this prevents FTP from working when behind a NAT router or socks proxy.
-Downloads from git or other source repositories is an absolute no-go.
+this can cause problems when behind a NAT router or socks proxy.
+Downloads from git or other source repositories are not desired, because
+that would introduce a build-time dependency on an internet connection.
+sabotage is designed so you can download all packages in advance when you
+have internet connection, and then build everything offline.
 
-please use unified diff format  (diff -u) for patches, as this usually allows
-to use the same patches on newer versions as well.
+please use unified diff format  (diff -u) for patches.
 
 since sabotage ships all tarballs when an ISO or HD image is distributed (to
 fulfill the GPL), space considerations are a top issue.
 so if available, ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
-in the former case, xz has to be added to the [deps] section.
 
 it is necessary that you create git branches for your work:
 this allows me to checkout your changes and rebase as i see fit,
@@ -109,6 +123,7 @@ and you can easily pull back into your master without getting merge conflicts.
 
 do not commit more than one change/package in a single commit, as it makes
 it much more work than needed to pick the good commits and leave away bad ones.
+use a meaningful commit message that mentions the package name.
 
 
 CONTACT
@@ -117,27 +132,8 @@ sabotage-subscribe@lists.openwall.com and follow instructions to get
 on it.  Archives are at http://openwall.com/lists/sabotage/
 You can also /join #sabotage or #musl on irc.freenode.net for realtime help.
 
-
-
-
-*** SABOTAGE IN USERSPACE or "Co-Musl" ***
-this is another mode that lets you use sabotage packages in a custom prefix.
-
-IT IS HIGHLY EXPERIMENTAL at this point. so expect some packages failing to build.
-
-(for usage parallel to an existing system, without chroot.)
-this mode is not heavily optimized or tested, and builds some stuff that is not really
-necessary. however its quite handy to use sw on an existing system without having to
-use a chroot.
-
-  cp KEEP/config.local .
-  nano config.local # edit paths
-  . ./config.local
-  ./build-stage u
-
-  # after finished, you can 
-  cd $R
-  export PATH="$R/bin:$PATH"
-  butch install ncurses nano etc etc
+DONATIONS
+donations in bitcoins are welcome and can be sent to
+1HXhSKSyBUGAAga29WbpTkKGpruQq9J8Bb .
 
 
