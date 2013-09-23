@@ -52,4 +52,4 @@ make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
 
 make -j$MAKE_THREADS -C xdemos DEMOS_PREFIX="$butch_prefix" || exit 1
-make DESTDIR="$butch_install_dir" -C xdemos DEMOS_PREFIX="$butch_install" install || exit 1
+make DESTDIR="$butch_install_dir" -C xdemos DEMOS_PREFIX="$butch_install_dir" install || exit 1
