@@ -43,10 +43,13 @@ CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
         --enable-gallium-gbm           \
         --enable-glx-tls               \
         --with-egl-platforms="drm,x11" \
-        --with-gallium-drivers="i915" \
+        --with-gallium-drivers="i915,nouveau,swrast" \
   || exit 1
 
 echo true >  bin/missing
 
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
+
+make -j$MAKE_THREADS -C xdemos DEMOS_PREFIX="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -C xdemos DEMOS_PREFIX="$butch_install" install || exit 1
