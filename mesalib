@@ -1,0 +1,52 @@
+[mirrors]
+ftp://ftp.freedesktop.org/pub/mesa/9.2/MesaLib-9.2.0.tar.bz2
+
+[main]
+filesize=6643026
+sha512=26c4b41b7e1d5284b87e2997a14424c1ee0713e11fd9dd65932987832e43b96986ed5e88c06fad4616fc912ffb8e17a2314b282cbf38a2640d76c39724965910
+tardir=Mesa-9.2.0
+
+[deps]
+libxml2
+glproto
+libdrm
+dri2proto
+libxdamage
+libxext
+gettext
+
+[build]
+if false ; then
+  # add mesaglut to deps when you need it
+  # currently this is non-functional as nothing in the glut src tree will
+  # be built, so it needs some additional makefile patches.
+  tar xf "$C"/MesaGLUT-7.9.2.tar.gz || exit 1
+  mv Mesa-7.9.2/src/glut src/ || exit 1
+  mv Mesa-7.9.2/include/GL/* include/GL/ || exit 1
+fi
+
+patch -p1 < "$K"/MesaLib-9.2.0-add_xdemos-1.patch || exit 1
+patch -p1 < "$K"/mesalib-strtod.patch || exit 1
+patch -p1 < "$K"/mesalib-strtof.patch || exit 1
+patch -p1 < "$K"/mesalib-fpclassify.patch || exit 1
+
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+	--sysconfdir=/etc              \
+        --enable-texture-float         \
+        --enable-gles1                 \
+        --enable-gles2                 \
+        --enable-openvg                \
+        --enable-osmesa                \
+        --enable-xa                    \
+        --enable-gbm                   \
+        --enable-gallium-egl           \
+        --enable-gallium-gbm           \
+        --enable-glx-tls               \
+        --with-egl-platforms="drm,x11" \
+        --with-gallium-drivers="i915" \
+  || exit 1
+
+echo true >  bin/missing
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
