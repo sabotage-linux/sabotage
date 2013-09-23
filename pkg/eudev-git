@@ -1,4 +1,5 @@
 [deps]
+autoconf
 git
 libtool
 
