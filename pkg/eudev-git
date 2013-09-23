@@ -1,0 +1,28 @@
+[deps]
+git
+libtool
+
+[build]
+dest="$S/build/eudev"
+if [ -d "$dest" ] ; then
+	cd "$dest/eudev"
+	pwd
+	git pull || exit 1
+else
+	mkdir -p "$dest"
+	cd "$dest"
+	pwd
+	git clone https://github.com/gentoo/eudev || exit 1
+	cd eudev
+fi
+
+#patch -p1 < "$K"/some.patch || exit 1
+
+./autogen.sh
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" --disable-manpages || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
