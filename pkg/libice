@@ -4,11 +4,11 @@ xproto
 xtrans
 
 [main]
-filesize=323808
-sha512=ce5c73947328aa97b374b02c60d6bf6449246d313c413ab0703d655236f688d37b0a85918f6cab157ba06b0bdccf4e99f3878e9cff523914d670a02fb7ce6731
+filesize=365762
+sha512=eac189813df84c0d1b5a4f59855a147c945cb6960bb91dd3d94b2fbe909609a3da1d250bea4a0c8090b4dc64b4f64eb548b67a39de719ebddce19c6c1394532e
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libICE-1.0.7.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libICE-1.0.8.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
