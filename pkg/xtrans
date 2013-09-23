@@ -1,9 +1,9 @@
 [main]
-filesize=156600
-sha512=79127eb7b3f48b856bf90cd70fdca7f3c6d03993f90a52f59b01b874fee74609ca0ac7d26a0c03ff53bb4e5d064c0c906fb71d786c3ac7f4dc131eb600a76bdb
+filesize=173025
+sha512=119fce2a69e363bfc5ea95fe5c5c02771740f167244694f19da2ed3e19fe1e351b83d32323226be61dd009b495180f25c0d5afdeb4cf2337e15b12e92d061ae7
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/xtrans-1.2.6.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix"  || exit 1
