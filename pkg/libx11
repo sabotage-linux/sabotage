@@ -8,11 +8,11 @@ kbproto
 inputproto
 
 [main]
-filesize=2308939
-sha512=4f2db2b3c847dee994777f73cd02fec7dec7194b37d30146df66c21ce946d6a4b837cb4e0c4908912f18669b0ec7a9750cf69981bded25db5e638313f2501dd9
+filesize=2339981
+sha512=c8609ff34d1fe71f35b35e0273a872ccded4d824c8afdcca37e1779d37bf667cb814e0ead0805668b4222f196148476f283e417ba371b722f1fe716a5bbba20b
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libX11-1.4.3.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libX11-1.6.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" --disable-loadable-xcursor || exit 1
