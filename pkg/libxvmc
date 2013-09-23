@@ -1,0 +1,16 @@
+[deps]
+xproto
+libx11
+libxv
+
+[main]
+filesize=305234
+sha512=781a53ad1d60a06019ed24150b85a96f2608e6ca0d876de9f06511c0e086cdf837804994e33b51ee8b3714150dc1d6060449e89ab7458476c8535b5b336147bf
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXvMC-1.0.8.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+
