@@ -3,11 +3,11 @@ renderproto
 libx11
 
 [main]
-filesize=258249
-sha512=78fcb840d98c32a344a2864be851f0280aeec286d0410ef461077f921f19efbc7714620ffa6ff3a8e85699b01fb725cad734641fcb64d920eb2328245b64ebd7
+filesize=306121
+sha512=111a0ec4e19932a50da4914d9112b0a16c1d9c800e2b8398ddaf9ed70dae1a4eb75860282ca62d023e78957bbc3f015cb80d91ba76a24595df9f8a2b7e055b58
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXrender-0.9.6.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.8.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix"  || exit 1
