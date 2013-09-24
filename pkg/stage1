@@ -13,3 +13,4 @@ musl
 dynamic-toolchain
 man
 zlib
+eudev-git
