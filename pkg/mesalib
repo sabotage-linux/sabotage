@@ -7,7 +7,6 @@ sha512=26c4b41b7e1d5284b87e2997a14424c1ee0713e11fd9dd65932987832e43b96986ed5e88c
 tardir=Mesa-9.2.0
 
 [deps]
-eudev-git
 libxml2
 glproto
 libdrm
@@ -53,4 +52,4 @@ make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
 
 make -j$MAKE_THREADS -C xdemos DEMOS_PREFIX="$butch_prefix" || exit 1
-make DESTDIR="$butch_install_dir" -C xdemos DEMOS_PREFIX="$butch_install_dir" install || exit 1
+make DESTDIR="$butch_install_dir" -C xdemos DEMOS_PREFIX="$butch_prefix" install || exit 1
