@@ -3,6 +3,8 @@ autoconf
 automake
 git
 libtool
+glib
+gperf
 
 [build]
 dest="$S/build/eudev"
