@@ -135,7 +135,7 @@ int main(int argc, char **argv) {
 	if(manname == 0) usage();
 
 	if(find_page(manname, mansect) < 0) {
-		if(mansect > 0)
+		if(mansect)
 			fprintf(stderr, "No entry for %s in section %s of the manual.\n", manname, mansect);
 		else
 			fprintf(stderr, "No manual entry for %s\n", manname);
@@ -270,7 +270,7 @@ static char* which(const char* prog, char* buf, size_t buf_size) {
 		path += strspn(path, ":");
 		size_t l = strcspn(path, ":");
 		if(!l) break;
-		if (snprintf(buf, buf_size, "%.*s/%s", (int)l, path, prog) >= buf_size)
+		if (snprintf(buf, buf_size, "%.*s/%s", (int)l, path, prog) >= (ssize_t) buf_size)
                         continue;
 		if(!access(buf, X_OK)) return buf;
 		path += l;
@@ -451,7 +451,7 @@ static int fetch_word(void) {
 		if(ch == '\\') {
 			if((ch = fgetc(ifd)) == EOF)
 				break;
-			/* if( ch == ' ' ) ch = ' ' + 0x80;    /* XXX Is this line needed? */
+			// if( ch == ' ' ) ch = ' ' + 0x80;    /* XXX Is this line needed? */
 			if(p < word + sizeof(word) - 1)
 				*p++ = ch;
 			col++;
@@ -515,12 +515,12 @@ const struct cmd_list_s {
 	{"IC", 2, 32},
 	{"RC", 2, 12},
 	{"so", 3, 0},
-	{"\0\0", 0}
+	{"\0\0", 0, 0}
 };
 
 static int do_command(void) {
 	char *cmd;
-	int ch, i;
+	int i;
 	char lbuf[10];
 
 	cmd = word + 1;
@@ -765,7 +765,8 @@ static int do_argvcmd(int cmd_id) {
 
 static void build_headers(void) {
 	char buffer[5][80];
-	int strno = 0, stroff = 0;
+	int strno = 0;
+	unsigned stroff = 0;
 	int last_ch = 0, ch, in_quote = 0;
 
 	for(ch = 0; ch < 5; ch++)
@@ -776,6 +777,7 @@ static void build_headers(void) {
 			break;
 		if(ch == '"') {
 			if(last_ch == '\\') {
+				assert(stroff > 0);
 				stroff--;
 				break;
 			}
@@ -811,11 +813,11 @@ static void build_headers(void) {
 	       l4 = strlen(buffer[4]),
 	       l01 = l0 + l1 + 2;
 	snprintf(line_header, sizeof line_header, "%s(%s)%*s%*s(%s)", buffer[0],
-	         buffer[1], (int) right_margin/2-l01+l4/2+(l4&1), buffer[4],
-	         (int) right_margin/2-l4/2-l01+l0-(l4&1), buffer[0], buffer[1]);
+	         buffer[1], (int) (right_margin/2-l01+l4/2+(l4&1)), buffer[4],
+	         (int) (right_margin/2-l4/2-l01+l0-(l4&1)), buffer[0], buffer[1]);
 	snprintf(doc_footer, sizeof doc_footer, "%s%*s%*s(%s)", buffer[3],
-	         (int) right_margin/2-l3+l2/2+(l2&1), buffer[2],
-	         (int) right_margin/2-l2/2-l01+l0-(l2&1), buffer[0], buffer[1]);
+	         (int) (right_margin/2-l3+l2/2+(l2&1)), buffer[2],
+	         (int) (right_margin/2-l2/2-l01+l0-(l2&1)), buffer[0], buffer[1]);
 
 	do_skipeol();
 }

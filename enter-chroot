@@ -1,5 +1,6 @@
 #!/bin/sh
-source ./config
+[ -z "$CONFIG" ] && CONFIG=./config
+source "$CONFIG"
 export H="$PWD"
 
 if [ -z "$R" ] ; then

@@ -1,5 +1,5 @@
 diff --git a/archival/tar.c b/archival/tar.c
-index 3cd033b..7e5cf2d 100644
+index 3cd033b..16270bc 100644
 --- a/archival/tar.c
 +++ b/archival/tar.c
 @@ -58,13 +58,6 @@
@@ -16,7 +16,7 @@ index 3cd033b..7e5cf2d 100644
  #if ENABLE_FEATURE_TAR_CREATE
  
  /*
-@@ -519,21 +512,29 @@ static int FAST_FUNC writeFileToTarball(const char *fileName, struct stat *statb
+@@ -519,21 +512,12 @@ static int FAST_FUNC writeFileToTarball(const char *fileName, struct stat *statb
  	return TRUE;
  }
  
@@ -24,17 +24,10 @@ index 3cd033b..7e5cf2d 100644
 -# if !(ENABLE_FEATURE_SEAMLESS_GZ && ENABLE_FEATURE_SEAMLESS_BZ2)
 -#  define vfork_compressor(tar_fd, gzip) vfork_compressor(tar_fd)
 -# endif
-+enum compressor_type {
-+	ct_none  = 0,
-+	ct_gzip  = 1,
-+	ct_bzip2 = 2,
-+	ct_xz    = 3,
-+};
-+
 +#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2 || ENABLE_FEATURE_SEAMLESS_XZ
  /* Don't inline: vfork scares gcc and pessimizes code */
 -static void NOINLINE vfork_compressor(int tar_fd, int gzip)
-+static void NOINLINE vfork_compressor(int tar_fd, enum compressor_type ct)
++static void NOINLINE vfork_compressor(int tar_fd, const char* zip_exec)
  {
  	pid_t gzipPid;
 -# if ENABLE_FEATURE_SEAMLESS_GZ && ENABLE_FEATURE_SEAMLESS_BZ2
@@ -44,21 +37,11 @@ index 3cd033b..7e5cf2d 100644
 -# else /* only ENABLE_FEATURE_SEAMLESS_BZ2 */
 -	const char *zip_exec = "bzip2";
 -# endif
-+	static const char compressor[][6] = {
-+		[ct_gzip - 1]  = "gzip",
-+#if ENABLE_FEATURE_SEAMLESS_BZ2
-+		[ct_bzip2 - 1] = "bzip2",
-+#endif
-+#if ENABLE_FEATURE_SEAMLESS_XZ
-+		[ct_xz - 1]    = "xz",
-+#endif
-+	};
-+	const char *zip_exec = compressor[ct-1];
 +
  	// On Linux, vfork never unpauses parent early, although standard
  	// allows for that. Do we want to waste bytes checking for it?
  # define WAIT_FOR_CHILD 0
-@@ -593,13 +594,13 @@ static void NOINLINE vfork_compressor(int tar_fd, int gzip)
+@@ -593,13 +577,13 @@ static void NOINLINE vfork_compressor(int tar_fd, int gzip)
  		bb_perror_msg_and_die("can't execute '%s'", zip_exec);
  	}
  }
@@ -70,11 +53,11 @@ index 3cd033b..7e5cf2d 100644
  static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
  	int recurseFlags, const llist_t *include,
 -	const llist_t *exclude, int gzip)
-+	const llist_t *exclude, enum compressor_type ct)
++	const llist_t *exclude, const char* compressor)
  {
  	int errorFlag = FALSE;
  	struct TarBallInfo tbInfo;
-@@ -612,9 +613,9 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
+@@ -612,9 +596,9 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
  	 * can avoid including the tarball into itself....  */
  	xfstat(tbInfo.tarFd, &tbInfo.tarFileStatBuf, "can't stat tar file");
  
@@ -82,47 +65,56 @@ index 3cd033b..7e5cf2d 100644
 -	if (gzip)
 -		vfork_compressor(tbInfo.tarFd, gzip);
 +#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2 || ENABLE_FEATURE_SEAMLESS_XZ
-+	if (ct != ct_none)
-+		vfork_compressor(tbInfo.tarFd, ct);
++	if (compressor)
++		vfork_compressor(tbInfo.tarFd, compressor);
  #endif
  
  	tbInfo.excludeList = exclude;
-@@ -647,8 +648,8 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
+@@ -647,13 +631,13 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
  	if (errorFlag)
  		bb_error_msg("error exit delayed from previous errors");
  
 -#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2
 -	if (gzip) {
 +#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2 || ENABLE_FEATURE_SEAMLESS_XZ
-+	if (ct != ct_none) {
++	if (compressor) {
  		int status;
  		if (safe_waitpid(-1, &status, 0) == -1)
  			bb_perror_msg("waitpid");
-@@ -662,7 +663,7 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
+ 		else if (!WIFEXITED(status) || WEXITSTATUS(status))
+-			/* gzip was killed or has exited with nonzero! */
++			/* compressor was killed or has exited with nonzero! */
+ 			errorFlag = TRUE;
+ 	}
+ #endif
+@@ -662,7 +646,7 @@ static NOINLINE int writeTarFile(int tar_fd, int verboseFlag,
  #else
  int writeTarFile(int tar_fd, int verboseFlag,
  	int recurseFlags, const llist_t *include,
 -	const llist_t *exclude, int gzip);
-+	const llist_t *exclude, enum compressor_type ct);
++	const llist_t *exclude, const char *compressor);
  #endif /* FEATURE_TAR_CREATE */
  
  #if ENABLE_FEATURE_TAR_FROM
-@@ -1053,12 +1054,14 @@ int tar_main(int argc UNUSED_PARAM, char **argv)
+@@ -1053,12 +1037,14 @@ int tar_main(int argc UNUSED_PARAM, char **argv)
  
  	/* Create an archive */
  	if (opt & OPT_CREATE) {
 -#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2
 -		int zipMode = 0;
-+		enum compressor_type zipMode = ct_none;
++		const char *zipMode = 0;
 +#if ENABLE_FEATURE_SEAMLESS_GZ || ENABLE_FEATURE_SEAMLESS_BZ2 || ENABLE_FEATURE_SEAMLESS_XZ
  		if (ENABLE_FEATURE_SEAMLESS_GZ && (opt & OPT_GZIP))
 -			zipMode = 1;
-+			zipMode = ct_gzip;
++			zipMode = "gzip";
  		if (ENABLE_FEATURE_SEAMLESS_BZ2 && (opt & OPT_BZIP2))
 -			zipMode = 2;
-+			zipMode = ct_bzip2;
++			zipMode = "bzip2";
 +		if (ENABLE_FEATURE_SEAMLESS_XZ && (opt & OPT_XZ))
-+			zipMode = ct_xz;
++			zipMode = "xz";
  #endif
  		/* NB: writeTarFile() closes tar_handle->src_fd */
  		return writeTarFile(tar_handle->src_fd, verboseFlag,
+-- 
+1.7.3.4
+

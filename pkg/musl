@@ -2,18 +2,14 @@
 gcc4
 
 [mirrors]
-http://www.etalabs.net/musl/releases/musl-0.9.13.tar.gz
-http://www.musl-libc.org/releases/musl-0.9.13.tar.gz
+http://www.musl-libc.org/releases/musl-0.9.14.tar.gz
+http://www.etalabs.net/musl/releases/musl-0.9.14.tar.gz
 
 [main]
-filesize=834456
-sha512=623a7addd032b2fed5850451225c45fac07e0496467c9f3b3355baab6d0b8aeb011af6ed7c298dd396b3820d5bd82fc84fe95e79e3dc9ad7ee9b96f954e0cc5b
+filesize=826126
+sha512=e5c3f7b1549dc2f9cbd3359cc413f761d5967607c23705f651c33d0ae93f00582193a41fe1f87158467d58d8eba2d7c09e0fe2f2b2c02c1dda78eee1a4cecff6
 
 [build]
-patch -p1 < "$K"/musl-0913-sigqueue.patch || exit 1
-patch -p1 < "$K"/musl-0913-ldso-symlink.patch || exit 1
-patch -p1 < "$K"/musl-0913-popen.patch || exit 1
-patch -p1 < "$K"/musl-0913-synccall.patch || exit 1
 
 CC="$butch_prefix/bin/gcc" ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib || exit 1
 if [ "$A" = "powerpc" ] ; then

@@ -1,0 +1,15 @@
+[mirrors]
+https://pypi.python.org/packages/source/s/simplejson/simplejson-3.3.0.tar.gz#md5=0e29b393bceac8081fa4e93ff9f6a001
+
+[main]
+filesize=67250
+sha512=83e0157c57d24ce1b0ed01a206faf61c832bf8c427cd0db546c2a352cbc5e8f197a93dc09a1bbf9337431adbabccce36da62352f26799fd50dac0678c22a62b3
+
+[deps]
+python
+wget
+
+[build]
+# FIXME: there appears to be no mirror without https
+python setup.py build || exit 1
+python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" || exit 1
