@@ -6,6 +6,7 @@ echo sabotage booting
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 mount -t devtmpfs -o mode=0755,nosuid dev /dev 
+mkdir -p /run
 mount -t tmpfs -o nosuid,nodev,mode=0755 run /run
 
 
