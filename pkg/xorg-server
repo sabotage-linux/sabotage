@@ -10,8 +10,6 @@ libxau
 libxdmcp
 libxfont
 mesalib
-xf86-input-evdev
-xf86-video-fbdev
 
 [main]
 filesize=5502845
