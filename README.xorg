@@ -25,6 +25,8 @@ It should be working and will fall back to software render if all else fails.
 It is working nicely with the intel driver.
 The ATI driver will not have hardware 3D as it needs llvm.
 
+Use glxinfo and glxgears to test.
+
 There is an issue with the grsec kernel and 3D applications.
 When used with a non-grsec kernel, it works.
 
