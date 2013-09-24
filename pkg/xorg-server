@@ -9,6 +9,7 @@ libfontenc
 libxau
 libxdmcp
 libxfont
+mesalib
 
 [main]
 filesize=5502845
