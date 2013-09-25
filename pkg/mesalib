@@ -35,15 +35,17 @@ CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
         --enable-texture-float         \
         --enable-gles1                 \
         --enable-gles2                 \
-        --enable-openvg                \
         --enable-osmesa                \
         --enable-xa                    \
         --enable-gbm                   \
-        --enable-gallium-egl           \
-        --enable-gallium-gbm           \
         --enable-glx-tls               \
         --with-egl-platforms="drm,x11" \
-        --with-gallium-drivers="i915,nouveau,swrast" \
+        --enable-gallium-egl=no        \
+        --enable-gallium-gbm=no        \
+	--without-gallium-drivers      \
+	--enable-gallium-llvm=no       \
+	--enable-gallium-tests=no      \
+	--enable-gallium-g3dvl=no      \
   || exit 1
 
 echo true >  bin/missing
