@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+
+[main]
+filesize=315165
+sha512=59e728a4cf726e3bbf248cc76a45d78cf873ca8eee23b19a4b373accae634f4d12ebd79100d3e84416c3ef515396bbe3a0a204bc49c1748d265046ffa6bfffef
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXrandr-1.4.2.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

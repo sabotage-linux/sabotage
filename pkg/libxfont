@@ -7,11 +7,11 @@ fontsproto
 xtrans
 
 [main]
-filesize=438358
-sha512=64b72cb9bad4a1090808df0cc1adfb1856fa1352f11d316c444f91d99f226856f77b19050e5418b3ece77f2e99cc4d50667a83c97f0a54ffa45b336ae5c54b90
+filesize=489067
+sha512=c0e28d9213464ff3bf8e756da21ef3108bc6cb37b2bfd99787a4dd1ed224e65b778a3b184f72b32ca60de13c93f48879b41bece4f79954276cddc6b34c391ed9
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXfont-1.4.3.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.4.6.tar.bz2
 
 [build]
 CFLAGS="-D_GNU_SOURCE -DNOFILES_MAX=256 -Dfd_mask=long" ./configure -C --prefix="$butch_prefix" || exit 1

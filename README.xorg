@@ -1,0 +1,34 @@
+install the xorg package.
+
+It will build all the dependencies and install the following 2 drivers as well:
+xf86-video-fbdev
+xf86-input-evdev
+
+You should have a working X Windows after this.
+
+Test with xinit/startx.
+
+You can install any of (depending on your hardware):
+xf86-video-ati
+xf86-video-cirrus
+xf86-video-fbdev
+xf86-video-intel
+xf86-video-nouveau
+xf86-video-vmware
+
+To be able to use these you need the kernel module for your card as well.
+At the moment you will have to build the kernel/modules yourself.
+
+3D graphics:
+
+It should be working and will fall back to software render if all else fails. 
+It is working nicely with the intel driver.
+The ATI driver will not have hardware 3D as it needs llvm.
+
+Use glxinfo and glxgears to test.
+
+There is an issue with the grsec kernel and 3D applications.
+When used with a non-grsec kernel, it works.
+
+
+

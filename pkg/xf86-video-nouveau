@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+xorg-server
+
+[main]
+filesize=580019
+sha512=61118a57c3918b516d250fdba917cc32d85576aa46fe84b4632e6cb1cd0e00dba76cd36667d66821361d75ddd6cc1c91a7f4d13ce0bce79e1ff2f19297474de1
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.9.tar.bz2
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

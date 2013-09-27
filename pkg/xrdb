@@ -1,0 +1,16 @@
+[deps]
+libx11
+libxext
+libxmu
+
+[main]
+filesize=138035
+sha512=8e2a177653d5aa895c71ed3640e0f1dd9fe8bf5cd6f0c6ff7e372394a2a41c3aa2286905fd9c69e3d140024d235b81a1f32b5d4012b1ac5ac1ed945599dee407
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/xrdb-1.1.0.tar.bz2
+
+[build]
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" || exit 1
+make LIBS="-lX11 -lxcb -lXau -lXdmcp" -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

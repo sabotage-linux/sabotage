@@ -1,9 +1,9 @@
 [main]
-filesize=284717
-sha512=594243f2d0275a3036754e5cfd3f440f2faae78f6c836e6787129d54a559af0ceba6fefe18d98d6908aa75ea322875a188a3b3ffee7e3deec1168c7656e7a96a
+filesize=284279
+sha512=7cd5491b79920f9c1d134f2815f14d45b0a29cf5f99d866c35418b6f84ce6b48e702db3472bd7c6158804e573f2384ad4ebee78e5ea8f07afec2e34489d99ed4
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.2.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.3.tar.bz2
 
 [deps]
 libxext

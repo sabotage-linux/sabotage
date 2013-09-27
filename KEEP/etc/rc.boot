@@ -6,8 +6,22 @@ echo sabotage booting
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 
-echo /bin/mdev > /proc/sys/kernel/hotplug
-mdev -s
+if which udevd >/dev/null 2>&1 ; then
+	mkdir -p /run
+	mount -t tmpfs -o nosuid,nodev,mode=0755 run /run
+
+	echo > /proc/sys/kernel/hotplug
+	/bin/udevd --daemon
+	/bin/udevadm trigger --action=add    --type=subsystems
+	/bin/udevadm trigger --action=add    --type=devices
+	/bin/udevadm trigger --action=change --type=devices
+	/bin/udevadm settle
+
+else
+	echo /bin/mdev > /proc/sys/kernel/hotplug
+	mdev -s
+fi
+
 
 # only show warning or worse on console
 grep -q " verbose" /proc/cmdline && dmesg -n 8 || dmesg -n 3

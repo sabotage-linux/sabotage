@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=131040
-sha512=3ac1f7678510d5e9ab6a90e0b9fb035362f2c37b6d43d17864852ae77be0f584dbfa01d81f787c6e5fed4bf520d7a054b9cc3e80678d982a8a437b9cf6260e16
+filesize=141990
+sha512=728d4df6d65b811cc2516cddcd1ba53aadf75521450baaad27ae10448e8eda66c4898369b4cff13874c26b5541cbac231190f7f32f873939aa6d4a72ee720050
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/fontsproto-2.1.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/fontsproto-2.1.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

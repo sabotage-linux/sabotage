@@ -19,6 +19,7 @@ fi
 
 export DISPLAY=:0
 
-exec Xfbdev -retro  :0 -keybd evdev,,device=/dev/input/$keyb \
-  -mouse evdev,,device=/dev/input/$mouse
+exec Xorg
+#exec Xfbdev -retro  :0 -keybd evdev,,device=/dev/input/$keyb \
+#  -mouse evdev,,device=/dev/input/$mouse
 

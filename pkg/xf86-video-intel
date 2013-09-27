@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+xorg-server
+
+[main]
+filesize=1977431
+sha512=ca9680716445d0e9ba1a5d87433455f7a5f558802b4d214d79496426dbfd3e598968f784b531de024df30fefcc114d6e40cc9c6da94604beb48cd4430bf9e491
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.21.15.tar.bz2
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+
