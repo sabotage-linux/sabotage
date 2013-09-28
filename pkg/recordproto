@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=84439
-sha512=050bb8b5f07f2d3765c1b565ced271a37fa1f44e1071d1de0aa56bcdcae59580880cc967412edb37d9741cdfd458856df8a532a3b33ea09ddb3960d9b97569e9
+filesize=123033
+sha512=ab82d966ffacb46c001df15b272ca58f996826dc6f6835d3dc4d385b31c682acacb073a380d61938e2f242bffdabdd9b8f7107cd5ac67cb7aa3a28cc14a8ea02
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/recordproto-1.14.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/recordproto-1.14.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

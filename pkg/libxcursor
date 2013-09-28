@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+
+[main]
+filesize=311896
+sha512=687963b54da66be25371f64a88f91812b38de4ffc3b806070f3aeb1da379df16ede819201a352b3fb66efc6b40a36a22770add3ae464f2008aff3e23cb60a8e6
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXcursor-1.1.14.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

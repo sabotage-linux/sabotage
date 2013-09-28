@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=102069
-sha512=1dc906460bf3585f473062e7670a9874f64f9c678d2304a4ffb23748d96f55b11067359aecbdec9970c868d41108fbb080fbee853878dfe43f81bc824ce6a0b6
+filesize=113218
+sha512=9c2f98191169f7bca69601fcea5ddcb45d50b3a6bae087a2d6ee2d83f9729155b23268ad4c46a3cc99162cdacf4c8e3d7f061e58d73237da96f23123444f67d8
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/bigreqsproto-1.1.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/bigreqsproto-1.1.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

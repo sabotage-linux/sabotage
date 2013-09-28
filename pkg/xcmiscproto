@@ -1,11 +1,14 @@
+[deps]
+util-macros
+
 [main]
-filesize=101926
-sha512=d4894a24fc553c6de2ae2b6fdcbe334967cb804385e4ca2af3ec3dc005727263c78229fd0610c008f76859d3417f86fdf8ad6b42e53e5d5f95d4db0a4bdfcaef
+filesize=112486
+sha512=33060d0f9bba92670fce6e42f5d9094e84b803fd07e61b159aafdbee40a9876b49cf844bc7bae4c628fbb11a6a0883a9ee07041b59290488f1e9dbfe6e5128a8
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/xcmiscproto-1.2.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/xcmiscproto-1.2.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1
-make DESTDIR="$butch_install_dir" install || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
 

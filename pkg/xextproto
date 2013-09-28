@@ -1,9 +1,9 @@
 [main]
-filesize=207724
-sha512=910de76dbcbe752fbbf8e9496e2d5aba480347dabc8dc365362b1835d14d14c9815189b6d77d1d2c63a42cb559800b4a52fa789aa5f1a0c8519768439a9856a8
+filesize=229282
+sha512=c2b60f07c16f850c5fce2aeec071654d34d88f9c775a4386286f597bcce437a124ed3f8c9f7ddc58427c1413f5326a26ee15866fd6725c6315e6da32b323cf33
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/xextproto-7.2.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

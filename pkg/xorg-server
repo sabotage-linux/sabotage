@@ -1,31 +1,22 @@
 [deps]
 util-macros
 pixman
-fixesproto
-damageproto
-xcmiscproto
+xorg-proto-headers
+xorg-libraries
 libxkbfile
 freetype
 libfontenc
+libxau
 libxdmcp
-bigreqsproto
-randrproto
-renderproto
-fontsproto
-videoproto
-compositeproto
-recordproto
-scrnsaverproto
-resourceproto
-xineramaproto
 libxfont
+mesalib
 
 [main]
-filesize=5172054
-sha512=f17baa6e871c7df4dc61330e32e235906d9e4c842a70226b0833d2b64ab62811131b960eb942f4dc9359ea828676ce60afd82802aa7cffc711d27c4946c32345
+filesize=5502845
+sha512=d5379e2f52e93985ab2636ca02f503baadd359a4ec05bed80162213392e16d433a2b7308e90cdd18c1a0bd283429f2c8b8758b5a2c585923533cced6245de989
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.9.5.tar.bz2
+ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.14.3.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
@@ -33,8 +24,6 @@ sed -i 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h
 LDFLAGS="-lfontenc -lfreetype -lz -lxcb -lXdmcp -lXau" \
   CFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE -I$butch_prefix/include/pixman-1" \
   ./configure -C --prefix="$butch_prefix" \
-    --disable-glx --disable-dri \
-    --disable-xorg \
     --enable-kdrive --enable-kdrive-evdev || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
@@ -43,6 +32,10 @@ make DESTDIR="$butch_install_dir" install || exit 1
 dest="${butch_prefix}${butch_install_dir}"/bin
 mkdir -p "$dest"
 cp "$K"/X "$dest"/
+
+xmoddest="${butch_prefix}${butch_install_dir}"/share/X11/xorg.conf.d
+mkdir -p "$xmoddest"
+cp "$K"/20-modules.conf "$xmoddest"/
 
 # FIXME starting X as non-root needs suid bit on the "server"
 chmod +s "$dest"/Xfbdev || exit 1

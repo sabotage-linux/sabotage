@@ -3,11 +3,11 @@ libxext
 inputproto
 
 [main]
-filesize=398801
-sha512=166450e06d97c6e0b3d043d757002d5152db97f2ed3472af530527ca249086b35faf148a84e7337c2d045fc77d9fa58c2391c4e2ff4f4b47b532af68689fb490
+filesize=440969
+sha512=f419a30711220f51bc77ba4cd2759e565d4f8ba9960c3bcce3ec80ab84389fe220e4276887b125ec105810bd219698fb3a22ec4b9d91eab7235ed9a3ca6925c3
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXi-1.4.2.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXi-1.7.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

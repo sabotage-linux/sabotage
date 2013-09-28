@@ -1,9 +1,9 @@
 [main]
-filesize=111270
-sha512=9664d443f2c1dfbe6a0404a7d0bafdb6ada7eaab8ebb91711eaa64394a0904176d2ad9107cd074bf2e5045be11c0cd92b676c4ac90adf4e759b38c2e2cbd6e00
+filesize=256988
+sha512=3cef1df57138264dac9802cc4074bc58f82609c6ef859e238108d9ad1ac3a720b991d91f61ca47ea48c56019b465e7e6b37bcbe0b519d1999126255a7d879d54
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/kbproto-1.0.5.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/kbproto-1.0.6.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

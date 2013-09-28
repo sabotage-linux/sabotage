@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+
+[main]
+filesize=282925
+sha512=796a79ab694317910442cb10a936711df9dde95764eef11efb8dedc85114977e56409de2f640553f1ad492325df178b8cfbeaeec3f03bf084638c555e44292e0
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXres-1.0.7.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

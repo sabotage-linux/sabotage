@@ -3,11 +3,11 @@ pkgconf
 xproto
 
 [main]
-filesize=288256
-sha512=de87173cdd27ad7672189d078a006551681ff25f4cdac07f9db58b2af47e6cd0e4793156e5c361e6346b32d2b61cc038e577a94ff970d2185f7a3e55259bfb6b
+filesize=310878
+sha512=b17ad4bf01443cb78b440a33a89f2b98babf02402d7bdf68161a08429fd1964ac8112b0bb1519dd2138db0a5ff295c7b7581f56ff602ccca1a9baac26bc62e08
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXdmcp-1.1.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXdmcp-1.1.1.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

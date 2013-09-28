@@ -1,0 +1,15 @@
+[deps]
+xproto
+libx11
+xorg-server
+
+[main]
+filesize=824613
+sha512=51d611d0d237cd8a61761c7db1b597732fe6fd3a4020cf2a9329984b05ba5f945f92a7caeaf8b2ff27a6098218e399c48addabf28908f60e70ff23bf9c27e675
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-ati-7.2.0.tar.bz2
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

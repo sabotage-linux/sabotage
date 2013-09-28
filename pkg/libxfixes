@@ -3,11 +3,11 @@ libx11
 fixesproto
 
 [main]
-filesize=253777
-sha512=fd3071b52c657975b4321e6c7ebe433c43ea6944d04d2228da075aad394e962eec705e41a6c3a6bbc12f704765189116d1328c3111e457f23395ff6f57ae63d5
+filesize=291978
+sha512=b47c841db169d1b329eec9deb555799cd087a466326840f1f5349303ba79cff5850b1bb69c1ff38b3f522f24d61db58a0c01021e1ffea2896527167262fc7150
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXfixes-5.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXfixes-5.0.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

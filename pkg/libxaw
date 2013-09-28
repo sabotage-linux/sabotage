@@ -4,11 +4,11 @@ libxmu
 libxpm
 
 [main]
-filesize=650634
-sha512=6c3fffafac63519be51c25a2e82ce8c3edecd80d18173b60745d6b663d2a0026dcfefb1e8e7a5f72cc70ce87fe953570ec144ecdf1e09b2202da1705f65c7d44
+filesize=677147
+sha512=baf11625a20b89f08747e25dff6755ab796c8a5a91341d3cb21f85780733c4a3c25bbf134ac6259982207067d0a617f83f516c48aef6f57cbab14c8a9862944d
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXaw-1.0.9.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXaw-1.0.12.tar.bz2
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

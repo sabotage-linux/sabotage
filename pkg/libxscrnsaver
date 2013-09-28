@@ -1,0 +1,16 @@
+[deps]
+xproto
+libx11
+xextproto
+
+[main]
+filesize=290437
+sha512=973aed3ad296c7160b66fccd4fff7375afc4332239acbe0ae1644fed9c453de69040f8174882ba264c731448edba9b499d398d013d556aea72434339399ed29f
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXScrnSaver-1.2.2.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

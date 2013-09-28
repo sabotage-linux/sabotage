@@ -2,13 +2,13 @@
 perl
 
 [mirrors]
-http://distfiles.lesslinux.org/pixman-0.26.0.tar.gz
-http://cairographics.org/releases/pixman-0.26.0.tar.gz
-http://www.x.org/releases/individual/lib/pixman-0.26.0.tar.gz
+http://distfiles.lesslinux.org/pixman-0.30.2.tar.gz
+http://cairographics.org/releases/pixman-0.30.2.tar.gz
+http://www.x.org/releases/individual/lib/pixman-0.30.2.tar.gz
 
 [main]
-filesize=747777
-sha512=f60a3b1620b8dcc74b357efe34578881e4441cc72117c94ac96132fe417d15e03f2f71fbaa10344fd4ed82aab1173449472a8d913e8025c36660e1d65d68ba62
+filesize=799461
+sha512=a86f4b7cbd8440d28a47773edf1a2055898b2d65501cba42b22f70af377ffa5beff1a2f695009e708640e6c98cf54f069560dcaa98ce308157baa6d139e57d56
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
