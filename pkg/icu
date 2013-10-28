@@ -1,0 +1,18 @@
+[mirrors]
+http://download.icu-project.org/files/icu4c/52.1/icu4c-52_1-src.tgz
+
+[main]
+filesize=23875368
+sha512=5300b1d97340850d3d72af220ff5cbc2ae2820aff4367b60e52f17ead9831011dcda3d4c5af57c899d47b6fc964b23c9c8922954b32d314d669eb1a479a2efb0
+tardir=icu/source
+
+[deps]
+
+[build]
+pwd
+echo "$butch_prefix"
+#patch -p1 < "$K/some.patch" || exit 1
+./configure --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
