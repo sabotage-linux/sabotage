@@ -1,0 +1,19 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/libsoup/2.44/libsoup-2.44.1.tar.xz
+
+[main]
+filesize=746716
+sha512=07120996737d86f45acb80b05147e9af0e3e183bec9a97727881b8dc05cb154c679a785f4d5a3a53d0e3611ae0198df977bc9059623c9f1e8e01a03d4c7acb95
+
+[deps]
+libxml2
+sqlite
+gnutls
+intltool
+glib-networking
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
