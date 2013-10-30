@@ -1,0 +1,15 @@
+[mirrors]
+http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.100.2.tar.gz
+
+[main]
+filesize=748836
+sha512=f7bbbeac189a724b7f95dce42e8adaf533a1d1c038521990d0eb2cb41c3f088a93d432c257a75dcce31419a55020455084d983b9471ace385c497f659a39ef59
+
+[deps]
+dbus
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
