@@ -1,0 +1,16 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/vala/0.20/vala-0.20.1.tar.xz
+
+[main]
+filesize=2627808
+sha512=6246228815bcc042de0aeea3f4593c95b0d81fdfec8a4336a8e9178dd8a4a7013694a2cec543c3c49aad026d5d3597e194884b6cfecb10040db886afba9e72e1
+
+[deps]
+glib
+flex
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
