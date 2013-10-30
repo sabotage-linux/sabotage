@@ -1,0 +1,29 @@
+[mirrors]
+http://webkitgtk.org/releases/webkit-1.8.3.tar.xz
+
+[main]
+filesize=7814028
+sha512=4d400cb0dfbde7eadcce52e7a37d2095ec382b65c6c0d4ea4795410dabad771fac0def50875092634075dc0a80043058d2d2913767e59db3e32cf3e13361803f
+
+[deps]
+gperf
+gst01-plugins-base
+gtk+2
+icu
+libsoup
+mesalib
+ruby
+sqlite
+libxt
+
+[build]
+patch -p1 < "$K/webkitgtk1-assert.patch"
+# BLFS fixes for some issues
+sed -i '/generate-gtkdoc --rebase/s:^:# :' GNUmakefile.in
+sed -i '/parse-param/ a%lex-param {YYLEX_PARAM}' \
+             Source/ThirdParty/ANGLE/src/compiler/glslang.y
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+	--with-gtk=2.0 --disable-webkit2 --disable-geolocation \
+	|| exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
