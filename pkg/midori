@@ -13,7 +13,7 @@ vala
 libnotify05
 
 [build]
-patch -p1 < "$K/midori-devpet-remove.patch"
+rm extensions/devpet.vala
 ./configure  --prefix="$butch_install_dir" --disable-docs --disable-apidocs \
 	--disable-unique --disable-granite --disable-tests --disable-gtk3 \
 	--disable-webkit2 --disable-zeitgeist|| exit 1
