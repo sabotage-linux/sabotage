@@ -17,9 +17,11 @@ gnutls
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
-install -m644 -D wireshark.desktop "$butch_install_dir/share/applications/wireshark.desktop" || exit 1
-install -m644 -D image/wsicon48.png "$butch_install_dir/share/pixmaps/wireshark.png" || exit 1
-install -m644 -D image/*png "$butch_install_dir/share/pixmaps/wireshark" || exit 1
-install -m644 -D image/*ico "$butch_install_dir/share/pixmaps/wireshark" || exit 1
-install -m644 -D image/*xpm "$butch_install_dir/share/pixmaps/wireshark" || exit 1
-install -m644 -D image/*bmp "$butch_install_dir/share/pixmaps/wireshark" || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+install -m644 -D wireshark.desktop "$dest/share/applications/wireshark.desktop" || exit 1
+install -m644 -D image/wsicon48.png "$dest/share/pixmaps/wireshark.png" || exit 1
+install -m644 -D image/*png "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*ico "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*xpm "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*bmp "$dest/share/pixmaps/wireshark" || exit 1
