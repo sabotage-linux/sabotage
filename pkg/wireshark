@@ -1,0 +1,27 @@
+[mirrors]
+http://www.wireshark.org/download/src/all-versions/wireshark-1.10.2.tar.bz2
+
+[main]
+filesize=26667284
+sha512=fd2ad466b122e2044718d8b42d0b323293d2e7fe04af700a1e94d00c720f78ba664e9cdb9a7fb35a13a6f7d99d81e4345482ee8d98b7538972a3f23250a44702
+
+[deps]
+glib
+libpcap
+gtk+2
+libgcrypt
+gnutls
+
+[build]
+#patch -p1 < "$K/some.patch" || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+install -m644 -D wireshark.desktop "$dest/share/applications/wireshark.desktop" || exit 1
+install -m644 -D image/wsicon48.png "$dest/share/pixmaps/wireshark.png" || exit 1
+install -m644 -D image/*png "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*ico "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*xpm "$dest/share/pixmaps/wireshark" || exit 1
+install -m644 -D image/*bmp "$dest/share/pixmaps/wireshark" || exit 1
