@@ -19,6 +19,7 @@ libpng
 gsl
 boost
 popt
+liblcms
 
 [build]
 # https://bugs.launchpad.net/altlinux/+source/inkscape/+bug/910335

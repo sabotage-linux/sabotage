@@ -1,0 +1,12 @@
+--- SDL-1.2.15.org/src/video/SDL_stretch.c	2013-10-24 01:43:01.303623924 +0000
++++ SDL-1.2.15/src/video/SDL_stretch.c	2013-10-24 01:45:21.346618897 +0000
+@@ -42,6 +42,9 @@
+ /*#define USE_ASM_STRETCH*/
+ #endif
+ 
++#undef USE_ASM_STRETCH
++#undef HAVE_MPROTECT
++
+ #ifdef USE_ASM_STRETCH
+ 
+ #ifdef HAVE_MPROTECT

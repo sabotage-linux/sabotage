@@ -1,0 +1,11 @@
+--- mozilla-release.org/xpcom/ds/nsMathUtils.h	2013-10-25 22:27:44.000000000 +0000
++++ mozilla-release/xpcom/ds/nsMathUtils.h	2013-10-31 01:06:40.483466820 +0000
+@@ -103,7 +103,7 @@
+     // not present in the iOS SDK.
+     return std::isfinite(d);
+ #else
+-    return finite(d);
++    return std::isfinite(d);
+ #endif
+ }
+ 

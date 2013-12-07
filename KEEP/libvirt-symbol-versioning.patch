@@ -1,0 +1,11 @@
+--- libvirt-1.1.3.org/src/Makefile.in	2013-10-27 06:11:59.904268916 +0000
++++ libvirt-1.1.3/src/Makefile.in	2013-10-27 06:13:17.244269954 +0000
+@@ -4417,8 +4417,6 @@
+ # Empty source list - it merely links a bunch of convenience libs together
+ libvirt_la_SOURCES = 
+ libvirt_la_LDFLAGS = \
+-		$(VERSION_SCRIPT_FLAGS)$(LIBVIRT_SYMBOL_FILE) \
+-		-version-info $(LIBVIRT_VERSION_INFO) \
+ 		$(LIBVIRT_NODELETE) \
+ 		$(AM_LDFLAGS) \
+ 		$(CYGWIN_EXTRA_LDFLAGS) \

@@ -1,0 +1,8 @@
+[deps]
+libcap2
+libpcap
+
+[build]
+exe=$(readlink -f "$butch_prefix"/bin/dumpcap)
+setcap cap_net_raw+ep "$exe" || exit 1
+#setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap"

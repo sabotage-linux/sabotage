@@ -1,0 +1,23 @@
+--- portablexdr-4.9.1.org/rpc/types.h	2013-10-27 04:35:07.704190969 +0000
++++ portablexdr-4.9.1/rpc/types.h	2013-10-27 04:38:36.456193768 +0000
+@@ -35,15 +35,12 @@
+ #ifndef __TYPES_RPC_HEADER__
+ #define __TYPES_RPC_HEADER__
+ 
++#undef _BSD_SOURCE
++#define _BSD_SOURCE
++#undef _GNU_SOURCE
++#define _GNU_SOURCE
+ #include <stdint.h>
+-
+-typedef unsigned char u_char;
+-typedef uint16_t      u_short;
+-typedef uint32_t      u_int;
+-typedef unsigned long u_long;
+-typedef uint64_t      u_quad_t;
+-typedef int64_t       quad_t;
+-typedef char *        caddr_t;
++#include <sys/types.h>
+ 
+ #ifndef TRUE
+ #define TRUE 1

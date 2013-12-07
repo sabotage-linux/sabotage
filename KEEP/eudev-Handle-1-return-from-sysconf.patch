@@ -1,0 +1,73 @@
+From 21fd88ff97343fbc01a9b4432790110469bff955 Mon Sep 17 00:00:00 2001
+From: Michael Forney <mforney@mforney.org>
+Date: Fri, 25 Oct 2013 18:44:20 -0700
+Subject: [PATCH 1/2] libudev-util.c: Fix sysconf variable for
+ util_lookup_group
+
+---
+ src/libudev/libudev-util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/libudev/libudev-util.c b/src/libudev/libudev-util.c
+index 522a984..337514a 100644
+--- a/src/libudev/libudev-util.c
++++ b/src/libudev/libudev-util.c
+@@ -108,7 +108,7 @@ gid_t util_lookup_group(struct udev *udev, const char *group)
+         struct group grbuf;
+         struct group *gr;
+         gid_t gid = 0;
+-        size_t buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
++        size_t buflen = sysconf(_SC_GETGR_R_SIZE_MAX);
+         char *buf = NULL;
+ 
+         if (streq(group, "root"))
+-- 
+1.8.4
+
+
+From 0b2c207b7e96cfa8ad8b9a414c2f4f7a1a12f4f4 Mon Sep 17 00:00:00 2001
+From: Michael Forney <mforney@mforney.org>
+Date: Sat, 26 Oct 2013 01:12:51 +0000
+Subject: [PATCH 2/2] libudev-util.c: Handle -1 return from
+ sysconf(_SC_GET{PW,GR}_R_SIZE_MAX)
+
+POSIX says:
+
+    Note that sysconf(_SC_GETGR_R_SIZE_MAX) may return -1 if there is no
+    hard limit on the size of the buffer needed to store all the groups
+    returned.
+
+The example from POSIX uses a default buffer size of 1024 in that case.
+---
+ src/libudev/libudev-util.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/libudev/libudev-util.c b/src/libudev/libudev-util.c
+index 337514a..ae5e285 100644
+--- a/src/libudev/libudev-util.c
++++ b/src/libudev/libudev-util.c
+@@ -84,8 +84,11 @@ uid_t util_lookup_user(struct udev *udev, const char *user)
+         struct passwd *pw;
+         uid_t uid;
+         size_t buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
+-        char *buf = alloca(buflen);
++        char *buf;
+ 
++        if (buflen == -1)
++                buflen = 1024;
++        buf = alloca(buflen);
+         if (streq(user, "root"))
+                 return 0;
+         uid = strtoul(user, &endptr, 10);
+@@ -111,6 +114,8 @@ gid_t util_lookup_group(struct udev *udev, const char *group)
+         size_t buflen = sysconf(_SC_GETGR_R_SIZE_MAX);
+         char *buf = NULL;
+ 
++        if (buflen == -1)
++                buflen = 1024;
+         if (streq(group, "root"))
+                 return 0;
+         gid = strtoul(group, &endptr, 10);
+-- 
+1.8.4
+

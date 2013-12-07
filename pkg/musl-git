@@ -23,8 +23,8 @@ EOF
 fi
 
 # enable debug libc when DEBUGBUILD is set
-[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
-[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS_ALL_SHARED += -O0 -g" >> config.mak
+[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g3" >> config.mak
+[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS_ALL_SHARED += -O0 -g3" >> config.mak
 
 make clean
 make -j$MAKE_THREADS || exit 1

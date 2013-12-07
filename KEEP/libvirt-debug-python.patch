@@ -1,0 +1,136 @@
+--- libvirt-1.1.3.org/python/libvirt-override.c	2013-10-27 06:11:59.980268918 +0000
++++ libvirt-1.1.3/python/libvirt-override.c	2013-10-27 14:40:41.008678236 +0000
+@@ -20,6 +20,7 @@
+ #define VIR_ENUM_SENTINELS
+ 
+ #include <Python.h>
++#include <stdio.h>
+ #include <libvirt/libvirt.h>
+ #include <libvirt/virterror.h>
+ #include "typewrappers.h"
+@@ -7355,11 +7356,13 @@
+ {
+     static int initialized = 0;
+ 
+-    if (initialized != 0)
+-        return;
+-
+-    if (virInitialize() < 0)
+-        return;
++    if (initialized != 0) {
++	dprintf(2, "laready initid\n");
++        return; }
++
++    if (virInitialize() < 0) {
++	dprintf(2, "w000t\n");
++        return; }
+ 
+     /* initialize the python extension module */
+     Py_InitModule((char *)
+@@ -7370,5 +7373,7 @@
+ #endif
+                   , libvirtMethods);
+ 
++//dprintf(2, "yay\n");
++
+     initialized = 1;
+ }
+--- libvirt-1.1.3.org/src/libvirt.c	2013-10-27 06:11:59.911268917 +0000
++++ libvirt-1.1.3/src/libvirt.c	2013-10-27 16:49:21.821781781 +0000
+@@ -402,12 +402,13 @@
+ static bool virGlobalError = false;
+ static virOnceControl virGlobalOnce = VIR_ONCE_CONTROL_INITIALIZER;
+ 
++#define goto_error do { dprintf(2, "XX %d\n", __LINE__); goto error; } while (0)
+ static void
+ virGlobalInit(void)
+ {
+     if (virThreadInitialize() < 0 ||
+         virErrorInitialize() < 0)
+-        goto error;
++        goto_error;
+ 
+ #ifdef WITH_GNUTLS_GCRYPT
+     /*
+@@ -439,11 +440,11 @@
+ 
+ #if HAVE_WINSOCK2_H
+     if (winsock_init() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ 
+-    if (!bindtextdomain(PACKAGE, LOCALEDIR))
+-        goto error;
++//dprintf(2, "btd: %s %s\n", PACKAGE, LOCALEDIR);
++    bindtextdomain(PACKAGE, LOCALEDIR);
+ 
+     /*
+      * Note that the order is important: the first ones have a higher
+@@ -451,39 +452,39 @@
+      */
+ #ifdef WITH_TEST
+     if (testRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_OPENVZ
+     if (openvzRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_VMWARE
+     if (vmwareRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_PHYP
+     if (phypRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_ESX
+     if (esxRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_HYPERV
+     if (hypervRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_XENAPI
+     if (xenapiRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_PARALLELS
+     if (parallelsRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ #ifdef WITH_REMOTE
+     if (remoteRegister() == -1)
+-        goto error;
++        goto_error;
+ #endif
+ 
+     return;
+@@ -510,11 +511,14 @@
+ int
+ virInitialize(void)
+ {
+-    if (virOnce(&virGlobalOnce, virGlobalInit) < 0)
++    if (virOnce(&virGlobalOnce, virGlobalInit) < 0) {
++	dprintf(2, "m000\n");
+         return -1;
+-
+-    if (virGlobalError)
++	}
++    if (virGlobalError) {
++	dprintf(2, "maaaeeehh\n");
+         return -1;
++	}
+     return 0;
+ }
+ 

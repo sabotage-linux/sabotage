@@ -18,11 +18,6 @@ cp "$H"/enter-chroot "$R"/src/
 cp "$K"/extlinux.conf "$R"/boot/
 cp "$K"/runsvdir-start "$R"/bin/
 
-cd "$R"
-for s in etc/service/*; do
-    ln -s /"$s" "var${s#etc}"
-done
-
 cp "$K"/config.stage1 "$R"/src/config
 echo "export A=$A" >> "$R"/src/config
 [ -z "$MAKE_THREADS" ] || sed -i "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" "$R"/src/config

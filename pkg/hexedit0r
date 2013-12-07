@@ -1,0 +1,13 @@
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/hexedit0r-1.0.tar.xz
+
+[main]
+filesize=20592
+sha512=53593ace3da9043a3767ce2f8b92533400f453be6702c4712b9d952b130e2072b86f8b5a85e21d78dc90b2b1041fd85e65761f6175d00c920c1bd55c84b2f499
+
+[deps]
+ncurses
+
+[build]
+make CFLAGS="$optcflags" LDFLAGS="$optldflags" -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" prefix="$butch_prefix" install || exit 1

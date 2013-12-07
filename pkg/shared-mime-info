@@ -23,5 +23,6 @@ for i in po ; do
         printf 'check:\n\ttrue\n\nall:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n\n' > "$i"/Makefile
 done
 
-make -j$MAKE_THREADS || exit 1
+# FIXME makefile is buggy and breaks randomly with multiple processes
+make -j1 || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

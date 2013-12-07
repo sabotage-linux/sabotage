@@ -1,0 +1,18 @@
+--- leafpad-0.8.18.org/src/window.c
++++ leafpad-0.8.18/src/window.c
+@@ -51,15 +51,11 @@
+ 		NULL);
+ 	gtk_window_set_default_icon(icon);
+ */
+-#if GTK_CHECK_VERSION(2, 6, 0)
+-	gtk_window_set_default_icon_name(PACKAGE);
+-#else
+  	GdkPixbuf *icon = gdk_pixbuf_new_from_file(
+ 		ICONDIR G_DIR_SEPARATOR_S PACKAGE ".png", NULL);
+ 	gtk_window_set_icon(GTK_WINDOW(window), icon);
+ 	if (icon)
+ 		g_object_unref(icon);
+-#endif
+ 	
+ 	g_signal_connect(G_OBJECT(window), "delete-event",
+ 		G_CALLBACK(on_file_quit), NULL);

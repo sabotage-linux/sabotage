@@ -1,9 +1,9 @@
 [mirrors]
-https://pypi.python.org/packages/source/e/ecdsa/ecdsa-0.8.tar.gz
+https://pypi.python.org/packages/source/e/ecdsa/ecdsa-0.10.tar.gz
 
 [main]
-filesize=35754
-sha512=1f89954bf7b45bf135dd55c64f0555014de00e3316ba2334054282fe8c542c070793220e4f4c5e69507ba2fd756795fda72cf3dfe43b6f42b554a7a3818f7a80
+filesize=45153
+sha512=c1a51e95af938aca01001a4aa7e3a830157d5ffd0370d880340e513edbe176b30750fb86270d605b729dcc5741346d552b2bf16d7b3b4910fd1d06f96eaffc0f
 
 [deps]
 python
@@ -11,6 +11,5 @@ wget
 
 [build]
 # FIXME: there appears to be no mirror without https
-patch -p1 < "$K"/python-ecdsa-bitcoin.patch || exit 1
 python setup.py build || exit 1
 python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" || exit 1

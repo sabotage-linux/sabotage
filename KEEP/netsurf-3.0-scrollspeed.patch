@@ -1,0 +1,18 @@
+--- netsurf-full-3.0.org/src/netsurf-3.0/gtk/res/tabcontents.gtk2.ui	2013-10-21 19:13:57.444664717 +0000
++++ netsurf-full-3.0/src/netsurf-3.0/gtk/res/tabcontents.gtk2.ui	2013-10-24 23:36:44.496794482 +0000
+@@ -79,13 +79,13 @@
+       </object>
+   <object class="GtkAdjustment" id="layouthadjustment">
+     <property name="upper">100</property>
+-    <property name="step_increment">1</property>
++    <property name="step_increment">30</property>
+     <property name="page_increment">10</property>
+     <property name="page_size">10</property>
+   </object>
+   <object class="GtkAdjustment" id="layoutvadjustment">
+     <property name="upper">100</property>
+-    <property name="step_increment">1</property>
++    <property name="step_increment">30</property>
+     <property name="page_increment">10</property>
+     <property name="page_size">10</property>
+   </object>

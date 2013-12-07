@@ -2,11 +2,11 @@
 util-macros
 
 [main]
-filesize=107997
-sha512=ebe36ad5cf7d3be18b57bc506d07536d3614cacfc9673c6dc02a70be25b5e94d2021c3caa849a1cce8054e5aae290a18e9827b42e736cc3995003a8f1b12de6b
+filesize=118820
+sha512=e74a512a6101967983a1d713d22a1f456f77519998116ef0f0a9e4b44ae4730ecd41eb9c0f7fa53e9f5c94967541daf10693d701af832597f5347461c5990ebc
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/scrnsaverproto-1.2.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/scrnsaverproto-1.2.2.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

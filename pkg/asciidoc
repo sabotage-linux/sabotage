@@ -1,0 +1,21 @@
+[mirrors]
+http://downloads.sourceforge.net/project/asciidoc/asciidoc/8.6.8/asciidoc-8.6.8.tar.gz
+
+[main]
+filesize=900422
+sha512=74c5444124f138862a92a1884b8afe8f968c9a2bbe5a8bbaa9413b0fa4f29fb1ab2eab3c59a68e6c6ddd518866f504e34f43c81406a77c1b2033fbff79df7373
+
+[deps]
+python
+xmlto
+docbook-xsl
+docbook-xml
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

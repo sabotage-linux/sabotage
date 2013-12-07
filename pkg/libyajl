@@ -1,0 +1,20 @@
+[mirrors]
+https://github.com/lloyd/yajl/archive/2.0.4.tar.gz
+[main]
+filesize=82793
+sha512=d89e0fcd42fc77e2b3aad82248e6cc198ca49c39e226d683ae5fe2278d87841317f25c2b5071027044d0cfc1097691ea7e912fd417e2d7cec42291359b8d86d7
+tardir=yajl-2.0.4
+
+[deps]
+cmake
+
+[build]
+patch -p1 < "$K"/yajl-test.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" || exit 1
+
+sed -i 's@all: distro doc test@all: distro@' Makefile
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

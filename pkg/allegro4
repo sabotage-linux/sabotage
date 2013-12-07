@@ -1,0 +1,31 @@
+[mirrors]
+http://surfnet.dl.sourceforge.net/project/alleg/allegro/4.4.2/allegro-4.4.2.tar.gz
+
+[main]
+filesize=4674902
+sha512=ad4bc1c15fc83bc8a019031fed82f37a793664bb6683cf023ec05fd9cd945f00f43764f3126892426036249c63afa5678fb4906407bb325ce5827b36aee0fa86
+
+[deps]
+cmake
+alsa-lib
+libjpeg
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+mkdir build && cd build
+
+cmake \
+  -DCMAKE_INSTALL_PREFIX=$butch_prefix \
+  -DMANDIR=share/man \
+  -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags" \
+  -DCMAKE_LD_FLAGS="$optldflags" \
+  -DWANT_TESTS=OFF \
+  -DWANT_TOOLS=OFF \
+.. || exit 1
+
+mkdir -p docs
+cp -r ../docs/txt docs/
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

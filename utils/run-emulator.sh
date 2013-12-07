@@ -1,6 +1,6 @@
 #!/bin/sh
 export H="$PWD"
-source ./config
+. ./config
 
 console=
 rw=rw
@@ -13,7 +13,8 @@ nographic=
 [ -z "$console" ] && console="vga=ask"
 [ -z "$INIT" ] && INIT=/bin/init
 [ -z "$KERNEL" ] && KERNEL=$R/boot/vmlinuz
+[ -z "$ram" ] && ram=140
 
-qemu-system-$A $nographic -no-reboot -kernel $KERNEL -append \
+qemu-system-$A $nographic -m $ram -no-reboot -kernel $KERNEL -append \
   "root=root $rw rootflags=$rw,trans=virtio,version=9p2000.L rootfstype=9p init=$INIT panic=1 HOST=$A $console" \
   -fsdev local,id=root,path=$R,security_model=none -device virtio-9p-pci,fsdev=root,mount_tag=root

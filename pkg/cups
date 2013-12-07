@@ -1,0 +1,26 @@
+[mirrors]
+http://www.cups.org/software/1.6.3/cups-1.6.3-source.tar.bz2
+
+[main]
+filesize=8265065
+sha512=31cafa52bdf1f00d6cf78456bc1dbb2f0440e29a18d45d3088c0da6858b0e35c43be8a1fc10d0efff7572dac5cf16eb93e299a978c4c7ae8af1b2e1e1365ddba
+tardir=cups-1.6.3
+
+[deps]
+
+[build]
+patch -p1 < "$K"/cups-1.7.0-blfs-1.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" \
+  --with-icondir="$butch_prefix"/share/icons \
+  --with-menudir="$butch_prefix"/share/applications \
+  --with-rcdir="$butch_prefix"/share/cups-rc.d || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DSTROOT="$butch_install_dir" install || exit 1
+
+# TODO 
+# - write init scripts derived from /share/cups-rc.d/*
+# install users, groups etc - see
+# http://www.linuxfromscratch.org/blfs/view/7.4/pst/cups.html

@@ -1,0 +1,22 @@
+[mirrors]
+http://downloads.sourceforge.net/kvm/qemu-kvm-1.2.0.tar.gz
+
+[main]
+filesize=6839420
+sha512=c21354127d4585397ab400600ab1ac9aac80cc0431bbf615c8e906819075b00373f382954fbd9fa39bf6479126d8d8e3321b3713346d04abe2c249edfa4eb6fd
+
+[deps]
+
+[build]
+# this package seems to provide only a subset of qemu, so it may not be needed
+
+# more interesting configuration:
+# https://github.com/pld-linux/qemu-kvm/blob/master/qemu-kvm.spec
+
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

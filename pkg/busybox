@@ -39,6 +39,9 @@ dopatch "$K"/busybox-awk-int-overflow.patch || exit 1
 dopatch "$K"/busybox-tar-norecurse.patch || exit 1
 dopatch "$K"/busybox-tar-xz.patch || exit 1
 dopatch "$K"/busybox-tar-xz2.patch || exit 1
+dopatch "$K"/busybox-bzip2bug.patch || exit 1
+dopatch "$K"/busybox-fdisk-gpt-size.patch || exit 1
+dopatch "$K"/busybox-fdisk-sector-size.patch || exit 1
 
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc 

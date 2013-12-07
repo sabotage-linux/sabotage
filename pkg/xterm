@@ -14,7 +14,11 @@ ftp://invisible-island.net/xterm/xterm-269.tgz
 [build]
 # Gleiches mit gleichem vergelten.
 CFLAGS="-include termcap.h -g -D__GNU__ -D__GLIBC__=2 -D__GLIBC_MINOR__=10 -D_POSIX_SOURCE -D_GNU_SOURCE" ./configure -C \
-  --prefix="$butch_prefix" --mandir=/share/man --enable-256-color ac_cv_header_lastlog_h=no cf_cv_path_lastlog=no || exit 1
+  --prefix="$butch_prefix" \
+  --mandir=/share/man \
+  --enable-256-color \
+  --enable-wide-chars \
+  ac_cv_header_lastlog_h=no cf_cv_path_lastlog=no || exit 1
 cat <<EOF >>ptyx.h
 #ifndef HACKY_HACKY_GETPT 
 #define HACKY_HACKY_GETPT

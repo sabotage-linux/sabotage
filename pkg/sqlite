@@ -1,19 +1,75 @@
 [deps]
 musl
 pkgconf
-
-[main]
-filesize=1801640
-sha512=b66ca1eb59eec97415d110879077c0c7cac24e79cdd1f98143cfaa663d5c08888bc243ac3c10efe36e1c9c15b4fb9d661882e0e80c24f2b86bf385f81e058120
+readline
 
 [mirrors]
-http://sqlite.org/sqlite-autoconf-3071000.tar.gz
-http://prdownloads.sourceforge.net/sqlite.mirror/sqlite-autoconf-3071000.tar.gz
-http://sources.buildroot.net/sqlite-autoconf-3071000.tar.gz
+http://www.sqlite.org/2013/sqlite-autoconf-3080002.tar.gz
+http://prdownloads.sourceforge.net/sqlite.mirror/sqlite-autoconf-3080002.tar.gz
+http://sources.buildroot.net/sqlite-autoconf-3080002.tar.gz
+
+[main]
+filesize=1878765
+sha512=936a5b8c809891883e11bb881edcc851ca25c55325699889ab123337aea37afa36129ea802a633e440824a97fff777e51816262e824b21fa387bcecddb91f9e7
 
 [build]
+if false ; then
 ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
+else
 
+read CPPFLAGS << EOF
+  -DPACKAGE_NAME=\"sqlite\" -DPACKAGE_TARNAME=\"sqlite\"
+  -DPACKAGE_VERSION=\"3.8.0.2\" -DPACKAGE_STRING=\"sqlite\ 3.8.0.2\"
+  -DPACKAGE_BUGREPORT=\"http://www.sqlite.org\"
+  -DPACKAGE_URL=\"\" -DPACKAGE=\"sqlite\" -DVERSION=\"3.8.0.2\"
+  -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1
+  -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1
+  -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1
+  -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DHAVE_FDATASYNC=1
+  -DHAVE_USLEEP=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1
+  -DHAVE_DECL_STRERROR_R=1 -DHAVE_STRERROR_R=1 -DHAVE_READLINE=1
+  -DHAVE_POSIX_FALLOCATE=1 -D_REENTRANT=1 -DSQLITE_THREADSAFE=1
+  -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_RTREE
+EOF
 
+cat << EOF > Makefile
+sqlite3: libsqlite3.so shell.o
+	\$(CC) -L. -lsqlite3 -o \$@ shell.o
+libsqlite3.so: sqlite3.o
+	\$(CC) \$(LDFLAGS) -shared -Wl,-soname=\$@ -o \$@ \$<
+libsqlite3.a: sqlite3.o
+	ar rc \$@ \$<
+
+all: libsqlite3.so libsqlite3.a sqlite3
+install:
+	install -D -m 755 sqlite3 \$(DESTDIR)\$(prefix)/bin/sqlite3
+	install -D -m 644 sqlite3.1 \$(DESTDIR)\$(prefix)/share/man/man1/sqlite3.1
+	install -D -m 644 libsqlite3.so \$(DESTDIR)\$(prefix)/lib/libsqlite3.so
+	ln -sf libsqlite3.so \$(DESTDIR)\$(prefix)/lib/libsqlite3.so.0
+	ln -sf libsqlite3.so \$(DESTDIR)\$(prefix)/lib/libsqlite3.so.0.8.6
+	install -D -m 644 libsqlite3.a \$(DESTDIR)\$(prefix)/lib/libsqlite3.a
+	install -D -m 644 sqlite3.pc \$(DESTDIR)\$(prefix)/lib/pkgconfig/sqlite3.pc
+	install -D -m 644 sqlite3.h \$(DESTDIR)\$(prefix)/include/sqlite3.h
+	install -D -m 644 sqlite3ext.h \$(DESTDIR)\$(prefix)/include/sqlite3ext.h
+
+.PHONY: all install
+EOF
+
+cat << EOF > sqlite3.pc
+prefix=$butch_prefix
+exec_prefix=\${prefix}
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+Name: SQLite
+Description: SQL database engine
+Version: 3.8.0.2
+Libs: -lsqlite3 -lreadline
+Libs.private: 
+Cflags:
+EOF
+make all CC=$CC CFLAGS="$optcflags -fPIC -O0" CPPFLAGS="$CPPFLAGS" -j2 || exit 1
+make DESTDIR="$butch_install_dir" prefix="$butch_prefix" install || exit 1
+
+fi

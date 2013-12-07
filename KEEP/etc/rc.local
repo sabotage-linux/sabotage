@@ -3,6 +3,7 @@
 # put local stuff that you want to run on each start (with root powers) here.
 # for example your network config, or your keyboard layout in the linux terminal.
 
+do_init_devices=false
 do_static_ip=false
 do_dhcp=false
 do_init_alsa=false
@@ -10,6 +11,12 @@ do_kmap=false
 do_disable_overcommit=true
 do_protected_symlinks=false
 do_protected_hardlinks=true
+
+if $do_init_devices ; then
+	# if mdev/eudev don't work as excepted, do it straight
+	chown root:audio /dev/snd/* && chmod 0660 /dev/snd/*
+	[ -e /dev/kvm ] && chown root:kvm /dev/kvm && chmod 0660 /dev/kvm
+fi
 
 if $do_static_ip ; then
 

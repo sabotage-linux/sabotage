@@ -45,7 +45,7 @@ butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
 butch_package_version=0.0.0
 
 # if we unlink busybox, gcc4 or binutils, nothing will work anymore
-for i in busybox coreutils gcc454 gcc424 gcc447 gcc463 gcc464 gcc472 gcc473 binutils musl-git sed ; do
+for i in busybox coreutils gcc454 gcc424 gcc447 gcc463 gcc464 gcc472 gcc473 binutils musl-git sed make ; do
 	[ "$butch_package_name" = "$i" ] && butch_do_cleanup_custom_destdir=false
 done
 
@@ -91,7 +91,7 @@ fi
 # BUTCH_HAVE_TARBALL will be replaced by true or false
 # depending on whether a tarball is used by the pkg
 if %BUTCH_HAVE_TARBALL ; then
-	
+
 	printf '%s\n' "%BUTCH_TARBALL" >> "$butch_tarballs_used"
 
 	if $butch_do_cleanup_builddir && [ -e "$butch_build_dir" ] ; then
@@ -162,7 +162,7 @@ if $have_files ; then
 	if [ "$butch_do_filelists" ] ; then
 		mkdir -p "$butch_filelists"
 		echo "creating filelist $filelist"
-		find . -type f > "$filelist"
+		find . -type f -or -type l > "$filelist"
 	fi
 
 	if $butch_do_relocate ; then
@@ -177,12 +177,12 @@ if $have_files ; then
 			relocate $loc ..
 		done
 	fi
-	
+
 	if $butch_do_create_tarball ; then
 		mkdir -p "$butch_created_tarball_dest"
 		tarball="$butch_created_tarball_dest/$butch_package_name-$package_version-$A.tar.bz2"
 		echo "creating dist tarball $tarball"
-		tar cjf "$tarball" * 
+		tar cjf "$tarball" *
 	fi
 
 fi

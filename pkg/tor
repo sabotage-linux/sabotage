@@ -1,0 +1,20 @@
+[mirrors]
+https://www.torproject.org/dist/tor-0.2.3.25.tar.gz
+
+[main]
+filesize=3190011
+sha512=c15f9356abc41bd1c663d37e674386debc29b0a5887e1120a0318ffb97ada1a04d57756175f01f13549f179f73916e2af18566575a656154ff71ec050fc99651
+
+[deps]
+openssl
+libevent
+wget
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
+  ./configure -C --prefix="$butch_prefix" tor_cv_cflags__fPIE=no || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

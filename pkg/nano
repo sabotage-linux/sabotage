@@ -11,6 +11,7 @@ http://www.nano-editor.org/dist/v2.3/nano-2.3.1.tar.gz
 [build]
 LDFLAGS="-static -s -Wl,--gc-sections" CFLAGS="-Os -ftree-dce -fdata-sections -ffunction-sections" \
 ./configure -C --prefix="$butch_prefix" \
+  --enable-utf8 \
   --disable-wrapping || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

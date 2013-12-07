@@ -1,0 +1,46 @@
+#!/bin/sh
+/bin/busybox --install -s
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mknod /dev/null c 1 3
+mknod /dev/tty c 5 0
+mdev -s
+get_opt() {
+  echo "$@" | cut -d "=" -f 2
+}
+init="/sbin/init"
+boot="/dev/sda1"
+sqsh_root="/root.sqsh.img"
+for i in $(cat /proc/cmdline); do
+	case $i in
+		boot\=*)
+			boot=$(get_opt $i)
+			;;
+		init\=*)
+			init=$(get_opt $i)
+			;;
+		sqsh_root\=*)
+			sqsh_root=$(get_opt $i)
+	esac
+done
+i=10
+for i in $(seq 10); do
+  [ -e "$boot" ] && break
+  sleep 1
+  mdev -s
+done
+
+mount "${boot}" /boot
+mount -o loop -t squashfs "/boot/${sqsh_root}" /newroot
+mount "${boot}" /newroot/boot
+if [ -x "/newroot/${init}" ] ; then
+	mount -t devtmpfs dev /newroot/dev
+	#Unmount all other mounts so that the ram used by
+	#the initramfs can be cleared after switch_root
+	umount /sys /proc
+	
+	#Switch to the new root and execute init
+	exec switch_root /newroot "${init}"
+fi
+echo "Failed to switch_root, dropping to a shell"
+exec sh

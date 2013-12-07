@@ -1,0 +1,21 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-joystick-1.6.2.tar.bz2
+
+[main]
+filesize=327539
+sha512=2c3e9d9fefa8010198a895fea1caa0475c8005480b5db14fc7e547ae9ac4da2dbfa10e8ecbdcf7a6bf31c7590f6414685a11964ef00f6ca99b88e81b404f5ef8
+
+[deps]
+util-macros
+xorg-server
+xproto
+inputproto
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

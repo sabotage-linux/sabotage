@@ -1,0 +1,60 @@
+Submitted By:            Armin K. <krejzi at email dot com>
+Date:                    2013-03-21
+Initial Package Version: 1.6.3
+Upstream Status:         BLFS Specific
+Origin:                  Self
+Description:             Fix permissions for installed files, disable compression of man pages and
+                         add BLFS specific PAM configuration file.
+
+--- a/conf/pam.std.in	2009-09-22 23:52:47.000000000 +0200
++++ b/conf/pam.std.in	2013-03-21 21:05:28.537921845 +0100
+@@ -1,2 +1,7 @@
+-auth	required	@PAMMODAUTH@
+-account	required	@PAMMOD@
++# Begin /etc/pam.d/cups
++
++auth    include system-auth
++account include system-account
++session include system-session
++
++# End /etc/pam.d/cups
+--- a/config-scripts/cups-manpages.m4	2012-04-23 19:26:57.000000000 +0200
++++ b/config-scripts/cups-manpages.m4	2013-03-21 21:05:00.270687182 +0100
+@@ -69,10 +69,10 @@
+ 		;;
+ 	Linux* | GNU* | Darwin*)
+ 		# Linux, GNU Hurd, and OS X
+-		MAN1EXT=1.gz
+-		MAN5EXT=5.gz
+-		MAN7EXT=7.gz
+-		MAN8EXT=8.gz
++		MAN1EXT=1
++		MAN5EXT=5
++		MAN7EXT=7
++		MAN8EXT=8
+ 		MAN8DIR=8
+ 		;;
+ 	*)
+--- a/Makedefs.in	2012-05-23 01:58:31.000000000 +0200
++++ b/Makedefs.in	2013-03-21 21:05:00.280687382 +0100
+@@ -40,14 +40,14 @@
+ # Installation programs...
+ #
+ 
+-INSTALL_BIN	=	$(LIBTOOL) $(INSTALL) -c -m 555 @INSTALL_STRIP@
+-INSTALL_COMPDATA =	$(INSTALL) -c -m 444 @INSTALL_GZIP@
++INSTALL_BIN	=	$(LIBTOOL) $(INSTALL) -c -m 755 @INSTALL_STRIP@
++INSTALL_COMPDATA =	$(INSTALL) -c -m 644 @INSTALL_GZIP@
+ INSTALL_CONFIG	=	$(INSTALL) -c -m @CUPS_CONFIG_FILE_PERM@
+-INSTALL_DATA	=	$(INSTALL) -c -m 444
++INSTALL_DATA	=	$(INSTALL) -c -m 644
+ INSTALL_DIR	=	$(INSTALL) -d
+-INSTALL_LIB	=	$(LIBTOOL) $(INSTALL) -c -m 555 @INSTALL_STRIP@
+-INSTALL_MAN	=	$(INSTALL) -c -m 444
+-INSTALL_SCRIPT	=	$(INSTALL) -c -m 555
++INSTALL_LIB	=	$(LIBTOOL) $(INSTALL) -c -m 755 @INSTALL_STRIP@
++INSTALL_MAN	=	$(INSTALL) -c -m 644
++INSTALL_SCRIPT	=	$(INSTALL) -c -m 755
+ 
+ #
+ # Default user, group, and system groups for the scheduler...

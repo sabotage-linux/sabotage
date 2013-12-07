@@ -1,0 +1,12 @@
+--- wireshark-1.10.2.org/ui/gtk/gui_utils.c
++++ wireshark-1.10.2/ui/gtk/gui_utils.c
+@@ -128,7 +128,8 @@
+     g_list_free(ws_icon_list);
+ 
+     /* set icon by name, this allows us to use even SVG icon if it is present */
+-    gtk_window_set_icon_name(GTK_WINDOW(win), "wireshark");
++//    gtk_window_set_icon_name(GTK_WINDOW(win), "wireshark");
++
+ #endif
+ }
+ 

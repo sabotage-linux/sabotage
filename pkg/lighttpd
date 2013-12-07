@@ -1,9 +1,8 @@
 [mirrors]
-http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.31.tar.xz
-
+http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.33.tar.xz
 [main]
-filesize=546668
-sha512=fc02e9ea67ad86626b35c3c7fc3fd63947c7452352751009256c42717d350eff9855eae2edb9a261e37371b2c293f8322ae6ed0e949f1a32a39a3f53c71319b2
+filesize=555248
+sha512=120720ed9c6e0fe2639d6908214c96e352cde6ea0639857ab326c0b4b3890824ddb06a5384985c551a5e84b619ea91777a5b3836ab4ee91cdccebe355341ece2
 
 [deps]
 openssl

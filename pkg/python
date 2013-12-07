@@ -7,11 +7,11 @@ expat
 libffi
 
 [mirrors]
-http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2
+http://www.python.org/ftp/python/2.7.5/Python-2.7.5.tar.bz2
 
 [main]
-filesize=11793433
-sha512=1fc5866b7bdbd3d6b89d92797ea4ad612a3dd6b77c4b9dde9feae64ce6c70013ea1b4d2086dd8e8be426689b4465b1a15d22b048d2f5335de629f5e8b0cb3820
+filesize=12147710
+sha512=e0080a380cc280575efb8ec065f99a1ab6f0ac0528c9bb5688414b1d6bb3f42645d8257557764049cefe40f40a0cd7afca1094099ecbf15b7a97757e3dd45492
 
 [build]
 # work around buggy installer which puts stuff into prefix directly (omitting destdir) when

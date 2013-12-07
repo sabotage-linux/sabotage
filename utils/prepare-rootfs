@@ -35,5 +35,6 @@ chmod 700 root
 
 cp -r "$K"/etc/* "$R"/etc/
 cp -r "$K"/bin/* "$R"/bin/
+cp -r "$K"/share/* "$R"/share/
 chmod 0600 "$R"/etc/shadow
 

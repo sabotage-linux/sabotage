@@ -1,4 +1,4 @@
 #!/bin/sh
-source "$PWD"/config
+. "$PWD"/config
 echo "$R"
 

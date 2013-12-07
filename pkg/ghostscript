@@ -1,0 +1,43 @@
+[mirrors]
+http://downloads.ghostscript.com/public/ghostscript-9.10.tar.bz2
+
+[main]
+filesize=30983380
+sha512=59f380e52c84b69819ef7d321f323950c22306119cfa7b38809a23e83f9a3af1e35b5d66d9b9e9adef32131aa283a235deec346acced330d7ad7d1201fe7ca04
+
+[deps]
+expat
+freetype
+libpng
+libtiff
+libjpeg
+zlib
+lcms2
+
+[build]
+# may need some additional fonts
+# TODO: add packages for them
+# http://www.linuxfromscratch.org/blfs/view/7.4/pst/gs.html
+# http://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz
+# http://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz
+
+#patch -p1 < "$K"/some.patch || exit 1
+
+# get rid of in-tree lib copies, so the system ones are picked up
+rm -rf expat freetype lcms2 jpeg libpng zlib
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" \
+  --enable-dynamic \
+  --disable-static \
+  --with-system-libtiff \
+|| exit 1
+
+make -j$MAKE_THREADS so || exit 1
+make DESTDIR="$butch_install_dir" soinstall || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+# in the dynamic build, gsx and gsc are equivalent to gs,
+# but they apparently use some different screen output mode.
+# so it may be better to symlink gsc to gs.
+ln -s gsx "$dest"/bin/gs

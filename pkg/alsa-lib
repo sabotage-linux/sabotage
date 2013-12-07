@@ -23,23 +23,20 @@ patch -p1 < "$K"/alsa-lib_mixed_types.patch || exit 1
 patch -p1 < "$K"/alsa-lib_mips_atomic.patch || exit 1
 patch -p1 < "$K"/alsa-lib_mask_inline.patch || exit 1
 patch -p1 < "$K"/alsa-lib_kernel_off_t.patch || exit 1
+patch -p1 < "$K"/alsa-lib-portable-mutex.patch || exit 1
 
 sed -i 's,#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE),#if 0,' include/global.h || exit 1
 
-# musl doesn't support PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP
-# this hack sets the right flag to 1 but will fail when musl changes its internal layout
-# TODO: the proper way is to use an __attribute__((constructor)) function that initializes it
-
-sed -i 's@PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP@{{{1,0,0,0,0,0,0,0,0,0}}}@' src/conf.c
-
 THIS="$PWD"
 
-# by default alsa-lib uses --with-versioned, which will create *horribly* broken
-# wrapper functions. for example, snd_pcm_hw_params_set_buffer_time_near will
-# pass a pointer to a pointer of int to a function expecting a pointer of int,
-# and then dereferences it and uses the value as an int, even though it's a pointer.
-# also in case of success, it returns the modified value as if it was a *getter*
-# function.
+# by default alsa-lib uses --with-versioned, which will create 2 sets of functions,
+# one for the old ABI that was deprecated over 10 years ago, and the current one,
+# with versioning symbols. since musl's symlinker previously didn't support
+# symbol versioning at all, the effect was that we got the wrong (old) functions
+# used instead of the new ones, which caused serious breakage.
+# musl now implements the subset of symbol versioning needed to get the default
+# symbol version, so this isn't strictly needed anymore - however using the versioned
+# stuff still bloats up the library with obsolete ancient junk nobody uses.
 
 debugcflags=
 debugflags=

@@ -1,0 +1,16 @@
+[mirrors]
+https://fedorahosted.org/released/python-virtinst/virtinst-0.600.4.tar.gz
+
+[main]
+filesize=8180759
+sha512=59a0ab1cc9080ce55b857853602311e8573b7339ceb540bffecd19ae1e41a30248058897fbc257fd264c8592bac23e09730927a68d351181e68e919270018536
+
+[deps]
+libvirt
+python-urlgrabber
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+python setup.py build || exit 1
+python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" || exit 1

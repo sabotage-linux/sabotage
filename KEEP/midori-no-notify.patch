@@ -1,0 +1,11 @@
+--- midori-0.5.5.org/wscript
++++ midori-0.5.5/wscript
+@@ -193,7 +193,7 @@
+             uselib_store=var, errmsg=name + ver_str + ' not found')][have])
+         return have
+ 
+-    if is_win32 (os.environ):
++    if is_win32 (os.environ) or os.environ.get("DISABLE_NOTIFY") == "1":
+         conf.define ('LIBNOTIFY_VERSION', 'No')
+         conf.check_message_custom ('libnotify', '', 'disabled')
+     else:

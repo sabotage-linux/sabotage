@@ -8,6 +8,7 @@ filesize=167379
 sha512=9ecdea460858b7e6ad7ca2534ecb3581397e6c1fa904459affe19ce49f528e580e143b42b13413b292ae7b57901a8008e6a9ee3821824f6ff7914b136f75c658
 
 [deps]
+allegro4
 
 [build]
 patch -p1 < "$K"/dumb-Makefile-DESTDIR.patch || exit 1
@@ -15,7 +16,7 @@ patch -p1 < "$K"/dumb-Makefile-DESTDIR.patch || exit 1
 cat << EOF > make/config.txt
 include make/unix.inc
 ALL_TARGETS := core core-examples core-headers
-#ALL_TARGETS += allegro allegro-examples allegro-headers
+ALL_TARGETS += allegro allegro-examples allegro-headers
 PREFIX := $butch_prefix
 DESTDIR := $butch_install_dir
 EOF

@@ -1,0 +1,15 @@
+[deps]
+perl
+cpan-Net-SSLeay
+
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/S/SU/SULLR/IO-Socket-SSL-1.955.tar.gz
+
+[main]
+filesize=90057
+sha512=dd54ee9aec107cdbcde5906581685344d72334cc6b621e70663f5488a8418d8e621e1ef23b92602f223984648491d5b9c8860277a1d45142d9a53e6b63bc3aa8
+
+[build]
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
+

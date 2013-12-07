@@ -1,9 +1,9 @@
-[main]
-filesize=1120592
-sha512=76e9c24221db0d239da415c4409a0bfef6ea2665e7aae39a4a852b6392311a97bf057758a3b11b45a22d0ab9134be3eeead5c0abf8d47848106732a3ce83425d
-
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.31/gobject-introspection-1.31.22.tar.xz
+http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/1.38/gobject-introspection-1.38.0.tar.xz
+
+[main]
+filesize=1226324
+sha512=2eeafbb09484988c8489757232233aa9bf5cefecf7f80ed940867cf721e271644f7e94d8ae3b18717340ba3af1c208701c4766b1113af03972311517fda10e8f
 
 [deps]
 python

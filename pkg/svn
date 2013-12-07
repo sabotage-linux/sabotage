@@ -4,18 +4,24 @@ pkgconf
 apr
 apr-util
 zlib-dynamic
-neon
+serf
 sqlite
-
-[main]
-filesize=5956842
-sha512=6f28157a2b6587c18a7ed3a61a4929a54488ef31325a4d96d2343123bf6a47adc7c1ca83a388dd384651beb086ad86ff7faf8181880d4c482fc05ddbce2bda6d
+swig
 
 [mirrors]
-http://archive.apache.org/dist/subversion/subversion-1.7.3.tar.bz2
+http://mirror.switch.ch/mirror/apache/dist/subversion/subversion-1.8.3.tar.bz2
+http://archive.apache.org/dist/subversion/subversion-1.8.3.tar.bz2
+
+[main]
+filesize=6773731
+sha512=7ecb0a30751884d72d4039b7b33ec643ff42325f904c3c3ec5a1ef5c90c67b52adec908f908d74a1ffffb8bdb58086c71980b4cd279dad926b8d7f846fe446ca
 
 [build]
+patch -p1 < "$K"/svn-perlbindings-delta-apr-dep.patch || exit 1
+sed -i 's#Makefile.PL.in$#& libsvn_swig_perl#' Makefile.in
 CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" --disable-nls || exit 1
 make -j$MAKE_THREADS || exit 1
+make -j$MAKE_THREADS swig-pl || exit 1 # needed for git-svn
 make DESTDIR="$butch_install_dir" install || exit 1
+make DESTDIR="$butch_install_dir" install-swig-pl || exit 1
 

@@ -1,0 +1,16 @@
+[deps]
+xproto
+libx11
+xorg-server
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-modesetting-0.8.0.tar.bz2
+
+[main]
+filesize=302352
+sha512=92e14d8fb4252f7103d45b0d1bb03394f1baa550cfd15f86caaf6f8ee40b159c24bed415c6781e462eb383bcccfffdb829c15baccfaa81df38048031a2998243
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

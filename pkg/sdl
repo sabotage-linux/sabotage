@@ -10,12 +10,14 @@ libxext
 
 [build]
 patch -p1 < "$K"/sdl-stacksize.patch || exit 1
+patch -p1 < "$K"/sdl-grsec.patch || exit 1
 
 cd src/video/fbcon
 sed -i -e "s|__u16|ushort|" -e "s|__u32|uint|" *.c *.h
 sed -i "s|defined(FB_TYPE_VGA_PLANES)|defined(DONT_TOUCH_THIS)|" SDL_fbvideo.c
 cd ../../..
 
+sed -i '/_XData32/s:register long:register _Xconst long:' src/video/x11/SDL_x11sym.h
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_XFUNCS_H_" ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,12 @@
+[mirrors]
+http://mirror.wzff.de/sabotage/tarballs/xdemos.tar.xz
+
+[main]
+filesize=17152
+sha512=22f0ac738c165177c2fee98c5cf4e3dea42e65fe6e43b7adbb68bbbe3cdf51f732ec4e06185b2510fcdbe3546159cf8bbd7f321c5ed00273c683c9fc902bca23
+
+[deps]
+mesalib
+
+[build]
+make -j$MAKE_THREADS DEMOS_PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" glxgears glxinfo install || exit 1

@@ -13,7 +13,11 @@ libxslt
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
-  --enable-thread-safety --docdir=/share/doc/postgresql-9.2.2 || exit 1
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags" \
+./configure -C --prefix="$butch_prefix" \
+  --enable-thread-safety \
+  --docdir="$butch_prefix"/share/doc/postgresql \
+  --mandir="$butch_prefix"/share/man || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

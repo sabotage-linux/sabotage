@@ -77,7 +77,7 @@ EOF
 
 for i in OpenAL32/ Alc/ Alc/backends; do cp config.h $i ; done
 
-[ "$DEBUGBUILD" = "1" ] && echo 'CFLAGS+=-O0 -g3' >> config.mak
+printf '%s\n' "CFLAGS += $optcflags" >> config.mak
 
 mkdir lib
 make -j$MAKE_THREADS || exit 1

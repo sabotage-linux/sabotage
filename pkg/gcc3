@@ -15,6 +15,13 @@ patch -p1 < "$K"/gcc-346-unlink.patch || exit 1
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \; || exit 1
 
+if [ "$A" = "i386" ] && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
+	printf '#!/bin/sh\necho i386-unknown-linux-gnu\n' > config.guess
+fi
+
+
+# remove fix-includes
+sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in || exit 1
 
 #apparently some control freak gcc used by ubuntu enforces that the mode arg is set in open calls
 sed -i 's@O_CREAT@O_CREAT, 0770@' gcc/collect2.c

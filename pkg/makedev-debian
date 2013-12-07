@@ -1,0 +1,14 @@
+[main]
+filesize=9924
+sha512=640df51e214dfa3be1b7425fb9cd6477f1b4da57441a58243913aae12e1b2c0b7ef35906384cb79975fda4f6c747534f9f72dde59b742ac3bc26c87cb69f65f5
+tardir=makedev-2.3.1.orig
+
+[mirrors]
+http://http.debian.net/debian/pool/main/m/makedev/makedev_2.3.1.orig.tar.gz
+
+[deps]
+makedev-debian-patch
+
+[build]
+gzip -c -d "$C"/makedev_*.diff.gz |patch -p1 || exit 1
+install -D -m 755 MAKEDEV "$butch_install_dir""$butch_prefix"/bin/MAKEDEV

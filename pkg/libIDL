@@ -1,0 +1,17 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/libIDL/0.8/libIDL-0.8.14.tar.bz2
+
+[main]
+filesize=427149
+sha512=906dde087908acd64b209fe466a89ae52a6ea23601cb30092063a6e062b1b6640fc2d5f422efcdd52b2b36ce20e6c244da6205fde0bdcec787fe64058be7adac
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

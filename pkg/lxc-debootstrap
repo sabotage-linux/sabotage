@@ -1,0 +1,5 @@
+[deps]
+debootstrap
+lxc
+rsync
+bash

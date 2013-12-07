@@ -4,11 +4,11 @@ pkgconf
 expat
 
 [main]
-filesize=1548409
-sha512=a110e72cc631f1e374324a02f6ba9526b89a547cafe2ae27b9913938b19018843b2940084d62f0dfaf38a6919dea6974fb98422d3908026f6873d5fba17c55a0
+filesize=1526089
+sha512=5339ac2db160b672a4c9be09f019120c003d90ff6ad7d99894c4ffef7aefb7f3913d886090e4248c33a93481b522561b6057e45243842c8c830e1608e7e5d83f
 
 [mirrors]
-http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.8.0.tar.gz
+http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.93.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in

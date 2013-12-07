@@ -1,0 +1,11 @@
+--- lxc-0.9.0.org/src/lxc/lxclock.c
++++ lxc-0.9.0/src/lxc/lxclock.c
+@@ -18,7 +18,7 @@
+  */
+ 
+ #include "lxclock.h"
+-#include <malloc.h>
++#include <stdlib.h>
+ #include <stdio.h>
+ 
+ #define OFLAG (O_CREAT | O_RDWR)

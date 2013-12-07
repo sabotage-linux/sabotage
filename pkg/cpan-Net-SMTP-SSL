@@ -1,0 +1,15 @@
+[deps]
+perl
+cpan-IO-Socket-SSL
+
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/C/CW/CWEST/Net-SMTP-SSL-1.01.tar.gz
+
+[main]
+filesize=1806
+sha512=7d078830d088b18a7493820800e01743da4d771e8fb5f68bd5d2a6b035f4e40729adb7e5878cdd9a1a192a0c4e523a1c170e8733e30516804b16bc79d50e31ad
+
+[build]
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
+

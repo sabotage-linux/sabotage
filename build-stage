@@ -1,6 +1,6 @@
 #!/bin/sh
 export H="$PWD"
-source ./config
+. ./config
 
 if [ ! -r "$H"/config ]; then
     printf -- "couldn't read configuration file: %s\n" "$H/config"

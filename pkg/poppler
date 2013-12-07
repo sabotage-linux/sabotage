@@ -1,9 +1,8 @@
 [mirrors]
-http://poppler.freedesktop.org/poppler-0.22.0.tar.gz
-
+http://poppler.freedesktop.org/poppler-0.24.4.tar.xz
 [main]
-filesize=2210986
-sha512=2e47238d36239bcbaa2aee6ad87b1bee199f208afc9665d0041f7f244bc3219b6c98cf00af95e4651a5a627f3bd76e644c06a555eb95481e92856c04f45cdfec
+filesize=1511248
+sha512=5567a51c2d2311ceaae087a7f7d5c0b71ba90afa91184a41997b3ea76aeff6d5b182d7c4018a1c2e93eb15b1f6cfec783b326940797ad4d5b7ee0276008b06db
 
 [deps]
 pkgconf

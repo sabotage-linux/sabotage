@@ -1,9 +1,9 @@
 [mirrors]
-http://matt.ucc.asn.au/dropbear/releases/dropbear-2013.56.tar.bz2
+http://matt.ucc.asn.au/dropbear/releases/dropbear-2013.60.tar.bz2
 
 [main]
-filesize=1578454
-sha512=dd6ef30a21564b9532a6a9845dedcdab8af759a3272cfffb7856f41adc46f5e168ace4c0f448ed6e1ee0ec3628941cf4de2a244a737a341bf359cc7e4ecd2a97
+filesize=1584837
+sha512=2d9c374f17eef22a783d5fef9f30ee2fcbb8778ff7319bb028d8f6181f49827867e3b7f02eec580cbd48f2d97cad789a541c1fbe43fe3d23f6cb396d4138d712
 
 [deps]
 zlib

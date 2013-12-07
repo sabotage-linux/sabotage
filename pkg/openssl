@@ -102,7 +102,7 @@ make -j$MAKE_THREADS INSTALL_PREFIX="$butch_install_dir" MANDIR="${butch_prefix}
 # for some reason, the *.so* are not installed
 dest="${butch_install_dir}${butch_prefix}"
 mkdir -p "$dest"/lib || exit 1
-cp -f ./libcrypto.so.1.0.0 ./libcrypto.so ./libssl.so ./libssl.so.1.0.0 "$dest"/lib || exit 1
+cp -a ./libcrypto.so.1.0.0 ./libcrypto.so ./libssl.so ./libssl.so.1.0.0 "$dest"/lib || exit 1
 
 # ssl manpages look pretty useless and they use a custom suffix
 # like ciphers.1ssl. rather than fixing them up, we just remove them

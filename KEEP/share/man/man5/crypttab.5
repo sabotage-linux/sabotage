@@ -1,0 +1,138 @@
+.TH "CRYPTTAB" "5" "10/17/2013" "[FIXME: source]" "[FIXME: manual]"
+.SH "NAME"
+crypttab \- static information about dm\-crypt filesystems
+.SH "SYNOPSIS"
+.sp
+/etc/crypttab
+.SH "DESCRIPTION"
+.sp
+The file \fBcrypttab\fR contains information about encrypted volumes\&. \fBcrypttab\fR is intended to be read by \fBcryptmount\fR, and only written to by human administrators\&. Each \fIvolume\fR is described on a separate line by four fields\&. Fields are separated by whitespace\&. Empty lines and lines beginning with a \fB#\fR are ignored\&.
+.sp
+The fields are \fIname\fR \fIdevice\fR [\fIkey\fR [\fIoptions\fR]]
+.PP
+\fIname\fR
+.RS 4
+The name of the
+\fIvolume\fR
+which will appear at
+\fB/dev/mapper/\fR\fIname\fR\&. This must be a plain filename without any directory components\&.
+.RE
+.PP
+\fIdevice\fR
+.RS 4
+An absolute path, UUID, PARTUUID, or LABEL to a device or file which will be mapped to
+\fB/dev/mapper/\fR\fIname\fR\&.
+.RE
+.PP
+\fIkey\fR := \fB\-\fR | \fIkeydevice\fR[\e[\fB:\fR\fIfstype\fR] \fB:\fR\fIkeyfile\fR]
+.RS 4
+This field may be blank or a
+\fB\-\fR
+for interactive passwords\&.
+\fIkeydevice\fR
+may be an absolute path, UUID, PARTUUID, or LABEL to a device or file which contains the passphrase\&. If
+\fIkeyfile\fR
+(and
+\fIfstype\fR) are given,
+\fIkeydevice\fR
+will be mounted if it isn\(cqt already\&.
+\fIkeyfile\fR
+is an absolute path relative to the root of the file system on
+\fIkeydevice\fR\&.
+.sp
+For compatibility with other formats,
+\fBASK\fR
+and
+\fBnone\fR
+may be used in place of
+\fB\-\fR
+and
+\fBSWAP\fR
+is an idiom for
+\fB/dev/urandom\fR
+and the
+\fBswap\fR
+option\&. See
+\fBOPTIONS\fR\&.
+.sp
+\fBNote:\fR
+A literal password in this field is
+\fBnot\fR
+supported\&.
+.RE
+.PP
+\fIoptions\fR := \fIkey\fR[\fB=\fR\fIvalue\fR] | \fB%\fR\fItag\fR | \fIoptions\fR\fB,\fR\fIoptions\fR
+.RS 4
+The
+\fIoptions\fR
+field is a comma separated list\&. It is described in detail below\&.
+.sp
+For compatibility with other formats, if the first character is
+\fB\-\fR
+then the entire field is interpretted as a literal command line for
+\fBcryptsetup\fR\&.
+.RE
+.SH "OPTIONS"
+.sp
+Most options have a one\-to\-one correspondence to \fBcryptsetup\fR command line options and are simply reformatted\&. For example to use \fBcryptsetup \-\-cipher/\-c\fR \fIcipher\fR the options \fBcipher\fR=\fIcipher\fR or \fBc\fR=\fIcipher\fR may be used\&. Other options which are used by \fBcryptmount\fR are:
+.PP
+\fBswap\fR
+.RS 4
+Run
+\fBmkswap\fR(8) on
+\fB/dev/mapper/\fR\fIname\fR\&.
+.RE
+.PP
+\fBtmp\fR[=\fIfs\fR]
+.RS 4
+Run
+\fBmkfs\fR(8) with the file system type of
+\fIfs\fR
+on
+\fB/dev/mapper/\fR\fIname\fR\&. The default
+\fIfs\fR
+is
+\fBext4\fR\&.
+.RE
+.PP
+\fBnoauto\fR
+.RS 4
+Do not automatically map this
+\fIvolume\fR\&.
+.RE
+.PP
+\fBsize\fR=\fIsize\fR
+.RS 4
+See
+\fBcryptsetup(8) \-\-key\-size\fR\&. Other formats for
+\fBcrypttab\fR
+use
+\fBsize\fR
+for the amount of bytes to read from
+\fBkey\fR\&.
+.RE
+.PP
+\fBdevice\-size\fR=\fIsize\fR
+.RS 4
+See
+\fBcryptsetup(8) \-\-size\fR\&. This accounts for the quirk with
+\fBsize\fR\&.
+.RE
+.PP
+\fB%\fR\fItag\fR
+.RS 4
+Tags can be used to include or exclude a group of volumes when running
+\fBcryptmount(8)\fR\&. Additionally,
+\fBcryptmount\fR
+automatically adds to
+\fIvolumes\fR, with a key of
+\fB/dev/urandom\fR, a
+\fB%random\fR
+tag\&. This tag is used by the Arch Linux initscripts to delay the mapping of these volumes until after the random seed has been restored during boot\&.
+.RE
+.SH "SEE ALSO"
+.sp
+\fBcryptmount\fR(8), \fBcryptsetup\fR(8)
+.SH "AUTHORS"
+.sp
+Matt Monaco <dgbaley27@0x01b\&.net>

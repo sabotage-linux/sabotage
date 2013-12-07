@@ -1,0 +1,18 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/gst-plugins-good/0.10/gst-plugins-good-0.10.31.tar.xz
+
+[main]
+filesize=2738016
+sha512=d153dcd5bb846450e9d76fe247f2b2e627e760feaad1bfd4c503a39af2128fad3630788463ea0d50539209236c864df0b2172ab9dac52f49cadff69ac7346809
+
+[deps]
+gstreamer01
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,28 +1,28 @@
---- a/include/znc/Csocket.h	2012-11-06 16:02:20.000000000 +0000
-+++ b/include/znc/Csocket.h	2013-08-13 00:15:33.000000000 +0000
-@@ -46,7 +46,7 @@
+--- a/include/znc/Csocket.h
++++ b/include/znc/Csocket.h
+@@ -45,7 +45,7 @@
+ #include <stdio.h>
  #include <unistd.h>
  #include <sys/time.h>
- #include <sys/types.h>
 -#include <sys/fcntl.h>
 +#include <fcntl.h>
  #include <sys/file.h>
  
  #ifndef _WIN32
---- a/include/znc/FileUtils.h	2012-11-06 16:02:20.000000000 +0000
-+++ b/include/znc/FileUtils.h	2013-08-13 00:15:44.000000000 +0000
-@@ -14,7 +14,7 @@
+--- a/include/znc/FileUtils.h
++++ b/include/znc/FileUtils.h
+@@ -22,7 +22,7 @@
  #include <dirent.h>
  #include <stdlib.h>
  #include <string.h>
 -#include <sys/fcntl.h>
 +#include <fcntl.h>
+ #include <sys/stat.h>
  #include <unistd.h>
  #include <vector>
- 
---- a/src/Csocket.cpp	2012-11-06 16:02:20.000000000 +0000
-+++ b/src/Csocket.cpp	2013-08-13 05:07:35.000000000 +0000
-@@ -584,12 +584,8 @@
+--- a/src/Csocket.cpp
++++ b/src/Csocket.cpp
+@@ -613,12 +613,8 @@
  	return( strerror( iErrno ) );
  #else
  	memset( pszBuff, '\0', uBuffLen );

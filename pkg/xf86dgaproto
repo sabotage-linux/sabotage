@@ -1,0 +1,14 @@
+[deps]
+util-macros
+
+[main]
+filesize=85934
+sha512=dab56f5e59d1099d0d462e2f056e073c0ebde46aae6b9cf1c12b1fda43b5f21fb438dc811305c3114e04eb2fd2b1d13ddbe0a1d9a5c8155525db82db00e1461c
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/xf86dgaproto-2.1.tar.bz2
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

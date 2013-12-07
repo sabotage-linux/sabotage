@@ -1,10 +1,10 @@
 [mirrors]
-http://mirror.wzff.de/sabotage/tarballs/ixchat-3.0.0.tar.xz
-http://codu.org/~rofl/tarballs/ixchat-3.0.0.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/ixchat-3.0.2.tar.xz
+http://codu.org/~rofl/tarballs/ixchat-3.0.2.tar.xz
 
 [main]
-filesize=405376
-sha512=474d61eadeb45a41c536cb52c298d7ce30d30ae2a83cb0af4d3f308a2aa63a21a60c267bd70924fe53fc9e1eba017065ddec43bf63f3ff60f3aaf74441be8071
+filesize=406568
+sha512=d87ac9188cd428f721945b3d938c6673fafc22b9a08d03fe084b10f602dc68ff93b08a048c3e379076021346c746a5ec681e4888a1af53f7be3f166d546df7b2
 
 [deps]
 gtk+2

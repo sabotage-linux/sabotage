@@ -1,0 +1,14 @@
+--- mozilla.org/nsprpub/pr/src/misc/prnetdb.c	2013-10-19 02:31:47.750025976 +0000
++++ mozilla/nsprpub/pr/src/misc/prnetdb.c	2013-10-19 02:40:50.985006476 +0000
+@@ -118,6 +118,11 @@
+ #define _PR_HAVE_5_ARG_GETPROTO_R
+ #endif
+ 
++#undef _PR_HAVE_GETPROTO_R
++#undef _PR_HAVE_GETPROTO_R_INT
++#undef _PR_HAVE_GETPROTO_R_POINTER
++#undef _PR_HAVE_5_ARG_GETPROTO_R
++
+ #if !defined(_PR_HAVE_GETPROTO_R)
+ PRLock* _getproto_lock = NULL;
+ #endif

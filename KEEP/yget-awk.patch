@@ -1,0 +1,16 @@
+--- a/yurl
++++ b/yurl
+@@ -176,11 +176,11 @@
+ 	ok = 1
+ }
+ /"url_encoded_fmt_stream_map"/ {
++	sub(/^.*config = \{/, "")
+-	sub(/^.*config = {/, "")
+ 	sub(/};.*$/, "")
+ 	gsub(/\\\//, "/")
+ 	gsub(/}/,"")
++	gsub(/: *\{/,": {}, ")
+-	gsub(/: *{/,": {}, ")
+ 	n=split($0, a, /, /)
+ 	for (i=1; i<=n; i++) {
+ 		split(a[i], b, /": ?/)

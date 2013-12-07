@@ -1,0 +1,407 @@
+--- ffmpeg-2.0.1.org/libswscale/utils.c	2013-08-10 23:23:28.000000000 +0000
++++ ffmpeg-2.0.1/libswscale/utils.c	2013-10-23 05:30:29.579235425 +0000
+@@ -523,24 +523,6 @@
+             minFilterSize = min;
+     }
+ 
+-    if (HAVE_ALTIVEC && cpu_flags & AV_CPU_FLAG_ALTIVEC) {
+-        // we can handle the special case 4, so we don't want to go the full 8
+-        if (minFilterSize < 5)
+-            filterAlign = 4;
+-
+-        /* We really don't want to waste our time doing useless computation, so
+-         * fall back on the scalar C code for very small filters.
+-         * Vectorizing is worth it only if you have a decent-sized vector. */
+-        if (minFilterSize < 3)
+-            filterAlign = 1;
+-    }
+-
+-    if (HAVE_MMX && cpu_flags & AV_CPU_FLAG_MMX) {
+-        // special case for unscaled vertical filtering
+-        if (minFilterSize == 1 && filterAlign == 2)
+-            filterAlign = 1;
+-    }
+-
+     av_assert0(minFilterSize > 0);
+     filterSize = (minFilterSize + (filterAlign - 1)) & (~(filterAlign - 1));
+     av_assert0(filterSize > 0);
+@@ -641,172 +623,6 @@
+     return ret;
+ }
+ 
+-#if HAVE_MMXEXT_INLINE
+-static av_cold int init_hscaler_mmxext(int dstW, int xInc, uint8_t *filterCode,
+-                                       int16_t *filter, int32_t *filterPos,
+-                                       int numSplits)
+-{
+-    uint8_t *fragmentA;
+-    x86_reg imm8OfPShufW1A;
+-    x86_reg imm8OfPShufW2A;
+-    x86_reg fragmentLengthA;
+-    uint8_t *fragmentB;
+-    x86_reg imm8OfPShufW1B;
+-    x86_reg imm8OfPShufW2B;
+-    x86_reg fragmentLengthB;
+-    int fragmentPos;
+-
+-    int xpos, i;
+-
+-    // create an optimized horizontal scaling routine
+-    /* This scaler is made of runtime-generated MMXEXT code using specially tuned
+-     * pshufw instructions. For every four output pixels, if four input pixels
+-     * are enough for the fast bilinear scaling, then a chunk of fragmentB is
+-     * used. If five input pixels are needed, then a chunk of fragmentA is used.
+-     */
+-
+-    // code fragment
+-
+-    __asm__ volatile (
+-        "jmp                         9f                 \n\t"
+-        // Begin
+-        "0:                                             \n\t"
+-        "movq    (%%"REG_d", %%"REG_a"), %%mm3          \n\t"
+-        "movd    (%%"REG_c", %%"REG_S"), %%mm0          \n\t"
+-        "movd   1(%%"REG_c", %%"REG_S"), %%mm1          \n\t"
+-        "punpcklbw                %%mm7, %%mm1          \n\t"
+-        "punpcklbw                %%mm7, %%mm0          \n\t"
+-        "pshufw                   $0xFF, %%mm1, %%mm1   \n\t"
+-        "1:                                             \n\t"
+-        "pshufw                   $0xFF, %%mm0, %%mm0   \n\t"
+-        "2:                                             \n\t"
+-        "psubw                    %%mm1, %%mm0          \n\t"
+-        "movl   8(%%"REG_b", %%"REG_a"), %%esi          \n\t"
+-        "pmullw                   %%mm3, %%mm0          \n\t"
+-        "psllw                       $7, %%mm1          \n\t"
+-        "paddw                    %%mm1, %%mm0          \n\t"
+-
+-        "movq                     %%mm0, (%%"REG_D", %%"REG_a") \n\t"
+-
+-        "add                         $8, %%"REG_a"      \n\t"
+-        // End
+-        "9:                                             \n\t"
+-        // "int $3                                         \n\t"
+-        "lea       " LOCAL_MANGLE(0b) ", %0             \n\t"
+-        "lea       " LOCAL_MANGLE(1b) ", %1             \n\t"
+-        "lea       " LOCAL_MANGLE(2b) ", %2             \n\t"
+-        "dec                         %1                 \n\t"
+-        "dec                         %2                 \n\t"
+-        "sub                         %0, %1             \n\t"
+-        "sub                         %0, %2             \n\t"
+-        "lea       " LOCAL_MANGLE(9b) ", %3             \n\t"
+-        "sub                         %0, %3             \n\t"
+-
+-
+-        : "=r" (fragmentA), "=r" (imm8OfPShufW1A), "=r" (imm8OfPShufW2A),
+-          "=r" (fragmentLengthA)
+-        );
+-
+-    __asm__ volatile (
+-        "jmp                         9f                 \n\t"
+-        // Begin
+-        "0:                                             \n\t"
+-        "movq    (%%"REG_d", %%"REG_a"), %%mm3          \n\t"
+-        "movd    (%%"REG_c", %%"REG_S"), %%mm0          \n\t"
+-        "punpcklbw                %%mm7, %%mm0          \n\t"
+-        "pshufw                   $0xFF, %%mm0, %%mm1   \n\t"
+-        "1:                                             \n\t"
+-        "pshufw                   $0xFF, %%mm0, %%mm0   \n\t"
+-        "2:                                             \n\t"
+-        "psubw                    %%mm1, %%mm0          \n\t"
+-        "movl   8(%%"REG_b", %%"REG_a"), %%esi          \n\t"
+-        "pmullw                   %%mm3, %%mm0          \n\t"
+-        "psllw                       $7, %%mm1          \n\t"
+-        "paddw                    %%mm1, %%mm0          \n\t"
+-
+-        "movq                     %%mm0, (%%"REG_D", %%"REG_a") \n\t"
+-
+-        "add                         $8, %%"REG_a"      \n\t"
+-        // End
+-        "9:                                             \n\t"
+-        // "int                       $3                   \n\t"
+-        "lea       " LOCAL_MANGLE(0b) ", %0             \n\t"
+-        "lea       " LOCAL_MANGLE(1b) ", %1             \n\t"
+-        "lea       " LOCAL_MANGLE(2b) ", %2             \n\t"
+-        "dec                         %1                 \n\t"
+-        "dec                         %2                 \n\t"
+-        "sub                         %0, %1             \n\t"
+-        "sub                         %0, %2             \n\t"
+-        "lea       " LOCAL_MANGLE(9b) ", %3             \n\t"
+-        "sub                         %0, %3             \n\t"
+-
+-
+-        : "=r" (fragmentB), "=r" (imm8OfPShufW1B), "=r" (imm8OfPShufW2B),
+-          "=r" (fragmentLengthB)
+-        );
+-
+-    xpos        = 0; // lumXInc/2 - 0x8000; // difference between pixel centers
+-    fragmentPos = 0;
+-
+-    for (i = 0; i < dstW / numSplits; i++) {
+-        int xx = xpos >> 16;
+-
+-        if ((i & 3) == 0) {
+-            int a                  = 0;
+-            int b                  = ((xpos + xInc) >> 16) - xx;
+-            int c                  = ((xpos + xInc * 2) >> 16) - xx;
+-            int d                  = ((xpos + xInc * 3) >> 16) - xx;
+-            int inc                = (d + 1 < 4);
+-            uint8_t *fragment      = (d + 1 < 4) ? fragmentB : fragmentA;
+-            x86_reg imm8OfPShufW1  = (d + 1 < 4) ? imm8OfPShufW1B : imm8OfPShufW1A;
+-            x86_reg imm8OfPShufW2  = (d + 1 < 4) ? imm8OfPShufW2B : imm8OfPShufW2A;
+-            x86_reg fragmentLength = (d + 1 < 4) ? fragmentLengthB : fragmentLengthA;
+-            int maxShift           = 3 - (d + inc);
+-            int shift              = 0;
+-
+-            if (filterCode) {
+-                filter[i]        = ((xpos              & 0xFFFF) ^ 0xFFFF) >> 9;
+-                filter[i + 1]    = (((xpos + xInc)     & 0xFFFF) ^ 0xFFFF) >> 9;
+-                filter[i + 2]    = (((xpos + xInc * 2) & 0xFFFF) ^ 0xFFFF) >> 9;
+-                filter[i + 3]    = (((xpos + xInc * 3) & 0xFFFF) ^ 0xFFFF) >> 9;
+-                filterPos[i / 2] = xx;
+-
+-                memcpy(filterCode + fragmentPos, fragment, fragmentLength);
+-
+-                filterCode[fragmentPos + imm8OfPShufW1] =  (a + inc)       |
+-                                                          ((b + inc) << 2) |
+-                                                          ((c + inc) << 4) |
+-                                                          ((d + inc) << 6);
+-                filterCode[fragmentPos + imm8OfPShufW2] =  a | (b << 2) |
+-                                                               (c << 4) |
+-                                                               (d << 6);
+-
+-                if (i + 4 - inc >= dstW)
+-                    shift = maxShift;               // avoid overread
+-                else if ((filterPos[i / 2] & 3) <= maxShift)
+-                    shift = filterPos[i / 2] & 3;   // align
+-
+-                if (shift && i >= shift) {
+-                    filterCode[fragmentPos + imm8OfPShufW1] += 0x55 * shift;
+-                    filterCode[fragmentPos + imm8OfPShufW2] += 0x55 * shift;
+-                    filterPos[i / 2]                        -= shift;
+-                }
+-            }
+-
+-            fragmentPos += fragmentLength;
+-
+-            if (filterCode)
+-                filterCode[fragmentPos] = RET;
+-        }
+-        xpos += xInc;
+-    }
+-    if (filterCode)
+-        filterPos[((i / 2) + 1) & (~1)] = xpos >> 16;  // needed to jump to the next part
+-
+-    return fragmentPos + 1;
+-}
+-#endif /* HAVE_MMXEXT_INLINE */
+-
+ static void getSubSampleFactors(int *h, int *v, enum AVPixelFormat format)
+ {
+     const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(format);
+@@ -961,15 +777,9 @@
+     c->dstFormatBpp = av_get_bits_per_pixel(desc_dst);
+     c->srcFormatBpp = av_get_bits_per_pixel(desc_src);
+ 
+-    if (!isYUV(c->dstFormat) && !isGray(c->dstFormat)) {
+-    ff_yuv2rgb_c_init_tables(c, inv_table, srcRange, brightness,
++    if (!isYUV(c->dstFormat) && !isGray(c->dstFormat))
++       ff_yuv2rgb_c_init_tables(c, inv_table, srcRange, brightness,
+                              contrast, saturation);
+-    // FIXME factorize
+-
+-    if (HAVE_ALTIVEC && av_get_cpu_flags() & AV_CPU_FLAG_ALTIVEC)
+-        ff_yuv2rgb_init_tables_altivec(c, inv_table, brightness,
+-                                       contrast, saturation);
+-    }
+ 
+     fill_rgb2yuv_table(c, table, dstRange);
+ 
+@@ -1267,19 +1077,6 @@
+     if (c->dstBpc == 16)
+         dst_stride <<= 1;
+ 
+-    if (INLINE_MMXEXT(cpu_flags) && c->srcBpc == 8 && c->dstBpc <= 14) {
+-        c->canMMXEXTBeUsed = (dstW >= srcW && (dstW & 31) == 0 &&
+-                              (srcW & 15) == 0) ? 1 : 0;
+-        if (!c->canMMXEXTBeUsed && dstW >= srcW && (srcW & 15) == 0
+-
+-            && (flags & SWS_FAST_BILINEAR)) {
+-            if (flags & SWS_PRINT_INFO)
+-                av_log(c, AV_LOG_INFO,
+-                       "output width is not a multiple of 32 -> no MMXEXT scaler\n");
+-        }
+-        if (usesHFilter || isNBPS(c->srcFormat) || is16BPS(c->srcFormat) || isAnyRGB(c->srcFormat))
+-            c->canMMXEXTBeUsed = 0;
+-    } else
+         c->canMMXEXTBeUsed = 0;
+ 
+     c->chrXInc = (((int64_t)c->chrSrcW << 16) + (c->chrDstW >> 1)) / c->chrDstW;
+@@ -1292,83 +1089,13 @@
+      * This is not perfect, but no one should notice the difference, the more
+      * correct variant would be like the vertical one, but that would require
+      * some special code for the first and last pixel */
+-    if (flags & SWS_FAST_BILINEAR) {
+-        if (c->canMMXEXTBeUsed) {
+-            c->lumXInc += 20;
+-            c->chrXInc += 20;
+-        }
+-        // we don't use the x86 asm scaler if MMX is available
+-        else if (INLINE_MMX(cpu_flags) && c->dstBpc <= 14) {
+-            c->lumXInc = ((int64_t)(srcW       - 2) << 16) / (dstW       - 2) - 20;
+-            c->chrXInc = ((int64_t)(c->chrSrcW - 2) << 16) / (c->chrDstW - 2) - 20;
+-        }
+-    }
+ 
+ #define USE_MMAP (HAVE_MMAP && HAVE_MPROTECT && defined MAP_ANONYMOUS)
+ 
+     /* precalculate horizontal scaler filter coefficients */
+     {
+-#if HAVE_MMXEXT_INLINE
+-// can't downscale !!!
+-        if (c->canMMXEXTBeUsed && (flags & SWS_FAST_BILINEAR)) {
+-            c->lumMmxextFilterCodeSize = init_hscaler_mmxext(dstW, c->lumXInc, NULL,
+-                                                             NULL, NULL, 8);
+-            c->chrMmxextFilterCodeSize = init_hscaler_mmxext(c->chrDstW, c->chrXInc,
+-                                                             NULL, NULL, NULL, 4);
+-
+-#if USE_MMAP
+-            c->lumMmxextFilterCode = mmap(NULL, c->lumMmxextFilterCodeSize,
+-                                          PROT_READ | PROT_WRITE,
+-                                          MAP_PRIVATE | MAP_ANONYMOUS,
+-                                          -1, 0);
+-            c->chrMmxextFilterCode = mmap(NULL, c->chrMmxextFilterCodeSize,
+-                                          PROT_READ | PROT_WRITE,
+-                                          MAP_PRIVATE | MAP_ANONYMOUS,
+-                                          -1, 0);
+-#elif HAVE_VIRTUALALLOC
+-            c->lumMmxextFilterCode = VirtualAlloc(NULL,
+-                                                  c->lumMmxextFilterCodeSize,
+-                                                  MEM_COMMIT,
+-                                                  PAGE_EXECUTE_READWRITE);
+-            c->chrMmxextFilterCode = VirtualAlloc(NULL,
+-                                                  c->chrMmxextFilterCodeSize,
+-                                                  MEM_COMMIT,
+-                                                  PAGE_EXECUTE_READWRITE);
+-#else
+-            c->lumMmxextFilterCode = av_malloc(c->lumMmxextFilterCodeSize);
+-            c->chrMmxextFilterCode = av_malloc(c->chrMmxextFilterCodeSize);
+-#endif
+-
+-#ifdef MAP_ANONYMOUS
+-            if (c->lumMmxextFilterCode == MAP_FAILED || c->chrMmxextFilterCode == MAP_FAILED)
+-#else
+-            if (!c->lumMmxextFilterCode || !c->chrMmxextFilterCode)
+-#endif
+-            {
+-                av_log(c, AV_LOG_ERROR, "Failed to allocate MMX2FilterCode\n");
+-                return AVERROR(ENOMEM);
+-            }
+-
+-            FF_ALLOCZ_OR_GOTO(c, c->hLumFilter,    (dstW           / 8 + 8) * sizeof(int16_t), fail);
+-            FF_ALLOCZ_OR_GOTO(c, c->hChrFilter,    (c->chrDstW     / 4 + 8) * sizeof(int16_t), fail);
+-            FF_ALLOCZ_OR_GOTO(c, c->hLumFilterPos, (dstW       / 2 / 8 + 8) * sizeof(int32_t), fail);
+-            FF_ALLOCZ_OR_GOTO(c, c->hChrFilterPos, (c->chrDstW / 2 / 4 + 8) * sizeof(int32_t), fail);
+-
+-            init_hscaler_mmxext(      dstW, c->lumXInc, c->lumMmxextFilterCode,
+-                                c->hLumFilter, (uint32_t*)c->hLumFilterPos, 8);
+-            init_hscaler_mmxext(c->chrDstW, c->chrXInc, c->chrMmxextFilterCode,
+-                                c->hChrFilter, (uint32_t*)c->hChrFilterPos, 4);
+-
+-#if USE_MMAP
+-            mprotect(c->lumMmxextFilterCode, c->lumMmxextFilterCodeSize, PROT_EXEC | PROT_READ);
+-            mprotect(c->chrMmxextFilterCode, c->chrMmxextFilterCodeSize, PROT_EXEC | PROT_READ);
+-#endif
+-        } else
+-#endif /* HAVE_MMXEXT_INLINE */
+         {
+             const int filterAlign =
+-                (HAVE_MMX && cpu_flags & AV_CPU_FLAG_MMX) ? 4 :
+-                (HAVE_ALTIVEC && cpu_flags & AV_CPU_FLAG_ALTIVEC) ? 8 :
+                 1;
+ 
+             if (initFilter(&c->hLumFilter, &c->hLumFilterPos,
+@@ -1391,8 +1118,6 @@
+     /* precalculate vertical scaler filter coefficients */
+     {
+         const int filterAlign =
+-            (HAVE_MMX && cpu_flags & AV_CPU_FLAG_MMX) ? 2 :
+-            (HAVE_ALTIVEC && cpu_flags & AV_CPU_FLAG_ALTIVEC) ? 8 :
+             1;
+ 
+         if (initFilter(&c->vLumFilter, &c->vLumFilterPos, &c->vLumFilterSize,
+@@ -1409,24 +1134,6 @@
+                        c->param) < 0)
+             goto fail;
+ 
+-#if HAVE_ALTIVEC
+-        FF_ALLOC_OR_GOTO(c, c->vYCoeffsBank, sizeof(vector signed short) * c->vLumFilterSize * c->dstH,    fail);
+-        FF_ALLOC_OR_GOTO(c, c->vCCoeffsBank, sizeof(vector signed short) * c->vChrFilterSize * c->chrDstH, fail);
+-
+-        for (i = 0; i < c->vLumFilterSize * c->dstH; i++) {
+-            int j;
+-            short *p = (short *)&c->vYCoeffsBank[i];
+-            for (j = 0; j < 8; j++)
+-                p[j] = c->vLumFilter[i];
+-        }
+-
+-        for (i = 0; i < c->vChrFilterSize * c->chrDstH; i++) {
+-            int j;
+-            short *p = (short *)&c->vCCoeffsBank[i];
+-            for (j = 0; j < 8; j++)
+-                p[j] = c->vChrFilter[i];
+-        }
+-#endif
+     }
+ 
+     // calculate buffer sizes so that they won't run out while handling these damn slices
+@@ -1533,15 +1240,6 @@
+ #endif
+                av_get_pix_fmt_name(dstFormat));
+ 
+-        if (INLINE_MMXEXT(cpu_flags))
+-            av_log(c, AV_LOG_INFO, "using MMXEXT\n");
+-        else if (INLINE_AMD3DNOW(cpu_flags))
+-            av_log(c, AV_LOG_INFO, "using 3DNOW\n");
+-        else if (INLINE_MMX(cpu_flags))
+-            av_log(c, AV_LOG_INFO, "using MMX\n");
+-        else if (HAVE_ALTIVEC && cpu_flags & AV_CPU_FLAG_ALTIVEC)
+-            av_log(c, AV_LOG_INFO, "using AltiVec\n");
+-        else
+             av_log(c, AV_LOG_INFO, "using C\n");
+ 
+         av_log(c, AV_LOG_VERBOSE, "%dx%d -> %dx%d\n", srcW, srcH, dstW, dstH);
+@@ -1953,34 +1651,12 @@
+     av_freep(&c->vChrFilter);
+     av_freep(&c->hLumFilter);
+     av_freep(&c->hChrFilter);
+-#if HAVE_ALTIVEC
+-    av_freep(&c->vYCoeffsBank);
+-    av_freep(&c->vCCoeffsBank);
+-#endif
+ 
+     av_freep(&c->vLumFilterPos);
+     av_freep(&c->vChrFilterPos);
+     av_freep(&c->hLumFilterPos);
+     av_freep(&c->hChrFilterPos);
+ 
+-#if HAVE_MMX_INLINE
+-#if USE_MMAP
+-    if (c->lumMmxextFilterCode)
+-        munmap(c->lumMmxextFilterCode, c->lumMmxextFilterCodeSize);
+-    if (c->chrMmxextFilterCode)
+-        munmap(c->chrMmxextFilterCode, c->chrMmxextFilterCodeSize);
+-#elif HAVE_VIRTUALALLOC
+-    if (c->lumMmxextFilterCode)
+-        VirtualFree(c->lumMmxextFilterCode, 0, MEM_RELEASE);
+-    if (c->chrMmxextFilterCode)
+-        VirtualFree(c->chrMmxextFilterCode, 0, MEM_RELEASE);
+-#else
+-    av_free(c->lumMmxextFilterCode);
+-    av_free(c->chrMmxextFilterCode);
+-#endif
+-    c->lumMmxextFilterCode = NULL;
+-    c->chrMmxextFilterCode = NULL;
+-#endif /* HAVE_MMX_INLINE */
+ 
+     av_freep(&c->yuvTable);
+     av_freep(&c->formatConvBuffer);

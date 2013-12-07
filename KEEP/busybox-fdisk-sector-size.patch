@@ -1,0 +1,22 @@
+--- busybox-1.20.2.org/util-linux/fdisk.c
++++ busybox-1.20.2/util-linux/fdisk.c
+@@ -85,17 +85,8 @@
+ 
+ 
+ typedef unsigned long long ullong;
+-/* Used for sector numbers. Partition formats we know
+- * do not support more than 2^32 sectors
+- */
+-typedef uint32_t sector_t;
+-#if UINT_MAX == 4294967295
+-# define SECT_FMT ""
+-#elif ULONG_MAX == 4294967295
+-# define SECT_FMT "l"
+-#else
+-# error Cant detect sizeof(uint32_t)
+-#endif
++typedef uint64_t sector_t;
++#define SECT_FMT "ll"
+ 
+ struct hd_geometry {
+ 	unsigned char heads;

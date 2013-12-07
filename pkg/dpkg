@@ -1,0 +1,21 @@
+[main]
+filesize=3789016
+sha512=852c9cfeeac278564e605e5a5c4d77cb775ad20cf7fc52fa28c2a6192462ee28c32ecc2b5e434e5eec185deff5039d9fb1802cb4fe6d131b8fba7209f8462d44
+tardir=dpkg-1.16.12
+
+[mirrors]
+http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.16.12.tar.xz
+
+[deps]
+zlib
+bzip2
+perl
+ncurses
+
+[build]
+patch -p1 < "$K"/dpkg.patch || exit 1
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

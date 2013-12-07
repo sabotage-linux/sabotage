@@ -1,6 +1,6 @@
 #!/bin/sh
 [ -z "$CONFIG" ] && CONFIG=./config
-source "$CONFIG"
+. "$CONFIG"
 export H="$PWD"
 
 if [ -z "$R" ] ; then
@@ -27,12 +27,21 @@ else
 	fi
 
 
-	mount --rbind /dev "$R"/dev
-	mount --rbind /proc "$R"/proc
+	mount --bind /dev "$R"/dev
+	mount --bind /dev/pts "$R"/dev/pts
+	mount --bind /dev/shm "$R"/dev/shm
+	mount --bind /proc "$R"/proc
 	mount --bind "$C" "$R"/src/tarballs
 
 	CHROOT=chroot
 fi
+
+set_title() {
+	[ "$TERM" != "linux" ] && [ "$TERM" != "vt100" ] && \
+	echo -en "\033]2;$1\007"
+}
+
+set_title "SABOTAGE CHROOT $(basename $R)"
 
 echo "Entering chroot..."
 "$CHROOT" "$R" /bin/env -i \
@@ -44,7 +53,10 @@ tryumount() {
 	if ! umount "$dest" 2>/dev/null; then
 		echo "unmount failure ($dest), retrying in 1 sec..."
 		sleep 1
-		umount -f "$dest"
+		if ! umount -f "$dest" 2>/dev/null; then
+		  echo "unmount -f failure ($dest), trying last resort umount -l"
+		  umount -l "$dest"
+		fi
 	fi
 }
 
@@ -55,6 +67,8 @@ if [ -z "$SUPER" ] ; then
 	tryumount "$R"/dev
 	tryumount "$R"/proc
 fi
+
+set_title "sabotage"
 
 #echo empty line so we get a proper prompt back
 echo

@@ -1,9 +1,9 @@
 [main]
-filesize=1222361
-sha512=4219cdd32296e5851f6cd99a8ac6e14d2579df10e8e111bb09d6c3789e400e2fcdc173968afd54808d286f0fb4945aa57d2d0f3b62a20e761de64500c8938e35
+filesize=1235150
+sha512=dff24e56127e5599d64b4c62de967d5d48d8ebf23ca8597d33bf0b3622640512db7a462bfa7c2031cd8307f402bab8efa345f6d1fc813e78eb0dcae581de3cf7
 
 [mirrors]
-http://znc.in/releases/znc-1.0.tar.gz
+http://znc.in/releases/znc-1.2.tar.gz
 
 [deps]
 openssl
@@ -15,3 +15,4 @@ LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
+  

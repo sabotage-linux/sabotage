@@ -1,0 +1,11 @@
+--- dpkg-1.16.12/dpkg-deb/extract.c
++++ dpkg-1.16.12/dpkg-deb/extract.c
+@@ -319,7 +319,7 @@
+         }
+       }
+
+-      execlp(TAR, "tar", buffer, "-", "--warning=no-timestamp", NULL);
++      execlp(TAR, "tar", buffer, "-", NULL);
+       ohshite(_("unable to execute %s (%s)"), "tar", TAR);
+     }
+     close(p2[0]);

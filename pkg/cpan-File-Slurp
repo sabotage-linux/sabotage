@@ -9,6 +9,6 @@ sha512=3fb8f452d625e321e77475cbc7d5672d53fe49945581561a0001be0a9464e676593032716
 http://search.cpan.org/CPAN/authors/id/U/UR/URI/File-Slurp-9999.19.tar.gz
 
 [build]
-perl Makefile.PL PREFIX="$butch_prefix" LIB="$butch_prefix/lib/perl5/site_perl" || exit 1
-make && make test && make DESTDIR="$butch_install_dir" install
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
 

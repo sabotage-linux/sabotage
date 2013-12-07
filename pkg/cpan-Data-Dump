@@ -9,6 +9,6 @@ filesize=20132
 sha512=25a11d3f7b0d075a4bea58848b7b3f4dfde19c8c294632714d674426ea7bb0cdea33ac09ec03d4ba0135ce5ba68bb7072ace93cbd4cb04c17f76f424919fe20b
 
 [build]
-perl Makefile.PL PREFIX="$butch_prefix" LIB="$butch_prefix/lib/perl5/site_perl" || exit 1
-make && make test && make DESTDIR="$butch_install_dir" install
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
 

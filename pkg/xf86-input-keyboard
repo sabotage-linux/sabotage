@@ -1,0 +1,21 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-keyboard-1.7.0.tar.bz2
+
+[main]
+filesize=319043
+sha512=f809ea4db5bda0ffefc78887838dd65519ee3e4c862a2021f1e50fb9e56954743c602dd940a054d528b15e8e6e19e88eb2da688dabe3521622993bda54dd4e50
+
+[deps]
+util-macros
+xorg-server
+xproto
+inputproto
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

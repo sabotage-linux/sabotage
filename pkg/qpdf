@@ -1,0 +1,18 @@
+[mirrors]
+http://downloads.sourceforge.net/qpdf/qpdf-5.0.0.tar.gz
+
+[main]
+filesize=7556793
+sha512=207d5539b434cca9a7f582882786b4d5f473cd374a1a249a0d4f335c7d9ef22cdb857a32ef3e23b98b0c329191eb6c980fa576930553211ddc00dfa11416baa8
+
+[deps]
+pcre
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

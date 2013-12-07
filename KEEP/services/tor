@@ -1,0 +1,5 @@
+#!/bin/sh
+TORHOME=/var/run/tor
+addgroup -S tor && adduser -h "$TORHOME" -S -G tor tor
+su -s /bin/sh - tor -c "mkdir -p env ; echo $TORHOME > env/HOME"
+exec chpst -e $TORHOME/env -u tor tor 2>&1

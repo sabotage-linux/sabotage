@@ -1,4 +1,5 @@
 [deps]
+services
 stage0_gcc
 stage0_musl
 kernel-headers

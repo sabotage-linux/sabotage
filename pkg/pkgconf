@@ -4,6 +4,7 @@ musl
 [mirrors]
 http://tortois.es/~nenolod/distfiles/pkgconf-0.8.9.tar.bz2
 http://nenolod.net/~nenolod/distfiles/pkgconf-0.8.9.tar.bz2
+http://files.etoilebsd.net/pkgconf/pkgconf-0.8.9.tar.bz2
 
 [main]
 filesize=80211

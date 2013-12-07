@@ -1,0 +1,13 @@
+[mirrors]
+http://repo.hu/projects/yget/releases/yget-2.6.0.tar.gz
+
+[main]
+filesize=6849
+sha512=d21f5ecd69bb12f7f844cebc12a1b1bfa7881d66c184c197f38dd6c7435780841b5b62ea919181778f0cb392e34c9a4aea31724d58b1eb1d484956511ab5b652
+
+[deps]
+
+[build]
+patch -p1 < "$K"/yget-awk.patch || exit 1
+sed -i 's/mplayer/mpv/' yplay
+make prefix="$butch_prefix" install_root="$butch_install_dir" install || exit 1

@@ -1,0 +1,20 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/xsetroot-1.1.1.tar.bz2
+
+[main]
+filesize=119977
+sha512=04834a8ca658a4aabe03e62588353102e8019d424e25fab450d48e6fc4ac358df5bb98a850c82c61e2495faabfe54f3d92d9563e77c83ace7fd69c278edbbd64
+
+[deps]
+libx11
+libxau
+xbitmaps
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

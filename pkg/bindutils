@@ -1,0 +1,22 @@
+[mirrors]
+ftp://ftp.isc.org/isc/bind9/9.9.4-P1/bind-9.9.4-P1.tar.gz
+
+[main]
+filesize=7512868
+sha512=761f60d9197bcb08c3ac150190194c90c2848478bfb61769c8a5325b5060ce81ff6f5d03fcb69445cf954acfeb0f307ef3a9f10351e03f51d638fc482250ed53
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+for i in dns isc bind9 isccfg lwres ; do
+  make -j$MAKE_THREADS -C lib/$i || exit 1
+done
+
+make -j$MAKE_THREADS -C bin/dig || exit 1
+
+make -C bin/dig DESTDIR="$butch_install_dir" install || exit 1

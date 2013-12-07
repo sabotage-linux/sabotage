@@ -1,0 +1,14 @@
+--- mozilla.org/security/coreconf/arch.mk	2013-10-19 02:31:47.639025980 +0000
++++ mozilla/security/coreconf/arch.mk	2013-10-19 03:08:56.880945959 +0000
+@@ -151,10 +151,7 @@
+ endif
+ 
+ ifeq ($(OS_ARCH),Linux)
+-    OS_RELEASE := $(subst ., ,$(OS_RELEASE))
+-    ifneq ($(words $(OS_RELEASE)),1)
+-	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
+-    endif
++    OS_RELEASE := 2.6
+ endif
+ 
+ #

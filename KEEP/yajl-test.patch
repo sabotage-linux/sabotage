@@ -1,0 +1,19 @@
+--- yajl-2.0.4.org/CMakeLists.txt	2013-10-27 04:19:27.952178366 +0000
++++ yajl-2.0.4/CMakeLists.txt	2013-10-27 04:19:44.413178587 +0000
+@@ -64,7 +64,6 @@
+ 
+ 
+ ADD_SUBDIRECTORY(src)
+-ADD_SUBDIRECTORY(test)
+ ADD_SUBDIRECTORY(reformatter)
+ ADD_SUBDIRECTORY(verify)
+ ADD_SUBDIRECTORY(example)
+@@ -72,8 +71,3 @@
+ 
+ INCLUDE(YAJLDoc.cmake)
+ 
+-# a test target
+-ADD_CUSTOM_TARGET(test
+-                  ./run_tests.sh ${CMAKE_CURRENT_BINARY_DIR}/test/yajl_test
+-                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test)
+-

@@ -1,0 +1,31 @@
+[mirrors]
+http://www.openprinting.org/download/cups-filters/cups-filters-1.0.38.tar.xz
+
+[main]
+filesize=1034484
+sha512=877f13e7255d4ad04c735ac18651571cffb21948ed4dd949cdba3c123e28d0d593fa5c648045d41da859b89a724a9ef9549571afb48d0143a794eb9ab718f0d0
+
+[deps]
+qpdf
+cups
+ijs
+ghostscript
+poppler
+
+[build]
+# in case this package doesnt work properly,
+# install lcms2 may help (this is noted as a required dep in BLFS)
+
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" \
+  --without-rcdir \
+  --with-gs-path="$butch_prefix"/bin/gs \
+  --with-pdftops-path="$butch_prefix"/bin/gs \
+  --disable-avahi \
+  --disable-static \
+|| exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

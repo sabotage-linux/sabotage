@@ -1,0 +1,15 @@
+[mirrors]
+http://downloads.sourceforge.net/infozip/zip30.tar.gz
+
+[main]
+filesize=1118845
+sha512=c1c3d62bf1426476c0f9919b568013d6d7b03514912035f09ee283226d94c978791ad2af5310021e96c4c2bf320bfc9d0b8f4045c48e4667e034d98197e1a9b3
+
+[deps]
+
+[build]
+make -f unix/Makefile generic_gcc -j$MAKE_THREADS \
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" || exit 1
+
+make prefix="$butch_install_dir""$butch_prefix" -f unix/Makefile install || exit 1
+

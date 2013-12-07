@@ -1,0 +1,63 @@
+--- lxc-0.9.0.org/src/lxc/lxcutmp.c
++++ lxc-0.9.0/src/lxc/lxcutmp.c
+@@ -32,16 +32,16 @@
+ #include <sys/inotify.h>
+ #include <sys/ioctl.h>
+ #ifdef HAVE_SYS_TIMERFD_H
+-#include <sys/timerfd.h>
++#  include <sys/timerfd.h>
+ #else
+-#include <sys/syscall.h>
+-#ifndef TFD_NONBLOCK
+-#define TFD_NONBLOCK O_NONBLOCK
+-#endif
++# include <sys/syscall.h>
++# ifndef TFD_NONBLOCK
++#   define TFD_NONBLOCK O_NONBLOCK
++#  endif
+ 
+-#ifndef TFD_CLOEXEC
+-#define TFD_CLOEXEC O_CLOEXEC
+-#endif
++#  ifndef TFD_CLOEXEC
++#    define TFD_CLOEXEC O_CLOEXEC
++#  endif
+ static int timerfd_create (clockid_t __clock_id, int __flags) {
+ 	return syscall(__NR_timerfd_create, __clock_id, __flags);
+ }
+@@ -54,7 +54,7 @@
+ 			    __utmr, __otmr);
+ }
+ 
+-#endif
++#endif /* HAVE_SYS_TIMERFD_H */
+ 
+ #include "conf.h"
+ #include "cgroup.h"
+@@ -68,13 +68,17 @@
+ #endif
+ #ifdef HAVE_UTMPX_H
+ #include <utmpx.h>
++#ifndef HAVE_UTMPXNAME
++static int utmpxname(const char *file) {
++	return 0;
++}
++#endif
+ #else
+ #include <utmp.h>
+ 
+ #ifndef RUN_LVL
+ #define RUN_LVL 1
+ #endif
+-
+ static int utmpxname(const char *file) {
+ 	int result;
+ 	result = utmpname(file);
+@@ -103,6 +107,7 @@
+ 	return endutent();
+ #endif
+ }
++
+ #endif
+ #undef __USE_GNU
+ 

@@ -1,0 +1,235 @@
+'\" t
+.\"     Title: cryptmount
+.\"    Author: [see the "Authors" section]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 10/17/2013
+.\"    Manual: [FIXME: manual]
+.\"    Source: [FIXME: source]
+.\"  Language: English
+.\"
+.TH "CRYPTMOUNT" "8" "10/17/2013" "[FIXME: source]" "[FIXME: manual]"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+cryptmount \- parse *crypttab* for use by *cryptsetup*
+.SH "SYNOPSIS"
+.sp
+\fBcryptmount\fR [\fIoptions\fR] [\fB\-L\fR]
+.sp
+\fBcryptmount\fR [\fIoptions\fR] \fB\-M\fR [\fIname\fR|\fIdevice\fR]
+.sp
+\fBcryptmount\fR [\fIoptions\fR] \fB\-M\fR \fIname\fR \fIdevice\fR [\fIkey\fR]
+.sp
+\fBcryptmount\fR [\fIoptions\fR] \fB\-U\fR [\fIname\fR[\fB,\fR\&...]]
+.SH "DESCRIPTION"
+.sp
+\fBcryptmount\fR uses \fBcrypttab(5)\fR for calling \fBcryptsetup(8)\fR; it can also be used to define a \fIvolume\fR on the command line without \fBcrypttab\fR\&.
+.SH "ACTIONS"
+.PP
+\fB\-L\fR
+.RS 4
+List the
+\fInames\fR
+(first column) of
+\fIvolumes\fR
+from
+\fBcrypttab\fR\&. Use with
+\fB\-O\fR
+to manipulate which
+\fInames\fR
+are listed\&.
+.RE
+.PP
+\fB\-M\fR
+.RS 4
+Perform a mapping\&. The first form of this command finds a
+\fIvolume\fR
+from
+\fBcrypttab\fR
+either by its
+\fIname\fR
+or
+\fIdevice\fR, or if nothing is given then map all
+\fIvolumes\fR
+(use with
+\fB\-O\fR
+to manipulate which
+\fIvolumes\fR
+are mapped)\&. The second form defines a
+\fIvolume\fR
+entirely on the command line,
+\fBcrypttab\fR
+is not used\&.
+.RE
+.PP
+\fB\-U\fR
+.RS 4
+Unmap
+\fIvolume(s)\fR\&. If a list of
+\fInames\fR
+is given, unmap them\&. Otherwise unmap all
+\fIvolumes\fR
+from
+\fBcrypttab\fR
+(with
+\fB\-O\fR
+to manipulate which
+\fIvolumes\fR
+are unmapped)\&.
+.RE
+.SH "OPTIONS"
+.PP
+\fB\-c\fR \fIfile\fR
+.RS 4
+Override the default
+\fBcrypttab\fR
+location\&.
+.RE
+.PP
+\fB\-f\fR
+.RS 4
+Force potentially destructive mappings\&. For plain mappings (which are used with the
+\fBswap\fR
+and
+\fBtmp\fR
+options), there is a lot of potential to accidentally lose data\&. Because of this,
+\fBcryptmount\fR
+performs a check with
+\fBblkid(8)\fR
+to see if there is anything identifiable on
+\fIdevice\fR\&. Use
+\fB\-f\fR
+to bypass this check\&.
+.RE
+.PP
+\fB\-w\fR \fInum\fR
+.RS 4
+Time (in seconds) to wait for
+\fIdevice\fR
+if it is not already available\&. If
+\fBudevd(8)\fR
+is not running, then
+\fBcryptmount\fR
+does not bother to wait and this option is a no\-op\&. This also affects the wait time for
+\fIkeydevice\fR
+if your key is a block device or a file on a block device\&.
+.RE
+.PP
+\fB\-n\fR
+.RS 4
+Dry run, useful with
+\fB\-v\fR
+to see how
+\fBcryptsetup\fR
+will be called\&.
+.RE
+.PP
+\fB\-v\fR
+.RS 4
+Increase verbosity\&. This prints the commands which are being called (eg:
+\fBcryptsetup\fR,
+\fBmkswap\fR)\&.
+.RE
+.PP
+\fB\-q\fR
+.RS 4
+Decrease verbosity\&.
+.RE
+.PP
+\fB\-h\fR
+.RS 4
+Print a short usage message and exit\&.
+.RE
+.PP
+\fB\-o\fR \fIoptions\fR
+.RS 4
+An options list with items such as
+\fBswap\fR,
+\fBcipher\fR, etc\&. This may be given multiple times with a cumulative effect\&. See
+\fBcrypttab(5)\fR
+for the full syntax
+\fIoptions\fR\&.
+.RE
+.PP
+\fB\-O\fR \fIfilters\fR
+.RS 4
+Similar to
+\fIoptions\fR, this is used to manipulate which
+\fIvolumes\fR
+are used with
+\fI\-L\fR
+and with
+\fI\-M\fR/\fI\-U\fR
+without arguments\&. If an option is present in
+\fIfilters\fR, then the
+\fIvolume\fR
+in
+\fBcrypttab\fR
+must contain the option\&. For example
+\fB\-O swap,size\fR
+matches all
+\fIvolumes\fR
+with the
+\fBswap\fR
+option
+\fBand\fR
+any
+\fBsize=\fR\fIsize\fR
+option; or
+\fB\-O swap,size=512\fR
+matches only those
+\fIvolumes\fR
+with the
+\fBswap\fR
+option and specifically
+\fBsize=512\fR\&.
+.sp
+A filter option may also be negated by prefixing it with a
+\fB!\fR\&. For example,
+\fB\-O swap,!size\fR
+includes all
+\fIvolumes\fR
+with the
+\fBswap\fR
+option but
+\fBwithout\fR
+the
+\fIsize\fR
+option\&. There is a built\-in filter
+\fB!noauto\fR\&.
+.sp
+Filters are especially useful with
+\fB%\fR\fItag\fR
+options\&. For example,
+\fB\-O !%random\fR
+can be used to map all
+\fIvolumes\fR
+which don\(cqt use
+\fB/dev/urandom\fR
+for a password and
+\fB\-O %random\fR
+to map the remainder once your system\(cqs random seed has been restored\&.
+.sp
+The
+\fB\-O\fR
+option has
+\fBno effect\fR
+when calling
+\fBcryptmount\fR
+in a way that does not use
+\fBcrypttab\fR\&.
+.RE
+.SH "SEE ALSO"
+.sp
+\fBcrypttab\fR(5), \fBcryptsetup\fR(8)
+.SH "AUTHORS"
+.sp
+Matt Monaco <dgbaley27@0x01b\&.net>

@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.freedesktop.org/pub/mesa/9.1.6/MesaLib-9.1.6.tar.bz2
+ftp://ftp.freedesktop.org/pub/mesa/9.2/MesaLib-9.2.0.tar.bz2
 
 [main]
-filesize=6134267
-sha512=b23d0cc3515b56636f73c4d3247212f8c731c967f5ecf8c247a3bd359038ed374c23eb1bb0da17a9152f8b8d984acd134fa9823d9349285287e58676419b4d40
-tardir=Mesa-9.1.6
+filesize=6643026
+sha512=26c4b41b7e1d5284b87e2997a14424c1ee0713e11fd9dd65932987832e43b96986ed5e88c06fad4616fc912ffb8e17a2314b282cbf38a2640d76c39724965910
+tardir=Mesa-9.2.0
 
 [deps]
 libxml2
@@ -30,12 +30,21 @@ patch -p1 < "$K"/mesalib-strtof.patch || exit 1
 patch -p1 < "$K"/mesalib-fpclassify.patch || exit 1
 
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+  --sysconfdir="$butch_prefix"/etc \
   --without-gallium-drivers \
   --enable-gallium-llvm=no \
   --enable-gallium-egl=no \
   --enable-gallium-gbm=no \
   --enable-gallium-tests=no \
   --enable-gallium-g3dvl=no \
+  --enable-texture-float         \
+  --enable-gles1                 \
+  --enable-gles2                 \
+  --enable-osmesa                \
+  --enable-xa                    \
+  --disable-gbm                  \
+  --enable-glx-tls               \
+  --with-egl-platforms="x11" \
   || exit 1
 
 echo true >  bin/missing

@@ -1,6 +1,12 @@
 #!/bin/sh
 # hack, hack !
 
+usefbdev=false
+
+export DISPLAY=:0
+
+if $usefbdev ; then
+
 machine=qemu
 #machine=vbox
 
@@ -17,8 +23,10 @@ fi
 # take a look at "cat /proc/bus/input/devices" to get hints
 # about the evdev ids. look for things like event1, event6, ...
 
-export DISPLAY=:0
 
 exec Xfbdev -retro  :0 -keybd evdev,,device=/dev/input/$keyb \
   -mouse evdev,,device=/dev/input/$mouse
 
+else
+	exec Xorg -nolisten tcp
+fi

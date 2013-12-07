@@ -9,8 +9,12 @@ sha512=315f5541dfe8d519ea832ad8b13b034a5ac173f8b9c0de7e3f774780b4ef42f2fab29e3ef
 gtk+2
 
 [build]
-#patch -p1 < "$K/some.patch"
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+patch -p1 < "$K"/leafpad-savebug.patch || exit 1
+patch -p1 < "$K"/leafpad-taskbar-icon.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags" \
+./configure -C --prefix="$butch_prefix" \
   --disable-nls || exit 1
 
 for i in po ; do

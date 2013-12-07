@@ -1,0 +1,20 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-mouse-1.9.0.tar.bz2
+
+[main]
+filesize=353339
+sha512=ef48a39765a874b8063ea0f76abe5240061185c8dde2e613d0833c2436ea133144c027e6130118251d65ed8a487ce6105e3ebd9543728ac8942485aca24550db
+
+[deps]
+xorg-server
+xproto
+inputproto
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

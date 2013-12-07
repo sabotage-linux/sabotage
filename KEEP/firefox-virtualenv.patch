@@ -1,0 +1,126 @@
+--- mozilla-release.org/python/virtualenv/virtualenv.py	2013-10-25 22:27:39.000000000 +0000
++++ ./virtualenv.py	2013-10-30 21:44:50.242355410 +0000
+@@ -413,7 +413,32 @@
+     else:
+         shutil.copy2(src, dest)
+ 
++def symlinkfileordir(src, dest):
++    if os.path.exists(dest):
++        return
++    if os.path.isdir(src):
++        if not os.path.exists(dest):
++            os.makedirs(dest)
++        for fn in os.listdir(src):
++            symlinkfileordir(os.path.join(src, fn), os.path.join(dest, fn))
++    else:
++        if not os.path.exists(os.path.dirname(dest)):
++            os.makedirs(os.path.dirname(dest))
++        if not os.path.islink(src):
++            srcpath = os.path.abspath(src)
++        else:
++            srcpath = os.readlink(src)
++            if not srcpath[0] == '/':
++                # relative symlink, needs to be prefixed with absolute source path
++                srcpath = os.path.join(os.path.dirname(src), srcpath)
++                srcpath = os.path.abspath(srcpath)
++
++        logger.info('Symlinking %s :: %s -> %s', src, srcpath,  dest)
++        os.symlink(srcpath, dest)
++
+ def copyfile(src, dest, symlink=True):
++    if symlink:
++        return symlinkfileordir(src, dest)
+     if not os.path.exists(src):
+         # Some bad symlink in the src
+         logger.warn('Cannot find file %s (bad symlink)', src)
+@@ -428,16 +453,19 @@
+         srcpath = os.path.abspath(src)
+     else:
+         srcpath = os.readlink(src)
+-    if symlink and hasattr(os, 'symlink') and not is_win:
+-        logger.info('Symlinking %s', dest)
++        if not srcpath[0] == '/':
++		# relative symlink, needs to be prefixed with absolute source path
++		srcpath = os.path.join(os.path.dirname(src), srcpath)
++    if symlink and hasattr(os, 'symlink') and not is_win and not os.path.isdir(srcpath):
++        logger.info('Symlinking %s :: %s -> %s', src, srcpath,  dest)
+         try:
+             os.symlink(srcpath, dest)
+         except (OSError, NotImplementedError):
+             logger.info('Symlinking failed, copying to %s', dest)
+-            copyfileordir(src, dest)
++            copyfileordir(srcpath, dest)
+     else:
+         logger.info('Copying to %s', dest)
+-        copyfileordir(src, dest)
++        copyfileordir(srcpath, dest)
+ 
+ def writefile(dest, content, overwrite=True):
+     if not os.path.exists(dest):
+@@ -902,7 +930,7 @@
+     if 'adjust_options' in globals():
+         adjust_options(options, args)
+ 
+-    verbosity = options.verbose - options.quiet
++    verbosity = 1 - options.quiet
+     logger = Logger([(Logger.level_for_integer(2 - verbosity), sys.stdout)])
+ 
+     if options.python and not os.environ.get('VIRTUALENV_INTERPRETER_RUNNING'):
+@@ -1213,6 +1241,20 @@
+     return prefix_path.replace(prefix, home_dir, 1)
+ 
+ 
++def install_executable(src, dest):
++	logger.info("foobar")
++	newdest = dest + ".org"
++	shutil.copyfile(src, newdest)
++	make_exe(newdest)
++	destprefix=os.path.dirname(dest)
++	destprefix=os.path.dirname(destprefix)
++	wrapper = "#!/bin/sh\nexport PYTHONHOME=%s\n" % destprefix
++	wrapper = wrapper + newdest + ' "$@"'
++	f = open(dest, "w")
++	f.write(wrapper)
++	f.close()
++	make_exe(dest)
++
+ def install_python(home_dir, lib_dir, inc_dir, bin_dir, site_packages, clear):
+     """Install just the base environment, no distutils patches etc"""
+     if sys.executable.startswith(bin_dir):
+@@ -1356,8 +1398,9 @@
+             executable += '.exe'
+             py_executable += '.exe'
+             logger.info('Executable actually exists in %s' % executable)
+-        shutil.copyfile(executable, py_executable)
+-        make_exe(py_executable)
++        install_executable(executable, py_executable)
++        #shutil.copyfile(executable, py_executable)
++        #make_exe(py_executable)
+         if is_win or is_cygwin:
+             pythonw = os.path.join(os.path.dirname(sys.executable), 'pythonw.exe')
+             if os.path.exists(pythonw):
+@@ -1415,8 +1458,9 @@
+                         % (expected_exe, secondary_exe, py_executable))
+         else:
+             logger.notify('Also creating executable in %s' % secondary_exe)
+-            shutil.copyfile(sys.executable, secondary_exe)
+-            make_exe(secondary_exe)
++            install_executable(sys.executable, secondary_exe)
++#            shutil.copyfile(sys.executable, secondary_exe)
++#            make_exe(secondary_exe)
+ 
+     if '.framework' in prefix:
+         if 'Python.framework' in prefix:
+@@ -1593,6 +1637,12 @@
+     home_dir = os.path.abspath(home_dir)
+     ## FIXME: this is breaking things, removing for now:
+     #distutils_cfg = DISTUTILS_CFG + "\n[install]\nprefix=%s\n" % home_dir
++    logger.warn("XXX overwriting distutils init.py %s" % os.path.join(distutils_path, '__init__.py'))
++    # we need to remove the old __init__.py, otherwise we'll overwrite it if it's a symlink
++    os.unlink(os.path.join(distutils_path, '__init__.py'))
++    if os.path.exists(os.path.join(distutils_path, '__init__.py')):
++        logger.warn("XXX the file still exists, wtf ?")
++        sys.exit(1)
+     writefile(os.path.join(distutils_path, '__init__.py'), DISTUTILS_INIT)
+     writefile(os.path.join(distutils_path, 'distutils.cfg'), DISTUTILS_CFG, overwrite=False)
+ 

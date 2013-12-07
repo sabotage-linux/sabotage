@@ -1,0 +1,50 @@
+[mirrors]
+http://downloads.sourceforge.net/project/docbook/docbook-xsl/1.78.1/docbook-xsl-1.78.1.tar.bz2
+
+[main]
+filesize=5003045
+sha512=0a5ca95e6e451192c4edf15d2b72c716935ce6df0c70c1974f794f0085db8f52f3e1f470435b6a77ec7c0f67e32c189a4dd334305e609031173444d5818767f3
+
+[deps]
+libxml2
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+install -v -m755 -d "$dest"/share/xml/docbook/xsl-stylesheets-1.78.1 &&
+
+cp -v -R VERSION common eclipse epub extensions fo highlighting html \
+         htmlhelp images javahelp lib manpages params profiling \
+         roundtrip slides template tests tools webhelp website \
+         xhtml xhtml-1_1 \
+    "$dest"/share/xml/docbook/xsl-stylesheets-1.78.1 &&
+
+ln -s VERSION "$dest"/share/xml/docbook/xsl-stylesheets-1.78.1/VERSION.xsl &&
+
+install -v -m644 -D README \
+                    "$dest"/share/doc/docbook-xsl-1.78.1/README.txt &&
+install -v -m644    RELEASE-NOTES* NEWS* \
+                    "$dest"/share/doc/docbook-xsl-1.78.1
+
+dest="$butch_prefix"
+
+if [ ! -d "$dest"/etc/xml ]; then install -v -m755 -d "$dest"/etc/xml; fi &&
+if [ ! -f "$dest"/etc/xml/catalog ]; then
+    xmlcatalog --noout --create "$dest"/etc/xml/catalog
+fi &&
+xmlcatalog --noout --add "rewriteSystem" \
+           "http://docbook.sourceforge.net/release/xsl/1.78.1" \
+           "$dest/share/xml/docbook/xsl-stylesheets-1.78.1" \
+    "$dest"/etc/xml/catalog &&
+xmlcatalog --noout --add "rewriteURI" \
+           "http://docbook.sourceforge.net/release/xsl/1.78.1" \
+           "$dest/share/xml/docbook/xsl-stylesheets-1.78.1" \
+    "$dest"/etc/xml/catalog &&
+xmlcatalog --noout --add "rewriteSystem" \
+           "http://docbook.sourceforge.net/release/xsl/current" \
+           "$dest/share/xml/docbook/xsl-stylesheets-1.78.1" \
+    "$dest"/etc/xml/catalog &&
+xmlcatalog --noout --add "rewriteURI" \
+           "http://docbook.sourceforge.net/release/xsl/current" \
+           "$dest/share/xml/docbook/xsl-stylesheets-1.78.1" \
+    "$dest"/etc/xml/catalog
+

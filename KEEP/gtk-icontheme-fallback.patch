@@ -1,0 +1,11 @@
+--- gtk+-2.24.10.org/gtk/gtksettings.c
++++ gtk+-2.24.10/gtk/gtksettings.c
+@@ -314,7 +314,7 @@
+                                              g_param_spec_string ("gtk-fallback-icon-theme",
+ 								  P_("Fallback Icon Theme Name"),
+ 								  P_("Name of a icon theme to fall back to"),
+-								  NULL,
++								  "nuoveXT2",
+ 								  GTK_PARAM_READWRITE),
+                                              NULL);
+   g_assert (result == PROP_FALLBACK_ICON_THEME);

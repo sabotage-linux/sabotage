@@ -1,0 +1,17 @@
+--- mozilla.org/mailnews/compose/src/nsMsgCompUtils.cpp	2013-10-19 02:31:48.006025967 +0000
++++ mozilla/mailnews/compose/src/nsMsgCompUtils.cpp	2013-10-21 20:52:56.959451512 +0000
+@@ -517,9 +517,14 @@
+ 
+     if (!userAgentString.IsEmpty())
+     {
++	if(!userAgentOverride) {
++		PUSH_STRING("User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:17.0) Gecko/20130801 Thunderbird/17.0.8");
++		PUSH_NEWLINE ();
++	} else {
+       PUSH_STRING ("User-Agent: ");  
+       PUSH_STRING(userAgentString.get());
+       PUSH_NEWLINE ();
++	}
+     }
+   }
+ 

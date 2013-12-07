@@ -1,0 +1,14 @@
+[deps]
+perl
+
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/Z/ZE/ZEFRAM/Params-Classify-0.013.tar.gz
+
+[main]
+filesize=21014
+sha512=8638d0d952854770049a8cf382ce02f6164025ad7224588d41be02f504947cb9d309d95c33d8fc1c2e3b5de6dfdbeac7fdaf9cd16dd6ba0a3d546c7a002e65e6
+
+[build]
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
+

@@ -1,0 +1,59 @@
+[mirrors]
+http://www.iana.org/time-zones/repository/releases/tzcode2013g.tar.gz
+
+[main]
+filesize=171550
+sha512=dd4475916fe36609155d72cfe434b387455ba860cee15fbbbb5caf37cc77757d467c4ae80e81396280e8d3fb68e131373151e8d0eee9bbf8674b96f99e0a9cbd
+tardir=.
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+mv Makefile Makefile.org
+cat << EOF > Makefile
+PACKAGE=        tzcode
+VERSION=        2013g
+BUGEMAIL=       tz@iana.org
+TZCOBJS=        zic.o localtime.o asctime.o scheck.o ialloc.o
+TZDOBJS=        zdump.o localtime.o ialloc.o asctime.o
+OBJS=           zic.o zdump.o localtime.o ialloc.o asctime.o
+PREFIX=/usr/local
+MANDIR=\$(PREFIX)/share/man
+BINDIR=\$(PREFIX)/bin
+TZDIR=\$(PREFIX)/share/zoneinfo
+all:	zic zdump tzselect
+\$(OBJS):  version.h
+version.h:
+	(echo 'static char const PKGVERSION[]="(\$(PACKAGE)) ";' && \
+	 echo 'static char const TZVERSION[]="\$(VERSION)";' && \
+	 echo 'static char const REPORT_BUGS_TO[]="\$(BUGEMAIL)";') > \$@
+tzselect: tzselect.ksh
+	sed \
+		-e 's|AWK=[^}]*|AWK=awk|g' \
+		-e 's|\(PKGVERSION\)=.*|\1='\''(\$(PACKAGE)) '\''|' \
+		-e 's|\(REPORT_BUGS_TO\)=.*|\1=\$(BUGEMAIL)|' \
+		-e 's|TZDIR=[^}]*|TZDIR=\$(TZDIR)|' \
+		-e 's|\(TZVERSION\)=.*|\1=\$(VERSION)|' \
+	< \$? > \$@
+	chmod +x \$@
+zdump:  \$(TZDOBJS) version.h
+	\$(CC) -o \$@ \$(CFLAGS) \$(LDFLAGS) \$(TZDOBJS) \$(LDLIBS)
+zic:    \$(TZCOBJS) version.h
+	\$(CC) -o \$@ \$(CFLAGS) \$(LDFLAGS) \$(TZCOBJS) \$(LDLIBS)
+install: all zic.8 zdump.8 tzselect.8 tzfile.5
+	install -D -m 644 zic.8 \$(DESTDIR)\$(MANDIR)/man8/zic.8
+	install -D -m 644 zdump.8 \$(DESTDIR)\$(MANDIR)/man8/zdump.8
+	install -D -m 644 tzselect.8 \$(DESTDIR)\$(MANDIR)/man8/tzselect.8
+	install -D -m 644 tzfile.5 \$(DESTDIR)\$(MANDIR)/man5/tzfile.5
+	install -D -m 755 zic \$(DESTDIR)\$(BINDIR)/zic
+	install -D -m 755 zdump \$(DESTDIR)\$(BINDIR)/zdump
+	install -D -m 755 tzselect \$(DESTDIR)\$(BINDIR)/tzselect
+EOF
+
+make -j$MAKE_THREADS \
+  CFLAGS="-D_GNU_SOURCE $optcflags -DHAVE_STDINT_H" \
+  LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" \
+  DESTDIR="$butch_install_dir" \
+  all install || exit 1

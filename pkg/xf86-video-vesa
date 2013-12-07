@@ -1,0 +1,14 @@
+[deps]
+xproto
+libx11
+xorg-server
+
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vesa-2.3.3.tar.bz2
+[main]
+filesize=300571
+sha512=1e3768e757e889bb8707ce76cc6f54eb3beaf7d5b34750a0e7262612ae300e4cd42985b7cbcd72462b14c8d73945a22cec70ca6a52017491de41715d2ecbaca8
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install || exit 1
+

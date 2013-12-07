@@ -8,9 +8,13 @@ http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.xz
 [deps]
 libxml2
 glib
+flex
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --disable-examples || exit 1
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+  --disable-examples \
+  --enable-gst-debug=yes \
+  || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

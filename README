@@ -23,14 +23,15 @@ You can bootstrap your own build from the scripts at
 or use a ready-to-boot disk image either for qemu, vbox 
 or to extract the rootfs, to be found at:
 
-           http://ftp.barfooze.de/pub/sabotage/ 
+  DE : http://ftp.barfooze.de/pub/sabotage/ 
+  GR : http://foss.aueb.gr/mirrors/linux/sabotage/
+  UK : http://dl.2f30.org/mirrors/sabotage/
 
-	   or
-	   http://foss.aueb.gr/mirrors/linux/sabotage/
+  sha512 checksums for the releases are announced on the sabotage
+  and musl mailinglists, and are archived here:
 
+    http://openwall.com/lists/sabotage/
 
-You also can netboot the install kernel directly (use pxelinux from
-somewhere).
 
 READ THE COOKBOOK FIRST.
 
@@ -42,6 +43,14 @@ DO NOT RUN SCRIPTS YOU HAVE NOT READ.
   # set SABOTAGE_BUILDDIR, A, and MAKE_THREADS variables. 
   # if you have an appropriate kernel and no root privs, set SUPER.
   # the other values can be left as-is usually.
+
+NOTE: it is possible to build i386 sabotage from within an existing
+32bit chroot on a 64bit sys, however you need to run fakeroot, linux32,
+or setarch from util-linux to "impersonate" a 32bit sys (this means
+uname has to lie and report a 32bit sys).
+a minimal linux32 implementation is available on
+https://github.com/rofl0r/hardcore-utils/blob/master/linux32.c .
+just use it to spawn a new shell and you're good to go.
 
 % ./build-stage 0  # build toolchain 
                    # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz

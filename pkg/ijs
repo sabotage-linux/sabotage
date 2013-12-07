@@ -1,0 +1,18 @@
+[mirrors]
+http://www.openprinting.org/download/ijs/download/ijs-0.35.tar.bz2
+
+[main]
+filesize=257476
+sha512=b5f8df6fe394efea4ee7059c1ca8d7eb91588f060642da12f6591f0f40d169883aa9f7a6976a00042c89dd370b30f36afc407c4e7515cbd68537505a63c9a293
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" \
+  --enable-shared --disable-static || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,21 @@
+--- qt-everywhere-opensource-src-4.6.4.org/src/corelib/codecs/qiconvcodec.cpp	2013-10-25 12:36:38.703114754 +0000
++++ qt-everywhere-opensource-src-4.6.4/src/corelib/codecs/qiconvcodec.cpp	2013-10-25 18:59:19.095290566 +0000
+@@ -62,15 +62,15 @@
+ #elif defined(Q_OS_AIX)
+ #  define NO_BOM
+ #  define UTF16 "UCS-2"
+-#elif defined(Q_OS_FREEBSD) || defined(Q_OS_MAC)
++#elif defined(__GLIBC__)
++#  define UTF16 "UTF-16"
++#else
+ #  define NO_BOM
+ #  if Q_BYTE_ORDER == Q_BIG_ENDIAN
+ #    define UTF16 "UTF-16BE"
+ #  else
+ #    define UTF16 "UTF-16LE"
+ #  endif
+-#else
+-#  define UTF16 "UTF-16"
+ #endif
+ 
+ #if defined(Q_OS_MAC)

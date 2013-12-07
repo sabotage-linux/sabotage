@@ -22,6 +22,7 @@ CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 CFLAGS="$CFLAGS -DF_SETLKW64=F_SETLKW -DF_GETLK64=F_GETLK -DF_SETLK64=F_SETLK"
 CFLAGS="$CFLAGS -O2 -g0" \
 ./configure --prefix="$butch_prefix" \
+  --enable-kvm \
   --disable-werror \
   --disable-vnc \
   --disable-bluez \

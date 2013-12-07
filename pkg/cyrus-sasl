@@ -1,0 +1,16 @@
+[mirrors]
+ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz
+[main]
+filesize=5220231
+sha512=78819cb9bb38bea4537d6770d309deeeef09ff44a67526177609d3e1257ff4334d2b5e5131d5a1e4dea7430d8db1918ea9d171f0dee38b5e8337f4b72ed068f0
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

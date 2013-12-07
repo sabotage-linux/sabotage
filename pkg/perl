@@ -23,12 +23,12 @@ CC="gcc" ./Configure -des \
   -Accflags="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC $optcflags" \
   -Aldflags="$optldflags" \
   -Dprefix="$butch_prefix" -Dvendorprefix="$butch_prefix" \
-  -Dinstallprefix="$butch_install_dir"/ \
-  -Dprivlib="$butch_prefix"/share/perl5/core_perl \
+  -Dinstallprefix="$butch_install_dir" \
+  -Dprivlib="$butch_prefix"/lib/perl5/core_perl \
   -Darchlib="$butch_prefix"/lib/perl5/core_perl \
-  -Dsitelib="$butch_prefix"/share/perl5/site_perl \
+  -Dsitelib="$butch_prefix"/lib/perl5/site_perl \
   -Dsitearch="$butch_prefix"/lib/perl5/site_perl \
-  -Dvendorlib="$butch_prefix"/share/perl5/vendor_perl \
+  -Dvendorlib="$butch_prefix"/lib/perl5/vendor_perl \
   -Dvendorarch="$butch_prefix"/lib/perl5/vendor_perl \
   -Dscriptdir="$butch_prefix"/bin \
   -Dsitescript="$butch_prefix"/bin \
@@ -41,9 +41,21 @@ make -j$MAKE_THREADS || exit 1
 make install || exit 1
 
 dest="$butch_install_dir""$butch_prefix"
-# perl manpages take 20 MB, that's a third of its entire size.
-# as long as nobody needs them, we will remove them.
-rm -rf "$dest"/share/man
+
+if [ -n "$butch_install_dir" ] ; then
+
+  # remove hardcoded DESTDIR from config, which gets used by ExtUtils::MakeMaker
+  # and leads to perl stuff being installed into PACKAGEDESTDIR/PERLDESTDIR
+  # - which of course causes breakage.
+
+  sed -i s@"$butch_install_dir"@@g "$dest"/lib/perl5/core_perl/Config_heavy.pl || exit 1
+
+  # perl manpages take 20 MB, that's a third of its entire size.
+  # as long as nobody needs them, we will remove them.
+  rm -rf "$dest"/share/man
+
+fi
+
 # replace duplicated perl binary with symlink
 ln -sf perl$VERSION "$dest"/bin/perl
 

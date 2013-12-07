@@ -1,0 +1,11 @@
+--- subversion-1.8.3.org/subversion/bindings/swig/perl/native/Makefile.PL.in	2013-10-23 19:54:34.600374393 +0000
++++ subversion-1.8.3/subversion/bindings/swig/perl/native/Makefile.PL.in	2013-10-23 19:56:22.143370532 +0000
+@@ -43,6 +43,8 @@
+                                 fs_base fs_util fs_fs/);
+ 
+ my @ldmodules = map {"-lsvn_$_-1"} (@modules, qw/diff subr/);
++my @aprdeps = `pkg-config --libs apr-util-1`;
++push @ldmodules, @aprdeps;
+ 
+ my $apr_shlib_path_var = '@SVN_APR_SHLIB_PATH_VAR@';
+ my $cppflags = '@CPPFLAGS@';

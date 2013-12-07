@@ -106,7 +106,7 @@ lib_gcc_minus_filename=`echo $lib_gcc | sed "$VERSION_REMOVE"`
 host_tuple=`basename $lib_gcc_minus_filename`
 echo host tuple is $host_tuple
 
-if [[ ! -e ${dest}/${host_tuple} ]] ; then
+if [ ! -e ${dest}/${host_tuple} ] ; then
 	(
 	cd $dest
 	ln -sf . ${host_tuple}

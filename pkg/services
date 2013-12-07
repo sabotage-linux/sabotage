@@ -1,0 +1,12 @@
+[build]
+IS="$K"/bin/install-service
+"$IS" --log crond "$K"/services/crond
+"$IS" dmesg "$K"/services/dmesg
+"$IS" --down --log sshd "$K"/services/sshd
+"$IS" tty1 "$K"/services/tty1
+"$IS" tty2 "$K"/services/tty2
+"$IS" tty3 "$K"/services/tty3
+"$IS" tty4 "$K"/services/tty4
+"$IS" ttyS0 "$K"/services/ttyS0
+"$IS" --down --log tor "$K"/services/tor
+"$IS" --down --log postgres "$K"/services/postgres

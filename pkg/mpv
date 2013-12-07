@@ -1,15 +1,16 @@
 [main]
-filesize=1650525
-sha512=a462bba4f0f1f0394f040877e99d9dd1d5b26f031b5ee6db0cf3f00fb124527d65f2a6d9ef64e8e144c68a5cab92aeaaee75a6321f9024c505ae150f24def991
-tardir=mpv-0.1.4
+filesize=2475744
+sha512=2a5c87950c7950f79537c155cc444ff13a462a8ab5b5a03419e5f9cc4706a5d030798801243284e24ffa34a4d8a216bdd134d91defde28aacaa5d3b2c4c538c1
+tardir=mpv-0.2.1
 
 [mirrors]
-https://github.com/mpv-player/mpv/archive/v0.1.4.tar.gz
+https://github.com/mpv-player/mpv/archive/v0.2.1.tar.gz
 
 [deps]
 ffmpeg
 wget
 libass
+lua
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

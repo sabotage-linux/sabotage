@@ -1,0 +1,27 @@
+--- netsurf-full-3.0.org/src/netsurf-3.0/gtk/res/SearchEngines	2013-10-21 19:13:57.444664717 +0000
++++ netsurf-full-3.0/src/netsurf-3.0/gtk/res/SearchEngines	2013-10-21 19:27:30.975635514 +0000
+@@ -17,6 +17,7 @@
+ Ebay|shop.ebay.com|http://shop.ebay.com/items/%s|http://www.ebay.com/favicon.ico|
+ IMDB|www.imdb.com|http://www.imdb.com/find?q=%s|http://www.imdb.com/favicon.ico|
+ ESPN|search.espn.go.com|http://search.espn.go.com/%s/|http://www.espn.go.com/favicon.ico|
+-Wikipedia|en.wikipedia.org|http://en.wikipedia.org/w/index.php?title=Special%%3ASearch&search=%s|http://en.wikipedia.org/favicon.ico|
+-DuckDuckGo|www.duckduckgo.com|http://www.duckduckgo.com/?q=%s|http://www.duckduckgo.com/favicon.ico|
++Wikipedia|en.wikipedia.org|https://en.wikipedia.org/w/index.php?title=Special%%3ASearch&search=%s|http://en.wikipedia.org/favicon.ico|
++DuckDuckGo|www.duckduckgo.com|https://www.duckduckgo.com/html/?q=%s|http://www.duckduckgo.com/favicon.ico|
++Startpage|startpage.com|https://startpage.com/do/search?q=%s|http://startpage.com/favicon.ico|
+ Seeks|www.seeks-project.info|https://www.seeks-project.info/search.php/search?q=%s|http://www.seeks-project.info/search.php/public/images/seek_icon_32x32_transparent.png|
+--- netsurf-full-3.0.org/src/netsurf-3.0/gtk/res/options.gtk2.ui	2013-10-21 19:13:57.445664717 +0000
++++ netsurf-full-3.0/src/netsurf-3.0/gtk/res/options.gtk2.ui	2013-10-21 19:45:16.762597257 +0000
+@@ -2483,6 +2483,12 @@
+       <row>
+         <col id="0" translatable="no">DuckDuckGo</col>
+       </row>
++      <row>
++        <col id="0" translatable="no">Startpage</col>
++      </row>
++      <row>
++        <col id="0" translatable="no">Seeks</col>
++      </row>
+     </data>
+   </object>
+   <object class="GtkListStore" id="liststore_tab_position">

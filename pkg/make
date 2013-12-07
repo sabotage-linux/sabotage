@@ -4,12 +4,14 @@ sha512=3260be0d1a9a7c5eb0dbb87179a9a9521fdfc7809ca51f13ee5a37ba5e63d21ad50a4249e
 
 [deps]
 stage0_musl
+kernel-headers
 
 [mirrors]
 http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 
 [build]
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+patch -p1 < "$K/make-3.82-upstream_fixes-3.patch" || exit 1
 CC="$CC -static" ./configure -C --prefix="$butch_prefix" --disable-nls || exit 1
 # __BEOS__ to use a shipped ar.h
 make -j$MAKE_THREADS CFLAGS=-D__BEOS__ || exit 1

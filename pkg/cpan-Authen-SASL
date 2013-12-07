@@ -1,0 +1,14 @@
+[deps]
+perl
+
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Authen-SASL-2.16.tar.gz
+
+[main]
+filesize=45129
+sha512=d472b8b07b8915e65a219c0a40a7b6f25ca4fb767df301f426224b8f6ebf24d66fcb4422a1f421c39631e84585af06f6c64e41abe11e1e505d03e43a9f86bd6f
+
+[build]
+perl Makefile.PL || exit 1
+make -j$MAKE_THREADS && make test && make DESTDIR="$butch_install_dir" install || exit 1
+

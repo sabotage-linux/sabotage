@@ -1,0 +1,14 @@
+[mirrors]
+https://pypi.python.org/packages/source/u/urlgrabber/urlgrabber-3.1.0.tar.gz
+
+[main]
+filesize=79158
+sha512=8e2c1ef08a83c64e28984fe006be1294cef2cbb00bf592706ebffdc53295b3fa2ffc26e88c26d6a25a66b05e85043543e674f4e19627ebdfe2df0a36c9733435
+
+[deps]
+python
+wget
+
+[build]
+python setup.py build || exit 1
+python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" || exit 1

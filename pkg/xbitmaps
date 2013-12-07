@@ -1,0 +1,18 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/xbitmaps-1.1.0.tar.bz2
+
+[main]
+filesize=101645
+sha512=cf499a15adc1004354c15849bf715e6ae671b01a007fee0135642d536f35f882928ffcaa696f165415e60d5c635f6944291b96558840e3beb202d8294d6fee11
+
+[deps]
+libx11
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

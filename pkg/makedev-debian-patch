@@ -1,0 +1,6 @@
+[main]
+filesize=49972
+sha512=13c31abcc15beaca382380315ba945c0c2b52258a6bb5a28590293f7c125132cc0c9cb279b0efa1667bab37b90ce73756856c49cd2e3fc32a51a54202775784d
+
+[mirrors]
+http://http.debian.net/debian/pool/main/m/makedev/makedev_2.3.1-92.diff.gz

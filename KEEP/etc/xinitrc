@@ -1,6 +1,7 @@
 #!/bin/sh
 # this makes cursor-up keys and similar work.
-setxkbmap -rules evdev -model evdev
+# if you use xfbdev, use the evdev rules/model - do not use it for Xorg.
+#setxkbmap -rules evdev -model evdev
 #setxkbmap -layout de -rules evdev -model evdev -variant nodeadkeys
 
 # this will automatically start lxde. if you do not want this, start xterm oslt

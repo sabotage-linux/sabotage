@@ -1,0 +1,17 @@
+[mirrors]
+http://dl.suckless.org/tools/slock-1.1.tar.gz
+
+[main]
+filesize=4604
+sha512=67cd9a62edde6ca0f9f7c09989ab8fa02a11a6ec82cc52b228c0b4fd509c5605668954630b0d2727aeb3c7283580665e4b5e5c0a37f3094a6f5b2a540e45f6b5
+
+[deps]
+libx11
+
+[build]
+slockflags="-DVERSION=\"1.1\" -DHAVE_SHADOW_H -DCOLOR1=\"black\" -DCOLOR2=\"#005577\""
+"$CC" -D_GNU_SOURCE $optcflags $slockflags slock.c -o slock $optldflags -lX11 || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 755 slock "$dest"/bin/slock
+chmod +s "$dest"/bin/slock

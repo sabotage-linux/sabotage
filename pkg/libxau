@@ -3,11 +3,11 @@ pkgconf
 xproto
 
 [main]
-filesize=261501
-sha512=673f6621384388f1ff12274a4d68d95b67e344dab30c2ceb7e96cfa515d0268874a712cfb26c792829b80855a91f0dbc777b16446a8858da28b8d10f3998bc53
+filesize=295297
+sha512=9f933d22f8f2411ae770094589cbe170c631a1437d572664e0fa6b9608e6ec39deef752f2dd6408ab45acdf01bf1827ef3ced640a33da787d9cfb546f12397b5
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXau-1.0.6.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.8.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

@@ -18,9 +18,19 @@ cp $K/ncurses-fallback.c ncurses/fallback.c
 # needs to block on fd 1 (which they assume to be a tty).
 CFLAGS="-D_GNU_SOURCE $optcflags" ./configure -C \
    --with-normal --without-tests \
+   --enable-widec \
    --with-shared \
    --enable-sigwinch --with-fallbacks="linux vt100 xterm xterm256-color" \
    --prefix="$butch_prefix" --includedir="$butch_prefix"/include --mandir="$butch_prefix"/share/man \
    --disable-nls --without-dlsym --without-cxx-binding </dev/ptmx || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+(
+cd "$dest"/lib/
+for i in  lib*.* ; do
+	l=$(echo $i | awk '{ p = index($1, "."); if(substr($1, p-1, 1) == "w") { a = substr($1, 0, p -2);} else { a = substr($1, 0, p -4) "_g"; } ; b = substr ($1, p); $0 = a b; print; }')
+	ln -s "$i" "$l"
+done
+)

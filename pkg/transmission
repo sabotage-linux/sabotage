@@ -8,6 +8,7 @@ sha512=0aea93263ce0bfb11629486a6f9d0ed9a5b0ec85cc15933271c073f73bb55f31ae6a32804
 [deps]
 gtk+2
 miniupnpc
+libevent
 
 [build]
 patch -p1 < "$K"/transmission-off_t.patch || exit 1

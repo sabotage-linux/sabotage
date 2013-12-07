@@ -2,6 +2,7 @@
 stage1
 gdb
 file
+hexedit0r
 htop
 iptables
 dropbear

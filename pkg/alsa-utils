@@ -14,13 +14,9 @@ filesize=1143802
 sha512=c9a4943852ec1a71a5a8d2c99e1df0ba96a5d9d1196cabfdb6655f58c6a9a5a9d40dea62de019f5ed0fad0885800403c48a4a6c86b67af7fbd842097881c2bd6
 
 [build]
-#the ncurses package does install some headers which are required
-
-# this hardcoded initializer is hack and must be changed whenever musl's internal representation changes
-sed -i 's@PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP@{{{1,0,0,0,0,0,0,0,0,0}}}@' alsaloop/pcmjob.c
-
 patch -p1 < "$K"/alsa-utils_mixer_widget.patch || exit 1
 patch -p1 < "$K"/alsa-utils_signal_h.patch || exit 1
+patch -p1 < "$K"/alsa-utils_portable-mutex.patch || exit 1
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -D_LARGEFILE64_SOURCE" ./configure -C \
 	--prefix="$butch_prefix" --disable-xmlto --disable-alsatest --disable-nls || exit 1

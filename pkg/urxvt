@@ -1,0 +1,19 @@
+[main]
+filesize=914096
+sha512=357f2b9a299b816264e8cece3200338369399e4f760622daec1520d05c75e93d44e2dee3351c8e31765ab8f2218dbb9d239960ae8112e2f75d988785373d7f26
+
+[mirrors]
+http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-9.19.tar.bz2
+
+[deps]
+xorg-proto-headers
+xorg-libraries
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --enable-xft --disable-font-styles --disable-perl --disable-utmp --disable-wtmp --disable-pixbuf --disable-startup-notification --disable-transparency --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

@@ -12,11 +12,12 @@ libflac
 bash
 
 [build]
+patch -p1 < "$K"/ffmpeg-mprotect.patch || exit 1
 [ -z "$butch_prefix" ] && butch_prefix=/
 sed -i 's@/bin/sh@/bin/bash@' configure
 
 CFLAGS="-D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" --disable-debug --disable-yasm \
-  --enable-shared || exit 1
+  --enable-shared --enable-postproc --enable-gpl || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,0 +1,19 @@
+[main]
+filesize=603978
+sha512=572bb4dda9f9b9dcb597f3185922646523bce34003f536acca82992f68f8f7c1a5f2778d626f805ea2cd061e8451fbbf12010e5d655221f76b83440825c80992
+
+[mirrors]
+http://prdownloads.sourceforge.net/materm/mrxvt-0.5.4.tar.gz
+
+[deps]
+xorg-proto-headers
+xorg-libraries
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --enable-xft --disable-utmp --disable-wtmp --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

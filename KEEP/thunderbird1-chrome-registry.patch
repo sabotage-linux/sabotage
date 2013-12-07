@@ -1,0 +1,67 @@
+--- mozilla.org/toolkit/xre/nsEmbedFunctions.cpp	2013-10-19 02:31:47.174025997 +0000
++++ mozilla/toolkit/xre/nsEmbedFunctions.cpp	2013-10-19 03:34:37.435890659 +0000
+@@ -43,7 +43,6 @@
+ #include "nsIDirectoryService.h"
+ #include "nsIEventQueueService.h"
+ #include "nsILocalFile.h"
+-#include "nsIToolkitChromeRegistry.h"
+ 
+ #include "nsAppDirectoryServiceDefs.h"
+ #include "nsArrayEnumerator.h"
+--- mozilla.org/toolkit/xre/nsXREDirProvider.cpp 2013-10-19 02:31:47.174025997 +0000
++++ mozilla/toolkit/xre/nsXREDirProvider.cpp	2013-10-19 03:44:02.896870362 +0000
+@@ -48,7 +48,6 @@
+ #include "nsILocalFile.h"
+ #include "nsIObserverService.h"
+ #include "nsIProfileChangeStatus.h"
+-#include "nsIToolkitChromeRegistry.h"
+ 
+ #include "nsAppDirectoryServiceDefs.h"
+ #include "nsDirectoryServiceDefs.h"
+@@ -493,6 +492,7 @@
+ 
+     rv = NS_NewArrayEnumerator(aResult, directories);
+   }
++#if 0
+   else if (!strcmp(aProperty, NS_CHROME_MANIFESTS_FILE_LIST)) {
+     nsCOMArray<nsIFile> manifests;
+ 
+@@ -531,6 +531,7 @@
+ 
+     rv = NS_NewArrayEnumerator(aResult, manifests);
+   }
++#endif
+   else if (!strcmp(aProperty, NS_APP_CHROME_DIR_LIST)) {
+     // NS_APP_CHROME_DIR_LIST is only used to get default (native) icons
+     // for OS window decoration.
+--- mozilla.org/toolkit/xre/nsAppRunner.cpp	2013-10-19 02:31:47.174025997 +0000
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2013-10-19 04:13:28.710806976 +0000
+@@ -87,7 +87,6 @@
+ #include "nsIStringBundle.h"
+ #include "nsISupportsPrimitives.h"
+ #include "nsITimelineService.h"
+-#include "nsIToolkitChromeRegistry.h"
+ #include "nsIToolkitProfile.h"
+ #include "nsIToolkitProfileService.h"
+ #include "nsIURI.h"
+@@ -744,11 +743,6 @@
+                                   nativeFactory);
+   NS_ENSURE_SUCCESS(rv, rv);
+ 
+-  // Inform the chrome registry about OS accessibility
+-  nsCOMPtr<nsIToolkitChromeRegistry> cr (do_GetService(NS_CHROMEREGISTRY_CONTRACTID));
+-  if (cr)
+-    cr->CheckForOSAccessibility();
+-
+   nsCOMPtr<nsIWindowCreator> creator (do_GetService(NS_APPSTARTUP_CONTRACTID));
+   if (!creator) return NS_ERROR_UNEXPECTED;
+ 
+@@ -1176,7 +1170,7 @@
+   if (NS_FAILED(rv))
+     return rv;
+ 
+-#elif
++#else
+ #error Oops, you need platform-specific code here
+ #endif
+ 

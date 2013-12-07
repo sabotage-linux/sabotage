@@ -4,11 +4,11 @@ libice
 libx11
 
 [main]
-filesize=715424
-sha512=8494c598f53841841f22e0945257d04ba837dbe32261447bed2223ccd4c9aa8ba5795d5a0825e64178002e1581706f5e64851a633c981fb9ee948536359b3375
+filesize=762331
+sha512=57721def16bf29e05deb746566400d71cf0cd5bf9b8b7ebed19abb7c6804e14073060b6cf94409903aa464d27acca2e91f55654b2d4770677b2b4b4dc78fd423
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/lib/libXt-1.1.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libXt-1.1.4.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix"

@@ -17,6 +17,7 @@ wxgtk
 
 printf '#!/bin/sh\ntrue\n' > pgadmin/ver_svn.sh
 
-CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" || exit 1
+CXXFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

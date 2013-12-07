@@ -14,8 +14,9 @@ sqlite
 [build]
 patch -p1 < "$K"/tcl-stat64.patch || exit 1
 cd unix
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
-make -j$MAKE_THREADS || exit 1
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS CFLAGS_DEFAULT= || exit 1
 # https://sourceforge.net/tracker/?func=detail&aid=3598282&group_id=10894&atid=110894
 export LD_LIBRARY_PATH=.
 make DESTDIR="$butch_install_dir" install || exit 1

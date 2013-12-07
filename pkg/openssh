@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-6.4p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-6.4p1.tar.gz
 
 [main]
-filesize=1134820
-sha512=1cd58f18b047fa92a3155fa215d69c04e1f03914488a21bcda5434899df6055567e59f77063f0080b0cb437bb2396d3bf4050ed0c5ea2d1dc20d6fd928d5a76c
+filesize=1201402
+sha512=f87b3e1d3110b87c1dfff729459ff26024863480c8eb4449b9e3b0b750d187acdfedb199ca4ea133b5dfa436bed0e2eea7607392d451b18c626c4dc1d38bb52a
 
 [deps]
 openssl
@@ -38,5 +38,5 @@ chown root:root /var/empty
 chmod 0755 /var/empty
 
 #key generation is disabled for packaging
-#use pkg/sshd-keys to make the keys "manually"
+#the sshd service will create the keys on first usage
 make DESTDIR="$butch_install_dir" install-nokeys || exit 1

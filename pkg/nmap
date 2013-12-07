@@ -1,8 +1,9 @@
 [mirrors]
-http://nmap.org/dist/nmap-6.01.tar.bz2
+http://nmap.org/dist/nmap-6.40.tar.bz2
+
 [main]
-filesize=21640157
-sha512=0b44542a0e33629d077c64129bac7e00b05b4e65a83b181b84fb5460a7da083bb29be00777a8d92c6f6b6fb0c009cebc330c02c7259166e8cea4109cdae50fc9
+filesize=7871636
+sha512=b0ccb7634838e814dc0e36a0dbfc8c74853ef9dc6a119b73ffc90caab8875cbae893e0d24371ea568f9fff969440ed2a2e89953a6dbb6eb26313a4ea25b02b3b
 
 [deps]
 libpcap

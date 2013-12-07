@@ -1,0 +1,10 @@
+#!/bin/sh
+SRVDIR=/srv/postgres
+if [ ! -d "$SRVDIR" ] ; then
+	addgroup -S postgres && adduser -h "$SRVDIR" -S -G postgres postgres
+	su -s /bin/sh - postgres -c \
+	  "initdb --locale=C --auth=\"md5\" $SRVDIR/data &> $SRVDIR/initlog" \
+	  || exit 1
+fi
+exec chpst -u postgres postgres -i -h 127.0.0.1 -D "$SRVDIR"/data
+

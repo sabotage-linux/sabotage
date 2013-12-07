@@ -4,6 +4,7 @@ libffi
 gettext
 pkgconf
 zlib-dynamic
+perl
 
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/glib/2.36/glib-2.36.3.tar.xz

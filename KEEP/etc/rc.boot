@@ -6,8 +6,21 @@ echo sabotage booting
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 
-echo /bin/mdev > /proc/sys/kernel/hotplug
-mdev -s
+if which udevd > /dev/null 2>&1 ; then
+	# mount -t devtmpfs -o mode=0755,nosuid dev /dev
+	mkdir -p /run
+	mount -t tmpfs -o nosuid,nodev,mode=0755 run /run
+	echo > /proc/sys/kernel/hotplug
+	/bin/udevd --daemon
+	/bin/udevadm trigger --action=add    --type=subsystems
+	/bin/udevadm trigger --action=add    --type=devices
+	/bin/udevadm trigger --action=change --type=devices
+	/bin/udevadm settle
+
+else
+	echo /bin/mdev > /proc/sys/kernel/hotplug
+	mdev -s
+fi
 
 # only show warning or worse on console
 grep -q " verbose" /proc/cmdline && dmesg -n 8 || dmesg -n 3
@@ -31,7 +44,9 @@ $rw && mount -o remount,ro /
 fsck -A -T -C -p
 mkdir -p /dev/shm /dev/pts
 $rw && mount -o remount,rw /
-mount -a
+
+cryptmount -M # make encrypted devices from /etc/crypttab available
+mount -a # mount stuff from /etc/fstab
 
 if ! $rw ; then
 	echo "non-writable fs detected, mounting tmpfs to /var and /tmp"
@@ -41,7 +56,7 @@ if ! $rw ; then
 	ln -sf /tmp /var/tmp
 	mkdir -p /var/spool/cron/crontabs /var/service /var/log /var/empty
 	( cd /etc/service
-	for i in * ; do 
+	for i in * ; do
 		# we copy the services instead of symlinking, so subdirs can be created
 		cp -rf /etc/service/$i /var/service/
 		mkdir -p /var/log/$i

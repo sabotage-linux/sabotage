@@ -1,0 +1,30 @@
+[deps]
+lxde-icon-theme
+gtk+2
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+
+# create a valid index.theme for the gnome hicolor theme
+# without this file, most gtk apps will fail to display their icons
+# correctly, including gnumeric.
+themedir="$dest"/share/icons/hicolor
+mkdir -p "$themedir"
+
+prefixtheme="$butch_prefix"/share/icons/hicolor/index.theme
+if [ ! -e "$prefixtheme" ] || \
+   { [ -L "$prefixtheme" ] \
+     && [ $(readlink -f "$prefixtheme") = "$themedir"/index.theme ]; } ; then
+	cp "$butch_prefix"/share/icons/nuoveXT2/index.theme "$themedir"/
+	sed -i 's@nuoveXT.2.2@hicolor@g' "$themedir"/index.theme
+	sed -i 's@nuoveXT 2.2@hicolor@g' "$themedir"/index.theme
+	sed -i 's@nuoveXT-1.6,@@g' "$themedir"/index.theme
+	# you must theoretically call this whenever you installed new gtk apps
+	gtk-update-icon-cache "$themedir"
+else
+	gtk-update-icon-cache -f "$butch_prefix"/share/icons/hicolor
+fi
+
+# do not forget to set your icon theme to nuoveXT using
+# lxde start menu -> preferences -> customize look and feel
+# (that's the lxappearance app)

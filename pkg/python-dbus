@@ -1,0 +1,21 @@
+[mirrors]
+https://pypi.python.org/packages/source/d/dbus-python/dbus-python-0.84.0.tar.gz
+
+[main]
+filesize=563906
+sha512=65cc9d0fb1f9f58f8ee01fca566d7b15de7d7097ccb3bd6c575a1130f166c1aead3368a0dc15275472699e762ca2864c67598a2e87703bc0b9eb7ced5fd68f18
+
+[deps]
+python
+wget
+dbus
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+

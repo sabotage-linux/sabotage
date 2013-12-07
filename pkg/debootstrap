@@ -1,0 +1,15 @@
+[main]
+filesize=59024
+sha512=5d1672ee24bf8375987b8c54a093f24fb879d8b3c9f11d377097d90001d18e9d1acd155552eeb22b8f4d6361ba6b86bbc833822f27f12222f12bd4b757e1a786
+tardir=debootstrap-1.0.55
+
+[mirrors]
+http://http.debian.net/debian/pool/main/d/debootstrap/debootstrap_1.0.55.tar.gz
+
+[deps]
+dpkg
+makedev-debian
+
+[build]
+make MAKEDEV="/bin/MAKEDEV" -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

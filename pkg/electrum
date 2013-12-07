@@ -1,0 +1,18 @@
+[mirrors]
+http://download.electrum.org/Electrum-1.9.2.tar.gz
+
+[main]
+filesize=666900
+sha512=c7c4051e8c407e4980ba5a134b61953114fea73da12ef853d571a84d962ec535061b8fa369b6dbb0aa6e166990ca5b239369a51ba78fc5f15c1e009214da830a
+
+[deps]
+python
+python-ecdsa
+python-slowaes
+
+[build]
+# use electrum -g stdio for the bare minimum gui
+# use electrum -g text if you have ncurses installed and want a shinier gui
+# use electrum -g gtk if you have python-pygtk installed and want an even shinier gui
+python setup.py build || exit 1
+python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" || exit 1

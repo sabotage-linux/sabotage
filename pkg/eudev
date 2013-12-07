@@ -9,11 +9,11 @@ sha512=5e0016fbe15eebfa68bb04fa7b5aedd7edc7a508afdc030adb7cbec4e9eca84fe16119ca7
 kernel-headers
 
 [build]
-patch -p1 < "$K"/eudev-rundir.patch || exit 1
+patch -p1 < "$K"/eudev-Handle-1-return-from-sysconf.patch || exit 1
 
 # https://github.com/gentoo/eudev/issues/75
 # https://github.com/gentoo/eudev/issues/70
-CFLAGS="-D_GNU_SOURCE $optcflags -DRUN_DIR=\\\"$butch_prefix/var/run\\\"" \
+CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
   --disable-manpages \
@@ -22,3 +22,9 @@ LDFLAGS="$optldflags" \
 
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
+
+dest="$butch_install_dir""$butch_prefix"
+# prevent renaming of ethernet interfaces
+ln -s /dev/null "$dest"/etc/udev/rules.d/80-net-name-slot.rules
+printf "%s\n" 'KERNEL=="kvm", NAME="%k", GROUP="kvm", MODE="0660"' \
+ > "$dest"/etc/udev/rules.d/65-kvm.rules
