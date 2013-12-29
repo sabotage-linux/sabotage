@@ -1,0 +1,18 @@
+[main]
+filesize=9519109
+sha512=c5ded60ba6db97107669146e1723fa5efbd89eb7432a6584b831549fe19f257c658a7cad19ee0033e305eb360e84fd18e67a6445ad0f945166b4d7315adbae7f
+tardir=go
+
+[mirrors]
+https://go.googlecode.com/files/go1.2.src.tar.gz
+
+[deps]
+bash
+
+[build]
+sed -i '105d' ./include/libc.h || exit 1
+sed -i 's:#include <sys/signal.h>:#include <signal.h>:' ./src/libmach/linux.c || exit 1
+cd src
+./all.bash
+cd ../../
+mv go /local && exit 0 || exit 1

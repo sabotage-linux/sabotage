@@ -1,0 +1,5 @@
+# (address-match) (mbox-destination)
+# @catchall-example.com user
+# a@another-example.com user1
+# b@another-example.com user2
+example@removeme.com root

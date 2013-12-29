@@ -10,3 +10,5 @@ IS="$K"/bin/install-service
 "$IS" ttyS0 "$K"/services/ttyS0
 "$IS" --down --log tor "$K"/services/tor
 "$IS" --down --log postgres "$K"/services/postgres
+"$IS" --down dovecot "$K"/services/dovecot
+"$IS" --down postfix "$K"/services/postfix
