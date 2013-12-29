@@ -1,0 +1,27 @@
+[main]
+filesize=4558660
+sha512=862a20d4e8bcfa21fb635a3f27bc689ca5b41dec0ec4984fe0f329a719b87c23341d99c259b6fc912ab3277028a05450c2d197dd7d9748a2e6f39ac5aedfc8bb
+
+[mirrors]
+http://www.dovecot.org/releases/2.2/dovecot-2.2.10.tar.gz
+
+[deps]
+openssl
+
+[build]
+./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
+## Provide a configuration if none present.
+if [ ! -f /etc/dovecot/dovecot.conf ] ; then
+   mkdir /etc/dovecot
+   cp "$K"/dovecot.conf /etc/dovecot/ || exit 1
+   if [ ! -f /etc/dovecot/dovecot.key ] ; then
+         openssl req -new -x509 -days 3650 -nodes -out /etc/dovecot/dovecot.crt \
+            -subj '/C=US/ST=Oregon/L=Portland/CN=invalid.org' \
+            -keyout /etc/dovecot/dovecot.key || exit 1
+         chmod 660 /etc/dovecot/dovecot.key || exit 1
+         chown dovecot:dovecot /etc/dovecot/dovecot.key || exit 1
+   fi
+fi
