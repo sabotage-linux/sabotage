@@ -1,0 +1,32 @@
+[mirrors]
+http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-2.10.2.tar.gz
+http://mirrors-usa.go-parts.com/postfix/source/official/postfix-2.10.2.tar.gz
+
+[main]
+filesize=3828326
+sha512=fa6c123da040a8e332c0bf2430f5b098523c2eff42a6cf4bfe6618b82d59be8e5a7f5c85b09ab8fd0312058b2135b174e00890423e4d3f8f732c3dc3c91f01c3
+
+[deps]
+db
+openssl
+dovecot
+
+[build]
+CCARGS="-DNO_NIS -DUSE_TLS -DUSE_SASL_AUTH -DDEF_SASL_SERVER_TYPE=\"dovecot\"" AUXLIBS="-lssl -lcrypto" make -f Makefile.init makefiles
+make -j$MAKE_THREADS || exit 1
+cp "$K"/postfix-main.cf ./conf/main.cf
+cp "$K"/postfix-master.cf ./conf/master.cf
+cp "$K"/postfix-virtual ./conf/virtual
+sh postfix-install -non-interactive \
+   install_root="$butch_prefix" \
+   daemon_directory="$butch_prefix/lib/postfix" \
+   manpage_directory="$butch_prefix/share/man" || exit 1
+/bin/postmap /etc/postfix/virtual
+[ ! -f /etc/aliases ] && touch /etc/aliases && /bin/newaliases
+if [ ! -f /etc/postfix/postfix.key ] ; then
+      openssl req -new -x509 -days 3650 -nodes -out /etc/postfix/postfix.crt \
+         -subj '/C=US/ST=Oregon/L=Portland/CN=invalid.org' \
+         -keyout /etc/postfix/postfix.key || exit 1
+      chmod 660 /etc/postfix/postfix.key || exit 1
+      chown postfix:postfix /etc/postfix/postfix.key || exit 1
+fi
