@@ -15,7 +15,7 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 # this package is the only one that fails to build.
 # so let it depend on the stage1 toolchain. another fix could be to add -lc at the
 # end of the gcc invocation in musl-gcc.
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -fPIC" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" --disable-nls --disable-shared || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
