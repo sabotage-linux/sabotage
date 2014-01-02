@@ -1,5 +1,5 @@
---- iw-3.13-old/Makefile
-+++ iw-3.13/Makefile
+--- Makefile
++++ Makefile
 @@ -35,10 +35,13 @@
  NL2FOUND := $(shell $(PKG_CONFIG) --atleast-version=2 libnl-2.0 && echo Y)
  ifneq ($(NL2FOUND),Y)
@@ -14,14 +14,13 @@
  
  ifeq ($(NL1FOUND),Y)
  NLLIBNAME = libnl-1
-@@ -70,6 +73,12 @@
+@@ -70,6 +73,11 @@
  CFLAGS += -DCONFIG_LIBNL30
  LIBS += -lnl-genl
  NLLIBNAME = libnl-3.1
 +endif
 +
 +ifeq ($(NLTNYFOUND),Y)
-+CFLAGS += -DCONFIG_LIBNL_TINY
 +LIBS += -lnl-tiny
 +NLLIBNAME = libnl-tiny
  endif
