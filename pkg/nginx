@@ -16,7 +16,9 @@ patch -p1 < "$K"/nginx.patch || exit 1
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" ./configure \
   --with-http_ssl_module --with-ipv6 \
+  --with-file-aio \
   --prefix="$butch_prefix" \
+  --with-pcre-jit \
   --sbin-path="$butch_prefix/bin/nginx" \
   --conf-path="$butch_prefix"/etc/nginx/nginx.conf \
   --error-log-path="$butch_prefix"/var/log/nginx/error.log \
