@@ -14,6 +14,6 @@ zlib
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS=${CFLAGS} \
 LDFLAGS="$optldflags" \
-./configure -C --prefix="$butch_prefix" --enable-utf8 --enable-unicode-properties --enable-pcregrep-libz --disable-cpp || exit 1
+./configure -C --prefix="$butch_prefix" --enable-utf8 --enable-unicode-properties --enable-pcregrep-libz --disable-cpp --enable-jit || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
