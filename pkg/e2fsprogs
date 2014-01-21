@@ -19,9 +19,3 @@ sed -i 's:sys/signal.h:signal.h:' misc/fsck.c
 make -j$MAKE_THREADS V=1 CFLAGS="-D_GNU_SOURCE -include math.h -fPIC -Dopen64=open -D__uint64_t=u_int64_t" || exit 1
 # dont fail because of makeinfo
 make DESTDIR="$butch_install_dir" install -k
-
-# install libuuid, needed for cryptsetup
-(
-cd lib/uuid
-make DESTDIR="$butch_install_dir" install
-)
