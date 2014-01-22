@@ -4,11 +4,10 @@ sha512=c5ded60ba6db97107669146e1723fa5efbd89eb7432a6584b831549fe19f257c658a7cad1
 tardir=go
 
 [mirrors]
-https://go.googlecode.com/files/go1.2.src.tar.gz
+http://go.googlecode.com/files/go1.2.src.tar.gz
 
 [deps]
 bash
-wget
 
 [build]
 sed -i '105d' ./include/libc.h || exit 1
