@@ -12,6 +12,13 @@ ncurses
 [build]
 patch -p1 < "$K"/util-linux.patch || exit 1
 
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --with-ncurses --disable-nls || exit 1
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags"            \
+  ./configure -C --prefix="$butch_prefix" --with-ncurses --disable-shared  \
+                 --disable-nls --disable-libuuid --disable-mount           \
+                 --disable-losetup --disable-fsck --disable-uuidd          \
+                 --disable-mountpoint --disable-fdformat --disable-hwclock \
+                 --disable-switch_root --disable-kill --disable-login      \
+                 --disable-sulogin --disable-su --disable-more             \
+                 --disable-wall --disable-use-tty-group || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
