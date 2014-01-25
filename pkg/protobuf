@@ -1,0 +1,14 @@
+[mirrors]
+http://protobuf.googlecode.com/files/protobuf-2.5.0.tar.bz2
+[main]
+filesize=1866763
+sha512=5994b3669808b82fef5c860ecad36358c0767f84acac877e7bfcf722e59d972835a955714149bdd4158fbd1328a51d01397a563991d26475351ee72be48142ee
+[build]
+CXXFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
+LDFLAGS="-lgnu_getopt $optldflags" \
+ ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
+
