@@ -1,0 +1,18 @@
+[mirrors]
+http://mosh.mit.edu/mosh-1.2.4.tar.gz
+[main]
+filesize=283047
+sha512=f7505faffdc8da734179b37339b554f83cbf5450b251cd2aa50d63cd6e4cbefa0da17a1c1b2a61858735ac9e5cee5841ed20e81e244380f5f9a02af1b87199cc
+[deps]
+protocol-buffers
+ncurses
+zlib
+openssl
+[build]
+CXXFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
+LDFLAGS="-lgnu_getopt $optldflags" \
+ ./configure -C --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
