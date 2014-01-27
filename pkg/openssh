@@ -13,6 +13,7 @@ sshd-service
 [build]
 # fix implicit declarations
 patch -p1 < "$K/openssh-configure.patch"
+patch -p1 < "$K/openssh-no-suid.patch"
 
 cp $K/openssh-hacks.h .
 # work around for issue #104 until we come up with a proper patch

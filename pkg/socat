@@ -9,13 +9,8 @@ sha512=0b2f4bac91143b7b57465ded4ba58dbacdd050ce34dddfc01933643b488cef2eec8041971
 openssl
 
 [build]
-#fix undefined NETDB_INTERNAL (from http://www.ethernut.de/api/netdb_8h.html)
-echo "#define 	NETDB_INTERNAL   -1" > if_tun.h
-#fix redefinition of struct ethhdr
-sed '/if_ether/d' /include/linux/if_tun.h >> if_tun.h
-sed -i 's,#include <linux/if_tun.h>,#include "if_tun.h",' sysincludes.h
-
-./configure --prefix="$butch_prefix" \
+CFLAGS="-DNETDB_INTERNAL=-1 $optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" \
             --bindir=/bin \
             --sbindir=/bin \
             --disable-help \
@@ -29,4 +24,5 @@ sed -i 's,#include <linux/if_tun.h>,#include "if_tun.h",' sysincludes.h
 #            --disable-proxy \
 #            --disable-sctp \
 
-make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" -j$MAKE_THREADS all install || exit 1
+make PREFIX="$butch_prefix" -j$MAKE_THREADS all || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

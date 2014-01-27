@@ -29,7 +29,7 @@ rm -rf "$dest"/usr "$dest"/sbin || exit1
 if [ ! -e "$butch_prefix"/etc/postfix/main.cf ] ; then
   install -D -m 644 "$K"/postfix-main.cf "$butch_prefix"/etc/postfix/main.cf
   install -D -m 644 "$K"/postfix-master.cf "$butch_prefix"/etc/postfix/master.cf
-  install -D -m 644 "$K"/postfix-virtual "$butch_prefix"/etc/postfix/virtual
+  install -D -m 644 "$K"/postfix-virtual "$butch_prefix"/var/lib/postfix/virtual
 fi
 
 IS="$K"/bin/install-service

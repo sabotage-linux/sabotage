@@ -1,0 +1,10 @@
+--- lxc-1.0.0.beta2-old/src/lxc/Makefile.in
++++ lxc-1.0.0.beta2/src/lxc/Makefile.in
+@@ -1943,7 +1943,6 @@
+ 	cd $(DESTDIR)$(libdir); \
+ 	ln -sf liblxc.so.$(VERSION) liblxc.so.$(firstword $(subst ., ,$(VERSION))); \
+ 	ln -sf liblxc.so.$(firstword $(subst ., ,$(VERSION))) liblxc.so
+-	chmod u+s $(DESTDIR)$(bindir)/lxc-user-nic
+ 
+ uninstall-local:
+ 	$(RM) $(DESTDIR)$(libdir)/liblxc.so*

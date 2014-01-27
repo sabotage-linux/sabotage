@@ -6,6 +6,8 @@ if [ ! -d "$DOVECOT_HOME" ] ; then
   busybox adduser -h "$DOVECOT_HOME" -s /bin/nologin -S -D -G dovecot dovecot
   busybox addgroup -S dovenull
   busybox adduser -h "$DOVECOT_HOME" -s /bin/nologin -S -D -G dovenull dovenull
+  chown -R dovecot /var/lib/dovecot
+  chgrp -R dovecot /var/lib/dovecot
 fi
 if [ ! -f /etc/dovecot/dovecot.key ] ; then
   openssl req -new -x509 -days 3650 -nodes -out /etc/dovecot/dovecot.crt \
@@ -15,5 +17,4 @@ if [ ! -f /etc/dovecot/dovecot.key ] ; then
   chmod -R 640 /etc/dovecot/
 fi
 [ "$1" = "--prereqs" ] && exit 0
-
-exec dovecot -F
+exec dovecot -F 2>&1

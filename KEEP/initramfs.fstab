@@ -1,0 +1,6 @@
+# <file system>        <dir>                  <type>    <options>          <dump> <pass>
+/dev/sda2              /newroot/rw            btrfs     defaults           0      1
+/newroot/rw/home       /newroot/home          none      bind               0      0
+/newroot/rw/root       /newroot/root          none      bind               0      0
+/newroot/rw/var        /newroot/var           none      bind               0      0
+/newroot/rw/srv        /newroot/srv           none      bind               0      0

@@ -7,7 +7,7 @@ mdev -s
 get_opt() {
   echo "$@" | cut -d "=" -f 2
 }
-init="/sbin/init"
+init="/bin/init"
 boot="/dev/sda1"
 sqsh_root="/root.sqsh.img"
 for i in $(cat /proc/cmdline); do
@@ -22,15 +22,17 @@ for i in $(cat /proc/cmdline); do
       sqsh_root=$(get_opt $i)
   esac
 done
-i=10
 for i in $(seq 10); do
   [ -e "$boot" ] && break
   sleep 1
   mdev -s
 done
 
-mount -o umask=077 "${boot}" /boot
+fsck.fat -a "${boot}"
+mount -o ro,umask=077 "${boot}" /boot
 mount -o loop -t squashfs "/boot/${sqsh_root}" /newroot
+fsck -A -T -C -p
+mount -a
 if [ -x "/newroot/${init}" ] ; then
   mount --move /boot /newroot/boot
   mount --move /dev /newroot/dev

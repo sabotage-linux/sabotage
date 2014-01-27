@@ -1,0 +1,60 @@
+--- btrfs-progs-v3.12-old/bitops.h
++++ btrfs-progs-v3.12/bitops.h
+@@ -72,7 +72,7 @@
+  *
+  * Undefined if no bit exists, so code should check against 0 first.
+  */
+-static __always_inline unsigned long __ffs(unsigned long word)
++static inline unsigned long __ffs(unsigned long word)
+ {
+        int num = 0;
+ 
+--- btrfs-progs-v3.12-old/btrfs-convert.c
++++ btrfs-progs-v3.12/btrfs-convert.c
+@@ -31,6 +31,7 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ #include <uuid/uuid.h>
++#include <linux/limits.h>
+ 
+ #include "ctree.h"
+ #include "disk-io.h"
+--- btrfs-progs-v3.12-old/mkfs.c
++++ btrfs-progs-v3.12/mkfs.c
+@@ -23,6 +23,7 @@
+ 
+ #include <sys/ioctl.h>
+ #include <sys/mount.h>
++#include <linux/limits.h>
+ #include "ioctl.h"
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -56,6 +57,8 @@
+        ino_t inum;
+        struct list_head list;
+ };
++
++typedef struct blkid_struct_probe *blkid_probe;
+ 
+ static int make_root_dir(struct btrfs_root *root, int mixed)
+ {
+--- btrfs-progs-v3.12-old/utils.c
++++ btrfs-progs-v3.12/utils.c
+@@ -52,6 +52,8 @@
+ #define BLKDISCARD     _IO(0x12,119)
+ #endif
+ 
++typedef struct blkid_struct_probe *blkid_probe;
++
+ static int
+ discard_blocks(int fd, u64 start, u64 len)
+ {
+@@ -1780,7 +1782,7 @@
+        char            *device)
+ {
+        const char      *type;
+-       blkid_probe     pr = NULL;
++       blkid_loff_t    pr = NULL;
+        int             ret;
+        blkid_loff_t    size;
+ 
