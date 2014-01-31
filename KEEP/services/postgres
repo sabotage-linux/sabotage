@@ -5,10 +5,8 @@ if [ ! -d "$SRVDIR" ] ; then
   echo postgres > /tmp/pgpw
   su -s /bin/sh -c \
     "initdb --locale=C --auth=\"md5\" --pwfile=/tmp/pgpw $SRVDIR/data >$SRVDIR/initlog 2>&1" \
-    postgres || exit 1
+    postgres
   rm /tmp/pgpw
 fi
 [ "$1" = "--prereqs" ] && exit 0
-
-exec chpst -u postgres postgres -i -h 127.0.0.1 -D "$SRVDIR"/data
-
+exec chpst -u postgres postgres -i -h 127.0.0.1 -D "$SRVDIR"/data 2>&1

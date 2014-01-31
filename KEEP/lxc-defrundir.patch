@@ -1,0 +1,11 @@
+--- lxc-1.0.0.beta2-old/src/lxc/utils.c
++++ lxc-1.0.0.beta2/src/lxc/utils.c
+@@ -371,7 +371,7 @@
+ 
+ 	rundir = getenv("XDG_RUNTIME_DIR");
+ 	if (geteuid() == 0 || rundir == NULL)
+-		rundir = "/run";
++		rundir = "/var/run";
+ 	return rundir;
+ }
+ 

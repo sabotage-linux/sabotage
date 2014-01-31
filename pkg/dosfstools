@@ -7,6 +7,6 @@ sha512=9e75e3868f42d4cb404998e8a0cd7d3bc7fe4fc0cf68559644c960fe73e7f0eb67c26ff16
 
 [build]
 patch -p0 < "$K"/dosfstools-loff_and_BLOCK_SIZE.patch || exit 1
-make CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+make CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
   PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
-  -j$MAKE_THREADS all install || exit 1
+  SBINDIR="/bin" -j$MAKE_THREADS all install || exit 1

@@ -2,4 +2,3 @@
 debootstrap
 lxc
 rsync
-bash

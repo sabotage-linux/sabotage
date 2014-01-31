@@ -1,24 +1,22 @@
+[mirrors]
+http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+[main]
+filesize=6069173
+sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
+
 [deps]
 pkgconf
 kernel-headers
-
-[main]
-filesize=4512157
-sha512=077d854e469eb8158460481daadd729ef7fa1c08687b9547397d32d23f862168f53dfcf1ad30cdb3b0deda038e0770a2e656eab5aa06bac5b3c6d939b12af64d
-
-[mirrors]
-http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.41.14.tar.gz
+libblkid
 
 [build]
-patch -p1 < "$K"/e2fsprogs-nonx86.patch || exit 1
-CFLAGS="-fPIC -DHAVE_LSEEK64 -DHAVE_LSEEK64_PROTOTYPE -Dlseek64=lseek -fgnu89-inline $optcflags" \
+CFLAGS="$optcflags -D__uint64_t=u_int64_t -fPIC" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --with-root-prefix="$butch_prefix" \
-  --sbindir="$butch_prefix"/bin --disable-nls || exit 1
-sed -i 's:sys/signal.h:signal.h:' misc/fsck.c
-make -j$MAKE_THREADS V=1 CFLAGS="-D_GNU_SOURCE -include math.h -fPIC -Dopen64=open -D__uint64_t=u_int64_t" || exit 1
-# dont fail because of makeinfo
-make DESTDIR="$butch_install_dir" install -k
+  --sbindir="$butch_prefix"/bin --disable-nls --disable-libblkid || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+make DESTDIR="$butch_install_dir" install-libs || exit 1
 
 # install libuuid, needed for cryptsetup
 (

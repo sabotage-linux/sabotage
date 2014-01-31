@@ -1,0 +1,14 @@
+[mirrors]
+http://download.rsyslog.com/librelp/librelp-1.2.2.tar.gz
+[main]
+filesize=405883
+sha512=4e71f242e2afcf3a0ddd485fa2f9b8efa13fd0a4614e9ab556ff183da376c39783a0dd2b37bd5c5512522cec3025a0deb7a219e1f72cc71f49996f35cedc0a3b
+
+[deps]
+gnutls
+
+[build]
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

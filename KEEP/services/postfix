@@ -1,22 +1,24 @@
 #!/bin/sh
 SRVDIR=/var/spool/postfix
+CONFDIR=/etc/postfix
 if ! grep -q '^postfix:' /etc/passwd ; then
   busybox addgroup -S postfix
   busybox addgroup -S postdrop
   busybox adduser -h "$SRVDIR" -s /bin/false -S -D -G postfix postfix
   chgrp -R postfix $SRVDIR
   chown -R postfix $SRVDIR
+  chgrp -R postfix $CONFDIR
+  chown -R postfix $CONFDIR
   chmod -R o= $SRVDIR
+  chmod -R o= $CONFDIR
 fi
 if [ ! -f /etc/postfix/postfix.key ] ; then
   openssl req -new -x509 -days 3650 -nodes -out /etc/postfix/postfix.crt \
     -subj '/C=US/ST=Oregon/L=Portland/CN=invalid.org' \
     -keyout /etc/postfix/postfix.key || exit 1
 fi
-postmap /etc/postfix/virtual
-[ ! -f /etc/aliases ] && touch /etc/aliases && postalias /etc/aliases
-chgrp -R postfix /etc/postfix/
-chmod -R 640 /etc/postfix/
+[ ! -f /etc/aliases ] && touch /etc/aliases
+postalias /etc/aliases
+postmap "$CONFDIR"/virtual
 [ "$1" = "--prereqs" ] && exit 0
-
-exec /lib/postfix/master -d
+exec /lib/postfix/master -d 2>&1

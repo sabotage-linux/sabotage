@@ -6,5 +6,4 @@ if [ ! -d "$TORHOME" ] ; then
   su -s /bin/sh - tor -c "mkdir -p env ; echo $TORHOME > env/HOME"
 fi
 [ "$1" = "--prereqs" ] && exit 0
-
 exec chpst -e $TORHOME/env -u tor tor 2>&1

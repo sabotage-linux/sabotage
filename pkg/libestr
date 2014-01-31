@@ -1,0 +1,11 @@
+[mirrors]
+http://libestr.adiscon.com/files/download/libestr-0.1.9.tar.gz
+[main]
+filesize=330114
+sha512=17e1a62d2d4cb7e33dc14d4368b507fff1676c5a2cb24001078ff2a6f15236f9674dc47a599900c94ae2bd0e58dbe56b084d01d5a17174e5a54884d1f4c7616c
+
+[build]
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1

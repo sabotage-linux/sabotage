@@ -1,0 +1,29 @@
+[mirrors]
+http://www.rsyslog.com/files/download/rsyslog/rsyslog-7.4.9.tar.gz
+[main]
+filesize=2921782
+sha512=4d79ecf74499cb092eba9ee72398fb78c3669d4ae581c1a925ea5f81feb4a835a8394c093afc6bffe88c10ae9624c118f8f64cc1c080ee11b3377fb8f8e35777
+
+[deps]
+openssl
+libuuid
+libestr
+liblogging
+json-c
+gnutls
+librelp
+
+[build]
+patch -p1 < "$K"/rsyslog-fcntl.patch
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" --sbindir=/bin \
+              --disable-mysql --disable-pgsql --disable-mail \
+              --disable-snmp --disable-imjournal --disable-libgcrypt \
+              --disable-omjournal --enable-imfile  \
+              --enable-relp --enable-gnutls || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+install -D -m640 "$K"/rsyslog.conf "$butch_install_dir"/"$butch_prefix"/etc/rsyslog.conf
+
+IS="$K"/bin/install-service
+"$IS" --down --log --force chrony "$K"/services/chrony

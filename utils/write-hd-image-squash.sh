@@ -245,6 +245,7 @@ if [ "$copy_tarballs" != "1" ] ; then
 fi
 rm "$contents"/root.sqsh.img
 
+mkdir -p "$contents"/var/run "$contents"/rw
 chroot "$contents" mksquashfs / /root.sqsh.img -p 'bin/su m 4755 root root' -wildcards -e '**.sqsh.img' 'proc/**' 'sys/**' 'dev/**' 'boot/**' $tarexclude $buildexclude
 
 time cp "$contents"/root.sqsh.img "$mountdir"/
@@ -253,12 +254,13 @@ echo_bold ' 8) creating initramfs'
 
   initramfstmp=$(mktemp -d)
   cd "$initramfstmp"
-  mkdir -p initramfs/bin
+  mkdir -p initramfs/bin initramfs/boot initramfs/newroot initramfs/sbin initramfs/proc initramfs/sys initramfs/etc
   cp "$contents"/opt/busybox/bin/busybox initramfs/bin
   ln -s busybox initramfs/bin/sh
+  cp -L "$contents"/bin/fsck* initramfs/bin
+  cp "$contents"/src/KEEP/initramfs.fstab initramfs/etc/fstab
   cp "$contents"/src/KEEP/initramfs.init initramfs/init
   chmod +x initramfs/init
-  mkdir initramfs/boot initramfs/newroot initramfs/sbin initramfs/proc initramfs/sys
   cp -a "$initramfstmp" "$contents"/"$initramfstmp"
   chroot "$contents" sh -c "cd $initramfstmp/initramfs; find . | cpio -H newc -o | gzip > $initramfstmp/default.igz"
   cp "$contents"/"$initramfstmp"/default.igz "$mountdir"

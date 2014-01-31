@@ -1,0 +1,27 @@
+[mirrors]
+https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
+http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
+[main]
+filesize=261220
+sha512=655e8d9ecf297281d07312bd19a6ab942f354a370147e0ca46a22e5bcd7485ed0d415247ba21162617a23b7f9def202cab3bb5dc23ccfa96496043b48dfda785
+
+[deps]
+lzo
+zlib
+acl
+e2fsprogs
+bash
+sparse
+libuuid
+attr
+libblkid
+
+[build]
+patch -p1 < "$K"/btrfs-progs.patch
+make prefix="$butch_prefix" CFLAGS="$optcflags" \
+     LDFLAGS="$optldflags" -j$MAKE_THREADS || exit 1
+make prefix="$butch_prefix" CFLAGS="$optcflags" \
+     LDFLAGS="$optldflags" -j$MAKE_THREADS static || exit 1
+make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install || exit 1
+install -D -m 755 btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/btrfs.static
+install -D -m 755 mkfs.btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/mkfs.btrfs.static

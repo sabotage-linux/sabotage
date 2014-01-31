@@ -1,25 +1,31 @@
 [mirrors]
-http://linuxcontainers.org/downloads/lxc-0.9.0.tar.gz
-
+https://launchpad.net/ubuntu/+archive/primary/+files/lxc_1.0.0~beta2.orig.tar.gz
+http://archive.ubuntu.com/ubuntu/pool/main/l/lxc/lxc_1.0.0~beta2.orig.tar.gz
 [main]
-filesize=421677
-sha512=a96133660ca6ea45dc4b8d167267120328577339e933ff9510f03e9d368ca5db77031dc1e7e4529b3e506f63f79c2ce3f8f72571a7dfdbeb2a8799777782a606
+filesize=745824
+sha512=973c7713020b0a11b3574e180f93794876bc501f7ece9516f2269c030526ef9a18b0cbac094bbcf65213e975f4ee434c2a38cc887127fe61a0fc711cef9083e1
+tardir=lxc-1.0.0.beta2
 
 [deps]
 libcap2
+bash
 
 [build]
 patch -p1 < "$K"/lxc-undef.patch || exit 1
-patch -p1 < "$K"/lxc-mode_t.patch || exit 1
 patch -p1 < "$K"/lxc-utmpxname.patch || exit 1
-patch -p1 < "$K"/lxc-ldconfig.patch || exit 1
 patch -p1 < "$K"/lxc-malloc.patch || exit 1
+patch -p1 < "$K"/lxc-no-suid.patch || exit 1
+patch -p1 < "$K"/lxc-defrundir.patch || exit 1
+patch -p1 < "$K"/lxc-scripts.patch || exit 1
 
 sed -i 's@-Wall -Werror@-Wall@' configure
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" \
-  || exit 1
+   ./configure -C --prefix="$butch_prefix" \
+            --bindir=/bin \
+            --sbindir=/bin \
+            --with-usernic-db=/var/run/lxc/nics \
+            || exit 1
 
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

@@ -1,5 +1,6 @@
 [mirrors]
 https://www.torproject.org/dist/tor-0.2.4.20.tar.gz
+http://mirror.hackthissite.org/tor/tor-0.2.4.20.tar.gz
 
 [main]
 filesize=2867180
