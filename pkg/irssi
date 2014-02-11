@@ -8,7 +8,7 @@ sha512=cecda925ae7c422fd95e8e94a123be8732a59a3a3c5d149b2fe16e1cac78cc516acb7a89a
 perl
 glib
 openssl
-zlib-dynamic
+zlib
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -lz" \

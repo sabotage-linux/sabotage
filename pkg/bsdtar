@@ -9,6 +9,8 @@ sha512=f4248f7b8d93e25e3223afe0c3b19467ab9071f9fd0a341dae0b6da028c13af46b768b95c
 http://libarchive.googlecode.com/files/libarchive-2.8.4.tar.gz
 
 [build]
-CFLAGS="-D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" --disable-shared || exit 1
+CFLAGS="$optcflags -D_BSD_SOURCE" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" --with-pic \
+    --enable-shared --enable-static || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

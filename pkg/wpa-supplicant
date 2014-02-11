@@ -8,7 +8,7 @@ sha512=50207c9f7e088e80315f33d1d1c32b6496c9eed606d909ace25813b33f10d9efaf45d83a1
 [deps]
 libnl-tiny
 openssl
-zlib-dynamic
+zlib
 
 [build]
 cd wpa_supplicant

@@ -1,5 +1,5 @@
 [deps]
-zlib-dynamic
+zlib
 perl
 patch
 

@@ -6,7 +6,7 @@ sha512=85a55ad0673f0df2aaa80d18caa50314319f8da5ee4d84eed919059d0dad9861d684ef635
 
 [deps]
 libjpeg
-libtiff-dynamic
+libtiff
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

@@ -9,7 +9,7 @@ sha512=b292662d0286fc660e5d6c769a5a22311e1acf8264706383dc8f5701a96a409d6844ec23a
 [deps]
 dynamic-toolchain
 libpng
-libjpeg-dynamic
+libjpeg
 alsa-lib
 libx11
 

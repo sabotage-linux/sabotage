@@ -10,7 +10,8 @@ zlib
 xz
 
 [build]
-CFLAGS=-D_GNU_SOURCE LDFLAGS=-static ./configure -C --prefix="$butch_prefix" || exit 1
+CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
+   ./configure -C --prefix="$butch_prefix" --with-pic \
+     --enable-shared --enable-static || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
-rm -f "$butch_install_dir""$butch_prefix"/lib/libtiff.la

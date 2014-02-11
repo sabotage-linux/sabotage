@@ -5,7 +5,7 @@ filesize=721568
 sha512=e658dccce8c4de084e9cc4a00526252cc484e3a20f04e3143c799125603363212c143f05d8452180444d94246a2321c9ff994e2de9b4af2fa36c673f19313071
 
 [deps]
-zlib-dynamic
+zlib
 
 [build]
 #patch -p1 < "$K/some.patch"

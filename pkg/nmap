@@ -8,7 +8,7 @@ sha512=b0ccb7634838e814dc0e36a0dbfc8c74853ef9dc6a119b73ffc90caab8875cbae893e0d24
 [deps]
 libpcap
 pcre
-zlib-dynamic
+zlib
 lua
 dynamic-toolchain
 openssl

@@ -7,11 +7,12 @@ filesize=450776
 sha512=405fbb4fc9ca8a59f34488205f403e77d4f184b08d344efbec6a8f558cac0512ee6cda1dc01b7913d61d9bed04cc710e61db1081bb8782c139fcb727f586fa54
 
 [build]
-CC="$CC -static" CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="-s" \
-./configure --prefix="$butch_prefix" --static || exit 1
+CC="$CC" CFLAGS="$optcflags -D_GNU_SOURCE -fPIC" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" || exit 1
 #busybox mktemp -u is broken and returns empty string
-sed -i 's,mktemp -u,mktemp,g' Makefile
-make -j$MAKE_THREADS || exit 1
+#sed -i 's,mktemp -u,mktemp,g' Makefile
+make -j$MAKE_THREADS  || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
 
 # make install is broken
 ranlib libz.a

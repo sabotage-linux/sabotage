@@ -8,7 +8,7 @@ sha512=22eaf70937c6b72ca41f056bc22abb6084181b7fc67a0089672b80bca2a959a002292fd20
 
 [deps]
 gtk+2
-libjpeg-dynamic
+libjpeg
 cpan-XML-Parser
 intltool
 shared-mime-info

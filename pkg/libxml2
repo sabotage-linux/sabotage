@@ -9,9 +9,9 @@ sha512=7b10de749485bc2eb2108063e97d89e70d6fbb78b1bf195ab5528c8c64e79483d55223a49
 
 [deps]
 zlib
-zlib-dynamic
+zlib
 xz
-xz-dynamic
+xz
 python
 
 [build]

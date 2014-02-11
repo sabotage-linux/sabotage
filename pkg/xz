@@ -16,8 +16,8 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 # so let it depend on the stage1 toolchain. another fix could be to add -lc at the
 # end of the gcc invocation in musl-gcc.
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls --disable-shared || exit 1
+  ./configure -C --prefix="$butch_prefix" \
+    --disable-nls --with-pic --enable-shared \
+    --enable-static || exit 1
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
-
-rm "$butch_install_dir""$butch_prefix"/lib/liblzma.la

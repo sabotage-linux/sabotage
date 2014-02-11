@@ -6,7 +6,7 @@ sha512=120720ed9c6e0fe2639d6908214c96e352cde6ea0639857ab326c0b4b3890824ddb06a538
 
 [deps]
 openssl
-bzip2-dynamic
+bzip2
 pcre
 
 [build]

@@ -2,7 +2,7 @@
 musl
 ncurses
 openssl
-bzip2-dynamic
+bzip2
 expat
 libffi
 

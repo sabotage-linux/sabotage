@@ -1,7 +1,7 @@
 [deps]
 openssl
 ca-certificates
-zlib-dynamic
+zlib
 
 [mirrors]
 http://curl.haxx.se/download/curl-7.30.0.tar.lzma

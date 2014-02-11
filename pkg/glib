@@ -3,7 +3,7 @@ musl
 libffi
 gettext
 pkgconf
-zlib-dynamic
+zlib
 perl
 
 [mirrors]

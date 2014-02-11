@@ -7,8 +7,9 @@ sha512=7a8b4cff5b1caf6a7281c5dce4e1efa1b68360bd64dd2e619b60c9e1d49f22624bc8780b6
 tardir=jpeg-8d
 
 [build]
-LDFLAGS="-static" CFLAGS="-include stdio.h -include stdlib.h" ./configure --prefix="$butch_prefix" \
-  --disable-shared --disable-dso || exit 1
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" \
+    --disable-dso --enable-shared --with-pic || exit 1
 
 make -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1

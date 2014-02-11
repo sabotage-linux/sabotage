@@ -3,7 +3,7 @@ filesize=1442053
 sha512=2c91ee53c25deec13588618cbfc87e14b0db2a325c5413063ee2f51080c5ad7706f0060bb3125e3abe55de132d07a5dd8e729c8bf4b87ccb3cf04fc6f11fb78c
 
 [deps]
-zlib-dynamic
+zlib
 
 [mirrors]
 http://download.savannah.gnu.org/releases/freetype/freetype-2.4.4.tar.bz2

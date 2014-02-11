@@ -3,7 +3,7 @@ musl
 pkgconf
 apr
 apr-util
-zlib-dynamic
+zlib
 serf
 sqlite
 swig

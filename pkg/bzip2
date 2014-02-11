@@ -8,6 +8,17 @@ http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
 [build]
 sed -i 's@$(PREFIX)@$(DESTDIR)$(PREFIX)@g' Makefile
 sed -i 's@$(PREFIX)/man@$(PREFIX)/share/man@g' Makefile
-make -j$MAKE_THREADS PREFIX="$butch_prefix" CFLAGS=-D_GNU_SOURCE || exit 1
-make DESTDIR="$butch_install_dir" PREFIX=/ install || exit 1
+make -f Makefile-libbz2_so -j$MAKE_THREADS \
+  CFLAGS="$optcflags -D_GNU_SOURCE -fPIC" \
+  LDFLAGS="$optldflags" || exit 1
+make -j$MAKE_THREADS PREFIX="$butch_prefix" \
+  CFLAGS="$optcflags -D_GNU_SOURCE -fPIC" \
+  LDFLAGS="$optldflags" || exit 1
 
+make DESTDIR="$butch_install_dir" \
+  PREFIX="$butch_prefix" install || exit 1
+
+dest="${butch_install_dir}${butch_prefix}/lib/"
+install -m 0644 libbz2.so.1.0.6 "$dest/" || exit 1
+ln -sf libbz2.so.1.0.6 "$dest/libbz2.so.1.0" || exit 1
+ln -sf libbz2.so.1.0.6 "$dest/libbz2.so" || exit 1

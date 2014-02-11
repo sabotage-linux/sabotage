@@ -6,9 +6,9 @@ sha512=0e71b280abc2a7f15755e4480a3c1b52d41f9f8b0c9216a6f5bd9fc0e939456fb5d6c1041
 
 [deps]
 sdl
-libjpeg-dynamic
+libjpeg
 libpng
-libtiff-dynamic
+libtiff
 
 [build]
 #patch -p1 < "$K/some.patch"

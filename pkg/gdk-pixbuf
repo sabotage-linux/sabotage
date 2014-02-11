@@ -6,11 +6,11 @@ filesize=1167608
 sha512=dd327e2d3f8c50906ccd02bbf484380240a59fb5cc991b7cdd3b56b156dd7495fe161b14c1f4e8606a7167199679786a0e9c12e92b5b87807a3312e48e9096e7
 
 [deps]
-libtiff-dynamic
-libjpeg-dynamic
+libtiff
+libjpeg
 libpng
 glib
-xz-dynamic
+xz
 perl
 
 [build]

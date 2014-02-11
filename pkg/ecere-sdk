@@ -11,7 +11,7 @@ giflib
 libx11
 libffi
 ncurses
-libjpeg-dynamic
+libjpeg
 libpng
 zlib
 xextproto
