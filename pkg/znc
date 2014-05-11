@@ -1,9 +1,9 @@
 [main]
-filesize=1235150
-sha512=dff24e56127e5599d64b4c62de967d5d48d8ebf23ca8597d33bf0b3622640512db7a462bfa7c2031cd8307f402bab8efa345f6d1fc813e78eb0dcae581de3cf7
+filesize=1239648
+sha512=0c33b05e8232084999812cbaa467dc7d37b80cafc1001b82e89c702b4303d8db9a27b948fe653e7090404eb1c66f5492f02f3524bc39efabade4be8bdb476671
 
 [mirrors]
-http://znc.in/releases/znc-1.2.tar.gz
+http://znc.in/releases/znc-1.4.tar.gz
 
 [deps]
 openssl
