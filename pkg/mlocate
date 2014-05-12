@@ -1,0 +1,18 @@
+[main]
+filesize=359204
+sha512=b1207047e30a551cba39e70812439b554def567ebe9b8b81fed6f26435bb575beafe4875a21cd72876eadd85da4e7bfc942eb28b17c430b537c351690364837f
+
+[mirrors]
+https://fedorahosted.org/releases/m/l/mlocate/mlocate-0.26.tar.xz
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure --disable-nls -C --prefix="$butch_prefix" || exit 1
+
+make -j$MAKE_THREADS || exit 1
+addgroup -S mlocate
+make DESTDIR="$butch_install_dir" install || exit 1
