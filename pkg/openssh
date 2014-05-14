@@ -47,3 +47,20 @@ make DESTDIR="$butch_install_dir" install-nokeys || exit 1
 
 IS="$K"/bin/install-service
 "$IS" --down --log --force openssh "$K"/services/openssh
+
+mv "$butch_install_dir"/etc/ssh "$butch_install_dir"/share/doc || exit 1
+[ ! -d "$butch_prefix"/etc/ssh ] && mkdir "$butch_prefix"/etc/ssh
+[ ! -e "$butch_prefix"/etc/ssh/sshd_config ] && cat << 'EOF' > "$butch_prefix"/etc/ssh/sshd_config
+Port 22
+Protocol 2
+Ciphers chacha20-poly1305@openssh.com,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr
+MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-512
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+UsePrivilegeSeparation sandbox
+AuthorizedKeysFile  .ssh/authorized_keys
+#X11Forwarding yes
+AcceptEnv LANG LC_*
+Subsystem sftp /lib/ssh/sftp-server
+EOF
+echo "See example configuration files in /share/doc/ssh" > /etc/ssh/README
