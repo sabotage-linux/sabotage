@@ -2,4 +2,5 @@
 *.gz
 *.xz
 tarballs/*
-
+config
+super_chroot
