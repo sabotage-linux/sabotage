@@ -58,9 +58,7 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key
 UsePrivilegeSeparation sandbox
 AuthorizedKeysFile  .ssh/authorized_keys
-AddressFamily inet
 #X11Forwarding yes
-X11UseLocalhost no
 AcceptEnv LANG LC_*
 Subsystem sftp $butch_prefix/lib/ssh/sftp-server
 EOF
