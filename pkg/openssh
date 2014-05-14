@@ -24,6 +24,7 @@ CFLAGS="$optcflags" \
   --sbindir="$butch_prefix"/bin --libexecdir="$butch_prefix"/lib/ssh \
   --sysconfdir="$butch_prefix"/etc/ssh \
   --with-privsep-user=nobody \
+  --with-xauth="$butch_prefix"/bin \
   --with-md5-passwords --with-mantype=man --mandir="$butch_prefix"/share/man \
   --disable-strip --disable-lastlog --disable-utmp --disable-utmpx --disable-btmp \
   --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline || exit 1
