@@ -1,9 +1,7 @@
 #!/bin/sh
 
-[ -f /etc/ssh/ssh_host_key ]       || ssh-keygen -t rsa1  -N "" -b 2048 -f /etc/ssh/ssh_host_key
 [ -f /etc/ssh/ssh_host_rsa_key ]   || ssh-keygen -t rsa   -N "" -b 2048 -f /etc/ssh/ssh_host_rsa_key
-[ -f /etc/ssh/ssh_host_dsa_key ]   || ssh-keygen -t dsa   -N "" -b 1024 -f /etc/ssh/ssh_host_dsa_key
-[ -f /etc/ssh/ssh_host_ecdsa_key ] || ssh-keygen -t ecdsa -N "" -b 521  -f /etc/ssh/ssh_host_ecdsa_key
+[ -f /etc/ssh/ssh_host_ed25519_key ] || ssh-keygen -t ed25519 -N "" -f /etc/ssh/ssh_host_ed25519_key
 [ "$1" = "--prereqs" ] && exit 0
 
 exec /bin/sshd -De 2>&1
