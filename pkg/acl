@@ -1,10 +1,10 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/acl/acl-2.2.52.src.tar.gz
+
 [main]
 filesize=386604
 sha512=59973199d371cd0b2368e95bc829a1b47f04e808a174fefba4c6854e766158bd19a71d9dbcc8d6fdc1573a1f971cdda39c453f7fa243bce02c1ab97c6e7c72e7
 tardir=acl-2.2.52
-
-[mirrors]
-http://download.savannah.gnu.org/releases/acl/acl-2.2.52.src.tar.gz
 
 [deps]
 attr
