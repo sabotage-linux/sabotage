@@ -1,9 +1,9 @@
 [mirrors]
 http://downloads.sourceforge.net/project/mikmod/libmikmod/3.3.5/libmikmod-3.3.5.tar.gz
+
 [main]
 filesize=1288856
 sha512=ded555754dcc582a112386ad80c11a29c77d696a184a593964449a6c2c024da5d4cc59133a20d0e0e18a6fbad710a5d8ff567527654c91dff06e070749442aab
-[deps]
 
 [build]
 #patch -p1 < "$K/some.patch"
