@@ -1,10 +1,9 @@
 [mirrors]
 http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.7.tar.gz
+
 [main]
 filesize=223794
 sha512=77ad016fa5fb3fcb0d940b29d3fa914f546d79cdf2221ed47e4dec6d3a005b25d2d32ee1fdd4f662a7a84274572b72235b82e4c39995c7ca0bb049a7d88595b5
-
-[deps]
 
 [build]
 patch -p1 < "$K"/dash-fix.patch || exit 1
