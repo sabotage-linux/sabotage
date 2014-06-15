@@ -1,12 +1,12 @@
-[deps]
-perl
-
 [mirrors]
 http://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-Base-1.08.tar.gz
 
 [main]
 filesize=28197
 sha512=2149a4772b10d31b6d0f4f0cf8d07145cdb103de518d3055f09ed921748a5b6c8269c9d7c017e865b8c251a3e930cf752eb33780d5291b4287c003af3b6ff47f
+
+[deps]
+perl
 
 [build]
 perl Makefile.PL || exit 1
