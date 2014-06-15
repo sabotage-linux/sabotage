@@ -11,8 +11,8 @@ jansson
 ncurses
 
 [deps.host]
-wget
 cmake
+wget
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
