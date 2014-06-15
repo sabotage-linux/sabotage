@@ -1,12 +1,12 @@
-[deps]
-perl
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/CPAN-1.9800.tar.gz
 
 [main]
 filesize=739979
 sha512=58971592e5a68f62955d7b2b1c5d638c526a01f9f7f2721d3081d8bc858873b53d3cbea7dce8236a10a6de70bdba69f9683f617c560e8487221f72957d30d30a
 
-[mirrors]
-http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/CPAN-1.9800.tar.gz
+[deps]
+perl
 
 [build]
 perl Makefile.PL || exit 1
