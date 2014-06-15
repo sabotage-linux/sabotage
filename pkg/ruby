@@ -6,9 +6,9 @@ filesize=12557294
 sha512=f005ab05979bd5bd2ce7eba382245f507b736c6630984da2eea7b9ec446fc1c86723f35c3b1c2653c90c509a9489baa60c1555fba004d3bbc9c422877b0b986a
 
 [deps]
-zlib
-openssl
 gdbm
+openssl
+zlib
 
 [build]
 patch -p1 < "$K"/ruby-io.patch || exit 1
