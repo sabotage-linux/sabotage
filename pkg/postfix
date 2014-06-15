@@ -1,15 +1,14 @@
 [mirrors]
-http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-2.10.2.tar.gz
-http://archive.mgm51.com/mirrors/postfix-source/official/postfix-2.10.2.tar.gz
-ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-2.10.2.tar.gz
-
 filesize=3828326
+ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-2.10.2.tar.gz
+http://archive.mgm51.com/mirrors/postfix-source/official/postfix-2.10.2.tar.gz
+http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-2.10.2.tar.gz
 sha512=fa6c123da040a8e332c0bf2430f5b098523c2eff42a6cf4bfe6618b82d59be8e5a7f5c85b09ab8fd0312058b2135b174e00890423e4d3f8f732c3dc3c91f01c3
 
 [deps]
 db
-openssl
 dovecot
+openssl
 
 [build]
 CCARGS="-DNO_NIS -DUSE_TLS -DUSE_SASL_AUTH -DDEF_SASL_SERVER_TYPE=\"dovecot\"" \
