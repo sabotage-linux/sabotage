@@ -1,9 +1,9 @@
+[mirrors]
+http://xcb.freedesktop.org/dist/xcb-util-wm-0.3.9.tar.bz2
+
 [main]
 filesize=320472
 sha512=69f5840a8c27ae56f454962476bc246b56b3520562e26d31dae8388050abe3ebf9d1bcea512f830eaf63887b12df685a0f14c5c4cc963c3605330de29dcee0f1
-
-[mirrors]
-http://xcb.freedesktop.org/dist/xcb-util-wm-0.3.9.tar.bz2
 
 [deps]
 libxcb
