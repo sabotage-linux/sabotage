@@ -34,6 +34,7 @@ update:		update all packages whose hash changed
 install:	download, build, relocate package(s) and all missing dependencies
 build:		==install
 prefetch:	download package(s) and all missing dependencies
+print:		pretty-print the specified package
 download:	==prefetch
 rebuild:	unlink, download, rebuild, relocate package(s), but not their dependencies
 
@@ -59,6 +60,7 @@ case $1 in
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
 	search) shift; prog=butch-search;;
+	print) shift; prog=butch-print;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	update) export BUTCH_SKIPLIST=gcc3:stage0:stage0_musl:stage0_gcc:stage0_prepare:"$BUTCH_SKIPLIST" ;;
