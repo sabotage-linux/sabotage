@@ -1,9 +1,9 @@
+[mirrors]
+ftp://ftp.gnu.org/gnu/diffutils/diffutils-3.0.tar.gz
+
 [main]
 filesize=1824077
 sha512=9c93735d1da1eb668b33b8763a1e504c1ffb5ffb2ebccce91f289e7eb51cd5342ab481c607bfeabafe3728cb25578ddbbe10c6722761247d8d3c2594ea744953
-
-[mirrors]
-ftp://ftp.gnu.org/gnu/diffutils/diffutils-3.0.tar.gz
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
