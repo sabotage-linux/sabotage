@@ -6,10 +6,10 @@ filesize=283047
 sha512=f7505faffdc8da734179b37339b554f83cbf5450b251cd2aa50d63cd6e4cbefa0da17a1c1b2a61858735ac9e5cee5841ed20e81e244380f5f9a02af1b87199cc
 
 [deps]
-protobuf
 ncurses
-zlib
 openssl
+protobuf
+zlib
 
 [build]
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
