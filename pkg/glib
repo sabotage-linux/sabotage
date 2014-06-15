@@ -1,19 +1,19 @@
-[deps]
-musl
-libffi
-gettext
-zlib
-
-[deps.host]
-perl
-pkgconf
-
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/glib/2.36/glib-2.36.3.tar.xz
 
 [main]
 filesize=6626972
 sha512=1ea45e7978bffb8ec23c8eddb74b0bab686126fd55d96956203bc1eef44e3047edcf2cbc39e018c83e56093f806c739bf320e6a359b45cd652e55c94a6f1ad19
+
+[deps]
+gettext
+libffi
+musl
+zlib
+
+[deps.host]
+perl
+pkgconf
 
 [build]
 for p in glib-gtimer-varargs glib-no_python ; do
