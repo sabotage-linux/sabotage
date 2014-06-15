@@ -1,9 +1,9 @@
 [mirrors]
+http://dl.2f30.org/mirrors/sabotage/tarballs/libfm-1.0rc1.tar.gz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libfm-1.0rc1.tar.gz
+http://ftp.barfooze.de/pub/sabotage/tarballs/libfm-1.0rc1.tar.gz
 http://kent.dl.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/libfm%20%28required%20by%20PCManFM%29/libfm-1.0rc1.tar.gz
 http://switch.dl.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/libfm%20%28required%20by%20PCManFM%29/libfm-1.0rc1.tar.gz
-http://ftp.barfooze.de/pub/sabotage/tarballs/libfm-1.0rc1.tar.gz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libfm-1.0rc1.tar.gz
-http://dl.2f30.org/mirrors/sabotage/tarballs/libfm-1.0rc1.tar.gz
 
 [main]
 filesize=985089
@@ -14,10 +14,10 @@ gtk+2
 menu-cache
 
 [deps.host]
-pkgconf
-perl
 cpan-XML-Parser
 intltool
+perl
+pkgconf
 
 [build]
 #patch -p1 < "$K/some.patch"
