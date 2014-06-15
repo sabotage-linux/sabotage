@@ -1,13 +1,13 @@
-[deps]
-perl
-expat
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.41.tar.gz
 
 [main]
 filesize=238441
 sha512=3536a1f048572611636c2461bb98c2b460b5658b960b5b0b2f2a7848cf0b7efb48593f12f7eb99be22c26f417cf443d66c88fcca7fdfa2f03c60f43624d30801
 
-[mirrors]
-http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.41.tar.gz
+[deps]
+expat
+perl
 
 [build]
 perl Makefile.PL || exit 1
