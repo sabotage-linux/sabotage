@@ -1,12 +1,13 @@
 [deps]
+git
+go
 libglew
 libglu
 libxrandr
-go
-git
 sdl
 sdl-gfx
 sdl-image
+
 [build]
 repo="github.com/scottferg/Fergulator"
 
