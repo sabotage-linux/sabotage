@@ -1,9 +1,9 @@
+[mirrors]
+http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.35.tar.bz2
+
 [main]
 filesize=1256501
 sha512=aa5aebbc7ccaa4697d7f0cfa3ba899dd3b327bc8551ba341c26bece7f9044951d0532e3ebf6ec63760204b4ff805f9f957d064e9a213ef8aac428e565de31343
-
-[mirrors]
-http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.35.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
