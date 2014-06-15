@@ -1,15 +1,14 @@
 [mirrors]
-https://www.torproject.org/dist/tor-0.2.4.21.tar.gz
 http://mirror.hackthissite.org/tor/tor-0.2.4.21.tar.gz
+https://www.torproject.org/dist/tor-0.2.4.21.tar.gz
 
 [main]
 filesize=2909462
 sha512=be055afa95c8e80b88ca46eaeb22da19a9b7e66af39697267597f6141ad4d6b6197fec55d9f1fb0caf349073740489331a3197cb97c737ae829d488e9cda73e7
 
-
 [deps]
-openssl
 libevent
+openssl
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1
