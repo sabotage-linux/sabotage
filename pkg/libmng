@@ -7,8 +7,8 @@ filesize=1093337
 sha512=302d792af76140d8511ac2f88b5c2a8de01261bbbcd21c83903d94d3f20f1e84a0658827e78ae863499d8f1b466c26641b714dc7e11d06366e64a9966fb18ba1
 
 [deps]
-libpng
 liblcms
+libpng
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
