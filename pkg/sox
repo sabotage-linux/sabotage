@@ -1,10 +1,9 @@
 [mirrors]
 http://surfnet.dl.sourceforge.net/project/sox/sox/14.4.1/sox-14.4.1.tar.gz
+
 [main]
 filesize=1111653
 sha512=a35c0f424ffaa51d06291e69b28ae7f2248a750fa8aded911dcd7e123877ecb5142c292f943eb723142c50dbd890b58163c6ef24c9c0573377855fad1b36fb25
-
-[deps]
 
 [build]
 patch -p1 < "$K"/sox-rewind.patch || exit 1
