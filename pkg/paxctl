@@ -1,10 +1,9 @@
 [mirrors]
 http://pax.grsecurity.net/paxctl-0.7.tar.bz2
+
 [main]
 filesize=7642
 sha512=d715d7466c5d5b402a7b6c44257b959c81234b8b72dc3bad4ad1080f66da784b348e73fadd3b2072ddec6c6b08f042a35cbf9d63cb890ef9efceb1e2e8d56d0a
-
-[deps]
 
 [build]
 sed -i 's@/sbin@$(bindir)/@g' Makefile
