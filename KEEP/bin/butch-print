@@ -1,0 +1,53 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config ?'
+	exit 1
+fi
+pkg=$1
+if [ -z "$pkg" ] ; then
+	echo 'this script pretty-prints the specified package.'
+	echo 'need package name as argv!'
+	exit 1
+fi
+fl=$S/pkg/$pkg
+if [ ! -e "$fl" ] ; then
+	echo "package $fl does not exist!"
+	exit 1
+fi
+printbody() {															
+	awk 'function getline2(i) {									 
+		i = getline;													 
+		if(i != 1) exit;												
+	}																		
+	{																		
+		while ($1 != "\['$1'\]") { getline2(); }
+		getline2();									  
+		while($1 !~ /\[.*\]/) { print $0; getline2(); }
+	}' $fl														  
+}																	 
+# $1 = pkg section name, $2 = if null, we do not sort
+printsec() {													  
+	if grep "\[$1\]" $fl; then								
+		if [ ! -z $2 ]; then									
+			printbody $1 |grep -v '^$' |sort				
+	 echo
+		else														 
+			printbody $1										  
+		fi															
+	fi																
+}				 
+# write sorted pkg to $tmp, strip empty pkg sections, rm $tmp
+tmp=/tmp/butch-print.`uuidgen`.tmp						 
+{
+	printsec mirrors sort
+	printsec main sort
+	printsec deps sort
+        printsec deps.host sort
+        printsec deps.run sort 
+	printsec build 
+} >$tmp
+{
+	echo ',x/\[.*\]\n\n\[/ c/[/'
+	echo ,
+} |sam -d $tmp 2>/dev/null && rm -f $tmp
+exit 0
