@@ -6,20 +6,20 @@ filesize=5764177
 sha512=50035895e99d5e16ef41b8b5fe484fee4458807b1c3b2b44284d702b8fbf325fc26cf89d9f550817f17bb35dd8dfce7eda1674f6aa636cfd1a62a5a91bacb89a
 
 [deps]
-libpng
-curl
-libxml2
 cairo
+curl
 gtk+2
 libglade
-libmng
 liblcms
+libmng
+libpng
+libxml2
 
 [deps.host]
-perl
 cpan-HTML-Parser
 flex
 gprof
+perl
 
 [build]
 # FIXME: netsurfs Makefile suppresses parallel builds
