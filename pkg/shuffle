@@ -1,9 +1,9 @@
+[mirrors]
+ftp://ftp.eskimo.com/home/scs/src/shuffle.tar.gz
+
 [main]
 filesize=16780
 sha512=733f62d94dd5067f19dd09e28088a8c611a6d12056ecd8f5c2d262f6d56baa498ca1445a466657c757ecab9320e647dc1ee92845bc7825ea8df2e67ed7903cd2
-
-[mirrors]
-ftp://ftp.eskimo.com/home/scs/src/shuffle.tar.gz
 
 [build]
 make -j$MAKE_THREADS CFLAGS2="$optcflags" LINKFLAGS="$optldflags" || exit 1
