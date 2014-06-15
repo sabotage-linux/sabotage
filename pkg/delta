@@ -1,10 +1,9 @@
 [mirrors]
 http://delta.tigris.org/files/documents/3103/33566/delta-2006.08.03.tar.gz
+
 [main]
 filesize=32804
 sha512=3720f164f3721ad06bf5a73e654c70a67d6e7a56d0ce574fb0e8571b33269e56611a909f915bd0ea46434d94206a9548fd99fdef98181efe41e7fb03de75c585
-
-[deps]
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1
