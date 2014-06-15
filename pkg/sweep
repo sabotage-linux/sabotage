@@ -9,13 +9,13 @@ sha512=6c3fce80152f7b17cb130e05a2597efedd10c081dd2c98912a12375b838efdc50f0c980a4
 
 [deps]
 alsa-lib
-libsndfile
+glib
+gtk+2
+libmad
 libsamplerate
+libsndfile
 libtdb
 libvorbis
-libmad
-gtk+2
-glib
 
 [build]
 patch -p1 < "$K"/sweep-default-device.patch || exit 1
