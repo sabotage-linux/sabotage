@@ -1,16 +1,16 @@
 [mirrors]
+http://tcpdump.cybermirror.org/release/libpcap-1.3.0.tar.gz
 http://www.tcpdump.org/release/libpcap-1.3.0.tar.gz
 http://www.uk.tcpdump.org/release/libpcap-1.3.0.tar.gz
-http://tcpdump.cybermirror.org/release/libpcap-1.3.0.tar.gz
 
 [main]
 filesize=608967
 sha512=c023abb3da7b9f62835fa04ca43b50203d7e3da7b624d09a693c8b02fd531c3845e1c86cbc587ae02816614133f5342585f6a2985fdaf92889fcfaca7bfb8908
 
 [deps]
-libnl-tiny
-flex
 bison
+flex
+libnl-tiny
 
 [build]
 #patch -p1 < "$K/some.patch"
