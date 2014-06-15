@@ -1,11 +1,9 @@
-[deps]
+[mirrors]
+http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
 
 [main]
 filesize=2826473
 sha512=d7c5e54b6d4d8b9211f0006ca8786f7609d180cc1aaebf4f25e7e35e12959779cf66447359a602daed625621ca32b0d910d67aef3eb8b6fdc3c373819a88faa1
-
-[mirrors]
-http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
 
 [build]
 patch -p1 < "$K"/ncurses-cross-include.patch || exit 1
