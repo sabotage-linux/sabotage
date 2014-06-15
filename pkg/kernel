@@ -1,18 +1,18 @@
-[deps.host]
-gcc4
-
-[deps]
-grsec
-
 [mirrors]
-http://www.kernel.org/./pub/linux/kernel/v3.x/linux-3.14.5.tar.xz
 ftp://www.kernel.org/pub/linux/kernel/v3.x/linux-3.14.5.tar.xz
 http://ftp.free.fr/pub/linux/kernel/v3.x/linux-3.14.5.tar.xz
 http://ftp.heanet.ie/mirrors/linux/kernel/v3.x/linux-3.14.5.tar.xz
+http://www.kernel.org/./pub/linux/kernel/v3.x/linux-3.14.5.tar.xz
 
 [main]
 filesize=78399232
 sha512=ae7179ac59ab9a606de8ce2b5f80d6f650585052b7c32e4c56c80dda334efe956057767f946e69891834b5c39298231f6d5ab86e1c7bc9efb18776a9a089e02c
+
+[deps]
+grsec
+
+[deps.host]
+gcc4
 
 [build]
 GRSEC_VER=grsecurity-3.0-3.14.5-201406021708
