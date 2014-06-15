@@ -1,12 +1,10 @@
 [mirrors]
-http://switch.dl.sourceforge.net/project/flac/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz
 http://kent.dl.sourceforge.net/project/flac/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz
+http://switch.dl.sourceforge.net/project/flac/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz
 
 [main]
 filesize=2009217
 sha512=39b216239341fbfe210c3a2fc0d0531ecae26c425365c4b6d4fc1081e44e6dc7a9aba8d4c79cc8025386d0a7bb0d25c413c9b64cf7da9ab04ca34a56d2699787
-
-[deps]
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
