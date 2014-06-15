@@ -6,13 +6,13 @@ filesize=3523623
 sha512=ec43243e5b487d3101f6906bb156ed64c0b9778c13a50257602286df1b581340470558c2d8ab9078977c79cb2ebbb6f744fb411eb0faab74950da4f3d738d730
 
 [deps]
-gtk+2
 glib
-poppler-data
-poppler
 gnome-icon-theme-fake
-shared-mime-info
+gtk+2
 libsm
+poppler
+poppler-data
+shared-mime-info
 
 [build]
 # https://bugzilla.gnome.org/show_bug.cgi?id=637055
