@@ -1,16 +1,16 @@
+[mirrors]
+http://download.enlightenment.org/releases/eet-1.7.8.tar.gz
+
 [main]
 filesize=680487
 sha512=ada26d744974158d487774a1bfaa59192de46797eb4f35062b452cb9e6168b45626595df8c527533d75b0a95bd55008151a14b7b195b9db2eb88c76e557d8d2f
 
-[mirrors]
-http://download.enlightenment.org/releases/eet-1.7.8.tar.gz
-
 [deps]
-musl
-libjpeg
-zlib
 eina
+libjpeg
+musl
 openssl
+zlib
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
