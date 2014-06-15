@@ -1,19 +1,19 @@
-[deps]
-m4
-gmp
-mpfr
-mpc
-zlib
-libelf
-g++463
+[mirrors]
+http://ftpmirror.gnu.org/gcc/gcc-4.6.3/gcc-core-4.6.3.tar.bz2
 
 [main]
 filesize=30305971
 sha512=b9c569bb713f3ab0a9d4f6e898c7d01914546fbbe61f4db5151536ffe374490ae6f154dfa2381ab6072b2890b76154fbebdf92f060e85404f54997f016972f4c
 tardir=gcc-4.6.3
 
-[mirrors]
-http://ftpmirror.gnu.org/gcc/gcc-4.6.3/gcc-core-4.6.3.tar.bz2
+[deps]
+g++463
+gmp
+libelf
+m4
+mpc
+mpfr
+zlib
 
 [build]
 VERSION=4.6.3
