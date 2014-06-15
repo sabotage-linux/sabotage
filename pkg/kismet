@@ -6,8 +6,8 @@ filesize=699968
 sha512=37b81dd89ba3c02af12e55ebddf86901dbe58123bf9b6928339803d80d01c2351b5376e829292859ecc89539cebd4e1db6aa0d104142ccb289696405a8b2c783
 
 [deps]
-ncurses
 libnl-tiny
+ncurses
 
 [build]
 # Makefile tries to force user name, which breaks cross compilation
