@@ -1,15 +1,13 @@
 [mirrors]
 ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.9.tar.bz2
-http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.9.tar.bz2
-http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.9.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.9.tar.bz2
 http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.9.tar.bz2
+http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.9.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.9.tar.bz2
+http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.9.tar.bz2
 
 [main]
 filesize=436310
 sha512=16fe27690869885c890d8777fe72b236e1379a7da782d8cb6c170de7d0fac89055a69bdd5bdc45906810ddf064dee073bcd710a6af483929d53273c72b580324
-
-[deps]
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
