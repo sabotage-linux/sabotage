@@ -1,11 +1,9 @@
-[deps]
+[mirrors]
+http://ftp.gnu.org/pub/gnu/sed/sed-4.2.1.tar.bz2
 
 [main]
 filesize=899091
 sha512=273d4d0b3dd41a3966260fbe261a20110a2a4c0749e11a080f4fc8694e47b605cb977f2535b20b92d57b1b74129df092ba47f4184951dbc3f0f14fd9b91b7bfd
-
-[mirrors]
-http://ftp.gnu.org/pub/gnu/sed/sed-4.2.1.tar.bz2
 
 [build]
 CC="$CC -static" ./configure -C --prefix="$butch_prefix" --disable-nls || exit 1
