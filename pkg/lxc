@@ -1,7 +1,7 @@
 [mirrors]
-https://launchpad.net/ubuntu/+archive/primary/+files/lxc_1.0.0~beta2.orig.tar.gz
 http://archive.ubuntu.com/ubuntu/pool/main/l/lxc/lxc_1.0.0~beta2.orig.tar.gz
 http://mirror.r0x0r.me/lxc_1.0.0~beta2.orig.tar.gz
+https://launchpad.net/ubuntu/+archive/primary/+files/lxc_1.0.0~beta2.orig.tar.gz
 
 [main]
 filesize=745824
@@ -9,8 +9,8 @@ sha512=973c7713020b0a11b3574e180f93794876bc501f7ece9516f2269c030526ef9a18b0cbac0
 tardir=lxc-1.0.0.beta2
 
 [deps]
-libcap2
 bash
+libcap2
 
 [build]
 patch -p1 < "$K"/lxc-undef.patch || exit 1
