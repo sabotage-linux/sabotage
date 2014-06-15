@@ -6,9 +6,9 @@ filesize=1773882
 sha512=a1ecf6fe9f3ddacfe43006cfc388d9324c457be91767792119d8a112b190739e3274dfeb7cffd28534b86a33f86079c569d8337eeddaa9d60ed69f82d8a4627f
 
 [deps]
+libvirt
 python
 python-pygtk
-libvirt
 python-virtinst
 
 [build]
