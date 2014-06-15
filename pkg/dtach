@@ -6,8 +6,6 @@ http://pkgs.fedoraproject.org/repo/pkgs/dtach/dtach-0.8.tar.gz/ec5999f3b6bb67da1
 filesize=55472
 sha512=ad0a788d10a5e1e1be4c353b64e1e4a0dc8c888492a638b2442d7c59ef31d67975357116435a1059141bfc2c82a3a6e9e490faa87cf81e5fc3bc7457a99c1193
 
-[deps]
-
 [build]
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" || exit 1
