@@ -1,9 +1,9 @@
+[mirrors]
+http://sylpheed.sraoss.jp/sylpheed/v3.3/sylpheed-3.3.0.tar.gz
+
 [main]
 filesize=4940459
 sha512=e39f3bd07d254c471cc0ae2f021cbbb96f21fad482dada399a00e3e323688a349b3a93842fb532660f35f666df350e26b591068263ebd860b62ae7d426e7021d
-
-[mirrors]
-http://sylpheed.sraoss.jp/sylpheed/v3.3/sylpheed-3.3.0.tar.gz
 
 [deps]
 gtk+2
