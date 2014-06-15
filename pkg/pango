@@ -6,11 +6,11 @@ filesize=1158224
 sha512=ba0697819fcddb25424977ed22deae087cee33f5b455b44a7890e76b7bcb3d4014420cd1de542d356af32384dc249f910087a2a8a9cf18a8688c1fa549ab6add
 
 [deps]
-glib
+cairo
 fontconfig
+glib
 libx11
 libxft
-cairo
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
