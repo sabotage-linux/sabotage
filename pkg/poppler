@@ -1,21 +1,22 @@
 [mirrors]
 http://poppler.freedesktop.org/poppler-0.24.4.tar.xz
+
 [main]
 filesize=1511248
 sha512=5567a51c2d2311ceaae087a7f7d5c0b71ba90afa91184a41997b3ea76aeff6d5b182d7c4018a1c2e93eb15b1f6cfec783b326940797ad4d5b7ee0276008b06db
 
-[deps.host]
-pkgconf
-
 [deps]
-libx11
-libtiff
+cairo
+fontconfig
+freetype
+glib
 libjpeg
 libpng
-freetype
-fontconfig
-cairo
-glib
+libtiff
+libx11
+
+[deps.host]
+pkgconf
 
 [build]
 patch -p1 < "$K"/poppler-segfault.patch || exit 1
