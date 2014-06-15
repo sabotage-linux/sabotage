@@ -1,7 +1,7 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/xdemos.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/xdemos.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/xdemos.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/xdemos.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/xdemos.tar.xz
 
 [main]
 filesize=17152
