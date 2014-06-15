@@ -1,18 +1,18 @@
-[deps]
-m4
-gmp
-mpfr
-mpc
-zlib
-libelf
+[mirrors]
+http://ftpmirror.gnu.org/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2
 
 [main]
 filesize=82884636
 sha512=689ce92d0c93e5ca5268d9757acffc6e5a7931fc7ad99ee9beefa6ce02d201ed9dade08240cb5623525e19362f90a245792e95d4e90b067fee61013a03288e32
 tardir=gcc-4.7.2
 
-[mirrors]
-http://ftpmirror.gnu.org/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2
+[deps]
+gmp
+libelf
+m4
+mpc
+mpfr
+zlib
 
 [build]
 VERSION=4.7.2
