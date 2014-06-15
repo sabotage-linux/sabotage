@@ -7,8 +7,8 @@ sha512=77224d555befb96b14c20a3a39aacb50ed2db9dfff0c112113c3fb211152106f76cf278b4
 tardir=gnu-efi-3.0
 
 [deps]
-pciutils
 libelf
+pciutils
 
 [build]
 if [ "$A" == "i386" ]; then
