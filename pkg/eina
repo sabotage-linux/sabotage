@@ -1,9 +1,9 @@
+[mirrors]
+http://download.enlightenment.org/releases/eina-1.7.8.tar.gz
+
 [main]
 filesize=9937911
 sha512=05d04609fd2230fc7be168847b2f80d5381a4d5a3b4076cda8e9b0f731ac27c99534e5a71d7479cd69239d2ce73f0852ec364cbccc69a31bc834a7c0fa185de0
-
-[mirrors]
-http://download.enlightenment.org/releases/eina-1.7.8.tar.gz
 
 [deps]
 musl
