@@ -1,5 +1,6 @@
 [mirrors]
 http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.tar.gz
+
 [main]
 filesize=4053686
 sha512=64e04d1cd77e525e0f2413ad928841e5d3d09d551c030fc577b50777116580e430cb272b2aeb6191dfcc464669cf2f7a5a50d10e7c75637a3b1e8c8fca7fc78b
