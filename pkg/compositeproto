@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/compositeproto-0.4.2.tar.bz2
 
 [main]
 filesize=101208
 sha512=ad5e4d87b77a8447c228ca85ac8d010d93b5c64929dc866e99a25700b9905f7c3f22e48f8c7fdc54e87879ddcc90e5d4adc338aeea393d7057b19b5ccae31f11
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/compositeproto-0.4.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
