@@ -1,7 +1,7 @@
 [mirrors]
+http://tcpdump.cybermirror.org/release/tcpdump-4.3.0.tar.gz
 http://www.tcpdump.org/release/tcpdump-4.3.0.tar.gz
 http://www.uk.tcpdump.org/release/tcpdump-4.3.0.tar.gz
-http://tcpdump.cybermirror.org/release/tcpdump-4.3.0.tar.gz
 
 [main]
 filesize=887619
