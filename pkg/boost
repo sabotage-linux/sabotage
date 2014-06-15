@@ -1,7 +1,7 @@
 [mirrors]
-http://switch.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
 http://heanet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
 http://surfnet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
+http://switch.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
 
 [main]
 filesize=64724106
