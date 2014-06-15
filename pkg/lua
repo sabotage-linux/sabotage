@@ -1,10 +1,9 @@
 [mirrors]
 http://www.lua.org/ftp/lua-5.2.2.tar.gz
+
 [main]
 filesize=251713
 sha512=7165c7c5cb5606abc6306338fac425604c2d432c9f1c6cef35d0cc353ebd4eb7e6ed7781d58fb1fedc4b9ac43f64055f57506d9b71d999278af9408c1f34f664
-
-[deps]
 
 [build]
 sed -i "s@#define LUA_ROOT\t"'"/usr/local/"@#define LUA_ROOT "/"@' src/luaconf.h || exit 1
