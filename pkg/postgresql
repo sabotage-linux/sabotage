@@ -5,14 +5,14 @@ http://ftp.postgresql.org/pub/source/v9.2.4/postgresql-9.2.4.tar.bz2
 filesize=16395184
 sha512=1f347a8e75f4c350cc1ee2e0406b1b696f8e82cd259bb17404113874516fdf4c395517962a5320d5c386994cae7ebe7dbdbbeb7ae79c76d6d506ce5bda662c3e
 
-[deps.host]
-python
-
 [deps]
-openssl
 libxml2
 libxslt
+openssl
 readline
+
+[deps.host]
+python
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
