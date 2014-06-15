@@ -1,16 +1,16 @@
-[deps]
-libx11
-libxft
-libxdmcp
-libxaw
-libxmu
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/xlogo-1.0.3.tar.bz2
 
 [main]
 filesize=115587
 sha512=10f91015c0c2f57dfe854906774d3ff7c015690de613c1ccefdd63e430753843dd5b5aac771252bb28b11e098a6fa78d529079d824795b035145f874060aa7cc
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xlogo-1.0.3.tar.bz2
+[deps]
+libx11
+libxaw
+libxdmcp
+libxft
+libxmu
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
