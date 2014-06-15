@@ -1,12 +1,12 @@
-[deps]
-perl
-
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-1.11.tar.gz
 
 [main]
 filesize=52077
 sha512=cc1bd5f457dc80e46fb9904fb9dfe2bdf8bffdad8f436f0e8f5977dbc6924ef9eeceac61d8ab80df1bfcb5e14fe2476421831f47f9354726dd3b536beade0381
+
+[deps]
+perl
 
 [build]
 perl Makefile.PL || exit 1
