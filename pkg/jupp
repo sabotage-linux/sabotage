@@ -1,10 +1,10 @@
+[mirrors]
+http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz
+
 [main]
 filesize=446563
 sha512=478f5489534d109fa2ac0c5f6ae783cfdb1a8ac6df9d67bb09e11708e9a578bd1a5306916c33b98447c29b551aec593f6defa8a5a2ea70acb35c8f72da8dbbc3
 tardir=jupp
-
-[mirrors]
-http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz
 
 [build]
 chmod +x configure && CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" --sysconfdir=/etc --disable-dependency-tracking --disable-termidx && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install || exit 1
