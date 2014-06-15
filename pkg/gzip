@@ -1,12 +1,12 @@
-[deps]
-zlib
+[mirrors]
+http://ftp.gnu.org/gnu/gzip/gzip-1.4.tar.xz
 
 [main]
 filesize=613984
 sha512=ec7cf186dc9549c146e7df9b4fdc0c289bb214b48e40a04f2e6f6b9a8ebf4deed1450e63f2dfb788e057c7380ac8defde53b856d4da175000d902ce1ce7f165a
 
-[mirrors]
-http://ftp.gnu.org/gnu/gzip/gzip-1.4.tar.xz
+[deps]
+zlib
 
 [build]
 "$K"/bin/gnulibfix lib
