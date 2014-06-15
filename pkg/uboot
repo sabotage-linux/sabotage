@@ -1,11 +1,9 @@
-[main]
-filesize=10067674
-sha512=5c0725c9c5c7c9101d7ef8eb659aafb513ca5742fbafec55e0b64cd68b3e37520de55f71aebba59bf979b8daef2b0c71645b5ab343b7057d601b3cd6ffc6e763
-
 [mirrors]
 ftp://ftp.denx.de/pub/u-boot/u-boot-2013.07.tar.bz2
 
-[deps]
+[main]
+filesize=10067674
+sha512=5c0725c9c5c7c9101d7ef8eb659aafb513ca5742fbafec55e0b64cd68b3e37520de55f71aebba59bf979b8daef2b0c71645b5ab343b7057d601b3cd6ffc6e763
 
 [build]
 patch -p1 < "$K"/uboot-ulong.patch || exit 1
