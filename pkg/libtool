@@ -1,11 +1,9 @@
-[main]
-filesize=2632347
-sha512=0e54af7bbec376f943f2b8e4f13631fe5627b099a37a5f0252e12bade76473b0a36a673529d594778064cd8632abdc43d8a20883d66d6b27738861afbb7e211d
-
 [mirrors]
 http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz
 
-[deps]
+[main]
+filesize=2632347
+sha512=0e54af7bbec376f943f2b8e4f13631fe5627b099a37a5f0252e12bade76473b0a36a673529d594778064cd8632abdc43d8a20883d66d6b27738861afbb7e211d
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
