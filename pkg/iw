@@ -1,6 +1,6 @@
 [mirrors]
-http://www.kernel.org/pub/software/network/iw/iw-3.13.tar.xz
 ftp://www.kernel.org/pub/software/network/iw/iw-3.13.tar.xz
+http://www.kernel.org/pub/software/network/iw/iw-3.13.tar.xz
 
 [main]
 filesize=85724
