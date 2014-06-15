@@ -1,12 +1,12 @@
-[deps]
-alsa-lib
-
 [mirrors]
 http://kcat.strangesoft.net/openal-releases/openal-soft-1.15.1.tar.bz2
 
 [main]
 filesize=253006
 sha512=ca6dafdd503d06892dff08763bc00b974ec6e7c4bf3dcebb4cb41a486b4ea777c278299a198db182fee888a19a5716bd57d91a2859b764a532138a79f2bd672f
+
+[deps]
+alsa-lib
 
 [build]
 mv Alc/mixer_inc.c Alc/mixer_inc.h || exit 1
