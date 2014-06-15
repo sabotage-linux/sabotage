@@ -1,7 +1,7 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/grsecurity-3.0-3.14.5-201406021708.patch.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/grsecurity-3.0-3.14.5-201406021708.patch.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/grsecurity-3.0-3.14.5-201406021708.patch.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/grsecurity-3.0-3.14.5-201406021708.patch.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/grsecurity-3.0-3.14.5-201406021708.patch.tar.xz
 
 [main]
 filesize=758468
