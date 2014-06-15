@@ -6,8 +6,8 @@ filesize=1226324
 sha512=2eeafbb09484988c8489757232233aa9bf5cefecf7f80ed940867cf721e271644f7e94d8ae3b18717340ba3af1c208701c4766b1113af03972311517fda10e8f
 
 [deps]
-python
 glib
+python
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
