@@ -1,17 +1,17 @@
-[deps.host]
-perl
-cpan-XML-Parser
-
-[deps.run]
-perl
-cpan-XML-Parser
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.bz2
 
 [main]
 filesize=140340
 sha512=87769800d88fe16965e59b919d1c219e928fcc4e6708f07ecba7f97c33aa5e4955635d487ef1632c94632730a9755de4776c1b2d553ae0860a038ad250153955
 
-[mirrors]
-http://ftp.gnome.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.bz2
+[deps.host]
+cpan-XML-Parser
+perl
+
+[deps.run]
+cpan-XML-Parser
+perl
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
