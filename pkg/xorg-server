@@ -1,22 +1,22 @@
-[deps]
-util-macros
-pixman
-xorg-proto-headers
-xorg-libraries
-libxkbfile
-freetype
-libfontenc
-libxau
-libxdmcp
-libxfont
-mesalib
+[mirrors]
+ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.14.3.tar.bz2
 
 [main]
 filesize=5502845
 sha512=d5379e2f52e93985ab2636ca02f503baadd359a4ec05bed80162213392e16d433a2b7308e90cdd18c1a0bd283429f2c8b8758b5a2c585923533cced6245de989
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.14.3.tar.bz2
+[deps]
+freetype
+libfontenc
+libxau
+libxdmcp
+libxfont
+libxkbfile
+mesalib
+pixman
+util-macros
+xorg-libraries
+xorg-proto-headers
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
