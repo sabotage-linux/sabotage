@@ -1,12 +1,12 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-synaptics-1.7.4.tar.bz2
+
 [main]
 filesize=451614
 sha512=66db2e51be11e582ba3ea761d5ab65d05278230ddbe7741d7ae58cd844136feb9fc934e1ddc4845bb9961fa5a63743c3e612893d9196b1745140e4105b69220a
 
 [deps]
 mtdev
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-input-synaptics-1.7.4.tar.bz2
 
 [build]
 CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install || exit 1
