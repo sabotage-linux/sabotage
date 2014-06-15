@@ -1,10 +1,13 @@
 [mirrors]
 http://downloads.sourceforge.net/project/glew/glew/1.10.0/glew-1.10.0.tgz
+
 [main]
 filesize=567605
 sha512=0c998fda9fe01c9296a3453966c0449c9968f4f5f989065ca65f0da3830ae8d805699d0ee0362c3b18765420222ba18842b9db20986212afceb36c971ae1bdca
+
 [deps]
 xorg
+
 [build]
 sed -i 's:lib64:lib:g' ./config/Makefile.linux || exit 1 
 make -j$MAKE_THREADS || exit 1
