@@ -1,13 +1,14 @@
 [deps]
-kbd
 9base
 busybox
+dynamic-toolchain
 e2fsprogs
 gcc4
 gmp
+kbd
+man
 mpc
 mpfr
 musl
-dynamic-toolchain
-man
 zlib
+
