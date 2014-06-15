@@ -1,6 +1,6 @@
 [mirrors]
-http://gd.tuwien.ac.at/graphics/gimp/babl/0.1/babl-0.1.10.tar.bz2
 ftp://ftp.gtk.org/pub/babl/0.1/babl-0.1.10.tar.bz2
+http://gd.tuwien.ac.at/graphics/gimp/babl/0.1/babl-0.1.10.tar.bz2
 
 [main]
 filesize=449537
