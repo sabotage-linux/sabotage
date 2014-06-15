@@ -1,13 +1,13 @@
-[deps]
-musl
-kernel-headers
+[mirrors]
+http://dl.suckless.org/tools/9base-6.tar.gz
 
 [main]
 filesize=1045868
 sha512=38108a94118b56c6f3982e692beb1068c52f9aecd74447d6b552b77fae5e365eab72b4781bdf07d9696ac89d54371c1cae8cc0363de510b53988302acef50dba
 
-[mirrors]
-http://dl.suckless.org/tools/9base-6.tar.gz
+[deps]
+kernel-headers
+musl
 
 [build]
 mbwc_fix() {
