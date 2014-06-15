@@ -1,7 +1,7 @@
 [mirrors]
-http://www.mirrorservice.org/sites/distfiles.macports.org/dovecot2/dovecot-2.2.10.tar.gz
 http://dovecot.org/releases/2.2/dovecot-2.2.10.tar.gz
 http://www.dovecot.org/releases/2.2/dovecot-2.2.10.tar.gz
+http://www.mirrorservice.org/sites/distfiles.macports.org/dovecot2/dovecot-2.2.10.tar.gz
 
 [main]
 filesize=4558660
