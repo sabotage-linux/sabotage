@@ -6,8 +6,8 @@ filesize=402070
 sha512=cb3d54de9af4134460ce731da8166a3127a642c8a2e6184109437ddec115cd55b8dd2413a5c81700277bfe2f22fcfe268db4f3ba0f7649751e85bb34295f79fc
 
 [deps]
-python
 cairo
+python
 
 [build]
 [ -z "$butch_prefix" ] && butch_prefix=/
