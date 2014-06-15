@@ -1,7 +1,7 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/hexedit0r-1.0.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/hexedit0r-1.0.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/hexedit0r-1.0.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/hexedit0r-1.0.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/hexedit0r-1.0.tar.xz
 
 [main]
 filesize=20592
