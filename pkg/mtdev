@@ -1,9 +1,9 @@
+[mirrors]
+http://bitmath.org/code/mtdev/mtdev-1.1.4.tar.bz2
+
 [main]
 filesize=273780
 sha512=75da652e720cce9efcc23c2b72a0d8050096f054eff1338e02477816e107d469a7f9c5f4973146d38d939c3515ea39e926c70cf8f2ca0372c83c75506c61732b
-
-[mirrors]
-http://bitmath.org/code/mtdev/mtdev-1.1.4.tar.bz2
 
 [build]
 CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install || exit 1
