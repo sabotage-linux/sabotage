@@ -1,13 +1,13 @@
+[mirrors]
+http://www.abisource.com/downloads/wv/1.2.9/wv-1.2.9.tar.gz
+
 [main]
 filesize=616256
 sha512=ae5c762012595ce8922bfda8749ad3e9cb055edab30152c3a5feaaf3ca6601f357d1e301b179e9a5860cd99452dd6e63e5f44f5bcc12f8db148bdd334e0200a5
 
-[mirrors]
-http://www.abisource.com/downloads/wv/1.2.9/wv-1.2.9.tar.gz
-
 [deps]
-libpng
 libgsf
+libpng
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
