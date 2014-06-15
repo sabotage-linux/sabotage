@@ -6,8 +6,8 @@ filesize=1584837
 sha512=2d9c374f17eef22a783d5fef9f30ee2fcbb8778ff7319bb028d8f6181f49827867e3b7f02eec580cbd48f2d97cad789a541c1fbe43fe3d23f6cb396d4138d712
 
 [deps]
-zlib
 sshd-service
+zlib
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
