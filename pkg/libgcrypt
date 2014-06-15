@@ -1,8 +1,8 @@
 [mirrors]
 ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.5.0.tar.bz2
+http://dbg.download.sourcemage.org/mirror/libgcrypt-1.5.0.tar.bz2
 http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.5.0.tar.bz2
 http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.5.0.tar.bz2
-http://dbg.download.sourcemage.org/mirror/libgcrypt-1.5.0.tar.bz2
 
 [main]
 filesize=1433506
