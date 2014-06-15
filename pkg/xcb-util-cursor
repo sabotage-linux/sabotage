@@ -1,14 +1,14 @@
+[mirrors]
+http://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.1.tar.bz2
+
 [main]
 filesize=280852
 sha512=599f9074a9801615a29374a96649c2d9d8de8abd053b7ddb245b7cc50a1c9c94610a8df996a7a79a831ade3d903335fdf7ac299e6b33e735ab087c3fe5923d71
 
-[mirrors]
-http://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.1.tar.bz2
-
 [deps]
 libxcb
-xcb-util-renderutil
 xcb-util-image
+xcb-util-renderutil
 
 [build]
 CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install || exit 1
