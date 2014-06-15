@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/xcmiscproto-1.2.2.tar.bz2
 
 [main]
 filesize=112486
 sha512=33060d0f9bba92670fce6e42f5d9094e84b803fd07e61b159aafdbee40a9876b49cf844bc7bae4c628fbb11a6a0883a9ee07041b59290488f1e9dbfe6e5128a8
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/xcmiscproto-1.2.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

@@ -1,12 +1,12 @@
-[deps]
-gmp
+[mirrors]
+http://ftp.gnu.org/gnu/mpfr/mpfr-3.0.1.tar.bz2
 
 [main]
 filesize=1154306
 sha512=bbac7d0d63fd3b4cd895e247c448adce7f4c2b6b66ecfe26af138018e0f96991fa8cbd8cbe94f924761aa1ac676e259af1228600dfc0854314e875e7739fd279
 
-[mirrors]
-http://ftp.gnu.org/gnu/mpfr/mpfr-3.0.1.tar.bz2
+[deps]
+gmp
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

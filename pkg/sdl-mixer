@@ -1,16 +1,17 @@
 [mirrors]
 http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.12.tar.gz
+
 [main]
 filesize=3707781
 sha512=230f6c5a73f4bea364f8aa3d75f76694305571dea45f357def742b2b50849b2d896af71e08689981207edc99a9836088bee2d0bd98d92c7f4ca52b12b3d8cf96
 
 [deps]
-sdl
 alsa-lib
-libvorbis
-libmikmod
-libflac
 fluidsynth
+libflac
+libmikmod
+libvorbis
+sdl
 
 [build]
 # you may want to remove fluidsynth from the deps list, this will lead to a lack of midi

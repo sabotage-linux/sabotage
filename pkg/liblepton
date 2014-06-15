@@ -1,15 +1,15 @@
+[mirrors]
+http://leptonica.com/source/leptonica-1.68.tar.gz
+
 [main]
 filesize=6695020
 sha512=3dad38279c328e671f65018d86c04da59a6dff481ff48530a6341505abbd3e2a526a5825a0995d77c690f54acbaa0818832bd44dd4246a87d726862e0c31d82b
 
-[mirrors]
-http://leptonica.com/source/leptonica-1.68.tar.gz
-
 [deps]
-zlib
-libpng
 libjpeg
+libpng
 libtiff
+zlib
 
 [build]
 patch -p1 < "$K/liblepton_pngio.patch"

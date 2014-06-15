@@ -1,12 +1,10 @@
+[mirrors]
+http://ftp.be.debian.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
+https://www.kernel.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
+
 [main]
 filesize=178152
 sha512=de466c9ea2ff666891d776241912d7ee742bf8c90ff0c57e2049b0a31eaba74361448c065e517fef5f84a8f917d22a3e85227116babe9056ad23d0686583a417
-
-[mirrors]
-https://www.kernel.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
-http://ftp.be.debian.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
-
-[deps]
 
 [build]
 cat <<EOF > local.mk

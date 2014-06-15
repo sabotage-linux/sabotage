@@ -1,13 +1,13 @@
-[deps]
-fontconfig
-libxrender
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXft-2.3.1.tar.bz2
 
 [main]
 filesize=311556
 sha512=737d6ab892daf829da8b2fed954b31b2657d29033f35e806599cd67c6e044ab94b0f035804a1c4c9e3e0cbdc74a117cd274128a57f4b2cf81383561d62eb9f1f
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXft-2.3.1.tar.bz2
+[deps]
+fontconfig
+libxrender
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

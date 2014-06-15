@@ -7,8 +7,8 @@ sha512=3099c01b099306ee77c3df569a7412c230006ba8e7f85d6e79f0bc0373cc4c95f231aab7e
 tardir=audacity-src-2.0.2
 
 [deps]
-libsndfile
 libsamplerate
+libsndfile
 wxgtk
 
 [build]

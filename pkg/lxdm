@@ -7,8 +7,8 @@ filesize=296714
 sha512=8ed4a955a910def4db66958d1cb24976db178b8763199a024b6c2119894745e3646566c42d01472dffbbcbb7fd21784b01e74dc88038e01caebaa3b6d720ff27
 
 [deps]
-glib
 gdk-pixbuf
+glib
 gtk+2
 intltool
 

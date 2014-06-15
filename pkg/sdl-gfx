@@ -1,5 +1,6 @@
 [mirrors]
 http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.24.tar.gz
+
 [main]
 filesize=1767169
 sha512=df96601ae337519eca606bf93669a44931d259abd012fb1d5743977c12b9a98a35e4eea17f475f3dd698d9a26b1678dd3f746a240db5ccada5cf3d42955e454d

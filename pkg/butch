@@ -1,6 +1,6 @@
 [mirrors]
-http://ftp.barfooze.de/pub/butch/butch-0.4.0.tar.bz2
 http://foss.aueb.gr/mirrors/linux/butch/butch-0.4.0.tar.bz2
+http://ftp.barfooze.de/pub/butch/butch-0.4.0.tar.bz2
 
 [main]
 filesize=66427

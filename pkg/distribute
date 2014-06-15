@@ -1,5 +1,6 @@
 [mirrors]
 http://pypi.python.org/packages/source/d/distribute/distribute-0.6.36.tar.gz
+
 [main]
 filesize=644713
 sha512=4f9b8408c142d837d88225364e0a312d9e058b5b7a9d74e1783b2208b197b5d7bddd09185623b324163affe080764b2fba7f3242d4b9b9c624f08e0942d0fed6

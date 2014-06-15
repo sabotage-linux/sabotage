@@ -1,17 +1,17 @@
-[deps]
-util-macros
-freetype
-libfontenc
-xproto
-fontsproto
-xtrans
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.4.6.tar.bz2
 
 [main]
 filesize=489067
 sha512=c0e28d9213464ff3bf8e756da21ef3108bc6cb37b2bfd99787a4dd1ed224e65b778a3b184f72b32ca60de13c93f48879b41bece4f79954276cddc6b34c391ed9
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.4.6.tar.bz2
+[deps]
+fontsproto
+freetype
+libfontenc
+util-macros
+xproto
+xtrans
 
 [build]
 CFLAGS="-D_GNU_SOURCE -DNOFILES_MAX=256 -Dfd_mask=long" ./configure -C --prefix="$butch_prefix" || exit 1

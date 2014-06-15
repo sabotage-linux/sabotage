@@ -1,13 +1,13 @@
-[deps]
-libxext
-libxt
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXmu-1.1.2.tar.bz2
 
 [main]
 filesize=396230
 sha512=eba4e3d10f7d75ba8464881fb69f295a89774a4b37793197d75f3312e3a342b2df8b7e13e3f5c887962704329b5347ff2f3395e229af9dadf46a93b1e8613cfc
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXmu-1.1.2.tar.bz2
+[deps]
+libxext
+libxt
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"  || exit 1

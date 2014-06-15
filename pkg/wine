@@ -8,16 +8,16 @@ filesize=21013509
 sha512=aefc05cb0ce6b41a7a70861fd85c5f5d30501f61923620837f3a8124b039e1eedaea75d261116b26770b64a21b27a4ee13133a07a36157bebd2cbeddd110de27
 
 [deps]
-openal
-flex
-bison
 alsa-lib
-ncurses
+bison
+flex
+freetype
+kernel-headers
 libjpeg
 libpng
 libx11
-freetype
-kernel-headers
+ncurses
+openal
 
 [build]
 if [ "$A" = "x86_64" ] ; then

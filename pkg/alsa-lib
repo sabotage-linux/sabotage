@@ -1,16 +1,16 @@
-[deps]
-kernel-headers
-
 [mirrors]
 ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.27.2.tar.bz2
-http://gentoo.netnitco.net/distfiles/alsa-lib-1.0.27.2.tar.bz2
 http://alsa.cybermirror.org/lib/alsa-lib-1.0.27.2.tar.bz2
-http://distfiles.lesslinux.org/alsa-lib-1.0.27.2.tar.bz2
 http://distfiles.exherbo.org/distfiles/alsa-lib-1.0.27.2.tar.bz2
+http://distfiles.lesslinux.org/alsa-lib-1.0.27.2.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-lib-1.0.27.2.tar.bz2
 
 [main]
 filesize=906844
 sha512=3fa9160e001cf21ddc6332c3748f8aa27bd1b514616fd1a9993c34128fe99d07e2dfc5f1a9177e1c17456d1361496f90bf3552f940fd85c6ea5ac9bbc30fe8ce
+
+[deps]
+kernel-headers
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in

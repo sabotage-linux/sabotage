@@ -1,15 +1,16 @@
 [mirrors]
 http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+
 [main]
 filesize=6069173
 sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
 
-[deps.host]
-pkgconf
-
 [deps]
 kernel-headers
 libblkid
+
+[deps.host]
+pkgconf
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"

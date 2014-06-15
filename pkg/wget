@@ -1,12 +1,12 @@
-[deps]
-openssl
+[mirrors]
+http://ftp.gnu.org/gnu/wget/wget-1.13.tar.xz
 
 [main]
 filesize=1446492
 sha512=e21f409306869ad5ca956b9cfe4605f5945a8594004b83c3287ffc1b4f25f3ea91275923ebf5e07fde7ba30fa099adc50da4c4ea32b412bcb2d92e31abc9efc1
 
-[mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.13.tar.xz
+[deps]
+openssl
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

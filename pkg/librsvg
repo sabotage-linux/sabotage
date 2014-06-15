@@ -1,17 +1,17 @@
+[mirrors]
+http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.34/librsvg-2.34.2.tar.xz
+
 [main]
 filesize=499108
 sha512=d056e759544a2b8c90c01d32d78131dcc4f3312508548d46038ae1a274ad213b43c11c659595bf4f3df5d6576f6e0601997b192ae1f170f9d2cd7a051e767efd
 
-[mirrors]
-http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.34/librsvg-2.34.2.tar.xz
-
 [deps]
-gdk-pixbuf
-libxml2
-pango
 cairo
 fontconfig
 freetype
+gdk-pixbuf
+libxml2
+pango
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1

@@ -5,8 +5,6 @@ http://sigscheme.googlecode.com/files/libgcroots-0.2.3.tar.bz2
 filesize=297542
 sha512=5e858c36631f6a2310fedce1b2919f10188cd4c350766f2cb080432487632026d14748f45c3dfd359da50356b2bd07f724819234a338a4ad8f16b4cf5a635456
 
-[deps]
-
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

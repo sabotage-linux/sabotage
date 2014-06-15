@@ -1,9 +1,9 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.1.tar.bz2
+
 [main]
 filesize=79105
 sha512=0b8eaebd63d194aad5e395f9596e3099aa0a503dd892c62ef805f1a566c3a83eeca85d2bd47c680867e2903801bddc5cc0b097bf7db592fe289ead9ead891e04
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

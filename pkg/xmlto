@@ -1,6 +1,6 @@
 [mirrors]
-https://fedorahosted.org/releases/x/m/xmlto/xmlto-0.0.25.tar.bz2
 http://distfiles.lesslinux.org/xmlto-0.0.25.tar.bz2
+https://fedorahosted.org/releases/x/m/xmlto/xmlto-0.0.25.tar.bz2
 
 [main]
 filesize=116496

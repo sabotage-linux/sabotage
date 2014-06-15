@@ -1,14 +1,17 @@
 [mirrors]
 http://llvm.org/releases/3.4/llvm-3.4.src.tar.gz
+
 [main]
 filesize=15920544
 sha512=4ccd8c4fc15dd9abc43f93b62f0b1349c419a2afeba05304fa98c157325e31dbbdb1587afc18d0a3f5dba14c95d64a3d40a825efe89ddf6f93fa96002496675c
 tardir=llvm-3.4
+
 [deps]
-cmake
-libffi
 clang34
+cmake
 compiler-rt34
+libffi
+
 [build]
 tar xf "$C"/clang-3.4.src.tar.gz || exit 1
 mv ./clang-3.4 ./tools/clang

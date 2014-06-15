@@ -1,12 +1,10 @@
 [mirrors]
-http://mirrors.dotsrc.org/gcrypt/gnupg/gnupg-1.4.13.tar.bz2
 http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/gnupg/gnupg-1.4.13.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/gnupg/gnupg-1.4.13.tar.bz2
 
 [main]
 filesize=3685873
 sha512=62c330e02c311206c653cbadf21783599362601f4375ecb32a5bc8ff3f5c64160d95d28555fe06d7fb612c3802c87e0be1d0a68d61b404fdfcecf3580f14b738
-
-[deps]
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

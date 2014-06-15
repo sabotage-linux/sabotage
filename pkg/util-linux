@@ -1,6 +1,6 @@
 [deps]
-util-linux-tarball
 ncurses
+util-linux-tarball
 
 [build]
 mkdir -p "$butch_build_dir"

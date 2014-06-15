@@ -5,8 +5,6 @@ ftp://ftp.isc.org/isc/bind9/9.9.4-P1/bind-9.9.4-P1.tar.gz
 filesize=7512868
 sha512=761f60d9197bcb08c3ac150190194c90c2848478bfb61769c8a5325b5060ce81ff6f5d03fcb69445cf954acfeb0f307ef3a9f10351e03f51d638fc482250ed53
 
-[deps]
-
 [build]
 #patch -p1 < "$K"/some.patch || exit 1
 

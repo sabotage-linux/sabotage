@@ -1,17 +1,17 @@
-[deps]
-alsa-lib
-ncurses
-
 [mirrors]
 ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.0.27.2.tar.bz2
-http://gentoo.netnitco.net/distfiles/alsa-utils-1.0.27.2.tar.bz2
 http://alsa.cybermirror.org/utils/alsa-utils-1.0.27.2.tar.bz2
-http://distfiles.lesslinux.org/alsa-utils-1.0.27.2.tar.bz2
 http://distfiles.exherbo.org/distfiles/alsa-utils-1.0.27.2.tar.bz2
+http://distfiles.lesslinux.org/alsa-utils-1.0.27.2.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-utils-1.0.27.2.tar.bz2
 
 [main]
 filesize=1143802
 sha512=c9a4943852ec1a71a5a8d2c99e1df0ba96a5d9d1196cabfdb6655f58c6a9a5a9d40dea62de019f5ed0fad0885800403c48a4a6c86b67af7fbd842097881c2bd6
+
+[deps]
+alsa-lib
+ncurses
 
 [build]
 patch -p1 < "$K"/alsa-utils_mixer_widget.patch || exit 1

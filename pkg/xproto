@@ -1,9 +1,9 @@
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/xproto-7.0.24.tar.bz2
+
 [main]
 filesize=292795
 sha512=c5b192c7c41e40fc5cd0b47cdb7d2b619f680fb004c296483a3a6493c4aeed2a3be5b6fb333e424679c6045d2a8aad61cce66a1cfe894cbed1c8c47932185ea9
-
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/xproto-7.0.24.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

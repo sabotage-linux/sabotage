@@ -1,11 +1,9 @@
-[main]
-filesize=583045
-sha512=2369b87627c6f075b58b88189344989969050289185596db1174e6d918baa2b86e6076c8ec9cc68953df10c13bd1145d841603f26bde8a80111fb0d7091bf1c7
-
 [mirrors]
 http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz
 
-[deps]
+[main]
+filesize=583045
+sha512=2369b87627c6f075b58b88189344989969050289185596db1174e6d918baa2b86e6076c8ec9cc68953df10c13bd1145d841603f26bde8a80111fb0d7091bf1c7
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

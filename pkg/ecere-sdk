@@ -1,26 +1,26 @@
 [mirrors]
-http://switch.dl.sourceforge.net/project/ecere/ecere/0.44.07/ecere-sdk-0.44.07.tar.gz
 http://surfnet.dl.sourceforge.net/project/ecere/ecere/0.44.07/ecere-sdk-0.44.07.tar.gz
+http://switch.dl.sourceforge.net/project/ecere/ecere/0.44.07/ecere-sdk-0.44.07.tar.gz
 
 [main]
 filesize=17033847
 sha512=cf63213ff4903be828a4a355c917e64ddeb253d1afc33e752c484681d7d2842107733664925ea500829aac5a4590a2d81445a0bbbab3464122cacb55c83b4c64
 
 [deps]
+fontconfig
+freetype
+gdb
 giflib
-libx11
 libffi
-ncurses
 libjpeg
 libpng
-zlib
-xextproto
+libx11
 libxrender
-freetype
-fontconfig
+ncurses
 sqlite
 x11-font-dejavu
-gdb
+xextproto
+zlib
 
 [build]
 patch -p1 < "$K"/ecere-sabotage.patch || exit 1

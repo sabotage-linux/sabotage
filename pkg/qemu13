@@ -7,8 +7,8 @@ sha512=2b314590363697140c3f7b3c445a40782f34c3d8911ded66e15ddd4470c7f38d0035fa09b
 
 [deps]
 glib
-sdl
 libx11
+sdl
 
 [build]
 

@@ -1,6 +1,9 @@
 [deps]
 9base
+bedrock-scripts
 busybox
+capchroot
+dynamic-toolchain
 e2fsprogs
 extlinux
 gcc4
@@ -9,7 +12,5 @@ m4
 mpc
 mpfr
 musl
-dynamic-toolchain
 zlib
-capchroot
-bedrock-scripts
+

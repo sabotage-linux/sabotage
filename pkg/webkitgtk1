@@ -11,11 +11,11 @@ gst01-plugins-base
 gtk+2
 icu
 libsoup
+libxcomposite
+libxt
 mesalib
 ruby
 sqlite
-libxt
-libxcomposite
 
 [build]
 patch -p1 < "$K/webkitgtk1-assert.patch"

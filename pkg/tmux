@@ -1,11 +1,11 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz
+http://prdownloads.sourceforge.net/tmux/tmux-1.6.tar.gz
+http://switch.dl.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz
+
 [main]
 filesize=388633
 sha512=5c7b311d011f2f2027926a615d4300e97fd22f3ae32b0c364fdf935ff02124c59d1d0c48e7e9d572229c7600b6583fd679f4b960a5af872305f005d27350ad9c
-
-[mirrors]
-http://prdownloads.sourceforge.net/tmux/tmux-1.6.tar.gz
-http://kent.dl.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz
-http://switch.dl.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz
 
 [deps]
 libevent

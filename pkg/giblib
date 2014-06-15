@@ -1,14 +1,14 @@
+[mirrors]
+http://linuxbrit.co.uk/downloads/giblib-1.2.4.tar.gz
+
 [main]
 filesize=287653
 sha512=4866df223e6d219a5c9a327874bcd67260c83fba8f99862222df41ef86fb31efa0172a777bf46c853ca380dc2a64bbd41bf4fd658fcb84a924cab4e0f525dcfd
 
-[mirrors]
-http://linuxbrit.co.uk/downloads/giblib-1.2.4.tar.gz
-
 [deps]
 freetype
-libxext
 imlib2
+libxext
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

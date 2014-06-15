@@ -1,16 +1,17 @@
 [mirrors]
 http://pypi.python.org/packages/source/p/pip/pip-1.3.1.tar.gz
+
 [main]
 filesize=247594
 sha512=b969797d4c93aabefa4b66e0ad3d2c3ccedd3324e68bb1fa81d383f1e867d24ce2fb91851b0470607312041e3c3c0224c920be2e77d6f9af01084146c65f308a
-
-[deps.run]
-python
 
 [deps.host]
 python
 setuptools
 wget
+
+[deps.run]
+python
 
 [build]
 python setup.py build || exit 1

@@ -1,15 +1,16 @@
+[mirrors]
+http://xcb.freedesktop.org/dist/libxcb-1.10.tar.bz2
+
+[main]
+filesize=475211
+sha512=c29ab5027498635d58fd7bfcd77899a406116b25fa8c4ec6513fc1395d8a0f99f602ad20b507660a62000b6fc879860d182cafd29af590e8b14f55150a064f7a
+
 [deps]
-xcb-proto
 libpthread-stubs
 libxau
 libxslt
 python
-
-[mirrors]
-http://xcb.freedesktop.org/dist/libxcb-1.10.tar.bz2
-[main]
-filesize=475211
-sha512=c29ab5027498635d58fd7bfcd77899a406116b25fa8c4ec6513fc1395d8a0f99f602ad20b507660a62000b6fc879860d182cafd29af590e8b14f55150a064f7a
+xcb-proto
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

@@ -1,10 +1,10 @@
-[main]
-filesize=597347
-sha512=858cae086aaca14381961ea13fd77d4b6c16e8fb7b533c83c828c0797ad1f14be25bb55b05b608727c54251e2b92615e674408b95e07e345dbdd11f1d5cf73f3
-
 [mirrors]
 ftp://ftp.astron.com/pub/file/file-5.07.tar.gz
 http://dbg.download.sourcemage.org/fallback/file-5.07.tar.gz
+
+[main]
+filesize=597347
+sha512=858cae086aaca14381961ea13fd77d4b6c16e8fb7b533c83c828c0797ad1f14be25bb55b05b608727c54251e2b92615e674408b95e07e345dbdd11f1d5cf73f3
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

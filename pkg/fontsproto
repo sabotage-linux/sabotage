@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/fontsproto-2.1.2.tar.bz2
 
 [main]
 filesize=141990
 sha512=728d4df6d65b811cc2516cddcd1ba53aadf75521450baaad27ae10448e8eda66c4898369b4cff13874c26b5541cbac231190f7f32f873939aa6d4a72ee720050
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/fontsproto-2.1.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

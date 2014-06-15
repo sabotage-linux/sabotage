@@ -1,18 +1,18 @@
-[deps]
-bison
-libx11
-libxmu
-libxext
-libice
-libsm
-libxt
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/twm-1.0.6.tar.bz2
 
 [main]
 filesize=266272
 sha512=9326ab5687734e09cf36f1993d085fb72ed24efefaa9e426f8adc10ae4bdbccc7bff741622beac7284c2b8c0b56b79e9b0172d4f149f660d5524c05104eb670a
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/twm-1.0.6.tar.bz2
+[deps]
+bison
+libice
+libsm
+libx11
+libxext
+libxmu
+libxt
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

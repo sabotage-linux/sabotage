@@ -1,7 +1,7 @@
 [mirrors]
+http://sources.openelec.tv/devel/pycrypto-2.6.tar.gz
 https://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/pycrypto-2.6.tar.gz
 https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.tar.gz
-http://sources.openelec.tv/devel/pycrypto-2.6.tar.gz
 
 [main]
 filesize=443445

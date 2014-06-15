@@ -8,11 +8,11 @@ sha512=59f380e52c84b69819ef7d321f323950c22306119cfa7b38809a23e83f9a3af1e35b5d66d
 [deps]
 expat
 freetype
+lcms2
+libjpeg
 libpng
 libtiff
-libjpeg
 zlib
-lcms2
 
 [build]
 # may need some additional fonts

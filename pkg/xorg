@@ -1,6 +1,4 @@
 [deps]
-xorg-proto-headers
-xorg-libraries
 fontconfig
 freetype
 libfontenc
@@ -26,20 +24,22 @@ pixman
 setxkbmap
 twm
 util-macros
+x11-font-dejavu
 xauth
 xclock
 xextproto
+xf86-input-joystick
+xf86-input-keyboard
+xf86-input-mouse
+xf86-video-fbdev
 xinit
 xkbcomp
 xkeyboard-config
 xlogo
 xmodmap
+xorg-libraries
+xorg-proto-headers
 xorg-server
 xterm
 xtrans
-x11-font-dejavu
-xf86-input-keyboard
-xf86-input-mouse
-xf86-input-joystick
-xf86-video-fbdev
 

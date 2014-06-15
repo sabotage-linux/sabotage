@@ -1,16 +1,15 @@
+[mirrors]
+http://download.enlightenment.org/releases/evas_generic_loaders-1.7.8.tar.gz
+
 [main]
 filesize=258247
 sha512=f793f1efdcdc60c899b355d47648731fcb11d30fb31a9e41dc02ca057a8881e27062d2514e1b2b651464c5c8e49a40325d0d3e5f2200427608f6371cb2545856
 
-[mirrors]
-http://download.enlightenment.org/releases/evas_generic_loaders-1.7.8.tar.gz
-
 [deps]
-musl
 eina
 gstreamer01
 libraw
-
+musl
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

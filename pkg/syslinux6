@@ -1,22 +1,22 @@
-[deps]
-kernel-headers
-gnu-efi-libs
-mtools
-
-[deps.host]
-perl
-nasm
+[mirrors]
+http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
+http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
+http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
+http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
+http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
 
 [main]
 filesize=9772883
 sha512=ca3da9d7f5f1c4ccc2eaa1cc33f5d2bb4afe2518dadeb863169ba2cce023c62112e5312181b047ce868a217e36f9b103622cf2e0e8559c3b7de35ad191388450
 
-[mirrors]
-http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
-http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
+[deps]
+gnu-efi-libs
+kernel-headers
+mtools
+
+[deps.host]
+nasm
+perl
 
 [build]
 sed -i 's,codepage com32 lzo core memdisk mbr memdump gpxe sample,codepage com32 core mbr,g' Makefile

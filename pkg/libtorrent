@@ -5,12 +5,12 @@ http://libtorrent.rakshasa.no/downloads/libtorrent-0.13.4.tar.gz
 filesize=768382
 sha512=6a5ea944c1193d1160563828c5901f0cf557f38c4de61153d505344f3c3c8509c765e01b6cc5e3a53ec2bb184a9e8db32ed4ec154e93a93822804210f0fa45d0
 
+[deps]
+curl
+libsigc++
+
 [deps.host]
 dynamic-toolchain
-
-[deps]
-libsigc++
-curl
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

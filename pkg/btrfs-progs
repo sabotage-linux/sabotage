@@ -1,20 +1,21 @@
 [mirrors]
-https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
 http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
+https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
+
 [main]
 filesize=261220
 sha512=655e8d9ecf297281d07312bd19a6ab942f354a370147e0ca46a22e5bcd7485ed0d415247ba21162617a23b7f9def202cab3bb5dc23ccfa96496043b48dfda785
 
 [deps]
-lzo
-zlib
 acl
-e2fsprogs
-bash
-sparse
-libuuid
 attr
+bash
+e2fsprogs
 libblkid
+libuuid
+lzo
+sparse
+zlib
 
 [build]
 patch -p1 < "$K"/btrfs-progs.patch || exit 1

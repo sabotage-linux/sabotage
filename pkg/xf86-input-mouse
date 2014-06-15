@@ -6,9 +6,9 @@ filesize=353339
 sha512=ef48a39765a874b8063ea0f76abe5240061185c8dde2e613d0833c2436ea133144c027e6130118251d65ed8a487ce6105e3ebd9543728ac8942485aca24550db
 
 [deps]
+inputproto
 xorg-server
 xproto
-inputproto
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1

@@ -1,13 +1,11 @@
 [mirrors]
-http://switch.dl.sourceforge.net/project/jbig2dec/jbig2dec/0.11/jbig2dec-0.11.tar.xz
 http://heanet.dl.sourceforge.net/project/jbig2dec/jbig2dec/0.11/jbig2dec-0.11.tar.xz
 http://surfnet.dl.sourceforge.net/project/jbig2dec/jbig2dec/0.11/jbig2dec-0.11.tar.xz
+http://switch.dl.sourceforge.net/project/jbig2dec/jbig2dec/0.11/jbig2dec-0.11.tar.xz
 
 [main]
 filesize=258908
 sha512=90b9e6b00aa42f7eaa8b92d87bf1168884a908740844b4626e45942a07010cceae274a2c7a8b0f474b6b5fabb78fa1e48e176e6665b5121779cda2543bad8d2e
-
-[deps]
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

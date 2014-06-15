@@ -1,11 +1,9 @@
-[main]
-filesize=7009201
-sha512=fdd3c230f4f7a687d36db1b8f7baab5e553cf55756e2d49a88ffaa4260c8cb949897dec9f48655e96608ef0093ac101b60c132060f06c711c0ab81aa3f148b5c
-
 [mirrors]
 http://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
 
-[deps]
+[main]
+filesize=7009201
+sha512=fdd3c230f4f7a687d36db1b8f7baab5e553cf55756e2d49a88ffaa4260c8cb949897dec9f48655e96608ef0093ac101b60c132060f06c711c0ab81aa3f148b5c
 
 [build]
 

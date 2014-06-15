@@ -1,6 +1,6 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/29.0.1/source/firefox-29.0.1.source.tar.bz2
 ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/29.0.1/source/firefox-29.0.1.source.tar.bz2
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/29.0.1/source/firefox-29.0.1.source.tar.bz2
 
 [main]
 filesize=142735471
@@ -8,22 +8,22 @@ sha512=a1ebff4f4f3359bed54eae229e54de22a92adb0dbfe627a71e8e4e41330c9fbe17e238aaf
 tardir=mozilla-release
 
 [deps]
-libevent
-gtk+2
 alsa-lib
-zip
-zlib
-libpng
 bzip2
+gtk+2
+libevent
+libogg
+libpng
+libvorbis
 libxt
 mesalib
-libogg
-libvorbis
+zip
+zlib
 
 [deps.host]
-yasm
 perl
 python
+yasm
 
 [build]
 FF_VERSION=29.0.1

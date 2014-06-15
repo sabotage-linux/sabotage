@@ -6,8 +6,6 @@ filesize=23875368
 sha512=5300b1d97340850d3d72af220ff5cbc2ae2820aff4367b60e52f17ead9831011dcda3d4c5af57c899d47b6fc964b23c9c8922954b32d314d669eb1a479a2efb0
 tardir=icu
 
-[deps]
-
 [build]
 cd source
 ./configure --prefix="$butch_prefix" --disable-tests --disable-samples || exit 1

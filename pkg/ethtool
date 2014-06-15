@@ -5,8 +5,6 @@ ftp://www.kernel.org/pub/software/network/ethtool/ethtool-3.14.tar.xz
 filesize=194360
 sha512=745feeb4fa3bfcee40c9299f7f6102646029e8079f8ed9904a348f09ab5f23b17d929c65cf892d38fe38b629d8dedf8706c1902993da3c24337c52e65bb161de
 
-[deps]
-
 [build]
 patch -p1 < "$K"/ethtool-uint.patch || exit 1
 

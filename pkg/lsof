@@ -5,8 +5,6 @@ ftp://sunsite.ualberta.ca/pub/Mirror/lsof/lsof_4.87.tar.bz2
 filesize=773664
 sha512=5e811225dd65366e3ef49628d567864fadda1dbda2d66a5e473123e73c468f5a3a577ae4e1b701a55ac49c2a759dab5c413663121c260a2804fca10ece902766
 
-[deps]
-
 [build]
 tar xf lsof_4.87_src.tar && cd lsof_4.87_src
 

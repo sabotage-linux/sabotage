@@ -1,10 +1,11 @@
+[mirrors]
+ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
+http://ftpmirror.gnu.org/gcc/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
+http://gcc-uk.internet.bs/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
+http://gcc.cybermirror.org//releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
+http://www.netgull.com/gcc/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
+
 [main]
 filesize=6477571
 sha512=b69d538f3def569aa3792e0b4acb37ce71ead8dea0c7032b57d02d05bd2c9a32f3da3837a059f85b3efdeab0a275d7cbb66084cfbad91f5487c59d1103a9806c
 
-[mirrors]
-http://ftpmirror.gnu.org/gcc/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
-ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
-http://gcc.cybermirror.org//releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
-http://gcc-uk.internet.bs/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2
-http://www.netgull.com/gcc/releases/gcc-4.5.4/gcc-g++-4.5.4.tar.bz2

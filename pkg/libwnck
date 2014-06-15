@@ -6,10 +6,10 @@ filesize=482211
 sha512=9ad6cd029137ed740d118c167d72cc063482889c43491856767a1d1046ab3096f8ac12d21f1610b3afcd9c44ed139b1f167c452cef1ba2c88682982f75c44e8f
 
 [deps]
-libstartup-notification
 cpan-XML-Parser
-libxt
 gtk+2
+libstartup-notification
+libxt
 
 [build]
 #patch -p1 < "$K/some.patch"

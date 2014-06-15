@@ -1,11 +1,9 @@
-[main]
-filesize=12926
-sha512=bcad873251be6b5de21311531e8d24330003b42790cb94d559a0d1be45408b3e0722c14e7c7f2cefd0717fd2a2d7a100fa08fc4e10e7bb669935909602286553
-
 [mirrors]
 http://dl.suckless.org/tools/tabbed-0.6.tar.gz
 
-[deps]
+[main]
+filesize=12926
+sha512=bcad873251be6b5de21311531e8d24330003b42790cb94d559a0d1be45408b3e0722c14e7c7f2cefd0717fd2a2d7a100fa08fc4e10e7bb669935909602286553
 
 [build]
 sed -i 's,PREFIX = /usr/local,PREFIX= /,' config.mk || exit 1

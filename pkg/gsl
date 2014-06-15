@@ -1,10 +1,9 @@
 [mirrors]
 http://mirror.switch.ch/ftp/mirror/gnu/gsl/gsl-1.15.tar.gz
+
 [main]
 filesize=3281134
 sha512=dcea557bcd34d4ee6d2c52741c2f95702e5e6110a99f033b412489b1930d21a40ead29392f754656375801d706df01199878263e856ca3081f9a514dc3299185
-
-[deps]
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

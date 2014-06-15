@@ -1,24 +1,26 @@
 [mirrors]
 http://www.php.net/distributions/php-5.4.24.tar.bz2
+
 [main]
 filesize=12256796
 sha512=c4bf209c9da183d0fa4aa96ea1e58e93f8034bd23dbe009dfc15a432416cb9fde441627d0068a9ddbd6e8ca273d97096e169dfe2c1a3cc99e49f2a181b664c6c
+
 [deps]
-gettext
-freetype
-libedit
-re2c
+bzip2
 curl
 db
-openssl
-openssh
+freetype
+gettext
+json-c
+libedit
 libjpeg
 libpng
-zlib
-pcre
 libxml2
-json-c
-bzip2
+openssh
+openssl
+pcre
+re2c
+zlib
 
 [build]
 [ -z "$butch_prefix" ] && butch_prefix=/

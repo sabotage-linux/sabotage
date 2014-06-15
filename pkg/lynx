@@ -1,16 +1,16 @@
-[deps]
-openssl
-ncurses
-gzip
-ca-certificates
+[mirrors]
+http://lynx.isc.org/current/lynx2.8.8dev.9.tar.bz2
 
 [main]
 filesize=2521699
 sha512=34324bee9c51d1330bb141e0c9c7aaeaeea7968b8b33fa7075bf6a8fd412f28020a28a60f1729d014b11ac716975a9f5c07c6f226dd6416965cf1ab780145358
 tardir=lynx2-8-8
 
-[mirrors]
-http://lynx.isc.org/current/lynx2.8.8dev.9.tar.bz2
+[deps]
+ca-certificates
+gzip
+ncurses
+openssl
 
 [build]
 

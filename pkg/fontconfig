@@ -1,16 +1,16 @@
-[deps]
-freetype
-expat
-
-[deps.host]
-pkgconf
+[mirrors]
+http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.93.tar.bz2
 
 [main]
 filesize=1526089
 sha512=5339ac2db160b672a4c9be09f019120c003d90ff6ad7d99894c4ffef7aefb7f3913d886090e4248c33a93481b522561b6057e45243842c8c830e1608e7e5d83f
 
-[mirrors]
-http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.93.tar.bz2
+[deps]
+expat
+freetype
+
+[deps.host]
+pkgconf
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in

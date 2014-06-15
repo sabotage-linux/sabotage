@@ -6,14 +6,14 @@ http://ftp.fi.netbsd.org/pub/gnu/easysw/fltk/snapshots/fltk-1.3.x-r9708.tar.gz
 filesize=4343506
 sha512=b292662d0286fc660e5d6c769a5a22311e1acf8264706383dc8f5701a96a409d6844ec23aa03a5926f48de1db3720d78b2040db171b745a0f4453911ff882c09
 
+[deps]
+alsa-lib
+libjpeg
+libpng
+libx11
+
 [deps.host]
 dynamic-toolchain
-
-[deps]
-libpng
-libjpeg
-alsa-lib
-libx11
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

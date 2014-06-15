@@ -1,12 +1,13 @@
 [mirrors]
 http://downloads.sourceforge.net/docbook2x/docbook2X-0.8.8.tar.gz
+
 [main]
 filesize=723909
 sha512=cc336017ad734fc62d96d289105e8ea154c418a03a37f3e21b0b3520063f8b466b4aae5a5aec2e0b83f6324c6c79b5557247a93338d0a9882a94a44112f6b65c
 
 [deps]
-iconv
 cpan-XML-SAX
+iconv
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1

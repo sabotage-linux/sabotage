@@ -1,15 +1,15 @@
+[mirrors]
+http://abisource.org/downloads/abiword/2.8.6/source/abiword-2.8.6.tar.gz
+
 [main]
 filesize=9218827
 sha512=327ffa6da73f7a1b74d1bc374239ac087ee76672da590626da3a068f972684b0963c50641718c39a7fb2429a56c1076bdfd67e8f7f0eab0eda90b70cf846bbbd
 
-[mirrors]
-http://abisource.org/downloads/abiword/2.8.6/source/abiword-2.8.6.tar.gz
-
 [deps]
-librsvg
-goffice
 fribidi
 glib
+goffice
+librsvg
 wv
 
 [build]

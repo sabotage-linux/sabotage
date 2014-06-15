@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/scrnsaverproto-1.2.2.tar.bz2
 
 [main]
 filesize=118820
 sha512=e74a512a6101967983a1d713d22a1f456f77519998116ef0f0a9e4b44ae4730ecd41eb9c0f7fa53e9f5c94967541daf10693d701af832597f5347461c5990ebc
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/scrnsaverproto-1.2.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1

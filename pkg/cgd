@@ -1,6 +1,7 @@
 [deps]
-go
 git
+go
+
 [build]
 repo="github.com/uriel/cgd"
 

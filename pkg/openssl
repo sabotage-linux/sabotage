@@ -9,8 +9,8 @@ sha512=687d12ae13e364b15622f68933894050d577a4f8647bd68c7e9e86eb9d9f49cd2ebb0da3c
 zlib
 
 [deps.host]
-perl
 patch
+perl
 
 [build]
 # https://github.com/entoo/portage/tree/gentoo.org/dev-libs/openssl

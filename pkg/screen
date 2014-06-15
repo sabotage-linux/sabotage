@@ -5,8 +5,6 @@ http://ftp.gnu.org/gnu/screen/screen-4.2.1.tar.gz
 filesize=1062485
 sha512=30826b2a2fc436483276b90cc4c6679470f7ccb7098c9bb8457d0e534998cd12da02882cf80678465f6540cade170c3fdc6bdfa31b07359ff0d3ffe2d6063710
 
-[deps]
-
 [build]
 patch -p1 < "$K"/screen-root.patch || exit 1
 patch -p1 < "$K"/screen-configure.patch || exit 1

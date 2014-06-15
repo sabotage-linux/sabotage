@@ -1,13 +1,13 @@
-[deps.host]
-gcc4
-
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.2.tar.gz
 http://www.etalabs.net/musl/releases/musl-1.1.2.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.2.tar.gz
 
 [main]
 filesize=883627
 sha512=54d279efea6e122567c936e47401df5c0f1493c42eb3199b0ba3053b1882a864fc1a71d19ad945bc4f328407231c54a7897413e37f4bc33337a243c044a26b4a
+
+[deps.host]
+gcc4
 
 [build]
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib || exit 1

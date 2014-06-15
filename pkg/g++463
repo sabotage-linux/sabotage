@@ -1,6 +1,7 @@
+[mirrors]
+http://ftpmirror.gnu.org/gcc/gcc-4.6.3/gcc-g++-4.6.3.tar.bz2
+
 [main]
 filesize=6928430
 sha512=64efbce0603b4e7fd4bda6afd82267ebebbb63971c6891181c200a2a2213a2f904a06a269ae74e9ab4562c7cafe065105010266ca813dcd6b6b17c678929dca5
 
-[mirrors]
-http://ftpmirror.gnu.org/gcc/gcc-4.6.3/gcc-g++-4.6.3.tar.bz2

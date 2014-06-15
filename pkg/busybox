@@ -1,3 +1,6 @@
+[mirrors]
+http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
+
 [main]
 filesize=2186738
 sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837ebc3cc9954deef3e8f766d16a1928aecb2c169fe3de5a722eea7ea3dd
@@ -8,11 +11,6 @@ kernel-headers
 [deps.host]
 patch
 stage0_musl
-
-[mirrors]
-http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
-
-[build]
 
 [ "$STAGE" = "U" ] && exit 0
 if [ "$STAGE" = "0" ] ; then

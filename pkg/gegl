@@ -8,11 +8,11 @@ filesize=7502040
 sha512=16ef3f6852fd8efef2b6468a754342a2d003f2c2bef468d9465a448e6c89dedb8e791570f073a9faed05218a7c94c6c418eaa0f3abeadfb3e6b88d766ab792c8
 
 [deps]
-pango
 cairo
 glib
 gtk+2
 libpng
+pango
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

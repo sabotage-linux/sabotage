@@ -1,6 +1,6 @@
 [deps]
-lxde-icon-theme
 gtk+2
+lxde-icon-theme
 
 [build]
 dest="$butch_install_dir""$butch_prefix"

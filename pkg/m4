@@ -1,11 +1,9 @@
-[deps]
+[mirrors]
+http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
 
 [main]
 filesize=1258362
 sha512=ae86978b2eb23e0afd9ae551db997a0c57faffbca95a5bac71480e24237d7ddd17d7bc00c59b3f5cdcc8af61dd75569af240c8aa0481cca3eb156e1aa4112e07
-
-[mirrors]
-http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
 
 [build]
 "$K"/bin/gnulibfix lib > /dev/null

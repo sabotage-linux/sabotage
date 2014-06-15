@@ -1,15 +1,15 @@
-[deps]
-musl
-
-[deps.host]
-pkgconf
+[mirrors]
+http://archive.apache.org/dist/apr/apr-1.4.6.tar.bz2
 
 [main]
 filesize=785724
 sha512=1842e2dfc9315d9dd39acd4545d80fad45dcb419c9bfb4423453ca8727aa78d864fd48f43e68a696345b4c0ee2e9eb50b3eddd96d3eaf6ed3c5d48211831b8e4
 
-[mirrors]
-http://archive.apache.org/dist/apr/apr-1.4.6.tar.bz2
+[deps]
+musl
+
+[deps.host]
+pkgconf
 
 [build]
 CFLAGS="-include stdlib.h -include pwd.h -D_GNU_SOURCE -DSTDC_HEADERS" ./configure -C \

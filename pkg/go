@@ -1,11 +1,14 @@
 [mirrors]
 http://storage.googleapis.com/golang/go1.2.2.src.tar.gz
+
 [main]
 filesize=9520571
 sha512=4e3cfb655888f064a447f969dbb12666f7f9b4300d860d8718a9a374135da6e137f887eec48feb171769ba1c11e3646806f67fcebf9acb257dcb8f8fc77b9050
 tardir=go
+
 [deps]
 bash
+
 [build]
 patch -p1 < "$K"/go.patch || exit 1
 cd ./src && ./all.bash 

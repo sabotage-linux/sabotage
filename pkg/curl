@@ -1,14 +1,14 @@
-[deps]
-openssl
-ca-certificates
-zlib
-
 [mirrors]
 http://curl.haxx.se/download/curl-7.30.0.tar.lzma
 
 [main]
 filesize=2145655
 sha512=55518ab24139e9c7f61bcccabb89ed3c2f769320d97975a3644a32645d4f88bc5df29c413c3591f930aad39e1a264fcf2d3f444aeb9926bd066b8e947f73c210
+
+[deps]
+ca-certificates
+openssl
+zlib
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

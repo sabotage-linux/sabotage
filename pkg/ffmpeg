@@ -1,15 +1,15 @@
+[mirrors]
+http://ffmpeg.org/releases/ffmpeg-2.0.1.tar.bz2
+
 [main]
 filesize=6187933
 sha512=8589de3133881616ad2fa5e66338c4a06a01cb102dba7f60b63127fcf359227cff8fef652bf4c991554296edf7aafae1241afa764fcf5ceb571cfdd2e9bc6051
 
-[mirrors]
-http://ffmpeg.org/releases/ffmpeg-2.0.1.tar.bz2
-
 [deps]
 alsa-lib
-libvorbis
-libflac
 bash
+libflac
+libvorbis
 
 [build]
 patch -p1 < "$K"/ffmpeg-mprotect.patch || exit 1

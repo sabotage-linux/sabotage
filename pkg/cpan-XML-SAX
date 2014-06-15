@@ -1,14 +1,14 @@
-[deps]
-perl
-cpan-XML-SAX-Base
-cpan-XML-Namespacesupport
-
 [mirrors]
 http://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-0.99.tar.gz
 
 [main]
 filesize=46703
 sha512=f0c55efee4e3010deb474377394f9635bd8adc50108b562aeef54a2eef312cf87fb240d0495b5a5bd0c4cd5251db1bc74ba6cb549614708b1627f330959735e1
+
+[deps]
+cpan-XML-Namespacesupport
+cpan-XML-SAX-Base
+perl
 
 [build]
 perl Makefile.PL || exit 1

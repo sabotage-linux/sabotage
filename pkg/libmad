@@ -7,8 +7,6 @@ http://switch.dl.sourceforge.net/project/mad/libmad/0.15.1b/libmad-0.15.1b.tar.g
 filesize=502379
 sha512=2cad30347fb310dc605c46bacd9da117f447a5cabedd8fefdb24ab5de641429e5ec5ce8af7aefa6a75a3f545d3adfa255e3fa0a2d50971f76bc0c4fc0400cc45
 
-[deps]
-
 [build]
 # patch from debian: http://patch-tracker.debian.org/package/libmad
 patch -p1 < "$K"/libmad-mips-asm.patch || exit 1

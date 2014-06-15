@@ -7,9 +7,9 @@ sha512=6ee52444b93fc2953e8080383cc0cdc618a826ddd5252bf5f6faf27d91699a414924d6015
 
 [deps]
 glib
-sdl
 libx11
 pixman
+sdl
 
 [build]
 

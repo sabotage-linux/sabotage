@@ -1,9 +1,9 @@
+[mirrors]
+http://www.brain-dump.org/projects/dvtm/dvtm-0.9.tar.gz
+
 [main]
 filesize=34557
 sha512=33c6f32510b17c0dcb3c8a216fd8c4cde14d6874495a9e0992c2104fda2ee7edb9a40de25c2efc84337b6f61858c1bf3e0e4ed5d77ab4d2db01ddfa02c1d4eaa
-
-[mirrors]
-http://www.brain-dump.org/projects/dvtm/dvtm-0.9.tar.gz
 
 [deps]
 ncurses

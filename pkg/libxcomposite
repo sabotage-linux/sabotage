@@ -1,14 +1,14 @@
-[deps]
-compositeproto
-xproto
-libx11
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.4.tar.bz2
 
 [main]
 filesize=283746
 sha512=b15f8fdbe4cb7488bdad161d73ef8e59ef603c5af92d7b573110ba136d7d4ce3749aac45972bce87662b0310b67e831cffad72c45c15bfff988b5b555d4c884b
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.4.tar.bz2
+[deps]
+compositeproto
+libx11
+xproto
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

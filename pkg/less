@@ -1,12 +1,12 @@
-[deps]
-termcap
+[mirrors]
+http://www.greenwoodsoftware.com/less/less-444.tar.gz
 
 [main]
 filesize=307308
 sha512=a701392b8ee6f30e08ab7a3250f1c8592dad9bd0453c758e457335309860a3f2837efa1723f125f95ea3e7e24b9324cab9d2bc5a0236e55c35b22f09c357a25c
 
-[mirrors]
-http://www.greenwoodsoftware.com/less/less-444.tar.gz
+[deps]
+termcap
 
 [build]
 #configure is missing some includes... which lead to implicit declarations

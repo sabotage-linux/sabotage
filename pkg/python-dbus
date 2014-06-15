@@ -6,9 +6,9 @@ filesize=563906
 sha512=65cc9d0fb1f9f58f8ee01fca566d7b15de7d7097ccb3bd6c575a1130f166c1aead3368a0dc15275472699e762ca2864c67598a2e87703bc0b9eb7ced5fd68f18
 
 [deps]
+dbus
 python
 wget
-dbus
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1

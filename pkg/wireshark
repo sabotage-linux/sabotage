@@ -7,10 +7,10 @@ sha512=fd2ad466b122e2044718d8b42d0b323293d2e7fe04af700a1e94d00c720f78ba664e9cdb9
 
 [deps]
 glib
-libpcap
+gnutls
 gtk+2
 libgcrypt
-gnutls
+libpcap
 lua
 
 [build]

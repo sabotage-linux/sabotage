@@ -1,14 +1,14 @@
+[mirrors]
+http://fossies.org/unix/privat/scrot-0.8.tar.gz
+http://linuxbrit.co.uk/downloads/scrot-0.8.tar.gz
+
 [main]
 filesize=74324
 sha512=cba8f589e45758ddbfe4e276399a1ecb0dbe29569be5d85d97733e7f64de2911bd2d03e62700ad0c718a1fc886c2e3def9dee1de5cac884f9e65e772cebe838c
 
-[mirrors]
-http://linuxbrit.co.uk/downloads/scrot-0.8.tar.gz
-http://fossies.org/unix/privat/scrot-0.8.tar.gz
-
 [deps]
-imlib2
 giblib
+imlib2
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

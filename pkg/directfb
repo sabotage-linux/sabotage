@@ -5,8 +5,6 @@ http://www.directfb.org/downloads/Core/DirectFB-1.6/DirectFB-1.6.2.tar.gz
 filesize=4250510
 sha512=47ab8803d6af28b167cd5eb1d231a503aad8cf4d9f3a811a7253af1dc5a49e432f917cf45b4877668cc10936830b76ce238c0102a68929bb604e97b97d3010c1
 
-[deps]
-
 [build]
 patch -p1 < "$K"/directfb-sigval.patch || exit 1
 patch -p1 < "$K"/directfb-comparfn.patch || exit 1

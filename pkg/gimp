@@ -1,20 +1,20 @@
 [mirrors]
 ftp://ftp.gimp.org/pub/gimp/v2.8/gimp-2.8.10.tar.bz2
-http://gimp.cybermirror.org/v2.8/gimp-2.8.10.tar.bz2
 http://ftp.snt.utwente.nl/pub/software/gimp/gimp/v2.8/gimp-2.8.10.tar.bz2
 http://ftp.sunet.se/pub/gnu/gimp/v2.8/gimp-2.8.10.tar.bz2
+http://gimp.cybermirror.org/v2.8/gimp-2.8.10.tar.bz2
 
 [main]
 filesize=20343461
 sha512=21c96832ce61ecb2dad5276b454e7965263b6733add7e4a95cfc5f308fca681bceab21c1b77921332e0725d0e514e06868a4698ca9d7e4b30a28a07c7356a3a8
 
 [deps]
-babl
-gegl
-gtk+2
-glib
 atk
+babl
 gdk-pixbuf
+gegl
+glib
+gtk+2
 shared-mime-info
 
 [build]

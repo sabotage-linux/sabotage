@@ -1,5 +1,6 @@
 [mirrors]
 https://github.com/lloyd/yajl/archive/2.0.4.tar.gz
+
 [main]
 filesize=82793
 sha512=d89e0fcd42fc77e2b3aad82248e6cc198ca49c39e226d683ae5fe2278d87841317f25c2b5071027044d0cfc1097691ea7e912fd417e2d7cec42291359b8d86d7

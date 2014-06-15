@@ -1,14 +1,3 @@
-[deps]
-gmp
-mpfr
-mpc
-
-[deps.host]
-m4
-zlib
-libelf
-
-
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.7.3/gcc-4.7.3.tar.bz2
 
@@ -16,6 +5,16 @@ http://ftpmirror.gnu.org/gcc/gcc-4.7.3/gcc-4.7.3.tar.bz2
 filesize=82904224
 sha512=5671a2dd3b6ac0d23f305cb11a796aebd823c1462b873136b412e660966143f4e07439bd8926c1443b78442beb6ae370ef91d819ec615920294875b722b7b0bd
 tardir=gcc-4.7.3
+
+[deps]
+gmp
+mpc
+mpfr
+
+[deps.host]
+libelf
+m4
+zlib
 
 [build]
 VERSION=4.7.3

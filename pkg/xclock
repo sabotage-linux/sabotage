@@ -1,19 +1,19 @@
-[deps]
-expat
-libx11
-libxrender
-libxft
-libxdmcp
-libxaw
-libxmu
-freetype
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.5.tar.gz
 
 [main]
 filesize=165367
 sha512=bbd5d0a0cf7c0e95adb13e051b5570163fed7ca6e8330136228d15aba2827afe2ebe2b763d027b83f5df83156f0d1aece6fae4b115cb2029571eb841299e65cc
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.5.tar.gz
+[deps]
+expat
+freetype
+libx11
+libxaw
+libxdmcp
+libxft
+libxmu
+libxrender
 
 [build]
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" ./configure -C --prefix="$butch_prefix" || exit 1

@@ -7,12 +7,12 @@ filesize=1670726
 sha512=478103d80264c0cb32912e828f74d0f5b2f10fe310f530a87ebecda7ca547a69e238cd572788f90bda29494494160d459fa6d1356b4fb87c7a8f0bf02e3b75f8
 
 [deps]
-sqlite
 glib
+sqlite
 
 [deps.host]
-python
 dynamic-toolchain
+python
 
 [build]
 # xmms2's waf is broken: when prefix is empty, it will not install any dso's into /lib

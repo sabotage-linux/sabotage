@@ -1,11 +1,9 @@
-[main]
-filesize=1018483
-sha512=b6ccb3e121ea29780219d21c9cd6267c2f7b7ae72fb899bb80e1c54cc33e9eac5363443d93dbfbe37e8e8d295dad2724ac607f0543cc62797919605f68c396aa
-
 [mirrors]
 http://ftp.gnu.org/gnu/cpio/cpio-2.11.tar.bz2
 
-[deps]
+[main]
+filesize=1018483
+sha512=b6ccb3e121ea29780219d21c9cd6267c2f7b7ae72fb899bb80e1c54cc33e9eac5363443d93dbfbe37e8e8d295dad2724ac607f0543cc62797919605f68c396aa
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \

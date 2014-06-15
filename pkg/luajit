@@ -5,8 +5,6 @@ http://luajit.org/download/LuaJIT-2.0.2.tar.gz
 filesize=843031
 sha512=c1afea13ec61a59f37d1f61fc50bcac47208d9d4f0a80689b74e901ad2b34294b6c89a0b4eef54b43f3d2db411660da61b191b0bbfba4ba2f97743a9ee4484e3
 
-[deps]
-
 [build]
 sed -i 's,export PREFIX=,-include config.mak #,' Makefile
 echo "export PREFIX = $butch_prefix" > config.mak

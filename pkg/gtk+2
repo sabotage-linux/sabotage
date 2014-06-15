@@ -6,18 +6,18 @@ filesize=13261132
 sha512=46bd22af861c04cf7d7b704356936f282da9e7edec1e637dd578170396ce6b4a837f660b46334ceb73372a076966e31afc02aaafb5d69796539ddaac1531fedf
 
 [deps]
-pango
-cairo
 atk
+cairo
 gdk-pixbuf
 libx11
-libxext
-libxrender
-libxdamage
 libxcomposite
 libxcursor
-libxrandr
+libxdamage
+libxext
 libxinerama
+libxrandr
+libxrender
+pango
 
 [deps.host]
 pkgconf

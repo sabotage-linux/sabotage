@@ -6,8 +6,6 @@ filesize=1533828
 sha512=f9d25cfd6c6b15bebf6cd63c7014ecf4123798fce637c0da103008758d6a9d5705c3797216a8d1ab3e210c4235f199ab19d7ed0bf6c3582f49eacba1629c5cc0
 tardir=dwarf-20130729
 
-[deps]
-
 [build]
 
 for dir in libdwarf dwarfdump ; do

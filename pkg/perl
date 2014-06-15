@@ -1,12 +1,12 @@
-[deps.host]
-dynamic-toolchain
-
 [mirrors]
 http://www.cpan.org/src/5.0/perl-5.16.3.tar.bz2
 
 [main]
 filesize=13724906
 sha512=c30cda0af9463942e40b5d70a95e69b0640bf0b79d9d9dfa1a61d9d8b9ee05f553fd240be4c8b3c60a1def66c80453e49e865c27d3dd0b686f5c004e1ff58d92
+
+[deps.host]
+dynamic-toolchain
 
 [build]
 VERSION=5.16.3

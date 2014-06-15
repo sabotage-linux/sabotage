@@ -6,8 +6,6 @@ filesize=31600
 sha512=f2cdb5c4ada2a15697601fb11f3c5ff0b7892568f809ba12d042b7428631c2a4c0182fa7d664bd3124bbb0cb1a40307c0e6a6c8c4c2694881674134d7d444c4a
 tardir=tinygc
 
-[deps]
-
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1

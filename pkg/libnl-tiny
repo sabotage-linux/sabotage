@@ -1,13 +1,11 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/libnl-tiny-49d9e43e.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libnl-tiny-49d9e43e.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/libnl-tiny-49d9e43e.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libnl-tiny-49d9e43e.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/libnl-tiny-49d9e43e.tar.xz
 
 [main]
 filesize=49352
 sha512=0eff5e7df9201a5b0ea781369264a8f4a704974c272836921c985b7543d37b76af692c4245bbb6515d214c18d76c952a98f921d808c597f36053dc483cb8ea86
-
-[deps]
 
 [build]
 patch -p1 < "$K/libnl-tiny_if_h.patch"

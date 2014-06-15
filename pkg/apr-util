@@ -1,16 +1,16 @@
+[mirrors]
+http://archive.apache.org/dist/apr/apr-util-1.4.1.tar.bz2
+
+[main]
+filesize=635000
+sha512=2893c8fc14e35d8016c69d36c05712f6f67acade2cf3079954a5626a15ad50ccf88b6e5d9a7458479fea8dfc9f4c8eaf53e5c343c80692208a4edb768d45a9ba
+
 [deps]
 apr
 musl
 
 [deps.host]
 pkgconf
-
-[main]
-filesize=635000
-sha512=2893c8fc14e35d8016c69d36c05712f6f67acade2cf3079954a5626a15ad50ccf88b6e5d9a7458479fea8dfc9f4c8eaf53e5c343c80692208a4edb768d45a9ba
-
-[mirrors]
-http://archive.apache.org/dist/apr/apr-util-1.4.1.tar.bz2
 
 [build]
 ./configure -C --prefix="$butch_prefix" --with-apr="$butch_prefix" \

@@ -1,11 +1,9 @@
-[main]
-filesize=3104375
-sha512=34d69bed190cbc476bcdaa4b703fee1caaeae7e011fe7ea595b29bbd31df57bbe4d19b5940618e0c89a0a4b6c476f9ef03ce9829b4fb3735c1aedf309b0225a5
-
 [mirrors]
 http://www.zsh.org/pub/zsh-5.0.5.tar.bz2
 
-[deps]
+[main]
+filesize=3104375
+sha512=34d69bed190cbc476bcdaa4b703fee1caaeae7e011fe7ea595b29bbd31df57bbe4d19b5940618e0c89a0a4b6c476f9ef03ce9829b4fb3735c1aedf309b0225a5
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

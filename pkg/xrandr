@@ -7,8 +7,8 @@ sha512=da36a3e332c13f4c793be83528b4b9d77bfa2457a9159958ecfe92a460f2c645d353ec0bd
 
 [deps]
 libx11
-libxrender
 libxrandr
+libxrender
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1

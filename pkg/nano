@@ -1,12 +1,12 @@
-[deps]
-ncurses
+[mirrors]
+http://www.nano-editor.org/dist/v2.3/nano-2.3.1.tar.gz
 
 [main]
 filesize=1624332
 sha512=ab8e17f712c0609e5e7e7caeec79c4bb28d1d6e1c837d2a9c2e7a691156f58c6770375d8c410898648a3629a38cf6b3bb2de9a6c02556e62a583c0500a1aec94
 
-[mirrors]
-http://www.nano-editor.org/dist/v2.3/nano-2.3.1.tar.gz
+[deps]
+ncurses
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
