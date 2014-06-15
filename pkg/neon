@@ -1,17 +1,17 @@
-[deps]
-musl
-openssl
-expat
-
-[deps.host]
-pkgconf
+[mirrors]
+http://www.webdav.org/neon/neon-0.29.6.tar.gz
 
 [main]
 filesize=882267
 sha512=26424f30936170a28fdb0188e10985c2b0e1e4266c4c1832384a02b69828741eb1370015646656f979cc74f2fd6a092d0d32bca401c04939b9890db3fb696260
 
-[mirrors]
-http://www.webdav.org/neon/neon-0.29.6.tar.gz
+[deps]
+expat
+musl
+openssl
+
+[deps.host]
+pkgconf
 
 [build]
 patch -p1 < "$K/neon-configure.patch" || exit 1
