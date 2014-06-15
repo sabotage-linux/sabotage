@@ -1,17 +1,18 @@
 [mirrors]
 http://www.rsyslog.com/files/download/rsyslog/rsyslog-7.4.9.tar.gz
+
 [main]
 filesize=2921782
 sha512=4d79ecf74499cb092eba9ee72398fb78c3669d4ae581c1a925ea5f81feb4a835a8394c093afc6bffe88c10ae9624c118f8f64cc1c080ee11b3377fb8f8e35777
 
 [deps]
-openssl
-libuuid
+gnutls
+json-c
 libestr
 liblogging
-json-c
-gnutls
 librelp
+libuuid
+openssl
 
 [build]
 patch -p1 < "$K"/rsyslog-fcntl.patch
