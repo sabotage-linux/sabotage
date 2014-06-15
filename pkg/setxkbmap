@@ -6,8 +6,8 @@ filesize=155404
 sha512=c9bb05031f34f0e17c0868b1725bd2a135477edf04a94c1dea7d76ebb032bbecfb2f73e6923d1fd81f1e1cc97fc02816f436ae6d891c3dbdfad26ef969e63600
 
 [deps]
-libxkbfile
 libx11
+libxkbfile
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
