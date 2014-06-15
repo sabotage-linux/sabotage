@@ -1,11 +1,9 @@
-[main]
-filesize=625034
-sha512=0a1216d3ff23f76dd90a1fa5b1eadd1276cfedc07bd636e345df23911d2e23bc3780a5ba2e32f2025b517f7137135fb3de6d337f872932466efe480ece364e43
-
 [mirrors]
 http://fribidi.org/download/fribidi-0.19.5.tar.bz2
 
-[deps]
+[main]
+filesize=625034
+sha512=0a1216d3ff23f76dd90a1fa5b1eadd1276cfedc07bd636e345df23911d2e23bc3780a5ba2e32f2025b517f7137135fb3de6d337f872932466efe480ece364e43
 
 [build]
 
