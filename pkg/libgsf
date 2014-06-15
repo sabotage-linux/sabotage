@@ -6,9 +6,9 @@ filesize=525004
 sha512=44a231943582005024300f3d73ae7720fdc6f501fbd4685170a6da2ecdf44e3d15b95d2e6eda766c8c07b9220e9e9e2832cf5c1e7f66c55026e61ca1e6cff31e
 
 [deps]
-libxml2
 glib
 intltool
+libxml2
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
