@@ -1,15 +1,15 @@
-[deps.host]
-python
-
-[deps]
-python
-
 [mirrors]
 http://xcb.freedesktop.org/dist/xcb-proto-1.10.tar.bz2
 
 [main]
 filesize=138834
 sha512=b979d6432dcb58b5040a460ecb5285c67d288203768e2b6d032acac6593219dda9f29ae95920bc10b1d9451d928e3295f49d8e457b2bfb69d06481219745c6de
+
+[deps]
+python
+
+[deps.host]
+python
 
 [build]
 # xcb-proto will create ${destdir}lib when prefix is empty (missing slash)
