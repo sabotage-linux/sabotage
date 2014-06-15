@@ -6,12 +6,12 @@ filesize=2053021
 sha512=f6d17be10b8277f08d8867b4ced5a89f9de13cc59767958a6c617e583724d0baaafdda6c14ef3c1671cada2a5abdf885b49728910fb64d70a41ace9043b3e372
 
 [deps]
-iw
-openssl
-sqlite
-procps
-libnl-tiny
 ethtool
+iw
+libnl-tiny
+openssl
+procps
+sqlite
 
 [build]
 patch -p1 < "$K"/aircrack-ng-123-uint.patch  || exit 1
