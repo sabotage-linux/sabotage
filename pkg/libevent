@@ -1,13 +1,11 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
+http://prdownloads.sourceforge.net/levent/libevent-2.0.19-stable.tar.gz
+http://switch.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
+
 [main]
 filesize=842961
 sha512=c3b4c95b7d120d656f422b041b6b03de250c8f38f1251c34378c424f7babf572584d7761a09eca7028d88522cb664d9cd24563396eab0bde790b08194e2be705
-
-[mirrors]
-http://prdownloads.sourceforge.net/levent/libevent-2.0.19-stable.tar.gz
-http://kent.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
-http://switch.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
-
-[deps]
 
 [build]
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
