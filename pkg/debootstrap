@@ -1,9 +1,10 @@
+[mirrors]
+http://ftp2.fr.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.56.tar.gz
+
 [main]
 filesize=59501
 sha512=831bd97cd8fe5338315d812c683055f3879ca55c653d565886faf3d17f2fc9462beecd05e923ea8a9ae713c0398e59c6a4affd9b557cf181c04bc2034641fbac
 tardir=debootstrap-1.0.56
-[mirrors]
-http://ftp2.fr.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.56.tar.gz
 
 [deps]
 dpkg
