@@ -7,10 +7,10 @@ filesize=478447
 sha512=22eaf70937c6b72ca41f056bc22abb6084181b7fc67a0089672b80bca2a959a002292fd20648338a6429bce37723fd2d278ed7517c2318c0a757a940f87f5cd4
 
 [deps]
-gtk+2
-libjpeg
 cpan-XML-Parser
+gtk+2
 intltool
+libjpeg
 shared-mime-info
 
 [build]
