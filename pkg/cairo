@@ -8,11 +8,11 @@ sha512=35389305ba0906e2e1beab92966650fc7d7f8f41231e355ea2bf8693a333946f0693c125d
 
 [deps]
 fontconfig
-libpng
 glib
-pixman
+libpng
 libx11
 libxext
+pixman
 
 [build]
 #patch -p1 < "$K/some.patch"
