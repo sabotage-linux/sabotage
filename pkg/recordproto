@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/proto/recordproto-1.14.2.tar.bz2
 
 [main]
 filesize=123033
 sha512=ab82d966ffacb46c001df15b272ca58f996826dc6f6835d3dc4d385b31c682acacb073a380d61938e2f242bffdabdd9b8f7107cd5ac67cb7aa3a28cc14a8ea02
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/recordproto-1.14.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 ./configure -C --prefix="$butch_prefix" || exit 1
