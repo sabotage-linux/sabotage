@@ -1,11 +1,9 @@
-[main]
-filesize=928893
-sha512=48591850f28f1a8f4b4986df14090ef7bd57cbfbad739cb0013db021f6f5bcb3c592b38e36774735499e27b9e99330504f8d9c6022158e25469cbc81d13f7463
-
 [mirrors]
 http://downloads.sourceforge.net/project/aiksaurus/aiksaurus/1.2.1/aiksaurus-1.2.1.tar.gz
 
-[deps]
+[main]
+filesize=928893
+sha512=48591850f28f1a8f4b4986df14090ef7bd57cbfbad739cb0013db021f6f5bcb3c592b38e36774735499e27b9e99330504f8d9c6022158e25469cbc81d13f7463
 
 [build]
 patch -p1 < "$K"/aiksaurus.patch || exit 1
