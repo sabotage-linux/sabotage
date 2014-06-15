@@ -1,12 +1,12 @@
-[deps]
-musl
+[mirrors]
+http://pkgconfig.freedesktop.org/releases/pkg-config-0.25.tar.gz
 
 [main]
 filesize=988899
 sha512=6c50ca542733feeb10301097ade32075c5417ada5bdd195957de8521a28b20e0e7a54ed553fa3e022b24969e9deb97d72e289192cb2a3afc2c86241dc6cafa02
 
-[mirrors]
-http://pkgconfig.freedesktop.org/releases/pkg-config-0.25.tar.gz
+[deps]
+musl
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" || exit 1
