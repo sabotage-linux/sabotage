@@ -6,15 +6,15 @@ filesize=36183747
 sha512=57af87d11109d3ba1ae0e0b06531f4254ccdf7fb27fb5eabecce0c7945d33938c3604f214d3141772a367d754987eff3171f86e3dbbf79ff57f32b46d818b320
 tardir=mozilla
 
-[deps.host]
-perl
-zip
-
 [deps]
 cairo
 glib
 gtk+2
 libIDL
+
+[deps.host]
+perl
+zip
 
 [build]
 patch -p1 < "$K"/thunderbird1-getprotobyname_r.patch || exit 1
