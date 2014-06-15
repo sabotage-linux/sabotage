@@ -1,14 +1,14 @@
+[mirrors]
+http://libass.googlecode.com/files/libass-0.10.1.tar.xz
+
 [main]
 filesize=257792
 sha512=3990886b9e708bf29f48921f65f99cee85031e299065860bce4f3e626970f82e60130b7525c1aaaf40e02c7b49d7003378724dbcf72db5894ab79768776694cf
 
-[mirrors]
-http://libass.googlecode.com/files/libass-0.10.1.tar.xz
-
 [deps]
-libpng
 fontconfig
 fribidi
+libpng
 
 [build]
 #patch -p1 < "$K"/some.patch || exit 1
