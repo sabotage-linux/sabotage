@@ -1,15 +1,15 @@
-[deps]
-curl
-
 [mirrors]
-http://mirror.anl.gov/pub/software/scm/git/git-1.8.4.tar.xz
-https://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
-http://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
 ftp://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
+http://mirror.anl.gov/pub/software/scm/git/git-1.8.4.tar.xz
+http://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
+https://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
 
 [main]
 filesize=3279768
 sha512=f62fcd8f20c0e8dc6909de8ccc950c39703e4c9b36acba643ab22051a1290fbe0eb606c417718ec9978c547a0515c389fbd270a24fbf245afc56a1b837840976
+
+[deps]
+curl
 
 [build]
 
