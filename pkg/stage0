@@ -1,13 +1,13 @@
 [deps]
+binutils
+busybox
+butch
+kernel-headers
+make
+patch
 services
 stage0_gcc
 stage0_musl
-kernel-headers
-butch
-busybox
-patch
-binutils
-make
 
 [build]
 # do not rebuild stage0 packages once we're past that stage 
