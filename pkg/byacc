@@ -1,12 +1,10 @@
-[main]
-tardir=byacc-20120526
-filesize=241153
-sha512=a5dc6d57e91f3155cbaa2d64ef12843055db8a4eab441eb1b5834f67214b6a11d89d48c4afb691dddbd7ab104ed0e5a545a145900193160ad57ddebe746d4745
-
 [mirrors]
 http://invisible-island.net/datafiles/release/byacc.tar.gz
 
-[deps]
+[main]
+filesize=241153
+sha512=a5dc6d57e91f3155cbaa2d64ef12843055db8a4eab441eb1b5834f67214b6a11d89d48c4afb691dddbd7ab104ed0e5a545a145900193160ad57ddebe746d4745
+tardir=byacc-20120526
 
 [build]
 #patch -p1 < "$K/some.patch"
