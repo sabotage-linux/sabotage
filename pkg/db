@@ -1,11 +1,9 @@
-[main]
-filesize=35062469
-sha512=e09a08002b723a056b7a53dea275794a9df104296e7733ec1d7023888f23466095b38614f3ab1acbbb095d10cca70cc14c35c3519a41800eadd6863beb85e3a9
-
 [mirrors]
 http://download.oracle.com/berkeley-db/db-5.3.21.tar.gz
 
-[deps]
+[main]
+filesize=35062469
+sha512=e09a08002b723a056b7a53dea275794a9df104296e7733ec1d7023888f23466095b38614f3ab1acbbb095d10cca70cc14c35c3519a41800eadd6863beb85e3a9
 
 [build]
 patch -p1 < "$K/bdb-configure.patch"
