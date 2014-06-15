@@ -1,24 +1,23 @@
+[mirrors]
+http://download.enlightenment.org/releases/evas-1.7.8.tar.gz
+
 [main]
 filesize=10256632
 sha512=79b1cf51867fb4c1edae19bf3cdca6f88fbbe6d3895cc6121add17581eac7e07e68a813bfd1d691df9d132a8d84ce176b1021165825dd487bd0eccd86c0e257f
 
-[mirrors]
-http://download.enlightenment.org/releases/evas-1.7.8.tar.gz
-
 [deps]
-musl
+cairo
 eina
 evas_generic_loaders
+fontconfig
 freetype
+libjpeg
+libpng
+libtiff
 libx11
 libxcb
-fontconfig
-libpng
-libjpeg
-libtiff
+musl
 sdl
-cairo
-
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
