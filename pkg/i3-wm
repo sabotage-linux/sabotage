@@ -1,19 +1,19 @@
+[mirrors]
+http://i3wm.org/downloads/i3-4.7.2.tar.bz2
+
 [main]
 filesize=897398
 sha512=eae646b97c46e464824f62cb95ce2e80298d5432abb9c8f94dba87dcaf1f05e00e9d4bd23d62ba332e0a408203d8b31709de04073f954578a0ee3d353ed74402
 
-[mirrors]
-http://i3wm.org/downloads/i3-4.7.2.tar.bz2
-
 [deps]
 libev
-libyajl
-libxcb
-xcb-util-keysyms
-xcb-util-cursor
-xcb-util-wm
-pcre
 libstartup-notification
+libxcb
+libyajl
+pcre
+xcb-util-cursor
+xcb-util-keysyms
+xcb-util-wm
 
 [build]
 CPPFLAGS="-DGLOB_TILDE=0" make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install || exit 1
