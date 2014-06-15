@@ -1,11 +1,9 @@
-[main]
-filesize=96822
-sha512=d68784339271226a71360253b5f35d9cbec483801b4df3684bd070b1208a478edf9e5f55f1ff8ff186c81c56fb6e105e8cebad43d650cdbe605eed10bb7c7c50
-
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/proto/xf86vidmodeproto-2.3.1.tar.bz2
 
-[deps]
+[main]
+filesize=96822
+sha512=d68784339271226a71360253b5f35d9cbec483801b4df3684bd070b1208a478edf9e5f55f1ff8ff186c81c56fb6e105e8cebad43d650cdbe605eed10bb7c7c50
 
 [build]
 #patch -p1 < "$K/some.patch" || exit 1
