@@ -1,13 +1,11 @@
+[mirrors]
+http://download.librewrt.org/sources/json-c-0.9.tar.gz
+http://plier.ucar.edu/pub/OpenBSD/distfiles/json-c-0.9.tar.gz
+http://www.codeaurora.org/mirrored_source/quic/le/json-c-0.9.tar.gz
+
 [main]
 filesize=340953
 sha512=40e4f7efd82fac732ff6da439a1ca95944d4ecfa8a673c7466e93134f29f8863f4d86f4e6e859a7be0096a25837047bd167a625cc0c61d6b919b55c5a47a76e8
-
-[mirrors]
-http://www.codeaurora.org/mirrored_source/quic/le/json-c-0.9.tar.gz
-http://download.librewrt.org/sources/json-c-0.9.tar.gz
-http://plier.ucar.edu/pub/OpenBSD/distfiles/json-c-0.9.tar.gz
-
-[deps]
 
 [build]
 #patch -p1 < "$K/some.patch"
