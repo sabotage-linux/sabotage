@@ -1,8 +1,10 @@
 [mirrors]
 http://www.digip.org/jansson/releases/jansson-2.6.tar.bz2
+
 [main]
 filesize=319429
 sha512=42e66a2fcbbb3483564c20a089ad2712c9cd32f4b36a3c2cee4ae376336e33759eb715026f3e2db0746a45fda24c6c0980b6a2332b45560b571bbb715ecda73e
+
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" || exit 1
