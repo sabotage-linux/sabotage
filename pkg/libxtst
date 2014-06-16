@@ -1,4 +1,5 @@
 [deps]
+recordproto
 xproto
 libx11
 
