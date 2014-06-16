@@ -1,4 +1,5 @@
 [deps]
+resourceproto
 xproto
 libx11
 
