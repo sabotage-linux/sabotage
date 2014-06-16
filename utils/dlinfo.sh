@@ -25,6 +25,7 @@ wget --no-check-certificate -O "$fn" "$url"
 
 echo [mirrors]
 echo "$url"
+echo
 echo [main]
 echo filesize=`getfilesize "$fn"`
 echo sha512=`gethash "$fn"`
