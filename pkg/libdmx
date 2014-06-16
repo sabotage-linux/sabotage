@@ -1,4 +1,5 @@
 [deps]
+dmxproto
 xproto
 libx11
 
