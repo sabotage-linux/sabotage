@@ -1,6 +1,7 @@
 [deps]
 xproto
 libx11
+libxrender
 randrproto
 
 [main]
