@@ -2,6 +2,7 @@
 compositeproto
 xproto
 libx11
+libxfixes
 
 [main]
 filesize=283746
