@@ -1,6 +1,9 @@
 [deps]
 curl
 
+[deps.host]
+perl
+
 [mirrors]
 http://mirror.anl.gov/pub/software/scm/git/git-1.8.4.tar.xz
 https://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
