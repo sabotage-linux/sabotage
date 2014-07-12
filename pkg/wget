@@ -9,6 +9,7 @@ sha512=e21f409306869ad5ca956b9cfe4605f5945a8594004b83c3287ffc1b4f25f3ea91275923e
 http://ftp.gnu.org/gnu/wget/wget-1.13.tar.xz
 
 [build]
+patch -p1 < "$K"/wget-libressl.patch || exit 1
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
