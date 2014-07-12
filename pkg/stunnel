@@ -9,6 +9,8 @@ sha512=2f1c44b06188e3bd347b97544122eb9bc0c2a4227e6c4bab184ddef8a35300c09451d836d
 openssl
 
 [build]
+patch -p1 < "$K"/stunnel-libressl.patch || exit 1
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags" \
