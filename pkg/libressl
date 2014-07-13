@@ -1,72 +1,24 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.0.0.tar.gz
-http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.0.0.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.0.1.tar.gz
+http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.0.1.tar.gz
 
 [main]
-filesize=2670313
-sha512=c945f4c1b77f2b54fa2445cd5d9263545630b4fe5d603d7740ba7c1bb9f50ba5557635c073f518708c18d03af17a6ff58b104c665338fc727130c4ae95a8e3da
+filesize=2672167
+sha512=073e3e7260e6491f5218a26401736141d9e365fc1829e9e95a1cb1b58c627715834428b35b6b803c48b2f9014c48bedad2cdf9b106bb72430db626c91d4400ca
 
 [deps]
 
 [build]
 patch -p1 < "$K"/libressl-glibc.patch || exit 1
-patch -p1 < "$K"/libressl-entropy-nonsense.patch || exit 1
-
-sed -i 's/-Werror//' configure
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags || exit 1
 
-#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-
 make V=1 -j$MAKE_THREADS || exit 1
 make DESTDIR="$butch_install_dir" install || exit 1
 
-dest="$butch_install_dir""$butch_prefix"
-mkdir -p "$dest"/lib/pkgconfig
-cat << EOF > "$dest"/lib/pkgconfig/openssl.pc
-prefix=$butch_prefix
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
-
-Name: OpenSSL
-Description: Secure Sockets Layer and cryptography libraries and tools
-Version: 1.0.1h
-Requires: libssl libcrypto
-EOF
-
-cat << EOF > "$dest"/lib/pkgconfig/libssl.pc
-prefix=$butch_prefix
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
-
-Name: OpenSSL-libssl
-Description: Secure Sockets Layer and cryptography libraries
-Version: 1.0.1h
-Requires.private: libcrypto
-Libs: -L\${libdir} -lssl
-Libs.private: -Wl,-Bsymbolic -ldl -lz
-Cflags: -I\${includedir}
-EOF
-
-cat << EOF > "$dest"/lib/pkgconfig/libcrypto.pc
-prefix=$butch_prefix
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
-
-Name: OpenSSL-libcrypto
-Description: OpenSSL cryptography library
-Version: 1.0.1h
-Requires:
-Libs: -L\${libdir} -lcrypto
-Libs.private: -Wl,-Bsymbolic -ldl -lz
-Cflags: -I\${includedir}
-EOF
