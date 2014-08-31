@@ -1,14 +1,15 @@
 [main]
-filesize=3789016
-sha512=852c9cfeeac278564e605e5a5c4d77cb775ad20cf7fc52fa28c2a6192462ee28c32ecc2b5e434e5eec185deff5039d9fb1802cb4fe6d131b8fba7209f8462d44
-tardir=dpkg-1.16.12
+filesize=3800328
+sha512=a9e450cd700b32ccf0dec82fa2faad15016860db1e1448fafa01541ec280a59a951670338afc634472856021e8227426552f6c41b9eaddcddd3712ad709a673a
+tardir=dpkg-1.16.15
 
 [mirrors]
-http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.16.12.tar.xz
+http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.16.15.tar.xz
 
 [deps]
 zlib
 bzip2
+xz
 ncurses
 
 [deps.host]

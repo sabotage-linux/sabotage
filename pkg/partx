@@ -1,0 +1,32 @@
+[deps]
+util-linux-tarball
+
+[build]
+mkdir -p "$butch_build_dir"
+cd "$butch_build_dir"
+rm -rf util-linux-2.23.1
+tar xf "$C"/util-linux-2.23.1.tar.xz || exit 1
+cd util-linux-2.23.1
+patch -p1 < "$K"/util-linux.patch || exit 1
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
+  ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
+                 --disable-nls --disable-rpath --disable-tls --disable-libuuid \
+                 --disable-libmount --disable-mount --disable-losetup \
+                 --disable-cytune --disable-fsck --disable-partx \
+                 --disable-uuidd --disable-mountpoint --disable-fallocate \
+                 --disable-unshare --disable-nsenter --disable-setpriv \
+                 --disable-eject --disable-agetty --disable-cramfs --disable-bfs \
+                 --disable-fdformat --disable-hwclock --disable-wdctl \
+                 --disable-switch_root --disable-pivot_root --disable-kill \
+                 --disable-utmpdump --disable-raw --disable-rename \
+                 --disable-chfn-chsh-password --disable-chsh-only-listed \
+                 --disable-login --disable-sulogin --disable-su --disable-runuser \
+                 --disable-ul --disable-more --disable-pg --disable-setterm \
+                 --disable-schedutils --disable-wall --disable-bash-completion \
+                 --disable-pg-bell --disable-use-tty-group \
+                 --disable-makeinstall-chown --disable-makeinstall-setuid \
+                 --enable-libblkid --enable-partx || exit 1
+make -j$MAKE_THREADS partx || exit 1
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 755 partx "$dest"/bin/partx || exit 1

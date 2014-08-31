@@ -1,10 +1,9 @@
 [main]
-filesize=59501
-sha512=831bd97cd8fe5338315d812c683055f3879ca55c653d565886faf3d17f2fc9462beecd05e923ea8a9ae713c0398e59c6a4affd9b557cf181c04bc2034641fbac
-tardir=debootstrap-1.0.56
+filesize=49612
+sha512=2c939043c24d22a521477685f087977c5e4fed50eab8e0d9e5a40fc590fddf343192eb1a1cab382640c492966462e19c6a9902dd207fac42c8358f84bdd684c8
+tardir=debootstrap-1.0.60
 [mirrors]
-http://ftp2.fr.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.56.tar.gz
-
+http://http.debian.net/debian/pool/main/d/debootstrap/debootstrap_1.0.60.tar.xz
 [deps]
 dpkg
 makedev-debian

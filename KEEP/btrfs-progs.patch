@@ -9,25 +9,89 @@
  {
         int num = 0;
  
---- btrfs-progs-v3.12-old/mkfs.c
-+++ btrfs-progs-v3.12/mkfs.c
-@@ -56,6 +57,8 @@
-        ino_t inum;
-        struct list_head list;
- };
-+
-+typedef struct blkid_struct_probe *blkid_probe;
+--- btrfs-progs-v3.14.2.old/btrfs-convert.c
++++ btrfs-progs-v3.14.2/btrfs-convert.c
+@@ -41,6 +41,7 @@
+ #include <ext2fs/ext2_fs.h>
+ #include <ext2fs/ext2fs.h>
+ #include <ext2fs/ext2_ext_attr.h>
++#include <linux/limits.h>
  
- static int make_root_dir(struct btrfs_root *root, int mixed)
- {
---- btrfs-progs-v3.12-old/utils.c
-+++ btrfs-progs-v3.12/utils.c
-@@ -52,6 +52,8 @@
- #define BLKDISCARD     _IO(0x12,119)
- #endif
+ #define INO_OFFSET (BTRFS_FIRST_FREE_OBJECTID - EXT2_ROOT_INO)
+ #define EXT2_IMAGE_SUBVOL_OBJECTID BTRFS_FIRST_FREE_OBJECTID
+--- btrfs-progs-v3.14.2.old/mkfs.c
++++ btrfs-progs-v3.14.2/mkfs.c
+@@ -21,6 +21,7 @@
  
-+typedef struct blkid_struct_probe *blkid_probe;
-+
- static int
- discard_blocks(int fd, u64 start, u64 len)
- {
+ #include "kerncompat.h"
+ 
++#include <linux/limits.h>
+ #include <sys/ioctl.h>
+ #include <sys/mount.h>
+ #include "ioctl.h"
+--- btrfs-progs-v3.14.2.old/Makefile
++++ btrfs-progs-v3.14.2/Makefile
+@@ -9,8 +9,7 @@
+ objects = ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o \
+	  root-tree.o dir-item.o file-item.o inode-item.o inode-map.o \
+	  extent-cache.o extent_io.o volumes.o utils.o repair.o \
+-	  qgroup.o raid6.o free-space-cache.o list_sort.o props.o \
+-	  utils-lib.o
++	  qgroup.o raid6.o free-space-cache.o list_sort.o props.o
+ cmds_objects = cmds-subvolume.o cmds-filesystem.o cmds-device.o cmds-scrub.o \
+               cmds-inspect.o cmds-balance.o cmds-send.o cmds-receive.o \
+               cmds-quota.o cmds-qgroup.o cmds-replace.o cmds-check.o \
+@@ -29,7 +29,7 @@
+ lib_LIBS = -luuid -lblkid -lm -lz -llzo2 -L.
+ libdir ?= $(prefix)/lib
+ incdir = $(prefix)/include/btrfs
+-LIBS = $(lib_LIBS) $(libs_static)
++LIBS = $(libs_static) $(lib_LIBS)
+ 
+ ifeq ("$(origin V)", "command line")
+   BUILD_VERBOSE = $(V)
+@@ -57,8 +57,8 @@
+ btrfs_fragment_libs = -lgd -lpng -ljpeg -lfreetype
+ 
+ SUBDIRS =
+-BUILDDIRS = $(patsubst %,build-%,$(SUBDIRS)) build-Documentation
+-INSTALLDIRS = $(patsubst %,install-%,$(SUBDIRS)) install-Documentation
++BUILDDIRS = $(patsubst %,build-%,$(SUBDIRS)) #build-Documentation
++INSTALLDIRS = $(patsubst %,install-%,$(SUBDIRS)) #install-Documentation
+ CLEANDIRS = $(patsubst %,clean-%,$(SUBDIRS))
+ 
+ .PHONY: $(SUBDIRS)
+@@ -80,7 +80,7 @@
+ 
+ libs_shared = libbtrfs.so.0.1
+ libs_static = libbtrfs.a
+-libs = $(libs_shared) $(libs_static)
++libs = $(libs_static) $(libs_shared)
+ lib_links = libbtrfs.so.0 libbtrfs.so
+ headers = $(libbtrfs_headers)
+ 
+@@ -220,8 +220,9 @@
+ 	@echo "    [LD]     $@"
+ 	$(Q)$(CC) $(CFLAGS) -o send-test $(objects) send-test.o $(LDFLAGS) $(LIBS) -lpthread
+ 
+-manpages:
+-	$(Q)$(MAKE) $(MAKEOPTS) -C Documentation
++#Do not build docs
++#manpages:
++#	$(Q)$(MAKE) $(MAKEOPTS) -C Documentation
+ 
+ clean-all: clean-doc clean
+ 
+@@ -233,9 +234,9 @@
+ 	      version.h $(check_defs) 	
+ 	      $(libs) $(lib_links)
+ 
+-clean-doc:
+-	@echo "Cleaning Documentation"
+-	$(Q)$(MAKE) $(MAKEOPTS) -C Documentation clean
++#clean-doc:
++#	@echo "Cleaning Documentation"
++#	$(Q)$(MAKE) $(MAKEOPTS) -C Documentation clean
+ 
+ $(CLEANDIRS):
+ 	@echo "Cleaning $(patsubst clean-%,%,$@)"

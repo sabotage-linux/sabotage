@@ -1,28 +1,19 @@
 [mirrors]
-https://launchpad.net/ubuntu/+archive/primary/+files/lxc_1.0.0~beta2.orig.tar.gz
-http://archive.ubuntu.com/ubuntu/pool/main/l/lxc/lxc_1.0.0~beta2.orig.tar.gz
-http://mirror.r0x0r.me/lxc_1.0.0~beta2.orig.tar.gz
-
+https://linuxcontainers.org/downloads/lxc-1.0.5.tar.gz
+http://pkgs.fedoraproject.org/repo/extras/lxc/lxc-1.0.5.tar.gz/9d9af9e9e69a831cd50b58d91c786013/lxc-1.0.5.tar.gz
 [main]
-filesize=745824
-sha512=973c7713020b0a11b3574e180f93794876bc501f7ece9516f2269c030526ef9a18b0cbac094bbcf65213e975f4ee434c2a38cc887127fe61a0fc711cef9083e1
-tardir=lxc-1.0.0.beta2
+filesize=783260
+sha512=e0b7dc866ea14ea4de4e28ad59c8dd6ef4258e21215a72cdf0a425463206661b3cf3c33013e65cac6ff8e958922ab0981b6b056260f6534ea6a7c52b95000c04
 
 [deps]
 libcap2
 bash
+debootstrap
+rsync
+seccomp
 
 [build]
-patch -p1 < "$K"/lxc-undef.patch || exit 1
-patch -p1 < "$K"/lxc-utmpxname.patch || exit 1
-patch -p1 < "$K"/lxc-malloc.patch || exit 1
-patch -p1 < "$K"/lxc-no-suid.patch || exit 1
-patch -p1 < "$K"/lxc-defrundir.patch || exit 1
-patch -p1 < "$K"/lxc-scripts.patch || exit 1
-
-sed -i 's@-Wall -Werror@-Wall@' configure
-
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
    ./configure -C --prefix="$butch_prefix" \
             --bindir="$butch_prefix"/bin \
             --sbindir="$butch_prefix"/bin \

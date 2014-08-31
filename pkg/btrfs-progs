@@ -1,9 +1,9 @@
 [mirrors]
-https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
-http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.12.tar.xz
+https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
+http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
 [main]
-filesize=261220
-sha512=655e8d9ecf297281d07312bd19a6ab942f354a370147e0ca46a22e5bcd7485ed0d415247ba21162617a23b7f9def202cab3bb5dc23ccfa96496043b48dfda785
+filesize=275372
+sha512=02f0cf7581b41143707769e53debecfdd3f5a1dd717530c33d4a657b09feafd73bb43408516a58fb6d2754365803018673321c7c1898b81bb36194f05a0d8955
 
 [deps]
 lzo
@@ -18,16 +18,16 @@ libblkid
 
 [build]
 patch -p1 < "$K"/btrfs-progs.patch || exit 1
-make prefix="$butch_prefix" CFLAGS="-DXATTR_NAME_MAX=255 \
-       -DXATTR_LIST_MAX=65536 -DXATTR_SIZE_MAX=65536 \
-       -DPATH_MAX=4096 $optcflags" \
-     LDFLAGS="$optldflags" -j$MAKE_THREADS || exit 1
+make prefix="$butch_prefix" DESTDIR="$butch_install_dir"\
+     CFLAGS="-DXATTR_NAME_MAX=255 -DXATTR_LIST_MAX=65536 \
+     -DXATTR_SIZE_MAX=65536 -DPATH_MAX=4096 $optcflags" \
+     LDFLAGS="$optldflags" -j$MAKE_THREADS install|| exit 1
 
 make prefix="$butch_prefix" CFLAGS="-DXATTR_NAME_MAX=255 \
        -DXATTR_LIST_MAX=65536 -DXATTR_SIZE_MAX=65536 \
        -DPATH_MAX=4096 $optcflags" \
      LDFLAGS="$optldflags" -j$MAKE_THREADS static || exit 1
 
-make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install || exit 1
-install -D -m 755 btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/btrfs.static
-install -D -m 755 mkfs.btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/mkfs.btrfs.static
+make prefix="$butch_prefix" install || exit 1
+install -D -m 755 btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/btrfs.static || exit 1
+install -D -m 755 mkfs.btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/mkfs.btrfs.static || exit 1

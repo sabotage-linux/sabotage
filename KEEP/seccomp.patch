@@ -1,0 +1,11 @@
+--- libseccomp-2.1.1.old/macros.mk
++++ libseccomp-2.1.1/macros.mk
+@@ -193,7 +193,7 @@
+ 		$(INSTALL) -o $(INSTALL_OWNER) -g $(INSTALL_GROUP) \
+ 			-d "$(INSTALL_LIB_DIR)/pkgconfig"; \
+ 		$(INSTALL) -o $(INSTALL_OWNER) -g $(INSTALL_GROUP) -m 0644 \
+-			"$$(cat /proc/$$$$/cmdline | awk '{print $$(NF)}')" \
++			"$$(cat /proc/$$$$/cmdline | awk '{print $$(NF)}' |tail -1)" \
+ 			"$(INSTALL_LIB_DIR)/pkgconfig"; \#
+ 
+ ifeq ($(V),0)
