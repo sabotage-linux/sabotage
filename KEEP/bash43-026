@@ -1,0 +1,28 @@
+*** ../bash-4.3.25/parse.y	2014-07-30 10:14:31.000000000 -0400
+--- parse.y	2014-09-25 20:20:21.000000000 -0400
+***************
+*** 2954,2957 ****
+--- 2954,2959 ----
+    word_desc_to_read = (WORD_DESC *)NULL;
+  
++   eol_ungetc_lookahead = 0;
++ 
+    current_token = '\n';		/* XXX */
+    last_read_token = '\n';
+*** ../bash-4.3.25/y.tab.c	2014-07-30 10:14:32.000000000 -0400
+--- y.tab.c	2014-09-25 20:21:48.000000000 -0400
+***************
+*** 5266,5269 ****
+--- 5266,5271 ----
+    word_desc_to_read = (WORD_DESC *)NULL;
+  
++   eol_ungetc_lookahead = 0;
++ 
+    current_token = '\n';		/* XXX */
+    last_read_token = '\n';
+***************
+*** 8540,8542 ****
+  }
+  #endif /* HANDLE_MULTIBYTE */
+- 
+--- 8542,8543 ----

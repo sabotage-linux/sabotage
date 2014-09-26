@@ -8,6 +8,10 @@ sha512=a852b8e46ee55568dce9d23a30a9dbd1c770c2d2a4bc91e1c3177d723b31b32c5d69d1970
 [deps]
 
 [build]
+# Shellshock patching (CVE-2014-7169 and CVE-2014-6271) 
+patch -p0 < "$K"/bash43-025
+patch -p0 < "$K"/bash43-026
+
 # FIXME: bash has a ton of configure tests with broken defaults
 # for crosscompiling. breakage could for example be introduced by
 # "checking for offset of exit status... 0" (due to crosscompile)
