@@ -46,7 +46,7 @@ if [ -z "$DISABLE_GRSEC" ] ; then
 fi
 
 export ARCH=$A
-linux_config="$K"/linux.config
+linux_config="$K"/kernel.config
 
 if [ -z "$HOSTCC" ] ; then
 	HOSTCC="$CC"
@@ -54,7 +54,7 @@ fi
 
 if [ "$A" = arm ] ; then
 	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
-	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
+	linux_config="$linux_config $K/kernel.config.armv${ARM_ARCH}l"
 fi
 
 cat "$linux_config" > my.config
