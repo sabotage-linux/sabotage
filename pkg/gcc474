@@ -35,6 +35,7 @@ patch -p1 < "$K"/gcc473-arm-hwcap.patch
 patch -p1 < "$K"/gcc473-config-sub.patch
 patch -p1 < "$K"/gcc473-powerpc-libc-stack-end.patch
 patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
+patch -p1 < "$K"/gcc-474-ltmain_nofail.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
@@ -94,6 +95,9 @@ machine=
 if [ -n "$CROSS_COMPILE" ] ; then
 	machine=$($CC -dumpmachine)
 	xconfflags="--host=$machine --target=$machine"
+	if [ "$A" = "arm" ]; then
+	  xconfflags="--disable-libssp $xconfflags"
+	fi
 	export GCC_FOR_TARGET="$CC"
 fi
 export CC="$CC -static -D_GNU_SOURCE"

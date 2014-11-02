@@ -1,0 +1,10 @@
+--- gcc-4.7.4.old/ltmain.sh
++++ gcc-4.7.4/ltmain.sh
+@@ -1150,6 +1150,7 @@
+     for cmd in $1; do
+       IFS=$save_ifs
+       eval "cmd=\"$cmd\""
++      [ -z "$cmd" ] && continue
+       func_show_eval "$cmd" "${2-:}"
+     done
+     IFS=$save_ifs
