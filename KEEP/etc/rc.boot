@@ -48,6 +48,13 @@ $rw && mount -o remount,rw /
 cryptmount -M # make encrypted devices from /etc/crypttab available
 mount -a # mount stuff from /etc/fstab
 
+if touch "$rwtest" 2>/dev/null; then
+  rm "$rwtest"
+  rw=true
+else
+  rw=false
+fi
+
 if ! $rw ; then
 	echo "non-writable fs detected, mounting tmpfs to /var and /tmp"
 	# tmpfs defaults to -o size=50%

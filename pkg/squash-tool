@@ -1,0 +1,12 @@
+[deps]
+partx
+syslinux6
+squashfs-tools
+dosfstools
+libblkid
+kernel
+cpio
+
+[build]
+install -D -m 750 "$K"/squash-tool "$butch_install_dir""$butch_prefix"/bin/squash-tool || exit 1
+#version 342147552a082d7d183d6c027b8ba0c55ce50075aecc3450e505f20dc7402501e92470af57ca405d339025de6039af9a164dc7e5375de120c7696e73a4c3a766

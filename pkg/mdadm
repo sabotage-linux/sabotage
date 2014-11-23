@@ -1,6 +1,7 @@
 [mirrors]
 ftp://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
 http://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
+http://mirror.mcs.anl.gov/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
 
 [main]
 filesize=365196

@@ -1,12 +1,12 @@
 [mirrors]
-ftp://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
-http://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
-https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
-http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.14.2.tar.xz
+http://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
+https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
+http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
 
 [main]
-filesize=275372
-sha512=02f0cf7581b41143707769e53debecfdd3f5a1dd717530c33d4a657b09feafd73bb43408516a58fb6d2754365803018673321c7c1898b81bb36194f05a0d8955
+filesize=290544
+sha512=dd1f4bc13e62623792121d0f2a2a388be85bae4eec4abc348e0d21949fefa58863e7bf56515dd57022c312ee02d2fa76cc7b1a1c2d78a36532961b22b410a4db
+
 
 [deps]
 lzo

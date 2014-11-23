@@ -20,7 +20,8 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_p
             --bindir="$butch_prefix"/bin \
             --sbindir="$butch_prefix"/bin \
             --with-usernic-db=/var/run/lxc/nics \
-            --with-distro="sabotage" $xconfflags
+            --with-runtime-path=/var/run \
+            $xconfflags
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

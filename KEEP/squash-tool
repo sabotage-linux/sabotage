@@ -1,0 +1,835 @@
+#!/bin/sh
+# TODO: setuprw: copy files to a temporary place to install new packages and
+#                  create new squashfs (something like do_chroot, but copy instead
+#                  of mounting the squashfs
+#       chroot: install_chroot
+#                echo "/tmp/boot/squash-tool install $dev $size $rwfs $imgsize" | do_chroot
+#       release: make a squash without running prereqs (make chroot rw)
+#       update: move old kernel,boot,squash,initrd, move new in, make boot config
+
+sigs="SIGTERM SIGHUP SIGINT SIGQUIT SIGKILL SIGABRT SIGTSTP SIGTTIN SIGTTOU ERR"
+remove=""
+mounts=""
+loops=""
+
+#transforms a string to hex
+toelem() {
+  local arg="${1:-}"
+  [ -z "$arg" ] && return 1
+  echo -n $arg |od -A n -t x1 |sed 's/ /_/g' |tr -d '\n'
+}
+
+#from hex back to string
+fromelem() {
+  local arg="${1:-}"
+  [ -z "$arg" ] && return 1
+  echo -e "$(echo -n $arg |sed -r 's,_,\\x,g')"
+}
+
+#space separated list of hex encoded string
+push() {
+  local list="${1:-}"
+  local elem="${2:-}"
+  [ -z "$elem" ] && return 1
+  echo "$(toelem $elem) $list"
+}
+
+pop() { #TODO: if not element?
+  local list="${1:-}"
+  [ -z "$list" ] && return 1
+  local elem="${2:-}"
+  [ -z "$elem" ] && return 1
+  local e="$(toelem $elem)"
+  echo "$list" |sed -r "s,(^| )$e(|:|[^ ]+)?(\$| ),\3,"
+}
+
+last() {
+  local list="${1:-}"
+  fromelem $(echo "$list" |sed -r 's,(^|.* )([^ ]+)$,\2,g')
+}
+
+#lists for cleaning up on error/trap/finish
+push_remove() {
+  local elem="${1:-}"
+  [ -z "$elem" ] && return 1
+  remove=$(push "$remove" "$elem")
+}
+
+pop_remove() {
+  local elem="${1:-}"
+  [ -z "$elem" ] && return 1
+  rm -rf "$elem"
+  remove=$(pop "$remove" "$elem")
+}
+
+last_remove() {
+  last "$remove"
+}
+
+push_mounts() {
+  local elem="${1:-}"
+  [ -z "$elem" ] && return 1
+  mounts=$(push "$mounts" "$elem")
+}
+
+pop_mounts() {
+  local elem="${1:-}"
+  [ -z "$elem" ] && return 1
+  sync
+  if ! umount $elem; then
+    if ! umount -f $elem; then
+      if ! umount -l $elem; then
+        mounts=$(pop "$mounts" "$elem")
+        mounts=$(push "$mounts" "$elem")
+        reloop
+        return 1
+      fi
+    fi
+  fi
+  mounts=$(pop "$mounts" "$elem")
+  reloop
+}
+
+last_mounts() {
+  last "$mounts"
+}
+
+push_loops() {
+  local lo="${1:-}"
+  [ -z "$lo" ] && return 1
+  local path="${2:-}"
+  [ -z "$path" ] && return 1
+  loops=$(push "$loops" "$lo|:|$path")
+  sync
+}
+
+reloop() {
+  local lo=""
+  for lo in $loops; do
+    local dev=$(fromelem "$lo" |sed 's,|:|.*,,g')
+    local img=$(fromelem "$lo" |sed 's,.*|:|,,g')
+    if ! losetup |grep -q "$dev"; then
+      losetup "$dev" "$img"
+      partx -d "$dev"
+      partx -a "$dev"
+      echo "Had to reloop $dev for $img"
+    fi
+  done
+}
+
+pop_loops() {
+  local lo="${1:-}"
+  [ -z "$lo" ] && return 1
+  sync
+  partx -d "$lo"
+  losetup -d "$lo"
+  loops=$(pop "$loops" "$lo")
+}
+
+last_loops() {
+  last "$loops" |sed 's,|:|.*,,g'
+}
+
+cleanup() {
+  set +e
+  while [ ! -z "$(last_mounts)" ]; do
+    local e="$(last_mounts)"
+    pop_mounts "$e"
+  done
+  while [ ! -z "$(last_loops)" ]; do
+    local e="$(last_loops)"
+    pop_loops "$e"
+  done
+  while [ ! -z "$(last_remove)" ]; do
+    local e="$(last_remove)"
+    pop_remove "$e"
+  done
+}
+
+fail() {
+  echo "Failure, cleaning up..."
+  cleanup
+  echo "$@"
+  exit 1
+}
+
+usage() {
+  echo "Usage: $0 chroot boot_dir"
+  echo "Usage: $0 tarball dst.tar.xz"
+  echo "Usage: $0 install device_path fat_size (n|rw_type)"
+  echo "Usage: $0 install image_path fat_size (n|rw_type image_size)"
+  echo "  rw_type can be ext4 or btrfs"
+  echo "Usage: $0 in_chroot (install|tarball)..."
+  echo "Usage: $0 mkinitramfs dst_initramfs"
+  echo "Usage: $0 srctar dst.tar.xz do_tar_build"
+  echo "  do_tar_build: whether to include tarballs and build dirs. defaults to no."
+  echo "Usage: $0 update source destination boot_partition"
+  cleanup
+  exit 1
+}
+
+setuptraps() {
+  for sig in $sigs; do
+    trap "fail Trapped signal $sig" $sig &>/dev/null
+  done
+  set -o pipefail
+  set -o errexit
+  set -o nounset
+}
+
+handle_fdisk() { #TODO: this is fugly. bug in busybox?
+  local dev="${1:-}"
+  [ -z "$dev" ] && return 1
+  local fail=0
+  local tmp="$(mktemp)"
+  push_remove "$tmp"
+  fdisk "$dev" 3>&1 1>&2 2>&3 |tee "$tmp" || fail=1
+  if [ $fail -eq 1 ]; then
+    if [ "$(cat $tmp |wc -l)" = "1" ]; then
+      if egrep -q '^fdisk: WARNING: rereading partition table failed,'\
+                  ' kernel still uses old table: Invalid argument$' "$tmp"; then
+        fail=0
+      fi
+    fi
+  fi
+  pop_remove "$tmp"
+  return $fail
+}
+
+runprereqs() {
+  for i in /etc/service/*/run; do
+    if [ ! -e "$(dirname $i)"/down ]; then
+      $i --prereqs || fail "Failed to run prereqs for $i"
+    fi
+  done
+}
+
+mktar_src() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local dobuild="${2:-}"
+  local exclude='./tarballs/ ./build/'
+  local tmp="$(mktemp)"
+  push_remove "$tmp"
+  if [ "$dobuild" != "yes" ]; then
+    for e in $exclude; do
+      echo "$e" >> "$tmp"
+    done
+  fi
+  tar cJf "$dst" -X "$tmp" -C /src .
+  pop_remove "$tmp"
+}
+
+mksquash() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local exclude="proc sys dev boot tmp var/tmp src"
+  local tmp="$(mktemp -d)"
+  push_remove "$tmp"
+  rm -f "$dst"
+  runprereqs
+  mkdir -p /var/run /rw
+  set -f
+  mksquashfs . "$dst" \
+    -p 'bin/su m 4755 root root' -wildcards \
+    -e $(echo $exclude |sed -r "s,([^ ]+),\1/**,g")
+  set +f
+  pop_remove "$tmp"
+}
+
+mkinitramfs() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local tmp=$(mktemp -d)
+  push_remove $tmp
+  (
+    cd "$tmp"
+    mkdir -p initramfs/bin initramfs/boot initramfs/newroot \
+        initramfs/sbin initramfs/proc initramfs/sys initramfs/etc \
+        initramfs/lib/modules initramfs/dev
+    cp -L /lib/libc.so initramfs/lib
+    cp -L /opt/busybox/bin/busybox initramfs/bin
+    ( cd initramfs/bin; ln -s busybox sh )
+    mknod -m 622 initramfs/dev/console c 5 1
+    mknod -m 622 initramfs/dev/tty0 c 4 0
+
+    cp -L /bin/fsck* initramfs/bin
+    cp -L /src/KEEP/initramfs.init initramfs/init
+    cp -L -f /etc/mdev.conf initramfs/etc/mdev.conf
+    cp -L -f /etc/passwd initramfs/etc/passwd
+    cp -L -f /etc/group initramfs/etc/group
+    cp -L -f /etc/fstab initramfs/etc/fstab
+    cp -L /bin/btrfs.static initramfs/bin/btrfs
+    if [ -e /lib/modules/"$(uname -r)" ]; then
+#FIXME: this is fugly
+      mkdir -p initramfs/lib/modules/"$(uname -r)"
+      (
+        cd /lib/modules/"$(uname -r)"
+        for md in *; do
+          if [ "$md" != "source" ]; then
+            if [ "$md" != "build" ]; then
+              echo "$md"
+            fi
+          fi
+        done
+      ) |while read md; do
+        cp -L -a /lib/modules/"$(uname -r)"/"$md" initramfs/lib/modules/"$(uname -r)"
+      done
+    elif [ "$(ls -1 /lib/modules |wc -l)" = "1" ]; then
+      moddir=/lib/modules/*
+      mkdir -p initramfs/"$moddir"
+      (
+        cd $moddir
+        for md in *; do
+          if [ "$md" != "source" ]; then
+            if [ "$md" != "build" ]; then
+              echo "$md"
+            fi
+          fi
+        done
+      ) |while read md; do
+        cp -L -a $moddir/"$md" initramfs/"$moddir"
+      done
+    fi
+    chmod +x initramfs/init
+    cd initramfs
+    find . | cpio -H newc -o > "$dst"
+  )
+  pop_remove "$tmp"
+}
+
+mkinitramfsgz() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local tmp="$(mktemp)"
+  push_remove "$tmp"
+  mkinitramfs "$tmp"
+  gzip --stdout "$tmp" > "$dst"
+  pop_remove "$tmp"
+}
+
+mksyslinuxcfg() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local bootmedia="${2:-}"
+  local boot="${3:-}"
+  local part=""
+  local part_id=""
+  if [ -z "$boot" ]; then
+    boot="/boot"
+  fi
+  if [ -z "$bootmedia" ]; then
+    part="/dev/sda1"
+  elif [ -b "$bootmedia"p1 ]; then
+    part_id=$(blkid ${bootmedia}p1 |sed -r 's,.*UUID="([^"]+)".*,\1,g')
+  elif [ -b "$bootmedia" ]; then
+    part_id=$(blkid ${bootmedia} |sed -r 's,.*UUID="([^"]+)".*,\1,g')
+  fi
+  if [ -z "$part" ]; then
+    if [ -z "$part_id" ];then 
+      if [ ! -z "$bootmedia" ]; then
+        part="$bootmedia"
+      else
+        return 1
+      fi
+    fi
+  fi
+  (
+    echo "UI menu.c32"
+    echo "PROMPT 0"
+    echo "TIMEOUT 100"
+    echo "DEFAULT default"
+    for rootfs in "$boot"/*.sqsh.img; do
+      fs=$(basename $rootfs)
+      kernel=$(echo $fs |sed -r "s,\.sqsh\.img,,g")
+      if [ ! -e "$boot"/"$kernel" ]; then
+        continue
+      elif [ ! -e "$boot"/"$kernel".cpio.gz ]; then
+        continue
+      fi
+      echo "LABEL $kernel"
+      echo "      MENU LABEL $kernel"
+      echo "      KERNEL /$kernel"
+      echo "      INITRD /$kernel.cpio.gz"
+      if [ -z "$part_id" ]; then
+        echo "      APPEND boot=$part sqsh_root=$fs"
+      else
+        echo "      APPEND boot=UUID=$part_id sqsh_root=$fs"
+      fi
+    done
+  ) > $dst
+}
+
+copy_syslinux() {
+  local menumods="menu.c32 libutil.c32"
+  for i in ldlinux.c32 $menumods; do
+    cp /lib/syslinux/bios/$i /boot
+  done
+  if [ -d /lib/syslinux/efi64 ]; then
+    mkdir -p /boot/EFI/BOOT
+    for i in ldlinux.e64 $menumods; do
+      cp /lib/syslinux/efi64/$i /boot/EFI/BOOT
+    done
+    cp /lib/syslinux/efi64/syslinux.efi /boot/EFI/BOOT/bootx64.efi
+  elif [ -d /lib/syslinux/efi32 ]; then
+    mkdir -p /boot/EFI/BOOT
+    for i in ldlinux.e32 $menumods; do
+      cp /lib/syslinux/efi32/$i /boot/EFI/BOOT
+    done
+    cp /lib/syslinux/efi32/syslinux.efi /boot/EFI/BOOT/bootia32.efi
+  fi
+  if [ -e /boot/EFI/BOOT/ ]; then
+    echo "INCLUDE /syslinux.cfg" > /boot/EFI/BOOT/syslinux.cfg
+  fi
+}
+
+wipeptable() {
+  local dev="${1:-}"
+  [ -z "$dev" ] && return 1
+  (
+    echo "o"
+    echo "w"
+  ) | handle_fdisk "$dev" || fail "Failed to wipe partition table on device $dev"
+  sync
+  partx -d "$dev"
+  return 0
+}
+
+addpart() {
+  local dev="${1:-}"
+  [ -z "$dev" ] && return 1
+  local type="${2:-}"
+  [ -z "$type" ] && return 1
+  local boot="${3:-}"
+  local size="${4:-}"
+  local partnum=$(($(fdisk -l $dev |egrep ^$dev |wc -l)+1))
+  (
+    echo "n"
+    echo "p"
+    echo "$partnum"
+    echo ""
+    if [ -z "$size" ]; then
+      echo ""
+    else
+      echo "+$size"
+    fi
+    echo "t"
+    if [ "$partnum" != 1 ]; then
+      echo "$partnum"
+    fi
+    case "$type" in
+      "vfat") echo "b";;
+      "btrfs") echo "83";;
+      "ext4") echo "83";;
+    esac
+    if [ "$boot" = "boot" ]; then
+      echo "a"
+      echo "$partnum"
+    fi
+    echo "w"
+  ) | handle_fdisk "$dev" || fail "Failed to create partition #$partnum device $dev"
+  sync
+  sleep 2
+  if ! partx -a "$dev"; then
+    partx -d "$dev"
+    partx -a "$dev"
+  fi
+  sleep 2
+  if [ -b "$dev""$partnum" ]; then
+    local p="$dev""$partnum"
+  elif [ -b "$dev"p"$partnum" ]; then
+    local p="$dev"p"$partnum"
+  else
+    return 1
+  fi
+  case "$type" in
+    "vfat") mkfs."$type" "$p" || fail "Failed to create fs $type on $p"
+            dosfslabel "$p" sbtg-boot;;
+    "btrfs") mkfs."$type" -f -L "sbtg-rw" "$p" || fail "Failed to create fs $type on $p";;
+    "ext4") mkfs."$type" -L "sbtg-rw" "$p" || fail "Failed to create fs $type on $p";;
+  esac
+  sync
+}
+
+installboot() {
+  local part="${1:-}"
+  [ -z "$part" ] && return 1
+  local tmp="$(mktemp -d)"
+  push_remove $tmp
+  mkdir -p "$tmp"/mount/boot
+  mount -t vfat "$part" "$tmp"/mount/boot || return 1
+  push_mounts "$tmp"/mount/boot
+  cp -a /boot/* "$tmp"/mount/boot
+  pop_mounts "$tmp"/mount/boot
+  local dev=$(echo $part |sed 's,[0-9]$,,g')
+  if [ ! -b "$dev" ]; then
+    dev=$(echo "$dev" |sed 's,.$,,g')
+    if [ ! -b "$dev" ]; then
+      return 1
+    fi
+  fi
+  dd conv=notrunc if=/lib/syslinux/bios/mbr.bin of="$dev" || return 1
+  sync
+  mount -t vfat "$part" /boot || return 1
+  push_mounts /boot
+  copy_syslinux || return 1
+  syslinux -i "$part" || return 1
+  if [ ! -e /boot/default.sqsh.img ]; then
+    mksquash /boot/default.sqsh.img || return 1
+  fi
+  if [ ! -e /boot/default.cpio.gz ]; then
+    mkinitramfsgz /boot/default.cpio.gz || return 1
+  fi
+  if [ ! -e /boot/default ]; then
+    cp /boot/vmlinuz /boot/default || return 1
+  fi
+  if [ ! -e /boot/src.tar.xz ]; then
+    mktar_src /boot/src.tar.xz || return 1
+  fi
+  rm -f /boot/syslinux.cfg
+  mksyslinuxcfg /boot/syslinux.cfg "$part"
+  sync
+  pop_mounts /boot
+  (
+    echo 1
+    echo 1
+    echo y
+  ) | dosfsck -a -r "$part"
+  dosfsck -a -r "$part" || return 1
+  sync
+  pop_remove "$tmp"
+}
+
+copyrw() {
+  local part="${1:-}"
+  [ -z "$part" ] && return 1
+  local type="${2:-}"
+  [ -z "$type" ] && return 1
+  local tmp="$(mktemp -d)"
+  push_remove "$tmp"
+  local varw=""
+  mkdir -p "$tmp"/mount/rw
+  mount -t "$type" "$part" "$tmp"/mount/rw || return 1
+  push_mounts "$tmp"/mount/rw
+  mkdir -p "$tmp"/mount/squash
+  mount -o loop -t squashfs /boot/default.sqsh.img "$tmp"/mount/squash || return 1
+  push_mounts "$tmp"/mount/squash
+  cat /etc/fstab |while read fs mtpt type opt rest; do
+    if echo "$opt" |grep -q "bind"; then
+      fs=$(echo $fs |sed 's,^/rw/,,')
+      if [ "$mtpt" = "/var" ]; then
+        varw="$fs"
+      fi
+      if [ "$mtpt" = "/src" ]; then
+        mkdir -p "$tmp"/mount/rw/"$fs"
+        tar xf /boot/src.tar.xz -C "$tmp"/mount/rw/"$fs"
+      elif [ -d "$tmp"/mount/squash/"$mtpt" ]; then
+        mkdir -p "$tmp"/mount/rw/"$fs"
+        tar c -h -C "$tmp"/mount/squash/"$mtpt"/ . \
+            |tar x -C "$tmp"/mount/rw/"$fs"
+      elif [ -f "$tmp"/mount/squash/"$mtpt" ]; then
+        mkdir -p "$tmp"/mount/rw/"$(dirname $fs)"
+        cp -aL "$tmp"/mount/squash/"$mtpt" "$tmp"/mount/rw/"$fs"
+      else
+        mkdir -p "$tmp"/mount/rw/"$fs"
+      fi
+    fi
+  done
+  if [ ! -z "$varw" ]; then
+    mkdir -p "$tmp"/mount/rw/$varw/spool/cron/crontabs "$tmp"/mount/rw/$varw/service "$tmp"/mount/rw/$varw/log "$tmp"/mount/rw/$varw/empty
+    (
+      cd "$tmp"/mount/squash/etc/service
+    	for i in * ; do
+    		mkdir -p "$tmp"/mount/rw/$varw/log/$i
+    	done
+    )
+  fi
+  sync
+  pop_mounts "$tmp"/mount/squash
+  pop_mounts "$tmp"/mount/rw
+  pop_remove "$tmp"
+}
+
+mkimage_loop() {
+  local img="${1:-}"
+  [ -z "$img" ] && return 1
+  local size="${2:-}"
+  [ -z "$size" ] && return 1
+  if ! dd if=/dev/zero of="$img" bs=1 count=0 seek="$size"; then
+    fail "Could not create $img image"
+  fi
+  local lo="$(losetup -f)"
+  losetup "$lo" "$img" || fail "Could not setup loop for $img image"
+  echo "$lo"
+}
+
+installer_qa() {
+  local tmp="$(mktemp -d)"
+  push_remove "$tmp"
+
+  echo "What device to install to? (e.g. /dev/sda, /tmp/img)"
+  echo "Caution: This will wipe all data from the device!"
+  local dev=""
+  read dev
+  if [ -z "$dev" ]; then
+    fail "Device can not be empty."
+  elif [ ! -e "$dev" ]; then
+    echo "$dev will be an image, what size do you want? (suffxes M/G allowed)"
+    local size=""
+    read size
+    [ -z "$size" ] && fail "Size can not be empty"
+  fi
+
+  echo "What size should the fat boot partition be? (suffxes M/G allowed)"
+  local bsize=""
+  read bsize
+  if [ -z "$bsize" ]; then
+    fail "You must supply a size"
+  fi
+
+  echo "What filesystem should the writable scratch-space be formatted as? (ext4/btrfs)"
+  echo "answer n to disable scratchspace"
+  local rwfs=""
+  read rwfs
+  case "$rwfs" in
+    btrfs) ;;
+    ext4) ;;
+    n) ;;
+    *) fail "You have supplied an incorrect fs type";;
+  esac
+  echo "$dev" "$bsize" "$rwfs" "$size"
+}
+
+do_install() {
+  local dev="${1:-}"
+  [ -z "$dev" ] && return 1
+  local bsize="${2:-}"
+  [ -z "$bsize" ] && return 1
+  local rwfs="${3:-}"
+  [ -z "$rwfs" ] && return 1
+  wipeptable "$dev" || fail "Failed to wipe partition table of $dev"
+  addpart "$dev" vfat boot "$bsize" || fail "Failed to add fat partition boot of size $bsize to $dev"
+  if [ "$rwfs" != "n" ]; then
+    addpart "$dev" "$rwfs" || fail "Failed to add $rwfs partition rw to $dev"
+  fi
+
+  if [ -b "$dev"1 ]; then
+    boot_part="$dev"1
+    rw_part="$dev"2
+  elif [ -b "$dev"p1 ]; then
+    boot_part="$dev"p1
+    rw_part="$dev"p2
+  else
+    fail "Could not find boot partition"
+  fi
+  installboot "$boot_part" || fail "Failed to install boot partition $boot_part."
+  if [ "$rwfs" != "n" ]; then
+    if [ -b "$rw_part" ]; then
+      mount -t vfat "$boot_part" /boot || return 1
+      push_mounts /boot
+      copyrw "$rw_part" "$rwfs" || fail "Failed to install rw partition $rw_part."
+      pop_mounts /boot
+    fi
+  fi
+}
+
+installer() {
+  local dev=""
+  local boot_size=""
+  local rwfs=""
+  local size=""
+  local img=""
+  if [ -z "$*" ]; then
+    local ans="$(installer_qa)"
+    echo $ans |read dev boot_size rwfs size
+  else
+    dev="${1:-}"
+    [ -z "$dev" ] && usage
+    boot_size="${2:-}"
+    [ -z "$boot_size" ] && usage
+    rwfs="${3:-}"
+    [ -z "$rwfs" ] && usage
+  fi
+
+  if [ ! -b "$dev" ]; then
+    if [ "$rwfs" = "n" ]; then
+      size="$boot_size"
+    else
+      if [ -z $size ]; then
+        size="${4:-}"
+        [ -z "$size" ] && usage
+      fi
+    fi
+    img="$dev"
+    dev=$(mkimage_loop "$img" "$size")
+    push_loops "$dev" "$img"
+  fi
+
+  do_install "$dev" "$boot_size" "$rwfs"
+}
+
+mkboottar() {
+  local dst="${1:-}"
+  [ -z "$dst" ] && return 1
+  local tmp="$(mktemp -d)"
+  push_remove "$tmp"
+  cp -a /boot/* "$tmp"
+  if [ ! -e "$tmp"/default.sqsh.img ]; then
+    mksquash "$tmp"/default.sqsh.img
+  fi
+  if [ ! -e "$tmp"/default.cpio.gz ]; then
+    mkinitramfsgz "$tmp"/default.cpio.gz
+  fi
+  if [ ! -e "$tmp"/default ]; then
+    cp /boot/vmlinuz "$tmp"/default
+  fi
+  if [ ! -e "$tmp"/syslinux.cfg ]; then
+    mksyslinuxcfg  "$tmp"/syslinux.cfg
+  fi
+  mktar_src "$tmp"/src.tar.xz
+  cp "$0" "$tmp"
+  tar czf $dst -C "$tmp" .
+  pop_remove "$tmp"
+}
+
+do_chroot() {
+  local boot_dir="${1:-}"
+  [ -z "$boot_dir" ] && return 1
+  [ -e "$boot_dir"/default.sqsh.img ] || return 1
+  local tmp="$(mktemp -d)"
+  push_remove "$tmp"
+
+  mount -o loop,ro -t squashfs "$boot_dir"/default.sqsh.img "$tmp"
+  push_mounts "$tmp"
+
+  mount -t proc procfs "$tmp"/proc
+  push_mounts "$tmp"/proc
+
+  mount -t sysfs sysfs "$tmp"/sys
+  push_mounts "$tmp"/sys
+
+  mount --bind /dev "$tmp"/dev
+  push_mounts "$tmp"/dev
+
+  mount -t tmpfs tmpfs "$tmp"/tmp
+  push_mounts "$tmp"/tmp
+
+
+  mkdir "$tmp"/tmp/boot
+  push_remove "$tmp"/tmp/boot
+  mount --bind "$boot_dir" "$tmp"/tmp/boot
+  push_mounts "$tmp"/tmp/boot
+
+  local tempboot="$(mktemp -d)"
+  push_remove "$tempboot"
+  mount --bind "$tempboot" "$tmp"/boot
+  push_mounts "$tmp"/boot
+  cp "$tmp"/tmp/boot/vmlinuz "$tmp"/boot
+  cp "$tmp"/tmp/boot/System.map "$tmp"/boot
+  
+  local srctmp="$(mktemp -d)"
+  push_remove "$srctmp"
+
+  mount --bind "$srctmp" "$tmp"/src
+  push_mounts "$tmp"/src
+  tar xf "$boot_dir"/src.tar.xz -C "$srctmp"
+
+  echo "You are now in the chroot of the $boot_dir/default.sqsh.img image"
+  echo "$boot_dir is /tmp/boot"
+  chroot "$tmp" /bin/sh
+  for mtpt in "$tmp"/dev "$tmp"/sys "$tmp"/proc "$tmp"/boot "$tmp"/tmp/boot "$tmp"/tmp "$tmp"/src; do
+    pop_mounts "$mtpt"
+  done
+  pop_remove "$tmp"/tmp/boot
+  pop_mounts "$tmp"
+  pop_remove "$tempboot"
+  pop_remove "$srctmp"
+  pop_remove "$tmp"
+}
+
+in_chroot() {
+  local boot="${1:-}"
+  [ -z "$boot" ] && return 1
+  shift
+  local func="${1:-}"
+  [ -z "$func" ] && return 1
+  shift
+  local out="${1:-}"
+  [ -z "$out" ] && return 1
+  shift
+  local args="$@"
+  local tmpout=/tmp/boot/"$(basename $out)"
+  [ "$func" == "chroot" ] && return 1
+  if [ -z "$args" ]; then
+    echo "/tmp/boot/squash-tool $func $tmpout" | do_chroot "$boot"
+  else
+    echo "/tmp/boot/squash-tool $func $tmpout $args" | do_chroot "$boot"
+  fi
+  mv "$boot"/"$tmpout" "$out"
+}
+
+update() {
+  local src="${1:-}"
+  [ -z "$src" ] && return 1
+  local dst="${2:-}"
+  [ -z "$dst" ] && return 1
+  local bootdev="${3:-}"
+  [ -z "$bootdev" ] && return 1
+  (
+    cd "$dst"
+    mv default old
+    mv default.cpio.gz old.cpio.gz
+    mv default.sqsh.img old.sqsh.img
+    mv src.tar.xz oldsrc.tar.xz
+  )
+  for f in default default.cpio.gz default.sqsh.img src.tar.xz; do
+    cp "$src"/"$f" "$dst"
+  done
+  mksyslinuxcfg "$dst"/syslinux.cfg "$bootdev" "$dst"
+}
+
+
+setuptraps
+[ "$(id -u)" = "0" ] || fail "must be root"
+
+[ "$(readlink /bin/sh)" = "dash" ] && \
+  echo "this script is incompatible with dash. "\
+       "Please use bash or busybox (dpkg-reconfigure dash)" && \
+  exit 1
+
+func="${1:-}"
+[ -z "$func" ] && usage
+shift
+
+if [ "$func" = "chroot" ]; then
+  type chroot || fail "Install chroot on host"
+  bootdir="${1:-}"
+  [ -z "$bootdir" ] && usage
+  do_chroot "$bootdir"
+  cleanup
+  exit 0
+fi
+
+[ -e /src ] || fail "must run in sabotage (with source) environment"
+
+
+[ ! -f /boot/vmlinuz ] && fail "Please install a kernel"
+[ ! -x /bin/partx ] && fail 'Please install partx'
+[ ! -x /bin/syslinux ] && fail 'Please install syslinux6'
+[ ! -x /bin/mksquashfs ] && fail 'Please install squashfs-tools'
+[ ! -x /bin/mkfs.vfat ] && fail 'Please install dosfstools'
+[ ! -x /bin/blkid ] && fail 'Please install libblkid'
+[ ! -x /bin/cpio ] && fail 'Please install cpio'
+
+case "$func" in
+  "install") installer "$@";; #TODO: efibootmgr
+  "tarball") mkboottar "$@";;
+  "in_chroot") in_chroot "$@";;
+  "mkinitramfs") mkinitramfs "$@";;
+  "update") update "$@";;
+  "srctar") mktar_src "$@";;
+  "mkinitramfs") mkinitramfs "$@";;
+  *) usage;;
+esac
+
+cleanup

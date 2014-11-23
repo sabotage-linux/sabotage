@@ -4,9 +4,45 @@ mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
 mdev -s
-get_opt() {
-  echo "$@" | cut -d "=" -f 2
+
+fail_shell() {
+  echo "$@"
+  exec sh
 }
+
+waitdev() {
+  local dev=$1
+  if echo "$dev" |grep -E -q '(UUID=|LABEL=)'; then
+    dev="$(findfs $dev)"
+  fi
+  for i in $(seq 10); do
+    [ -b "$dev" ] && break
+    sleep 1
+    mdev -s
+  done
+}
+
+wait_btrfs() {
+  [ -x /bin/btrfs ] || return 0
+  local btrfs=$(grep btrfs /newroot/etc/fstab |awk '{print $1}')
+  btrfs device scan
+  if [ ! -z "$btrfs" ]; then
+    waitdev $btrfs
+    if [ -b "$btrfs" ]; then
+      for i in $(seq 10); do
+        if btrfs device ready $btrfs; then
+          break
+        fi
+        sleep 1
+      done
+    fi
+  fi
+}
+
+get_opt() {
+  echo "$@" | sed -r 's,(^| )[^=]+=([^ ]+)( |$),\2,g'
+}
+
 init="/bin/init"
 boot="/dev/sda1"
 sqsh_root="/root.sqsh.img"
@@ -20,24 +56,26 @@ for i in $(cat /proc/cmdline); do
       ;;
     sqsh_root\=*)
       sqsh_root=$(get_opt $i)
+      ;;
+    rescue)
+      fail_shell
+      ;;
   esac
 done
-for i in $(seq 10); do
-  [ -e "$boot" ] && break
-  sleep 1
-  mdev -s
-done
-
-fsck.fat -a "${boot}"
+waitdev $boot
+fsck.fat -a -r "${boot}"
 mount -o ro,umask=077 "${boot}" /boot
-mount -o loop -t squashfs "/boot/${sqsh_root}" /newroot
-fsck -A -T -C -p
-mount -a
+if ! mount -o loop -t squashfs "/boot/${sqsh_root}" /newroot; then
+  fail_shell "couldn't mount /boot/${sqsh_root} to /newroot"
+fi
+if ! fsck -A -T -C -p; then
+  fail_shell "Fsck failed, fix the problem"
+fi
+wait_btrfs
 if [ -x "/newroot/${init}" ] ; then
   mount --move /boot /newroot/boot
   mount --move /dev /newroot/dev
   umount -f /sys /proc
   exec switch_root /newroot "${init}"
 fi
-echo "Failed to switch_root, dropping to a shell"
-exec sh
+fail_shell "Failed to switch_root, dropping to a shell"
