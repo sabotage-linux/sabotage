@@ -1,4 +1,7 @@
 #!/bin/sh
 [ "$1" = "--prereqs" ] && exit 0
-
-exec wpa_supplicant -Dnl80211,wext,hostapd,wired -iwlan0 -c/etc/wpa_supplicant.conf
+wpa_ifs="wlan0"
+for if in $wpa_ifs; do
+  exec wpa_supplicant -B -Dnl80211,wext,hostapd,wired -i"$if" -c/etc/wpa_supplicant.conf
+done
+wpa_cli -a /bin/wpa_supplicant_action
