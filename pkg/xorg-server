@@ -10,13 +10,17 @@ libxau
 libxdmcp
 libxfont
 mesalib
+xcb-util-image
+xcb-util
+xcb-util-keysyms
+xcb-util-wm
 
 [main]
-filesize=5502845
-sha512=d5379e2f52e93985ab2636ca02f503baadd359a4ec05bed80162213392e16d433a2b7308e90cdd18c1a0bd283429f2c8b8758b5a2c585923533cced6245de989
+filesize=5806406
+sha512=c0459ed95a6682b2094340b6b8fc7b59fcda5227ee2f13e87f68eb5c29b91cd3f05c5fc2126e33d6303beb3ad04d19466951ef4eb53f2e9918684cdaf3692c5a
 
 [mirrors]
-ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.14.3.tar.bz2
+ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.16.3.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
@@ -27,7 +31,23 @@ sed -i 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h
 LDFLAGS="-lfontenc -lfreetype -lz -lxcb -lXdmcp -lXau $optldflags" \
   CFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE -I$butch_prefix/include/pixman-1 $optcflags" \
   ./configure -C --prefix="$butch_prefix" \
-    --enable-kdrive --enable-kdrive-evdev $xconfflags
+  --enable-kdrive --enable-kdrive-evdev $xconfflags \
+  --enable-dri \
+  --enable-dri2 \
+  --enable-glamor \
+  --enable-glx-tls \
+  --enable-aiglx \
+  --enable-xfbdev \
+  --enable-xorg \
+  --enable-xv \
+  --enable-xres \
+  --enable-xace \
+  --enable-xnest \
+  --enable-xephyr \
+  --disable-config-hal \
+  --disable-dmx \
+  --disable-tslib
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
