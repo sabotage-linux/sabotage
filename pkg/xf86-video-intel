@@ -4,16 +4,17 @@ libx11
 xorg-server
 
 [main]
-filesize=1977431
-sha512=ca9680716445d0e9ba1a5d87433455f7a5f558802b4d214d79496426dbfd3e598968f784b531de024df30fefcc114d6e40cc9c6da94604beb48cd4430bf9e491
+filesize=2241651
+sha512=f44d6d9763587faa9723c47ca5c9c99e2595b2190168ac7cc8ea1fd9d9697ba5ba8ab3b2968913fa291a2fc908170bd1cf3de425312d96d68de458d03c503af4
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.21.15.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.99.916.tar.bz2
+
 [build]
 ./configure -C --prefix="$butch_prefix" \
   --enable-xvmc \
-  --disable-silent-rules \
-  --enable-dri
+  --enable-glamor \
+  --disable-selective-werror
 
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
