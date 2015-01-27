@@ -1,9 +1,9 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-input-keyboard-1.7.0.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-keyboard-1.8.0.tar.bz2
 
 [main]
-filesize=319043
-sha512=f809ea4db5bda0ffefc78887838dd65519ee3e4c862a2021f1e50fb9e56954743c602dd940a054d528b15e8e6e19e88eb2da688dabe3521622993bda54dd4e50
+filesize=323838
+sha512=a4fcace65414f011fb4c5d68622182acef7d606fb1a121687244a0a3442c05906d54d30664c942eba8d7209e0dccefe733ab196c7c3ab8cf690e9fd715c87aa6
 
 [deps]
 util-macros
