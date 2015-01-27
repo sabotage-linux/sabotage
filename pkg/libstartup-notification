@@ -8,7 +8,7 @@ sha512=ea1246acdb50dafd9ced9914ec3c8f0d499c0ca3cfd447b43a444c768a6e9ea7135e5c42d
 
 [deps]
 libxcb
-xcb-utils
+xcb-util
 libx11
 
 [build]
