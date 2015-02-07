@@ -22,6 +22,8 @@ CFLAGS="-D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" --disable-debug --disable-yasm \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
   --enable-shared --enable-postproc --enable-gpl \
-  --disable-stripping
+  --disable-stripping \
+  --enable-x11grab
+  
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
