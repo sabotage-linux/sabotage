@@ -12,6 +12,10 @@ libxdg-basedir
 pango
 lgi
 
+[deps.host]
+cmake
+python
+
 [build]
 # This check somehow always fails the build, so just ignore it
 lgicheck=/src/build/awesome/awesome-3.5.6/build-utils/lgi-check.sh
