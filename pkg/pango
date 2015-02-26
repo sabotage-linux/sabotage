@@ -21,7 +21,7 @@ patch -p1 < "$K/pango-querymodules-prefix.patch"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
 CXXFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --enable-introspection=no
+  --enable-introspection=yes
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 

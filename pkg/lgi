@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/pavouk/lgi/archive/0.8.0.tar.gz
+
+[main]
+filesize=282052
+sha512=9998b544210d006ea5be162d052031599837bfb2c22433193d4f6761cd7d1e19e69252dd9fea0c3fee94efadaa354d80e2be13db578b3a2b71a9b56a7f07cbe9
+
+[deps]
+gobject-introspection
+lua
+
+[build]
+# depends on lua-5.2.
+# lua-5.3 doesn't work yet with lgi-0.8.0!
+
+# cd from butch doesn't work because of the archive name
+cd /src/build/lgi/lgi-0.8.0/
+
+
+make V=1 -j$MAKE_THREADS
+
+make \
+    LUA_LIBDIR=/lib/lua/5.2 \
+    LUA_SHAREDIR=/share/lua/5.2 \
+    DESTDIR="$butch_install_dir" install

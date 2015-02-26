@@ -1,0 +1,40 @@
+[mirrors]
+http://awesome.naquadah.org/download/awesome-3.5.6.tar.xz
+
+[main]
+filesize=720112
+sha512=8d89bf46956276a8bcf106bb255c051e8382b08617e17691134a8f3e5db3ec9f7773581c02ce62d23e72499f7b1e60fe4322c211e41219b5bffd1897a96f6cf6
+
+[deps]
+glib
+startup-notification
+libxdg-basedir
+pango
+lgi
+
+[build]
+# This check somehow always fails the build, so just ignore it
+lgicheck=/src/build/awesome/awesome-3.5.6/build-utils/lgi-check.sh
+rm $lgicheck
+ln -s /bin/true $lgicheck
+
+
+# Usually a few images get converted to grayscale with 'convert'
+# from imagemagick. We won't install imagemagick just for the
+# build process (!), so hack around it with a fake binary:
+fakebin="$butch_build_dir/sabotaged-bin/"
+mkdir -p "$fakebin"
+ln -s /bin/true "$fakebin/convert"
+
+
+
+# Note: when setting the INSTALL_PREFIX to /, cmake assumes
+# that the resulting path // is a network path and fails!
+cmake	-DCMAKE_BUILD_TYPE=RELEASE \
+	-DSYSCONFDIR=/etc \
+	-DCMAKE_INSTALL_PREFIX:PATH=/. \
+
+
+PATH=$PATH:$fakebin make V=1 -j$MAKE_THREADS
+
+make DESTDIR="$butch_install_dir" install
