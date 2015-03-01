@@ -1,0 +1,12 @@
+--- src/basedir.c.orig	2014-03-16 20:26:36.938576209 +0100
++++ src/basedir.c	2014-03-16 20:27:50.212192889 +0100
+@@ -574,7 +574,7 @@
+ 		unsigned int homelen;
+ 		if (!(home = xdgGetEnv("HOME")))
+ 			return NULL;
+-		if (!(relhome = (char*)malloc((homelen = strlen(home))+fallbacklength))) return NULL;
++		if (!(relhome = (char*)malloc((homelen = strlen(home))+fallbacklength+1))) return NULL;
+ 		memcpy(relhome, home, homelen);
+ 		memcpy(relhome+homelen, relativefallback, fallbacklength+1);
+ 	}
+
