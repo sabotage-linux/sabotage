@@ -17,8 +17,8 @@ cmake
 python
 
 [build]
-# This check somehow always fails the build, so just ignore it
-lgicheck=/src/build/awesome/awesome-3.5.6/build-utils/lgi-check.sh
+# lgi is a dependency already. Ignore non-working check script:
+lgicheck="$butch_build_dir/build-utils/lgi-check.sh"
 rm $lgicheck
 ln -s /bin/true $lgicheck
 
@@ -31,8 +31,7 @@ mkdir -p "$fakebin"
 ln -s /bin/true "$fakebin/convert"
 
 
-
-# Note: when setting the INSTALL_PREFIX to /, cmake assumes
+# NOTE: When setting the INSTALL_PREFIX to /, cmake assumes
 # that the resulting path // is a network path and fails!
 cmake	-DCMAKE_BUILD_TYPE=RELEASE \
 	-DSYSCONFDIR=/etc \
