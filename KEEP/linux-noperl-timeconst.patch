@@ -1,10 +1,8 @@
 Replace timeconst.bc with the c version I've been using for years (to replace
 the perl version). Eventually I should add bc to toybox, but for now...
 
-diff --git a/kernel/Makefile b/kernel/Makefile
-index eceac38..f00be6d 100644
 --- /dev/null
-+++ linux/kernel/mktimeconst.c
++++ linux/kernel/time/mktimeconst.c
 @@ -0,0 +1,110 @@
 +/* Copyright 2010 Parallels Inc, licensed under GPLv2 */
 +/* Copyright 2010-2013 Rob Landley <rob@landley.net> */
@@ -116,7 +114,7 @@ index eceac38..f00be6d 100644
 +	fflush(stdout);
 +	return ferror(stdout);
 +}
---- linux/kernel/timeconst.bc	2013-04-28 19:36:01.000000000 -0500
+--- linux/kernel/time/timeconst.bc	2013-04-28 19:36:01.000000000 -0500
 +++ /dev/null	2013-02-23 10:58:11.743993346 -0600
 @@ -1,108 +0,0 @@
 -scale=0
@@ -227,9 +225,9 @@ index eceac38..f00be6d 100644
 -}
 -
 -timeconst(hz)
---- linux/kernel/Makefile
-+++ linux/kernel/Makefile
-@@ -125,19 +125,13 @@
+--- linux/kernel/time/Makefile
++++ linux/kernel/time/Makefile
+@@ -125,17 +125,11 @@
  
  $(obj)/time.o: $(obj)/timeconst.h
  
@@ -252,5 +250,3 @@ index eceac38..f00be6d 100644
 +$(obj)/timeconst.h: $(obj)/mktimeconst FORCE
 +	$(call if_changed,mktimeconst)
  
- ifeq ($(CONFIG_MODULE_SIG),y)
- #
