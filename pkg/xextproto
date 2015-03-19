@@ -1,9 +1,9 @@
-[main]
-filesize=229282
-sha512=c2b60f07c16f850c5fce2aeec071654d34d88f9c775a4386286f597bcce437a124ed3f8c9f7ddc58427c1413f5326a26ee15866fd6725c6315e6da32b323cf33
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.99.901.tar.bz2
+
+[main]
+filesize=229097
+sha512=e2695da13b80e6a182fe5451838af868c4b65f4d99df38d00f746be31865bb251887471823902ca9219ff78dbde0094e84a71b88b17956783c82cd9684cfbabd
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

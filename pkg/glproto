@@ -1,9 +1,9 @@
-[main]
-filesize=119584
-sha512=404c72a0f54f31ed639a08b72cbdb6f4d28b76885759df12cdd76fc3ea3b2930c1c8fb7460cd49a36c3a799dc5fd809ffce7da35ff67e1c9604c3c21cca9cb63
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/glproto-1.4.16.tar.bz2
+http://xorg.freedesktop.org/releases/individual/proto/glproto-1.4.17.tar.bz2
+
+[main]
+filesize=126969
+sha512=3e5bb1949ab9993e07d2ed7e829b9e0a8803eab476e9f4082fc01087c3dce01f3bcb9d55261eaf60e55977a689b326ed1dcf40f74d5e1fc660c83bea094b6754
 
 [deps]
 

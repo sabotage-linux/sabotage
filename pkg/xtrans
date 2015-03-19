@@ -1,9 +1,9 @@
-[main]
-filesize=173025
-sha512=119fce2a69e363bfc5ea95fe5c5c02771740f167244694f19da2ed3e19fe1e351b83d32323226be61dd009b495180f25c0d5afdeb4cf2337e15b12e92d061ae7
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.3.3.tar.bz2
+
+[main]
+filesize=177244
+sha512=9db9464f8e9f1b48e5b8953e764fce7dc0e454c50c794c7871023380f6881b7e9d2e754831c906000c18467a7946d67c86eb4574f11175f8dc27b53599af01b5
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

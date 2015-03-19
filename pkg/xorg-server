@@ -34,7 +34,7 @@ LDFLAGS="-lfontenc -lfreetype -lz -lxcb -lXdmcp -lXau $optldflags" \
   --enable-kdrive --enable-kdrive-evdev $xconfflags \
   --enable-dri \
   --enable-dri2 \
-  --enable-glamor \
+  --disable-glamor \
   --enable-glx-tls \
   --enable-aiglx \
   --enable-xfbdev \
