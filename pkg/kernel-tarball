@@ -1,9 +1,9 @@
 [mirrors]
-ftp://kernel.org/pub/linux/kernel/v3.x/linux-3.18.8.tar.xz
-http://www.kernel.org/./pub/linux/kernel/v3.x/linux-3.18.8.tar.xz
-http://ftp.free.fr/pub/linux/kernel/v3.x/linux-3.18.8.tar.xz
-http://ftp.heanet.ie/mirrors/linux/kernel/v3.x/linux-3.18.8.tar.xz
+ftp://kernel.org/pub/linux/kernel/v3.x/linux-3.19.4.tar.xz
+http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.19.4.tar.xz
+http://ftp.free.fr/pub/linux/kernel/v3.x/linux-3.19.4.tar.xz
+http://ftp.heanet.ie/mirrors/linux/kernel/v3.x/linux-3.19.4.tar.xz
 
 [main]
-filesize=80954240
-sha512=bfe989e66e4935d6b906452852ae8a389258f528ec6eb5cbd5cf2a8636949557407f3db8aa0dbebe84def78f0adedf76b56040992340184d8fa504f9a3ae99a2
+filesize=81677424
+sha512=131fd60d0c92eaba4684dc07c1e11a7e022d516b7f2cf60986cbef48fc0b6df57ff989285f0b2a74fad7b4ecd24a7d8a38e1ada2b305a089d280ba8308d6d36b
