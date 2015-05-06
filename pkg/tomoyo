@@ -1,12 +1,10 @@
-[deps]
+[mirrors]
+http://jaist.dl.sourceforge.jp/tomoyo/53357/tomoyo-tools-2.5.0-20140601.tar.gz
 
 [main]
-filesize=210244
-sha512=77ac39349ee4ce40a1e5e96be18191afbfda3fb92b41d1c588ac5b98d1677fd111107bae4f0821a284637f967f242d390ce2df022f8b765f6854c3ba8af03d60
+filesize=211411
+sha512=c89e5257e8158e31e17c0d62735a1f8b7728c4c7e05d9e0e860ff637a575071b4b0ce7fca8162cde4659fecc2b047d0b79a45291df3612878dba48aaafa6b2d5
 tardir=tomoyo-tools
-
-[mirrors]
-'http://sourceforge.jp/frs/redir.php?m=jaist&f=/tomoyo/53357/tomoyo-tools-2.5.0-20120414.tar.gz'
 
 [build]
 make -j$MAKE_THREADS CFLAGS="-D_GNU_SOURCE -D__WALL=0x40000000 -D_LARGEFILE64_SOURCE"
