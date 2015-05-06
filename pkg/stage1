@@ -13,10 +13,13 @@ man
 zlib
 
 [build]
-rm -rf "$butch_root_dir"/opt/gcc3
-rm -rf "$butch_root_dir"/opt/stage0_musl
-rm -rf "$butch_root_dir"/opt/stage0
-rm -rf "$butch_root_dir"/opt/stage1
+if [ -d "$butch_root_dir"/opt/stage0 ] ; then
+	rm -rf "$butch_root_dir"/opt/gcc3
+	rm -rf "$butch_root_dir"/opt/stage0_musl
+	rm -rf "$butch_root_dir"/opt/stage0
 
-butch unlink gcc3
-butch relink `ls -d "$butch_root_dir"/opt/gcc4* |awk -F/ '{print $NF}' |tail -n1`
+	butch unlink gcc3
+	butch relink $(ls -d "$butch_root_dir"/opt/gcc4* |awk -F/ '{print $NF}' |tail -n1)
+fi
+
+rm -rf "$butch_root_dir"/opt/stage1

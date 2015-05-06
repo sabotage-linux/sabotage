@@ -1,6 +1,4 @@
 [mirrors]
-http://surfnet.dl.sourceforge.net/project/proxychains-ng/proxychains-4.5.tar.bz2
-http://switch.dl.sourceforge.net/project/proxychains-ng/proxychains-4.5.tar.bz2
 http://heanet.dl.sourceforge.net/project/proxychains-ng/proxychains-4.5.tar.bz2
 
 [main]

@@ -1,7 +1,5 @@
 [mirrors]
-ftp://ftp.at.kde.org/graphics/gimp/gegl/0.2/gegl-0.2.0.tar.bz2
-ftp://ftp.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
-ftp://slackware.oregonstate.edu/.1/blfs/conglomeration/gegl/gegl-0.2.0.tar.bz2
+http://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 
 [main]
 filesize=7502040

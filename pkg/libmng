@@ -1,6 +1,5 @@
 [mirrors]
-http://surfnet.dl.sourceforge.net/project/libmng/libmng-devel/1.0.10/libmng-1.0.10.tar.gz
-http://switch.dl.sourceforge.net/project/libmng/libmng-devel/1.0.10/libmng-1.0.10.tar.gz
+http://heanet.dl.sourceforge.net/project/libmng/libmng-devel/1.0.10/libmng-1.0.10.tar.gz
 
 [main]
 filesize=1093337
