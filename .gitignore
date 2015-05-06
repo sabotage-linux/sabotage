@@ -2,6 +2,7 @@
 *.gz
 *.xz
 config
+config.*
 super_chroot
 tarballs_used.txt
 build/*
