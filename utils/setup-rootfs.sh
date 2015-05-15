@@ -13,7 +13,7 @@ if [ -z "$R" ]; then
 fi
 
 # enable verbose printing, abort on error
-set -e -x
+set -e
 
 mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 
