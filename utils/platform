@@ -1,9 +1,0 @@
-#!/bin/sh
-
-cpp -P <<EOF | grep -v "^$"
-#ifdef __i386__
-i386
-#elif __amd64__
-x86_64
-#endif
-EOF
