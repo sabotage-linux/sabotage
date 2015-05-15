@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: run-emulator.sh [no args, uses $H/config]
+# runs the chroot under QEMU
+ 
 export H="$PWD"
 . ./config
 

@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: hunt-library-tree.sh <search term> <elf file>
+# searches "elf file" and its shared libraries for instances of "search term"
+ 
 if [ -z "$1" -o -z "$2" ] ; then
         echo "Usage: hunt-library-tree <search term> <elf file>"
 fi

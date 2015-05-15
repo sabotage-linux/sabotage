@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: update-chroot.sh [no args, uses $H/config]
+# updates the chroot /src with the hosts /src
+ 
 MYDIR=$(dirname "$(readlink -f "$0")")
 export H="$MYDIR/.."
 . "$H"/config
