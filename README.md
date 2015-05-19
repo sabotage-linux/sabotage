@@ -1,187 +1,177 @@
 # Sabotage Linux
 
-This is sabotage, an experimental distribution based on musl libc and busybox.
+This is Sabotage, an experimental distribution based on musl libc and busybox.
 
-Currently sabotage supports i386 and x86_64, MIPS, PowerPC32 and ARM(v4t+).
+Currently Sabotage supports i386, x86_64, MIPS, PowerPC32 and ARM(v4t+).
 
-The prefered way to build sabotage is using a native linux environment
-for the desired architecture; however it is now also possible to cross-compile
-large parts of it. as cross-compiling is very hairy and support for it
-is quite new in sabotage, breakage is to be expected.
-Native builds though are well tested and can be considered very stable.
+The preferred way to build Sabotage is using a native Linux environment for the desired architecture. It is now also possible to cross-compile large parts of it. As cross-compiling is hairy and support for it is quite new, expect breakage. Native builds are well tested and considered stable.
+
 
 ## Requirements:
 
-* ~4G free disk space
-* root access, or a linux 3.8+ host kernel with USER_NS support 
-  (only for native build)
-* usual GCC 4 toolchain
-* git
-* lots of time and a fair bit of Linux knowledge
+* ~4G free disk space.
+* A Linux 3.8+ host kernel with USER_NS support, for entering native chroots without root.
+* A Linux 2.6+ host kernel can be used, but requires root access.
+* A `gcc` 4.x tool chain.
+* `git`, to check out the repository.
+* `bzip2`, `sed`, `patch`, `tar`, `wc`, `wget` and `xz` are needed to run the build script.
+* Lots of time and a fair bit of Linux knowledge.
 
-## X-Compile Requirements
 
-* latest musl-cross for your target arch
-* latest butch >= 0.4.0 installed and compiled for the build host in $PATH
-* pkgconf symlinked as pkg-config in PATH (before other pkg-config versions)
-* anything that is listed in deps.host sections in the packages you build,
-  installed on your host.
-  optimal (and only tested configuration) is to build from a sabotage host
-  (rootfs) that has all the same packages installed that you want to compile.
+## Cross-Compile Requirements:
 
-This system has been built *natively* on Debian 6.0 and 7.0, Ubuntu 13.04, 
-Suse 11.4, aboriginal 1.1 and 1.2, and Fedora 19 systems.
+* `musl-cross` for your target arch.
+* `butch` compiled and installed for the build host in $PATH.
+* `pkgconf` symlinked as pkg-config in $PATH, before other pkg-config versions.
+* Packages may have a `deps.host` section listing further packages required on the host. 
 
-You can bootstrap your own build from the scripts at 
+The only tested cross-compile setup is a Sabotage host that has the same packages installed as the ones you wish to compile.
+
+This system has built *natively* on Debian 6 & 7, Fedora 18 & 21, Ubuntu 14.04, openSUSE 13.2, Alpine 3.1.2 and Void Linux.
+
+## Obtaining Sabotage
+
+You can bootstrap your own build from the scripts at: 
 
 https://github.com/sabotage-linux/sabotage
 
-or use a ready-to-boot disk image either for qemu, vbox 
-or to extract the rootfs, to be found at:
+Download ready-to-boot QEMU/VirtualBox disk images that you may also extract the rootfs from:
 
 * DE : http://ftp.barfooze.de/pub/sabotage/
 * GR : http://foss.aueb.gr/mirrors/linux/sabotage/
 * UK : http://dl.2f30.org/mirrors/sabotage/
-* FR : http://mirrors.2f30.org/sabotage/
+* FR : http://mirrors.2f30.org/sabotage/ 
 
-the DE mirror is the master from which the other mirrors are synced
-after some hours.
+The DE mirror is the master from which the other mirrors are periodically synced.
 
-sha512 checksums for the releases are announced on the sabotage
-and musl mailinglists, and are archived here:
+SHA512 checksums for releases get posted on the mailing lists, archived here:
 
 http://openwall.com/lists/sabotage/
 
+**READ THE COOKBOOK FIRST BEFORE POSTING**.
 
-**READ THE COOKBOOK FIRST**.
 
-## Native Build instructions:
+## Native Build Instructions:
 
 **DO NOT RUN SCRIPTS YOU HAVE NOT READ**.
 
-    cp KEEP/config.stage0 config
-    vi config
+	$ cp KEEP/config.stage0 config
+	$ vi config
 
-set SABOTAGE_BUILDDIR, A, and MAKE_THREADS variables. 
-if you have an appropriate kernel and no root privs, set SUPER.
-the other values can be left as-is usually.
+Set the `SABOTAGE_BUILDDIR`, `A`, and `MAKE_THREADS` variables. You may usually ignore the other values. Both the config file and the COOKBOOK cover the meaning of these variables.
 
-NOTE: it is possible to build i386 sabotage from within an existing
-32bit chroot on a 64bit sys, however you need to "impersonate" a 32bit sys
-(this means uname has to lie and report a 32bit sys) using the linux32 command.
-the enter-chroot script will try to detect this scenario automatically
-and builds an embedded version (KEEP/linux32.c) if linux32 is not alread
-installed.
+Enable `SUPER` to use the following `./enter-chroot` script without root.
 
-    ./build-stage 0  # build toolchain 
-                     # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz
-    ./enter-chroot   # enter $R chrooted, needs root password or SUPER, see above
-    cd /src
-    vi config        # set your MAKE_THREADS, etc
-    butch install stage1
+NOTE: It is possible to build an i386 Sabotage from within an existing 32-bit chroot on a 64-bit system. The sabotage script automatically handles this scenario.
 
-and after that, feel free to install optional packages:
-you can look at what's available using 'ls /src/pkg'
+	$ ./build-stage0        # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz
+	$ ./enter-chroot
+	$ butch install stage1	# ... longer yet. 
 
-if you want the default kernel (otherwise you have to build it yourself)
+Older pre-3.8 Linux systems will not support the rootless chroot approach used by `./enter-chroot`. Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
+ 
+Once completed, you may install optional packages:
 
-    butch install kernel
+	$ butch install core    # installs a sane subset for a developer base system
+	$ butch install xorg    # install everything needed for xfbdev
+	$ butch install pkg     # things such as file, git, gdb ...
+	$ butch install world   # almost everything
+	
+You may list available packages by using `ls /src/pkg`.
 
-    butch install core # installs a sane subset needed for a developer base system
-    butch install xorg # install everything needed to get xfbdev
-    butch install pkg # installs additional things, such as file, git, gdb ...
-    butch install world #installs almost everything
+If you wish to build the default kernel:
 
-Run "butch" and look at the usage information it outputs for further options.
+	$ butch install kernel
 
-butch uses build templates that allow a high level of customization.
-in case you're interested, take a look at 
-KEEP/butch_template_configure_cached.txt to see how it works. 
-this is the base template used by sabotage, which
-is responsible for things like providing a tuned config.cache for faster
-configure runs, installing packages into a custom directory in /opt, 
-creation of filelists, etc.
+Run `butch` and look at the usage information for further options.
 
-## X-Compile instructions:
+`butch` uses build templates that allow for a high level of customization. `KEEP/butch_template_configure_cached.txt` is the base template used by Sabotage. It provides a tuned `config.cache` for faster configure runs. It also installs packages into `/opt`, creates file lists, etc.
 
-    cp KEEP/config.cross .
-    vi config.cross #set your vars
-    A=microblaze CONFIG=./config.cross utils/setup-rootfs #initialize rootfs
-    A=microblaze CONFIG=./config.cross butch install nano #start building stuff
 
-when you're done compiling, exit the chroot and
-- either use the rootfs directly (by copying it to some disk)
-- use utils/run-emulator.sh to boot the system directly in qemu.
-  running the rootfs directly in qemu has pretty poor hdd performance,
-  because the FS is mounted via 9P network, so it's not recommended
-  to build packages, but it's practical for testing.
-- use utils/write-hd-image.sh to create an image file.
-  the image file can be directly booted in qemu.
-  to convert it into virtual box format use "VBoxManage convertfromraw".
+## Cross-Compile Instructions:
+
+	$ cp KEEP/config.cross .
+	$ vi config.cross # set your vars
+	$ A=microblaze CONFIG=./config.cross utils/setup-rootfs.sh # initialize rootfs
+	$ A=microblaze CONFIG=./config.cross butch install nano # start building stuff
+
+Much like a native build, a config file is copied and edited. `utils/setup-rootfs.sh` is run instead of `./build-stage0` to construct the new root. Finally, we use `butch` to start cross-compiling and installing packages into it.
+
+## After Compiling
+
+When finished compiling, exit the chroot and either: 
+
+* Use the rootfs directly, by copying it to some disk.
+* Use `utils/run-emulator.sh` to boot the system in QEMU. Running in QEMU has poor HDD performance, as the FS is mounted via 9P protocol. It's not recommended for building packages, but it's practical for testing.
+* Use `utils/write-hd-image.sh` to create an image file. The image file boots in QEMU. To convert it into VirtualBox format use `VBoxManage convertfromraw`.
 
 
 ## RUNNING SABOTAGE FOR THE FIRST TIME
 
 The default root password is "sabotage".
 
-the sshd service can be started using "sv u sshd"
-(will create keys automatically on first use).
-to make the service autostart on boot, remove /etc/service/sshd/down.
+Start the sshd service using `sv u sshd`, which will create keys on first use. To make the service autostart on boot, remove `/etc/service/sshd/down`.
 
-check and edit /etc/rc.local for other things to autostart,
-such as network config, dhcp, linux console keymap...
+Edit `/etc/rc.local` for other things to autostart, such as network configuration, DHCP, console keymapping...
 
-if you have X installed, you want to edit /bin/X for the correct evdev
-settings (see examples provided in there), then run "startx".
-also check /etc/xinitrc for X11 keyboard config.
+If you have X installed, edit the example `/bin/X` for the correct evdev settings, then run `startx`. Check `/etc/xinitrc` for X11 keyboard configuration.
 
-## NOTE TO CONTRIBUTORS
 
-if you want to add packages, start from KEEP/pkg_skel/autoconf template.
+## NOTES TO CONTRIBUTORS
 
-    cp KEEP/pkg_skel/autoconf pkg/my_new_pkg
-    utils/dlinfo.sh http://1.2.3.4/my_new_pkg.tar.xz
+Please use unified `diff` format (`diff -u`) for patches.
 
-that'll spit out the filesize, sha512sum boilerplate for easy copy&paste.
+### Use Git
 
-please do not use HTTPS or FTP mirrors.
-HTTPS is unsupported by busybox wget, and FTP is a broken, ancient protocol
-which needs a second data connection (i.e. open port on the client).
+It is necessary that you create `git` branches for your work. This allows your changes to be checked out and rebased as needed, without merge conflicts.
 
-this can cause problems when behind a NAT router or socks proxy.
-Downloads from git or other source repositories are not desired, because
-that would introduce a build-time dependency on an internet connection.
+Do not commit more than one change/package in a single commit. Use a meaningful commit message that mentions the package name. Please follow the style and conventions of your follow contributors.
 
-sabotage is designed so you can download all packages in advance when you
-have internet connection, and then build everything offline.
+### Use Templates
 
-please use unified diff format  (diff -u) for patches.
+When creating packages, try starting from the autoconf template:
 
-since sabotage ships all tarballs when an ISO or HD image is distributed (to
-fulfill the GPL), space considerations are a top issue.
-so if available, ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
+	$ cp KEEP/pkg_skel/autoconf pkg/my_new_pkg
 
-it is necessary that you create git branches for your work:
-this allows me to checkout your changes and rebase as i see fit,
-and you can easily pull back into your master without getting merge conflicts.
+There are other convenient templates located in `KEEP/pkg_skel/` as well.
 
-do not commit more than one change/package in a single commit, as it makes
-it much more work than needed to pick the good commits and leave away bad ones.
-use a meaningful commit message that mentions the package name.
+Try running `utils/dlinfo.sh`:
+
+	$ utils/dlinfo.sh http://1.2.3.4/my_new_pkg.tar.xz
+
+`utils/dlinfo.sh` will return the file stats and sha512sum for easy copying and pasting into your new package.
+
+### Package Sources and Philosophy
+
+Sabotage is designed with limited internet availability in mind. After downloading packages in advance, when you have internet, you may build later offline at your leisure. 
+
+Space considerations are a top issue, both bandwidth and HD image size. Sabotage ISOs and images ship with all tarballs to fulfill the GPL. ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
+
+Please do not use HTTPS or FTP mirrors. Busybox wget does not support HTTPS.  FTP is a broken, ancient protocol.
+ 
+Downloads from git or other source repositories are not desired. This would add an internet connection as a build-time dependency.
+
+
+## THANKS
+
+Sabotage originally was a distribution curated by chris2, based around shell scripts and Plan 9's mk. This was possible through the help and inspiration of dalias, niklata, garbeam, pikhq, xmw, gaf and Arch Linux.
 
 
 ## CONTACT
-There is a mailinglist: sabotage@lists.openwall.com,
-mail sabotage-subscribe@lists.openwall.com and follow instructions to get on it.
 
-Archives are at http://openwall.com/lists/sabotage/ .
+There is a mailing list: sabotage@lists.openwall.com
 
-You can also /join #sabotage or #musl on irc.freenode.net for realtime help.
+Email sabotage-subscribe@lists.openwall.com and follow its instructions to subscribe.
+
+Archives available: http://openwall.com/lists/sabotage/
+
+You may also /join #sabotage or #musl on irc.freenode.net for real time help.
+
+**READ THE COOKBOOK FIRST BEFORE POSTING**.
+
 
 ## DONATIONS
 
-donations in bitcoins are welcome and can be sent to
+Bitcoins are welcome:
 
-1HXhSKSyBUGAAga29WbpTkKGpruQq9J8Bb .
-
-
+1HXhSKSyBUGAAga29WbpTkKGpruQq9J8Bb

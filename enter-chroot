@@ -22,9 +22,12 @@ fi
 if [ ! -z "$SUPER" ] ; then
 	CHROOT=./super_chroot
 	if [ ! -x "$CHROOT" ] ; then
-		printf "super_chroot binary not found, compile KEEP/super_chroot.c\n"
-		printf "musl-gcc KEEP/super_chroot.c -o super_chroot\n"
-		exit 1
+		if ! "$CC" "$K"/super_chroot.c -static -s -Os -o "$CHROOT" 2>/dev/null ; then
+			echo "error: failed to build super_chroot!"
+			echo "try: musl-gcc KEEP/super_chroot.c -o super_chroot"
+			echo "or: unset SUPER and re-run ./enter-chroot as root."
+			exit 1
+		fi
 	fi
 else
 

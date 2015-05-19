@@ -1,4 +1,8 @@
 #!/bin/sh
+# use: setup-rootfs.sh [no args, uses $H/config]
+# used for cross-compilation
+# this prepares a chroot-like directory containing the root file system
+ 
 export H="$PWD"
 [ -z "$CONFIG" ] && CONFIG=./config
 . "$CONFIG"
@@ -9,7 +13,7 @@ if [ -z "$R" ]; then
 fi
 
 # enable verbose printing, abort on error
-set -e -x
+set -e
 
 mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 

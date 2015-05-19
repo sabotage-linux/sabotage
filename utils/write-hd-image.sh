@@ -1,4 +1,10 @@
 #!/bin/sh
+# use: write-hd-image.sh <img file> <root directory or tarball> <size> [--clear-builds] [--copy-tarballs]
+# "--clear-builds" clears /src/build
+# "`--copy-tarballs" will copy tarballs from $C
+# "size" will be passed to dd, so you can use whatever value dd supports. (i.e. 8G)
+# the resulting raw image may be written to media via dd or converted to various VM drive formats
+ 
 MYDIR=$(dirname "$(readlink -f "$0")")
 
 echo_bold() {

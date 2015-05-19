@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: utils/dlinfo.sh <url>
+# download url, return butch recipe [main] and [mirror] values
+ 
 url=$1
 if [ -z "$url" ] ; then
 	echo error, expecting an url as argument
