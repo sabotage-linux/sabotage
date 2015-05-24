@@ -1,4 +1,8 @@
 #!/bin/sh
+# use: utils/build-kernel.sh [no args]
+# build a grsecurity-patched kernel (https://grsecurity.net/) and
+# a vanilla kernel, adding both to boot menu.
+ 
 if ENABLE_GRSEC=1 butch rebuild kernel ; then
 mv /boot/vmlinuz /boot/vmlinuz-grsec
 mv /boot/System.map /boot/System.map-grsec

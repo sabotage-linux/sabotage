@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: sourced from a script
+# returns $BUTCH_BIN, pointing to the newly built butch binary
+ 
 filesize='55660'
 sha512='c0565c79d937e5e971fbb78b8b68b80f2583949bd6d3256e2a7c538707d772cd4801b431903539d9b8c1ce57fc7cc0c63d633e9a931915e3821a799ee12e9805'
 version=0.5.0

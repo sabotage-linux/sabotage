@@ -1,4 +1,7 @@
 #!/bin/sh
+# use: root-perms.sh <directory>
+# set up default permissions on a directory intended to be used for a rootfs
+ 
 
 if [ -z "$1" ] ; then
 	echo "error: expecting directory name to apply root perms"
