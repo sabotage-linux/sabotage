@@ -1,6 +1,8 @@
 #!/bin/sh
 # use: utils/dlinfo.sh <url>
 # download url, return butch recipe [main] and [mirror] values
+
+set -e
  
 url=$1
 if [ -z "$url" ] ; then
