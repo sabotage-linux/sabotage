@@ -1,57 +1,69 @@
 #!/bin/sh
+set -e
+
+### test and create prerequisites
 export H="$PWD"
 . ./config
+if [ ! -r "$H"/config ] ; then
+	printf -- "error: missing config! copy %s to %s and edit appropriately\n" "$K"/config.stage0 "$H"/config
+	exit 1
+fi
+for i in sed wget patch bzip2 tar wc xz ; do
+	if ! type "$i" >/dev/null 2>&1 ; then
+		echo "error: prerequisite $i not found in PATH" >&2
+		exit 1
+	fi
+done
+[ -z "$CC" ] && CC=gcc
+tmpc=/tmp/tmp$$.c
+cat <<- EOF > "$tmpc"
+	#include <stdlib.h>
+	int main () { exit(0); }
+	EOF
+if ! "$CC" -static "$tmpc" -o "$tmpc".out ; then
+	rm -f "$tmpc"
+	echo "error: could not create static binaries (install glibc-static if on fedora or suse?)" >&2
+	exit 1
+fi
+rm -f "$tmpc" "$tmpc".out
+mkdir -p "$C" 
 
-if [ ! -r "$H"/config ]; then
-    printf -- "couldn't read configuration file: %s\n" "$H/config"
-    printf -- "copy %s to %s and edit appropriately\n" "$K/config.stage0" "$H/config"
-    exit 1
+### initialize chroot, if missing
+if [ ! -d "$R" ] ; then
+	echo "$(date +'%F %T') initializing root system"
+
+	. "$H"/utils/setup-rootfs.sh
+
+	ln -s /proc/mounts "$R"/etc/mtab
+
+	"$H"/utils/update-chroot.sh
+		
+	# on ARM, gcc 3.4.6 is not sufficient to build for EABI
+	[ "$A" = "arm" ] && cat <<- EOF > "$S"/pkg/stage0_gcc
+		[deps]
+		gcc424
+		EOF
 fi
 
-# ./build-stage 1 is only for building a fresh stage1 from WITHIN sabotage. To
-# build from out of sabotage, you need to ./build-stage 0, then build stage1
-# with butch from within the built system.
-STAGE="$1"
-if [ ! "$STAGE" ]
-then
-    printf -- "Please specify a stage to build.\n"
-    exit 1
-fi
-printf -- "Building stage %d\n" "$STAGE"
-
-# enable verbose printing, abort on error
-set -e -x
-
-. "$H"/utils/sabotage-prereqs
-. "$H"/utils/utils
-. "$H"/utils/setup-rootfs
-if [ "$STAGE" = "0" ] ; then
-	CC_SAVE="$CC"
-	. "$H"/utils/build-butch
-	CC="$CC_SAVE"
+### build butch, if missing and not provided
+if [ ! -x "$R"/bin/butch-core -a -z "$BUTCH_BIN" ] ; then
+	echo "$(date +'%F %T') building butch"
+	
+	. "$H"/utils/build-butch.sh
 fi
 
-# update-buildroot - copy to sources
-cp -r "$H"/pkg "$S"/
-cp -r "$H"/KEEP "$S"/
-
-# on ARM, gcc 3.4.6 is not sufficient to build for EABI
-[ "$A" = "arm" ] && cat << EOF > "$S"/pkg/stage0_gcc
-[deps]
-gcc424
-EOF
-
-if [ "$STAGE" = "0" ] ; then
-	# build stage0
-	CONFIG="$H/config" BUTCHDB="$R"/var/lib/butch.db "$R"/bin/butch install stage0
-else
-	# build stage1
-	butch install stage1
-
-	# build butch
-	butch install butch
-
-	# and finalize the chroot
-	"$H"/utils/finish
+### install provided butch, if any
+if [ ! -z "$BUTCH_BIN" ] ; then
+	cp "$BUTCH_BIN" "$R"/bin/butch-core
 fi
 
+### install stage0, if missing. note the space in "stage0 "
+if ! grep -q "stage0 " "$R"/var/lib/butch.db 2>/dev/null ; then
+	echo "$(date +'%F %T') installing stage0"
+
+	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db "$R"/bin/butch install stage0
+	
+	cp "$K"/config.stage1 "$R"/src/config
+	echo "export A=$A" >> "$R"/src/config
+	[ -z "$MAKE_THREADS" ] || sed -i "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" "$R"/src/config
+fi
