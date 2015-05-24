@@ -1,7 +1,0 @@
-- dalias, for live musl fixes
-- niklata, for init script inspiration
-- garbeam, for proposing mk as build system
-- pikhq, for dynamic linking patches and fixes
-- xmw, for hosting
-- gaf, for idle workstations to build on
-- Arch Linux, for their readable PKGBUILDs and clean system
