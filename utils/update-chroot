@@ -8,6 +8,6 @@ if [ -z "$R" ] ; then
 	exit 1
 fi
 
-cp -r "$H"/pkg "$R"/src/
-cp -r "$H"/KEEP "$R"/src/
-
+cp "$H"/COOKBOOK.md "$H"/LICENSE "$H"/README.md "$R"/src/
+cp "$H"/build-stage0 "$H"/enter-chroot "$R"/src/
+cp -r "$H"/KEEP "$H"/pkg "$H"/utils "$R"/src/
