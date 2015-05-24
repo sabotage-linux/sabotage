@@ -1,160 +1,348 @@
-= The Saboteur's Cookbook
+# The Saboteur's Cookbook
 
-a guide to running Sabotage for the experienced user.
+A guide to running Sabotage for the experienced Linux user.
 
 
-== Installing the system
+## Introduction
 
-see the wiki page "boostrap to hd image" or utils/write-hd-image.sh
+### Butch, the build manager
 
-== Butch, the build manager
+`butch` is a 700 LOC C program written from scratch. It handles package downloads, checksums, builds and dependencies in a relatively sane manner. 
 
-  butch is a 700 LOC C program written from scratch, which handles the package download,
-  checksum comparison, build process, and dependencies in a relatively sane manner.
+It supports the following commands:
 
-  it suports the following commands
+	$ butch install [<package> ... ]  # build and install <packages>
+	$ butch prefetch [<package> ... ] # download tarballs required by <packages>
+	$ butch rebuild [<package> ... ]  # rebuild already installed <packages>
 
-    butch install <(meta)package> <(meta)package> <(meta)package> ...
-    butch rebuild <(meta)package> <(meta)package> <(meta)package> ...
-    butch prefetch <(meta)package> <(meta)package> <(meta)package> ...
+	$ butch relink <package>          # create symlinks for an unlinked <package>
+	$ butch unlink <package>          # remove symlinks to a specific <package>
 
-  currently butch will start up to 16 download threads and up to 2 build threads.
-  since busybox' wget (used inside the chroot) has a number of issues, 
-  it is advised to download all packages at once before starting the build process.
+	$ butch list                      # list all installed packages  
+	$ butch files <package>           # show all files installed by <package>
+	$ butch owner <file>              # shows which package owns a <file>
 
-  this can be achieved by issuing
+	$ butch print <package>           # pretty-print the specified <package>
+	$ butch search <term>             # search for <term> in package names (grep syntax)
+                 
+	$ butch update                    # rebuild packages whose hash differs from butch.db's hash
 
-    butch prefetch stage0 stage1 pkg xorg gdb
+`butch` will start up to sixteen download threads and up to two build threads. 
 
-  the file in which butch keeps track of what is installed is /var/lib/butch.db
-  with the default template, butch will use /opt/packagename as DESTDIR for installs.
-  the contents of that dir will then be symlinked into / in a stow-ish manner.
+By default, `butch` uses busybox's `wget`. This admittedly has some reliability issues and furthermore does not support HTTPS. For best results, prefetch all packages before the build process. If installed, GNU `wget` will work as a replacement. You may also install and use `curl` by exporting `USE_CURL=1`. Both of these alternatives support HTTPS. 
 
-  use "butch unlink" command to remove symlinks to a specific package.
-  use "butch relink" command to create symlinks for a pkg which is unlinked.
+`butch` defaults to installing packages into `/opt/$packagename`. Files are then symlinked into a user-definable path, defaulting to `/`. Finally, the package name and hash of its recipe are then written to `/var/lib/butch.db`.
 
-  if you want to entirely remove a package:
-  - delete /opt/$pkg
-  - butch unlink $pkg
-  - delete the $pkg line from /var/lib/butch.db
+To completely remove a package:
 
-== Bootstrapping the system
+	$ rm -rf /opt/$pkg
+	$ butch unlink $pkg
+	$ sed -i '/$pkg/d' /var/lib/butch.db # ... or edit by hand.
 
-see README.
 
-== first steps
+### /src, the heart of the system
 
-* keyboard layout
-for the linux console:
-execute "loadkeys" command, and follow the instructions.
+`/src` is the default path where `butch` searches for and builds packages.
 
-for X:
-edit /etc/xinitrc (or copy it to ~/.xinitrc and edit that one)
-there's a commented line suggesting how to change setxkbmap invokation.
-uncomment and change the 2-letter country code to your country.
+	/src
+	/src/pkg        # package recipes, used by butch.
+	/src/KEEP       # patches and other files referenced from scripts.
+	/src/build      # package build directory. Can grow quite large, safe to empty from time to time.
+	/src/filelists  # per-package file lists, referenced by `butch unlink`.
+	/src/logs       # per-package download and build logs.
+	/src/tarballs   # upstream package tarballs.
+	/src/utils      # sabotage utilities and helper scripts.
 
-starting X:
-- be sure to edit /bin/X and enable qemu or vbox settings, 
-  otherwise your controls won't work!
-- execute "startx"
+`/src` is not required by Sabotage once it has installed `stage1`.  You may `rm -rf /src` if you no longer need a build manager on the system. 
 
-using a WLAN:
-- install wpa-supplicant package and edit /etc/wpa_supplicant.conf for WIFI config
-  and /etc/wpa_connect_action.sh for IP address settings.
-- bring up wpa_supplicant service
-  (sv u wpa_supplicant, or permanently by rm'ing /etc/service/wpa_supplicant/down)
+`butch` requires `/src/pkg`,`/src/KEEP` and `/src/config`. It will fail to start if they are missing. The rest of this directory is optional with caveats.
 
-getting a dhcp ip address:
-- execute "dhclient eth0"
+Erasing `/src/filelists` will break `butch unlink <package>` for existing packages. `find . -type f -or -type l > /src/filelists/$packagename.txt` from the installation directory recovers the list.
 
-setting a static ip address:
-- ifconfig eth0 192.168.0.2 netmask 255.255.255.0
-- route add default gw 192.168.0.1
-  you can put that into a script which is automatically started from /etc/rc.local
+Erasing `/src/utils` will lose scripts for cross-compilation, writing recipes, managing chroots and other functionality. Each script contains breif documentation explaining usage. 
 
-start sshd
-- sv u sshd
+There is no issue erasing `/src/tarballs`, `/src/logs` or `/src/build` beyond the obvious. 
 
-== System Administration
+It is suggested to clone the upstream repo as `/src`:
 
-Sabotage does things a bit differently than your usual Linux
-distribution!
+	$ mv /src/config ~
+	$ rm -rf /src
+	$ git clone git://github.com/sabotage-linux/sabotage /src 
+	$ mv ~/config /src
 
-=== The file system
+You can issue a `git pull` in `/src` to update to the latest version of recipes and utilities.
 
-Sabotage does not follow FHS.  /usr is a legacy symlink to /, /sbin is
-a legacy symlink to /bin.  Software should be installed with
---prefix=/.  The times of a seperate root partition are long over.
 
-packages are installed into /opt/$packagename and symlinked to /.
+### Writing recipes
 
-/src is where software gets built in and packages are searched for. 
-/src/pkg	: package recipes, used by butch
-/src/KEEP	: patches and other additional files referenced from pkg scripts
-/src/tarballs	: upstream tarballs for software releases.
-/src/logs	: logfiles from builds
-/src/build	: directory to build packages in.
-                  can grow quite big so it may be emptied from time to time...
-/src/filelists	: one filelist per package, used by some butch commands.
+`butch` recipes are plain text files that contain one or more labeled headers and their associated data.
 
-/src is not required for sabotage to operate correctly once it has been set up,
-as long as you don't want to use the build manager on that install.
+	[mirrors]
+	<url #1>
+	...
+	<url #n>
 
-if you run your sabotage system, you may want to clone the upstream
-repo into /src/sabotage and create symlinks to KEEP and pkg in the git repo.
+	[main]
+	filesize=<bytes>
+	sha512=<sha 512 hash>
+	tardir=<directory name the tar extracts to, if it differs from the tar name>
 
-    git clone git://github.com/sabotage-linux/sabotage /src/sabotage
-    rm -rf /src/pkg /src/KEEP
-    ln -sf /src/sabotage/pkg /src/pkg
-    ln -sf /src/sabotage/KEEP /src/KEEP
+`[mirrors]` and `[main]` are optional, but must be included together as a set. HTTP(S) URLs are the only valid protocol for `[mirrors]`. `tardir` is an optional directive and is usually omitted. These elements combine with `KEEP/butch_download_template.txt` as a `build/dl_package.sh` script. This script then downloads and verifies the tarball. The `utils/dlinfo` script is useful in generating the above sections for you.
 
-that way you can issue a git pull in /src/sabotage to update,
-and have your pkg and KEEP directories always pointing to the latest version.
+	[deps]
+	<package #1>
+	...
+	<package #n>
 
-Everything below /local is yours, use it wisely.  Software not
-packaged by Sabotage should not touch stuff outside, it could possibly
-break on updates.
+	[deps.host]
+	<package #1>
+	...
+	<package #n>
 
-Use /srv/$SERVICE/$VHOST for all server data.
+	[deps.run]
+	<package #1>
+	...
+	<package #n>
 
-=== The init system
+Any or all three of the above headers may be present. `[deps]` is the standard list of dependencies required by the recipe. `[deps.host]` are dependencies required on the host for cross-compilation. `[deps.run]` are requirements for the target cross-compile system.
 
-Sabotage uses runit as init system (not entirely, so far we use
-Busybox init to start runsvdir).  This is cool, see
-http://busybox.net/~vda/init_vs_runsv.html.
+	[build]
+	<shell instructions to build application>
 
-The base system has a few services, which you find in /var/service
-(note that these are symlinks to /etc/service):
+The shell script contents of `[build]` merges with `KEEP/butch_template_configure_cached.txt` into `build/build_package.sh`. The resulting build script then executes. Specifying `butch_do_relocate=false` inside `[build]` will prevent the post-build linking of installed files. If the`[build]` phase calls `exit`, `butch` will not perform any post-build activities.
 
-  dmesg - logs kernel messages
-  sshd  - opensshd, down by default
-  tty2, tty3, tty4 - three gettys
-  crond - cron daemon
+Metapackages containing only a `[mirrors]` & `[main]`, `[deps]` or `[build]` section are useful.
 
-You can start services with "sv u $SERVICE" or take them down with "sv
-d $SERVICE".  By default, all services in /var/service start at boot
-time, unless they have a "down" file in their directory---then you'll
-have to start them manually.  If you don't want to use a service at all,
-best remove the symlink to /etc/service.
 
-You can find out whats running and what is not with
+### Variables and Templates
 
-  # sv s /var/service/*
+Sabotage provides a modest collection of environment variables, sourced from `/src/config`. The `stage1` values are provided here, along with a brief description of the variable.
 
-Look into the service directories to find out how to add your own
-services---note that you must tell them not to daemonize!
+	SABOTAGE_BUILDDIR="/tmp/sabotage"
 
-For the rest of runit, I'll refer you to the documentation at
-http://smarden.org/runit/index.html
+Defines where the `./build-stage0` script builds a chroot.
+	
+	A=x86_64
 
-=== Logging
+Selects an architecture to build for. 'i386', 'arm', 'mips' and 'powerpc' are other options.
 
-There is no syslog support so far, services should use "svlogd" (see
-runit docs) to log into directories below /var/log.
-You can inspect the logs by looking at /var/log/$SERVICE/current,
-Kernel messages are found in /var/log/dmesg/current.
+	CC=gcc
+	HOSTCC=gcc
 
-You can quickly look at all logs with
+The C compiler used. `gcc` is currently the only compiler tested and supported.
+	
+	MAKE_THREADS=1
 
-  # sort /var/log/*/current  |less
+The number of threads to pass to make via the -j flag.
+
+	ARM_FLOAT_MODE=softfp
+
+Sets ARM floating point emulation. 'hard' is not currently supported, use 'softfp'.
+
+	ARM_FPU=vfp
+
+Sets ARM FPU type. 'neon' is not currently supported, use 'vfp'.
+
+	BUTCH_BIN="/a/path/to/butch-core"
+
+If not set, `./build-stage0` will download and build `butch`. On systems lacking a proper libc, you may need to statically build `butch` yourself then specify it with this variable. 
+
+	R=/               # `R` is the root. `./build-stage0` and `utils/setup-rootfs.sh` create new systems here.
+	S=/src            # `S` is the `butch` directory containing recipes, files and build directories.
+	K=/src/KEEP       # `K` is a directory of patches and needed files.
+	C=/src/tarballs   # `C` is the downloaded tarball directory.
+	LOGPATH=/src/logs # `LOGPATH` is the log directory for builds.
+	H="$PWD"          # `H` is `./build-stage0`' calling location, used only during `stage0`.
+
+Internal paths, useful when writing scripts and recipes. You should leave these all as-is, this is the intended way. 
+
+	BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
+
+The build template. It creates packages in `$R/opt/$package_name`, supplies a `config.cache` and symlinks packages into the root.
+	
+	BUTCH_DOWNLOAD_TEMPLATE="$K"/butch_download_template.txt
+
+The download template. It downloads, tests and unpacks tarballs needed by `butch`.
+	
+	STAGE=1
+
+Used during the bootstrap process by scripts to determine the current stage. Leave this alone.
+
+
+### Installing the system
+
+See the wiki page "Bootstrap to HD Image" or `utils/write-hd-image`.
+
+
+### Encrypted file systems
+
+Install the `cryptsetup` package, then follow this guide to setup your partitions:
+
+http://wiki.centos.org/HowTos/EncryptedFilesystem
+
+Add appropriate entries in `/etc/crypttab` and `/etc/fstab`. On startup, Sabotage's `rc.boot` will mount them.
+
+
+## System Administration
+
+Sabotage does things a bit differently than your usual Linux distribution!
+
+
+### The file system
+
+Sabotage does not follow the Filesystem Hierarchy Standard.  
+
+For legacy support, `/usr` is a symlink to `/` and `/sbin` is a symlink to `/bin`.  Install software with `--prefix=/` when possible. The times of a separate root partition are long over. 
+
+`/local` is provided to users, use it wisely.  Software not packaged by Sabotage should not touch stuff outside of `/local`, it could break on updates.
+
+Use `/srv/$SERVICE/$VHOST` for all server data.
+
+
+### The init system
+
+Sabotage uses `runit` as init system, though we use Busybox init to start `runsvdir`.  See: http://busybox.net/~vda/init_vs_runsv.html
+
+The base system has a few services:
+
+* dmesg - logs kernel messages
+* sshd  - opensshd, down by default
+* tty2, tty3, tty4 - three gettys
+* crond - cron daemon
+
+You will find these in `/var/service`, which are symlinks to `/etc/service`.
+
+You can start services with `sv u $SERVICE` or take them down with `sv d $SERVICE`.  By default, all services in `/var/service` start at boot time. If they have an empty `down` file in their directory, you'll have to start them manually.  If you don't want to use a service at all, best remove the symlink to `/etc/service`.
+
+Find out what's running with `sv s /var/service/*`.
+
+Look into the service directories to find out how to add your own services. Note that you must tell them not to daemonize!
+
+For the rest of `runit`, refer to the documentation at:
+
+	http://smarden.org/runit/index.html
+
+
+### Logging
+
+There is no syslog support, services should use `svlogd` to log into `/var/log`. 
+
+To use `svlogd` ensure your service script dumps the service's output to stdout/stderr.
+
+Examples: `/etc/service/crond/run` and `/etc/service/dmesg/run`
+
+You can inspect the logs by looking at `/var/log/$SERVICE/current`. 
+
+For example, kernel messages are in `/var/log/dmesg/current`.
+
+You can look at all logs with `sort /var/log/*/current |less`.
+
+For more information, see `runit` docs. 
+
+
+### Other advice
+
+#### Start sshd
+
+* Execute `sv u sshd`.
+
+
+#### Linux console keyboard layout
+
+* Execute `loadkeys`, then follow the instructions.
+
+
+#### For X
+
+* Edit `/etc/xinitrc`, or copy it to `~/.xinitrc` and edit that. There's a commented line suggesting how to change `setxkbmap` invocation.
+* Uncomment and change the two-letter country code to your country.
+* Edit `/bin/X` and enable QEMU or VirtualBox settings, if needed, otherwise your controls won't work!
+* Execute `startx`.
+
+
+#### Using a WLAN
+
+* Install `wpa-supplicant`.
+* Edit `/etc/wpa_supplicant.conf` for WiFi config.
+* Edit `/etc/wpa_connect_action.sh` for IP address settings.
+* Execute `sv u wpa_supplicant`.
+* To keep the service up permanently, execute `rm /etc/service/wpa_supplicant/down`.
+
+
+#### Getting a DHCP IP address
+
+* Execute `dhclient eth0`.
+
+
+#### Setting a static IP address
+
+* Execute `ifconfig eth0 192.168.0.2 netmask 255.255.255.0`.
+* Execute `route add default gw 192.168.0.1`.
+
+You can put the above into a script which `/etc/rc.local` can execute at boot time. 
+
+
+#### Wine 
+
+Wine builds on Sabotage i386. To use it on x86_64, one needs to use packages built on i386 Sabotage. 
+
+For example, the following 32-bit packages are required to run simple Delphi programs:
+
+	wine
+	musl
+	alsa-lib #for sound support
+	freetype
+	libpng
+	libsm
+	libx11
+	libxau
+	libxcb
+	libxext
+	libxi
+	libxrender
+	ncurses
+	zlib-dynamic
+
+You can get them off `/opt` from a Sabotage i386 image or rootfs. From `musl` we need `libc.so`. We also need everything from the `wine` package and the `lib/.so` from all other packages. Make a directory to put the stuff, we use `/32bit` here.
+
+	$ mkdir -p /32bit/lib
+	$ mv musl-i386/lib/libc.so /32bit/lib
+	$ ln -sf /32bit/lib/libc.so /lib/ld-musl-i386.so.1
+	$ echo "/32bit/lib:/32bit/wine/lib" > /etc/ld-musl-i386.path
+	$ cd /32bit
+	$ tar xf wine.i386.tar.xz
+	$ for p in `cat 32bit-packages.txt`; do tar xf "$p".i386.tar.xz; mv "$p"/lib/* lib/; rm -rf lib/pkgconfig; done
+	$ rm lib/*.a
+
+Now it should be possible to use `/32bit/wine/bin/wine` to execute Windows programs. Here`s a pre-made package that includes the work from the above steps:
+
+	http://mirror.wzff.de/sabotage/bin/wine-i386-bundle.tar.xz
+
+	sha512sum: 2475ac72f62a7d611ab1ca14a6a58428bd07339f81e384bf1bbbd0187b2467c371f79fee9d028149eebd3c6a80999e5676364d1bc8054022f89de8cc66169b84
+
+You only need to create the `ld-musl-i386.so` symlink and the entry in `/etc/ld-musl-i386.path`
+
+
+#### Timezones
+
+The `timezones` package installs timezone description files into `/share/zoneinfo`. `musl` supports timezones via the POSIX `TZ` environment variable. You should set it in your `~/.profile` or in `/etc/profile`. `glibc` also supports `/etc/localtime`, which is a copy or symlink of one of the zoneinfo files. 
+
+Example values for `TZ`:
+
+	# Reads `/share/zoneinfo/Europe/Berlin` the first time an app calls localtime().
+	TZ=Europe/Berlin 
+	# Reads `/etc/localtime` the first time an app calls localtime().
+	TZ=/etc/localtime
+	# Will set the timezone to GMT+2. (POSIX reverses the meaning of +/-)
+	TZ=GMT-2
+	# Like Europe/Berlin, except it reads no file. 
+	# The string is the last "line" from the zoneinfo file.
+	TZ="CET-1CEST,M3.5.0,M10.5.0/3" 
+
+
+#### hwclock and ntp
+
+When `rc.boot` executes, the system clock is set to the hardware clock using `hwclock -u -s`, where `-u` stands for UTC. `hwclock -u -r` can read the actual hardware clock, adjusted to the users' `TZ`. If you want to see the actual UTC clock value, set `TZ=UTC` and then `hwclock -u -r`.
+
+if your hardware clock is off, you can fix it by using `ntpd -dnq -p pool.ntp.org` to get the actual time, then write it to BIOS using `hwclock -u -w`.
 
