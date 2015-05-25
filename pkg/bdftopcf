@@ -13,7 +13,7 @@ libxfont
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')" \
-  --with-sysroot=$butch_root_dir"
+  --with-sysroot="$butch_root_dir"
 
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure --prefix="$butch_prefix" \
