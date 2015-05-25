@@ -6,10 +6,10 @@ set -e
  
 url=$1
 if [ -z "$url" ] ; then
-	echo error, expecting an url as argument
+	echo error, expecting an url as argument 1>&2
 	exit 1
 elif [ ! -d "tarballs" ] ; then
-	echo error, tarballs dir does not exist
+	echo error, tarballs dir does not exist 1>&2
 	exit 1
 fi
 
