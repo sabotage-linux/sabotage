@@ -4,11 +4,11 @@ libx11
 xorg-server
 
 [main]
-filesize=432401
-sha512=2faf5fd524dffd2cd89a8b5a06b5470acbc51c3ee4f48bafc425b8e9c7c76d294201651cfb8c1d104c313885108e22abb6da736de1f3dbcf134a0926158ed147
+filesize=459255
+sha512=43d6a15e40896c793e49a1670b937e417271baff15b737b6b8cd3845bb7d2fc6354bf53cb40350caf0e7aac1e005a0fb2c9c80ce25690678b79e8e48f05f1de0
 
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vmware-13.0.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vmware-13.1.0.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
