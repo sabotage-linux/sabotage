@@ -8,7 +8,7 @@ if [ ! -r "$H"/config ] ; then
 	printf -- "error: missing config! copy %s to %s and edit appropriately\n" "$K"/config.stage0 "$H"/config
 	exit 1
 fi
-for i in sed wget patch bzip2 tar wc xz ; do
+for i in sed wget patch bzip2 tar wc xz make ; do
 	if ! type "$i" >/dev/null 2>&1 ; then
 		echo "error: prerequisite $i not found in PATH" >&2
 		exit 1
