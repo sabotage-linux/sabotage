@@ -1,11 +1,9 @@
 [mirrors]
-http://www.dovecot.org/releases/2.2/dovecot-2.2.15.tar.gz
-http://www.mirrorservice.org/sites/distfiles.macports.org/dovecot2/dovecot-2.2.15.tar.gz
-http://dovecot.org/releases/2.2/dovecot-2.2.15.tar.gz
+http://dovecot.org/releases/2.2/dovecot-2.2.18.tar.gz
 
 [main]
-filesize=4747444
-sha512=4d84744a23f21dd0923e86fdb1604a0a431e7c1a579f8323fb6643f92ac84754389e5a91fc8e8b53eac4202dba7f8541aa13ada12265e397ecdc15ff9b5c7ada
+filesize=5100040
+sha512=227fa9c55070ce305d41faebb0fe15df86cb70427dd4043a01837095228b5504121fccaecfbf47fab3426334449b637bffdfe9a93ee2322bb8ff8d69de4967c7
 
 [deps]
 openssl
