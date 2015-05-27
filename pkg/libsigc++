@@ -5,6 +5,9 @@ http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.3/libsigc++-2.3.1.tar.xz
 filesize=3458088
 sha512=8c9aa63c56e978ec3e38fda9919ffbba173b97342d0e19d0ae3126e9edb97aa1d42e79897a65b054044e87604f67f1f804db8d7a8e3dc68540b1441188b8a1ef
 
+[deps]
+m4
+
 [deps.host]
 pkgconf
 m4
