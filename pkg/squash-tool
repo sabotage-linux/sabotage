@@ -9,4 +9,4 @@ cpio
 
 [build]
 install -D -m 750 "$K"/squash-tool "$butch_install_dir""$butch_prefix"/bin/squash-tool || exit 1
-#version e50288c5c25199f01264d3dbb39461354b7d9bdcd01dc96215bcb86054d8df7d10a9bf54a851445f79d5bfd78d08931f6a2e78ab883fab5709e38455fc20df33
+#version 911028ccff93e1796822c6e34763a0c16382ec2b5b7f9658711215068298093a4515a96bafaf5f4701872c9ddfaa4adbb31eb2baa5376a92ce625374359bc739

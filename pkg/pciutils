@@ -16,3 +16,7 @@ patch -p1 < "$K"/pciutils-pread.patch
 make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags" \
   PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
   -j$MAKE_THREADS all install
+make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  -j$MAKE_THREADS install-lib
+

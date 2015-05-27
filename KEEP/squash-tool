@@ -1071,7 +1071,12 @@ fi
 [ ! -x /bin/cpio ] && fail 'Please install cpio'
 
 case "$func" in
-  "install") installer "$@";; #TODO: efibootmgr
+  "install") installer "$@"
+             echo "If you are installing to an UEFI system"
+             echo "And are not booting from removable media"
+             echo "You should have efibootmgr installed"
+             echo "And run:"
+             echo "efibootmgr -c -d $1 -p 1 -l /efi/boot/bootx64.efi -L 'Sabotage' -w";;
   "tarball") mkboottar "$@";;
   "in_chroot") in_chroot "$@";;
   "mkinitramfs") mkinitramfs "$@";;

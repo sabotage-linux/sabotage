@@ -12,7 +12,7 @@ echo "$0: $if $state"
 case "$state" in
 CONNECTED)
 if $do_dhcp ; then
-	dhclient "$if" || dhclient "$if";
+	dhclient -nw "$if";
 else
 	sn=192.168.1
 	ifconfig "$if" "$sn".100 netmask 255.255.255.0

@@ -88,5 +88,13 @@ make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
 # remove junk from kernel headers
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 
+if egrep -q '\=m$' my.config; then
+  if [ -n "$ENABLE_GRSEC" ] ; then
+    v="$LINUX_VER"-grsec
+  else
+    v="$LINUX_VER"
+  fi
+  depmod "$v"
+fi
 
 exit 0

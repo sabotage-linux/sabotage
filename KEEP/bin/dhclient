@@ -1,11 +1,39 @@
 #!/bin/sh
+
+usage() {
+    echo "usage: $0 [-nw] interface"
+    echo "The -nw flag enables daemon mode"
+    echo "i.e. $0 eth0"
+    echo "i.e. $0 -nw wlan0"
+}
+
 if [ -z "$1" ] ; then
-	echo usage: $0 [interface]
-	echo i.e. $0 eth0
-	echo i.e. $0 wlan0
+    usage
 	exit 1
 fi
-interface="$1"
-retries=1
-/sbin/udhcpc -t $retries -n -i "$interface" -s /etc/udhcpc-script
 
+extraopts=""
+retries=1
+
+if [ "$1" = '-nw' ]; then
+    if [ -z "$2" ] ; then
+        usage
+        exit 1
+    fi
+
+    extraopts="-A 10 -b"
+    shift
+fi
+
+interface="$1"
+mkdir -p /var/run/dhclient/
+if [ -f /var/run/dhclient/"$interface" ]; then
+  pid=$(cat /var/run/dhclient/"$interface")
+  if [ -n "$pid" ]; then
+    if [ -d /proc/"$pid" ]; then
+      kill -9 "$pid" || exit 1
+    fi
+  fi
+fi
+rm -f /var/run/dhclient/"$interface"
+/sbin/udhcpc $extraopts -p /var/run/dhclient/"$interface" -t $retries -i "$interface" -s /etc/udhcpc-script

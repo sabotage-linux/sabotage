@@ -1,0 +1,21 @@
+[deps]
+bash
+git
+pciutils
+zlib
+efivar-git
+perl
+
+[build]
+dest="$S/build/efibootmgr-git"
+mkdir -p "$dest"
+if [ -d "$dest/efibootmgr" ]; then
+	cd "$dest/efibootmgr"
+	git pull
+else
+	cd "$dest"
+	git clone -b efibootmgr-0.11.0 --depth=1 https://github.com/rhinstaller/efibootmgr.git efibootmgr
+	cd efibootmgr
+fi
+sed -i -r 's,sys/pci\.h,pci/pci.h,g' src/lib/scsi_ioctls.c
+make DESTDIR="$butch_install_dir" BINDIR="/bin" install

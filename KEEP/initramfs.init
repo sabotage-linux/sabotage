@@ -12,7 +12,7 @@ fail_shell() {
 
 waitdev() {
   local dev=$1
-  for i in $(seq 10); do
+  for i in $(seq 20); do
     if echo "$dev" |grep -E -q '(UUID=|LABEL=)'; then
       tdev="$(findfs $dev)"
     fi
@@ -33,7 +33,7 @@ wait_btrfs() {
   btrfs device scan
   if [ ! -z "$btrfs" ]; then
     waitdev $btrfs
-    for i in $(seq 10); do
+    for i in $(seq 20); do
       if [ -b "$btrfs" ]; then
         break
       fi
@@ -41,8 +41,9 @@ wait_btrfs() {
       if [ ! -z "$fs" ]; then
         btrfs="$fs"
       fi
+      sleep 1
     done
-    for i in $(seq 10); do
+    for i in $(seq 20); do
       if btrfs device ready $btrfs; then
         break
       fi

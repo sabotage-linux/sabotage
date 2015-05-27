@@ -1,0 +1,14 @@
+--- efivar.orig/src/makeguids.c
++++ efivar/src/makeguids.c
+@@ -99,8 +99,9 @@
+ 	if (rc < 0)
+ 		err(1, "makeguids: could not read \"%s\"", argv[1]);
+ 
+-	/* strictly speaking, this *has* to be too large. */
+-	struct guidname *outbuf = calloc(inlen, sizeof (char));
++	/* strictly speaking, this *has* to be too large. Oh so you
++           think a struct takes as much space as a string? Mkay. */
++	struct guidname *outbuf = calloc(inlen, sizeof(char)*8);
+ 	if (!outbuf)
+ 		err(1, "makeguids");
+
