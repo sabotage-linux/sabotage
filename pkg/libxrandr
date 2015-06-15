@@ -4,6 +4,7 @@ libx11
 libxrender
 randrproto
 libxrender
+libxext
 
 [main]
 filesize=315165
