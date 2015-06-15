@@ -1,6 +1,7 @@
 [deps]
 libx11
 libxkbfile
+libxdmcp
 
 [main]
 filesize=217437
