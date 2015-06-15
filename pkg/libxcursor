@@ -2,6 +2,7 @@
 xproto
 libx11
 libxrender
+libxfixes
 
 [main]
 filesize=311896
