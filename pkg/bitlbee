@@ -1,0 +1,18 @@
+[deps]
+glib
+libotr
+
+[main]
+filesize=688072
+sha512=fad297c7a792c932ba74daf7dc894883037842ae5d39a4c831c6615100580073001806c1af60555aa1c775399e8a484d99a4e601e96c6a075e12546e5d153532
+
+[mirrors]
+http://get.bitlbee.org/src/bitlbee-3.4.1.tar.gz
+
+[build]
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure --prefix="$butch_prefix" --ssl=openssl --doc=0 --otr=1
+  
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install install-etc
+      
