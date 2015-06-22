@@ -1,0 +1,10 @@
+#!/bin/sh
+
+USER=$(id bitlbee)
+[ $? -eq 0 ] || (echo "Creating user/group bitlbee" && addgroup -S bitlbee && adduser -G bitlbee -S bitlbee)
+
+
+[ ! -d /var/lib/bitlbee ] && (mkdir -p /var/lib/bitlbee && chown bitlbee:bitlbee /var/lib/bitlbee)
+[ "$1" = "--prereqs" ] && exit 0
+
+exec /bin/bitlbee -u bitlbee -D 2>&1

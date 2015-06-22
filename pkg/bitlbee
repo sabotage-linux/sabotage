@@ -10,9 +10,17 @@ sha512=fad297c7a792c932ba74daf7dc894883037842ae5d39a4c831c6615100580073001806c1a
 http://get.bitlbee.org/src/bitlbee-3.4.1.tar.gz
 
 [build]
+# Documentation depends on python
+PREFIX="$butch_prefix/usr"
+ETCDIR="$butch_prefix"
+
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure --prefix="$butch_prefix" --ssl=openssl --doc=0 --otr=1
+  ./configure --prefix="$PREFIX" --etcdir="$ETCDIR" --ssl=openssl --doc=0 --otr=1
   
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install install-etc
-      
+
+IS="$K"/bin/install-service
+"$IS" --down --log --force bitlbee "$K"/services/bitlbee
+
+
