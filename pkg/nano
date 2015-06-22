@@ -12,6 +12,9 @@ ncurses
 sed -ie 's/__time_t/time_t/g' src/text.c
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+printf '#!/bin/sh\necho -lncursesw\n' > ncursesw5-config
+chmod +x ncursesw5-config
+PATH="$PWD:$PATH" \
 LDFLAGS="-static $optldflags" CFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-utf8 \

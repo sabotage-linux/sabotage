@@ -66,8 +66,13 @@ sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 
 sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
-sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-eabi.h
-sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-elf.h
+if [ "$A" = arm ] ; then
+dlarch=arm
+$CC -dM -E - < /dev/null | grep __ARMEB__ > /dev/null && dlarch=${dlarch}eb
+$CC -dM -E - < /dev/null | grep __ARM_PCS_VFP > /dev/null && dlarch=${dlarch}hf
+sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-eabi.h
+sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-elf.h
+fi
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
 sed -i 's@/lib64/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
