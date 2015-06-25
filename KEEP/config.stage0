@@ -18,6 +18,15 @@ export ARCH=$A
 export CC=gcc
 export HOSTCC=gcc
 
+## Compiler options
+# set BRUTE to 1 to enable LTO in the standard etc/butch-optflags profile
+# (slow to compile, but results in minimal binary size and very fast code)
+#export BRUTE=1
+# set TESTBUILD to 1 to build everything without optimization/debug (much faster)
+#export TESTBUILD=1
+# set HARDENED to 1 to build with stack-protector, 2 to build with paranoid flags
+#export HARDENED=1
+
 ## set your core count for faster builds, this is passed as -jXXX to make
 ## stage0 builds in less than 2minutes using -j9 on an AMD 8core
 export MAKE_THREADS=1
