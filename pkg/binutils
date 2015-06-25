@@ -14,20 +14,26 @@ patch -p1 < "$K"/binutils-arm.patch
 
 "$K"/bin/libibertyfix libiberty
 
-[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
-
 config_arch_flags=
 if [ "$A" = "powerpc" ] ; then
         config_arch_flags="--enable-secureplt"
 fi
 
-LDFLAGS="-Wl,-static" \
+if [ -n "$CROSS_COMPILE" ]; then
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+elif [ "$STAGE" = "0" ]; then
+  CC="$butch_root_dir"/bin/musl-gcc
+fi
+
+
+LDFLAGS="-Wl,-static $optldflags" \
 CC="$CC -static" \
-CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE" \
+CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags" \
 ./configure -C --prefix="$butch_prefix" \
   --disable-nls --disable-werror \
   --enable-initfini-array \
-  --disable-install-libbfd $config_arch_flags
+  --disable-install-libbfd $config_arch_flags \
+  $xconfflags
 
 make -j$MAKE_THREADS
 # tooldir=/

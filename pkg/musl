@@ -10,8 +10,20 @@ sha512=183a66a8cc9cd056a8387a1602dd44b502d8976642a21dd0dcef51165fa0dec8a4a124fda
 gcc4
 
 [build]
+unlto() {
+  optcflags="$(echo $optcflags |sed -r 's,\-flto( |$),,g')"
+  optldflags="$(echo $optldflags |sed -r 's,\-flto( |$),,g')"
+}
+unlto
+
 patch -p1 < "$K"/musl-1.1.10-locale.patch
-./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
+patch -p1 < "$K"/musl-1.1.10-ssp.patch
+
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags" \
+./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib \
+  $xconfflags
+
 if [ "$A" = "powerpc" ] ; then
 cat << EOF >> config.mak
 LDFLAGS += -Wl,--secure-plt

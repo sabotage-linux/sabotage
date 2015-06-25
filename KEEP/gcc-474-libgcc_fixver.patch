@@ -1,0 +1,12 @@
+--- gcc-4.7.4.old/libgcc/Makefile.in
++++ gcc-4.7.4/libgcc/Makefile.in
+@@ -207,7 +207,7 @@
+ export toolexecdir
+ export toolexeclibdir
+ 
+-version := $(shell $(CC) -dumpversion)
++version := $(shell cat $(srcdir)/../gcc/BASE-VER)
+ 
+ ifeq ($(decimal_float),yes)
+ ifeq ($(enable_decimal_float),bid)
+

@@ -31,7 +31,8 @@ if [ "$A" = "arm" ] || [ "$A" = "mips" ] ; then
 fi
 
 # and build
-[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+[ "$STAGE" = "0" ] && \
+  CC="$butch_root_dir"/bin/musl-gcc
 CC="$CC -static" ./build.sh
 BUTCH_BIN=butch/butch
 mv "$BUTCH_BIN" "$BUTCH_BIN"-core

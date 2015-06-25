@@ -18,6 +18,37 @@ filesize=82935453
 sha512=dfcb737073191e628231031a3571ec77ee760a59377630f4a6e4fdfa66f9ddad39fde47e3f0f227eb43cdf90e0d34cde5abdc9ac892c1e111a911062a66c9189
 
 [build]
+unlto() {
+  optcflags="$(echo $optcflags |sed -r 's,\-flto( |$),,g')"
+  optldflags="$(echo $optldflags |sed -r 's,\-flto( |$),,g')"
+}
+unlto
+
+gcc_confflag() {
+  local opt="${1:-}"
+  shift
+  local flags="${*:-}"
+  [ -z "$opt" ] && return 1
+  [ "$flags" = "auto" ] && \
+    flags="$($CC -v 2>&1 |egrep '^Configured with:')"
+  for w in $flags; do
+    case "$w" in
+      "--${opt}="*) echo $w;;
+      *);;
+    esac
+  done
+}
+
+setup_archflags() {
+  for flag in with-fpu with-float with-arch; do
+    if [ -z "$(gcc_confflag $flag $GCC_ARCH_CONFIG_FLAGS)" ]; then
+      local f="$(gcc_confflag $flag auto)"
+      [ -z "$f" ] && continue
+      GCC_ARCH_CONFIG_FLAGS="$GCC_ARCH_CONFIG_FLAGS $f"
+    fi
+  done
+}
+
 VERSION=4.7.4
 VERSION_REMOVE='s,4\.7\.4.*,,'
 # check that libc.so is available, otherwise we'll get a libstdc++.so
@@ -36,6 +67,7 @@ patch -p1 < "$K"/gcc473-config-sub.patch
 patch -p1 < "$K"/gcc473-powerpc-libc-stack-end.patch
 patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
 patch -p1 < "$K"/gcc474-libssp_nonshared.patch
+patch -p1 < "$K"/gcc-474-libgcc_fixver.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
@@ -84,14 +116,14 @@ sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linu
 
 patch -p1 < "$K"/gcc-453-patch0.patch
 
-config_arch_flags=
+config_arch_cflags=
 config_arch_target_cflags=
 config_arch_target_ldflags=
 if [ "$A" = "arm" ] ; then
 	patch -p1 < "$K"/gcc-453-patch1.patch
 elif [ "$A" = "powerpc" ] ; then
 	patch -p1 < "$K"/gcc-454-stackend.patch
-	config_arch_flags="--enable-secureplt --with-long-double-64"
+	config_arch_cflags="--enable-secureplt --with-long-double-64"
 	config_arch_target_cflags="-Wl,--secure-plt"
 	config_arch_target_ldflags="-Wl,--secure-plt"
 fi
@@ -99,14 +131,20 @@ fi
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
 	machine=$($CC -dumpmachine)
-	xconfflags="--host=$machine --target=$machine"
 	export GCC_FOR_TARGET="$CC"
+	setup_archflags
+	[ -z "$GCC_ARCH_CONFIG_FLAGS" ] && \
+	  [ "$ARCH" = "arm" ] && \
+	  exit 1
+	xconfflags="--host=$machine --target=$machine --with-sysroot=$butch_root_dir $GCC_ARCH_CONFIG_FLAGS"
+elif [ -n "$GCC_ARCH_CONFIG_FLAGS" ]; then
+	xconfflags="$GCC_ARCH_CONFIG_FLAGS"
 fi
-export CC="$CC -static -D_GNU_SOURCE"
 
-CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" \
-CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
-LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
+
+CFLAGS="-O0 -s $config_arch_cflags" LDFLAGS="-static -Wl,--no-keep-memory" \
+CFLAGS_FOR_TARGET="$optcflags $config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="$config_arch_target_ldflags $optldflags" \
 ./configure -C --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib \
   --with-multilib-list= \
@@ -125,7 +163,7 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 
 
 gcc_cv_libc_provides_ssp=yes \
-make -j$MAKE_THREADS BOOT_LDFLAGS="-static" LDFLAGS="-static"
+make -j$MAKE_THREADS BOOT_LDFLAGS="-static"
 make -j1 DESTDIR="$butch_install_dir" \
   install-gcc \
   install-lto-plugin \
