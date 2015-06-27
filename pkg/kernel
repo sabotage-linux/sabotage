@@ -15,6 +15,27 @@ cd linux-"$LINUX_VER"
 
 # get into menuconfig using
 # make HOSTCFLAGS="-D_GNU_SOURCE" HOSTLDFLAGS=-lncurses menuconfig
+gcc_confflag() {
+  local opt="${1:-}"
+  shift
+  local flags="${*:-}"
+  [ -z "$opt" ] && return 1
+  [ "$flags" = "auto" ] && \
+    flags="$($CC -v 2>&1 |egrep '^Configured with:')"
+  for w in $flags; do
+    case "$w" in
+      #we do not care about the -a part of armv7-a
+      "--${opt}="*) echo $w |sed -r 's,^.+=,,g; s,-.*,,g;';;
+      *);;
+    esac
+  done
+}
+if [ "$A" = arm ]; then
+  if [ -z "$ARM_ARCH" ]; then
+    ARM_ARCH="$(gcc_confflag with-arch $GCC_ARCH_CONFIG_FLAGS)"
+    ARM_ARCH="${arm_arch:-$(gcc_confflag with-arch auto)}"
+  fi
+fi
 
 dopatch() {
 	echo "applying patch $1"
@@ -52,8 +73,10 @@ if [ -z "$HOSTCC" ] ; then
 fi
 
 if [ "$A" = arm ] ; then
-	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
-	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
+	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to armv4-7"; exit 1)
+	[ -e "$K"/linux.config."${ARM_ARCH}"l ] || \
+	  (echo "error: no kernel configuration found $K/linux.config.$ARM_ARCH"; exit 1)
+	linux_config="$K/linux.config.${ARM_ARCH}l"
 fi
 
 cat "$linux_config" > my.config
@@ -95,7 +118,7 @@ if egrep -q '\=m$' my.config; then
   else
     v="$LINUX_VER"
   fi
-  depmod "$v"
+  depmod -b "$butch_root_dir" "$v"
 fi
 
 exit 0

@@ -2,18 +2,24 @@
 #export A=i386
 #export A=x86_64
 #export A=x86_64-x32
-#export A=arm
 #export A=mips
 #export A=powerpc
 #export A=microblaze
 #export A=sh
+#export A=arm
+# arch specific flags to pass to the gcc build
+# your crosscompiler should be configured equivalently
+# if not provided, will be derived from the crosscompiler config
+#export GCC_ARCH_CONFIG_FLAGS="--with-float=soft --with-fpu=vfp"
 
 [ -z "$A" ] && { printf "ERROR: no arch set\n" ; exit 1 ; }
+
+export ARCH=$A
 
 # set BRUTE to 1 to enable LTO in the standard etc/butch-optflags profile
 # (slow to compile, but results in minimal binary size and very fast code)
 #export BRUTE=1
-# set TESTBUILD to build everything without optimization/debug (much faster)
+# set TESTBUILD to 1 to build everything without optimization/debug (much faster)
 #export TESTBUILD=1
 
 # set to basepath containing your musl-cross toolchains

@@ -4,9 +4,15 @@ export SABOTAGE_BUILDDIR="/tmp/sabotage"
 ## set your arch, or try `uname -m`
 export A=i386
 #export A=x86_64
-#export A=arm
 #export A=mips
 #export A=powerpc
+#export A=arm
+# arch specific flags to pass to the gcc build
+# your crosscompiler should be configured equivalently
+# if not provided, will be derived from the compiler config
+#export GCC_ARCH_CONFIG_FLAGS="--with-float=soft --with-fpu=vfp"
+
+export ARCH=$A
 
 ## set the compiler environment
 export CC=gcc
@@ -21,20 +27,6 @@ export MAKE_THREADS=1
 # root perms to build.
 # if SUPER is set, the enter-chroot script will use super_chroot.
 #export SUPER=1
-
-#    ARM SPECIFIC STUFF    #
-
-## set your ARM floating point emulation [softfp/hard]
-## these flags are required to build the right toolchain
-## currently only softfp is supported by the stage0 compiler 
-## (hardfp is only marginally faster anyway)
-export ARM_FLOAT_MODE=softfp
-#export ARM_FLOAT_MODE=hard
-
-# set your ARM fpu type [vfp/neon/?]
-## currently only vfp is supported
-export ARM_FPU=vfp
-#export ARM_FPU=neon
 
 # you can use a prebuilt butch to speed the build up a bit
 # or in case you use aboriginal, with its uclibc toolchain lacking the
