@@ -12,8 +12,7 @@ python
 [build]
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
-
-[ -z "$butch_prefix" ] && butch_prefix=/
+patch -p1 < "$K"/nodejs-prefix.patch
 
 CFLAGS="-D_GNU_SOURCE" CXXFLAGS=-D_GNU_SOURCE ./configure --prefix="$butch_prefix"
 

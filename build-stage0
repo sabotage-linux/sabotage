@@ -63,7 +63,7 @@ if ! grep -q "stage0 " "$R"/var/lib/butch.db 2>/dev/null ; then
 
 	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db "$R"/bin/butch install stage0
 	
-	cp "$K"/config.stage1 "$R"/src/config
-	echo "export A=$A" >> "$R"/src/config
+	echo "export A=$A" > "$R"/src/config
+	cat "$K"/config.stage1 >> "$R"/src/config
 	[ -z "$MAKE_THREADS" ] || sed -i "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" "$R"/src/config
 fi

@@ -15,6 +15,12 @@ patch -p1 < "$K"/binutils-arm.patch
 "$K"/bin/libibertyfix libiberty
 
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+machine=
+if [ -n "$CROSS_COMPILE" ] ; then
+        machine=$($CC -dumpmachine)
+        xconfflags="--host=$machine --target=$machine"
+        export GCC_FOR_TARGET="$CC"
+fi
 
 config_arch_flags=
 if [ "$A" = "powerpc" ] ; then
@@ -24,7 +30,7 @@ fi
 LDFLAGS="-Wl,-static" \
 CC="$CC -static" \
 CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE" \
-./configure -C --prefix="$butch_prefix" \
+./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --disable-werror \
   --enable-initfini-array \
   --disable-install-libbfd $config_arch_flags

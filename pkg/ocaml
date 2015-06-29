@@ -1,12 +1,13 @@
 [mirrors]
-http://caml.inria.fr/pub/distrib/ocaml-4.02/ocaml-4.02.0.tar.xz
+https://github.com/ocaml/ocaml/archive/4.02.2.tar.gz
 
 [main]
-filesize=2023720
-sha512=33a382ae54b58893010add008569e5f0c68e51bfbd607e587a6704aa7f322de48820fb5dc9e792100831b1bd348b0e20fe4b469123dcf415c9cd02e682a9c0a1
+filesize=3314612
+sha512=1ed697383cb4772167178f1781d22f237dc0aceec2dc3cd4ecc051252c2933631d2ccd51725ce108b78a15589f260ca7691feea291233f5f2ef4384e6b1fcd01
+tardir=ocaml-4.02.2
 
 [build]
 ./configure -prefix "$butch_install_dir""$butch_prefix" -libdir "$butch_root""$butch_prefix"/lib/ocaml
 make world.opt
+sed -i "s@$butch_root$butch_prefix/lib/ocaml@$butch_install_dir$butch_prefix/lib/ocaml@" config/Makefile
 make install
-mkdir "$butch_install_dir""$butch_prefix"/lib && mv "$butch_root""$butch_prefix"/lib/ocaml "$butch_install_dir""$butch_prefix"/lib

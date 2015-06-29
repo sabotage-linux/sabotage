@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ocaml/opam/archive/1.2.0-rc1.tar.gz
+https://github.com/ocaml/opam/archive/1.2.2.tar.gz
 
 [main]
-filesize=609908
-sha512=eb4968e1073de3d0c5a843d0f1c848d5b982d1b8454308c2622531eaf6590d340408eaf2e8a5ab7f225e6b256327e4a6a521efe6d7dec68f9617347b597e6a60
-tardir=opam-1.2.0-rc1
+filesize=648951
+sha512=12105b5219a14d4c4cb29c387dd5af858d2b4a2a1bad7dcd70e4c284fc52848df82933396571b85251d904b3c14cdf02db55060c1ba29dc34b8bab3721d05f54
+tardir=opam-1.2.2
 
 [deps.host]
 ocaml

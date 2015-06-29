@@ -8,4 +8,4 @@ if [ ! -d "$pkgdir" ] ; then
 	echo "error: cannot find pkg dir $pkgdir"
 	exit 1
 fi
-find "$pkgdir" | grep "$@" | sed 's@'"$pkgdir/"'@@g' -
+find "$pkgdir"/ | grep "$@" | sed 's@'"$pkgdir/"'@@g' -

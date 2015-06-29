@@ -36,6 +36,7 @@ patch -p1 < "$K"/gcc473-config-sub.patch
 patch -p1 < "$K"/gcc473-powerpc-libc-stack-end.patch
 patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
 patch -p1 < "$K"/gcc474-libssp_nonshared.patch
+patch -p1 < "$K"/gcc474-libgcc_fixver.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
@@ -98,8 +99,18 @@ fi
 
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
+	if [ -z "$GCC_ARCH_CONFIG_FLAGS" ] ; then
+		#autodetect arch specifics if not passed via config
+		gccv=$($CC -v 2>&1|grep "^Configured with: ")
+		for flag in --with-arch --with-float --with-fpu ; do
+			for arg in $gccv ; do
+				printf "%s" "$arg" | grep "^$flag=" >/dev/null \
+				&& { GCC_ARCH_CONFIG_FLAGS="$arg $GCC_ARCH_CONFIG_FLAGS" ; break ; }
+			done
+		done
+	fi
 	machine=$($CC -dumpmachine)
-	xconfflags="--host=$machine --target=$machine"
+	xconfflags="--host=$machine --target=$machine $GCC_ARCH_CONFIG_FLAGS"
 	export GCC_FOR_TARGET="$CC"
 fi
 export CC="$CC -static -D_GNU_SOURCE"

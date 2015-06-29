@@ -1,0 +1,16 @@
+[mirrors]
+https://github.com/Z3Prover/z3/archive/z3-4.4.0.tar.gz
+
+[main]
+filesize=3060731
+sha512=4e02e7a2ebc4208eb1233242612501707ec2356b6b72192d73a1803030ca95b49d6a8c3de04a40782677a25ff62cf8c2108e09f3bd87510ce6ad6c5df468535a
+tardir=z3-z3-4.4.0
+
+[deps]
+python
+
+[build]
+python scripts/mk_make.py --prefix="$butch_install_dir$butch_prefix"
+cd build
+make
+make install

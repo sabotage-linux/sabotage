@@ -11,6 +11,9 @@ musl
 dynamic-toolchain
 man
 zlib
+butch
+binutils
+patch
 
 [build]
 if [ -d "$butch_root_dir"/opt/stage0 ] ; then

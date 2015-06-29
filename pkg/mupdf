@@ -2,6 +2,9 @@
 filesize=13975531
 sha512=3a47d47b81550f531039153385fc22bb81a24df334706e23b7f118d08d97bb103566eef2a6ea3602ebe242fcb9d53304bb9d8230109572204491415a3a1b0645
 
+[mirrors]
+http://mupdf.com/downloads/archive/mupdf-1.6-source.tar.gz
+
 [deps]
 zlib
 curl
@@ -10,9 +13,6 @@ jbig2dec
 libjpeg
 libxext
 openssl
-
-[mirrors]
-http://mupdf.com/downloads/mupdf-1.6-source.tar.gz
 
 [build]
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec

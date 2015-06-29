@@ -39,6 +39,8 @@ install:	download, build, relocate package(s) and all missing dependencies
 build:		==install
 prefetch:	download package(s) and all missing dependencies
 print:		pretty-print the specified package
+printsec:	print a section of the spec. package
+mirrors:	print all mirror urls of the spec. package
 download:	==prefetch
 rebuild:	unlink, download, rebuild, relocate package(s), but not their dependencies
 checktarballs:	check if filesize of tarballs (if existent) matches packages
@@ -66,6 +68,8 @@ case $1 in
 	files) shift; prog=butch-files;;
 	search) shift; prog=butch-search;;
 	print) shift; prog=butch-print;;
+	printsec) shift; prog=butch-printsec;;
+	mirrors) shift; prog=butch-mirrors;;
 	checktarballs) shift; prog=butch-checktarballs;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /

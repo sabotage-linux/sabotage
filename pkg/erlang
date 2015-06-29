@@ -1,10 +1,10 @@
 [mirrors]
-http://www.erlang.org/download/otp_src_17.3.tar.gz
+http://www.erlang.org/download/otp_src_18.0.tar.gz
 
 [main]
-filesize=67050599
-sha512=89d005fc3fdb4dc76c191b6e6a35e03f66ce01d765ba4f58cdd812d358025c62e032443d7ae73fea5b06bf6f27c9bf4e786f8090627ecb1e1309b88b82892910
-tardir=otp_src_17.3
+filesize=68124710
+sha512=84ec2a3834270c1babe153572d6187faa36c12128e604037d55be01719788c0dd79d46769ea7090d530b746206a25fe02346b02849abee10ee41ed4ac7567c02
+tardir=otp_src_18.0
 
 [deps.host]
 ncurses

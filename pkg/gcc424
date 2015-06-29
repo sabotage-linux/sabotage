@@ -29,10 +29,10 @@ sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-elf.h
 
 $K/bin/libibertyfix libiberty
 
-armflags=
-[ -z "$ARM_FLOAT_MODE" ] && ARM_FLOAT_MODE=softfp
-[ -z "$ARM_FPU" ] && ARM_FPU=vfp
-[ "$A" = "arm" ] && armflags="--with-float=$ARM_FLOAT_MODE --with-fpu=$ARM_FPU --target=arm-linux-gnueabi --host=arm-linux-gnueabi --build=arm-linux-gnueabi"
+archflags=
+[ -n "$GCC_ARCH_CONFIG_FLAGS" ] && archflags="$GCC_ARCH_CONFIG_FLAGS"
+#gcc424 doesn't support hardfloat so we can assume arm-linux-gnueabi
+[ "$A" = "arm" ] && archflags="$archflags --target=arm-linux-gnueabi --host=arm-linux-gnueabi --build=arm-linux-gnueabi"
 
 echo ac_cv_func_strsignal=yes > config.site
 ./configure --prefix="$butch_prefix" \
@@ -45,7 +45,7 @@ echo ac_cv_func_strsignal=yes > config.site
 --disable-nls \
 --disable-mudflap --disable-libmudflap --disable-libssp \
 --disable-libgomp \
-$armflags
+$archflags
 make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
  -DHAVE_GETRLIMIT -O0 -g0" LDFLAGS="-static" -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install-gcc
