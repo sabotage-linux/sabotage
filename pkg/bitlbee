@@ -12,15 +12,16 @@ http://get.bitlbee.org/src/bitlbee-3.4.1.tar.gz
 [build]
 # Documentation depends on python
 PREFIX="$butch_prefix/usr"
-ETCDIR="$butch_prefix"
+ETCDIR="/etc/bitlbee"
 
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$PREFIX" --etcdir="$ETCDIR" --ssl=openssl --doc=0 --otr=1
   
 make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install install-etc
+make install 
+
+[ ! -f $ETCDIR/bitlbee.conf ] && make install-etc
 
 IS="$K"/bin/install-service
 "$IS" --down --log --force bitlbee "$K"/services/bitlbee
-
 
