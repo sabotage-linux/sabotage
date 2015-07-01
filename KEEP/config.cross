@@ -19,6 +19,8 @@
 #export BRUTE=1
 # set TESTBUILD to 1 to build everything without optimization/debug (much faster)
 #export TESTBUILD=1
+# set HARDENED to 1 to build with stack-protector, 2 to build with paranoid flags
+#export HARDENED=1
 
 # set to basepath containing your musl-cross toolchains
 crosstoolchain=$HOME/musl-cross-4.8.3
