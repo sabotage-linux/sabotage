@@ -9,7 +9,7 @@ isgcc3() {
 	$mycc --version | grep "3.4.6" >/dev/null
 }
 
-optcflags="-fdata-sections -ffunction-sections -Os -g0 -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -pipe"
+optcflags="-mtune=generic -fdata-sections -ffunction-sections -Os -g0 -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -pipe"
 optldflags="-s -Wl,--gc-sections -Wl,-z,relro,-z,now"
 
 if ! isgcc3; then
