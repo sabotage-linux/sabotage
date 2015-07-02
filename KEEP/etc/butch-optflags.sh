@@ -19,8 +19,6 @@ if [ "$DEBUGBUILD" = "1" ] ; then
 elif [ "$TESTBUILD" = "1" ] ; then
 	optcflags="-O0 -g0"
 	optldflags=
-else
-	[ "$STAGE" = "0" ] || isgcc3 || optcflags="$optcflags -ftree-dce"
 fi
 
 if [ "$BRUTE" = 2 ] ; then
