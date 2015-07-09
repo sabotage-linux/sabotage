@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.1.6.tar.gz
-http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.1.6.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.1.tar.gz
+http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.1.tar.gz
 
 [main]
-filesize=2865936
-sha512=21ea1b504a000d130eac03b93301598c808f9ae75448025b8bf5ec83386364c541dbfbf8ba0b8dc1ac672f476d1a95438f73082e4fd8a5bfa8d7a40b265f38a6
+filesize=2855917
+sha512=5c0ae6780717cc907b4a0aaffc018fa2608d5ed6f1ebae1d0c2bde7ed3f8c38511e93a82967c490adc8582512c06d6f26fb0fce7097298bbf587a83d1d591721
 
 [deps]
 
