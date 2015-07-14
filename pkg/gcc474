@@ -73,11 +73,15 @@ $CC -dM -E - < /dev/null | grep __ARMEB__ > /dev/null && dlarch=${dlarch}eb
 $CC -dM -E - < /dev/null | grep __ARM_PCS_VFP > /dev/null && dlarch=${dlarch}hf
 sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-eabi.h
 sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-elf.h
+elif [ "$A" = mips ] ; then
+dlarch=mips
+$CC -dM -E - < /dev/null | grep _MIPSEL > /dev/null && dlarch=${dlarch}el
+$CC -dM -E - < /dev/null | grep __mips_soft_float > /dev/null && dlarch=${dlarch}-sf
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux.h
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib64/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib32/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
 fi
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux.h
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib64/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib32/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/sysv4.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
