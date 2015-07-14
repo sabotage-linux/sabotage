@@ -27,9 +27,9 @@ if [ "$A" = "powerpc" ] ; then
         config_arch_flags="--enable-secureplt"
 fi
 
-LDFLAGS="-Wl,-static" \
+LDFLAGS="-Wl,-static $optldflags" \
 CC="$CC -static" \
-CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE" \
+CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --disable-werror \
   --enable-initfini-array \
