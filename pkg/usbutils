@@ -3,7 +3,7 @@ filesize=408420
 sha512=bb9129a47c2e2099f535dcdefdcd8ddc3c269d5b0b7982d38ce89ce2fb068efba47843cc5e3ba609c30754880b7730504584d1540908b1069253be1b4fd7f113
 
 [mirrors]
-http://mirror.anl.gov/pub/linux/utils/usb/usbutils/usbutils-006.tar.xz
+http://ftp.be.debian.org/pub/linux/utils/usb/usbutils/usbutils-006.tar.xz
 ftp://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-006.tar.xz
 http://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-006.tar.xz
 
