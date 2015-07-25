@@ -1,5 +1,4 @@
 [mirrors]
-http://getfr2.no-ip.org/pub/iso/freebsd/distfiles/xcb-util-0.3.8.tar.bz2
 http://xcb.freedesktop.org/dist/xcb-util-0.3.8.tar.bz2
 
 [main]
