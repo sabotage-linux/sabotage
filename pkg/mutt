@@ -4,7 +4,7 @@ sha512=f1b4a7230253651857f61bd7215cce870a613012f613d4c907d401556083726c8ed7d429d
 tardir=mutt-1.5.23
 
 [mirrors]
-http://downloads.sourceforge.net/project/mutt/mutt/mutt-1.5.23.tar.gz
+http://ftp.vim.org/pub/mail/mutt/mutt-1.5.23.tar.gz
 
 [deps]
 ncurses
