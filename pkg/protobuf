@@ -1,5 +1,5 @@
 [mirrors]
-https://github.com/google/protobuf/releases/download/2.6.1/protobuf-2.6.1.tar.bz2
+https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.bz2
 
 [main]
 filesize=2021416
