@@ -1,0 +1,18 @@
+--- wireshark-1.10.2.org/epan/dissectors/packet-gluster.h
++++ wireshark-1.10.2/epan/dissectors/packet-gluster.h
+@@ -355,6 +355,15 @@
+ };
+ 
+ /* dir-entry types from libglusterfs/src/compat.h */
++#undef DT_UNKNOWN
++#undef DT_FIFO
++#undef DT_CHR
++#undef DT_DIR
++#undef DT_BLK
++#undef DT_REG
++#undef DT_LNK
++#undef DT_SOCK
++#undef DT_WHT
+ enum gluster_entry_types {
+ 	DT_UNKNOWN = 0,
+ 	DT_FIFO = 1,
