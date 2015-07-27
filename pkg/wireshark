@@ -21,7 +21,7 @@ for i in ui/export_object_smb.c epan/dissectors/packet-ssl-utils.c ; do
 	sed -i 's@g_memmove@memmove@g' "$i"
 done
 CPPFLAGS=-D_GNU_SOURCE \
-CFLAGS="$optcflags" \
+CFLAGS="$optcflags -Werror=implicit-function-declaration" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix"
 make V=1 -j$MAKE_THREADS
