@@ -24,7 +24,7 @@ CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix"
-make -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
