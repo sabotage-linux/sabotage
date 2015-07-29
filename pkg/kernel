@@ -34,8 +34,6 @@ dopatch "$K"/linux-virtio9p.patch
 # patches to support busybox trap and sed with strict musl BRE engine
 dopatch "$K"/linux-3.8-trap.patch
 dopatch "$K"/linux-3.18-posix_sed.patch
-dopatch "$K"/linux-3.18-posix_sh.patch
-dopatch "$K"/linux-4.0-wext-signallevels.patch
 
 if [ -n "$ENABLE_GRSEC" ] ; then
 	patchname="$GRSEC_VER".patch
@@ -60,10 +58,6 @@ cat "$linux_config" > my.config
 
 make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
-
-#let make create dependencies, otherwise parallel build wont work
-make v=1 CC="$CC" HOSTCC="$HOSTCC" ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE \
-  DISABLE_PAX_PLUGINS=y dep
 
 make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
