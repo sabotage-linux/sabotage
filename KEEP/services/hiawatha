@@ -1,0 +1,19 @@
+#!/bin/sh
+
+SRVDIR=/var/www
+
+if ! grep -q '^www-data:' /etc/passwd ; then
+	busybox addgroup -S www-data
+	busybox adduser -h "$SRVDIR" -s /bin/nologin -S -D -H -G www-data www-data
+fi
+
+if [ ! -d "$SRVDIR" ] ; then
+	install -D -d -m 755 "$SRVDIR"
+	chown -R www-data "$SRVDIR"
+	chgrp -R www-data "$SRVDIR"
+fi
+
+
+[ "$1" = "--prereqs" ] && exit 0
+
+hiawatha -d

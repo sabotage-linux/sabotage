@@ -1,0 +1,44 @@
+[mirrors]
+https://tls.mbed.org/download/mbedtls-2.0.0-gpl.tgz
+
+[main]
+tardir=mbedtls-2.0.0
+filesize=1790002
+sha512=184b7ad8a673db80321de9b63d6d1e19e1f62bea585efc6ac67e1c58ed312d112370dfd157ed1ff2db76f2ff5dc2bc7e9808e4c6779707f2b2c426726c2e1f1c
+
+[deps]
+
+[build]
+# NOTE: the mirror requires tls, download with curl:
+#       USE_CURL=1 butch install mbedtls
+# Ticket for "make install" issues (all fixed in the upcoming release):
+# https://github.com/ARMmbed/mbedtls/issues/232
+
+# hiawatha requires these options (see USE_SYSTEM_MBEDTLS in its
+# CMakeLists.txt)
+echo "#define MBEDTLS_THREADING_C" >> include/mbedtls/config.h
+echo "#define MBEDTLS_THREADING_PTHREAD" >> include/mbedtls/config.h
+
+# build the library and all binaries statically (includes
+# mbedtls_selftest)
+make V=1 -j$MAKE_THREADS no_test
+
+
+# make install fix #1:
+# when running make install, it builds the test cases (which require
+# perl!)
+echo 'stub:' > tests/Makefile
+echo '	$(info skipping tests...)' >> tests/Makefile
+
+
+# make install fix #2:
+# it creates symbolic link loops for all binaries
+sed -i '/ln -sf $$f/d' Makefile
+
+
+make DESTDIR="$butch_install_dir" install
+
+# make install fix #3:
+# it only copies libmbedtls.a, but not libmbedcrypto.a and libmbedx509.a
+cp library/libmbedx509.a "$butch_install_dir/lib"
+cp library/libmbedcrypto.a "$butch_install_dir/lib"
