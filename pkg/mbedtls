@@ -1,0 +1,35 @@
+[mirrors]
+https://tls.mbed.org/download/mbedtls-2.0.0-gpl.tgz
+
+[main]
+filesize=1790002
+sha512=184b7ad8a673db80321de9b63d6d1e19e1f62bea585efc6ac67e1c58ed312d112370dfd157ed1ff2db76f2ff5dc2bc7e9808e4c6779707f2b2c426726c2e1f1c
+
+
+[deps]
+
+[build]
+# FIXME: specify somewhere that the download requires curl (https only!)
+
+# cd from butch doesn't work because of the archive name
+cd /src/build/mbedtls/mbedtls-2.0.0/
+
+
+# build the library and all binaries (includes mbedtls_selftest)
+make CFLAGS='--static' V=1 -j$MAKE_THREADS no_test
+
+
+# make install fix #1:
+# without this, testcases get built on "make install" (and they require
+# perl!)
+echo 'stub:' > tests/Makefile
+echo '	$(info skipping tests...)' >> tests/Makefile
+
+
+# make install fix #2:
+# without this, the Makefile generates symbolic link loops for all
+# binaries (because in line 36 $$o is always empty?)
+sed -i '/ln -sf $$f/d' Makefile
+
+
+make DESTDIR="$butch_install_dir" install
