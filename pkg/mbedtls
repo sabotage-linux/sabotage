@@ -10,6 +10,7 @@ sha512=184b7ad8a673db80321de9b63d6d1e19e1f62bea585efc6ac67e1c58ed312d112370dfd15
 
 [build]
 # FIXME: specify somewhere that the download requires curl (https only!)
+# Ticket for "make install" issues: https://github.com/ARMmbed/mbedtls/issues/232
 
 # cd from butch doesn't work because of the archive name
 cd /src/build/mbedtls/mbedtls-2.0.0/
