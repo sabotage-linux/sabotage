@@ -15,9 +15,9 @@ cmake
 #       USE_CURL=1 butch install hiawatha
 # NOTE: XSLT support requires libxlst
 # NOTE about mbedtls:
-# Hiawatha usually compiles its own mbedtls to make sure it has the right
-# config options. In sabotage, we already have these options set, so we use
-# the system library of course.
+# Hiawatha usually compiles its own mbedtls to make sure it has the
+# right config options. In sabotage, we already have these options set,
+# so we use the system library of course.
 
 CFLAGS="-static" cmake \
 	-DENABLE_CACHE=OFF \
@@ -36,7 +36,8 @@ CFLAGS="-static" cmake \
 	-DPID_DIR="$butch_prefix/etc/service/hiawatha/" \
 	-DWEBROOT_DIR="$butch_prefix/var/www" \
 
-# add missing statically linked mbedtls libraries
+# hack that adds missing statically linked mbedtls libraries
+# thread: https://www.hiawatha-webserver.org/forum/topic/2010
 sed -i 's/-lmbedtls/-lmbedtls -lmbedcrypto -lmbedx509/' CMakeFiles/*/link.txt
 
 make V=1 -j$MAKE_THREADS
