@@ -5,13 +5,15 @@ https://www.hiawatha-webserver.org/files/hiawatha-9.14.tar.gz
 filesize=891930
 sha512=66ad77c132d34daa5eb597ce67d7b26581c59534e5cf83dd65f78567a9a1798030cd42fef2d612bd1935243db979a2ef1df873f01b0d0a009395ef3da1dca6e6
 
+[deps.host]
+cmake
 
 [deps]
 mbedtls
-cmake
+
 
 [build]
-# NOTE: the mirror is requires tls, download with curl:
+# NOTE: the mirror requires tls, download with curl:
 #       USE_CURL=1 butch install hiawatha
 # NOTE: XSLT support requires libxlst
 # NOTE about mbedtls:
@@ -33,7 +35,7 @@ CFLAGS="-static" cmake \
 	-DCMAKE_INSTALL_MANDIR="$butch_prefix/share/man" \
 	-DCONFIG_DIR="$butch_prefix/etc/hiawatha" \
 	-DLOG_DIR="$butch_prefix/var/log/hiawatha" \
-	-DPID_DIR="$butch_prefix/etc/service/hiawatha/" \
+	-DPID_DIR="$butch_prefix/var/run/hiawatha" \
 	-DWEBROOT_DIR="$butch_prefix/var/www" \
 
 # hack that adds missing statically linked mbedtls libraries
