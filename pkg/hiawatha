@@ -1,0 +1,51 @@
+[mirrors]
+https://www.hiawatha-webserver.org/files/hiawatha-9.14.tar.gz
+
+[main]
+filesize=891930
+sha512=66ad77c132d34daa5eb597ce67d7b26581c59534e5cf83dd65f78567a9a1798030cd42fef2d612bd1935243db979a2ef1df873f01b0d0a009395ef3da1dca6e6
+
+
+[deps]
+mbedtls
+cmake
+
+[build]
+# NOTE: the mirror is requires tls, download with curl:
+#       USE_CURL=1 butch install hiawatha
+# NOTE: XSLT support requires libxlst
+# NOTE about mbedtls:
+# Hiawatha usually compiles its own mbedtls to make sure it has the right
+# config options. In sabotage, we already have these options set, so we use
+# the system library of course.
+
+CFLAGS="-static" cmake \
+	-DENABLE_CACHE=OFF \
+	-DENABLE_RPROXY=OFF \
+	-DENABLE_TOOLKIT=OFF \
+	-DENABLE_XSLT=OFF \
+	-DUSE_SYSTEM_MBEDTLS=ON \
+	-DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+	-DCMAKE_INSTALL_BINDIR="$butch_prefix/bin" \
+	-DCMAKE_INSTALL_SBINDIR="$butch_prefix/bin" \
+	-DCMAKE_INSTALL_SYSCONFDIR="$butch_prefix/etc/hiawatha" \
+	-DCMAKE_INSTALL_LIBDIR="$butch_prefix/lib" \
+	-DCMAKE_INSTALL_MANDIR="$butch_prefix/share/man" \
+	-DCONFIG_DIR="$butch_prefix/etc/hiawatha" \
+	-DLOG_DIR="$butch_prefix/var/log/hiawatha" \
+	-DPID_DIR="$butch_prefix/etc/service/hiawatha/" \
+	-DWEBROOT_DIR="$butch_prefix/var/www" \
+
+# add missing statically linked mbedtls libraries
+sed -i 's/-lmbedtls/-lmbedtls -lmbedcrypto -lmbedx509/' CMakeFiles/*/link.txt
+
+make V=1 -j$MAKE_THREADS
+
+# set the user-id to www-data (as in the service)
+sed -i 's/#ServerId = www-data/ServerId = www-data/' config/hiawatha.conf
+
+make DESTDIR="$butch_install_dir" install
+
+# install the service
+IS="$K"/bin/install-service
+"$IS" --down --log --force hiawatha "$K"/services/hiawatha
