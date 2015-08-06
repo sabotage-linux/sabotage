@@ -13,12 +13,26 @@ monitor=${wlanif}mon
 [ -e ./aircrack-vars.sh ] && . ./aircrack-vars.sh
 
 [ x$1 = x ] && {
-	echo "usage: $0 [mon|monz|test|dump|assoc|arp(r)|crack(k)|deauth|stopmon|stopmonz]"
+	echo "usage: $0 [mon|monz|test|dump|assoc|arp(r)|crack(k)|deauth|stopmon|stopmonz|powerup]"
 	echo "run each of the commands in the above order"
 	echo "and all of them except the first 2 in an own term"
 	echo "deauth requires as additional parameter the mac of the client"
 	echo "monz/stopmonz use the new airmon-zc tool which works better with"
 	echo "recent kernels, but it uses wlan0mon instead of mon0 as dev name"
+	echo "powerup boosts the txpower to 30 mw which can be handy but may be illegal"
+	exit 1
+}
+
+[ x$1 = xpowerup ] && {
+	[ -z "$2" ] && {
+	echo "powerup requires a wlan interface name as second param"
+	echo "note that boosting your power to 30mw may be illegal, consult your lawyer"
+	exit 1
+	}
+	# set regulatory domain to BOLIVIA and boost txpower to max
+	# http://null-byte.wonderhowto.com/how-to/hack-wi-fi-creating-evil-twin-wireless-access-point-eavesdrop-data-0147919/
+	iw reg set BO && iwconfig $2 txpower 30 && \
+	echo "successfully set tx power of $2 to 30mw" && exit 0
 	exit 1
 }
 
