@@ -1,0 +1,20 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/m2c/0.7/m2c-0.7.tar.gz
+
+[main]
+filesize=212463
+sha512=9bcb90e7c5be6713370e3196773a9039a3fa0ffe265e2e42837f371532e9aed62c9bf9ad6fc2fbc54c62ae3ddef17e826e6cb439996d462cd99940eaeb458209
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+
+mkdir -p "$dest"/bin
+mkdir -p "$dest"/m2lib
+mkdir -p "$dest"/include
+mkdir -p "$dest"/man/man1
+
+sed -i -e "s@prefix=/usr/local@prefix=$dest@" Makefile.tmpl
+
+./configure +srcdir=../m2c-0.7 +cc=gcc
+make -j$MAKE_THREADS
+make install prefix="$dest"
