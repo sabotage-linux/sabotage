@@ -27,12 +27,18 @@ patch -p1 < "$K"/python273-pathsearch.patch
 patch -p1 < "$K"/python-xcompile.patch
 patch -p1 < "$K"/python-includedirs.patch
 
+sed -i 's@return readline@return feedline@' configure
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --build=$($HOSTCC -dumpmachine)"
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC $optcflags" \
 LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" \
   --with-system-expat --with-system-ffi $xconfflags \
+  ac_cv_lib_readline_rl_callback_handler_install=no \
+  ac_cv_lib_readline_rl_pre_input_hook=no \
+  ac_cv_lib_readline_rl_completion_display_matches_hook=no \
+  ac_cv_lib_readline_rl_completion_matches=no \
   ac_cv_file__dev_ptmx=yes
 
 if [ -n "$CROSS_COMPILE" ] ; then
