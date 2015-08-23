@@ -22,6 +22,7 @@ butch_do_cleanup_custom_destdir=true
 [ -z "$butch_do_relocate" ] && butch_do_relocate=true
 butch_do_filelists=true
 butch_do_create_tarball=false
+butch_do_separate_debug_info=true
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
 
 [ -z "$butch_filelists" ] && butch_filelists="$S/filelists/"
@@ -87,9 +88,13 @@ butch_configure_cache="$K/config.cache"
 [ -z "$HOSTCXX" ]  && HOSTCXX="$CXX"
 
 user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
+debug_build=0
 if [ -e "$user_optimizations_file" ] ; then
 	printf "sourcing user defined optimization config %s\n" "$user_optimizations_file"
 	. "$user_optimizations_file"
+	printf "%s\n" "$optcflags" | \
+		grep -E '(^|\s)[-]g[123]*($|\s)' >/dev/null && \
+		debug_build=1
 else
 	printf "user optimization file %s not found.\n" "$user_optimizations_file"
 fi
@@ -160,6 +165,25 @@ cd "$butch_install_dir"
 [ `ls | wc -l` = "0" ] && have_files=false || have_files=true
 
 if $have_files ; then
+	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
+		printf "stripping debug info into external files..."
+		mkdir -p lib/debug && chmod 775 lib/debug
+		for i in lib/*.so* bin/* ; do
+			printf "%s" "$i" | grep '\*'>/dev/null && continue
+			[ -L "$i" ] || [ -d "$i" ] && continue
+			case "$i" in bin*)
+				elf=$(dd if="$i" bs=1 skip=1 count=3 2>/dev/null)
+				[ "$elf" != "ELF" ] && continue
+			esac
+			name=$(printf "%s" "$i" | sed 's@/@_@')
+			objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
+			strip --strip-debug --strip-unneeded "$i" &&
+			objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
+		done
+		chmod 664 lib/debug/*
+		echo done
+	fi
+
 	# here you could place some code that makes a tarball out of $butch_install_dir
 	# moves the contents to / or create some sort of package file list.
 	# e.g.
