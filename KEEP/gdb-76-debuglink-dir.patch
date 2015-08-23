@@ -1,0 +1,10 @@
+--- gdb-7.6.2.org/gdb/symfile.c
++++ gdb-7.6.2/gdb/symfile.c
+@@ -1601,6 +1601,7 @@
+ 
+   debugfile = find_separate_debug_file (dir, canon_dir, debuglink,
+ 					crc32, objfile);
++  if(!debugfile) debugfile = find_separate_debug_file("/lib/debug/", "", debuglink, crc32, objfile);
+   xfree (canon_dir);
+ 
+   if (debugfile == NULL)

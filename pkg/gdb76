@@ -29,6 +29,7 @@ patch -p1 < "$K"/gdb-76-linux-low-threaddb.patch
 patch -p1 < "$K"/gdb-76-readline.patch
 patch -p1 < "$K"/gdb-76-pid_t.patch
 patch -p1 < "$K"/gdb-76-configure-ash.patch
+patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 
 # fix mips build ...
 cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
