@@ -17,6 +17,7 @@ libxdamage
 libxext
 libxml2
 libxshmfence
+libxxf86vm
 eudev
 bison
 
