@@ -14,6 +14,7 @@ mesalib
 autoconf
 automake
 libtool
+python
 
 [build]
 
