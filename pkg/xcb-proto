@@ -1,9 +1,6 @@
 [deps.host]
 python
 
-[deps]
-python
-
 [mirrors]
 http://xcb.freedesktop.org/dist/xcb-proto-1.10.tar.bz2
 
