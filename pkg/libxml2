@@ -10,7 +10,6 @@ sha512=7b10de749485bc2eb2108063e97d89e70d6fbb78b1bf195ab5528c8c64e79483d55223a49
 [deps]
 zlib
 xz
-python
 
 [build]
 patch -p1 < "$K"/libxml2-pthread.patch
@@ -20,7 +19,7 @@ CFLAGS="-D_GNU_SOURCE -fPIC $optcflags" \
 LDFLAGS="$optldflags" \
 ./configure -C \
   --prefix="$butch_prefix" --enable-shared --without-iconv \
-  --without-iso8859x --without-legacy \
+  --without-iso8859x --without-legacy --without-python \
   --disable-silent-rules $xconfflags
 
 patch_status() {
