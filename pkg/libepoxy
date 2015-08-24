@@ -8,6 +8,7 @@ http://ftp.cc.uoc.gr/mirrors/linux/lfs/LFS/conglomeration/libepoxy/libepoxy-1.2.
 
 [deps]
 libx11
+mesalib
 
 [deps.host]
 autoconf
