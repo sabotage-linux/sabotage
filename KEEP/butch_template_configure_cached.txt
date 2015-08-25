@@ -163,7 +163,11 @@ echo "post buildscript phase..."
 # butch_install_dir (e.g. for sabotages relocate_toolchain script)
 cd "$butch_install_dir"
 [ `ls | wc -l` = "0" ] && have_files=false || have_files=true
-
+[ -d share/pkgconfig ] && {
+echo "error: package installed pkgconfig files into /share"
+echo "please fix package (examples: xtrans eudev libyajl usbutils shared-mime-info)"
+exit 1
+}
 if $have_files ; then
 	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
 		printf "stripping debug info into external files..."
