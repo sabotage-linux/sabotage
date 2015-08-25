@@ -10,4 +10,7 @@ sha512=9db9464f8e9f1b48e5b8953e764fce7dc0e454c50c794c7871023380f6881b7e9d2e75483
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" install
-
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/pkgconfig
+mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
+rm -rf "$dest"/share/pkgconfig

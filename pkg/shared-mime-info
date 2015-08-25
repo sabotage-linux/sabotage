@@ -28,3 +28,8 @@ done
 # FIXME makefile is buggy and breaks randomly with multiple processes
 make -j1
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/pkgconfig
+mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
+rm -rf "$dest"/share/pkgconfig
+

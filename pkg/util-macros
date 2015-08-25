@@ -8,3 +8,8 @@ http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.1.tar.bz2
 [build]
 ./configure -C --prefix="$butch_prefix"
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/pkgconfig
+mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
+rm -rf "$dest"/share/pkgconfig
+

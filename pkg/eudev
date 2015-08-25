@@ -37,3 +37,7 @@ dest="$butch_install_dir""$butch_prefix"
 ln -s /dev/null "$dest"/etc/udev/rules.d/80-net-name-slot.rules
 printf "%s\n" 'KERNEL=="kvm", NAME="%k", GROUP="kvm", MODE="0660"' \
  > "$dest"/etc/udev/rules.d/65-kvm.rules
+mkdir -p "$dest"/lib/pkgconfig
+mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
+rm -rf "$dest"/share/pkgconfig
+
