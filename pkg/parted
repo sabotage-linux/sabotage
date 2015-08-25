@@ -7,6 +7,7 @@ http://ftp.gnu.org/gnu/parted/parted-3.2.tar.xz
 
 [deps]
 libdevmapper
+libuuid
 
 [build]
 patch -p1 < "$K"/parted-3.2-xfs.patch
