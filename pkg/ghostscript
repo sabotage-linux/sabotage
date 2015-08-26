@@ -1,9 +1,9 @@
 [mirrors]
-http://downloads.ghostscript.com/public/ghostscript-9.10.tar.bz2
+http://downloads.ghostscript.com/public/ghostscript-9.16.tar.bz2
 
 [main]
-filesize=30983380
-sha512=59f380e52c84b69819ef7d321f323950c22306119cfa7b38809a23e83f9a3af1e35b5d66d9b9e9adef32131aa283a235deec346acced330d7ad7d1201fe7ca04
+filesize=29163348
+sha512=6886b6d4f542563c8a87f9ea243736b5b97d2e4c277e6fc8cba0b7b07b7f394c2cff940ada1cfbb8f8e3916df53044837cbfcb1d5c22df865641496766630599
 
 [deps]
 expat
@@ -13,6 +13,7 @@ libtiff
 libjpeg
 zlib
 lcms2
+jbig2dec
 
 [build]
 # may need some additional fonts
@@ -23,15 +24,37 @@ lcms2
 
 
 # get rid of in-tree lib copies, so the system ones are picked up
-rm -rf expat freetype lcms2 jpeg libpng zlib
+rm -rf expat freetype lcms lcms2 jpeg libpng tiff lcms lcms2 cups/libs jbig2dec
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" \
+printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
+chmod +x freetype-config
+export PATH="$PWD:$PATH"
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+endian=$("$K"/endiancheck.sh)
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags $optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-"$endian"-endian \
   --enable-dynamic \
   --disable-static \
   --disable-cups \
   --with-system-libtiff \
+  --disable-compile-inits \
+  --with-jbig2dec \
+  --enable-fontconfig \
+  --enable-freetype \
+  --with-x \
+  --disable-gtk \
+  --without-luratech
 
+make CC="$HOSTCC" base/genarch base/genconf base/echogs
+mkdir -p obj/aux soobj/aux
+for i in echogs genarch genconf ; do
+	cp base/"$i" obj/aux
+	cp base/"$i" soobj/aux
+done
 
 make -j$MAKE_THREADS so
 make DESTDIR="$butch_install_dir" soinstall
