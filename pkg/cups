@@ -37,6 +37,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --with-menudir="$butch_prefix"/share/applications \
   --with-rcdir="$butch_prefix"/share/cups-rc.d
 
+sed -i 's/-fstack-protector//' Makedefs
+
 make -j$MAKE_THREADS
 make DSTROOT="$butch_install_dir" install
 
