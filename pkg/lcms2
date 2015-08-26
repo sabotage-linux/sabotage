@@ -1,9 +1,9 @@
 [mirrors]
-http://downloads.sourceforge.net/lcms/lcms2-2.5.tar.gz
+http://downloads.sourceforge.net/lcms/lcms2-2.7.tar.gz
 
 [main]
-filesize=7000396
-sha512=c41daee7bb366eed940283d3760e5862d8d2bb6e465d1f712123449a2013431321155c8500dba4c4393a1e49fdef0bc2f5399e1573f0295cc0dac3fe88c60853
+filesize=6497867
+sha512=9e69ec30efa9d50474808c6ae3d9afb0c5798eaabca0052f82d54efecdc2b58ab40434ee6dee9cd80028597d79a07f6b3b1a73f5293fc444343274eac3e32fd4
 
 [deps]
 
