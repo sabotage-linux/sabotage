@@ -48,6 +48,9 @@ CFLAGS="$optcflags $optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib
   --with-x \
   --disable-gtk \
   --without-luratech
+# due to a missing GSLCMS2SRCDIR variable, the build for 2 files ends up
+# including -I/include, which pulls in the hosts headers
+sed -i 's/GLLCMS2CC=.*$/GLLCMS2CC=$(CC) $(LCMS2_CFLAGS) $(CFLAGS) $(I_)$(GLI_) $(II)FOO$(LCMS2SRCDIR)BAR$(D)include$(_I) $(GLF_)/' base/lib.mak
 
 make CC="$HOSTCC" base/genarch base/genconf base/echogs
 mkdir -p obj/aux soobj/aux
