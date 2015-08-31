@@ -1,5 +1,5 @@
 [mirrors]
-https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
+http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
 
 [main]
 filesize=16626772
