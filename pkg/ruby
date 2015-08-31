@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p392.tar.gz
+https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
 
 [main]
-filesize=12557294
-sha512=f005ab05979bd5bd2ce7eba382245f507b736c6630984da2eea7b9ec446fc1c86723f35c3b1c2653c90c509a9489baa60c1555fba004d3bbc9c422877b0b986a
+filesize=16626772
+sha512=360ce8a99284c77b5789d292ac1669c299a66264691af7c29cb93df9b9136adbfa9965f3259eba561b082650770e2f5552f273ab8178e9c81f93bf0091a7056b
 
 [deps]
 zlib
@@ -11,7 +11,12 @@ openssl
 gdbm
 
 [build]
-patch -p1 < "$K"/ruby-io.patch
+# Ruby still uses RAND_egd() (it really shouldn't!).
+# Upstream report: https://bugs.ruby-lang.org/issues/10053
+# Patch similar to the wget one discussed here:
+# https://devsonacid.wordpress.com/2014/07/12/how-compatible-is-libressl/
+patch -p1 < "$K"/ruby-libressl.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir --with-baseruby=ruby"
@@ -22,6 +27,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C $xconfflags \
   --prefix="$butch_prefix" \
   rb_cv_binary_elf=yes \
+  --disable-install-doc
 
  # the elf test is broken, it uses cat -e which is gnu only
 
