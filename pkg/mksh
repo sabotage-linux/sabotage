@@ -23,7 +23,7 @@ $(OBJS_BP): $(SRCS_FP) $(NONSRCS)
 	+$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
 EOF
 
-[ -z "$CROSS_COMPILE" ] && strip -s -R .note -R .comment mksh
+"$CROSS_COMPILE"strip -s -R .note -R .comment mksh
 
 install -D -m 755 mksh "$butch_install_dir""$butch_prefix"/bin/mksh
 install -D -m 644 mksh.1 "$butch_install_dir""$butch_prefix"/share/man/man1/mksh.1
