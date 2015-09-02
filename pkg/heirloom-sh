@@ -8,8 +8,9 @@ http://sourceforge.net/projects/heirloom/files/heirloom-sh/050706/heirloom-sh-05
 [deps]
 
 [build]
-patch -p1 < "$K"/heirloom-sh.patch #putting binaries in /local/bin, which is first in default PATH
 patch -p0 defs.h < "$K"/heirloom-sh-defs.patch #disable dependency on sys/acct.h
-CFLAGS="-D_GNU_SOURCE -static" #making static to avoid hosed system after libc update
-make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+sed -i 's@getopt(@mygetopt(@g' jobs.c getopt.c bltin.c ulimit.c
+make -j$MAKE_THREADS CFLAGS="$optcflags" LDFLAGS="$optldflags -static"
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 644 sh.1.out "$dest"/share/man/man1/jsh.1
+install -D -m 755 sh "$dest"/bin/jsh
