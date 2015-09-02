@@ -19,8 +19,6 @@ sed -i 's@/bin/sh@/bin/bash@' configure
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--enable-cross-compile --target-os=linux --arch=$A"
 
-echo "$butch_install_dir"
-
 libvpx=
 [ -d "$butch_install_dir"/../libvpx ] && libvpx=--enable-libvpx
 libv4l2=
