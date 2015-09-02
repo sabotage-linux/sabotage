@@ -1,0 +1,28 @@
+#!/bin/sh
+
+DBDIR=/var/lib/redis
+
+if ! grep -q '^redis:' /etc/passwd ; then
+        busybox addgroup -S redis
+        busybox adduser -h "$DBDIR" -s /bin/nologin -S -D -H -G redis redis
+	chown redis:redis /etc/redis.conf
+fi
+
+if [ ! -d "$DBDIR" ] ; then
+        install -D -d -m 755 "$DBDIR"
+        chown -R redis "$DBDIR"
+        chgrp -R redis "$DBDIR"
+fi
+
+
+
+[ "$1" = "--prereqs" ] && exit 0
+
+
+# http://redis.io/topics/latency
+echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
+
+# see tcp-backlog in redis.conf
+echo 511 > /proc/sys/net/core/somaxconn
+
+chpst -vP -u redis:redis -U redis:redis /bin/redis-server /etc/redis.conf
