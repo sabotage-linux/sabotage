@@ -13,6 +13,10 @@ http://download.savannah.gnu.org/releases/freetype/freetype-2.5.0.tar.gz
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
+printf "#!/bin/sh\necho -lpng15 -I$butch_root_dir$butch_prefix/include/libpng15\n" > libpng-config
+chmod +x libpng-config
+cp libpng-config libpng15-config
+export PATH="$PWD:$PATH"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="-L/lib $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
