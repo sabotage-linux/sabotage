@@ -11,12 +11,19 @@ sha512=39b216239341fbfe210c3a2fc0d0531ecae26c425365c4b6d4fc1081e44e6dc7a9aba8d4c
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+testlib() {
+	printf "int main() {}\n" > test_lib.c
+	$CC test_lib.c -l$1 >/dev/null 2>&1
+}
+testlib ogg && \
+  oggflags="--with-ogg-libraries=$butch_root_dir$butch_prefix/lib --with-ogg-includes=$butch_root_dir$butch_prefix/include" || \
+  oggflags="--disable-ogg"
+
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags $oggflags
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-
 # build only libFLAC and not all the C++ crap
 make -j$MAKE_THREADS -C src/libFLAC
 make DESTDIR="$butch_install_dir" -C src/libFLAC install
