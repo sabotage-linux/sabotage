@@ -1,9 +1,9 @@
 [mirrors]
-http://www.lua.org/ftp/lua-5.2.3.tar.gz
+http://www.lua.org/ftp/lua-5.2.4.tar.gz
 
 [main]
-filesize=251195
-sha512=264bb7c8db2f190ef0ca38584ec81999ab588f54e03119c5214c40bb8925b0eb407fac483a03e40cc8a220f6748ddff7d3a7392da3803418276b0d263b866449
+filesize=252651
+sha512=cd77148aba4b707b6c159758b5e8444e04f968092eb98f6b4c405b2fb647e709370d5a8dcf604176101d3407e196a7433b5dcdce4fe9605c76191d3649d61a8c
 
 [deps]
 readline
