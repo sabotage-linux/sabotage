@@ -7,6 +7,7 @@ sha512=8fa9f5e0af9c9f111ffbf4d2d599112e98017447623a83c484963ef32c495de195cbd53b4
 
 [deps]
 argp
+glu
 
 [build]
 patch -p1 < "$K"/v4l-utils-open64.patch
