@@ -13,22 +13,28 @@ cmake
 [deps]
 alsa-lib
 libjpeg
+mesalib
+glu
+libvorbis
 
 [build]
-
 mkdir build && cd build
 
-cmake \
+xconfflags=
+[ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
+
+cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX=$butch_prefix \
   -DMANDIR=share/man \
-  -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags" \
-  -DCMAKE_LD_FLAGS="$optldflags" \
+  -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -fno-strict-aliasing" \
+  -DCMAKE_LD_FLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   -DWANT_TESTS=OFF \
+  -DWANT_DOCS=OFF \
   -DWANT_TOOLS=OFF \
 ..
 
 mkdir -p docs
 cp -r ../docs/txt docs/
 
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
