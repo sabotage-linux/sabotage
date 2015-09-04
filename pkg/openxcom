@@ -8,7 +8,7 @@ tardir=OpenXcom-1.0
 
 [deps]
 ca-certificates
-libglu
+glu
 libx11
 mesalib
 sdl

@@ -1,6 +1,6 @@
 [deps]
 glew
-libglu
+glu
 libxrandr
 go
 git
