@@ -1,16 +1,21 @@
-[main]
-filesize=625034
-sha512=0a1216d3ff23f76dd90a1fa5b1eadd1276cfedc07bd636e345df23911d2e23bc3780a5ba2e32f2025b517f7137135fb3de6d337f872932466efe480ece364e43
-
 [mirrors]
-http://fribidi.org/download/fribidi-0.19.5.tar.bz2
+http://fribidi.org/download/fribidi-0.19.7.tar.bz2
+
+[main]
+filesize=648299
+sha512=4bfdda43d961030a8a2ae2c98d2ca5d43c1b59633fa0987920c5537ec69f3f624204ceacc4c474d878cbb417ee2d9e708dfe169cfce6ad584d2f2d5122678b63
 
 [deps]
 
 [build]
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
 cp -f "$K"/config.sub .
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
 make -j$MAKE_THREADS

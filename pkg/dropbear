@@ -1,9 +1,9 @@
 [mirrors]
-http://matt.ucc.asn.au/dropbear/releases/dropbear-2015.67.tar.bz2
+http://matt.ucc.asn.au/dropbear/releases/dropbear-2015.68.tar.bz2
 
 [main]
-filesize=1606312
-sha512=6a23f7dbe8ccd39683488a16ce4db39cdba529e9d302165742eb818d3cf520a3793660ff6c8ce0520ddb87dcac726ff34ed3dbcb7efa83115deafad2c6c0a5f3
+filesize=1611161
+sha512=7725cd4077a3968684db3646f6013c6202977e79d281619e029366e45fca9c4e33e271812626237b6e33938eeb4c8b260902fe2b57cff085086bf930713a934a
 
 [deps]
 zlib

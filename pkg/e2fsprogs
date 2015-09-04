@@ -1,8 +1,9 @@
 [mirrors]
-http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.13.tar.xz
+
 [main]
-filesize=6069173
-sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
+filesize=4802740
+sha512=6de1c87205f30843e4c7d77d901d4322ed07c0efee63d5acdc2fcea6f7b6ce83b7f181b34bb1d6c10f59abbdfbc227ae312e74a2d4cbf708db468550a54e88ba
 
 [deps.host]
 pkgconf

@@ -1,13 +1,13 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/freetype/freetype-2.5.5.tar.gz
+
 [main]
-filesize=2116521
-sha512=b2b4a403eb3126c87ed6ebf4791dc7f16bc231ddbaceb69c71ab480cdb5c2018793d81f32cc1be624c701d64b96496042eec4675aa87ed6c1cff4de194b8350b
+filesize=2245805
+sha512=1c8812252d748c6ccc5f6002b57c8a7cb0f08fe15e3c700ac8b2714c7648d756cd4af4207a765cf0d320509be6d09c74239d69e9ca6a05bb15ca6a475cf96ce3
 
 [deps]
 zlib
 libpng
-
-[mirrors]
-http://download.savannah.gnu.org/releases/freetype/freetype-2.5.0.tar.gz
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

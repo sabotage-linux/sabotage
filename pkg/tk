@@ -1,10 +1,10 @@
 [mirrors]
-http://heanet.dl.sourceforge.net/project/tcl/Tcl/8.6.0/tk8.6.0-src.tar.gz
+http://heanet.dl.sourceforge.net/project/tcl/Tcl/8.6.4/tk8.6.4-src.tar.gz
 
 [main]
-filesize=4239836
-sha512=e78c3f3a8dacd6c1aaa4587f7e4e2a2a6a5adf3957c89bf450cea82d85701242729ccf6232cef71138685926f6a44fe683aa6425d0c4738326637e88b3d9e38d
-tardir=tk8.6.0
+filesize=4266426
+sha512=d0a1d1fd0938af4a9e532aa1bd4488647cff05f98e9e09b5fa16b773364a5d61030b7975541c688c7e0afc0bde60d49ce50a24d842549bab1622a0255e267909
+tardir=tk8.6.4
 
 [deps]
 tcl
@@ -12,7 +12,15 @@ libx11
 
 [build]
 cd unix
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir --with-tcl=$butch_root_dir$butch_prefix/lib"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"

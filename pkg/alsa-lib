@@ -2,21 +2,20 @@
 kernel-headers
 
 [mirrors]
-ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.28.tar.bz2
-http://gentoo.netnitco.net/distfiles/alsa-lib-1.0.28.tar.bz2
-http://alsa.cybermirror.org/lib/alsa-lib-1.0.28.tar.bz2
-http://distfiles.lesslinux.org/alsa-lib-1.0.28.tar.bz2
-http://distfiles.exherbo.org/distfiles/alsa-lib-1.0.28.tar.bz2
+ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.29.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-lib-1.0.29.tar.bz2
+http://alsa.cybermirror.org/lib/alsa-lib-1.0.29.tar.bz2
+http://distfiles.lesslinux.org/alsa-lib-1.0.29.tar.bz2
+http://distfiles.exherbo.org/distfiles/alsa-lib-1.0.29.tar.bz2
 
 [main]
-filesize=903786
-sha512=a08430d0beb4a751b1608d148f4fc3d1077a689f5f7197b830a2768d66238b69de2614448d56643fbcb3141faa06ab361b7a8579cce4303304bce8c10de01f08
+filesize=905417
+sha512=c9c2dcd3105abadcfdff104770a1f7683d83f6b9df64eebe9f9efc1ecab3ca4cef43718b5b15526bdabf2862ce55ec665732bb0390fc8e6492e2c1cebec9294c
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 
 patch -p1 < "$K"/alsa-lib_mask_inline.patch
-patch -p1 < "$K"/alsa-lib_versioning.patch
 
 sed -i 's,#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE),#if 0,' include/global.h
 
