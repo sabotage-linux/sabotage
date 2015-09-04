@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-6.9p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-6.9p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.1p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.1p1.tar.gz
 
 [main]
-filesize=1487617
-sha512=68fec9b4e512fe126a5d35b01e2cc656d810b75052ed8a36bc85cd0a05de7318b15ed287bc95cf9bcb3fa2f385029151d85aced55e07fbcc79e6c779bee6751d
+filesize=1493170
+sha512=f1491ca5a0a733eb27ede966590642a412cb7be7178dcb7b9e5844bbdc8383032f4b00435192b95fc0365b6fe74d6c5ac8d6facbe9d51e1532d049e2f784e8f7
 
 [deps]
 openssl
@@ -16,8 +16,12 @@ patch -p1 < "$K"/openssh-sys_param.patch
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in
 
-CC="gcc -D_BSD_SOURCE -DMISSING_FD_MASK -DMISSING_NFDBITS" \
-CFLAGS="$optcflags" \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CC="$CC -D_BSD_SOURCE -DMISSING_FD_MASK -DMISSING_NFDBITS" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" \
   --sbindir="$butch_prefix"/bin --libexecdir="$butch_prefix"/lib/ssh \
   --sysconfdir="$butch_prefix"/etc/ssh \
@@ -26,7 +30,7 @@ CFLAGS="$optcflags" \
   --with-ldflags="$optldflags" \
   --with-md5-passwords --with-mantype=man --mandir="$butch_prefix"/share/man \
   --disable-strip --disable-lastlog --disable-utmp --disable-utmpx --disable-btmp \
-  --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline
+  --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline $xconfflags
 
 mkdir netinet
 touch netinet/in_systm.h
