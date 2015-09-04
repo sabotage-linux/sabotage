@@ -1,9 +1,9 @@
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/libpng/libpng-1.5.21.tar.xz
+http://downloads.sourceforge.net/sourceforge/libpng/libpng-1.5.23.tar.xz
 
 [main]
-filesize=734356
-sha512=dd27d250271b72c33b9ea6282b549ad2a7a638334f97a218a00cde3136d97faf37544e304f84b966a064f9117e4681dde4f888ad63ecab41473d176066f3f5b4
+filesize=743548
+sha512=c367d6366359c635b2a7c2692a31bbd98bcd6a700995873aeade041a9a0fa411001feb756a3c3643dbfca92011a2724e44a76996963acf34153d7f0039f592c9
 
 [deps]
 zlib
@@ -14,4 +14,3 @@ CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-
