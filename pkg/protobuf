@@ -5,17 +5,20 @@ https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.b
 filesize=2021416
 sha512=8b092b87fcd79223db199cd3d330f3d43689b47f345aa4e34028dcf1680d609a5d5a89ab08588e817b566d3b265834c38f1db580bc1c144b512ce74d35f2a174
 
+[deps]
+libstdc++
+
+[deps.host]
+protobuf
+
 [build]
-if [ -n "$CROSS_COMPILE" ] ; then
+[ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir --with-protoc=protoc"
-  type protoc >/dev/null || { 
-    echo "error: need protoc installed on the host" ; exit 1 ;
-  }
-fi
-CXXFLAGS="-D_GNU_SOURCE $optcflags" \
-CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
-LDFLAGS="$optldflags" \
- ./configure -C --prefix="$butch_prefix" $xconfflags
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+ ./configure -C --prefix="$butch_prefix" --with-protoc=protoc $xconfflags
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
