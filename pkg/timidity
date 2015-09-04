@@ -10,7 +10,17 @@ tardir=TiMidity++-2.14.0
 ncurses
 
 [build]
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" --enable-ncurses
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+sed -i 's@if test "x\$prefix" != xNONE -a@if false -a@' configure
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  lib_cv_va_copy=yes \
+  lib_cv___va_copy=no \
+  lib_cv_va_val_copy=no \
+  --enable-ncurses
+make CC=cc -C timidity calcnewt
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
