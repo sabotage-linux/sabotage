@@ -1,9 +1,9 @@
-[main]
-filesize=10256632
-sha512=79b1cf51867fb4c1edae19bf3cdca6f88fbbe6d3895cc6121add17581eac7e07e68a813bfd1d691df9d132a8d84ce176b1021165825dd487bd0eccd86c0e257f
-
 [mirrors]
-http://download.enlightenment.org/releases/evas-1.7.8.tar.gz
+http://download.enlightenment.org/releases/evas-1.7.10.tar.gz
+
+[main]
+filesize=10261143
+sha512=7ee95adc71c9e83ae88a0ef45a40a8f1837edc190d435ebb173a8d6af07b311f6453b3036fd8ba77a2689f77bc76581f834b62eb85fb56da96ae92e9f9b4d017
 
 [deps]
 musl
@@ -23,9 +23,16 @@ cairo
 [build]
 # for future EFL releases, wayland support can be enabled with:
 # --enable-wayland-shm --enable-wayland-egl --enable-gl-flavor-gles --enable-gles-variety-sgx
-CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" --enable-fontconfig --enable-fb=static \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" --enable-fontconfig --enable-fb=static \
 --disable-harfbuzz --enable-buffer=static --disable-directfb --enable-static-software-generic --enable-software-xlib=static \
 --enable-software-xcb --enable-sdl-primitive --enable-image-loader-jpeg --enable-image-loader-png --enable-image-loader-tiff \
---disable-install-examples --disable-tests --disable-doc
+--disable-install-examples --disable-tests --disable-doc $xconfflags
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
