@@ -25,4 +25,4 @@ echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
 # see tcp-backlog in redis.conf
 echo 511 > /proc/sys/net/core/somaxconn
 
-su -s /bin/sh -c '/bin/redis-server /etc/redis.conf' - redis
+chpst -vP -u redis:redis -U redis:redis /bin/redis-server /etc/redis.conf
