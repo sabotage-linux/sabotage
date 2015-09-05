@@ -12,6 +12,7 @@ glib
 gtk+2
 libpng
 babl
+intltool
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
