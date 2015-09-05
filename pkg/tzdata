@@ -6,7 +6,7 @@ filesize=226943
 sha512=84107da6eb8bbc9063b06e422eb6ef4a5952039b90b4c86f6cc6ccecb370d1482dddf8be472d498b98cbb3ac6f7a0ed374f8b83613989a7d7a3a228b8910ac71
 tardir=.
 
-[deps]
+[deps.host]
 tzcode
 
 [build]
