@@ -1,13 +1,20 @@
 [mirrors]
-http://www.nasm.us/pub/nasm/releasebuilds/2.10.09/nasm-2.10.09.tar.xz
+http://www.nasm.us/pub/nasm/releasebuilds/2.11.08/nasm-2.11.08.tar.xz
 
 [main]
-filesize=686416
-sha512=089216f84f2d202c65d8223f5e66423995f96c2feebb0b8c6380761d36739a1a0f9cd2c4102bffd09646f12fd152da562c9be9e1ec2d62619dc78ed2012a0208
+filesize=764872
+sha512=f7caf42d0fe1b850de13180a1f363e34a6d44a02696312dd8f12f4116ad1c1f3d01e6606c3a79fb881e76fc70d20894d85b333c84a75d60265ff9551f7b8cde4
 
 [deps.host]
 perl
 
 [build]
-CC="$CC" CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
 make PREFIX="$butch_prefix" INSTALLROOT="$butch_install_dir" -j$MAKE_THREADS all install
