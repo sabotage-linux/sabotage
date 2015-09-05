@@ -1,9 +1,9 @@
-[main]
-filesize=258247
-sha512=f793f1efdcdc60c899b355d47648731fcb11d30fb31a9e41dc02ca057a8881e27062d2514e1b2b651464c5c8e49a40325d0d3e5f2200427608f6371cb2545856
-
 [mirrors]
-http://download.enlightenment.org/releases/evas_generic_loaders-1.7.8.tar.gz
+http://download.enlightenment.org/releases/evas_generic_loaders-1.7.10.tar.gz
+
+[main]
+filesize=258286
+sha512=f5df5bfd3b25f99bf6bc564c75b2292e8c587637af6e50a650c45e5d127045a326463f038418e6662391bec10b2248a3cf9b242dc80e45cf972863892a5df675
 
 [deps]
 musl
@@ -11,9 +11,15 @@ eina
 gstreamer01
 libraw
 
-
 [build]
 # there are more optional plugins: poppler, librsvg, libspectre but they depend on lots of stuff
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" --enable-libraw --enable-gstreamer
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --enable-libraw --enable-gstreamer $xconfflags
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
