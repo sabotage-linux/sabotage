@@ -6,14 +6,15 @@ libxft
 libxdmcp
 libxaw
 libxmu
+libxkbfile
 freetype
 
-[main]
-filesize=165367
-sha512=bbd5d0a0cf7c0e95adb13e051b5570163fed7ca6e8330136228d15aba2827afe2ebe2b763d027b83f5df83156f0d1aece6fae4b115cb2029571eb841299e65cc
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.5.tar.gz
+http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.7.tar.gz
+
+[main]
+filesize=203799
+sha512=8658ec74d435ab30bce652622155c7ad4a664c781f9794256fe28db4800cbdaefbdffa37afca8e27aa4b0373efcca709e0cf4e79e1c8f803c1e9dedd19a4517b
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
