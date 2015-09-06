@@ -20,6 +20,7 @@ libxshmfence
 libxxf86vm
 eudev
 bison
+expat
 
 [deps.host]
 flex
@@ -62,6 +63,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   --enable-glx-tls               \
   --with-egl-platforms="x11" $archflags \
 
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 echo true >  bin/missing
 
