@@ -9,6 +9,7 @@ sha512=ad4bc1c15fc83bc8a019031fed82f37a793664bb6683cf023ec05fd9cd945f00f43764f31
 
 [deps.host]
 cmake
+make
 
 [deps]
 alsa-lib
@@ -16,15 +17,24 @@ libjpeg
 mesalib
 glu
 libvorbis
+libxcursor
+libxpm
+libpng
 
 [build]
 mkdir build && cd build
+printf '#!/bin/sh\n%sar "$@"\n' "$CROSS_COMPILE" > "$CROSS_COMPILE"ar
+printf '#!/bin/sh\n%sranlib "$@"\n' "$CROSS_COMPILE" > "$CROSS_COMPILE"ranlib
+chmod +x "$CROSS_COMPILE"ar "$CROSS_COMPILE"ranlib
 
 xconfflags=
 [ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
 
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX=$butch_prefix \
+  -DCMAKE_MAKE_PROGRAM=make \
+  -DCMAKE_AR="$CROSS_COMPILE"ar \
+  -DCMAKE_RANLIB="$CROSS_COMPILE"ranlib \
   -DMANDIR=share/man \
   -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -fno-strict-aliasing" \
   -DCMAKE_LD_FLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
