@@ -26,5 +26,9 @@ mkdir -p "$dest/bin"
 mkdir -p "$dest/lib"
 mkdir -p "$dest/include"
 
-make -j$MAKE_THREADS
+printf "#!/bin/sh\necho -lalleg -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib\n" > allegro-config
+chmod +x allegro-config
+export PATH="$PWD:$PATH"
+
+make -j$MAKE_THREADS CC="$CC"
 make DESTDIR="$butch_install_dir" install
