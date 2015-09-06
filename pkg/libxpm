@@ -1,5 +1,6 @@
 [deps]
 libx11
+libxt
 
 [main]
 filesize=443496
