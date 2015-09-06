@@ -14,9 +14,22 @@ libjpeg
 libxext
 openssl
 
+[deps.host]
+freetype
+zlib
+openssl
+
 [build]
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
+for i in fontdump cmapdump bin2hex cquote ; do
+	make verbose=yes CC=cc \
+	FREETYPE_CFLAGS=-I/usr/include/freetype2 \
+	FREETYPE_LIBS=-lfreetype \
+	OPENSSL_CFLAGS="-DHAVE_OPENSSL" \
+	OPENSSL_LIBS="-lssl -lcrypto" \
+	build=release build/release/"$i"
+done
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  make V=1 -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
+  make verbose=yes -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
   prefix="$butch_prefix" build=release install
