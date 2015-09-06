@@ -18,6 +18,7 @@ openssl
 freetype
 zlib
 openssl
+jbig2dec
 
 [build]
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
