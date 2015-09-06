@@ -16,4 +16,7 @@ openssl
 
 [build]
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
-CFLAGS="$optcflags" LDFLAGS="$optldflags" make -j $MAKE_THREADS DESTDIR="$butch_install_dir" prefix= build=release install
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  make V=1 -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
+  prefix="$butch_prefix" build=release install
