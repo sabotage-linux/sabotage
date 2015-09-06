@@ -6520,7 +6520,7 @@ func_mode_link ()
 	   { test "$use_static_libs" = no || test -z "$old_library"; }; then
 	    if test "$installed" = no; then
 	      notinst_deplibs="$notinst_deplibs $lib"
-	      need_relink=yes
+	      #need_relink=yes
 	    fi
 	  # This is a shared library
 
