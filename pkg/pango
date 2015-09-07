@@ -23,6 +23,9 @@ CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
 CXXFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-introspection=no FREETYPE_LIBS=-lfreetype
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 
