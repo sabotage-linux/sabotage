@@ -50,6 +50,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
  --disable-rebuilds  --disable-glibtest \
  --disable-cups --disable-introspection $xconfflags
 
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
 echo '#include <string.h>' >> config.h
 
 for i in demos tests po po-properties ; do
