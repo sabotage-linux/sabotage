@@ -1,12 +1,15 @@
 [mirrors]
-http://download-origin.transmissionbt.com/files/transmission-2.83.tar.xz
+http://download-origin.transmissionbt.com/files/transmission-2.60.tar.xz
+
 [main]
-filesize=3136752
-sha512=a3f56c434282d70d9d373d99410de738f15a350f394c0984150b7d9ea2eda1c0485bf26ab740f433d0271f882edabe5609266e704e55792a7015225da0186fda
+filesize=2905156
+sha512=0aea93263ce0bfb11629486a6f9d0ed9a5b0ec85cc15933271c073f73bb55f31ae6a32804b528093b2e435143ce3d6a25625bfb0411c75aaaf3832a7ffa26f34
+
 [deps]
 gtk+2
 miniupnpc
 libevent
+
 [build]
 patch -p1 < "$K"/transmission-off_t.patch
 # transmission insists on --enable-nls/intltool when gtk is selected

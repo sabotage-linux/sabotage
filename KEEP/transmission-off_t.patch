@@ -1,10 +1,10 @@
---- transmission-2.83.org/libtransmission/transmission.h
-+++ transmission-2.83/libtransmission/transmission.h
-@@ -28,6 +28,7 @@
+--- transmission-2.60.org/libtransmission/transmission.h
++++ transmission-2.60/libtransmission/transmission.h
+@@ -43,6 +43,7 @@
  
  #include <inttypes.h> /* uintN_t */
  #include <time.h> /* time_t */
 +#include <unistd.h> /* off_t */
  
- #ifdef WIN32
-  #define __USE_MINGW_ANSI_STDIO 1
+ #if !defined(__cplusplus)
+  #ifdef HAVE_STDBOOL_H

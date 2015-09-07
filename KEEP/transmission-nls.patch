@@ -1,15 +1,38 @@
---- transmission-2.83.org/Makefile.in
-+++ transmission-2.83/Makefile.in
-@@ -154,7 +154,7 @@
+--- transmission-2.60.org/configure
++++ transmission-2.60/configure
+@@ -18252,7 +18252,7 @@
+     if test "x$gtk_version" = "xnone" ; then
+         as_fn_error $? "\"GTK+ not found!\"" "$LINENO" 5
+     fi
+-    if test "x$enable_nls" = "xno" ; then
++    if test "x$enable_nls" = "xxx" ; then
+         as_fn_error $? "\"The gtk client cannot be built without nls support.  Try adding either --enable-nls or --without-gtk\" " "$LINENO" 5
+     fi
+ 
+--- transmission-2.60.org/gtk/Makefile.in
++++ transmission-2.60/gtk/Makefile.in
+@@ -1062,7 +1062,8 @@
+ 	uninstall-am uninstall-binPROGRAMS uninstall-iconDATA \
+ 	uninstall-man uninstall-man1
+ 
+-@INTLTOOL_DESKTOP_RULE@
++transmission-gtk.desktop: transmission-gtk.desktop.in
++	sed 's/^_//g' < transmission-gtk.desktop.in > transmission-gtk.desktop
+ 
+ @WIN32_TRUE@transmission.res: transmission.rc
+ @WIN32_TRUE@	$(WINDRES) -J rc -i transmission.rc -O coff -o transmission.res
+--- transmission-2.60.org/Makefile.in
++++ transmission-2.60/Makefile.in
+@@ -98,7 +98,7 @@
+ ETAGS = etags
  CTAGS = ctags
- CSCOPE = cscope
  DIST_SUBDIRS = extras third-party libtransmission utils daemon cli gtk \
 -	po macosx web
 +	macosx web
  DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
  distdir = $(PACKAGE)-$(VERSION)
  top_distdir = $(distdir)
-@@ -389,7 +389,7 @@
+@@ -331,7 +331,7 @@
  ACLOCAL_AMFLAGS = -I m4
  @BUILD_CLI_TRUE@CLI_DIR = cli
  @BUILD_DAEMON_TRUE@@WIN32_FALSE@DAEMON_DIR = daemon
@@ -18,28 +41,3 @@
  @BUILD_MAC_TRUE@MAC_DIR = macosx
  SUBDIRS = \
    extras \
---- transmission-2.83.org/configure
-+++ transmission-2.83/configure
-@@ -18574,7 +18574,7 @@
- use_libappindicator=no
- if test "x$with_gtk" = "xyes" ; then
- 
--    if test "x$enable_nls" = "xno" ; then
-+    if test "x$enable_nls" = "xxx" ; then
-         as_fn_error $? "\"The gtk client cannot be built without nls support.  Try adding either --enable-nls or --without-gtk\" " "$LINENO" 5
-     fi
- 
---- transmission-2.83.org/gtk/Makefile.in
-+++ transmission-2.83/gtk/Makefile.in
-@@ -1078,8 +1078,9 @@
- 	uninstall-binPROGRAMS uninstall-iconDATA uninstall-man \
- 	uninstall-man1
- 
--@INTLTOOL_DESKTOP_RULE@
--
-+transmission-gtk.desktop: transmission-gtk.desktop.in
-+	sed 's/^_//g' < transmission-gtk.desktop.in > transmission-gtk.desktop
-+	
- transmission-resources.c: transmission.gresource.xml $(UI_FILES) 
- 	$(AM_V_GEN)glib-compile-resources --target=$@ --sourcedir=$(srcdir) \
- 	  --generate-source --c-name transmission $< 
