@@ -9,6 +9,8 @@ sha512=0aea93263ce0bfb11629486a6f9d0ed9a5b0ec85cc15933271c073f73bb55f31ae6a32804
 gtk+2
 miniupnpc
 libevent
+openssl
+curl
 
 [build]
 patch -p1 < "$K"/transmission-off_t.patch
@@ -16,9 +18,15 @@ patch -p1 < "$K"/transmission-off_t.patch
 # - the only reason is the generation of the .desktop file
 patch -p1 < "$K"/transmission-nls.patch
 
-CFLAGS="-D_GNU_SOURCE $optcflags -DGETTEXT_PACKAGE=\\\"transmission\\\"" \
-LDFLAGS="$optldflags" \
-./configure -C --prefix="$butch_prefix" \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+sed -i 's@gtk_version="3"@gtk_version="2"@g' configure
+CPPFLAGS="-D_GNU_SOURCE -DGETTEXT_PACKAGE=\\\"transmission\\\"" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --disable-silent-rules \
   --enable-utp
 make -j$MAKE_THREADS
