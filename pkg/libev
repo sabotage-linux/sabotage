@@ -12,3 +12,4 @@ sha512=bb3ab98d92e565bf2273d71c9004b84ad3b305c4e883482392fe6c701949344731bb4e391
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags &&
 make -j$MAKE_THREADS && make DESTDIR="$butch_install_dir" install
+rm "$butch_install_dir""$butch_prefix"/include/event.h
