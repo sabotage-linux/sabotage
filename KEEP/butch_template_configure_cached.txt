@@ -180,9 +180,9 @@ if $have_files ; then
 				[ "$elf" != "ELF" ] && continue
 			esac
 			name=$(printf "%s" "$i" | sed 's@/@_@')
-			objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
-			strip --strip-debug --strip-unneeded "$i" &&
-			objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
+			"$CROSS_COMPILE"objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
+			"$CROSS_COMPILE"strip --strip-debug --strip-unneeded "$i" &&
+			"$CROSS_COMPILE"objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
 		done
 		chmod 664 lib/debug/*
 		echo done
