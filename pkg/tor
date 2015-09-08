@@ -18,9 +18,10 @@ libevent
 CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -static" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags tor_cv_cflags__fPIE=no
+  ./configure -C --prefix="$butch_prefix" $xconfflags tor_cv_cflags__fPIE=no \
+  --disable-seccomp
 
-make -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 IS="$K"/bin/install-service
