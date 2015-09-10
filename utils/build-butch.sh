@@ -2,9 +2,9 @@
 # use: sourced from a script
 # returns $BUTCH_BIN, pointing to the newly built butch binary
  
-filesize='55660'
-sha512='c0565c79d937e5e971fbb78b8b68b80f2583949bd6d3256e2a7c538707d772cd4801b431903539d9b8c1ce57fc7cc0c63d633e9a931915e3821a799ee12e9805'
-version=0.5.0
+filesize='54611'
+sha512='d5704852504f722c7f610f5e24a96315b0608e91ccdc8b8bd911e4344f1faca6bd8ed0e432fa32ecc8f307083dbcf9f56da0df1d19710719a2d54221d6e94794'
+version=0.6.0
 
 filename="$C"/butch-$version.tar.bz2
 
