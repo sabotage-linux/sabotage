@@ -11,6 +11,7 @@ glib
 pango
 cairo
 atk-bridge-fake
+libxi
 
 [build]
 # gdbus-codegen is a program usually delivered by glib, but we patch it out
