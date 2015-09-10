@@ -1,10 +1,13 @@
 [mirrors]
-http://gitorious.org/tome2/tome2/archive/610a2e1502ea39e28f23daff7a39cc9c2c254944.tar.gz
+https://gitlab.com/tome2/tome2/repository/archive.tar.bz2?ref=e3bd0ad5
 
 [main]
-filesize=3650411
-sha512=ccc01e59e5c6d79f88e3d1d353e322aeb17b077df3dcc9bae92e8a671cb7d8cc7015b9007d16ddc8deb49255ee3ebea21f5470a0aec147f6d9a21ca49e4dd39b
-tardir=tome2-tome2
+filesize=3048200
+sha512=e9fb46f8f5bebb3bde2f151e5c412c88598bfcccbd1d8012a28cd280382c8609772409a48bbafdc25d8412b986f005c120553c7baff9f45af0e5e8e1671f4eeb
+tardir=tome2-e3bd0ad5-e3bd0ad51f89ade115ce5ff1f1c3f8687353e36d
+
+[vars]
+tarball=tome2-e3bd0ad5.tar.bz2
 
 [deps]
 jansson
