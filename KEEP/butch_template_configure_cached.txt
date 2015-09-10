@@ -9,6 +9,33 @@ printf "%s: start\n" "`date`"
 # BUTCH_CONFIG will get replaced by the environment variables
 # that butch uses (R,S,C...).
 %BUTCH_CONFIG
+BUTCH_HAVE_TARBALL=false
+[ -n "%BUTCH_MIRROR_URLS" ] && BUTCH_HAVE_TARBALL=true
+get_file_name() {
+printf "%s" "$1" | awk '{n=split($0,a,"/");print a[n];}'
+}
+strip_file_ext() {
+case "$1" in
+*.tar.*) printf "%s" "$1"| sed 's/\.tar\.[0-9a-z]*$//' ;;
+*) le=$(printf "%s" "$1"| awk '{n=split($0,a,".");print a[n];}' | wc -c)
+   ls=$(printf "%s" "$1"|wc -c)
+   l=$(($ls - $le))
+   printf "%s" "$1"|cut -b -$l
+   ;;
+esac
+}
+if [ -z "$tarball" ] && $BUTCH_HAVE_TARBALL ; then
+for i in %BUTCH_MIRROR_URLS ; do
+	tarball=$(get_file_name "$i")
+	break
+done
+fi
+
+BUTCH_TARBALL="$tarball"
+if [ -z "$tardir" ] && $BUTCH_HAVE_TARBALL ; then
+	tardir=$(strip_file_ext "$tarball")
+fi
+BUTCH_TARDIR="$tardir"
 
 [ -z "$B" ] && B=$S/build
 
@@ -77,7 +104,7 @@ butch_cache_dir="$C"
 
 # this is were stuff gets extracted to and built in
 butch_build_root="$B/$butch_package_name"
-butch_build_dir="$butch_build_root/%BUTCH_TARDIR"
+butch_build_dir="$butch_build_root/$BUTCH_TARDIR"
 
 #this is the location of our optimized config.cache
 butch_configure_cache="$K/config.cache"
@@ -107,24 +134,24 @@ cd "$butch_build_root"
 
 # BUTCH_HAVE_TARBALL will be replaced by true or false
 # depending on whether a tarball is used by the pkg
-if %BUTCH_HAVE_TARBALL ; then
+if $BUTCH_HAVE_TARBALL ; then
 
-	printf '%s\n' "%BUTCH_TARBALL" >> "$butch_tarballs_used"
+	printf '%s\n' "$BUTCH_TARBALL" >> "$butch_tarballs_used"
 	printf "%s: starting to untar\n" "`date`"
-	if echo %BUTCH_TARBALL | grep -q "\.xz" ; then
+	if echo $BUTCH_TARBALL | grep -q "\.xz" ; then
 		tarflags=xJf
-	elif echo %BUTCH_TARBALL | grep -q "\.lzma" ; then
+	elif echo $BUTCH_TARBALL | grep -q "\.lzma" ; then
 		tarflags=xaf
-	elif echo %BUTCH_TARBALL | grep -q "\.bz2" ; then
+	elif echo $BUTCH_TARBALL | grep -q "\.bz2" ; then
 		tarflags=xjf
 	else
 		tarflags=xzf
 	fi
-	if ! tar $tarflags "$butch_cache_dir/%BUTCH_TARBALL" ; then
-		case "%BUTCH_TARBALL" in
+	if ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
+		case "$BUTCH_TARBALL" in
 			*.tar.xz)
 				# old gnu tar passes .xz to lzma instead of xz
-				if ! xz -dc "$butch_cache_dir/%BUTCH_TARBALL" | tar x ; then
+				if ! xz -dc "$butch_cache_dir/$BUTCH_TARBALL" | tar x ; then
 					echo "tarball error"
 					exit 1
 				fi ;;
