@@ -1,7 +1,5 @@
 [mirrors]
-http://pkgs.fedoraproject.org/lookaside/pkgs/e2fsprogs/e2fsprogs-1.42.13.tar.xz/ce8e4821f5f53d4ebff4195038e38673/e2fsprogs-1.42.13.tar.xz
-https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.42.13/e2fsprogs-1.42.13.tar.xz
-ftp://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.42.13/e2fsprogs-1.42.13.tar.xz
+http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.13.tar.xz
 
 [main]
 filesize=4802740
