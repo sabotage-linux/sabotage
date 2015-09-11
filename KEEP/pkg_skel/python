@@ -1,6 +1,6 @@
 [mirrors]
 
-[main]
+[vars]
 
 [deps.run]
 python
