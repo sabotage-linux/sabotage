@@ -1,10 +1,11 @@
 [mirrors]
 https://github.com/SupSuper/OpenXcom/archive/v1.0.tar.gz
 
-[main]
+[vars]
 filesize=2068640
 sha512=597abd2e7160551a3d6020d7c6fec863f86b708910ee582d446f2a5f97be94dc7e2522ede2e7ab4f62a2d21acf07ce441a435f74b530950e2f0b5791c00e06ab
 tardir=OpenXcom-1.0
+tarball=OpenXcom-1.0.tar.gz
 
 [deps]
 ca-certificates

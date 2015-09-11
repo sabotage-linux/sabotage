@@ -1,10 +1,11 @@
 [mirrors]
 https://github.com/jgm/cmark/archive/0.18.tar.gz
 
-[main]
+[vars]
 filesize=221416
 sha512=2f7bb90ad4aadc15cc99a2d4a51c1fc612148f451a19ae8976f61550df899cde02894bf93d2ba48c1d341f9e7d0d3f76198be819fe7a24006736071ffbe7b3e0
 tardir=cmark-0.18
+tarball=cmark-0.18.tar.gz
 
 [deps.host]
 cmake

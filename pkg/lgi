@@ -1,10 +1,11 @@
 [mirrors]
 https://github.com/pavouk/lgi/archive/0.8.0.tar.gz
 
-[main]
+[vars]
 filesize=282052
 sha512=9998b544210d006ea5be162d052031599837bfb2c22433193d4f6761cd7d1e19e69252dd9fea0c3fee94efadaa354d80e2be13db578b3a2b71a9b56a7f07cbe9
 tardir=lgi-0.8.0
+tarball=lgi-0.8.0.tar.gz
 
 [deps]
 gobject-introspection
