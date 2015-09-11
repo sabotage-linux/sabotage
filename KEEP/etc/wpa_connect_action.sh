@@ -11,6 +11,7 @@ state="$2"
 echo "$0: $if $state"
 case "$state" in
 CONNECTED)
+$do_throttle && iwconfig "$if" rate 1M
 if $do_dhcp ; then
 	dhclient "$if" || dhclient "$if";
 else
@@ -19,7 +20,6 @@ else
 	route delete default
 	route add default gw "$sn".1
 fi
-$do_throttle && iwconfig "$if" rate 1M
 ;;
 DISCONNECTED)
 :
