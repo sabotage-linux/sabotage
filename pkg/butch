@@ -14,6 +14,8 @@ stage0_musl
 if [ ! -z "$BUTCH_FROM_GIT" ] ; then
 	rm -rf butch
 	git clone https://github.com/sabotage-linux/butch
+else
+	sed -i 's@0\.5\.0@0.6.0@' butch/butch.c
 fi
 
 # prepare build config...
