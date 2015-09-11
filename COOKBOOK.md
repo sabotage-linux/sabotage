@@ -102,16 +102,22 @@ and their associated data.
 	...
 	<url #n>
 
-	[main]
+	[vars]
 	filesize=<bytes>
 	sha512=<sha 512 hash>
 	tardir=<directory name the tar extracts to, if it differs from the tar name>
+	tarball=<put name the tarball should be saved to if its default is unsuitable or cannot be easily derived from the mirror URL>
 
-`[mirrors]` and `[main]` are optional, but must be included together as a set.
+`[mirrors]` and `[vars]` are optional, but must be included together as a set.
 HTTP(S) URLs are the only valid protocol for `[mirrors]`.
 `tardir` is an optional directive and is usually omitted.
+`tarball` is an optional directive and is usually omitted.
 These elements combine with `KEEP/butch_download_template.txt` as a 
-`build/dl_package.sh` script.
+`build/dl_package.sh` script, and with
+`KEEP/butch_template_configure_cached.txt` into `build/build_package.sh`.
+The `[vars]` section is copied verbatim at the top of the generated scripts
+and can contain shell code.
+
 This script then downloads and verifies the tarball.
 The `utils/dlinfo` script is useful in generating the above sections for you.
 
@@ -146,7 +152,7 @@ post-build linking of installed files.
 If the`[build]` phase calls `exit`, `butch` will not perform any 
 post-build activities.
 
-Metapackages containing only a `[mirrors]` & `[main]`, `[deps]` or `[build]`
+Metapackages containing only a `[mirrors]` & `[vars]`, `[deps]` or `[build]`
 section are useful.
 
 
