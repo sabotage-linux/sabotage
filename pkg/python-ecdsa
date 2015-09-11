@@ -1,7 +1,7 @@
 [mirrors]
 https://pypi.python.org/packages/source/e/ecdsa/ecdsa-0.10.tar.gz
 
-[main]
+[vars]
 filesize=45153
 sha512=c1a51e95af938aca01001a4aa7e3a830157d5ffd0370d880340e513edbe176b30750fb86270d605b729dcc5741346d552b2bf16d7b3b4910fd1d06f96eaffc0f
 

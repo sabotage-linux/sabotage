@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/libgsf/1.14/libgsf-1.14.33.tar.xz
 
-[main]
+[vars]
 filesize=608364
 sha512=9dbda65a610f3e6efaf40bb51ed9ebabe485e0c2c9c8d0ff155ae39fa1aa3074df8094f51d9b0f27eb251b1aed4b4faa77ffce4d6dc16ef7c99c5b697528be5f
 

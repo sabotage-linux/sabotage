@@ -2,7 +2,7 @@
 ftp://ftp.gnu.org/gnu/gdb/gdb-7.6.2.tar.bz2
 http://ftp.gnu.org/gnu/gdb/gdb-7.6.2.tar.bz2
 
-[main]
+[vars]
 filesize=24269334
 sha512=e72e9c2abb58cc08c38841380270fe783f26baf62798171d21cf0843e6c9a81d285f424dc6229ea7b1c6c957d999c8aa75c2bd15076817abb9caab28c4eb7666
 

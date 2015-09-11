@@ -3,7 +3,7 @@ http://heanet.dl.sourceforge.net/project/mpg123/mpg123/1.14.4/mpg123-1.14.4.tar.
 http://surfnet.dl.sourceforge.net/project/mpg123/mpg123/1.14.4/mpg123-1.14.4.tar.bz2
 http://switch.dl.sourceforge.net/project/mpg123/mpg123/1.14.4/mpg123-1.14.4.tar.bz2
 
-[main]
+[vars]
 filesize=797694
 sha512=bb20de004271ab40ec26da0d4759970d02855970c88d4ca9971b7d41ea72679032619cc952d96d343bd46c6b5eca6e38eb9f000845960bc464894b850b4de014
 

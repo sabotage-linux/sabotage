@@ -1,7 +1,7 @@
 [mirrors]
 http://heanet.dl.sourceforge.net/project/zziplib/zziplib13/0.13.62/zziplib-0.13.62.tar.bz2
 
-[main]
+[vars]
 filesize=685770
 sha512=fd3b9e9015ba7603bdebd8f6a2ac6d11003705bfab22f3a0025f75455042664aea69440845b59e6f389417dff5ac777f49541d8cbacb2a220e67d20bb6973e25
 

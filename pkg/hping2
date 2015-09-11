@@ -1,7 +1,7 @@
 [mirrors]
 http://www.hping.org/hping2.0.0-rc3.tar.gz
 
-[main]
+[vars]
 filesize=124573
 sha512=a5273ddf98d39f8bd602d7653bb7e024c1d0a48e6619d0e15eac9ce877d4869fd7e5500f86cc2a35b29b95a27012f2e8c6f69d9bb11e6f9bd30edafd459a1a9c
 tardir=hping2-rc3

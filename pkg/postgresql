@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.postgresql.org/pub/source/v9.2.9/postgresql-9.2.9.tar.bz2
 
-[main]
+[vars]
 filesize=16269349
 sha512=a319af5781f528b5fcd384d133d0dc0d0f4302784c650b7d934670717a07e6af8cef51abaa9a34bdfc82f925ba9e8a81770242fa69a2e2105684be2a62be2db3
 

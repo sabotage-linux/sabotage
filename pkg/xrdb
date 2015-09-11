@@ -3,7 +3,7 @@ libx11
 libxext
 libxmu
 
-[main]
+[vars]
 filesize=138035
 sha512=8e2a177653d5aa895c71ed3640e0f1dd9fe8bf5cd6f0c6ff7e372394a2a41c3aa2286905fd9c69e3d140024d235b81a1f32b5d4012b1ac5ac1ed945599dee407
 

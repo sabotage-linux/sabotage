@@ -1,7 +1,7 @@
 [mirrors]
 http://dri.freedesktop.org/libdrm/libdrm-2.4.58.tar.bz2
 
-[main]
+[vars]
 filesize=573202
 sha512=26776b3f93fe173f4e0f94668813ec1a756d9f15385d1cad70c7af8d4d5d503aef00e14081c76f6fcac6e0c606e106e47ddf76038f8601b71fc380306536f937
 

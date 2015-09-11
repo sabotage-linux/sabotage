@@ -3,7 +3,7 @@ http://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.1
 https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
 http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
 
-[main]
+[vars]
 filesize=290544
 sha512=dd1f4bc13e62623792121d0f2a2a388be85bae4eec4abc348e0d21949fefa58863e7bf56515dd57022c312ee02d2fa76cc7b1a1c2d78a36532961b22b410a4db
 

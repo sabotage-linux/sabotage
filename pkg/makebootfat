@@ -1,7 +1,7 @@
 [mirrors]
 http://prdownloads.sourceforge.net/advancemame/makebootfat-1.4.tar.gz
 
-[main]
+[vars]
 filesize=146722
 sha512=638356c951670187960d0050d963116391d4b494bc9b082b3d4673188450e47f22fda5733aa09b15cfbb1640807676f5f8743dd094b9931f150b445eb8d335dd
 

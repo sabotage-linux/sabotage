@@ -1,7 +1,7 @@
 [mirrors]
 https://github.com/libass/libass/releases/download/0.12.3/libass-0.12.3.tar.xz
 
-[main]
+[vars]
 filesize=313852
 sha512=84931e89f02487ff01bfe24be3d90b1db8599ab2a5ec2277824b4330cd9219189a54f19d2d83f223d2d6f973b5e7474f2691905091749a776147669b72754be2
 

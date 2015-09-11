@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/GNOME/sources/gtkmm/2.24/gtkmm-2.24.2.tar.xz
 
-[main]
+[vars]
 filesize=10776640
 sha512=9f48138641815a40f9c22f6b8785cbcd9e92473c405577dcc6ae29559835d51a17d87fd75518d8043eeec8ce0f643aeb8cfcd68a6df382d0b392da33f6c6f8b7
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.xiph.org/releases/ao/libao-1.2.0.tar.gz
 
-[main]
+[vars]
 filesize=464596
 sha512=9456953826c188d67129ad78366bb86d6243499f2cd340d20d61366f7e40a33f3f8ab601c7f18ce9e24aa22f898093b482b2415b7e428c1486ef7e5ac27b3ee4
 

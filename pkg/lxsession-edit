@@ -2,7 +2,7 @@
 http://kent.dl.sourceforge.net/project/lxde/LXSession%20Edit/lxsession-edit%200.2.0/lxsession-edit-0.2.0.tar.gz
 http://switch.dl.sourceforge.net/project/lxde/LXSession%20Edit/lxsession-edit%200.2.0/lxsession-edit-0.2.0.tar.gz
 
-[main]
+[vars]
 filesize=224146
 sha512=6bf039322738502ec92e2d600d98142dafff7caa3e4a45f132cc7f4460985df2351b38fdf57ea214c49311d1b4fd96b79086936fade44fb0316dd013c417ba9f
 

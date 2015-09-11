@@ -1,5 +1,5 @@
 [mirrors]
 http://llvm.org/releases/3.4/compiler-rt-3.4.src.tar.gz
-[main]
+[vars]
 filesize=1858593
 sha512=70efffaf12ff7c15befa87ce808489c6f6b6eb421d0ab5d8ecd525239efc8aab850c7ed34b31a993ff5e499657b72598619945cc4461fe3e5359e9a94aaac0c8

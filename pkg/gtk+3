@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/gtk+/3.16/gtk+-3.16.3.tar.xz
 
-[main]
+[vars]
 filesize=18228560
 sha512=5ab6ff3f4e4c47dd8532027bfade1420524d48b53f7c7bcef4ee581095ecc53f33ac072076837ed34306d5d84103958b27a3099b10e5cf95c38fb34342fc8aa8
 

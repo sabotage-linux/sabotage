@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.5.1.tar.bz2
 
-[main]
+[vars]
 filesize=502903
 sha512=3ca8f7c1c642072c9bf9a755b45857f77753111ce6f1f99bd804e0f1b90cf61259fbde609a5342cce9c1ac5431b093bf75febb68baff2f2688e0a5fe5864a666
 

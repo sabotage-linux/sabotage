@@ -1,7 +1,7 @@
 [mirrors]
 http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.2.0.tar.bz2
 
-[main]
+[vars]
 filesize=261888
 sha512=1311365c580035361e961ffefb84acf88771aae17d4b084733f2e0d10ac2ad770cf7d3b64c1c6cc400f19082530b425714f3afb88d10d6023e3798261a982e67
 

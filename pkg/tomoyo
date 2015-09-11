@@ -1,7 +1,7 @@
 [mirrors]
 http://jaist.dl.sourceforge.jp/tomoyo/53357/tomoyo-tools-2.5.0-20140601.tar.gz
 
-[main]
+[vars]
 filesize=211411
 sha512=c89e5257e8158e31e17c0d62735a1f8b7728c4c7e05d9e0e860ff637a575071b4b0ce7fca8162cde4659fecc2b047d0b79a45291df3612878dba48aaafa6b2d5
 tardir=tomoyo-tools

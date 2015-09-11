@@ -3,7 +3,7 @@ xproto
 libx11
 xorg-server
 
-[main]
+[vars]
 filesize=580019
 sha512=61118a57c3918b516d250fdba917cc32d85576aa46fe84b4632e6cb1cd0e00dba76cd36667d66821361d75ddd6cc1c91a7f4d13ce0bce79e1ff2f19297474de1
 

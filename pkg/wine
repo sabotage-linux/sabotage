@@ -3,7 +3,7 @@ http://heanet.dl.sourceforge.net/project/wine/Source/wine-1.5.19.tar.bz2
 http://surfnet.dl.sourceforge.net/project/wine/Source/wine-1.5.19.tar.bz2
 http://switch.dl.sourceforge.net/project/wine/Source/wine-1.5.19.tar.bz2
 
-[main]
+[vars]
 filesize=21013509
 sha512=aefc05cb0ce6b41a7a70861fd85c5f5d30501f61923620837f3a8124b039e1eedaea75d261116b26770b64a21b27a4ee13133a07a36157bebd2cbeddd110de27
 

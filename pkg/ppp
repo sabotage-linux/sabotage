@@ -1,7 +1,7 @@
 [mirrors]
 http://samba.org/ftp/ppp/ppp-2.4.6.tar.gz
 
-[main]
+[vars]
 filesize=687744
 sha512=65d6967ba43cd8b4d3f63f52ff69f6fed964f748fc780dff982629668213c2cd1891671f6f4a0c1c22118a382e282fabdd2328e60a120d9b984d3c17f9355cc6
 

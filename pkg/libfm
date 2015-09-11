@@ -3,7 +3,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/libfm-1.0rc1.tar.gz
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libfm-1.0rc1.tar.gz
 http://dl.2f30.org/mirrors/sabotage/tarballs/libfm-1.0rc1.tar.gz
 
-[main]
+[vars]
 filesize=985089
 sha512=12af732321a99320ea05e2692877c9d9631a83394ceecf559ab84874599f6d7646d353595288e2260ae0af83ae6faa1f5f33247e3eba80da6185e8168102629a
 

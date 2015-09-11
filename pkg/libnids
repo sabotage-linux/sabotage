@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/libnids/libnids/1.24/libnids-1.24.tar.gz
 
-[main]
+[vars]
 filesize=151021
 sha512=2046900023e853d7dbd7061c9f47d8a8ba26320991ca34198249019c1b9a6f75010574f9f022d02976272a384cf769394c4cc3ae536fc6164716cadc4770bb53
 

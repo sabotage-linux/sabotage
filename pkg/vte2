@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/vte/0.28/vte-0.28.2.tar.xz
 
-[main]
+[vars]
 filesize=962340
 sha512=d6a50481aaa8946cca3779e0b328fef551be534d70366a75385d1f8ead3fcddec57bed85c7d4bc2d9f34546532129e63083aafa33cbb0efcbc7dc9d66e7c45f6
 

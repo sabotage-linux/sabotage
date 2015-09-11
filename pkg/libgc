@@ -1,7 +1,7 @@
 [mirrors]
 http://www.hboehm.info/gc/gc_source/gc-7.2d.tar.gz
 
-[main]
+[vars]
 filesize=1263064
 sha512=5b342754a1efeef0cf78983b7a0e48a36495beac04fc881ab356b26dc153b343e940ec7af070f4fc875be44adc559f7be995919fe9229f68d2e0237cdbeaabcc
 tardir=gc-7.2

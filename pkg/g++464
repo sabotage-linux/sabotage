@@ -1,7 +1,7 @@
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.6.4/gcc-g++-4.6.4.tar.bz2
 
-[main]
+[vars]
 filesize=6939359
 sha512=01c59070f0b9179a497380279bd6e71feb7f8fded838937a1ad05cefa307c6c26526c2b2b4482129f28e8af777b1d1c5440460792746feb2bfbb1951ee8bb916
 

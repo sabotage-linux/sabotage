@@ -2,7 +2,7 @@
 ftp://ftp.gnutls.org/gcrypt/gnutls/v3.2/gnutls-3.2.12.tar.xz
 http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.2/gnutls-3.2.12.tar.xz
 
-[main]
+[vars]
 filesize=5136220
 sha512=e028ad6b7170571c348523aef30cc16b583198d72d3486f2881bf9b77594e7ecb75568c429159e76cd578efa4e16703d2b845f7c0e8be445072fc33af9d6c3ea
 

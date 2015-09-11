@@ -1,7 +1,7 @@
 [mirrors]
 http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.40.tar.bz2
 
-[main]
+[vars]
 filesize=1182989
 sha512=9dcc8f5790b78efa14d328e48c68d97f44fce8658fdad9f6d46a79feb715a57903064087d2aef6cea84904936c27c623583b4c67d0e21511a4b82a9213d86eff
 

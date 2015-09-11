@@ -2,7 +2,7 @@
 ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.37.tar.bz2
 http://sourceforge.net/projects/pcre/files/pcre/8.34/pcre-8.37.tar.bz2
 
-[main]
+[vars]
 filesize=1557603
 sha512=19344c9add2ebbd26c528505d07d3b028d79bc3e6103d51453a449cebd76bc76f5bc7ddd9ef0de41f98c50be74a2d9a65db539ed60f1add1086d99bde8a81466
 

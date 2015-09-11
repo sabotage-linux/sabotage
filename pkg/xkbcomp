@@ -2,7 +2,7 @@
 libx11
 libxkbfile
 
-[main]
+[vars]
 filesize=217437
 sha512=cdb6c643b4f1eac828e8da8be5e8293deab883de0318e337d356af14bbc6240c86359dc7982d2e1c4394f2919b253ebabf16a7b5d67187619c696ecdb8bcad27
 

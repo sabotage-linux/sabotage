@@ -1,7 +1,7 @@
 [mirrors]
 http://archive.ubuntu.com/ubuntu/pool/main/d/docbook-xml/docbook-xml_4.5.orig.tar.gz
 
-[main]
+[vars]
 filesize=421525
 sha512=e69e8fc89a1d306377038d2ec77348e0f177e4dc2392b182adcb8ef0223a74a38a836aeb18d1c4b934c85ce02061b4b498d77eaacfdf4ae90d410320fa924bfd
 tardir=docbook-xml-4.5.c31424

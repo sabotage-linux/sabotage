@@ -1,7 +1,7 @@
 [mirrors]
 ftp://ftp.isc.org/isc/bind9/9.10.2/bind-9.10.2.tar.gz
 
-[main]
+[vars]
 filesize=8481111
 sha512=e4c72fe52641a515620930d0e1c149e6f0d9cec2e1a64cbfd510829d908ccab7293197dbbe603c863168f9ea9ded57b27b32cbad02f8b60abc91acb035c2e79f
 

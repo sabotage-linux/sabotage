@@ -1,7 +1,7 @@
 [mirrors]
 ftp://ftp.x.org/pub/individual/proto/xproto-7.0.26.tar.bz2
 
-[main]
+[vars]
 filesize=305321
 sha512=b39edcb7f8a6898e78dae62b80cfb1db3175272dbfb7a3929f51c2fd829b648d80a9654246e4294a708f0e23cfe1bf84934cde25e193916d99630d8f157a04ea
 

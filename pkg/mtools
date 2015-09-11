@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnu.org/gnu/mtools/mtools-4.0.18.tar.bz2
 
-[main]
+[vars]
 filesize=420190
 sha512=3981a4727aa4e2ec5c931201b236f52fcd1c9d55f888cb2fbdc5c4172402e2b229ede9a5005b972ffdad59bcb861e2fcc01404845e521116419079ae78239090
 

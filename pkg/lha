@@ -1,7 +1,7 @@
 [mirrors]
 http://dl.sourceforge.jp/lha/22231/lha-1.14i-ac20050924p1.tar.gz
 
-[main]
+[vars]
 filesize=285518
 sha512=efe43d407d273f8f724f7b205223bd122c76adac4b67ad5e9811e88cae03f1f3c3af4297aa6f24951a02558975bbafacf697e97ab0da578b4e0115b89237566f
 

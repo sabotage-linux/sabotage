@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/re2c/re2c-0.14.3.tar.gz
 
-[main]
+[vars]
 filesize=2576859
 sha512=c1fa20c9c1e69d085415dde3177cb03688f8a9314dd4854241812f479a2b1e4306c3abbb8f9f31763918afbd1f7a821e7337551a898f6ae57f814c66e59e2382
 

@@ -2,7 +2,7 @@
 libx11
 libxdmcp
 
-[main]
+[vars]
 filesize=138315
 sha512=afb525e8fce9e460f513926a7aeb3344b064834b1d5031ba30400fa2bcb5bddada57b4e42b49f839bbcd177b8ee8fd30b75844c69b5ec786508ab2b221fe528e
 

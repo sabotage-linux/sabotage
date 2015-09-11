@@ -2,7 +2,7 @@
 http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.2.tar.gz
 http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.2.tar.gz
 
-[main]
+[vars]
 filesize=2967327
 sha512=eeff48450b92f46db9bbd851fbf97ffc9fdea16f69d6319de94755541b441bee1adea5d3f08d695e0cab9ce63f8ff0f2f6a5ba186dc071ec062ade53da3f811f
 

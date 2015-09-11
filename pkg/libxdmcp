@@ -4,7 +4,7 @@ pkgconf
 [deps]
 xproto
 
-[main]
+[vars]
 filesize=310878
 sha512=b17ad4bf01443cb78b440a33a89f2b98babf02402d7bdf68161a08429fd1964ac8112b0bb1519dd2138db0a5ff295c7b7581f56ff602ccca1a9baac26bc62e08
 

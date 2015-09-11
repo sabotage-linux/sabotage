@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/mikmod/libmikmod/3.3.6/libmikmod-3.3.6.tar.gz
 
-[main]
+[vars]
 filesize=1288510
 sha512=708008d162bac1a17b090a3a56e3078bb3ce42cb0d54b1e57963881d060198e841654ec7a72212aa9dc0e5c8bd95ec1c41ddd58e2db8c6e91a29d22d7bf363a0
 

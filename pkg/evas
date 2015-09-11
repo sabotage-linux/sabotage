@@ -1,7 +1,7 @@
 [mirrors]
 http://download.enlightenment.org/releases/evas-1.7.10.tar.gz
 
-[main]
+[vars]
 filesize=10261143
 sha512=7ee95adc71c9e83ae88a0ef45a40a8f1837edc190d435ebb173a8d6af07b311f6453b3036fd8ba77a2689f77bc76581f834b62eb85fb56da96ae92e9f9b4d017
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://archive.apache.org/dist/httpd/httpd-2.4.10.tar.bz2
 
-[main]
+[vars]
 filesize=5031834
 sha512=e251f5b330da17a8920c589b9e0326d6dd45db28923167718db27b0af2edf769607e9ae6fbb859afbf0c345937fd59053423a2d74bd18ff2272a0f6a19a6496f
 

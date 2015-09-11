@@ -4,7 +4,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/libelf-compat-0.152c001.tar.bz2
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libelf-compat-0.152c001.tar.bz2
 http://dl.2f30.org/mirrors/sabotage/tarballs/libelf-compat-0.152c001.tar.bz2
 
-[main]
+[vars]
 filesize=122231
 sha512=442ec322d3751f1e755a18c852ca5ade745387fb6b8526f40c451a8459eb31ac3bec091aceae5feddf91ded9deda5c359d83e92122bde6789b5324bdc47f6deb
 

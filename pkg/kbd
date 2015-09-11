@@ -2,7 +2,7 @@
 http://ftp.kernel.org/pub/linux/utils/kbd/kbd-1.15.3.tar.xz
 http://ftp.cc.uoc.gr/mirrors/ftp.kernel.org/pub/linux/utils/kbd/kbd-1.15.3.tar.xz
 
-[main]
+[vars]
 filesize=761072
 sha512=19dba103f4941b975f547e229d1b03c8d355cd59871e4dfe6db32235a7983b2d8f52e6c7a674d07bdef8bf3a557eefaf731eb47128c3db02f43e91192faea03c
 

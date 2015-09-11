@@ -4,7 +4,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
 http://dl.2f30.org/mirrors/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
 
-[main]
+[vars]
 filesize=447192
 sha512=78f76dbf8c6452df9017b42d5df11bae1fd0cfd270219030d7e44476c8d2ff7c5fe4a8639f36e2754094775427f90c74e8ab727588906dad03f595b2bee7c09c
 

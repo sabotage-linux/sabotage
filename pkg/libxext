@@ -3,7 +3,7 @@ xproto
 libx11
 xextproto
 
-[main]
+[vars]
 filesize=378901
 sha512=5ed612f2c5e902648eb0438bfb8d9d6440a5baa19d95eb1253b51fe9ad8dcf903a7ee68a9455044d17ce0d486e421df0f98a069ab5ad1a49364f157bdf64efe7
 

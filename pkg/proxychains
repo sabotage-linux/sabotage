@@ -1,7 +1,7 @@
 [mirrors]
 http://heanet.dl.sourceforge.net/project/proxychains-ng/proxychains-4.9.tar.bz2
 
-[main]
+[vars]
 filesize=30516
 sha512=ce1a4d55f3f401e2397e138d4fa0254b82e323cbb3eb92f3e7917b09442960f6fa054bfb3a1380a81f0842210050cc13fe3f7fc64f4ac0e55d870856af497043
 

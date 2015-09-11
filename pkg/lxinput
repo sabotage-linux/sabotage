@@ -2,7 +2,7 @@
 http://kent.dl.sourceforge.net/project/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.2/lxinput-0.3.2.tar.gz
 http://switch.dl.sourceforge.net/project/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.2/lxinput-0.3.2.tar.gz
 
-[main]
+[vars]
 filesize=259203
 sha512=50921151d3050fae1e4640aade2b0bf88d94445f95e18c21c3d67a012ec7d33b6b9dada8574898d915a350c37fcd568f376bafff1b804e222543a5cadf87431a
 

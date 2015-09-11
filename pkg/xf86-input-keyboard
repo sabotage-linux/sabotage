@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/driver/xf86-input-keyboard-1.8.0.tar.bz2
 
-[main]
+[vars]
 filesize=323838
 sha512=a4fcace65414f011fb4c5d68622182acef7d606fb1a121687244a0a3442c05906d54d30664c942eba8d7209e0dccefe733ab196c7c3ab8cf690e9fd715c87aa6
 

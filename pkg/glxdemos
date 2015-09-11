@@ -3,7 +3,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/xdemos.tar.xz
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/xdemos.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/xdemos.tar.xz
 
-[main]
+[vars]
 filesize=17152
 sha512=22f0ac738c165177c2fee98c5cf4e3dea42e65fe6e43b7adbb68bbbe3cdf51f732ec4e06185b2510fcdbe3546159cf8bbd7f321c5ed00273c683c9fc902bca23
 

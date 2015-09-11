@@ -1,7 +1,7 @@
 [mirrors]
 https://linuxcontainers.org/downloads/lxc-1.1.0.tar.gz
 http://pkgs.fedoraproject.org/repo/extras/lxc/lxc-1.1.0.tar.gz/ab1cbabf859abc15165050c854979c5c/lxc-1.1.0.tar.gz
-[main]
+[vars]
 filesize=833398
 sha512=1df418ae8a49a36df169191855244500b3b1361ab852a0b0b07ce992fb6e3c914962af81d1555ad5a9cbbc53560be9c4e6db69765b5bd93b3687fde8ca7d53ae
 

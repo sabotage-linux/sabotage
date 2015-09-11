@@ -5,7 +5,7 @@ http://sourceware.mirrors.tds.net/pub/sourceware.org/lvm2/LVM2.2.02.98.tgz
 ftp://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.98.tgz
 http://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.98.tgz
 
-[main]
+[vars]
 filesize=1227919
 sha512=9dd1f98f47af1724a2ff64c6d728a03254c46a499a21d48d305a34ae5728ff7b51ef4d32646a96e424c21a44fc8abc87ab5a25e59fcb75beabbf0d3446e41d7b
 

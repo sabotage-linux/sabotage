@@ -1,7 +1,7 @@
 [mirrors]
 http://download.enlightenment.org/releases/eina-1.7.10.tar.gz
 
-[main]
+[vars]
 filesize=9938509
 sha512=3b06db535ba0199a72fbf0676cd829337a88e871209e01e7a28dae01279c500f49fc5b35d886eca2ae3806bc98a43f66a7c49b7809709577daaa72b9fbc4d8f0
 

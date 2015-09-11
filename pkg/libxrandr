@@ -6,7 +6,7 @@ randrproto
 libxrender
 libxext
 
-[main]
+[vars]
 filesize=315165
 sha512=59e728a4cf726e3bbf248cc76a45d78cf873ca8eee23b19a4b373accae634f4d12ebd79100d3e84416c3ef515396bbe3a0a204bc49c1748d265046ffa6bfffef
 

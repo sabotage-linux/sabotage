@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/androidframe/soundfonts/FluidR3_GM.sf2
 
-[main]
+[vars]
 filesize=148398306
 sha512=023cca1683ae18376999ae8121fbfbd134f345b6539e32b2eaa91929e23695785798e9983aaa1bb1e2c88587c8d5b172e4a041b505fff3fbd8bd17314cb8c4e3
 

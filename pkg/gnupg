@@ -2,7 +2,7 @@
 http://mirrors.dotsrc.org/gcrypt/gnupg/gnupg-1.4.19.tar.bz2
 http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/gnupg/gnupg-1.4.19.tar.bz2
 
-[main]
+[vars]
 filesize=3713811
 sha512=cce2a83efb05f963ad0f8afd04999cc852889d46b4cad4cf399a37fd6e69f0911a5ccaa0192cb891a941cfa93125349b481efa789a127e3c0aa2c5ba53672741
 

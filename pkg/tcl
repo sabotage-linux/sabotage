@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/tcl/Tcl/8.6.4/tcl8.6.4-src.tar.gz
 
-[main]
+[vars]
 filesize=8915556
 sha512=f348224f6c63aa899345a5c9b84d6ad1c0bfce5e22a86e4319900b561787855473888bd284f7ee55edf552ce32792b78649526af3641b0dff46590cad53b2489
 tardir=tcl8.6.4

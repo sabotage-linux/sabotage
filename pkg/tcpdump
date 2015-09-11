@@ -3,7 +3,7 @@ http://www.tcpdump.org/release/tcpdump-4.6.1.tar.gz
 http://www.uk.tcpdump.org/release/tcpdump-4.6.1.tar.gz
 http://tcpdump.cybermirror.org/release/tcpdump-4.6.1.tar.gz
 
-[main]
+[vars]
 filesize=1105053
 sha512=f465f03dc5056b3440f5f132a1ba0c0b54f7470da903678251985bf27b418f2c24c65bfa837e0977388c9e37c5b7d6a25167c89f98d47c2bd5f8bde3d47c07bd
 

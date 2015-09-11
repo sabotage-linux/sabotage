@@ -1,7 +1,7 @@
 [mirrors]
 http://repo.hu/projects/yget/releases/yget-2.7.1.tar.gz
 
-[main]
+[vars]
 filesize=8173
 sha512=147c4c26604d136c1d05477e95270db5c0e320f342a1cf9818930cc0b6423983cb7403186815c7437708b29144d01ab41ae7714035ba4322d92f3fe4a4643944
 

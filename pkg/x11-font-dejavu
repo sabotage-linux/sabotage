@@ -1,7 +1,7 @@
 [mirrors]
 http://download.sourceforge.net/dejavu/dejavu-fonts-ttf-2.33.tar.bz2
 
-[main]
+[vars]
 filesize=4881324
 sha512=67cb905c62f264267326f824be60c7a9f1d880ccc44b7ebc4acefe0f5ea4e89e82d3ad506e4cd588e8e070fe1418414b6be2dcde68f3be0f7f37d90ad4608376
 

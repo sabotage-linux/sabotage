@@ -2,7 +2,7 @@
 http://ftp.barfooze.de/pub/butch/butch-0.6.0.tar.bz2
 http://foss.aueb.gr/mirrors/linux/butch/butch-0.6.0.tar.bz2
 
-[main]
+[vars]
 filesize=54611
 sha512=d5704852504f722c7f610f5e24a96315b0608e91ccdc8b8bd911e4344f1faca6bd8ed0e432fa32ecc8f307083dbcf9f56da0df1d19710719a2d54221d6e94794
 

@@ -2,7 +2,7 @@
 http://cairographics.org/releases/cairo-1.14.2.tar.xz
 http://distfiles.lesslinux.org/cairo-1.14.2.tar.xz
 
-[main]
+[vars]
 filesize=35376404
 sha512=74d30f3f879f097b2c3408ef9698da8f337301f971c3eba7f336d02d6b2812d2ca0bd8bbc0cc7ee11127d3574910b1b77fde3b065cfd504436b62e17c2acb200
 

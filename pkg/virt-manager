@@ -1,7 +1,7 @@
 [mirrors]
 https://fedorahosted.org/released/virt-manager/virt-manager-0.9.5.tar.gz
 
-[main]
+[vars]
 filesize=1773882
 sha512=a1ecf6fe9f3ddacfe43006cfc388d9324c457be91767792119d8a112b190739e3274dfeb7cffd28534b86a33f86079c569d8337eeddaa9d60ed69f82d8a4627f
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/libnet-dev/libnet-1.2-rc3.tar.gz
 
-[main]
+[vars]
 filesize=676205
 sha512=4f1c5c1a72e2c35ca3add772cb1af63e8245bb5c127e4a74fb9f619f987a4ea047bf17caaa292e9b7fa7642635773b90975d013644be0383dca93d688ca8430d
 

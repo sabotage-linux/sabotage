@@ -6,7 +6,7 @@ http://distfiles.lesslinux.org/pixman-0.30.2.tar.gz
 http://cairographics.org/releases/pixman-0.30.2.tar.gz
 http://www.x.org/releases/individual/lib/pixman-0.30.2.tar.gz
 
-[main]
+[vars]
 filesize=799461
 sha512=a86f4b7cbd8440d28a47773edf1a2055898b2d65501cba42b22f70af377ffa5beff1a2f695009e708640e6c98cf54f069560dcaa98ce308157baa6d139e57d56
 

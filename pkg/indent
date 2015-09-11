@@ -2,7 +2,7 @@
 ftp://mirrors.kernel.org/gnu/indent/indent-2.2.10.tar.gz
 http://mirrors.kernel.org/gnu/indent/indent-2.2.10.tar.gz
 
-[main]
+[vars]
 filesize=702667
 sha512=a90faf1bf855ecc1e0b0f47f4133e4a46be8b2c42bd0aa7f6cf6d764b7883b34b558e3ca443b193b1a747f64cd2653640f1aecbc8a17265c66260f6d6d621e19
 

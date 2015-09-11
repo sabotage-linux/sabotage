@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/GNOME/sources/atkmm/2.22/atkmm-2.22.6.tar.xz
 
-[main]
+[vars]
 filesize=562892
 sha512=69d5b3b2131658d7ffd5be86bcb0a5966fe9446a7cae1138cb2849d5ccf64f58fc9cc16cc7cb2c5b883bb441966980c8acaa7566d23771f9334919ca27c28942
 

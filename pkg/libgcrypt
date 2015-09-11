@@ -4,7 +4,7 @@ http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.6.3.tar.
 http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.6.3.tar.bz2
 http://dbg.download.sourcemage.org/mirror/libgcrypt-1.6.3.tar.bz2
 
-[main]
+[vars]
 filesize=2494052
 sha512=09a84fcc4d3d755df21f46302a549af4ba788d829ff7fa0cf65eeec033bc3744503f8fe3f4be55a51cc17b1b1b487736c328d7d7bc909f13139600236298c549
 

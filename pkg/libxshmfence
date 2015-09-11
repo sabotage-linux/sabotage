@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/lib/libxshmfence-1.1.tar.bz2
 
-[main]
+[vars]
 filesize=291347
 sha512=ed3aae4a44849c11ce041df53d47667606dba5357059c13d5c0989205df57dfa626598db6ad66432114a80e69ab4118fb067877ea275897aab64d4bbf9bcd346
 

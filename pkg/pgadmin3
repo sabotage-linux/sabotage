@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.postgresql.org/pub/pgadmin3/release/v1.16.1/src/pgadmin3-1.16.1.tar.gz
 
-[main]
+[vars]
 filesize=13783723
 sha512=f5f110f99d15801dc2b2253c803cf038871461909cb63f114ee769ff0977183d6825f3bf13f378822f874fc15aa593f52cd999ccb97370b786b6e02f45ce4a81
 

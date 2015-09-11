@@ -4,7 +4,7 @@ dynamic-toolchain
 [mirrors]
 http://tukaani.org/xz/xz-5.2.1.tar.bz2
 
-[main]
+[vars]
 filesize=1186051
 sha512=cc1105e7d53e3164fb6d7abfc02b205c7ac703daad68953d80c0f73b6ddbe154f6234f525178dec2c9e82e647800f404205a4b59ab5c6fe654aa8aed55e09673
 

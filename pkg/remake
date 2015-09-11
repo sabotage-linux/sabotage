@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/bashdb/remake/3.82+dbg-0.9/remake-3.82+dbg0.9.tar.bz2
 
-[main]
+[vars]
 filesize=1152677
 sha512=94682e9d0317088456dac683d67be320fe10bb06a3384969fafefe091558b215105ba3c96a7c1d4e0d970ea2dc5c4f535a704256fe7a4eaa87bec11d78d074cf
 

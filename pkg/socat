@@ -1,7 +1,7 @@
 [mirrors]
 http://www.dest-unreach.org/socat/download/socat-1.7.2.4.tar.gz
 
-[main]
+[vars]
 filesize=583762
 sha512=7644e5cc735d151fc1b8f934276d9fcfd9988ae9e504ed00ec47909f6c3c6b1a335e59f7a735ad77769e8262799fb816314d90cd5b6ab614715ec17448fe0ab5
 

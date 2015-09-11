@@ -2,7 +2,7 @@
 http://www.lysator.liu.se/~nisse/misc/argp-standalone-1.3.tar.gz
 http://ftp.freebsd.org/pub/FreeBSD/ports/local-distfiles/sem/argp-standalone-1.3.tar.gz
 
-[main]
+[vars]
 filesize=130255
 sha512=58c3feb8852b90248fff39e49b5019bd0dcf646790c3eaf70c3262eb81dda31a61dc0a45963c7b4a010e80fc14b37288dcb3b3ef48d02f2d33dd72c1c62e62d9
 

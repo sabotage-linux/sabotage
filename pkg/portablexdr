@@ -1,7 +1,7 @@
 [mirrors]
 http://people.redhat.com/~rjones/portablexdr/files/portablexdr-4.9.1.tar.gz
 
-[main]
+[vars]
 filesize=354321
 sha512=47f2402e7ed9f2f518e2a45e76e8ad6c4b1e7ae1bd9408ca4dca3d0883697e755460ee64eef405e23b1840ad3b89ad54555bdf59dc8bae3cd8b67086d6ab3b1f
 

@@ -5,7 +5,7 @@ pkgconf
 xproto
 xtrans
 
-[main]
+[vars]
 filesize=365762
 sha512=eac189813df84c0d1b5a4f59855a147c945cb6960bb91dd3d94b2fbe909609a3da1d250bea4a0c8090b4dc64b4f64eb548b67a39de719ebddce19c6c1394532e
 

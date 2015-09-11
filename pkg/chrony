@@ -1,6 +1,6 @@
 [mirrors]
 http://download.tuxfamily.org/chrony/chrony-1.29.tar.gz
-[main]
+[vars]
 filesize=392880
 sha512=bea384e098a7ea3862e49b31ee85959ae1d23af3a095dd34dbfc6e52329dc9404ff2ca9d0e01eb12ea79d2f5ab484a67f025c152a374bc6bd0e3a803a3bec93e
 

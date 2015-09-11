@@ -13,7 +13,7 @@ pkgconf
 [mirrors]
 http://archive.apache.org/dist/subversion/subversion-1.8.3.tar.bz2
 
-[main]
+[vars]
 filesize=6773731
 sha512=7ecb0a30751884d72d4039b7b33ec643ff42325f904c3c3ec5a1ef5c90c67b52adec908f908d74a1ffffb8bdb58086c71980b4cd279dad926b8d7f846fe446ca
 

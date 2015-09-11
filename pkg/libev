@@ -1,7 +1,7 @@
 [mirrors]
 http://dist.schmorp.de/libev/Attic/libev-4.15.tar.gz
 
-[main]
+[vars]
 filesize=513919
 sha512=bb3ab98d92e565bf2273d71c9004b84ad3b305c4e883482392fe6c701949344731bb4e391ac77578f71d9a80f0ec4b6afc2ae5449d4093cdcbee26d7dc17929d
 

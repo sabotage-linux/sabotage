@@ -1,7 +1,7 @@
 [mirrors]
 http://www.nano-editor.org/dist/v2.4/nano-2.4.0.tar.gz
 
-[main]
+[vars]
 filesize=1886052
 sha512=7f079e307521a47405ba6d107d481df6869dbd7ea9297de6c69e831d00335cee403ac3ec1ef3578488cbec65c2e2ddec15edfddd45071f0fb4e2eccc94cbef1d
 

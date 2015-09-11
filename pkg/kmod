@@ -1,7 +1,7 @@
 [mirrors]
 ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-15.tar.xz
 
-[main]
+[vars]
 filesize=1453996
 sha512=67a03cabe9d81c14eb0bef20f3c8ff4614418cb2b2c3e1428d8a57399372ecdce6e403399a578d2f62a1ae4b61c83713edd1ad1e31533ea35503c5b11b92c223
 

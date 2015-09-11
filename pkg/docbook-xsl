@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/docbook/docbook-xsl/1.78.1/docbook-xsl-1.78.1.tar.bz2
 
-[main]
+[vars]
 filesize=5003045
 sha512=0a5ca95e6e451192c4edf15d2b72c716935ce6df0c70c1974f794f0085db8f52f3e1f470435b6a77ec7c0f67e32c189a4dd334305e609031173444d5818767f3
 

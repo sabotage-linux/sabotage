@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_2.22.orig.tar.gz
 
-[main]
+[vars]
 filesize=67432
 sha512=b66cd3e233cab9c35334c3ed824f2b6207a46b7320be0a29f5290a32cbf4ea7c4fbf22125541cfa25fdd7466d9c14373ff5f68b53fe44036af6763d3ff1cb398
 tardir=libcap-2.22

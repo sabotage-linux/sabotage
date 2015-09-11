@@ -1,7 +1,7 @@
 [mirrors]
 http://wiki.qemu-project.org/download/qemu-1.3.0.tar.bz2
 
-[main]
+[vars]
 filesize=10286423
 sha512=2b314590363697140c3f7b3c445a40782f34c3d8911ded66e15ddd4470c7f38d0035fa09b6e6d99122f209495b62111809ce2eb4fc308fc120b9c598d18c2bc7
 

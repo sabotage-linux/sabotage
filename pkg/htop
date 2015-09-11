@@ -1,7 +1,7 @@
 [mirrors]
 http://hisham.hm/htop/releases/1.0.3/htop-1.0.3.tar.gz
 
-[main]
+[vars]
 filesize=399306
 sha512=4c5c784b093bcad06eb2e8d8bb215e14f6e838a3d47d8da8402344c270c1724f85d0bcde2899571ba5d0e5a02274a0c3390a76fed61785b2604b51351f08f232
 

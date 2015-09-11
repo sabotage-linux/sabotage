@@ -1,7 +1,7 @@
 [mirrors]
 http://sourceforge.net/projects/pyqt/files/sip/sip-4.14.7/sip-4.14.7.tar.gz
 
-[main]
+[vars]
 filesize=754916
 sha512=8a2ff12553c4c0b31f5884ef292b9c233d0a1148c66c9bdea2b7f74ce151465a16f8e511069e6e47a0527f960c1f13a9ec6c5766d7324670c236a92536bbb6b3
 

@@ -9,7 +9,7 @@ http://alsa.cybermirror.org/utils/alsa-utils-1.0.28.tar.bz2
 http://distfiles.lesslinux.org/alsa-utils-1.0.28.tar.bz2
 http://distfiles.exherbo.org/distfiles/alsa-utils-1.0.28.tar.bz2
 
-[main]
+[vars]
 filesize=1146887
 sha512=faa5abf3f066106c80d019944efa2298e2d3157469c1c7bc52deb9aa1bcd5f5439a2e22b04ad9210e292fcef97bdacc27aa75fc275d0d7cae2c2f88729c84786
 

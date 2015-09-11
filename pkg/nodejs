@@ -1,7 +1,7 @@
 [mirrors]
 http://nodejs.org/dist/v0.12.4/node-v0.12.4.tar.gz
 
-[main]
+[vars]
 filesize=19642076
 sha512=4d811a8f15068d2eea7e60a00c2803eb8ca8fd25b61ebf19aafc57be170abd75862d361ab9660e2be744efe66c69590b1a0a6b2bf8e3e72bb8d012c776262061
 

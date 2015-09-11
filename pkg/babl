@@ -2,7 +2,7 @@
 http://gd.tuwien.ac.at/graphics/gimp/babl/0.1/babl-0.1.10.tar.bz2
 ftp://ftp.gtk.org/pub/babl/0.1/babl-0.1.10.tar.bz2
 
-[main]
+[vars]
 filesize=449537
 sha512=2950d94c255ee05d405e003a46138da0f4e0cad65e2d2a882089b788c2deac0524014f7c5758c3097253bdbebaded433caf0447c7d218c9cc96798df9e6f0c92
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/app/xrandr-1.4.1.tar.bz2
 
-[main]
+[vars]
 filesize=171963
 sha512=da36a3e332c13f4c793be83528b4b9d77bfa2457a9159958ecfe92a460f2c645d353ec0bdd9d8c34ee77241931b030757cf3dead8b0049e1341ff79add0c247c
 

@@ -3,7 +3,7 @@ dmxproto
 xproto
 libx11
 
-[main]
+[vars]
 filesize=290859
 sha512=551cbba06e87ddc6f9a1f4567de4b8c592a4b6f6b6c27970c67c644ffe5c7f396e3c64c6df564d83a73f1b3842ba0a29a2463580fc0a264c552d76fbcba5a021
 

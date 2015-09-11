@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
 
-[main]
+[vars]
 filesize=356119
 sha512=b725842febaf4c1f0d305a629ae1c61ea2de24dd6f41937e806c078fada2cea483195ef40f5238ce2045e47130c92559e984f677de667b840dd7fff0f8559735
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://awesome.naquadah.org/download/awesome-3.5.6.tar.xz
 
-[main]
+[vars]
 filesize=720112
 sha512=8d89bf46956276a8bcf106bb255c051e8382b08617e17691134a8f3e5db3ec9f7773581c02ce62d23e72499f7b1e60fe4322c211e41219b5bffd1897a96f6cf6
 

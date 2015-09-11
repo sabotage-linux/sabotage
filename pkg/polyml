@@ -1,7 +1,7 @@
 [mirrors]
 http://sourceforge.net/projects/polyml/files/polyml/5.5.2/polyml.5.5.2.tar.gz
 
-[main]
+[vars]
 filesize=5599140
 sha512=248c2a38c4691898bc1243a041f4683bf227d9c8a98c6c3545af2a8a3249ed5ed96f33f90cb2dede8809b42f33c0557650147302cfe046a5fba965ccd93cbc5b
 

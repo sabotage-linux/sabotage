@@ -1,7 +1,7 @@
 [mirrors]
 http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.4.0.tar.bz2
 
-[main]
+[vars]
 filesize=1807989
 sha512=70234220e0ed64db000689ec8bea02dadef938a4f4dea96e5781d361c15245456212c1b6aec2b698d32ed423e73917d2303009e49224a2237669cab416dd6984
 

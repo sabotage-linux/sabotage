@@ -1,7 +1,7 @@
 [mirrors]
 http://webkitgtk.org/releases/webkitgtk-1.10.2.tar.xz
 
-[main]
+[vars]
 filesize=8633640
 sha512=0c2909eabdc9532619d6486cd42f18a4eb4868c02be3f1c62a6d11d2cb23b4d5a84dd9b60fc353a25134c4ecd8f7cc9f75690bfc17a0360fd4a4c1f4f07aac8f
 

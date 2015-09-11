@@ -1,7 +1,7 @@
 [mirrors]
 http://www.cpan.org/authors/id/G/GA/GAAS/Data-Dump-1.22.tar.gz
 
-[main]
+[vars]
 filesize=20621
 sha512=b4d8d493b0b1707d3d33058d90663f55f335933ea57ac36ab99b4d1ffd1c932d21b161778cfdf622a94ce5ca40a943bca0efc1baf25e1db12f34a54741eef149
 

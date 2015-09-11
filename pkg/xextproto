@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.99.901.tar.bz2
 
-[main]
+[vars]
 filesize=229097
 sha512=e2695da13b80e6a182fe5451838af868c4b65f4d99df38d00f746be31865bb251887471823902ca9219ff78dbde0094e84a71b88b17956783c82cd9684cfbabd
 

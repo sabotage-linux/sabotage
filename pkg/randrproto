@@ -1,7 +1,7 @@
 [deps]
 util-macros
 
-[main]
+[vars]
 filesize=133300
 sha512=7880360e0f63a9bf88bc4ea76160311ba1d64af30414068df90d6b613b5cc24c2cc7986f2e68ee9a2fcde1359108da25017dd32885b09e878406e66aefe06f0d
 

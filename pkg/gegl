@@ -1,7 +1,7 @@
 [mirrors]
 http://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 
-[main]
+[vars]
 filesize=7502040
 sha512=16ef3f6852fd8efef2b6468a754342a2d003f2c2bef468d9465a448e6c89dedb8e791570f073a9faed05218a7c94c6c418eaa0f3abeadfb3e6b88d766ab792c8
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://fribidi.org/download/fribidi-0.19.7.tar.bz2
 
-[main]
+[vars]
 filesize=648299
 sha512=4bfdda43d961030a8a2ae2c98d2ca5d43c1b59633fa0987920c5537ec69f3f624204ceacc4c474d878cbb417ee2d9e708dfe169cfce6ad584d2f2d5122678b63
 

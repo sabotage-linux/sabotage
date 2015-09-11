@@ -2,7 +2,7 @@
 http://kent.dl.sourceforge.net/project/lxde/menu-cache/menu-cache%200.3.3/menu-cache-0.3.3.tar.gz
 http://switch.dl.sourceforge.net/project/lxde/menu-cache/menu-cache%200.3.3/menu-cache-0.3.3.tar.gz
 
-[main]
+[vars]
 filesize=392291
 sha512=1966b94989cdae0a1a3a48f19d337471a28acadecf7f03dac8c27d515324b8eb4d15102e2aa293c251e020f521f6e586aa13c8eca7ae7909b9ce5e67ef3ebafe
 

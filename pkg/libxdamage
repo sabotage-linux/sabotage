@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/archive/individual/lib/libXdamage-1.1.4.tar.gz
 
-[main]
+[vars]
 filesize=339060
 sha512=903cb9c40108b85c29da9343d54e76f73eaa393f5521ed5daea9ad98ee9bc64aecee818f4461fe41b347d77ea90140f2e9f1bfbf7b4b101b6b2b993ec2183923
 

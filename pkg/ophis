@@ -1,7 +1,7 @@
 [mirrors]
 https://hkn.eecs.berkeley.edu/~mcmartin/ophis/Ophis-1.0.tar.gz
 
-[main]
+[vars]
 filesize=269137
 sha512=9b7d7ded3cf449c07b190dd365ea4e0a318fac23bdd4e2f6ced2553167d9790d0a091d4594abc1d02fa9e77bea155543d0cfc479039ba6e3de02a7174f240e14
 

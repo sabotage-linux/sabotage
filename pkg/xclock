@@ -12,7 +12,7 @@ freetype
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.7.tar.gz
 
-[main]
+[vars]
 filesize=203799
 sha512=8658ec74d435ab30bce652622155c7ad4a664c781f9794256fe28db4800cbdaefbdffa37afca8e27aa4b0373efcca709e0cf4e79e1c8f803c1e9dedd19a4517b
 

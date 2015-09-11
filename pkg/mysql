@@ -2,7 +2,7 @@
 http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.20.tar.gz
 http://files.directadmin.com/services/all/mysql/mysql-5.6.20.tar.gz
 
-[main]
+[vars]
 filesize=32979820
 sha512=c4bcc2a209616a38c04a4679cc7a76b354f0d7d3dda860b82b9cdb4746f897aa5c8204a440e1c65f55d81b2ac526b205dd0ba28786ba21778cc068efd71403ac
 

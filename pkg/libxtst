@@ -3,7 +3,7 @@ recordproto
 xproto
 libx11
 
-[main]
+[vars]
 filesize=321784
 sha512=1cf040f16d426e6a6d1cf8c0f966c171418c082165ae6e9bed6285cd45f144e4ef58bf74c6d34fd81e6894534d21df55efe5d0bc0b2a28f9bb9d74e168dd7369
 

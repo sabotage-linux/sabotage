@@ -1,7 +1,7 @@
 [mirrors]
 http://guichaz.free.fr/iotop/files/iotop-0.6.tar.bz2
 
-[main]
+[vars]
 filesize=29779
 sha512=b1047da3bc46604447cc8ab22442a3a5381e1a79a6b176fe9ee8402ee5cebb959205407a6aeaffccccde9d2f67624ff8ee6717b051838f13ab88bf3a16db3ab9
 

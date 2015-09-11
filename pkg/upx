@@ -1,7 +1,7 @@
 [mirrors]
 http://upx.sourceforge.net/download/upx-3.91-src.tar.bz2
 
-[main]
+[vars]
 filesize=904747
 sha512=7e9a392fe11daf7baf9632f2c448ef9936da7dfab215f86ba417e9f097770949acb653aaabe6cc5ed812efc486cb35e0c1e128c80026b02825713d8b12251cf5
 

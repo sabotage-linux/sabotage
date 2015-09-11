@@ -2,7 +2,7 @@
 http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.1p1.tar.gz
 http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.1p1.tar.gz
 
-[main]
+[vars]
 filesize=1493170
 sha512=f1491ca5a0a733eb27ede966590642a412cb7be7178dcb7b9e5844bbdc8383032f4b00435192b95fc0365b6fe74d6c5ac8d6facbe9d51e1532d049e2f784e8f7
 

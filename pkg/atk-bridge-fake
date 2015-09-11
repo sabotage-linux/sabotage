@@ -3,7 +3,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/atk-bridge-fake-0.0.1.tar.xz
 http://foss.aueb.gr/mirrors/linux/sabotage/atk-bridge-fake-0.0.1.tar.xz
 http://dl.2f30.org/mirrors/sabotage/tarballs/atk-bridge-fake-0.0.1.tar.xz
 
-[main]
+[vars]
 filesize=692
 sha512=db86739b3967aab195f6b1fa03121317632579778497f6914e85f292e20fef5f9466f2a5a3d88fe4c20e39dfdc8f5320ec206c82e02ca4688f68b39b269c035d
 

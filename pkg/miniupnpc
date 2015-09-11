@@ -1,7 +1,7 @@
 [mirrors]
 http://miniupnp.free.fr/files/miniupnpc-1.7.20120830.tar.gz
 
-[main]
+[vars]
 filesize=70074
 sha512=cb1635bea248c0205efd576a0710c201426bfd4c2f4e6b1804cfa35d96c06ba702af78ce917f82d8bff0c75db8a182844342711ff21fa3a4f1bfcfed18d10900
 

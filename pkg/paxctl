@@ -4,7 +4,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/paxctl-0.7.tar.bz2
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/paxctl-0.7.tar.bz2
 http://dl.2f30.org/mirrors/sabotage/tarballs/paxctl-0.7.tar.bz2
 
-[main]
+[vars]
 filesize=7642
 sha512=d715d7466c5d5b402a7b6c44257b959c81234b8b72dc3bad4ad1080f66da784b348e73fadd3b2072ddec6c6b08f042a35cbf9d63cb890ef9efceb1e2e8d56d0a
 

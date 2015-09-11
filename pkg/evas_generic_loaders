@@ -1,7 +1,7 @@
 [mirrors]
 http://download.enlightenment.org/releases/evas_generic_loaders-1.7.10.tar.gz
 
-[main]
+[vars]
 filesize=258286
 sha512=f5df5bfd3b25f99bf6bc564c75b2292e8c587637af6e50a650c45e5d127045a326463f038418e6662391bec10b2248a3cf9b242dc80e45cf972863892a5df675
 

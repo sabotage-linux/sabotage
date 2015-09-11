@@ -1,7 +1,7 @@
 [mirrors]
 http://www.wireshark.org/download/src/all-versions/wireshark-1.10.2.tar.bz2
 
-[main]
+[vars]
 filesize=26667284
 sha512=fd2ad466b122e2044718d8b42d0b323293d2e7fe04af700a1e94d00c720f78ba664e9cdb9a7fb35a13a6f7d99d81e4345482ee8d98b7538972a3f23250a44702
 

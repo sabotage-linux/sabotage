@@ -1,7 +1,7 @@
 [mirrors]
 http://ndhcp.googlecode.com/files/ndhcp-1.0.tar.gz
 
-[main]
+[vars]
 filesize=52792
 sha512=17e3333f99d37b6b7f72282482e559210a1181cb1c5c9d760e6c9f7ab8454a4236ad53d970c3166e24aa07f431ec0db34f7b24d1a718430be951c9b3a6a4a2b3
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.6.3.tar.bz2
 
-[main]
+[vars]
 filesize=1151081
 sha512=8fa9f5e0af9c9f111ffbf4d2d599112e98017447623a83c484963ef32c495de195cbd53b4b9e1b2130e9c7ac0b5ab7a35e72e04ea4089db771028485e3c4df69
 

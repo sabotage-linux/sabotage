@@ -3,7 +3,7 @@ libsm
 libice
 libx11
 
-[main]
+[vars]
 filesize=762331
 sha512=57721def16bf29e05deb746566400d71cf0cd5bf9b8b7ebed19abb7c6804e14073060b6cf94409903aa464d27acca2e91f55654b2d4770677b2b4b4dc78fd423
 

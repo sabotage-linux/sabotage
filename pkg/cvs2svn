@@ -1,7 +1,7 @@
 [mirrors]
 http://cvs2svn.tigris.org/files/documents/1462/49237/cvs2svn-2.4.0.tar.gz
 
-[main]
+[vars]
 filesize=514891
 sha512=726fb8a3b3261eeb6d8097973f2741aa7a433f847bcef6701a6c0b7dc3d8fb5da1726e40f008d1dffac71791b953ddb9ade5db5809c98731d78e94da6465506a
 

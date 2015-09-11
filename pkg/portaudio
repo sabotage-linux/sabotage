@@ -1,7 +1,7 @@
 [mirrors]
 http://www.portaudio.com/archives/pa_stable_v19_20140130.tgz
 
-[main]
+[vars]
 filesize=1504620
 sha512=078adfdc2cec7fbd4019837eee65f8411b873b51064dfd7334e1c55118c26ea1fb68cb22e46ee69adb69c78d026b00a7ed973c40632e7d79703e12669a62ee3e
 tardir=portaudio

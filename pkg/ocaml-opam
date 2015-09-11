@@ -1,7 +1,7 @@
 [mirrors]
 https://github.com/ocaml/opam/archive/1.2.2.tar.gz
 
-[main]
+[vars]
 filesize=648951
 sha512=12105b5219a14d4c4cb29c387dd5af858d2b4a2a1bad7dcd70e4c284fc52848df82933396571b85251d904b3c14cdf02db55060c1ba29dc34b8bab3721d05f54
 tardir=opam-1.2.2

@@ -1,7 +1,7 @@
 [mirrors]
 http://xcb.freedesktop.org/dist/xcb-util-0.3.8.tar.bz2
 
-[main]
+[vars]
 filesize=266339
 sha512=977ce6867981c5fdc382917632c03e0298803b8aab110ef9bdbd3611ddfad6d7f8ad79a5d5a25e820750a84a986d8668ae20749a35aa4c3a5d11ae04af194043
 

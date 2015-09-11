@@ -1,7 +1,7 @@
 [mirrors]
 http://nmap.org/dist/nmap-6.40.tar.bz2
 
-[main]
+[vars]
 filesize=7871636
 sha512=b0ccb7634838e814dc0e36a0dbfc8c74853ef9dc6a119b73ffc90caab8875cbae893e0d24371ea568f9fff969440ed2a2e89953a6dbb6eb26313a4ea25b02b3b
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/lxde/LXTerminal%20%28terminal%20emulator%29/LXTerminal%200.2.0/lxterminal-0.2.0.tar.gz
 
-[main]
+[vars]
 filesize=248698
 sha512=5bec0e16fa4d929203e4c206fb59fb0c88e02f29adbf527c31fa2a0007d3dddbdf12f2219e204360b5dd95a68a89410fcf937325f3a7eb1229b568c9c10c0e78
 

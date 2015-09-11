@@ -1,6 +1,6 @@
 [mirrors]
 http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.25.tar.gz
-[main]
+[vars]
 filesize=1060692
 sha512=4ca9780ed0a915aca8a10ef91bf4bf48b05ecb85285c2c3fe7eef1d46d3e0747e61416b6bddbef369bd69adf4b796ff5f61380e0bc998906b170a93341ba6f78
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://www.thrysoee.dk/editline/libedit-20121213-3.0.tar.gz
 
-[main]
+[vars]
 filesize=473665
 sha512=06420df987429bdec6aea216046548cb7d1e1ed004e140c01692625dfb9149cc42ad98755a467c8b26734caff19284cb581bf64d58e49f683445ea01625d146b
 

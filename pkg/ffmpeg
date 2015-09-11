@@ -1,7 +1,7 @@
 [mirrors]
 http://ffmpeg.org/releases/ffmpeg-2.6.3.tar.bz2
 
-[main]
+[vars]
 filesize=7803314
 sha512=0998fa0cc2711b556fc28ce498e986f8f0b3ba7a30394c6b6cd494a542917eafb3d4d758f75e33fb39db4a631eca40515aa36c8b278fa3ffc9be006995d31029
 

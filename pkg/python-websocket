@@ -1,7 +1,7 @@
 [mirrors]
 https://pypi.python.org/packages/source/w/websocket-client/websocket-client-0.12.0.tar.gz
 
-[main]
+[vars]
 filesize=22376
 sha512=274b9db34799f99c2480bc5951d782e1bbde548b5820446d4bdea3ba1b325ec0200361c340bcc0a96ccc33a475a30cc748b6f852089e8157b7e5762aab84282c
 

@@ -4,7 +4,7 @@ ncurses
 gzip
 ca-certificates
 
-[main]
+[vars]
 filesize=2521699
 sha512=34324bee9c51d1330bb141e0c9c7aaeaeea7968b8b33fa7075bf6a8fd412f28020a28a60f1729d014b11ac716975a9f5c07c6f226dd6416965cf1ab780145358
 tardir=lynx2-8-8

@@ -1,4 +1,4 @@
-[main]
+[vars]
 filesize=446563
 sha512=478f5489534d109fa2ac0c5f6ae783cfdb1a8ac6df9d67bb09e11708e9a578bd1a5306916c33b98447c29b551aec593f6defa8a5a2ea70acb35c8f72da8dbbc3
 tardir=jupp

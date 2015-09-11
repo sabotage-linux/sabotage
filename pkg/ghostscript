@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.ghostscript.com/public/ghostscript-9.16.tar.bz2
 
-[main]
+[vars]
 filesize=29163348
 sha512=6886b6d4f542563c8a87f9ea243736b5b97d2e4c277e6fc8cba0b7b07b7f394c2cff940ada1cfbb8f8e3916df53044837cbfcb1d5c22df865641496766630599
 

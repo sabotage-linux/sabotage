@@ -6,7 +6,7 @@ xorg-server
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/driver/xf86-video-modesetting-0.9.0.tar.bz2
 
-[main]
+[vars]
 filesize=304351
 sha512=0e581deb3f09e932475c1ebf1e5a69239f6e0ac4d37bcc25ee9bc30083c1285c4a5645df960c7bd7103584512eff4149463195a985f469bd24f52059fd487cec
 

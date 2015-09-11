@@ -1,7 +1,7 @@
 [deps]
 kernel-headers
 
-[main]
+[vars]
 filesize=5340791
 sha512=378c69f50bf4cc3e71b84a85bfdb6c9bdb2f6204e7b4e989e265513e9691a36903a393e9bba5201ac8642824de85895feafca4f562bf9c464779a0d457ef71df
 

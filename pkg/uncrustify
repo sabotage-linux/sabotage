@@ -1,7 +1,7 @@
 [mirrors]
 https://github.com/bengardner/uncrustify/archive/uncrustify-0.61.tar.gz
 
-[main]
+[vars]
 filesize=1149607
 sha512=9de150e625d73af1af0ebf513d2ebd57a36e2d3be2b88fb4eefc4622f7aa6e68832a7b771c39a84e7b1b4da5a685ab97ac4f8a083a9675f424d59bf2024026c7
 tardir=uncrustify-uncrustify-0.61

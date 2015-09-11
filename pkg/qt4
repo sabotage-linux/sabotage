@@ -1,7 +1,7 @@
 [mirrors]
 http://download.qt-project.org/archive/qt/4.6/qt-everywhere-opensource-src-4.6.4.tar.gz
 
-[main]
+[vars]
 filesize=160837056
 sha512=3441b74bd7c0f981bed4886abef8934a6193ab9d0a6d31a7d850ea8ff49172295a6d9c8b26893d88748d6f8759e8e0305b8242230e5e8519ffd35b641566621f
 

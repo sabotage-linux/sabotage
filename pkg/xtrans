@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.3.3.tar.bz2
 
-[main]
+[vars]
 filesize=177244
 sha512=9db9464f8e9f1b48e5b8953e764fce7dc0e454c50c794c7871023380f6881b7e9d2e754831c906000c18467a7946d67c86eb4574f11175f8dc27b53599af01b5
 

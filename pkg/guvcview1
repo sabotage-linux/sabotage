@@ -1,7 +1,7 @@
 [mirrors]
 http://sourceforge.net/projects/guvcview/files/source/guvcview-src-1.5.0.tar.gz
 
-[main]
+[vars]
 filesize=498336
 sha512=c5d266eb0165eab0973b78ad527bf7806dc1e77d8a4e8d318c613acfaf764677c7a560156b25eb0a6fae5651d1a3e38ed83bb675885be4d1dcc63e57746d886a
 

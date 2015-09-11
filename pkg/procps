@@ -1,6 +1,6 @@
 [mirrors]
 http://ftp.de.debian.org/debian/pool/main/p/procps/procps_3.3.9.orig.tar.xz
-[main]
+[vars]
 filesize=560812
 sha512=62c7270aa48b4346a3198f306d1cb8474f64650bfb67e8cc6c4d41923e50c31c95b3a0367a464823fb50a6137ec0c6352006292ac85b50caf730ec8ec35eb553
 tardir=procps-ng-3.3.9

@@ -1,7 +1,7 @@
 [mirrors]
 https://www.hiawatha-webserver.org/files/hiawatha-9.14.tar.gz
 
-[main]
+[vars]
 filesize=891930
 sha512=66ad77c132d34daa5eb597ce67d7b26581c59534e5cf83dd65f78567a9a1798030cd42fef2d612bd1935243db979a2ef1df873f01b0d0a009395ef3da1dca6e6
 

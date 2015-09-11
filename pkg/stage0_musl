@@ -2,7 +2,7 @@
 http://www.etalabs.net/musl/releases/musl-1.1.11.tar.gz
 http://www.musl-libc.org/releases/musl-1.1.11.tar.gz
 
-[main]
+[vars]
 filesize=915244
 sha512=573131fe7a2c5a9c9bf796a5fc02e6ec093148648b9b43dc13d9c85e5777b1691499af6f673075a0d2b4b36c788b4dd7d72eb450c6ec3a586901bd410ee1ea6d
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-0.10.13.tar.bz2
 
-[main]
+[vars]
 filesize=4784059
 sha512=f1141fc73b4bf1d774053ce53c4a67d5e600d6f0118ee7824cd2ff4fc8af8ba1dfbd5cf82d9e15872f3e6f8730112ddfc520a7d8df3cf605a9725e959f37e6ed
 

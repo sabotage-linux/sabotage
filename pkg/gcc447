@@ -6,7 +6,7 @@ mpc
 zlib
 g++447
 
-[main]
+[vars]
 filesize=25784094
 sha512=318522e170a9e54d051311416dc221d8d727a85d6e24a97fdbd9125d9dea1530930efd04b846c06ddbe3c5acaeef8810e0d4e79b8e9af535f0b08f1f20e5b10b
 tardir=gcc-4.4.7

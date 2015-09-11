@@ -1,7 +1,7 @@
 [mirrors]
 http://downloads.sourceforge.net/project/xmms/xmms/1.2.6/xmms-1.2.6.tar.gz
 
-[main]
+[vars]
 filesize=2855872
 sha512=0b559f66520777e5e92ee6cf05c8fbeb899656c2246f6848cb484f5da70bd4316170eda6eaa96fd596849c152997d8ff939ff47f38a573938fd42e0c6a44c1b2
 

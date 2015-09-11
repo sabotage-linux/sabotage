@@ -1,6 +1,6 @@
 [mirrors]
 http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libassuan/libassuan-2.0.3.tar.bz2
-[main]
+[vars]
 filesize=529149
 sha512=8a67d3e357b490e6c07ea475e55271d6e86354cac9d65c8271aeac264b027041c83c7a83a87abb4ebb860f2a603730af181f27dc77c6429d2eb7765b36d0d088
 

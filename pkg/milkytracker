@@ -1,7 +1,7 @@
 [mirrors]
 http://www.milkytracker.org/files/milkytracker-0.90.85.tar.bz2
 
-[main]
+[vars]
 filesize=2509060
 sha512=b7129f537d8ee5ec35b77fe287d3ebc693a2cf5b679ccde672fa66e6a5cf1b003594e4128c6db6c037f13b54264064e1a8283339367fdf327e87c23784bb00c7
 

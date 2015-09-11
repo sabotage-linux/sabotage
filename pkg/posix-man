@@ -6,7 +6,7 @@ ftp://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-20
 http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2013-a.tar.xz
 http://mirror.anl.gov/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2013-a.tar.xz
 
-[main]
+[vars]
 filesize=930736
 sha512=e6ec8eb57269fadf368aeaac31b5a98b9c71723d4d5cc189f9c4642d6e865c88e44f77481dccbdb72e31526488eb531f624d455016361687a834ccfcac19fa14
 

@@ -2,7 +2,7 @@
 ftp://ftp.gnu.org/gnu/gdb/gdb-7.5.1.tar.bz2
 http://ftp.gnu.org/gnu/gdb/gdb-7.5.1.tar.bz2
 
-[main]
+[vars]
 filesize=21349391
 sha512=23b240f0ca9376dfc2fdeb79e725a3784841d1f787db9f7ca62a5e2f824ddd8b2d5fb3450e19dd8fee79589e3b0a5fe638eaa35966363c78c82711731c26dc47
 

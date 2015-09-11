@@ -4,7 +4,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/gnu-getopt-0.0.1.tar.bz2
 http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/gnu-getopt-0.0.1.tar.bz2
 http://dl.2f30.org/mirrors/sabotage/tarballs/gnu-getopt-0.0.1.tar.bz2
 
-[main]
+[vars]
 filesize=6664
 sha512=86d9dad674b82655986b32c8611e4025bea3d1bb5ab521f7f1a20e38a20c6eab563652fcc11080f59419b2edf2c794cc88a6394148352b0a8eab0af1c11518c2
 

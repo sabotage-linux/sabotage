@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/driver/xf86-input-mouse-1.9.1.tar.bz2
 
-[main]
+[vars]
 filesize=348244
 sha512=0b9647c21b949fe5b357de29028d823b5d385ebb5c59fddd53a11fceae3bf65e25bb988ac05d833abe7e071f6813d5a4dc4cdf61d240fc8a4f591866a86b5926
 

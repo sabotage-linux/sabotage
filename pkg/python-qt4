@@ -1,7 +1,7 @@
 [mirrors]
 http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.2/PyQt-x11-gpl-4.10.2.tar.gz
 
-[main]
+[vars]
 filesize=11280941
 sha512=6600b87e55f5a8fa0e41549f08d7639baec3ac9ffe14d6b141d808b14f672676abf872a48a300491a9b24eb5a14299f636a71bda246bb63cdb38d5afcd64b6d1
 

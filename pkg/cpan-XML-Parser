@@ -1,7 +1,7 @@
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.44.tar.gz
 
-[main]
+[vars]
 filesize=237377
 sha512=4790d20d89478880b18255679727e5b2fb2860bb4de67d5032c805fd44c9f90697a240a612aba51255325192253aa578b346d658b29f631a4e92ad96e7d65b61
 

@@ -1,6 +1,6 @@
 [mirrors]
 http://download.osgeo.org/libtiff/tiff-4.0.3.tar.gz
-[main]
+[vars]
 filesize=2051630
 sha512=d80e18b00e9e696a30b954c0d92e5f2f773fd9a7a0a944cf6cabb69c1798e671506580daa1cd2ebf493ae922000170c2491dfc6d4c0a9cd0b865684070595a73
 

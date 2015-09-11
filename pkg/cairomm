@@ -1,7 +1,7 @@
 [mirrors]
 http://www.cairographics.org/releases/cairomm-1.10.0.tar.gz
 
-[main]
+[vars]
 filesize=1089577
 sha512=974b1c078c8d7b82f8d026e384811c016fa95cb62942fc12717edd993cb1660bc004bee5f8ce31c0540ef8d4105a2d86cd461ed3f5e996fd3faf65dfb37ac9e2
 

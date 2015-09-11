@@ -1,7 +1,7 @@
 [mirrors]
 http://www.erlang.org/download/otp_src_18.0.tar.gz
 
-[main]
+[vars]
 filesize=68124710
 sha512=84ec2a3834270c1babe153572d6187faa36c12128e604037d55be01719788c0dd79d46769ea7090d530b746206a25fe02346b02849abee10ee41ed4ac7567c02
 tardir=otp_src_18.0

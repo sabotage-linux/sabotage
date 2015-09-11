@@ -3,7 +3,7 @@ ftp://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
 http://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
 http://mirror.mcs.anl.gov/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
 
-[main]
+[vars]
 filesize=365196
 sha512=0ad0f71fe2f91b8bdba2daf2beed93c746a7cb0afcd94e8d5a4d092ea61fccc543d332d326b5420645aec141af9e607280897b014824f64b0b59d3ebe57e7a8a
 

@@ -4,7 +4,7 @@ protobuf
 [mirrors]
 https://github.com/protobuf-c/protobuf-c/releases/download/v1.1.0/protobuf-c-1.1.0.tar.gz
 
-[main]
+[vars]
 filesize=453852
 sha512=50e0a9df1152e468c1bda88f67836fbe88e1ad711b3e6517265cdf715d89c2e15e7fb48c46ad4e163c978e54c899712e7a6e5e9b8bf7145cfdbc04947e0dcb34
 

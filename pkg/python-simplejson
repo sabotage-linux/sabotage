@@ -1,7 +1,7 @@
 [mirrors]
 https://pypi.python.org/packages/source/s/simplejson/simplejson-3.3.0.tar.gz
 
-[main]
+[vars]
 filesize=67250
 sha512=83e0157c57d24ce1b0ed01a206faf61c832bf8c427cd0db546c2a352cbc5e8f197a93dc09a1bbf9337431adbabccce36da62352f26799fd50dac0678c22a62b3
 

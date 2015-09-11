@@ -1,7 +1,7 @@
 [mirrors]
 http://www.weechat.org/files/src/weechat-0.4.1.tar.bz2
 
-[main]
+[vars]
 filesize=1772500
 sha512=7b8abef303837d0aee61a113163cecb0834c0dd99b736d9c165e18de8bcd37f9a8307984a4c66038a51262ac15286d44bbd2e53b62ed437d410e4df35292a0ed
 

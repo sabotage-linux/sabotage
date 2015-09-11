@@ -1,7 +1,7 @@
 [mirrors]
 http://www.hping.org/hping3-20051105.tar.gz
 
-[main]
+[vars]
 filesize=584001
 sha512=3b3faa836e70054c8f9f004d876b7eb5f668b64826a6aaf8ca3685619111d9df4eb494a7d38b83cea6cb5f0bd164956461039bf4f73f7c7e90d80cede639b2b3
 

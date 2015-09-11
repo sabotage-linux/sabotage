@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.u-strasbg.fr/securite/lsof/lsof_4.89.tar.bz2
 
-[main]
+[vars]
 filesize=784560
 sha512=cafb0209143c7863e5cebe7efc33a2520d36f9e26222350e4edfa18debbcfb5c81f42f71469e5913fb21f49a7562bbe761b72dfc8f297dadf75ac619cdcb318c
 

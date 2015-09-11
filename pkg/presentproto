@@ -1,7 +1,7 @@
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/proto/presentproto-1.0.tar.bz2
 
-[main]
+[vars]
 filesize=107998
 sha512=6d6b3cb78ff7c6ad8103d0003479f94702aea412640feec5d82cb630c9560fd0e1f7b6124e9eaba138adc9bf61ee08ef193537c2754c9b79737ef871c5114c59
 

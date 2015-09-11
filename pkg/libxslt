@@ -1,7 +1,7 @@
 [mirrors]
 http://xmlsoft.org/sources/libxslt-1.1.28.tar.gz
 
-[main]
+[vars]
 filesize=3435907
 sha512=20b65bdaceaac5bd11d509bf683ce8e344030bc95164639266ae705d41659bcba47b5be1b059d0d67681e6428b0710db675d1749c06aa531bc2212ed3d0511b1
 

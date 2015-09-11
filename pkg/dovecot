@@ -1,7 +1,7 @@
 [mirrors]
 http://dovecot.org/releases/2.2/dovecot-2.2.18.tar.gz
 
-[main]
+[vars]
 filesize=5100040
 sha512=227fa9c55070ce305d41faebb0fe15df86cb70427dd4043a01837095228b5504121fccaecfbf47fab3426334449b637bffdfe9a93ee2322bb8ff8d69de4967c7
 

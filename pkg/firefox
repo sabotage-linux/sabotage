@@ -2,7 +2,7 @@
 http://releases.mozilla.org/pub/mozilla.org/firefox/releases/31.0/source/firefox-31.0.source.tar.bz2
 ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/31.0/source/firefox-31.0.source.tar.bz2
 
-[main]
+[vars]
 filesize=147507120
 sha512=43e8f538591afde4c1bb4f0651df32a77456c5445204d0538d90112258e1f2cc90b822777799b96b97682b8fc1d8b5648dd3e3648a9392db0dc432c1e8520c85
 tardir=mozilla-release

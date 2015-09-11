@@ -1,7 +1,7 @@
 [mirrors]
 http://download.savannah.gnu.org/releases/attr/attr-2.4.47.src.tar.gz
 
-[main]
+[vars]
 filesize=343692
 sha512=2a333f63655758298650cf8f89c175efdc0112dcc4013e8d023e2a9a69f177e4bcb1f1d10b6666d6f2027dca4dec0833d54749952ab153d28367e1a72e6e2831
 tardir=attr-2.4.47

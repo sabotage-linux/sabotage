@@ -4,7 +4,7 @@ kernel-headers
 perl
 less
 
-[main]
+[vars]
 filesize=2190170
 sha512=9ad2af7216ae79c2c8cf246654a2c591983d347d22bfe4cd54ae41eaee0ea17f7bf8d6834add3f1f843494d6980707e0443aaf663075fda6e4e7e29728606c53
 

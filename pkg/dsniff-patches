@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.debian.org/debian/pool/main/d/dsniff/dsniff_2.4b1+debian-22.1.debian.tar.gz
 
-[main]
+[vars]
 filesize=29657
 sha512=11c6a3c04b5a8b3afb78901003132186964e88019011bea69b43a000c31d23f15c1a1c343c2ad1b03bf0a09664aebfa6f99e335fdfa1496bb020db6541eab6e3
 

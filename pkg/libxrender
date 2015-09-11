@@ -2,7 +2,7 @@
 renderproto
 libx11
 
-[main]
+[vars]
 filesize=306121
 sha512=111a0ec4e19932a50da4914d9112b0a16c1d9c800e2b8398ddaf9ed70dae1a4eb75860282ca62d023e78957bbc3f015cb80d91ba76a24595df9f8a2b7e055b58
 

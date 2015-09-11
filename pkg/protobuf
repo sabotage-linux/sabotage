@@ -1,7 +1,7 @@
 [mirrors]
 https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.bz2
 
-[main]
+[vars]
 filesize=2021416
 sha512=8b092b87fcd79223db199cd3d330f3d43689b47f345aa4e34028dcf1680d609a5d5a89ab08588e817b566d3b265834c38f1db580bc1c144b512ce74d35f2a174
 

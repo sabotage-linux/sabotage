@@ -6,7 +6,7 @@ gnu-getopt
 [deps.host]
 pkgconf
 
-[main]
+[vars]
 filesize=507123
 sha512=3bf6db564359acafa738068980793129982318317bea69f21282d80f40dcb1e16938f8e2928e6cdcc4e77d89b2bc3f6c45aad7eb11ff84063b78e5f8e1907f9e
 

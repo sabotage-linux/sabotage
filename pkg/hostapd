@@ -1,7 +1,7 @@
 [mirrors]
 http://w1.fi/releases/hostapd-2.4.tar.gz
 
-[main]
+[vars]
 filesize=1658872
 sha512=37e648fe9cce92923ab1d1e23a4267e274c988785d7be5610f1affca425ffa86b438de81e37446926a0f9158d6b67ee83e6396c3f81d571545c973dddbf1ffe3
 

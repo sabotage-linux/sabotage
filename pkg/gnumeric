@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/gnumeric/1.10/gnumeric-1.10.15.tar.bz2
 
-[main]
+[vars]
 filesize=18577516
 sha512=4978e633d364de14b615532ff202825298f032a29b27b721fcb99da041a8c15c3fa0eb416a8d4c68dd08a304aa2306c980f3e45ed509d0394e41ecb2558bf69f
 

@@ -3,7 +3,7 @@ libxext
 inputproto
 libxfixes
 
-[main]
+[vars]
 filesize=440969
 sha512=f419a30711220f51bc77ba4cd2759e565d4f8ba9960c3bcce3ec80ab84389fe220e4276887b125ec105810bd219698fb3a22ec4b9d91eab7235ed9a3ca6925c3
 

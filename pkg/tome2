@@ -1,12 +1,10 @@
 [mirrors]
 https://gitlab.com/tome2/tome2/repository/archive.tar.bz2?ref=e3bd0ad5
 
-[main]
+[vars]
 filesize=3048200
 sha512=e9fb46f8f5bebb3bde2f151e5c412c88598bfcccbd1d8012a28cd280382c8609772409a48bbafdc25d8412b986f005c120553c7baff9f45af0e5e8e1671f4eeb
 tardir=tome2-e3bd0ad5-e3bd0ad51f89ade115ce5ff1f1c3f8687353e36d
-
-[vars]
 tarball=tome2-e3bd0ad5.tar.bz2
 
 [deps]

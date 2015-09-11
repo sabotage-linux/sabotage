@@ -2,7 +2,7 @@
 http://kent.dl.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.5.2.tar.gz
 http://switch.dl.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.5.2.tar.gz
 
-[main]
+[vars]
 filesize=278331
 sha512=b08adf0cb9e5d3efe2d6be05c3fef99f18be6b4f85497951c111fde76010351b6265ea162acd8920ebb382c660d29d45a0a0bf601757d29739c8394b1328c0d5
 

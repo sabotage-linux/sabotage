@@ -1,7 +1,7 @@
 [mirrors]
 https://github.com/ocaml/camlp4/archive/4.02+6.tar.gz
 
-[main]
+[vars]
 filesize=647140
 sha512=abf5b2b652ea7abb5d380b83ec02b3df88146ccf3e9c73504829f382517b0b9b99e474747321212a84d93a2509968bff190722afbce65b004e8f00a0620f208c
 tardir=camlp4-4.02-6

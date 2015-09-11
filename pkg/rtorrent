@@ -1,7 +1,7 @@
 [mirrors]
 http://libtorrent.rakshasa.no/downloads/rtorrent-0.9.4.tar.gz
 
-[main]
+[vars]
 filesize=601913
 sha512=ae243d0336acff50e91e4ed9d306beb4705559775518e6dc122ec18a1530e59e2c531cf54f4b79899a1569ca18d343fce255071b45c41df1357bddfe926692aa
 

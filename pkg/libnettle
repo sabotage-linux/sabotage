@@ -1,7 +1,7 @@
 [mirrors]
 http://www.lysator.liu.se/~nisse/archive/nettle-2.7.tar.gz
 
-[main]
+[vars]
 filesize=1557615
 sha512=394cbe567f958594e1bca42b48802e2fbc9c31c468cd1c399a0aec6f94138220b4bf3c307590262314664e15a74a7a52f9fd2b4f9fb01dde669e1fbe23e57caf
 

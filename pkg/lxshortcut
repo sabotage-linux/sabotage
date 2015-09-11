@@ -2,7 +2,7 @@
 http://kent.dl.sourceforge.net/project/lxde/LXShortcut%20%28edit%20app%20shortcut%29/LXShortcut%200.1.2/lxshortcut-0.1.2.tar.gz
 http://switch.dl.sourceforge.net/project/lxde/LXShortcut%20%28edit%20app%20shortcut%29/LXShortcut%200.1.2/lxshortcut-0.1.2.tar.gz
 
-[main]
+[vars]
 filesize=224223
 sha512=0567c0ee77dbe7ea5f7d23e3ec2d3ba68f458bc9d8e4e5c8764bb53963eecf07d69dee2617f695b8d86dcb71916864c4e01dab12bd4b73db5366aebe24867e0c
 

@@ -1,7 +1,7 @@
 [mirrors]
 http://www.oberhumer.com/opensource/ucl/download/ucl-1.03.tar.gz
 
-[main]
+[vars]
 filesize=534881
 sha512=7dd1824d01b4bb41ee03bbceddc634a9f7f910d235e5cca163d783680d6743f0f3cc309bbbcc1e094d897d549d3805a555f9093b4d77805443d896dd1862aa34
 

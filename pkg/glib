@@ -1,7 +1,7 @@
 [mirrors]
 http://ftp.gnome.org/pub/gnome/sources/glib/2.45/glib-2.45.2.tar.xz
 
-[main]
+[vars]
 filesize=7151720
 sha512=ee25cd8865851a9e7dad0ce90f49883695e802c08f339f9dea83334ed3cd991f6940c83e3f701c24afa9644c939078092fe14a4997d9c70cec3883f4139f9e01
 

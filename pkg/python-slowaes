@@ -1,7 +1,7 @@
 [mirrors]
 https://pypi.python.org/packages/source/s/slowaes/slowaes-0.1a1.tar.gz
 
-[main]
+[vars]
 filesize=7017
 sha512=09126a6cf2a0da27c45b12d25c3a9147f47448311f9e36b6db2aa62d8b85f3fdf66f10f8f5d84edf48cde7f6c766d9ed384832f9ca0e28f95104149a7f424d95
 
