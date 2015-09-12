@@ -34,7 +34,7 @@ fi
 echo [mirrors]
 echo "$url"
 echo
-echo [main]
+echo [vars]
 echo filesize=`getfilesize "$fn"`
 echo sha512=`gethash "$fn"`
 
