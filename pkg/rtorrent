@@ -1,15 +1,21 @@
 [mirrors]
-http://libtorrent.rakshasa.no/downloads/rtorrent-0.9.4.tar.gz
+https://github.com/rakshasa/rtorrent/archive/0.9.4.tar.gz
 
 [vars]
-filesize=601913
-sha512=ae243d0336acff50e91e4ed9d306beb4705559775518e6dc122ec18a1530e59e2c531cf54f4b79899a1569ca18d343fce255071b45c41df1357bddfe926692aa
+filesize=225846
+sha512=7eb7aba591d4a1d2258eb2ffb549f48b479c81f4e9705d4d654dca9e5840ab89f974ad79c9d4696a3ce00bb835f563e04a39e4c9486683ea605f5e28fcbf4c70
+tardir=rtorrent-0.9.4
+tarball=rtorrent-0.9.4.tar.gz
 
 [deps]
 libtorrent
 ncurses
 
+[deps.host]
+automake
+
 [build]
+./autogen.sh
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
 CXXFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix"
