@@ -1,11 +1,10 @@
 [mirrors]
-http://invisible-island.net/datafiles/release/byacc.tar.gz
+ftp://invisible-island.net/byacc/byacc-20141128.tgz
 
 [vars]
 tardir=byacc-20141128
 filesize=710145
 sha512=a41debde13d489e47c635bd61ce691e7b0a1470a91df3d16e43bd7c0985064708c4d69b8fabe2134ac4d06b17e484ea9c0b7efc7a624e7d8b7ed850e89afd71c
-tarball=byacc-20141128.tar.gz
 
 [build]
 
