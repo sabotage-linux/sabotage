@@ -1,0 +1,67 @@
+#!/bin/sh
+# install systemwide runit service.
+
+dest=$R
+
+usage() {
+	printf "creates directory structure and installs supplied run script for usage with runit\n"
+	printf "USAGE: %s %s\n" $(basename "$0") "[--down --force --log] servicename filename_of_run_script"
+	printf "%s\n" "--down: service is down by default"
+	printf "%s\n" "--force: service will be overwritten if existent"
+	printf "%s\n" "--log: create default logging service"
+	printf "\n"
+	printf "%s\n" "use env. var R to override install location (prefix+DESTDIR-like)"
+	exit 1
+}
+
+down=
+force=
+log=
+service=
+infile=
+for i ; do
+	case "$i" in
+		--down)  down=1 ; i= ;;
+		--force) force=1 ; i= ;;
+		--log)   log=1 ; i= ;;
+	esac
+	if [ -z "$i" ] ; then :
+	elif [ -z "$service" ] ; then
+		service="$i"
+	elif [ -z "$infile" ] ; then
+		infile="$i"
+	else
+		usage
+	fi
+done
+
+[ -z "$service" -o -z "$infile" ] && usage
+if [ ! -e "$infile" ] ; then
+	echo "file $infile does not exist"
+	exit 1
+fi
+case "$service" in */*) echo "service name must not contain slashes"; exit 1 ;; esac
+
+if [ -z "$force" -a -e "$dest"/etc/service/"$service"/run ] ; then
+	echo "service $service already exists!"
+	echo "use --force if you want to overwrite it"
+	exit 1
+fi
+
+set -e
+mkdir -p "$dest"/var/service/
+mkdir -p "$dest"/etc/service/"$service"
+cp "$infile" "$dest"/etc/service/"$service"/run
+chmod 0755 "$dest"/etc/service/"$service"/run
+if [ "$log" = 1 ] ; then
+	mkdir -p "$dest"/etc/service/"$service"/log
+	cat << EOF > "$dest"/etc/service/"$service"/log/run
+#!/bin/sh
+exec svlogd -tt /var/log/$service
+EOF
+	chmod 0755 "$dest"/etc/service/"$service"/log/run
+	mkdir -p "$dest"/var/log/"$service"
+fi
+[ "$down" = 1 ] && touch "$dest"/etc/service/"$service"/down
+
+ln -sf ../../etc/service/"$service" "$dest"/var/service/

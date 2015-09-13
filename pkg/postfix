@@ -36,5 +36,5 @@ Edit 'virtual' to route mail to users, then reload with 'postmap /etc/postfix/vi
 See /share/doc/postfix for further information.
 EOF
 
-IS="$K"/bin/install-service
+IS="$K"/install-service
 "$IS" --down --log --force postfix "$K"/services/postfix
