@@ -8,7 +8,7 @@ sha512=1123671ab3e0b1b13a4a08035e792a93af0d7d0a5b9027982fe7b5104488a0746906068a0
 http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.xz
 
 [build]
-"$K"/bin/gnulibfix lib > /dev/null
+"$K"/gnulibfix lib > /dev/null
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 LDFLAGS="$optldflags -static" \

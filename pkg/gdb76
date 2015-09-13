@@ -36,7 +36,7 @@ cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
 
 "$K"/bin/libibertyfix libiberty
 # total madness: gdb uses libiberty *AND* gnulib
-"$K"/bin/gnulibfix gdb/gnulib/import
+"$K"/gnulibfix gdb/gnulib/import
 
 mkdir build
 cd build
