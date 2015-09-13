@@ -13,7 +13,7 @@ portaudio
 cpan-XML-Parser
 
 [build]
-patch -p1 < "$K"/guvcview-decls.patch
+patch -p1 < "$K"/patch/guvcview-decls
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

@@ -9,8 +9,6 @@ sha512=9dcc8f5790b78efa14d328e48c68d97f44fce8658fdad9f6d46a79feb715a57903064087d
 freetype
 
 [build]
-#patch -p1 < "$K"/some.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"

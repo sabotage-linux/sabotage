@@ -11,7 +11,7 @@ sha512=68b2d85341487efed26c92cd7925b4e9d889b5a19f08f4695ffd07087c01ae0c872086575
 [build]
 
 # patch is from arch linux
-patch -p1 < "$K"/redis-sane-defaults.patch
+patch -p1 < "$K"/patch/redis-sane-defaults
 
 # MALLOC=libc: use musl malloc instead of jemalloc. This might be bad for performance though,
 # if that is important to you, you should make benchmarks (and share them)!

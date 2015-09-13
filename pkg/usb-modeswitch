@@ -11,7 +11,7 @@ libusbx
 
 [build]
 cd jim/autosetup
-patch -p1 < "$K"/config.sub-musl.patch
+patch -p1 < "$K"/patch/config.sub-musl
 cd ..
 
 [ -n "$CROSS_COMPILE" ] && \

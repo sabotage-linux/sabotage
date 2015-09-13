@@ -17,11 +17,11 @@ gtk+2
 libIDL
 
 [build]
-patch -p1 < "$K"/thunderbird1-getprotobyname_r.patch
-patch -p1 < "$K"/thunderbird1-linux-detection.patch
-patch -p1 < "$K"/thunderbird1-chrome-registry.patch
-patch -p1 < "$K"/thunderbird1-useragent.patch
-patch -p1 < "$K"/thunderbird1-putentry.patch
+patch -p1 < "$K"/patch/thunderbird1-getprotobyname_r
+patch -p1 < "$K"/patch/thunderbird1-linux-detection
+patch -p1 < "$K"/patch/thunderbird1-chrome-registry
+patch -p1 < "$K"/patch/thunderbird1-useragent
+patch -p1 < "$K"/patch/thunderbird1-putentry
 
 # https://bugzilla.mozilla.org/show_bug.cgi?id=416463
 rm xpcom/obsolete/component/nsFileSpecImpl.h \

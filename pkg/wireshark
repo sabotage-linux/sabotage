@@ -14,8 +14,8 @@ gnutls
 lua
 
 [build]
-patch -p1 < "$K"/wireshark-window-icon.patch
-patch -p1 < "$K"/wireshark-dirent_macros.patch
+patch -p1 < "$K"/patch/wireshark-window-icon
+patch -p1 < "$K"/patch/wireshark-dirent_macros
 
 for i in ui/export_object_smb.c epan/dissectors/packet-ssl-utils.c ; do
 	sed -i 's@g_memmove@memmove@g' "$i"

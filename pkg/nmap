@@ -17,9 +17,9 @@ gnu-getopt
 dynamic-toolchain
 
 [build]
-patch -p1 < "$K"/nmap-configure-pcap_suitable.patch
-patch -p1 < "$K"/nmap-nbase_h.patch
-patch -p1 < "$K"/nmap-ldflags.patch
+patch -p1 < "$K"/patch/nmap-configure-pcap_suitable
+patch -p1 < "$K"/patch/nmap-nbase_h
+patch -p1 < "$K"/patch/nmap-ldflags
 
 GNU_GETOPT="-Dgetopt=gnu_getopt -Dgetopt_long=gnu_getopt_long -Dgetopt_long_only=gnu_getopt_long_only"
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $GNU_GETOPT $optcflags" \

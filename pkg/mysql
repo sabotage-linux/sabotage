@@ -15,7 +15,7 @@ ncurses
 readline
 
 [build]
-patch -p1 < "$K"/mysql-srv_buf_size.patch
+patch -p1 < "$K"/patch/mysql-srv_buf_size
 sed -i '/OPENSSL_MAJOR_VERSION/s/1/2/' cmake/ssl.cmake
 
 # prevent installation of 10K tests, 180MB, + and additional 35MB of symlinks

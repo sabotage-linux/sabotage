@@ -23,7 +23,7 @@ libxinerama
 pkgconf
 
 [build]
-patch -p1 < "$K"/gtk-icontheme-fallback.patch
+patch -p1 < "$K"/patch/gtk-icontheme-fallback
 
 # fixes from LFS: fix messed up makefile when docbook is installed
 sed -i 's#l \(gtk-.*\).sgml#& -o \1#' docs/tutorial/Makefile.in

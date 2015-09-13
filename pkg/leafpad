@@ -9,8 +9,8 @@ sha512=315f5541dfe8d519ea832ad8b13b034a5ac173f8b9c0de7e3f774780b4ef42f2fab29e3ef
 gtk+2
 
 [build]
-patch -p1 < "$K"/leafpad-savebug.patch
-patch -p1 < "$K"/leafpad-taskbar-icon.patch
+patch -p1 < "$K"/patch/leafpad-savebug
+patch -p1 < "$K"/patch/leafpad-taskbar-icon
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \

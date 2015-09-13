@@ -14,7 +14,7 @@ filesize=1146887
 sha512=faa5abf3f066106c80d019944efa2298e2d3157469c1c7bc52deb9aa1bcd5f5439a2e22b04ad9210e292fcef97bdacc27aa75fc275d0d7cae2c2f88729c84786
 
 [build]
-patch -p1 < "$K"/alsa-utils_mixer_widget.patch
+patch -p1 < "$K"/patch/alsa-utils_mixer_widget
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

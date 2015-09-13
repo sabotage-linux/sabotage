@@ -11,9 +11,9 @@ gtk+2
 libglade
 
 [build]
-patch -p1 < "$K"/obconf-git.patch || \
+patch -p1 < "$K"/patch/obconf-git || \
   echo "WARNING: Patch failed to apply properly"
-patch -p1 < "$K"/obconf-implicit.patch || \
+patch -p1 < "$K"/patch/obconf-implicit || \
   echo "WARNING: Patch failed to apply properly"
 
 [ -n "$CROSS_COMPILE" ] && \

@@ -12,8 +12,8 @@ openssl
 zlib
 
 [build]
-patch -p1 < "$K"/wpa_supplicant-fflush.patch
-patch -p1 < "$K"/wpa_supplicant-action_script.patch
+patch -p1 < "$K"/patch/wpa_supplicant-fflush
+patch -p1 < "$K"/patch/wpa_supplicant-action_script
 cd wpa_supplicant
 cp defconfig .config
 

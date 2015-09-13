@@ -8,8 +8,8 @@ cd "$butch_build_dir"
 rm -rf util-linux-2.23.1
 tar xf "$C"/util-linux-2.23.1.tar.xz
 cd util-linux-2.23.1
-patch -p1 < "$K"/util-linux.patch
-patch -p1 < "$K"/util-linux-hexdump.patch
+patch -p1 < "$K"/patch/util-linux
+patch -p1 < "$K"/patch/util-linux-hexdump
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="-Wl,-static $optldflags" \

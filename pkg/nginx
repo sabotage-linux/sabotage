@@ -11,7 +11,7 @@ filesize=790523
 sha512=a7366551c84f0f3b82107cc2891f85a7721448af52c3169c3704635268920fcd78739858b26fbaf16fccf9026f76071f974313c4f8e2b00a75e413c1369f8f85
 
 [build]
-patch -p1 < "$K"/nginx.patch
+patch -p1 < "$K"/patch/nginx
 
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" ./configure \

@@ -13,8 +13,8 @@ libtiff
 giflib
 
 [build]
-patch -p1 < "$K"/liblepton_pngio.patch
-patch -p1 < "$K"/liblepton-makefile.patch
+patch -p1 < "$K"/patch/liblepton_pngio
+patch -p1 < "$K"/patch/liblepton-makefile
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 cd src
 

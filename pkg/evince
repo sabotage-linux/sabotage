@@ -16,11 +16,11 @@ libsm
 
 [build]
 # https://bugzilla.gnome.org/show_bug.cgi?id=637055
-patch -p1 < "$K"/evince-scroll.patch
+patch -p1 < "$K"/patch/evince-scroll
 # https://bugzilla.gnome.org/show_bug.cgi?id=638312
-patch -p1 < "$K"/evince-quit-crash.patch
-patch -p1 < "$K"/evince-segfault.patch
-patch -p1 < "$K"/evince-segfault2.patch
+patch -p1 < "$K"/patch/evince-quit-crash
+patch -p1 < "$K"/patch/evince-segfault
+patch -p1 < "$K"/patch/evince-segfault2
 
 debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-O0 -g3"

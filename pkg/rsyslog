@@ -14,7 +14,7 @@ gnutls
 librelp
 
 [build]
-patch -p1 < "$K"/rsyslog-fcntl.patch
+patch -p1 < "$K"/patch/rsyslog-fcntl
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" --sbindir=/bin \
               --disable-mysql --disable-pgsql --disable-mail \

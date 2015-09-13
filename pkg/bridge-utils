@@ -9,7 +9,7 @@ sha512=4e525fbd3defb509664ef3b728d9e5edfb92beaebdb5d7733d8203fb38cb3f4bb54d02dc1
 
 [build]
 
-patch -p1 < "$K"/bridge-utils.patch
+patch -p1 < "$K"/patch/bridge-utils
 
 # since bridgeutils package comes without configure script, rather than
 # relying on autoreconf -r etc, we just throw *.c at gcc.

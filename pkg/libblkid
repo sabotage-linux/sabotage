@@ -7,7 +7,7 @@ cd "$butch_build_dir"
 rm -rf util-linux-2.23.1
 tar xf "$C"/util-linux-2.23.1.tar.xz
 cd util-linux-2.23.1
-patch -p1 < "$K"/util-linux.patch
+patch -p1 < "$K"/patch/util-linux
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \

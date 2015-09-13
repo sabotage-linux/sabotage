@@ -10,7 +10,7 @@ ncurses
 glib
 
 [build]
-patch -p1 < "$K"/mc-CTRL.patch
+patch -p1 < "$K"/patch/mc-CTRL
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"

@@ -8,9 +8,9 @@ sha512=30826b2a2fc436483276b90cc4c6679470f7ccb7098c9bb8457d0e534998cd12da02882cf
 [deps]
 
 [build]
-patch -p1 < "$K"/screen-root.patch
-patch -p1 < "$K"/screen-configure.patch
-patch -p1 < "$K"/screen-chmod.patch
+patch -p1 < "$K"/patch/screen-root
+patch -p1 < "$K"/patch/screen-configure
+patch -p1 < "$K"/patch/screen-chmod
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

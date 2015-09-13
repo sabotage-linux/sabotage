@@ -25,21 +25,21 @@ dopatch() {
 }
 
 #noperl and qemu patches from landley.net/aboriginal
-dopatch "$K"/linux-noperl-timeconst.patch
+dopatch "$K"/patch/linux-noperl-timeconst
 
 # work around mismatch between devicename and channel name in 9p virtfs code
 # p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
-dopatch "$K"/linux-virtio9p.patch
+dopatch "$K"/patch/linux-virtio9p
 
 # patches to support busybox trap and sed with strict musl BRE engine
-dopatch "$K"/linux-3.8-trap.patch
-dopatch "$K"/linux-3.18-posix_sed.patch
+dopatch "$K"/patch/linux-3.8-trap
+dopatch "$K"/patch/linux-3.18-posix_sed
 
 if [ -n "$ENABLE_GRSEC" ] ; then
-	patchname="$GRSEC_VER".patch
+	patchname="$GRSEC_VER"
 	xzcat "$C"/"$patchname".xz > "$patchname"
-	ln -sf "$patchname" grsec.patch
-	dopatch grsec.patch
+	ln -sf "$patchname" grsec
+	dopatch grsec
 fi
 
 export ARCH=$A

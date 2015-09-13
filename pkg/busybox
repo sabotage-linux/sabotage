@@ -27,25 +27,25 @@ dopatch() {
 }
 
 cp "$K"/c/busybox.stage1.config .config
-dopatch "$K"/busybox.patch
-dopatch "$K"/busybox-blowfish.patch
-dopatch "$K"/busybox-unzip.patch
-dopatch "$K"/busybox-xz-bugfix1.patch
-dopatch "$K"/busybox-xz-bugfix2.patch
-dopatch "$K"/busybox-xz-bugfix3.patch
-dopatch "$K"/busybox-man.patch
-dopatch "$K"/busybox-sed.patch
-dopatch "$K"/busybox-awk-emptyfun.patch
-dopatch "$K"/busybox-awk-int-overflow.patch
-dopatch "$K"/busybox-tar-norecurse.patch
-dopatch "$K"/busybox-tar-xz.patch
-dopatch "$K"/busybox-tar-xz2.patch
-dopatch "$K"/busybox-bzip2bug.patch
-dopatch "$K"/busybox-fdisk-gpt-size.patch
-dopatch "$K"/busybox-fdisk-sector-size.patch
-dopatch "$K"/busybox-ping.patch
-dopatch "$K"/busybox-ping2.patch
-dopatch "$K"/busybox-grep-x.patch
+dopatch "$K"/patch/busybox
+dopatch "$K"/patch/busybox-blowfish
+dopatch "$K"/patch/busybox-unzip
+dopatch "$K"/patch/busybox-xz-bugfix1
+dopatch "$K"/patch/busybox-xz-bugfix2
+dopatch "$K"/patch/busybox-xz-bugfix3
+dopatch "$K"/patch/busybox-man
+dopatch "$K"/patch/busybox-sed
+dopatch "$K"/patch/busybox-awk-emptyfun
+dopatch "$K"/patch/busybox-awk-int-overflow
+dopatch "$K"/patch/busybox-tar-norecurse
+dopatch "$K"/patch/busybox-tar-xz
+dopatch "$K"/patch/busybox-tar-xz2
+dopatch "$K"/patch/busybox-bzip2bug
+dopatch "$K"/patch/busybox-fdisk-gpt-size
+dopatch "$K"/patch/busybox-fdisk-sector-size
+dopatch "$K"/patch/busybox-ping
+dopatch "$K"/patch/busybox-ping2
+dopatch "$K"/patch/busybox-grep-x
 
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc

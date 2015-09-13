@@ -8,7 +8,7 @@ sha512=e91bbe550fc147a8be7e69ade86fdb7066453814971b2b0223f7d17712bd029a8eff5b2b6
 [deps]
 
 [build]
-patch -p1 < "$K"/bdb-configure.patch
+patch -p1 < "$K"/patch/bdb-configure
 cd build_unix
 mv ../config.cache .
 

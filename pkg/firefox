@@ -32,23 +32,23 @@ export SHELL=/bin/sh
 
 PATCH() {
 	echo "***** $1 *****"
-	patch -p1 < "$K"/"$1"
+	patch -p1 < "$K"/patch/"$1"
 }
 
-PATCH firefox-virtualenv.patch
-PATCH firefox-getprotobyname_r.patch
-PATCH firefox-finite.patch
-PATCH firefox-gregor.patch
-PATCH firefox-profiler.patch
-PATCH firefox-hunspell.patch
+PATCH firefox-virtualenv
+PATCH firefox-getprotobyname_r
+PATCH firefox-finite
+PATCH firefox-gregor
+PATCH firefox-profiler
+PATCH firefox-hunspell
 
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1008851
-PATCH firefox-31-nonascii.patch
+PATCH firefox-31-nonascii
 
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1041962
-PATCH firefox-31-basename.patch
+PATCH firefox-31-basename
 
-PATCH firefox-29-pthread_t.patch
+PATCH firefox-29-pthread_t
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"

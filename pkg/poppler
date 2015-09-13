@@ -19,7 +19,7 @@ cairo
 glib
 
 [build]
-patch -p1 < "$K"/poppler-segfault.patch
+patch -p1 < "$K"/patch/poppler-segfault
 # https://bugs.freedesktop.org/show_bug.cgi?id=12925
 
 [ -n "$CROSS_COMPILE" ] && \

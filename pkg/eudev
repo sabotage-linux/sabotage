@@ -11,7 +11,7 @@ libblkid
 glib
 
 [build]
-patch -p1 < "$K"/eudev-Handle-1-return-from-sysconf.patch
+patch -p1 < "$K"/patch/eudev-Handle-1-return-from-sysconf
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
@@ -27,7 +27,7 @@ LDFLAGS="$optldflags -lblkid" \
   --disable-introspection \
 
 
-patch -p1 < "$K"/libtool-sysroot.patch
+patch -p1 < "$K"/patch/libtool-sysroot
 
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install

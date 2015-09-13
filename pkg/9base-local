@@ -31,7 +31,7 @@ sed -i '/^.touch./d' Makefile  # we don't have futimes
 
 # ed's getline clobbers the one defined in musl, and this causes problems
 # when libc functions like getpwuid call getline.
-patch -p1 < "$K"/9base-ed-getline.patch
+patch -p1 < "$K"/patch/9base-ed-getline
 make -j$MAKE_THREADS install
 
 exit 0

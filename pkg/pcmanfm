@@ -15,7 +15,7 @@ libx11
 gtk+2
 
 [build]
-patch -p1 < "$K"/pcmanfm-xcompile.patch
+patch -p1 < "$K"/patch/pcmanfm-xcompile
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

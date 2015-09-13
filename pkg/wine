@@ -32,10 +32,10 @@ else
 	exit 1
 fi
 
-patch -p1 < "$K"/wine-file_h.patch
-patch -p1 < "$K"/wine-iphlpapi.patch
-patch -p1 < "$K"/wine-getdents.patch
-patch -p1 < "$K"/wine-ipx.patch
+patch -p1 < "$K"/patch/wine-file_h
+patch -p1 < "$K"/patch/wine-iphlpapi
+patch -p1 < "$K"/patch/wine-getdents
+patch -p1 < "$K"/patch/wine-ipx
 
 CFLAGS="-DHAVE_LINK_H -DNETDB_INTERNAL=-1" ./configure -C \
   --prefix="$butch_prefix" \

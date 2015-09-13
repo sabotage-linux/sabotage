@@ -13,10 +13,10 @@ openssl
 curl
 
 [build]
-patch -p1 < "$K"/transmission-off_t.patch
+patch -p1 < "$K"/patch/transmission-off_t
 # transmission insists on --enable-nls/intltool when gtk is selected
 # - the only reason is the generation of the .desktop file
-patch -p1 < "$K"/transmission-nls.patch
+patch -p1 < "$K"/patch/transmission-nls
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

@@ -15,8 +15,8 @@ zlib
 libpng
 
 [build]
-patch -p1 < "$K"/dosbox.patch
-patch -p1 < "$K"/dosbox-gcc47.patch
+patch -p1 < "$K"/patch/dosbox
+patch -p1 < "$K"/patch/dosbox-gcc47
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"

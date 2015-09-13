@@ -13,7 +13,7 @@ sha512=9dd1f98f47af1724a2ff64c6d728a03254c46a499a21d48d305a34ae5728ff7b51ef4d326
 kernel-headers
 
 [build]
-patch -p1 < "$K"/lvm2.patch
+patch -p1 < "$K"/patch/lvm2
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags"

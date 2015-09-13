@@ -10,7 +10,7 @@ tardir=tcl8.6.4
 sqlite
 
 [build]
-patch -p1 < "$K"/tcl-stat64.patch
+patch -p1 < "$K"/patch/tcl-stat64
 rm -rf pkgs/*sqlit*
 cd unix
 rm -rf *sqlit*

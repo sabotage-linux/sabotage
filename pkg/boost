@@ -15,8 +15,8 @@ dynamic-toolchain
 
 [build]
 # https://svn.boost.org/trac/boost/ticket/7847
-patch -p1 < "$K"/boost-execinfo.patch
-patch -p1 < "$K"/boost-endian.patch
+patch -p1 < "$K"/patch/boost-execinfo
+patch -p1 < "$K"/patch/boost-endian
 
 # FIXME there's no DESTDIR support, thus internal hardcoded paths will be all wrong
 # https://svn.boost.org/trac/boost/ticket/7846
