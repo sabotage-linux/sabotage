@@ -92,6 +92,52 @@ You can issue a `git pull` in `/src/sabotage` to update to the latest version of
 recipes and utilities.
 
 
+### /src/KEEP, the file attic
+
+`/src/KEEP` (or `$K`) is where Sabotage keeps files needed for building
+the system and its related packages. 
+
+	/src/KEEP            # $K, contains recipe scripts and system files. 
+	$K/c                 # c, configuration, code and other 'crap'.
+	$K/patch             # patches for packages.
+	$K/rootfs            # default system root files
+	$K/services          # runit service files
+
+Files required by a `butch` recipe may be placed in the appropriate
+subdirectory of `$K`, then may be referred to from inside the recipe.
+For example, patch files are called from `$K/patch`.
+
+`$K/rootfs` and `$K/services` are copied by `setup-rootfs.sh` when
+building a new system root. Changing these files will allow you to alter
+the default configuration of new Sabotage systems.
+
+`$K/rootfs` should NOT be directly referenced by other scripts or recipes,
+such as using `$K/roofs/bin`. Recipe-useful scripts should be placed in
+`$K` and duplicated in `$K/rootfs/bin`, as necessary.
+
+In addition, `$K` contains the following files: 
+
+	$K/butch_download_template.txt          # butch's package download template
+	$K/butch_template_configure_cached.txt  # butch's package build template
+
+	$K/config.cross   # for cross-compiling with butch.
+	$K/config.stage0  # stage0 build configuration file.
+	$K/config.stage1  # once stage0 has been built, this file is copied into ./config's place.
+
+	$K/config.cache  # butch uses this answer file to speed up builds.
+	$K/config.sub    # butch recipes may use this script to validate a configuration triplet.
+
+	$K/libtool.cross      # called by libtool.cross.gen.
+	$K/libtool.cross.gen  # a cross-compile capable libtool used in recipes.
+
+	$K/endiancheck.sh   # returns 'little' or 'big' based upon $A.
+	$K/install-service  # install systemwide runit services.
+	$K/libibertyfix     # remove conflicting libc replacements from a specified directory.
+	$K/gnulibfix        # remove conflicting GNU libc replacements from a specified directory.
+
+Please read the above files to understand their usage.
+
+
 ### Writing recipes
 
 `butch` recipes are plain text files that contain one or more labeled headers
