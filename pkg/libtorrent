@@ -1,5 +1,5 @@
 [mirrors]
-http://libtorrent.rakshasa.no/downloads/libtorrent-0.13.4.tar.gz
+http://pkgs.fedoraproject.org/repo/pkgs/libtorrent/libtorrent-0.13.4.tar.gz/e82f380a9d4b55b379e0e73339c73895/libtorrent-0.13.4.tar.gz
 
 [vars]
 filesize=768382

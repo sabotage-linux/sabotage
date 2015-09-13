@@ -1,5 +1,5 @@
 [mirrors]
-http://libtorrent.rakshasa.no/downloads/rtorrent-0.9.4.tar.gz
+http://pkgs.fedoraproject.org/repo/pkgs/rtorrent/rtorrent-0.9.4.tar.gz/fd9490a2ac67d0fa2a567c6267845876/rtorrent-0.9.4.tar.gz
 
 [vars]
 filesize=601913
