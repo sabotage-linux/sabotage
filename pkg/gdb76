@@ -34,7 +34,7 @@ patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 # fix mips build ...
 cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
 
-"$K"/bin/libibertyfix libiberty
+"$K"/libibertyfix libiberty
 # total madness: gdb uses libiberty *AND* gnulib
 "$K"/gnulibfix gdb/gnulib/import
 

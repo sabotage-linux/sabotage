@@ -39,7 +39,7 @@ sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
 
 
-$K/bin/libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 archflags=
 #[ "$A" = "arm" ] && archflags="--with-float=soft --enable-multilib --enable-interwork"

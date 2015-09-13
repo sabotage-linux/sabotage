@@ -12,7 +12,7 @@ stage0_musl
 [build]
 patch -p1 < "$K"/binutils-arm.patch
 
-"$K"/bin/libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
 machine=

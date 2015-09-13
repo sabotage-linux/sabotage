@@ -35,7 +35,7 @@ cd ..
 tar xf $C/gcc-g++-$VERSION.tar.bz2
 )
 
-libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 #more g++ hackery
 #sed -i 's,# include <syscall.h>,#include <sys/syscall.h>,' ./libstdc++-v3/libsupc++/guard.cc
