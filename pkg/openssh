@@ -28,6 +28,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --with-privsep-user=nobody \
   --with-xauth="$butch_prefix"/bin/xauth \
   --with-ldflags="$optldflags" \
+  --without-stackprotect \
   --with-md5-passwords --with-mantype=man --mandir="$butch_prefix"/share/man \
   --disable-strip --disable-lastlog --disable-utmp --disable-utmpx --disable-btmp \
   --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline $xconfflags
