@@ -89,7 +89,7 @@ if $butch_do_custom_destdir ; then
 	if $butch_do_cleanup_custom_destdir ; then
 		rm -rf "$butch_custom_destdir"
 		if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
-			"$K"/bin/butch-unlink "$butch_package_name"
+			"$K"/rootfs/bin/butch-unlink "$butch_package_name"
 			rm -f "$filelist"
 		fi
 	fi
@@ -226,7 +226,7 @@ if $have_files ; then
 
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into butch_prefix
-		"$K"/bin/butch-relocate "$butch_package_name"
+		"$K"/rootfs/bin/butch-relocate "$butch_package_name"
 	fi
 
 	if $butch_do_create_tarball ; then
