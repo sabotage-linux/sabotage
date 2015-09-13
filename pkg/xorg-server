@@ -49,7 +49,7 @@ cp "$K"/X "$dest"/
 
 xmoddest="${butch_prefix}${butch_install_dir}"/share/X11/xorg.conf.d
 mkdir -p "$xmoddest"
-cp "$K"/20-modules.conf "$xmoddest"/
+cp "$K"/c/20-modules.conf "$xmoddest"/
 
 # FIXME starting X as non-root needs suid bit on the "server"
 chmod +s "$dest"/Xfbdev

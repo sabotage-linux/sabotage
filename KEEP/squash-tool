@@ -361,7 +361,7 @@ mkinitramfs() {
     mknod -m 622 initramfs/dev/tty0 c 4 0
 
     cp -L "${src}"/bin/fsck* initramfs/bin
-    cp -L "${src}"/src/KEEP/initramfs.init initramfs/init
+    cp -L "${src}"/src/KEEP/c/initramfs.init initramfs/init
     cp -L -f "${src}"/etc/mdev.conf initramfs/etc/mdev.conf
     cp -L -f "${src}"/etc/passwd initramfs/etc/passwd
     cp -L -f "${src}"/etc/group initramfs/etc/group

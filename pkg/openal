@@ -85,5 +85,5 @@ make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/pkgconfig
-cp "$K"/openal.pc "$dest"/lib/pkgconfig/
+cp "$K"/c/openal.pc "$dest"/lib/pkgconfig/
 sed -i "s/@prefix@/""$butch_prefix""/" "$dest"/lib/pkgconfig/openal.pc

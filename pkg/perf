@@ -3,7 +3,7 @@ kernel-tarball
 libelf
 
 [build]
-LINUX_VER=$(cat "$K"/kernel.version)
+LINUX_VER=$(cat "$K"/c/kernel.version)
 
 rm -rf linux-"$LINUX_VER" || true
 tar xf "$C"/linux-"$LINUX_VER".tar.xz
