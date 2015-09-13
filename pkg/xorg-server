@@ -45,7 +45,7 @@ ln -s ../share/X11 "$dest"/etc/
 #copy our hacky X launcher script to /bin...
 dest="${butch_prefix}${butch_install_dir}"/bin
 mkdir -p "$dest"
-cp "$K"/X "$dest"/
+cp "$K"/c/X "$dest"/
 
 xmoddest="${butch_prefix}${butch_install_dir}"/share/X11/xorg.conf.d
 mkdir -p "$xmoddest"

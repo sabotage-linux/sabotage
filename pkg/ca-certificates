@@ -13,11 +13,11 @@ openssl
 openssl
 
 [build]
-$HOSTCC "$K"/c_rehash.c -o c_rehash -lssl -lcrypto
+$HOSTCC "$K"/c/c_rehash.c -o c_rehash -lssl -lcrypto
 export PATH=$PWD:"$PATH"
 mkdir -p "$butch_install_dir""$butch_prefix"/share/ca-certificates/mozilla
 patch -p1 < "$K"/ca-certificates.patch
-cp "$K"/certdata2pem.c mozilla/
+cp "$K"/c/certdata2pem.c mozilla/
 cat << EOF > mozilla/Makefile
 all: a.out
 	./a.out

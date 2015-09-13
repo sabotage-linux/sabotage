@@ -13,7 +13,7 @@ mkdir -p "$R"/src/tarballs
 linux32=
 if [ $(uname -m) = "x86_64" ] && [ "$A" = i386 ] ; then
 	[ -x ./linux32 ] && linux32=./linux32 || {
-		$CC KEEP/linux32.c -static -s -Os -o ./linux32 && linux32=./linux32 || \
+		$CC KEEP/c/linux32.c -static -s -Os -o ./linux32 && linux32=./linux32 || \
 		echo -ne "warning: trying to chroot into i386 rootfs on x86_64" \
 		         "kernel and building linux32 command failed\n"
 	}
@@ -22,7 +22,7 @@ fi
 if [ ! -z "$SUPER" ] ; then
 	CHROOT=./super_chroot
 	if [ ! -x "$CHROOT" ] ; then
-		if ! "$CC" "$K"/super_chroot.c -static -s -Os -o "$CHROOT" 2>/dev/null ; then
+		if ! "$CC" "$K"/c/super_chroot.c -static -s -Os -o "$CHROOT" 2>/dev/null ; then
 			echo "error: failed to build super_chroot!"
 			echo "try: musl-gcc KEEP/super_chroot.c -o super_chroot"
 			echo "or: unset SUPER and re-run ./enter-chroot as root."
