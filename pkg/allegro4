@@ -23,18 +23,26 @@ libpng
 
 [build]
 mkdir build && cd build
-printf '#!/bin/sh\n%sar "$@"\n' "$CROSS_COMPILE" > "$CROSS_COMPILE"ar
-printf '#!/bin/sh\n%sranlib "$@"\n' "$CROSS_COMPILE" > "$CROSS_COMPILE"ranlib
-chmod +x "$CROSS_COMPILE"ar "$CROSS_COMPILE"ranlib
-
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
 xconfflags=
-[ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
 
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX=$butch_prefix \
-  -DCMAKE_MAKE_PROGRAM=make \
-  -DCMAKE_AR="$CROSS_COMPILE"ar \
-  -DCMAKE_RANLIB="$CROSS_COMPILE"ranlib \
   -DMANDIR=share/man \
   -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -fno-strict-aliasing" \
   -DCMAKE_LD_FLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
