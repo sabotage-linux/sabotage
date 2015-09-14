@@ -8,15 +8,29 @@ tardir=tome2-e3bd0ad5-e3bd0ad51f89ade115ce5ff1f1c3f8687353e36d
 tarball=tome2-e3bd0ad5.tar.bz2
 
 [deps]
+sdl
+sdl-ttf
+sdl-image
 jansson
 ncurses
 
 [deps.host]
 cmake
-wget
 
 [build]
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-cmake -DCMAKE_INSTALL_PREFIX="$butch_prefix" -DSYSTEM_INSTALL:BOOL=true .
-make -j$MAKE_THREADS
+mkdir -p build && cd build
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DFREETYPE_INCLUDE_DIR_freetype2=$butch_root_dir$butch_prefix/include/freetype2 \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DSYSTEM_INSTALL:BOOL=true ..
+make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
