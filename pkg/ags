@@ -1,0 +1,26 @@
+[mirrors]
+https://github.com/adventuregamestudio/ags/releases/download/v.3.3.4.2/ags_linux_v.3.3.4.2.tar.xz
+
+[vars]
+filesize=821904
+sha512=88ee20d9278155b66aedfc82f2fc72741d4ebeacb507780cfee21a48fa04742234142494dc6f7e09f3d360621f1f75bc0e28e5549269b9b8510572de2567b573
+
+[mirrors]
+
+[deps]
+freetype
+allegro4
+dumb
+libtheora
+
+[build]
+mkdir -p bin
+printf "#!/bin/sh\necho -lalleg -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib\n" > bin/allegro-config
+chmod +x bin/allegro-config
+export PATH="$PWD/bin:$PATH"
+
+cd Engine
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+make V=1 -j$MAKE_THREADS
+install -Dm 755 ags "$butch_install_dir"$butch_prefix/bin/ags
