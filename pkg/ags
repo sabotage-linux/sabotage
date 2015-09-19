@@ -12,6 +12,7 @@ freetype
 allegro4
 dumb
 libtheora
+libstdc++
 
 [build]
 mkdir -p bin
