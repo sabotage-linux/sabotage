@@ -33,7 +33,8 @@ CPPFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE \
           -I$butch_root_dir$butch_prefix/include/pixman-1" \
 CFLAGS=" $optcflags" \
   ./configure -C --prefix="$butch_prefix" \
-    --enable-kdrive --enable-kdrive-evdev $xconfflags
+    --enable-kdrive --enable-kdrive-evdev $xconfflags \
+    --disable-xephyr
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
