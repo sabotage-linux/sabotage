@@ -10,11 +10,21 @@ dynamic-toolchain
 
 [deps]
 libsigc++
+libstdc++
 curl
 
 [build]
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-CXXFLAGS="$optcflags" \
-./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+align=yes
+[ "$A" = x86_64 ] || [ "$A" = i386 ] && align=no
+sed -i 's@-Wl,-syslibroot,@-Wl,-syslibroot=@' configure
+# remove execinfo.h test which breaks xcompile
+sed -i '18116,18150d' configure >/dev/null
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-aligned=$align --without-kqueue
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
