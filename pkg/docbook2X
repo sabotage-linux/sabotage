@@ -1,17 +1,33 @@
 [mirrors]
 http://downloads.sourceforge.net/docbook2x/docbook2X-0.8.8.tar.gz
+
 [vars]
 filesize=723909
 sha512=cc336017ad734fc62d96d289105e8ea154c418a03a37f3e21b0b3520063f8b466b4aae5a5aec2e0b83f6324c6c79b5557247a93338d0a9882a94a44112f6b65c
 
-[deps]
+[deps.host]
 iconv
 cpan-XML-SAX
 
-[build]
+[deps.run]
+perl
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix"
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  ac_cv_file__usr_local_share_java_resolver_jar=no \
+  ac_cv_file__usr_share_java_resolver_jar=no \
+  ac_cv_file__usr_share_java_xml_commons_resolver_1_1_jar=no \
+  ac_cv_file__usr_local_share_java_saxon_jar=no \
+  ac_cv_file__usr_share_java_saxon_jar=no \
+  ac_cv_file__usr_local_share_java_xalan_jar=no \
+  ac_cv_file__usr_share_java_xalan_jar=no \
+  ac_cv_file__usr_share_java_xalan2_jar=no
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
