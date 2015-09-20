@@ -25,6 +25,7 @@ sed -i '18116,18150d' configure >/dev/null
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --enable-aligned=$align --without-kqueue
+  --enable-aligned=$align --without-kqueue \
+  --disable-instrumentation
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
