@@ -46,6 +46,7 @@ dopatch "$K"/busybox-fdisk-sector-size.patch
 dopatch "$K"/busybox-ping.patch
 dopatch "$K"/busybox-ping2.patch
 dopatch "$K"/busybox-grep-x.patch
+dopatch "$K"/busybox-sort.patch
 
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
