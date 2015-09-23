@@ -17,19 +17,59 @@ x11-font-dejavu
 libxvmc
 alsa-lib
 mesalib
-yasm
 libpng
+
+[deps.host]
+yasm
 
 [build]
 patch -p1 < "$K"/mplayer-x11-libs.patch
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir"
+  xconfflags="--target="$A"-linux"
+
+test "$A"x = i386x -o "$A"x = x86_64x || xconfflags="$xconfflags \
+  --disable-mmx --disable-mmxext --disable-sse --disable-sse2 --disable-ssse3"
+test "$A"x = armx -o "$A"x = mipsx && \
+  xconfflags="$xconfflags --disable-runtime-cpudetection"
+
+# figure out arm cpu optimizations...
+[ "$A" = arm ] && {
+	gccv=$($CC -v 2>&1|grep "^Configured with: ")
+	for flag in --with-arch --with-fpu ; do
+		for arg in $gccv ; do
+			if printf "%s" "$arg" | grep "^$flag=" >/dev/null ; then
+			if [ "$flag" = "--with-arch" ] ; then
+				case $arg in
+					--with-arch=armv[67]*)
+						xconfflags="$xconfflags --enable-armv6t2" ;;
+					--with-arch=armv5*)
+						xconfflags="$xconfflags --enable-armv5te" ;;
+				esac
+			elif [ "$flag" = "--with-fpu" ] ; then
+				case $arg in
+					--with-fpu=vfpv3*)
+						xconfflags="$xconfflags --enable-vfpv3" ;;
+					--with-fpu=vfp*)
+						xconfflags="$xconfflags --enable-armvfp" ;;
+					--with-fpu=neon*)
+						xconfflags="$xconfflags --enable-neon" ;;
+				esac
+			fi
+			fi
+		done
+	done
+}
+
+printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
+chmod +x freetype-config
+printf "#!/bin/sh\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
+chmod +x sdl-config
+export PATH="$PWD:$PATH"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure --prefix="$butch_prefix" \
+./configure --prefix="$butch_prefix" \
 	--disable-gui \
 	--disable-gif \
 	--disable-arts \
@@ -47,7 +87,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 	--disable-mga \
 	--disable-lirc \
 	--enable-xvmc \
-	--disable-nemesi
-
+	--disable-nemesi $xconfflags
+echo "INSTALLSTRIP =" >> config.mak
+sed -i 's@strip@$(STRIP)@' Makefile
 make V=1 -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+make DESTDIR="$butch_install_dir" install STRIP=true
