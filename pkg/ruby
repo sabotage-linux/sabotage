@@ -25,6 +25,8 @@ patch -p1 < "$K"/ruby-libressl.patch
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C $xconfflags \
+  stack_protector=no \
+  --without-jemalloc \
   --prefix="$butch_prefix" \
   rb_cv_binary_elf=yes \
   --disable-install-doc
