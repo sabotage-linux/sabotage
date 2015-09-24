@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/mfontanini/dot11decrypt/archive/master.tar.gz
+
+[vars]
+filesize=40176
+sha512=96c4a9c820d75381183e62e8783f0038982b2c76c1ad53c826835bd20d171e51a53f3f0997164a9add82cb1cec6bd8ae3b8d7f421f870befcd1aa7fba2554b91
+tarball=dot11decrypt-00dd93e9.tar.gz
+tardir=dot11decrypt-master
+
+[deps]
+libtins
+libstdc++
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+install -Dm 755 dot11decrypt "$butch_install_dir""$butch_prefix"/bin/dot11decrypt
