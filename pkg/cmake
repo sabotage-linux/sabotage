@@ -5,10 +5,68 @@ http://www.cmake.org/files/v2.8/cmake-2.8.10.tar.gz
 filesize=5766728
 sha512=6c20056c08f24ddf76677badc5d2e77d1ab25877e2b7a71db413938b07308659ea62b6b866f61c1e54452710d8f59715e5d357e755d585fbc060b438e9728076
 
+[deps]
+bzip2
+curl
+expat
+zlib
+libarchive
+
 [deps.host]
 dynamic-toolchain
 
 [build]
-CFLAGS=-D_GNU_SOURCE ./configure --prefix="$butch_prefix"
+if [ -z "$CROSS_COMPILE" ] ; then
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+else
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+sed -i 's@macro(ADD_DOCS target dependency)@macro(ADD_DOCS target dependency)\nendmacro()\nmacro(ADD_FUCKS target dependency)@' ../Utilities/CMakeLists.txt || { echo sed err ; exit 1 ; }
+sed -i 's@^  COMMAND \${CMD}@  COMMAND true@' ../Utilities/CMakeLists.txt || { echo sed err ; exit 1 ; }
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_USE_SYSTEM_BZIP2=ON \
+  -DCMAKE_USE_SYSTEM_LIBARCHIVE=ON \
+  -DCMAKE_USE_SYSTEM_CURL=ON \
+  -DCMAKE_USE_SYSTEM_ZLIB=ON \
+  -DCMAKE_USE_SYSTEM_EXPAT=ON \
+  -DCTEST_TEST_CPACK=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+
+for i in 1 txt html docbook ; do
+touch Docs/cmake.$i Docs/cmakecommands.$i Docs/cmakecompat.$i \
+  Docs/cmakeprops.$i Docs/cmakepolicies.$i Docs/cmakevars.$i \
+  Docs/cmakemodules.$i Docs/cmake-policies.$i Docs/cmake-properties.$i \
+  Docs/cmake-variables.$i Docs/cmake-modules.$i Docs/cmake-commands.$i \
+  Docs/cmake-compatcommands.$i
+done
+
+sed -i 's@^[\t ]*bin/cmake@\tcmake@g' Makefile
+make DESTDIR="$butch_install_dir" install
+
+fi
