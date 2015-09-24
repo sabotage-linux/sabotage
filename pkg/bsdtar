@@ -1,26 +1,3 @@
 [deps]
-xz
-zlib
+libarchive
 
-[vars]
-filesize=1502828
-sha512=f4248f7b8d93e25e3223afe0c3b19467ab9071f9fd0a341dae0b6da028c13af46b768b95c2a86fba92dda93df5d1b410996978ea9e74f32d6d18a0afb68faa7f
-
-[mirrors]
-http://libarchive.googlecode.com/files/libarchive-2.8.4.tar.gz
-
-[build]
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir"
-
-CFLAGS="$optcflags -D_BSD_SOURCE" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
-    --with-pic \
-    --without-openssl \
-    --without-xml2 \
-    --without-expat \
-    --enable-shared --enable-static
-[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
