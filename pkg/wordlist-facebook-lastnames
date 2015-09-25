@@ -1,0 +1,11 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/facebook-lastnames.txt.bz2
+
+[vars]
+filesize=21176444
+sha512=12f2528b9a5bd440fec7dce5d9990cf9b704ed50f345c002d101f616c092eaf9b1b01304c8d2d8fb61c508d330da888184bd503787ae3645c96fce35f785db42
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/facebook-lastnames.txt

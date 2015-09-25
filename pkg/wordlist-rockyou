@@ -1,0 +1,11 @@
+[mirrors]
+https://downloads.skullsecurity.org/passwords/rockyou.txt.bz2
+
+[vars]
+filesize=60498886
+sha512=b7f74d3118bdb3703c5b546b56d98f20f59d4b1819918bdd7d0fb850feae7587268a00ab043e5bcff6f3e41588e8ad0891a9b926b8d7377f97a3daef92188fda
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/rockyou.txt
