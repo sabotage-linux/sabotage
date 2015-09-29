@@ -4,6 +4,7 @@ http://www.midnight-commander.org/downloads/mc-4.8.1.7.tar.xz
 [vars]
 filesize=2049316
 sha512=48fb6f010c61bac1b0af82713a6951032298e152cd51756a2442fdd1b1a54937545399725b66f6f20905223c0a756507ac6ff10d935209741f59bb518f41240e
+desc='midnight commander - terminal file manager (norton commander clone)'
 
 [deps]
 ncurses

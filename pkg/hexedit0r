@@ -6,6 +6,7 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/hexedit0r-1.0.tar.xz
 [vars]
 filesize=20592
 sha512=53593ace3da9043a3767ce2f8b92533400f453be6702c4712b9d952b130e2072b86f8b5a85e21d78dc90b2b1041fd85e65761f6175d00c920c1bd55c84b2f499
+desc='terminal hex editor, fork of hexedit'
 
 [deps]
 ncurses

@@ -6,6 +6,7 @@ http://www.mirrorservice.org/sites/ftp.kernel.org/pub/linux/utils/cryptsetup/v1.
 [vars]
 filesize=1188876
 sha512=d6cecd2f3f5d468d4337d4e8407c8c3315e8972c0fc72cd1f93fb67f02a632b56ad293f08f6682f24c9ad0b5ad5967be751e5679413109692ade5823aafd1d19
+desc='required component to use encrypted filesystems'
 
 [deps]
 libuuid

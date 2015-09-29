@@ -5,6 +5,7 @@ http://mirror.hackthissite.org/tor/tor-0.2.6.8.tar.gz
 [vars]
 filesize=3580783
 sha512=905904dd6334d3677f50ff4b810e1545f123d521f357276e401e07b8400702fc2b61cc78d4df14640c32f91e957660741633908c47a3635a5071f52d0d660177
+desc='onion router for anonymization of internet traffic'
 
 [deps]
 openssl

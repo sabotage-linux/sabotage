@@ -7,6 +7,7 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/git-manpages-1.8.4.tar.xz
 [vars]
 filesize=350096
 sha512=9ede2b8ee9b9589b314ae6e5c205a749bc19b686714dd02ccab3221f1d652e7212894c2f0fd6a564925cffe9f0778410469a395bd63292e82f3962fe18e8a521
+desc='manpages for git'
 
 [deps]
 man

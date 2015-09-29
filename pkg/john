@@ -6,6 +6,7 @@ filesize=32760152
 sha512=146d3f8ec9304357938ec3a447221828fb52fb4d5045082f0559e7220f689ea87c6ef9c0ae4ccd386f7bc2db6290fbf708f4c04e4437b37921410c1eb4c47ac4
 tarball=JohnTheRipper-1.8.0.6-jumbo-1.tar.gz
 tardir=JohnTheRipper-1.8.0.6-jumbo-1
+desc='password hash cracker'
 
 [deps]
 openssl

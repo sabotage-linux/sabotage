@@ -4,6 +4,7 @@ http://www.yassl.com/altpkg/wolfssl-3.4.6.tar.xz
 [vars]
 filesize=951728
 sha512=18bda7d9e2c01347076e4e718cc41b7dcfb07a22d404d221508b028f1a2afee0f986b211cd385a792a9648a7dabbdf5ecad5ca3570ca2aaa9432645aa87801c3
+desc='lightweight SSL/TLS library with partial openssl compatibility layer'
 
 [deps]
 

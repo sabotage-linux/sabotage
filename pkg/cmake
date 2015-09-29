@@ -4,6 +4,7 @@ http://www.cmake.org/files/v2.8/cmake-2.8.10.tar.gz
 [vars]
 filesize=5766728
 sha512=6c20056c08f24ddf76677badc5d2e77d1ab25877e2b7a71db413938b07308659ea62b6b866f61c1e54452710d8f59715e5d357e755d585fbc060b438e9728076
+desc='immensely bloated build tool mostly used by windows and C++ folks'
 
 [deps]
 bzip2

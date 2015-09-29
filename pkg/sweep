@@ -6,6 +6,7 @@ http://switch.dl.sourceforge.net/project/sweep/sweep/0.9.3/sweep-0.9.3.tar.bz2
 [vars]
 filesize=946060
 sha512=6c3fce80152f7b17cb130e05a2597efedd10c081dd2c98912a12375b838efdc50f0c980a457ce04ff1b68e40c81774dd06398ec56756efed8de32432ee0c88cc
+desc='GTK+ audio waveform editor. supports multiple formats and filters.'
 
 [deps]
 alsa-lib

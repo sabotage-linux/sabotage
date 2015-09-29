@@ -8,6 +8,7 @@ ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
 filesize=9843297
 sha512=65d55da556ee283a364b376d251b70e430b7a157bb5a8ee89565060ff9937907966d416cffd33f701b3314d0fdf16efe00065f66bc8459469f5ae2f713418e0e
 tardir=vim74
+desc='a terminal-based text editor with a gazillion of features'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

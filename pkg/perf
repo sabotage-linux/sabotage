@@ -1,3 +1,6 @@
+[vars]
+desc='profiling tool using instrumentation facilities provided by the kernel'
+
 [deps]
 kernel-tarball
 libelf

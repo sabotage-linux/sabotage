@@ -5,3 +5,6 @@ git
 tcl
 tk
 
+[vars]
+desc='graphical frontend to browse git repositories'
+

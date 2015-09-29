@@ -4,6 +4,7 @@ http://download.aircrack-ng.org/aircrack-ng-1.2-rc1.tar.gz
 [vars]
 filesize=2046476
 sha512=897427c535846c0ede58b2f99ed469bc01f50f9b38fc70d5711261fca7342339192cc0c71a724fc04c99114db7534d825a44f09e7bc5754286ec44933a33e40d
+desc='cracking/monitoring/security assessment tool for wireless networks'
 
 [deps]
 libpcap

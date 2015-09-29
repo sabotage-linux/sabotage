@@ -1,8 +1,10 @@
 [mirrors]
 http://downloads.sourceforge.net/project/scons/scons/2.3.0/scons-2.3.0.tar.gz
+
 [vars]
 filesize=599514
 sha512=a7e88bb70b8b269337689fb4afd9563359f6ace37857bbd9824c9e40e43cac8b1e00468d8652bb9b46e410f6b161cb8c9006dd1fd9265756be153846a5e0fd65
+desc='build system written in python'
 
 [deps]
 python

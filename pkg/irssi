@@ -1,8 +1,10 @@
 [mirrors]
 http://www.irssi.org/files/irssi-0.8.15.tar.bz2
+
 [vars]
 filesize=948847
 sha512=cecda925ae7c422fd95e8e94a123be8732a59a3a3c5d149b2fe16e1cac78cc516acb7a89ad79cf4ac0c412c9d4d3ea83fe5c0535ab6428e98479dc8909d0615a
+desc='console IRC client'
 
 [deps.host]
 perl

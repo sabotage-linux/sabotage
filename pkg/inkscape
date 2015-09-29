@@ -6,6 +6,7 @@ http://heanet.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.
 [vars]
 filesize=19712522
 sha512=55954925e74e2c222e7ddb86bf75e9ad17c854d991258fd3a1bf1b2aafe7014418138246a51f9ab9c4444795b03419781517910debd3448ae461f1dd1b5848be
+desc='vector graphic manipulation program'
 
 [deps]
 poppler

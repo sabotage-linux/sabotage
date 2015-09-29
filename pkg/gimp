@@ -4,6 +4,7 @@ http://download.gimp.org/pub/gimp/v2.8/gimp-2.8.14.tar.bz2
 [vars]
 sha512=533f6b931624d36525cb2f3fbc27fe27565d761bbe26873bb5445c06c01523c044d1814363a8cd76b6e381440db4c6e302b0d3f7a9e5aac7f60072770552f1ba
 filesize=20440077
+desc='GNOME image manipulation program'
 
 [deps]
 babl

@@ -9,6 +9,7 @@ http://ftp.barfooze.de/pub/sabotage/tarballs/pkgconf-0.8.9.tar.bz2
 [vars]
 filesize=80211
 sha512=3acb571412dedc2587203ed05537ce3adbaa64f2fab4f561da9824917c15e2ea771db7525f9a026261086f4ae196c3a5183e1bb3d33e14fdd779fbe74e6215c3
+desc='lightweight drop-in replacement for pkg-config'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"

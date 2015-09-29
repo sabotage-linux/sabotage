@@ -7,7 +7,7 @@ http://downloads.sourceforge.net/project/strace/strace/4.8/strace-4.8.tar.xz
 [vars]
 filesize=441712
 sha512=c3316382f60cd4d02eec1eef46a0ef2d000afbccf2c176a6fec652e1b3391685f0e33f184497cb3ccf54d72d460471a4945d3a864fb5bce1f45f32fdf132cfe3
-
+desc='display system calls (and parameters) of arbitrary programs for debugging'
 
 [build]
 patch -p1 < "$K"/strace-musl.patch

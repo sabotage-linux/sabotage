@@ -1,6 +1,7 @@
 [vars]
 filesize=11202492
 sha512=06371d47b02caec83c7662f6bb4a827eafb7f3309f6cda959a0f49b647df031166a6e7c5d530b57b580104289ee260aa96f3f43cbfffcef816cea776b0d5aed0
+desc='media player with support for most audio/video formats'
 
 [mirrors]
 http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.1.1.tar.xz
