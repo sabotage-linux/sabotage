@@ -1,0 +1,28 @@
+[mirrors]
+http://www.harding.motd.ca/autossh/autossh-1.4e.tgz
+
+[vars]
+filesize=65852
+sha512=2f71403ee005103c6a3e2e669f6b26153161c95c8dacd3e73d61673461b3512348636877760d911341771e744c0a682b107df4ac48621661ff36a9fc0191f2fb
+desc="automatically restarts ssh connections"
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 autossh "$dest"/bin/autossh
+install -Dm 644 autossh.1 "$dest"/share/man/man1/autossh.1
+
