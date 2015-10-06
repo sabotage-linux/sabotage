@@ -1,0 +1,19 @@
+[vars]
+filesize=9617
+sha512=75f411ff289a30a686ac9d14aab2171d08eef1597b4810bd45b07336273b81a5efe4c8d4fe9a217fb2d063911af001a1f397b64ccad4c65f01f31e2766997b8a
+tardir=smu-1.4
+
+[mirrors]
+http://github.com/Gottox/smu/archive/v1.4.tar.gz
+
+[deps]
+
+[build]
+patch -p1 < "$K"/smu.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
