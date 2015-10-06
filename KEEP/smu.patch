@@ -1,0 +1,11 @@
+--- a/config.mk
++++ b/config.mk
+@@ -2,7 +2,7 @@
+ VERSION = 1.4
+ 
+ # paths
+-PREFIX = /usr/local
++PREFIX = /
+ MANPREFIX = ${PREFIX}/share/man
+ 
+ # includes and libs
