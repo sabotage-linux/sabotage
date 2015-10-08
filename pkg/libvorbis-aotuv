@@ -1,0 +1,26 @@
+[mirrors]
+http://www.geocities.jp/aoyoume/aotuv/source_code/libvorbis-aotuv_b6.03_2015.tar.bz2
+
+[vars]
+filesize=1398388
+sha512=f87e494aad030e1e91a2a49b64c24384af7c5a3e768432859c5b72c4e2b0564fcea3d0787eed61278a99e9624dcc49cfec589d9446bfaec3b88c22040a820a05
+tardir=aotuv-b6.03_20110424-20150808
+
+[deps]
+libogg
+
+[build]
+chmod +x ./configure
+chmod +x ./install-sh
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
