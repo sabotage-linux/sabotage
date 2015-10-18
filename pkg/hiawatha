@@ -1,9 +1,9 @@
 [mirrors]
-https://www.hiawatha-webserver.org/files/hiawatha-9.14.tar.gz
+https://www.hiawatha-webserver.org/files/hiawatha-9.15.tar.gz
 
 [vars]
-filesize=891930
-sha512=66ad77c132d34daa5eb597ce67d7b26581c59534e5cf83dd65f78567a9a1798030cd42fef2d612bd1935243db979a2ef1df873f01b0d0a009395ef3da1dca6e6
+filesize=869922
+sha512=e5f0459475863c7cb2d15bdf2a9712f13c96ac450f349fd89e60fd600aad9010f25182aa6353a3014069a9798544a56ef79695918613946b63fecd3806b1982b
 
 [deps.host]
 cmake
@@ -23,7 +23,7 @@ mbedtls
 
 CFLAGS="-static" cmake \
 	-DENABLE_CACHE=OFF \
-	-DENABLE_RPROXY=OFF \
+	-DENABLE_RPROXY=ON \
 	-DENABLE_TOOLKIT=OFF \
 	-DENABLE_XSLT=OFF \
 	-DUSE_SYSTEM_MBEDTLS=ON \
@@ -37,10 +37,6 @@ CFLAGS="-static" cmake \
 	-DLOG_DIR="$butch_prefix/var/log/hiawatha" \
 	-DPID_DIR="$butch_prefix/var/run/hiawatha" \
 	-DWEBROOT_DIR="$butch_prefix/var/www" \
-
-# hack that adds missing statically linked mbedtls libraries
-# thread: https://www.hiawatha-webserver.org/forum/topic/2010
-sed -i 's/-lmbedtls/-lmbedtls -lmbedcrypto -lmbedx509/' CMakeFiles/*/link.txt
 
 make V=1 -j$MAKE_THREADS
 
