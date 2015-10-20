@@ -1,0 +1,19 @@
+[mirrors]
+http://prdownloads.sourceforge.net/bcl/bcl-1.2.0.tar.bz2
+
+[vars]
+filesize=91649
+sha512=bf1dac4acfe7b26656f193aa518d32e15815bb6ff0cc6e69719d73d48e692bb81b8233ee9314a6e7188ca3c4cbb852408eace3e3f423f7f9a8cb54da032ad634
+desc="basic compression library. readable, small and easy to use compression"
+
+[deps]
+
+[build]
+cd src
+make CC="$CC" CFLAGS="$optcflags -c" MKLIB="$CROSS_COMPILE"ar LFLAGS="$optldflags" \
+  -j$MAKE_THREADS
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 libbcl.a "$dest"/lib/libbcl.a
+for i in bfc.exe bcltest.exe ; do
+install -Dm 755 "$i" "$dest"/bin/"$i"
+done
