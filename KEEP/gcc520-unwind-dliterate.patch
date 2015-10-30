@@ -1,0 +1,14 @@
+diff -r 9c90643665ae libgcc/unwind-dw2-fde-dip.c
+--- a/libgcc/unwind-dw2-fde-dip.c	Sun Jul 26 15:46:13 2015 -0400
++++ b/libgcc/unwind-dw2-fde-dip.c	Sun Jul 26 15:46:15 2015 -0400
+@@ -46,6 +46,10 @@
+ #include "unwind-compat.h"
+ #include "gthr.h"
+ 
++#if !defined(inhibit_libc) && defined(HAVE_LD_EH_FRAME_HDR) && defined(TARGET_DL_ITERATE_PHDR)
++# define USE_PT_GNU_EH_FRAME
++#endif
++
+ #if !defined(inhibit_libc) && defined(HAVE_LD_EH_FRAME_HDR) \
+     && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ > 2) \
+ 	|| (__GLIBC__ == 2 && __GLIBC_MINOR__ == 2 && defined(DT_CONFIG)))
