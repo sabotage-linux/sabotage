@@ -1,9 +1,9 @@
 [mirrors]
-http://repo.hu/projects/yget/releases/yget-2.7.1.tar.gz
+http://repo.hu/projects/yget/releases/yget-2.8.0.tar.gz
 
 [vars]
-filesize=8173
-sha512=147c4c26604d136c1d05477e95270db5c0e320f342a1cf9818930cc0b6423983cb7403186815c7437708b29144d01ab41ae7714035ba4322d92f3fe4a4643944
+filesize=8745
+sha512=9740617f315f7dcb60d3e649b5d056d25c918409dbbe2780cb3688632e46acebd4f0843c0e3c2f0708651de7859dfabf8815e4fdcb88a9a49b0552f9f3e04375
 desc='download or view youtube videos'
 
 [deps]
