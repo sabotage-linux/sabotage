@@ -55,7 +55,7 @@ cleanup() {
 	[ -e "$tmp" ] && { cat $tmp ; rm $tmp ; }
 }
 
-FALLBACK_MIRROR=http://sabotage-tarballs.deadlytowers.org
+FALLBACK_MIRROR=http://tar.sabotage.tech
 FALLBACK=$FALLBACK_MIRROR/%BUTCH_PACKAGE_NAME/$tarball
 echo "in case the download process was killed, see $tmp for wget/curl output"
 for url in %BUTCH_MIRROR_URLS $FALLBACK ; do
