@@ -44,6 +44,7 @@ mirrors:	print all mirror urls of the spec. package
 download:	==prefetch
 rebuild:	unlink, download, rebuild, relocate package(s), but not their dependencies
 checktarballs:	check if filesize of tarballs (if existent) matches packages
+users:		print all users of a package (i.e. pkgs that have it in the deps section)
 
 all download related actions are only done when needed, i.e. the tarball is missing.
 
@@ -70,6 +71,7 @@ case $1 in
 	print) shift; prog=butch-print;;
 	printsec) shift; prog=butch-printsec;;
 	mirrors) shift; prog=butch-mirrors;;
+	users) shift; prog=butch-users;;
 	checktarballs) shift; prog=butch-checktarballs;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /

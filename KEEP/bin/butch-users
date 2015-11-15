@@ -1,0 +1,34 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo "error: S is not set, did you source config?"
+	exit 1
+fi
+pkgdir="$S"/pkg
+if [ ! -d "$pkgdir" ] ; then
+	echo "error: cannot find pkg dir $pkgdir"
+	exit 1
+fi
+search_pkg="$1"
+[ -z "$search_pkg" ] && {
+	echo "error: need package name"
+	exit 1
+}
+get_section() { #section, filename
+  awk -v s="$1" '{if($1~/^\[/){if($1=="[" s "]")i=1;else if(i==1)exit;}else{if(i==1)print $0}}' "$2"
+}
+
+[ -z "$DEPS" ] && DEPS=build:host:run
+for fn in `find "$pkgdir"/` ; do
+	[ -d "$fn" ] && continue
+	pkg=$(basename "$fn")
+	for i in 1 2 3 ; do
+		sec=deps.$(printf "%s" "$DEPS" | cut -d : -f $i)
+		[ "$sec" = "deps." ] && continue
+		[ "$sec" = "deps.build" ] && sec=deps
+		get_section "$sec" "$fn" | grep "$search_pkg">/dev/null && {
+#		butch printsec "$pkg" "$sec" | grep "$search_pkg">/dev/null && {
+			printf "%s\n" "$pkg"
+			break
+		}
+	done
+done
