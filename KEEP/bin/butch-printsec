@@ -25,7 +25,9 @@ while read n ; do
 		[ "$sec" != build ] && printf "%s" "$n" | grep "^\[" >/dev/null \
 		&& break
 		[ "$sec" != build ] \
-		&& [ $(printf "%s" "$n" | wc -c) = 0 ] && break
+		&& test "x$n" = x && break
+#		[ "$sec" != build ] \
+#		&& [ $(printf "%s" "$n" | wc -c) = 0 ] && break
 		printf "%s\n" "$n"
 	fi
 done < "$fl"
