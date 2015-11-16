@@ -16,7 +16,6 @@ http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.99.916
 patch -p1 < "$K"/xf86-video-intel-dri2.patch
 ./configure -C --prefix="$butch_prefix" \
   --enable-xvmc \
-  --enable-dri2 \
   --disable-selective-werror
 
 #  --enable-glamor \
