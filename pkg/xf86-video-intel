@@ -2,6 +2,8 @@
 xproto
 libx11
 xorg-server
+libxvmc
+xcb-util
 
 [vars]
 filesize=2241651
