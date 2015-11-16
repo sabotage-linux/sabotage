@@ -1,0 +1,35 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config ?'
+	exit 1
+fi
+pkg=$1
+if [ -z "$pkg" ] ; then
+	echo 'need package name as argv!'
+	exit 1
+fi
+
+[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+fl="$butch_filelists"/"$pkg".txt
+if [ ! -e "$fl" ] ; then
+	echo "filelist $fl does not exist, probably the program is not installed"
+	exit 1
+fi
+tmpf=$(mktemp)
+getsha() {
+	local foo=$(sha512sum "$1")
+	[ "$?" != 0 ] && return 1
+	printf "%s" "$foo" | cut -d " " -f 1
+}
+for f in `cat "$fl" | sort` ; do
+	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
+	[ "$R" = "/" ] || fs="$R""$fs"
+	butch_install_dir=/opt/"$pkg"
+	sha=$(getsha "$butch_install_dir""$fs") || {
+		rm "$tmpf"
+		exit 1
+	}
+	printf "%s %s\n" "$sha" "$fs" >> "$tmpf"
+done
+getsha "$tmpf"
+rm "$tmpf"
