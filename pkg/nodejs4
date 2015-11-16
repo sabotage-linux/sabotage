@@ -1,21 +1,25 @@
 [mirrors]
-http://nodejs.org/dist/v0.12.4/node-v0.12.4.tar.gz
+http://nodejs.org/dist/v4.2.2/node-v4.2.2.tar.xz
 
 [vars]
-filesize=19642076
-sha512=4d811a8f15068d2eea7e60a00c2803eb8ca8fd25b61ebf19aafc57be170abd75862d361ab9660e2be744efe66c69590b1a0a6b2bf8e3e72bb8d012c776262061
+filesize=12791572
+sha512=fe6563ca641581afa4ba7fda1b25175eae474aeb196504cd82a6486bf9dfe6c753c554b31d9aa3b6453c509aa792615e897343de69a0b8bfd26759efaea2e1cb
 
 [deps.host]
 dynamic-toolchain
 python
 
 [build]
-# NOTE: node.js 0.12 is not maintained anymore upstream, but it is the
-# last version that builds with GCC 4.7.
+# Better fail here, than in the middle of the build!
+if ! (gcc --version | grep -q -E '((4\.[8-9])|([5-9]\.[0-9]+))\.'); then
+	echo "ERROR: GCC 4.8 or higher required!"
+	exit 1
+fi
 
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
 patch -p1 < "$K"/nodejs-prefix.patch
+
 
 CFLAGS="-D_GNU_SOURCE" CXXFLAGS=-D_GNU_SOURCE ./configure --prefix="$butch_prefix"
 
