@@ -47,6 +47,9 @@ make -j$MAKE_THREADS
 make DESTDIR=$butch_install_dir install-gas install-ld install-binutils
 
 dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/bfd-plugins
+ln -sf "$butch_prefix"/lib/bfd-plugins/liblto_plugin.so \
+       "$dest"/lib/bfd-plugins/liblto_plugin.so
 rm -f "$dest"/bin/ld
 if [ x$A = xpowerpc ] ; then
 	cat << EOF > "$dest"/bin/ld
