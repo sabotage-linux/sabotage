@@ -129,6 +129,7 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
   --disable-debug \
   --disable-bootstrap \
   --disable-libsanitizer \
+  --disable-gnu-indirect-function \
   --enable-lto \
   --with-system-zlib \
   --with-target-libiberty=no --with-target-zlib=no \
