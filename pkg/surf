@@ -1,0 +1,33 @@
+[vars]
+filesize=14781
+sha512=f3550535351e37296280d33d229998e1f00aa605d0dab4a58944cf213721e823a1cfd9134b7bca2a4d61e265122a30d5dc917a290163ed8af2b24cd75d41a100
+
+[mirrors]
+http://dl.suckless.org/surf/surf-0.6.tar.gz
+
+[deps]
+glib
+gtk+2
+webkitgtk1
+cairo
+pango
+
+[build]
+make \
+ PREFIX="$butch_prefix" \
+ CFLAGS="$optcflags -D_GNU_SOURCE -std=c99 \
+   `pkg-config --cflags gtk+-2.0` \
+   `pkg-config --cflags glib-2.0` \
+   `pkg-config --cflags pango` \
+   `pkg-config --cflags webkit-1.0` \
+   `pkg-config --cflags cairo` \
+   -DVERSION=\\\"0.4.1\\\" -D_BSD_SOURCE -D_XOPEN_SOURCE=600" \
+ LDFLAGS="$optldflags -lX11 -lXext -lXft -lfontconfig -lfreetype \
+   `pkg-config --libs gtk+-2.0` \
+   `pkg-config --libs glib-2.0` \
+   `pkg-config --libs pango` \
+   `pkg-config --libs webkit-1.0` \
+   `pkg-config --libs cairo`" \
+ PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  -j$MAKE_THREADS all install
+#make DESTDIR="$butch_install_dir" install
