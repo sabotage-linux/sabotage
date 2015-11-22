@@ -159,6 +159,13 @@ dest=$butch_install_dir$butch_prefix
 #remove gcc's stddef.h which is not compatible
 rm $dest/lib/gcc/$machine/$VERSION/include/stddef.h
 
+#link liblto_plugin.so in place
+[ -e "$dest"/libexec/gcc/$machine/$VERSION/liblto_plugin.so ] && {
+mkdir -p "$dest"/lib/bfd-plugins
+ln -sf ../../libexec/gcc/$machine/$VERSION/liblto_plugin.so \
+   "$dest"/lib/bfd-plugins/liblto_plugin.so
+}
+
 #remove gcc's libssp.* (we only need libssp_nonshared.a)
 rm "$dest"/lib/libssp.*
 
