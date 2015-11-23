@@ -16,7 +16,9 @@ patch -p1 < "$K"/audacity-timeb.patch
 patch -p1 < "$K"/audacity-filedialog-segfault.patch
 patch -p1 < "$K"/audacity-format.patch
 
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+PKG_CONFIG_PATH="$butch_root_dir""$butch_prefix"/lib/pkgconfig \
+CFLAGS="-D_GNU_SOURCE -std=gnu89" \
+./configure -C --prefix="$butch_prefix" \
   --disable-sse \
   --with-ffmpeg=no
 # audacity does weird things with msgfmt & xgettext
