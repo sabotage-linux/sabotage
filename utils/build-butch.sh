@@ -2,9 +2,9 @@
 # use: sourced from a script
 # returns $BUTCH_BIN, pointing to the newly built butch binary
  
-filesize='54611'
-sha512='d5704852504f722c7f610f5e24a96315b0608e91ccdc8b8bd911e4344f1faca6bd8ed0e432fa32ecc8f307083dbcf9f56da0df1d19710719a2d54221d6e94794'
-version=0.6.0
+filesize='42849'
+sha512='412cb47d14e7d9d50924b4fc66ab8ca15b583911ee710744381a76e3c166de86d04697007e68e2ed9fd2bfb9128fb813e0dd8f97dc65869e63779ee05518affc'
+version=0.6.1
 
 filename="$C"/butch-$version.tar.bz2
 
@@ -71,10 +71,6 @@ if [ -z "$BUTCH_BIN" ] ; then
 			exit 1
 	fi
 
-	# if on arm or mips, we only use one build thread to not exhaust memory
-	[ "$A" = "arm" ] || [ "$A" = "mips" ] && sed -i \
-	  's@#define NUM_BUILD_THREADS 2@#define NUM_BUILD_THREADS 1@' butch/butch.c
-
-	MAKEFLAGS=-j$MAKE_THREADS ./build.sh 1>/dev/null 2>/dev/null
-	BUTCH_BIN="$S/build/butch-$version/butch-$version/butch/butch"
+	make -j$MAKE_THREADS 1>/dev/null 2>/dev/null
+	BUTCH_BIN="$S/build/butch-$version/butch-$version/butch"
 fi
