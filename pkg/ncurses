@@ -9,6 +9,7 @@ http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
 
 [build]
 patch -p1 < "$K"/ncurses-cross-include.patch
+patch -p1 < "$K"/ncurses-gcc5.patch
 # prevent pulling in the hosts termcap.h which may conflict - plus it doesn't
 # define everything ncurses expects from its own termcap.h
 ln -s termcap.h include/termcap_internal.h
