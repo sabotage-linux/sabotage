@@ -30,6 +30,6 @@ LDFLAGS="$optldflags" \
   --disable-canusb \
   ac_cv_type_u_int64_t=yes $xconfflags
 sed -i 's@-lnl-genl@-lnl-tiny@' Makefile
-make -j$MAKE_THREADS AR="$CROSS_COMPILE"gcc-ar RANLIB="$CROSS_COMPILE"gcc-ranlib
-make DESTDIR="$butch_install_dir" AR="$CROSS_COMPILE"gcc-ar \
-     RANLIB="$CROSS_COMPILE"gcc-ranlib install
+make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib
+make DESTDIR="$butch_install_dir" AR="$CROSS_COMPILE"ar \
+     RANLIB="$CROSS_COMPILE"ranlib install
