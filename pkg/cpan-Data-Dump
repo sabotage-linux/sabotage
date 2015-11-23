@@ -1,9 +1,9 @@
 [mirrors]
-http://www.cpan.org/authors/id/G/GA/GAAS/Data-Dump-1.22.tar.gz
+http://www.cpan.org/authors/id/G/GA/GAAS/Data-Dump-1.23.tar.gz
 
 [vars]
-filesize=20621
-sha512=b4d8d493b0b1707d3d33058d90663f55f335933ea57ac36ab99b4d1ffd1c932d21b161778cfdf622a94ce5ca40a943bca0efc1baf25e1db12f34a54741eef149
+filesize=20771
+sha512=6fd6c23bb6df7f7396219149dbfd23132fc2ea1dd344c32f62fc27a1afeeb28d7ebf2d429184bb6d1189f412e218f9e62a966b49fdd9ad5564e5152d67a02b96
 
 [deps]
 perl
