@@ -15,10 +15,10 @@ http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.99.916
 [build]
 patch -p1 < "$K"/xf86-video-intel-dri2.patch
 ./configure -C --prefix="$butch_prefix" \
-  --enable-kms-only \
-  --disable-dir3 \
+  --enable-xvmc \
+  --enable-dri2 \
   --disable-selective-werror
-
+      
 #  --enable-glamor \
 
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
