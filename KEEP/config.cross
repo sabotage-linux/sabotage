@@ -56,6 +56,6 @@ export HOSTCC=gcc
 
 export STAGE=1
 export PKG_CONFIG_SYSROOT_DIR=$R
-export PKG_CONFIG_PATH=$R/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$R/lib/pkgconfig
 # do not build host/runtime deps
 export DEPS=build
