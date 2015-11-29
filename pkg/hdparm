@@ -1,0 +1,16 @@
+[vars]
+filesize=130277
+sha512=5b8908a762d892c403406da4798202bed95f035396e3c49f04da910fa53a6b442a7d7c9cb1e5d786d7c8c5a1b681c8d1db10f1bd8dad09600a6f3811fbf8afb7
+
+[mirrors]
+http://downloads.sourceforge.net/hdparm/hdparm-9.48.tar.gz
+
+[deps]
+kernel
+
+[build]
+make \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags" \
+  -j$MAKE_THREADS
+make binprefix="$butch_prefix" DESTDIR="$butch_install_dir" install
