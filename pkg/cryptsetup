@@ -1,4 +1,5 @@
 [mirrors]
+http://cdn.kernel.org/pub/linux/utils/cryptsetup/v1.6/cryptsetup-1.6.7.tar.xz
 https://www.kernel.org/pub/linux/utils/cryptsetup/v1.6/cryptsetup-1.6.7.tar.xz
 http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/cryptsetup/v1.6/cryptsetup-1.6.7.tar.xz
 http://www.mirrorservice.org/sites/ftp.kernel.org/pub/linux/utils/cryptsetup/v1.6/cryptsetup-1.6.7.tar.xz

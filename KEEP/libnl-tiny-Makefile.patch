@@ -1,0 +1,24 @@
+diff --git a/Makefile b/Makefile
+index 9359585..0e1a11b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -3,6 +3,8 @@ libdir=$(prefix)/lib
+ includedir=$(prefix)/include
+ 
+ CC=gcc
++AR=ar
++RANLIB=ranlib
+ WFLAGS=-Wall
+ CFLAGS?=-O2
+ INCLUDES=-Iinclude
+@@ -40,8 +42,8 @@ $(SHAREDLIB): $(OBJS)
+ 
+ $(STATICLIB): $(OBJS)
+ 	rm -f $@
+-	ar rc $@ $^
+-	ranlib $@
++	$(AR) rc $@ $^
++	$(RANLIB) $@
+ 
+ $(PCFILE): $(PCFILE).in
+ 	sed s,@prefix@,$(prefix),g $< > $@

@@ -26,20 +26,30 @@ config_arch_flags=
 if [ "$A" = "powerpc" ] ; then
         config_arch_flags="--enable-secureplt"
 fi
-
-LDFLAGS="-Wl,-static $optldflags" \
-CC="$CC -static" \
+static_ldflags=-Wl,-static
+static_ccflags=-static
+config_lto_flags=
+if [ "$BINUTILS_DYNAMIC" = 1 ] ; then
+	static_ldflags=
+	static_ccflags=
+	config_lto_flags=--enable-lto
+fi
+LDFLAGS="$static_ldflags $optldflags" \
+CC="$CC $static_ccflags" \
 CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --disable-werror \
   --enable-initfini-array \
-  --disable-install-libbfd $config_arch_flags
+  --disable-install-libbfd $config_arch_flags $config_lto_flags
 
 make -j$MAKE_THREADS
 # tooldir=/
 make DESTDIR=$butch_install_dir install-gas install-ld install-binutils
 
 dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/bfd-plugins
+ln -sf "$butch_prefix"/lib/bfd-plugins/liblto_plugin.so \
+       "$dest"/lib/bfd-plugins/liblto_plugin.so
 rm -f "$dest"/bin/ld
 if [ x$A = xpowerpc ] ; then
 	cat << EOF > "$dest"/bin/ld

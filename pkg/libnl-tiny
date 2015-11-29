@@ -10,6 +10,8 @@ sha512=bd2114d20daf246b4d4ed5aa8c62122e73bfa076f3c4298179506ddb09d52626d3cbd4462
 [deps]
 
 [build]
+patch -p1 < "$K"/libnl-tiny-Makefile.patch
 make CC="$CC" CFLAGS="$optcflags" prefix="$butch_prefix" \
   -j$MAKE_THREADS DESTDIR="$butch_install_dir" \
+  AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib \
   all install

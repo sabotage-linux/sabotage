@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.barfooze.de/pub/butch/butch-0.6.0.tar.bz2
-http://foss.aueb.gr/mirrors/linux/butch/butch-0.6.0.tar.bz2
+http://ftp.barfooze.de/pub/butch/butch-0.6.1.tar.bz2
+http://foss.aueb.gr/mirrors/linux/butch/butch-0.6.1.tar.bz2
 
 [vars]
-filesize=54611
-sha512=d5704852504f722c7f610f5e24a96315b0608e91ccdc8b8bd911e4344f1faca6bd8ed0e432fa32ecc8f307083dbcf9f56da0df1d19710719a2d54221d6e94794
+filesize=42849
+sha512=412cb47d14e7d9d50924b4fc66ab8ca15b583911ee710744381a76e3c166de86d04697007e68e2ed9fd2bfb9128fb813e0dd8f97dc65869e63779ee05518affc
 desc='multithreaded package build manager used by sabotage linux'
 
 [deps.host]
@@ -15,26 +15,16 @@ stage0_musl
 if [ ! -z "$BUTCH_FROM_GIT" ] ; then
 	rm -rf butch
 	git clone https://github.com/sabotage-linux/butch
-else
-	sed -i 's@0\.5\.0@0.6.0@' butch/butch.c
 fi
 
 # prepare build config...
-printf "LDFLAGS += -static %s\n" "$optldflags" > butch/config.mak
-printf "CFLAGS += %s\n" "$optcflags" >> butch/config.mak
-
-if [ "$A" = "arm" ] || [ "$A" = "mips" ] ; then
-	# if on arm or mips, we only use one build thread to not exhaust memory
-	sed -i \
-	  's@#define NUM_BUILD_THREADS 2@#define NUM_BUILD_THREADS 1@' butch/butch.c
-	# do not check checksum, since it can take ages on machines that slow	
-	echo "CFLAGS += -DDISABLE_CHECKSUM" >> butch/config.mak
-fi
+printf "LDFLAGS += -static %s\n" "$optldflags" > config.mak
+printf "CFLAGS += %s\n" "$optcflags" >> config.mak
 
 # and build
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
-CC="$CC -static" ./build.sh
-BUTCH_BIN=butch/butch
+make -j$MAKETHREADS
+BUTCH_BIN=butch
 mv "$BUTCH_BIN" "$BUTCH_BIN"-core
 
 # "make install"

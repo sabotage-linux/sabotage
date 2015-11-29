@@ -1,16 +1,16 @@
 [mirrors]
-http://www.cpan.org/src/5.0/perl-5.20.2.tar.bz2
+http://www.cpan.org/src/5.0/perl-5.22.0.tar.xz
 
 [vars]
-filesize=13717128
-sha512=1da867f04137e84cc6f4148fd7c15933cdc675939bf20f524b659b3c3a6225a18efe9f4cd8c445b9536f3efc13f1c5b696fcf14584e1f20ad1f908a9b6ca509c
+filesize=11155252
+sha512=8119419b65e14a9ae1cd373fab9647743b93b55d2df570603ad692340c0f268d23136389f984162e57d931f561217cf84fb13a3259194bb8fa5a9089c6fd0cc9
 desc='interpreter for the perl 5.x scripting language'
 
 [deps.host]
 dynamic-toolchain
 
 [build]
-VERSION=5.20.2
+VERSION=5.22.0
 
 #workaround for issue #185
 patch -p1 < "$K"/perl-arm-gcc473bug.patch
