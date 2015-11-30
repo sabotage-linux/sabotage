@@ -1,9 +1,9 @@
 [vars]
-filesize=11543
-sha512=872dee68c35a93c663eb0a941653eaaa4aa83d8379e05b4dbca089a2c9335036b496de85d8ddf7af1228a5625490a06a89031fb1aac726236b608b952962c248
+filesize=15057
+sha512=e54fd10c0b1274eb90173aea442f0bfc496f4dda861a36d94f939e1fd835594f9aa12f3d0f90043d64e519d919b9a5273ab65012230ac022f727ee6bb64862e3
 
 [mirrors]
-http://dl.suckless.org/tools/dmenu-4.5.tar.gz
+http://dl.suckless.org/tools/dmenu-4.6.tar.gz
 
 [deps]
 libx11
