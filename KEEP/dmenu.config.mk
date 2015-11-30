@@ -14,7 +14,7 @@ XINERAMAFLAGS = -DXINERAMA
 
 # includes and libs
 INCS = -I${X11INC}
-LIBS = -L${X11LIB} -lX11 -lxcb -lXau -lXdmcp ${XINERAMALIBS}
+LIBS = -L${X11LIB} -lfontconfig -lXft -lX11 -lxcb -lXau -lXdmcp ${XINERAMALIBS}
 
 # flags
 CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
