@@ -32,18 +32,19 @@ debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
 
 # Wno-parentheses has no effect...
-CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags" \
+CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive -static" \
   LDFLAGS="$optldflags" 			                        \
 ./configure 												\
-  -static                 									\
   -prefix "$butch_prefix"/ 									\
   -plugindir "$butch_prefix"/share/qt5/plugins 				\
   -translationdir "$butch_prefix"/share/qt5/translations 	\
   -docdir "$butch_prefix"/share/qt5/docs 					\
+  -sysconfdir "/etc/xdg"	   								\
   --opensource 												\
   -confirm-license 											\
   -release                 									\
   -nomake examples         									\
+  -openssl-linked         									\
   -no-dbus 													\
   -no-cups 													\
   -no-audio-backend 										\
@@ -53,21 +54,29 @@ CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags" \
   -system-zlib 												\
   -system-sqlite 											\
   -system-harfbuzz                                          \
+  -no-rpath 												\
+  -optimized-qmake 											\
+  -skip qtwebengine 										\
   -no-separate-debug-info
 
+cd qtbase
+patch -p1 < "$K"/0001-Fix-compilation-with-libressl.patch
+cd ../qtwebkit
+patch -p1 < "$K"/0003-Exclude-backtrace-API-for-non-glibc-libraries.patch
+cd ..
 make -j$MAKE_THREADS
 
 make INSTALL_ROOT="$butch_install_dir" install
 
 # Remove references to the build directory from the installed .pc files by running the following command:
 
-find "$butch_install_dir"/lib/pkgconfig -name "*.pc" -exec perl -pi -e "s, -L$PWD/?\S+,,g" {} \;
+find "$butch_install_dir"/lib/pkgconfig/ -name "*.pc" -exec perl -pi -e "s, -L$PWD/?\S+,,g" {} \;
 # Remove references to the build directory from installed library dependency (prl) and profile include (pri) files by running the following commands as the root user:
 
-find "$butch_install_dir" -name qt_lib_bootstrap_private.pri \
+find "$butch_install_dir"/ -name qt_lib_bootstrap_private.pri \
    -exec sed -i -e "s:$PWD/qtbase:/"$butch_install_dir"/lib/:g" {} \; &&
 
-find "$butch_install_dir" -name \*.prl \
+find "$butch_install_dir"/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 # Install images and create the menu entries for installed applications. The QT5BINDIR variable is used here to point to the directory for the executable programs. If you have changed the bindir above, QT5BINDIR will need to be adjusted below. Be sure that the QT5BINDIR variable is defined in root's environment and as the root user:
 
