@@ -1,13 +1,15 @@
+[mirrors]
+http://cdn.kernel.org/pub/software/scm/git/git-2.6.3.tar.xz
+
+[vars]
+filesize=3819080
+sha512=c388235806c5cc67e6ee4ba56225b91f27c09305cbc4f988199a45897c0bf065b9e44f18bd671bb0483133598e5bfa08382742caaca8a77ca117b039bf59d024
+
 [deps]
 curl
-perl
 
-[mirrors]
-http://ftp.free.fr/mirrors/ftp.kernel.org/software/scm/git/git-1.8.4.tar.xz
-http://mirror.anl.gov/pub/software/scm/git/git-1.8.4.tar.xz
-ftp://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
-https://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
-http://www.kernel.org/pub/software/scm/git/git-1.8.4.tar.xz
+[deps.run]
+perl
 
 [vars]
 filesize=3279768
