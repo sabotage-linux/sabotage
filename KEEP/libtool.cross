@@ -243,13 +243,13 @@ hardcode_into_libs=yes
 sys_lib_dlsearch_path_spec="/lib /usr/lib"
 
 # Whether dlopen is supported.
-dlopen_support=unknown
+dlopen_support=yes
 
 # Whether dlopen of programs is supported.
-dlopen_self=unknown
+dlopen_self=yes
 
 # Whether dlopen of statically linked programs is supported.
-dlopen_self_static=unknown
+dlopen_self_static=no
 
 # Commands to strip libraries.
 old_striplib="${CROSS_COMPILE}strip --strip-debug"
