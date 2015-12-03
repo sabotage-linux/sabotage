@@ -1,18 +1,18 @@
 [mirrors]
-ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz
-ftp://gd.tuwien.ac.at/pub/libxml/libxml2-2.9.1.tar.gz
-http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz
+http://xmlsoft.org/sources/libxml2-2.9.3.tar.gz
+ftp://xmlsoft.org/libxml2/libxml2-2.9.3.tar.gz
+ftp://gd.tuwien.ac.at/pub/libxml/libxml2-2.9.3.tar.gz
 
 [vars]
-filesize=5172503
-sha512=7b10de749485bc2eb2108063e97d89e70d6fbb78b1bf195ab5528c8c64e79483d55223a49d95934f4e00b00e906c18bdd34344703ffe158dcf08096905a44c1b
+filesize=5477112
+sha512=078afa65229de4f23e6538767253fb4f9f61d96cb72e445179c71d536b224d54922f22972a2b71434796f83f8c99f6a46c3b8813cb4582ad9fca696d141e0abb
+desc="bloated and buggy XML parsing library with a history of security vulns"
 
 [deps]
 zlib
 xz
 
 [build]
-patch -p1 < "$K"/libxml2-pthread.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE -fPIC $optcflags" \
