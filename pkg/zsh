@@ -8,8 +8,14 @@ sha512=34d69bed190cbc476bcdaa4b703fee1caaeae7e011fe7ea595b29bbd31df57bbe4d19b594
 [deps]
 
 [build]
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
-  ./configure --enable-libc-musl -C --prefix="$butch_prefix"
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --enable-libc-musl -C --prefix="$butch_prefix" $xconfflags
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
