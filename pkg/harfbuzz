@@ -7,6 +7,8 @@ sha512=9dcc8f5790b78efa14d328e48c68d97f44fce8658fdad9f6d46a79feb715a57903064087d
 
 [deps]
 freetype
+icu
+graphite2
 
 [build]
 #patch -p1 < "$K"/some.patch
@@ -18,7 +20,8 @@ freetype
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
-  --with-icu=no
+  --with-icu=yes \
+  --with-graphite2=yes
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
