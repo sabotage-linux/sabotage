@@ -1,3 +1,5 @@
 [deps]
 gnu-grep
 gettext-gnu
+gnu-cp
+gnu-tar
