@@ -1,0 +1,19 @@
+[mirrors]
+http://cpan.metacpan.org/authors/id/P/PH/PHRED/Archive-Zip-1.37.tar.gz 
+
+[vars]
+sha512=416dc16286edef085a9fd11b3f98c3abf6345a70552cf4f0d4e0da364b39d400cb259a09f1b33b82ff4aa6494a88e85e59afd80a94ae8446c329eb8a3af63ef1
+filesize=184345
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
