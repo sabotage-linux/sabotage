@@ -1,0 +1,27 @@
+[vars]
+filesize=419095
+sha512=9c45d5b203b26a7ff92331b3e080a48e806c92fbbe7c65d9262dd18c39cd6efdad8a795a80f499a2d23df84b4909dbd7c1bab20d7dd3555d3d88782ce9dd15b0
+
+[mirrors]
+http://downloads.sourceforge.net/freeglut/freeglut-3.0.0.tar.gz
+
+[deps]
+mesalib
+cmake
+glu
+
+[build]
+mkdir build
+cd    build
+
+xconfflags=
+[ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+cmake $xconfflags -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+      -DCMAKE_BUILD_TYPE=Release       \
+      -DFREEGLUT_BUILD_DEMOS=OFF       \
+      -DFREEGLUT_BUILD_STATIC_LIBS=OFF \
+      ..
+
+make VERBOSE=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

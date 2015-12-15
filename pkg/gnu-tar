@@ -1,0 +1,19 @@
+[vars]
+filesize=1966884
+sha512=0e590abb82ef0202a1f659012477c9ff30d035729b7df47c9c8604901fb0bcdd970386dbc9a6256df63cfd7e629617076fea6ce9735213218f69601daa76c486
+
+[mirrors]
+http://ftp.gnu.org/gnu/tar/tar-1.28.tar.xz
+
+[deps]
+texinfo
+
+[build]
+FORCE_UNSAFE_CONFIGURE=1  \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+make -C doc install-html docdir="$butch_install_dir"/share/doc/tar-1.28

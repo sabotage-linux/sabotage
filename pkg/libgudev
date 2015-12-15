@@ -1,0 +1,17 @@
+[vars]
+filesize=257528
+sha512=682e08f1a406bd323a59268d9d2fde9efd015a7e0cd5958c5c4e0bc94b593d071a9b824c8b9dfc104c93e555342b1a74a63da91834e10558a9646c9195ef6fbd
+
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/libgudev/230/libgudev-230.tar.xz
+
+[deps]
+hdparm
+
+[build]
+./configure --prefix="$butch_prefix"
+make \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags" \
+  -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

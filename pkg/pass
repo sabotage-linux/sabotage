@@ -1,0 +1,18 @@
+[vars]
+filesize=54576
+sha512=e28503b63c6d18a2f45f4a732fdec0380c2ac15e1778136ec5e7ac568662b09183d3ad4fd36ca7e87cfe74540f916cb6365695bdf665a39da4cbe86c4bde7a78
+
+[mirrors]
+http://git.zx2c4.com/password-store/snapshot/password-store-1.6.5.tar.xz
+
+[deps]
+bash
+gnupg
+git
+xclip
+pwgen
+tree
+util-linux
+
+[build]
+make DESTDIR="$butch_install_dir" install
