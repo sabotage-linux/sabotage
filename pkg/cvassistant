@@ -1,0 +1,20 @@
+[vars]
+filesize=152759
+sha512=826ec0ca220827b7c58100e677382cee065c40852ccb6993ceecd223a3c24e228eacf860ec9548950ec5b019ea722dd57a84d426cf6ef87683011e8961f6c0d0
+tardir=CVAssistant
+
+[mirrors]
+http://netcologne.dl.sourceforge.net/project/cvassistant/cvassistant_2.0.0.tar.bz2
+
+[deps]
+qt5
+
+[build]
+qmake -config release \
+	QMAKE_CFLAGS="-D_GNU_SOURCE $optcflags" \
+	QMAKE_LFLAGS="$optldflags" \
+	QMAKE_CXXFLAGS="-D_GNU_SOURCE $optcflags"
+
+make -j$MAKE_THREADS VERBOSE=1
+install -v -m755 -d "$butch_install_dir"/bin
+install -v -m755 ./cvassistant "$butch_install_dir"/bin/cvassistant
