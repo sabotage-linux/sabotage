@@ -1,0 +1,24 @@
+[vars]
+filesize=257528
+sha512=682e08f1a406bd323a59268d9d2fde9efd015a7e0cd5958c5c4e0bc94b593d071a9b824c8b9dfc104c93e555342b1a74a63da91834e10558a9646c9195ef6fbd
+
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/libgudev/230/libgudev-230.tar.xz
+
+[deps]
+glib
+eudev
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
