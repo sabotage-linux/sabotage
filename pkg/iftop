@@ -1,0 +1,24 @@
+[vars]
+filesize=160381
+sha512=41e3bc5feac5927f67356f491fcab7a28f7a32102cc33c67d81c1dc755273c42e32b540b14b6254a540f1b6c1b1ad6c50e3095c3b5282db2ea12dd0049ce2ebd
+
+[mirrors]
+http://www.ex-parrot.com/pdw/iftop/download/iftop-0.17.tar.gz
+
+[deps]
+libpcap
+ncurses
+
+[build]
+cp -f "$K"/config.sub config/
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
