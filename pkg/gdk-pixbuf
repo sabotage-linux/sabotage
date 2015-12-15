@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.31/gdk-pixbuf-2.31.4.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.33/gdk-pixbuf-2.33.1.tar.xz
 
 [vars]
-filesize=2368788
-sha512=872283cb012d5e695446ddb39bbdeeeb9054293535a19e9d913b5b72904159067668e2ff61fda45648db15bced2e76b68fadfc38256da7c488ed2dbeda6f9523
+filesize=2709492
+sha512=acc8c31c2436b6cce7eb1b93061d00aa231ffc8a19c247aa90d270d0cf67cfbd4a3c503d44451f16ba9a4424a97ffe5748271ef8985f7dd8c6996273df8769c1
 
 [deps]
 libtiff
@@ -18,7 +18,7 @@ perl
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lz" \
   ./configure -C \

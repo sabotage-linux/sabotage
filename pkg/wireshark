@@ -22,10 +22,23 @@ for i in ui/export_object_smb.c epan/dissectors/packet-ssl-utils.c ; do
 	sed -i 's@g_memmove@memmove@g' "$i"
 done
 sed -i 's@DISABLE_DEPRECATED@ENABLE_DEPRECATED@g' configure
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+printf "#!/bin/sh\necho -lpcap\n" > pcap-config
+chmod +x pcap-config
+export PATH="$PWD:$PATH"
+
 CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags -Werror=implicit-function-declaration" \
-LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix"
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make -C tools/lemon V=1 CC_FOR_BUILD=gcc
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 

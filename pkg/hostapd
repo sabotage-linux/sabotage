@@ -1,9 +1,9 @@
 [mirrors]
-http://w1.fi/releases/hostapd-2.4.tar.gz
+http://w1.fi/releases/hostapd-2.5.tar.gz
 
 [vars]
-filesize=1658872
-sha512=37e648fe9cce92923ab1d1e23a4267e274c988785d7be5610f1affca425ffa86b438de81e37446926a0f9158d6b67ee83e6396c3f81d571545c973dddbf1ffe3
+filesize=1720783
+sha512=bbb0547c29f4925aff8639cae3291ed020c2a9d989dd267be831b2418880916d2ec69003e36ecc796c348476086397cca8f63c52633f91c11a9c2ab72e1c83c0
 
 [deps]
 zlib
@@ -11,6 +11,8 @@ openssl
 libnl-tiny
 
 [build]
+patch -p0 < "$K"/wpa_supplicant25-libressl.patch
+patch -p0 < "$K"/wpa_supplicant25-eloop.patch
 cd hostapd
 cp defconfig .config
 

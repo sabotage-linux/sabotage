@@ -1,0 +1,56 @@
+[mirrors]
+http://www.squid-cache.org/Versions/v4/squid-4.0.1.tar.xz
+
+[vars]
+filesize=2337656
+sha512=a31c1985061a767d75e3df12179359d0b724b2b4a644c34cd6b3e213561a238e2348407a4473d6b4e9d81eb81a00ba40d6619d340dddcfc3f833b5ffdf0cec20
+desc="HTTP proxy and cache"
+
+[deps]
+openssl
+libstdc++
+
+[deps.host]
+perl
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+#  --disable-optimizations \ #broken: does a sed s/-O//g on the users CFLAGS, so -Os turns into "s"
+#  --runstatedir="$butch_prefix"/var/run # broken: setting runstatedir causes libltdl/configure to err out
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-arch-native \
+  --disable-silent-rules \
+  --disable-strict-error-checking \
+  --with-openssl \
+  --without-expat \
+  --without-libxml2 \
+  --without-nettle \
+  --without-gnutls \
+  --without-libcap \
+  --disable-loadable-modules \
+  --disable-htcp \
+  --disable-eui  \
+  --disable-snmp \
+  --disable-select \
+  --disable-epoll \
+  --disable-http-violations \
+  --sbindir="$butch_prefix"/bin \
+  --libexecdir="$butch_prefix"/libexec/squid \
+  --sysconfdir="$butch_prefix"/etc/squid \
+  --localstatedir="$butch_prefix"/var/squid \
+
+#make -C src CXX=g++ cf_gen
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS \
+  BUILDCXX=g++ BUILDCXXFLAGS="-O0 -g0 -std=c++11" \
+  AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib
+make DESTDIR="$butch_install_dir" install

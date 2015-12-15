@@ -1241,8 +1241,6 @@ ac_cv_path_ZCAT=${ac_cv_path_ZCAT='zcat'}
 ac_cv_pollable_procfs=${ac_cv_pollable_procfs='no'}
 ac_cv_popcount=${ac_cv_popcount='yes'}
 ac_cv_posix_semaphores_enabled=${ac_cv_posix_semaphores_enabled='yes'}
-ac_cv_prog_AR=ar
-ac_cv_prog_AS=as
 ac_cv_prog_GNATBIND=${ac_cv_prog_GNATBIND='no'}
 ac_cv_prog_GNATMAKE=${ac_cv_prog_GNATMAKE='no'}
 ac_cv_prog_MAKE=${ac_cv_prog_MAKE='make'}
@@ -1250,14 +1248,7 @@ ac_cv_prog_MAKEINFO=${ac_cv_prog_MAKEINFO='true --split-size=5000000'}
 ac_cv_prog_MAKE_LOWER_TAGS=${ac_cv_prog_MAKE_LOWER_TAGS='no'}
 ac_cv_prog_MAKE_PACKAGE_SUPPORTED=${ac_cv_prog_MAKE_PACKAGE_SUPPORTED='no'}
 ac_cv_prog_MAKE_UPPER_TAGS=${ac_cv_prog_MAKE_UPPER_TAGS='no'}
-ac_cv_prog_NM=nm
-ac_cv_prog_OBJDUMP=objdump
-ac_cv_prog_STRIP=${ac_cv_prog_STRIP='strip'}
 ac_cv_prog_TRUE=${ac_cv_prog_TRUE='true'}
-ac_cv_prog_ac_ct_AR=ar
-ac_cv_prog_ac_ct_OBJDUMP=objdump
-ac_cv_prog_ac_ct_RANLIB=ranlib
-ac_cv_prog_ac_ct_STRIP=${ac_cv_prog_ac_ct_STRIP='strip'}
 ac_cv_prog_cc_c89=${ac_cv_prog_cc_c89=''}
 ac_cv_prog_cc_c99=${ac_cv_prog_cc_c99='-std=gnu99'}
 ac_cv_prog_cc_g=${ac_cv_prog_cc_g='yes'}

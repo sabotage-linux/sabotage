@@ -1,14 +1,18 @@
 [mirrors]
-http://download.rsyslog.com/librelp/librelp-1.2.2.tar.gz
+http://download.rsyslog.com/librelp/librelp-1.2.8.tar.gz
+
 [vars]
-filesize=405883
-sha512=4e71f242e2afcf3a0ddd485fa2f9b8efa13fd0a4614e9ab556ff183da376c39783a0dd2b37bd5c5512522cec3025a0deb7a219e1f72cc71f49996f35cedc0a3b
+filesize=415452
+sha512=300210e017416aa31f310734d3c84fa25e86690e91eb3d123cd2061d4ada40ed2d40d3a7bc645ccd4ad7cbc2dfb871fe55f9039d6b2544e3cb9467fd31b5bf1b
 
 [deps]
 gnutls
 
 [build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure --prefix="$butch_prefix"
+  ./configure --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

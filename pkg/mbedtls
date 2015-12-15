@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ARMmbed/mbedtls/archive/mbedtls-2.1.2.tar.gz
+https://tls.mbed.org/download/mbedtls-2.2.0-apache.tgz
 
 [vars]
-tardir=mbedtls-mbedtls-2.1.2
-filesize=1775666
-sha512=36a6cdb1a403ac36cb723bf93f6a8a84da0c7b177aa18d984072dca40a024f7265c4788852e115a8fe724c5913c2d93fa07559a5ee67a8ddacdc005396d53cd8
+filesize=1860353
+sha512=29bcd8b8a19f07a8d90bd6b5bea4564dc57ad6ad29967a888f374901094d2fb88a3449c59b89240c41a96b438fff8217b5cef52de8cd74bdf62099dbaa1392c2
+tardir=mbedtls-2.2.0
 
 [deps]
 
@@ -18,7 +18,8 @@ echo "#define MBEDTLS_THREADING_PTHREAD" >> include/mbedtls/config.h
 
 # build the library and all binaries statically (includes
 # mbedtls_selftest)
-make V=1 -j$MAKE_THREADS no_test
+sed -i 's@^\.SILENT:.*$@@' library/Makefile programs/Makefile Makefile
+make -j$MAKE_THREADS no_test CFLAGS="$optcflags" LDFLAGS="$optldflags"
 
 make DESTDIR="$butch_install_dir" install
 

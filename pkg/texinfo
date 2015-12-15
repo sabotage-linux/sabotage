@@ -1,0 +1,22 @@
+[vars]
+filesize=3812944
+sha512=6f9c5142db3b155bd601149b5632807b3c20dcfa7006ce5f7e120e6fc4b2174a3f4671c18232c040ffd69ebfb5950be5c563ac5cc08b88d03eb5a9f1b0f96c04
+
+[mirrors]
+http://ftp.gnu.org/gnu/texinfo/texinfo-5.2.tar.xz
+
+[deps]
+
+[build]
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+cd "$butch_install_dir"/share/info
+rm -vf dir
+for f in *
+  do install-info $f dir 2>/dev/null
+done
+cd -

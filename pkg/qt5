@@ -32,9 +32,10 @@ debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
 
 # Wno-parentheses has no effect...
-CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive -static" \
+CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
   LDFLAGS="$optldflags" 			                        \
 ./configure 												\
+  -static                                                   \
   -prefix "$butch_prefix"/ 									\
   -plugindir "$butch_prefix"/share/qt5/plugins 				\
   -translationdir "$butch_prefix"/share/qt5/translations 	\
@@ -60,9 +61,9 @@ CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive -stati
   -no-separate-debug-info
 
 cd qtbase
-patch -p1 < "$K"/0001-Fix-compilation-with-libressl.patch
+patch -p1 < "$K"/qt5-fix-compilation-with-libressl.patch
 cd ../qtwebkit
-patch -p1 < "$K"/0003-Exclude-backtrace-API-for-non-glibc-libraries.patch
+patch -p1 < "$K"/qt5-exclude-backtrace-api-for-non-glibc-libraries.patch
 cd ..
 make -j$MAKE_THREADS
 
@@ -141,3 +142,5 @@ Terminal=false
 Encoding=UTF-8
 Type=Application
 Categories=Qt;Development;Debugger;' > "$butch_install_dir"/share/applications/qdbusviewer-qt5.desktop
+
+ln -s "$butch_install_dir"/mkspecs "$butch_root_dir"/

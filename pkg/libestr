@@ -9,6 +9,9 @@ sha512=17e1a62d2d4cb7e33dc14d4368b507fff1676c5a2cb24001078ff2a6f15236f9674dc47a5
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure --prefix="$butch_prefix" $xconfflags
+  ./configure --prefix="$butch_prefix" $xconfflags \
+     ac_cv_func_malloc_0_nonnull=yes \
+     ac_cv_func_realloc_0_nonnull=yes
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

@@ -1,10 +1,16 @@
 [mirrors]
-http://download.rsyslog.com/liblogging/liblogging-1.0.0.tar.gz
+http://download.rsyslog.com/liblogging/liblogging-1.0.1.tar.gz
+
 [vars]
-filesize=525869
-sha512=16107370e00eb3d5fa59be7480a66ff9f2da97d271099f59c299cdf30a7bef673a8d84cad7e20ec18ac9bb8ef4e19f0c4848ff2d5983bc699bb2510b1f6bc1ad
+filesize=524168
+sha512=843c1a99f89835fde9352974df3bd217409a0093a6df8777499a0c5e605fc5722b150b505dc45c2bf15e8d20d5eeb7cbab14475a7112fe7401d5f2b398cd17eb
+
 [build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure --prefix="$butch_prefix"
+  ./configure --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
