@@ -1,0 +1,26 @@
+[vars]
+filesize=208687
+sha512=5bc9479fe75f120aee136befeb24c8d7d85f61410b551177ed61fd1b4ea9cce7989796b067e357ea93b44b4ae9f66311687066f188236c5efdfd3750695a8017
+
+[mirrors]
+http://pm-utils.freedesktop.org/releases/pm-utils-1.4.1.tar.gz
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+     --sysconfdir="$butch_prefix"/etc \
+     --docdir="$butch_prefix"/share/doc/pm-utils-1.4.1
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+install -v -m644 man/*.1 "$butch_install_dir"/share/man/man1
+install -v -m644 man/*.8 "$butch_install_dir"/share/man/man8
