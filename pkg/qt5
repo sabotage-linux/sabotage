@@ -63,7 +63,7 @@ CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
 cd qtbase
 patch -p1 < "$K"/qt5-fix-compilation-with-libressl.patch
 cd ../qtwebkit
-patch -p1 < "$K"/0003-Exclude-backtrace-API-for-non-glibc-libraries.patch
+patch -p1 < "$K"/qt5-exclude-backtrace-api-for-non-glibc-libraries.patch
 cd ..
 make -j$MAKE_THREADS
 
