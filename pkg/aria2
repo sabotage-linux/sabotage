@@ -1,0 +1,21 @@
+[vars]
+filesize=2155310
+sha512=ba505b45f84266543cb403752cc3592469545dea806e77bd7b7fec1fbe7ed5baf14372cf6dea840ccbdd054cd0c92cdeb4516eb52b167aca03909000f02aec95
+
+[mirrors]
+http://downloads.sourceforge.net/project/aria2/stable/aria2-1.19.0/aria2-1.19.0.tar.bz2
+
+[deps]
+gnutls
+libnettle
+gmp
+libxml2
+pkg-config
+
+[build]
+./configure  --prefix="$butch_prefix"
+make \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags" \
+  -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

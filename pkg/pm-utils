@@ -1,0 +1,21 @@
+[vars]
+filesize=208687
+sha512=5bc9479fe75f120aee136befeb24c8d7d85f61410b551177ed61fd1b4ea9cce7989796b067e357ea93b44b4ae9f66311687066f188236c5efdfd3750695a8017
+
+[mirrors]
+http://pm-utils.freedesktop.org/releases/pm-utils-1.4.1.tar.gz
+
+[deps]
+hdparm
+
+[build]
+./configure --prefix="$butch_prefix"	\
+            --sysconfdir=/etc 			\
+            --docdir="$butch_install_dir"/share/doc/pm-utils-1.4.1
+make \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags" \
+  -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+install -v -m644 man/*.1 "$butch_install_dir"/share/man/man1
+install -v -m644 man/*.8 "$butch_install_dir"/share/man/man8

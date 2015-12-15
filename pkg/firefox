@@ -198,3 +198,4 @@ StartupNotify=true
 EOF
 ln -sf ../../lib/firefox-"$FF_VERSION"/browser/icons/mozicon128.png \
 "$dest"/share/pixmaps/firefox.png
+optcflags="-fdata-sections -ffunction-sections -Os -g0 -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack"
