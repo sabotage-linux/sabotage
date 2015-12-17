@@ -13,7 +13,7 @@ cairo
 pango
 
 [build]
-make \
+make CC="$CC" \
  PREFIX="$butch_prefix" \
  CFLAGS="$optcflags -D_GNU_SOURCE -std=c99 \
    `pkg-config --cflags gtk+-2.0` \
@@ -27,7 +27,8 @@ make \
    `pkg-config --libs glib-2.0` \
    `pkg-config --libs pango` \
    `pkg-config --libs webkit-1.0` \
-   `pkg-config --libs cairo`" \
+   `pkg-config --libs cairo` \
+   -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
   -j$MAKE_THREADS all install
 #make DESTDIR="$butch_install_dir" install
