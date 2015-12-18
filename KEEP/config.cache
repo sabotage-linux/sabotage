@@ -1,17 +1,6 @@
 # sabotage config.cache template. this should give predefined answers
 # to about 50% of each configure run, thus speeding up the build 
 # quite a bit.
-# however it should be adapted when new functions are added to musl,
-# or other changes made (e.g. if off_t becomes long long on amd64).
-
-# architecture specific stuff gets a #IFARCH# tag, so configure doesnt
-# parse it. pkg/config-cache will sed those matching your arch away.
-
-#IFLE#ac_cv_big_endian_double=${ac_cv_big_endian_double='no'}
-#IFLE#ac_cv_c_bigendian=${ac_cv_c_bigendian='no'}
-#IFLE#ac_cv_have_little_endian_long_long=${ac_cv_have_little_endian_long_long='yes'}
-#IFLE#ac_cv_little_endian_double=${ac_cv_little_endian_double='yes'}
-#IFLE#ac_cv_mixed_endian_double=${ac_cv_mixed_endian_double='no'}
 
 ac_cv_sizeof__Bool=${ac_cv_sizeof__Bool='1'}
 ac_cv_sizeof_char=${ac_cv_sizeof_char='1'}
@@ -24,60 +13,15 @@ ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t='8'}
 ac_cv_sizeof_short=${ac_cv_sizeof_short='2'}
 ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int='2'}
 ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned='4'}
-ac_cv_sizeof_unsigned___int128=${ac_cv_sizeof_unsigned___int128='0'}
 ac_cv_sizeof_unsigned_char=${ac_cv_sizeof_unsigned_char='1'}
 ac_cv_sizeof_unsigned_int=${ac_cv_sizeof_unsigned_int='4'}
 ac_cv_sizeof_unsigned_long_long=${ac_cv_sizeof_unsigned_long_long='8'}
 ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short='2'}
 ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t='4'}
 
-#IFx86_64#ac_cv_sizeof_long=${ac_cv_sizeof_long='8'}
-#IFx86_64#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='16'}
-#IFx86_64#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='8'}
-#IFx86_64#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFx86_64#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='8'}
-#IFx86_64#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='8'}
-#IFx86_64#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='8'}
-#IFx86_64#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='8'}
-#IFx86_64#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='8'}
-#IFx86_64#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='8'}
-
-#IFi386#ac_cv_sizeof_long=${ac_cv_sizeof_long='4'}
-#IFi386#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='12'}
-#IFi386#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='4'}
-#IFi386#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFi386#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='4'}
-#IFi386#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='4'}
-#IFi386#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='4'}
-#IFi386#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='4'}
-#IFi386#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
-#IFi386#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
-
-#IFarm#ac_cv_sizeof_long=${ac_cv_sizeof_long='4'}
-#IFarm#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='8'}
-#IFarm#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='4'}
-#IFarm#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFarm#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='4'}
-#IFarm#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='4'}
-#IFarm#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='4'}
-#IFarm#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='4'}
-#IFarm#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
-#IFarm#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
-
-
-#IFx86_64#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='no'}
-#IFx86_64#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
-
-#IFi386#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
-#IFxxxi386#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
-
-#IFarm#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
-
-
 # stuff below this line should be entirely musl-speficic.
 # if it contains something which can differ between architectures 
 # supported by musl, it can be considered a bug and be reported.
-
 
 ac_cv_as_needed=${ac_cv_as_needed='yes'}
 ac_cv_broken_nice=${ac_cv_broken_nice='no'}
