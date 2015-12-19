@@ -10,8 +10,10 @@ dynamic-toolchain
 python
 
 [build]
-# NOTE: node.js 0.12 is not maintained anymore upstream, but it is the
-# last version that builds with GCC 4.7.
+# nodejs has 3 supported versions currently:
+# - v5 (stable)
+# - v4 (LTS)
+# - v0.12 (Maintenance, does not require GCC 4.8, support end: 2017)
 
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
