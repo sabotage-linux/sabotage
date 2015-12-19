@@ -8,6 +8,8 @@ http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.xz
 [deps]
 libxml2
 glib
+
+[deps.host]
 flex
 
 [build]

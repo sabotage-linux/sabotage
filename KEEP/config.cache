@@ -1,17 +1,6 @@
 # sabotage config.cache template. this should give predefined answers
 # to about 50% of each configure run, thus speeding up the build 
 # quite a bit.
-# however it should be adapted when new functions are added to musl,
-# or other changes made (e.g. if off_t becomes long long on amd64).
-
-# architecture specific stuff gets a #IFARCH# tag, so configure doesnt
-# parse it. pkg/config-cache will sed those matching your arch away.
-
-#IFLE#ac_cv_big_endian_double=${ac_cv_big_endian_double='no'}
-#IFLE#ac_cv_c_bigendian=${ac_cv_c_bigendian='no'}
-#IFLE#ac_cv_have_little_endian_long_long=${ac_cv_have_little_endian_long_long='yes'}
-#IFLE#ac_cv_little_endian_double=${ac_cv_little_endian_double='yes'}
-#IFLE#ac_cv_mixed_endian_double=${ac_cv_mixed_endian_double='no'}
 
 ac_cv_sizeof__Bool=${ac_cv_sizeof__Bool='1'}
 ac_cv_sizeof_char=${ac_cv_sizeof_char='1'}
@@ -24,60 +13,15 @@ ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t='8'}
 ac_cv_sizeof_short=${ac_cv_sizeof_short='2'}
 ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int='2'}
 ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned='4'}
-ac_cv_sizeof_unsigned___int128=${ac_cv_sizeof_unsigned___int128='0'}
 ac_cv_sizeof_unsigned_char=${ac_cv_sizeof_unsigned_char='1'}
 ac_cv_sizeof_unsigned_int=${ac_cv_sizeof_unsigned_int='4'}
 ac_cv_sizeof_unsigned_long_long=${ac_cv_sizeof_unsigned_long_long='8'}
 ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short='2'}
 ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t='4'}
 
-#IFx86_64#ac_cv_sizeof_long=${ac_cv_sizeof_long='8'}
-#IFx86_64#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='16'}
-#IFx86_64#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='8'}
-#IFx86_64#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFx86_64#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='8'}
-#IFx86_64#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='8'}
-#IFx86_64#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='8'}
-#IFx86_64#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='8'}
-#IFx86_64#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='8'}
-#IFx86_64#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='8'}
-
-#IFi386#ac_cv_sizeof_long=${ac_cv_sizeof_long='4'}
-#IFi386#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='12'}
-#IFi386#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='4'}
-#IFi386#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFi386#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='4'}
-#IFi386#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='4'}
-#IFi386#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='4'}
-#IFi386#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='4'}
-#IFi386#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
-#IFi386#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
-
-#IFarm#ac_cv_sizeof_long=${ac_cv_sizeof_long='4'}
-#IFarm#ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double='8'}
-#IFarm#ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int='4'}
-#IFarm#ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t='4'}
-#IFarm#ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t='4'}
-#IFarm#ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t='4'}
-#IFarm#ac_cv_sizeof_time_t=${ac_cv_sizeof_time_t='4'}
-#IFarm#ac_cv_sizeof_uintptr_t=${ac_cv_sizeof_uintptr_t='4'}
-#IFarm#ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long='4'}
-#IFarm#ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p='4'}
-
-
-#IFx86_64#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='no'}
-#IFx86_64#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
-
-#IFi386#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
-#IFxxxi386#ac_cv_have_long_long_rlim_t=${ac_cv_have_long_long_rlim_t='no'}
-
-#IFarm#ac_cv_have_long_long_off_t=${ac_cv_have_long_long_off_t='yes'}
-
-
 # stuff below this line should be entirely musl-speficic.
 # if it contains something which can differ between architectures 
 # supported by musl, it can be considered a bug and be reported.
-
 
 ac_cv_as_needed=${ac_cv_as_needed='yes'}
 ac_cv_broken_nice=${ac_cv_broken_nice='no'}
@@ -1418,53 +1362,69 @@ bash_cv_must_reinstall_sighandlers=yes
 
 # gnulib patches - no, we don't want your printf replacement!
 
-gl_cv_func_isnanl_works=yes
-gl_cv_header_working_stdint_h=yes
-gl_cv_func_fpurge_works=yes
+gl_cv_decl_null_works=yes
+gl_cv_func_btowc_eof=yes
+gl_cv_func_btowc_nul=yes
+gl_cv_func_dup2_works=yes
 gl_cv_func_fcntl_f_dupfd_cloexec=yes
-gl_cv_func_getcwd_path_max=yes
+gl_cv_func_fcntl_f_dupfd_works=yes
+# the following flag, according to fseeko.m4, is needed to skip the fseeko replacement
+gl_cv_func_fflush_stdin=yes
 gl_cv_func_fprintf_posix=yes
-gl_cv_func_printf_sizes_c99=yes
-gl_cv_func_printf_long_double=yes
-gl_cv_func_printf_infinite=yes
-gl_cv_func_printf_infinite_long_double=yes
+gl_cv_func_fpurge_works=yes
+gl_cv_func_fseeko=yes
+gl_cv_func_getcwd_path_max=yes
+gl_cv_func_getopt_gnu=yes
+gl_cv_func_getopt_posix=yes
+gl_cv_func_gettimeofday_clobber=no
+gl_cv_func_gettimeofday_posix_signature=yes
+gl_cv_func_isnanl_works=yes
+gl_cv_func_iswcntrl_works=yes
+gl_cv_func_lseek_pipe=yes
+gl_cv_func_lstat_dereferences_slashed_symlink=yes
+gl_cv_func_malloc_0_nonnull=1
+gl_cv_func_malloc_posix=yes
+gl_cv_func_mbrtowc_incomplete_state=yes
+gl_cv_func_mbrtowc_nul_retval=yes
+gl_cv_func_mbrtowc_null_arg1=yes
+gl_cv_func_mbrtowc_null_arg2=yes
+gl_cv_func_mbrtowc_retval=yes
+gl_cv_func_mbrtowc_sanitycheck=yes
+gl_cv_func_memchr_works=yes
+gl_cv_func_memmem_works_always=yes
+gl_cv_func_memmem_works_fast=yes
+gl_cv_func_nl_langinfo_yesexpr_works=yes
+gl_cv_func_posix_spawn_works=yes
 gl_cv_func_printf_directive_a=yes
 gl_cv_func_printf_directive_f=yes
-gl_cv_func_printf_directive_n=yes
 gl_cv_func_printf_directive_ls=yes
-gl_cv_func_printf_positions=yes
+gl_cv_func_printf_directive_n=yes
+gl_cv_func_printf_enomem=yes
 gl_cv_func_printf_flag_grouping=yes
 gl_cv_func_printf_flag_leftadjust=yes
 gl_cv_func_printf_flag_zero=yes
+gl_cv_func_printf_infinite=yes
+gl_cv_func_printf_infinite_long_double=yes
+gl_cv_func_printf_long_double=yes
+gl_cv_func_printf_positions=yes
 gl_cv_func_printf_precision=yes
-gl_cv_func_printf_enomem=yes
-gl_cv_header_wchar_h_correct_inline=yes
-gl_cv_decl_null_works=yes
-gl_cv_func_malloc_posix=yes
-gl_cv_func_memchr_works=yes
-gl_cv_have_include_next=yes
-gt_cv_inttypes_pri_broken=no
-gl_cv_promoted_mode_t=mode_t
-gl_cv_func_mbrtowc_sanitycheck=yes
-gl_cv_sys_struct_timespec_in_time_h=yes
-gl_cv_func_iswcntrl_works=yes
-gl_cv_func_dup2_works=yes
-gl_cv_func_fcntl_f_dupfd_works=yes
-gl_cv_func_fseeko=yes
-# the following flag, according to fseeko.m4, is needed to skip the fseeko replacement
-gl_cv_func_fflush_stdin=yes
-gl_cv_func_gettimeofday_clobber=no
-gl_cv_func_gettimeofday_posix_signature=yes
-gl_cv_func_lseek_pipe=yes
-gl_cv_func_mbrtowc_retval=yes
-gl_cv_func_posix_spawn_works=yes
+gl_cv_func_printf_sizes_c99=yes
 gl_cv_func_sigprocmask=1
 gl_cv_func_spawnattr_setschedparam=yes
 gl_cv_func_spawnattr_setschedpolicy=yes
 gl_cv_func_stat_dir_slash=yes
+gl_cv_func_stat_file_slash=yes
+gl_cv_func_strerror_0_works=yes
 gl_cv_func_strndup_works=yes
+gl_cv_func_strstr_linear=yes
+gl_cv_func_strstr_works_always=yes
 gl_cv_func_unsetenv_works=yes
+gl_cv_func_wcrtomb_retval=yes
+gl_cv_func_wcwidth_works=yes
+gl_cv_func_working_mkstemp=yes
+gl_cv_func_working_mktime=yes
 gl_cv_func_working_strerror=yes
+gl_cv_have_include_next=yes
 gl_cv_have_raw_decl_atoll=yes
 gl_cv_have_raw_decl_btowc=yes
 gl_cv_have_raw_decl_chown=yes
@@ -1502,9 +1462,9 @@ gl_cv_have_raw_decl_link=yes
 gl_cv_have_raw_decl_linkat=yes
 gl_cv_have_raw_decl_lseek=yes
 gl_cv_have_raw_decl_lstat=yes
-gl_cv_have_raw_decl_mbsinit=yes
 gl_cv_have_raw_decl_mbrlen=yes
 gl_cv_have_raw_decl_mbrtowc=yes
+gl_cv_have_raw_decl_mbsinit=yes
 gl_cv_have_raw_decl_memmem=yes
 gl_cv_have_raw_decl_mempcpy=yes
 gl_cv_have_raw_decl_memrchr=yes
@@ -1516,8 +1476,8 @@ gl_cv_have_raw_decl_mknodat=yes
 gl_cv_have_raw_decl_mkstemp=yes
 gl_cv_have_raw_decl_openat=yes
 gl_cv_have_raw_decl_pipe2=yes
-gl_cv_have_raw_decl_posix_spawnattr_setpgroup=yes
 gl_cv_have_raw_decl_popen=yes
+gl_cv_have_raw_decl_posix_spawnattr_setpgroup=yes
 gl_cv_have_raw_decl_pread=yes
 gl_cv_have_raw_decl_ptsname=yes
 gl_cv_have_raw_decl_rawmemchr=yes
@@ -1557,30 +1517,32 @@ gl_cv_have_raw_decl_symlink=yes
 gl_cv_have_raw_decl_symlinkat=yes
 gl_cv_have_raw_decl_tmpfile=yes
 gl_cv_have_raw_decl_ttyname_r=yes
-gl_cv_have_raw_decl_unlinkat=yes
 gl_cv_have_raw_decl_unlink=yes
+gl_cv_have_raw_decl_unlinkat=yes
 gl_cv_have_raw_decl_unlockpt=yes
 gl_cv_have_raw_decl_unsetenv=yes
 gl_cv_have_raw_decl_usleep=yes
 gl_cv_have_raw_decl_vdprintf=yes
 gl_cv_have_raw_decl_vsnprintf=yes
-gl_cv_have_raw_decl_wcsrtombs=yes
 gl_cv_have_raw_decl_wcrtomb=yes
 gl_cv_have_raw_decl_wcsnrtombs=yes
+gl_cv_have_raw_decl_wcsrtombs=yes
 gl_cv_have_raw_decl_wctob=yes
 gl_cv_have_raw_decl_wcwidth=yes
-gl_cv_header_inttypes_h=yes
 gl_cv_header_errno_h_complete=yes
-gl_cv_header_working_fcntl_h=yes
+gl_cv_header_inttypes_h=yes
 gl_cv_header_stdint_h=yes
+gl_cv_header_wchar_h_correct_inline=yes
+gl_cv_header_working_fcntl_h=yes
+gl_cv_header_working_stdint_h=yes
+gl_cv_promoted_mode_t=mode_t
 gl_cv_size_max=yes
+gl_cv_sys_struct_lconv_ok=yes
+gl_cv_sys_struct_timespec_in_time_h=yes
 gl_cv_sys_struct_timeval=yes
 gl_cv_sys_struct_utimbuf=yes
 
-# this gnulib test is especially stupid, it invokes UB and hangs for
-# an entire minute
-gl_cv_func_working_mktime=yes
-
+gt_cv_inttypes_pri_broken=no
 gt_cv_c_wint_t=yes
 gt_cv_c_wchar_t=yes
 gt_cv_c_intmax_t=yes

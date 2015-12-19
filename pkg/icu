@@ -9,14 +9,28 @@ tardir=icu
 [deps]
 
 [build]
+cp -f "$K"/config.sub source/
+if [ -n "$CROSS_COMPILE" ] ; then
+  echo '**** building for host ****'
+  mkdir host
+  cd host
+  CPPFLAGS=-D_GNU_SOURCE CFLAGS="-O0 -g0" CXXFLAGS="-O0 -g0" \
+  CC=gcc CXX=g++ ../source/configure \
+    --enable-strict=no --enable-static --enable-shared=no --enable-tests=no \
+    --enable-samples=no --enable-dyload=no
+  make VERBOSE=1 -j$MAKE_THREADS
+  echo '**** host build finished ****'
+
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir --with-cross-build=$PWD"
+  cd ..
+fi
+
 cd source
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir"
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" $xconfflags \
   --disable-tests --disable-samples
-make V=1 -j$MAKE_THREADS
+make VERBOSE=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
