@@ -1,9 +1,10 @@
 [mirrors]
-http://nodejs.org/dist/v4.2.2/node-v4.2.2.tar.xz
+http://nodejs.org/dist/v4.2.3/node-v4.2.3.tar.xz
 
 [vars]
-filesize=12791572
-sha512=fe6563ca641581afa4ba7fda1b25175eae474aeb196504cd82a6486bf9dfe6c753c554b31d9aa3b6453c509aa792615e897343de69a0b8bfd26759efaea2e1cb
+filesize=12768804
+sha512=4b6196ee7a430a7834d30424728ddeea7e0fa44d3776f53072931337a8396f8ea3620880f5962eec469f585723d9036b1a1768f859b080f973c5568fc0c060db
+
 
 [deps.host]
 dynamic-toolchain
