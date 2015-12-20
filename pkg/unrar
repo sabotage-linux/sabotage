@@ -5,14 +5,12 @@ http://www.rarlab.com/rar/unrarsrc-5.0.14.tar.gz
 filesize=209707
 sha512=91b05bd2974e0a1cb8bd8f01ee90637c9c48da71a4ffa74e161de969f17bedbcda0cfbac128d366ffa5065e8195004fe82763a2a1e8628f0016621b1c2d364f2
 tardir=unrar
+desc="extractor for RAR archives"
 
 [deps]
 
 [build]
-
-#CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-#LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-#  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-
-make V=1 -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS \
+  CXX="$CXX" CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  STRIP=true
 make DESTDIR="$butch_install_dir" install
