@@ -4,6 +4,7 @@ http://download.electrum.org/Electrum-1.9.2.tar.gz
 [vars]
 filesize=666900
 sha512=c7c4051e8c407e4980ba5a134b61953114fea73da12ef853d571a84d962ec535061b8fa369b6dbb0aa6e166990ca5b239369a51ba78fc5f15c1e009214da830a
+desc="lighweight bitcoin client written in python. blockchain is used remotely."
 
 [deps]
 python

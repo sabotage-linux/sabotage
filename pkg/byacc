@@ -4,6 +4,7 @@ ftp://invisible-island.net/byacc/byacc-20150711.tgz
 [vars]
 filesize=714438
 sha512=348558046acca31a39e8df480ae4c46ad03a1b073a51877a8981914bce65e8922e83e14c45eecd0e122c9d3d018cd4b6ab8c7f29b8dbfa13d648f2f86104a4e9
+desc="berkeley yacc is a tool to generate LALR(1) parsers"
 
 [build]
 

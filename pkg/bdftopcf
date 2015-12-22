@@ -4,6 +4,7 @@ http://xorg.freedesktop.org/releases/individual/app/bdftopcf-1.0.5.tar.gz
 [vars]
 filesize=152881
 sha512=0ea80b1e90da292e82e97447526ea6c6b7299070145a09a1486974b92047c14d70439fe95d24f6fb13f8da07c66321840486d7ff910bb40abc7d2e9f216edfe7
+desc="a font compiler for the X server and font server"
 
 [deps]
 libxfont

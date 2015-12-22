@@ -4,6 +4,7 @@ http://dev-www.libreoffice.org/src/cppunit-1.13.2.tar.gz
 [vars]
 filesize=953596
 sha512=8f4be569f321d577cec31931f49f4df143bc94e283605509b6ea50c60690aa91a2aed940e7eebd4b2413a4218f9a6c3978d312d8e587eab040283c6563846ecd
+desc="unit testing framework for C++"
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

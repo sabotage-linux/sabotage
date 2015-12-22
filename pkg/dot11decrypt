@@ -6,6 +6,7 @@ filesize=40176
 sha512=96c4a9c820d75381183e62e8783f0038982b2c76c1ad53c826835bd20d171e51a53f3f0997164a9add82cb1cec6bd8ae3b8d7f421f870befcd1aa7fba2554b91
 tarball=dot11decrypt-00dd93e9.tar.gz
 tardir=dot11decrypt-master
+desc="WEP/WPA2 on-the-fly decrypter. requires monitor dev, creates tap dev"
 
 [deps]
 libtins

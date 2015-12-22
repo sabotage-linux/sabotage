@@ -4,6 +4,7 @@ http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz
 [vars]
 filesize=20907673
 sha512=7400d567f11946286062121f3f677617b819d66ea354dade63ef49fb2f2a85ed6bad4d9474ff5fa7710a7866d65b537e604623e4a986e36ca06088ca0bded96c
+desc="nethack-style dungeon exploration game, optional with graphics"
 
 [deps]
 ncurses
