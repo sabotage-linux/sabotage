@@ -1,0 +1,109 @@
+From 52cfc6486d0ee00c64ac16e890ebd46e81dcbff2 Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Fri, 25 Dec 2015 16:21:50 +0000
+Subject: [PATCH] fix for sysroot being appended if already in path
+
+if a package uses PKG_CONFIG_PATH with a (at least relative) path that
+resides into its src dir, and that src dir is a childpath of sysroot,
+previously that path got expanded to an absolute pathname and erroneously
+prefixed with sysroot.
+for example with audacity
+-I /sysroot-mips/include/sysroot-mips/src/build/audacity/lib-src/lib-widget-extra
+---
+ main.c | 77 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 74 insertions(+), 3 deletions(-)
+
+diff --git a/main.c b/main.c
+index 345846b..b688855 100644
+--- a/main.c
++++ b/main.c
+@@ -72,12 +72,83 @@ print_sysroot_dir(pkg_fragment_t *frag)
+ 	return "";
+ }
+ 
++/* removes multiple slashes, /./ style stuff and resolves ../ kind of stuff on _absolute_ paths.
++ * will always strip trailing slashes.
++ * will fail with relative paths. (C) 2015 rofl0r */
++static char* normalizepath(const char* path, char* out) {
++	size_t i, out_size = 0;
++	char* tmp;
++	if(path[0] != '/') goto fail;
++	for(i = 0; path[i]; i++) switch(path[i]) {
++		case '/':
++			while(path[i+1] == '/') i++;
++			if(!out_size || out[out_size -1] != '/') goto copy;
++			break;
++		case '.':
++			if(!i || !out_size) goto fail;
++			else if(path[i-1] == '/' && out[out_size -1] == '/') {
++				out_size--;
++				switch(path[i+1]) {
++					case '.':
++						if((!path[i+2] || path[i+2] == '/')) {
++							tmp = out + out_size;
++							while(--tmp > out && *tmp != '/');
++							if(tmp >= out && *tmp == '/') {
++								out_size = tmp - out;
++								i += 2;
++								goto restore;
++							} else {
++								fail:
++								return 0;
++							}
++						}
++						goto def;
++					case '/':
++						i++;
++						restore:
++						out_size++;
++						if(!path[i]) goto done;
++						break;
++					case 0:
++						goto restore;
++					default:
++						def:
++						out_size++;
++						goto copy;
++						break;
++				}
++			} else goto copy;
++			break;
++		default:
++			copy:
++			out[out_size++] = path[i];
++			break;
++	}
++	done:
++	if(out_size > 1 && out[out_size -1] == '/')
++		out_size--; // remove trailing slash
++	out[out_size] = 0;
++	return out;
++}
++#include <limits.h>
+ static void
+ print_fragment(pkg_fragment_t *frag)
+ {
+-	if (frag->type)
+-		printf("-%c%s%s ", frag->type, print_sysroot_dir(frag), frag->data);
+-	else
++	if (frag->type) {
++		char b1[PATH_MAX], b2[PATH_MAX];
++		const char *sr = print_sysroot_dir(frag);
++		/* check that the include path does not already contain sysroot.
++		   this will happen for instance if a caller uses
++		   PKG_CONFIG_PATH to point to a .pc file embedded into its
++		   src tree if the src tree is a subdir of the sysroot */
++		if(*sr && normalizepath(sr, b1) &&
++		   normalizepath(frag->data, b2) &&
++		   !strncmp(b1, b2, strlen(b1)))
++			printf("-%c%s ", frag->type, b2);
++		else
++			printf("-%c%s%s ", frag->type, sr, frag->data);
++
++	} else
+ 		printf("%s ", frag->data);
+ }
+ 
+-- 
+1.8.4
+
