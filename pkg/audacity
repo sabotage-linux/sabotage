@@ -11,18 +11,52 @@ desc="audio editor and recording app written in C++"
 libsndfile
 libsamplerate
 wxgtk
+expat
 
 [build]
+for i in . lib-src/sbsms lib-src/portaudio-v19 lib-src/libresample ; do
+cp -f "$K"/config.sub "$i"/
+done
 patch -p1 < "$K"/audacity-timeb.patch
 patch -p1 < "$K"/audacity-filedialog-segfault.patch
 patch -p1 < "$K"/audacity-format.patch
+sed -i 's@test "\$cross_compiling" = yes \&\&@false \&\&@g' configure
 
-PKG_CONFIG_PATH="$butch_root_dir""$butch_prefix"/lib/pkgconfig \
-CFLAGS="-D_GNU_SOURCE -std=gnu89" \
-./configure -C --prefix="$butch_prefix" \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+cat << EOF > wx-config
+#!/bin/sh
+#for i ; do
+#printf "XXX %s\n" "\$i" >&2
+#done
+opts=
+for i ; do
+	case "\$i" in
+	--version)  exec pkg-config --modversion wxgtk ;;
+	--libs)     opts="\$opts --libs" ;;
+	--cflags)   opts="\$opts --cflags" ;;
+	--cxxflags) opts="\$opts --cflags" ;;
+	esac
+done
+exec pkg-config \$opts wxgtk
+EOF
+chmod +x wx-config
+
+PATH="$PWD:$PATH" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags -std=gnu89 -Wno-strict-prototypes" \
+CXXFLAGS="$optcflags -Wno-unused-local-typedefs" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   --disable-sse \
   --with-ffmpeg=no
+
+[ -n "$CROSS_COMPILE" ] && {
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+for i in portaudio-v19 sbsms; do cp -f libtool lib-src/"$i"/ ; done
+}
+
 # audacity does weird things with msgfmt & xgettext
 printf "install:\n\ttrue\n\nclean:\n\ttrue\n" > locale/Makefile
-make -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS AR="$CROSS_COMPILE"ar
 make DESTDIR="$butch_install_dir" install
