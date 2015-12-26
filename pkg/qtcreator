@@ -13,6 +13,7 @@ qmake -r \
 	QMAKE_CFLAGS="-D_GNU_SOURCE $optcflags" \
 	QMAKE_LFLAGS="$optldflags" \
 	QMAKE_CXXFLAGS="-D_GNU_SOURCE $optcflags"
-
+sed -i 's/#include <execinfo.h>/\/\/#include <execinfo.h>/g' ./src/plugins/qmldesigner/designercore/exceptions/exception.cpp
+patch -p1 < $K/qtcreator-no-backtrace.patch
 make -j$MAKE_THREADS VERBOSE=1
 make install INSTALL_ROOT=$butch_install_dir
