@@ -141,4 +141,4 @@ Encoding=UTF-8
 Type=Application
 Categories=Qt;Development;Debugger;' > "$butch_install_dir"/share/applications/qdbusviewer-qt5.desktop
 
-ln -s "$butch_install_dir"/mkspecs "$butch_root_dir"/
+ln -sf "$butch_install_dir"/mkspecs "$butch_root_dir"/
