@@ -1,0 +1,18 @@
+[vars]
+filesize=23127195
+sha512=7fdcb55161137759856deb46bf8ae46c31529d01d1d8eb7dc73dfc5adaf7912725fc4d58f612c374ad14d2e6df3c52a4c7f85e3ddc1470b473b8e37bee42ff80
+
+[mirrors]
+http://download.qt.io/official_releases/qtcreator/3.6/3.6.0/qt-creator-opensource-src-3.6.0.tar.gz
+
+[deps]
+qt5
+
+[build]
+qmake -r \
+	QMAKE_CFLAGS="-D_GNU_SOURCE $optcflags" \
+	QMAKE_LFLAGS="$optldflags" \
+	QMAKE_CXXFLAGS="-D_GNU_SOURCE $optcflags"
+
+make -j$MAKE_THREADS VERBOSE=1
+make install INSTALL_ROOT=$butch_install_dir

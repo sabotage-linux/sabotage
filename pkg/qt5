@@ -32,32 +32,30 @@ debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
 
 # Wno-parentheses has no effect...
-CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
-  LDFLAGS="$optldflags" 			                        \
-./configure 												\
-  -static                                                   \
-  -prefix "$butch_prefix"/ 									\
+  CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
+  LDFLAGS="$optldflags" 			                                            \
+./configure 												         \
+  -prefix "$butch_prefix"/ 									   \
   -plugindir "$butch_prefix"/share/qt5/plugins 				\
-  -translationdir "$butch_prefix"/share/qt5/translations 	\
-  -docdir "$butch_prefix"/share/qt5/docs 					\
-  -sysconfdir "/etc/xdg"	   								\
-  --opensource 												\
-  -confirm-license 											\
-  -release                 									\
-  -nomake examples         									\
-  -openssl-linked         									\
-  -no-dbus 													\
-  -no-cups 													\
-  -no-audio-backend 										\
-  -no-opengl 												\
-  -system-libpng 											\
-  -system-libjpeg 											\
-  -system-zlib 												\
-  -system-sqlite 											\
-  -system-harfbuzz                                          \
-  -no-rpath 												\
-  -optimized-qmake 											\
-  -skip qtwebengine 										\
+  -translationdir "$butch_prefix"/share/qt5/translations \
+  -docdir "$butch_prefix"/share/qt5/docs 					   \
+  -sysconfdir "/etc/xdg"	   								   \
+  --opensource 												      \
+  -confirm-license 											      \
+  -release                 									   \
+  -nomake examples         									   \
+  -openssl-linked         									      \
+  -no-dbus 													         \
+  -no-cups 													         \
+  -no-audio-backend 										         \
+  -system-libpng 											         \
+  -system-libjpeg 										        	\
+  -system-zlib 												      \
+  -system-sqlite 											         \
+  -system-harfbuzz                                       \
+  -no-rpath 												         \
+  -optimized-qmake 											      \
+  -skip qtwebengine 										         \
   -no-separate-debug-info
 
 cd qtbase
