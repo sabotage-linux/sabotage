@@ -1,0 +1,29 @@
+From ca4ec433d2f4ba3c2dfc9fe5146f07ba4705e23f Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Sun, 27 Dec 2015 18:09:00 +0000
+Subject: [PATCH] i386: g++ 4.7.x, despite claiming C++11 conformance, does not
+ know alignas
+
+---
+ arch/i386/bits/alltypes.h.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/i386/bits/alltypes.h.in b/arch/i386/bits/alltypes.h.in
+index b8902db..4ac1b42 100644
+--- a/arch/i386/bits/alltypes.h.in
++++ b/arch/i386/bits/alltypes.h.in
+@@ -27,7 +27,11 @@ TYPEDEF long double double_t;
+ #endif
+ 
+ #ifdef __cplusplus
++#if defined(__GNUC__) && (__GNUC__*100+__GNUC_MINOR__*10) < 480
++TYPEDEF struct { __attribute__((aligned(8))) long long __ll; long double __ld; } max_align_t;
++#else
+ TYPEDEF struct { alignas(8) long long __ll; long double __ld; } max_align_t;
++#endif
+ #else
+ TYPEDEF struct { _Alignas(8) long long __ll; long double __ld; } max_align_t;
+ #endif
+-- 
+1.8.4
+
