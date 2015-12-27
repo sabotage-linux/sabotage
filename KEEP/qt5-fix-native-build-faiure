@@ -1,0 +1,11 @@
+--- ./qt3d/src/render/frontend/qshaderprogram.cpp.orig	2015-12-27 22:01:23.285772246 +0000
++++ ./qt3d/src/render/frontend/qshaderprogram.cpp	2015-12-27 20:47:15.271380078 +0000
+@@ -201,8 +201,6 @@
+     case Compute:
+         setComputeShaderCode(shaderCode);
+         break;
+-    default:
+-        Q_UNREACHABLE();
+     }
+ }
+ 
