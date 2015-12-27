@@ -1,14 +1,2 @@
 [deps]
-musl
-
-[vars]
-filesize=988899
-sha512=6c50ca542733feeb10301097ade32075c5417ada5bdd195957de8521a28b20e0e7a54ed553fa3e022b24969e9deb97d72e289192cb2a3afc2c86241dc6cafa02
-
-[mirrors]
-http://pkgconfig.freedesktop.org/releases/pkg-config-0.25.tar.gz
-
-[build]
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
-make
-make -j$MAKE_THREADS DESTDIR="$butch_install_dir" install
+pkgconf
