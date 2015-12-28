@@ -58,6 +58,7 @@ debugflags=
   -skip qtwebengine 									 \
   -no-separate-debug-info
 patch -p1 < $K/qt5-fix-native-build-faiure
+patch -p1 < $K/qt5-qtdeclarative-musl-stacksize-fix.patch
 cd qtbase
 patch -p1 < "$K"/qt5-fix-compilation-with-libressl.patch
 cd ../qtwebkit
