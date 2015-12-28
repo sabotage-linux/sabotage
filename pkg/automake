@@ -7,6 +7,7 @@ http://ftp.gnu.org/gnu/automake/automake-1.13.tar.xz
 [vars]
 filesize=1421396
 sha512=e938422378e302dc32725a5bde98a7f2867c6fb6507361e3233ce22a17c7f04d11fd21f3c6e45548f2255817b871e347e312de3b263cad545b12befb6e7476ca
+desc="automated makefile generator"
 
 [build]
 ./configure -C --prefix="$butch_prefix"

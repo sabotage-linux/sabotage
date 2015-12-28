@@ -4,6 +4,7 @@ http://ftp.gnu.org/gnu/bash/bash-4.3.30.tar.gz
 [vars]
 filesize=7977214
 sha512=76e5d91f0d29f857d5ab39423075ee4a577b59bae22f86cefef82c814f25d37456655e083e3cb116406856b192ca8b5749852baf7d01dbac491a2fb2e5ab7686
+desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
 
 [deps]
 

@@ -4,6 +4,7 @@ http://downloads.sourceforge.net/project/bridge/bridge/bridge-utils-1.5.tar.gz
 [vars]
 filesize=33243
 sha512=4e525fbd3defb509664ef3b728d9e5edfb92beaebdb5d7733d8203fb38cb3f4bb54d02dc1e28813889a2ee19c78b9b47da6d99c8032481a7fd7f104658dea7c3
+desc="provides brctl utility, required to create and manage bridge devices"
 
 [deps]
 

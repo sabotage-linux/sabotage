@@ -1,9 +1,9 @@
 [mirrors]
-http://nodejs.org/dist/v0.12.9/node-v0.12.9.tar.gz
+http://nodejs.org/dist/v4.2.3/node-v4.2.3.tar.xz
 
 [vars]
-filesize=19582666
-sha512=8b46864a1a2796fb45331dba21968676f491c3cfff2af31ec61a97dc78f2fa2f4143b1365d7218dbc471ea68407a55c65b9c7bbd0a73130284b38091639eedd2
+filesize=12768804
+sha512=4b6196ee7a430a7834d30424728ddeea7e0fa44d3776f53072931337a8396f8ea3620880f5962eec469f585723d9036b1a1768f859b080f973c5568fc0c060db
 
 
 [deps.host]
@@ -11,14 +11,16 @@ dynamic-toolchain
 python
 
 [build]
-# nodejs has 3 supported versions currently:
-# - v5 (stable)
-# - v4 (LTS)
-# - v0.12 (Maintenance, does not require GCC 4.8, support end: 2017)
+# Better fail here, than in the middle of the build!
+if ! ($CC --version | grep -q -E '((4\.[8-9])|([5-9]\.[0-9]+))\.'); then
+	echo "ERROR: GCC 4.8 or higher required!"
+	exit 1
+fi
 
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
 patch -p1 < "$K"/nodejs-prefix.patch
+
 
 CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix"
 

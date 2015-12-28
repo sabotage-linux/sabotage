@@ -4,6 +4,7 @@ http://matt.ucc.asn.au/dropbear/releases/dropbear-2015.68.tar.bz2
 [vars]
 filesize=1611161
 sha512=7725cd4077a3968684db3646f6013c6202977e79d281619e029366e45fca9c4e33e271812626237b6e33938eeb4c8b260902fe2b57cff085086bf930713a934a
+desc="lightweight ssh server/client"
 
 [deps]
 zlib

@@ -5,6 +5,7 @@ http://downloads.sourceforge.net/project/ats2-lang/ats2-lang/ats2-postiats-0.1.1
 filesize=3289626
 sha512=624ff22a13c637ad1b681109a787a3c1dc922890a9a4e056caac0a6b2f89dd59e0eddfb92750588914b038279cc586d4effdba4823eab7cc155953c114fd9341
 tardir=ATS2-Postiats-0.1.10
+desc="the ATS programming language"
 
 [deps]
 gmp

@@ -4,6 +4,7 @@ util-macros
 [vars]
 filesize=113218
 sha512=9c2f98191169f7bca69601fcea5ddcb45d50b3a6bae087a2d6ee2d83f9729155b23268ad4c46a3cc99162cdacf4c8e3d7f061e58d73237da96f23123444f67d8
+desc="big requests extension for the X server"
 
 [mirrors]
 http://xorg.freedesktop.org/releases/individual/proto/bigreqsproto-1.1.2.tar.bz2

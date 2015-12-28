@@ -5,6 +5,7 @@ http://ftpmirror.gnu.org/groff/groff-1.22.2.tar.gz
 [vars]
 filesize=4019913
 sha512=ea34db53f075b6816827b07ac3d6a19ed50529c939044337eb3124575ac3b41363e1d81bbd5bf552a7a10f6b1dd233d6e7acaf646e18cfe94464c59dc20ffe80
+desc="bloated gnu replacement for nroff and troff text formatters. C++."
 
 [deps.host]
 libstdc++

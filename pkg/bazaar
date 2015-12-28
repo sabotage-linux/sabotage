@@ -4,6 +4,7 @@ https://launchpad.net/bzr/2.6/2.6.0/+download/bzr-2.6.0.tar.gz
 [vars]
 filesize=11301124
 sha512=f40d4380a837321c2ed168d15b0b5d31e9de6df93c0f8f2fd9b16c9351524b0afac5b8744740f587e9704efeb4cc004cae7f35aed47f73b5c796cbe2526af980
+desc="a version control system written in python"
 
 [deps.run]
 python

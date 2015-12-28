@@ -6,7 +6,13 @@ filesize=1376845
 sha512=0694e403ebc57b37218e00ec1a406cae5cc9c5b52b6798e0d4590840b6cdbf9ddc0d9471f67af783e960f8fa2e620394d51384257dca23d06bcd90224a80ce5d
 
 [build]
-make -f unix/Makefile generic_gcc -j$MAKE_THREADS \
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags"
+make -f unix/Makefile flags -j$MAKE_THREADS \
+CFLAGS_BZ="-D_GNU_SOURCE $optcflags" LFLAGS1="$optldflags" \
+CC="$CC" AS="$CROSS_COMPILE"as STRIP=true LF2=
+
+sed -i 's@-DNO_LCHMOD@@' flags
+sed -i 's@-O3@'"$optcflags"'@' flags
+
+make -f unix/Makefile generic -j$MAKE_THREADS
 
 make prefix="$butch_install_dir""$butch_prefix" -f unix/Makefile install
