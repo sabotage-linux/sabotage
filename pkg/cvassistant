@@ -8,6 +8,7 @@ http://netcologne.dl.sourceforge.net/project/cvassistant/cvassistant_2.0.0.tar.b
 
 [deps]
 qt5
+zip
 
 [build]
 qmake -config release \
