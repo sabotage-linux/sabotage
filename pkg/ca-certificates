@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20150426.tar.xz
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20151214.tar.xz
 
 [vars]
-filesize=303256
-sha512=920dfc512c018c5338bf07b6a6afcb664d9bfba659d4233ca9e87471d5e0ed05de054c96f3d7e6091549aa6deb46106a79f7f982696081f9b2164e18133eb34d
-tardir=ca-certificates-20150426
+filesize=293672
+sha512=acee5565aa7d1f0cc120a6abb6503e0ac4b4e12f5fd1cb12442ec1374ae1570ec6dc3a8f3a247fad6835a29d96e856f12c664f466e92344db3aa1ae6292a27ac
+tardir=ca-certificates
 
 [deps]
 openssl
@@ -16,7 +16,10 @@ openssl
 $HOSTCC "$K"/c_rehash.c -o c_rehash -lssl -lcrypto
 export PATH=$PWD:"$PATH"
 mkdir -p "$butch_install_dir""$butch_prefix"/share/ca-certificates/mozilla
-patch -p1 < "$K"/ca-certificates.patch
+cat << EOF > sbin/Makefile
+install:
+	install -Dm755 update-ca-certificates \$(DESTDIR)\$(sbindir)/update-ca-certificates
+EOF
 cp "$K"/certdata2pem.c mozilla/
 cat << EOF > mozilla/Makefile
 all: a.out
@@ -30,8 +33,10 @@ install:
 	 install -D -m 644 \$\$p \$(CERTSDIR)/\$\$p ; \
 	done
 EOF
-make
-make DESTDIR="$butch_install_dir" install
+sed -i 's@/usr@'"$butch_prefix"'@g' sbin/update-ca-certificates
+make CERTSDIR="$butch_prefix"/share/ca-certificates
+make CERTSDIR="$butch_prefix"/share/ca-certificates \
+     DESTDIR="$butch_install_dir" sbindir="$butch_prefix"/bin install
 
 mkdir -p "$butch_install_dir/etc/ssl/certs"
 
