@@ -1,0 +1,22 @@
+[vars]
+filesize=601642
+sha512=3d042e720c9854ae42ef72d1acf78ff8ff1cbf3c259d2c8bdba0a0b9cbf754fbe2dee9994cb9513cf1df24f26a857a13e828f0c88dc2e50f91e1c33a122eb385
+
+[mirrors]
+http://netcologne.dl.sourceforge.net/project/dos2unix/dos2unix/7.3.2/dos2unix-7.3.2.tar.gz
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+find ./ -name Makefile -exec sed -i 's/\/usr/\//g' {} \;
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
