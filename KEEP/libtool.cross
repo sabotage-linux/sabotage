@@ -252,8 +252,8 @@ dlopen_self=yes
 dlopen_self_static=no
 
 # Commands to strip libraries.
-old_striplib="${CROSS_COMPILE}strip --strip-debug"
-striplib="${CROSS_COMPILE} --strip-unneeded"
+old_striplib="${STRIP} --strip-debug"
+striplib="${STRIP} --strip-unneeded"
 
 # The linker used to build libraries.
 LD="${CROSS_COMPILE}ld"
