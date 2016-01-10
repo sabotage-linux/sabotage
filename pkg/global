@@ -1,0 +1,23 @@
+[mirrors]
+http://tamacom.com/global/global-6.5.2.tar.gz
+
+[vars]
+filesize=2924850
+sha512=b2eb71f60622bd74adb3e2d5a5a18e91f30ebb5cdeb9cd7408c3a8ea62a9902f8bb9d7de251e76226d61f61fd719ac60443655a2819ae27cb943bb76f237b58e
+desc='source code tagging system, similar to ctags'
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
