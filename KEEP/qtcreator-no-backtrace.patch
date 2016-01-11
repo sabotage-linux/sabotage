@@ -1,0 +1,60 @@
+--- ./src/plugins/debugger/shared/backtrace.cpp.orig	2015-12-26 12:23:17.047887035 +0000
++++ ./src/plugins/debugger/shared/backtrace.cpp	2015-12-26 12:23:51.907886411 +0000
+@@ -35,7 +35,6 @@
+ #if defined(Q_OS_LINUX)
+ #include <stdio.h>
+ #include <signal.h>
+-#include <execinfo.h>
+ #endif
+ 
+ namespace Debugger {
+@@ -45,28 +44,6 @@
+ {
+     if (maxdepth == -1)
+         maxdepth = 200;
+-#if defined(Q_OS_LINUX)
+-    void *bt[200] = {0};
+-    qDebug() << "BACKTRACE:";
+-    int size = backtrace(bt, sizeof(bt) / sizeof(bt[0]));
+-    for (int i = 0; i < qMin(size, maxdepth); i++)
+-        qDebug() << "0x" + QByteArray::number(quintptr(bt[i]), 16);
+-    QProcess proc;
+-    QStringList args;
+-    args.append(QLatin1String("-e"));
+-    args.append(QCoreApplication::arguments().at(0));
+-    proc.start(QLatin1String("addr2line"), args);
+-    proc.waitForStarted();
+-    for (int i = 0; i < qMin(size, maxdepth); i++)
+-        proc.write("0x" + QByteArray::number(quintptr(bt[i]), 16) + '\n');
+-    proc.closeWriteChannel();
+-    QByteArray out = proc.readAllStandardOutput();
+-    qDebug() << QCoreApplication::arguments().at(0);
+-    qDebug() << out;
+-    proc.waitForFinished();
+-    out = proc.readAllStandardOutput();
+-    qDebug() << out;
+-#endif
+ }
+ 
+ /*
+--- ./src/plugins/qmldesigner/designercore/exceptions/exception.cpp.orig	2015-12-26 12:34:14.535875261 +0000
++++ ./src/plugins/qmldesigner/designercore/exceptions/exception.cpp	2015-12-26 12:35:45.255873636 +0000
+@@ -101,18 +101,6 @@
+     m_function(QString::fromUtf8(_function)),
+     m_file(QString::fromUtf8(_file))
+ {
+-#ifdef Q_OS_LINUX
+-    void * array[50];
+-    int nSize = backtrace(array, 50);
+-    char ** symbols = backtrace_symbols(array, nSize);
+-
+-    for (int i = 0; i < nSize; i++)
+-    {
+-        m_backTrace.append(QString("%1\n").arg(symbols[i]));
+-    }
+-
+-    free(symbols);
+-#endif
+ 
+ if (s_shouldAssert)
+     Q_ASSERT_X(false, _function, QString(QStringLiteral("%1:%2 - %3")).arg(m_file).arg(m_line).arg(m_function).toUtf8());

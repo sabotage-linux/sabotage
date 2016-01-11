@@ -18,7 +18,7 @@ patch -p1 < "$K"/xf86-video-intel-dri2.patch
   --enable-xvmc \
   --enable-dri2 \
   --disable-selective-werror
-
+      
 #  --enable-glamor \
 
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install

@@ -1,14 +1,18 @@
-[deps]
-python
+[mirrors]
+https://www.mercurial-scm.org/release/mercurial-3.6.2.tar.gz
 
 [vars]
-filesize=3313261
-sha512=046d8f9f9510727e4c08bbcaeb7e402544b6ce5d240f44d71f73768304072f2ed1e1b856c848143ed1ccd55fc6b109a0281be305e0adad84aa0a6583bb72ddc9
+filesize=4518349
+sha512=2ad780174a30c39a1482d597466523a133b8c62a3a0eb9ac3b183082e279fc624998a9ffa520abafe5f7afc7d9f4600f443ad4dfa1003bd7fdc6b713040091ed
 
-[mirrors]
-http://mercurial.selenic.com/release/mercurial-2.1.1.tar.gz
+[deps.run]
+python
+
+[deps.host]
+python
+wget
 
 [build]
 python setup.py build
-python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir"
-
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

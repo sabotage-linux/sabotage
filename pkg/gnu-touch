@@ -1,0 +1,23 @@
+[vars]
+filesize=5649896
+sha512=b42bb233340353647bb9a1c3d9122c1a5379cf3602ba9197c3c935fc899897e7d4685148dfaf93eccc096bee0a9b03416d79dc9bb81d5d2dea6e04ed134a3d1b
+
+[mirrors]
+http://ftp.gnu.org/gnu/coreutils/coreutils-8.24.tar.xz
+
+[deps]
+e2fsprogs
+
+[build]
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+FORCE_UNSAFE_CONFIGURE=1 \
+	./configure -C \
+		--prefix="$butch_prefix" \
+		--disable-nls $xconfflags \
+		--enable-install-program=touch
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR=./install install
+mkdir -p "$butch_install_dir"/bin
+cp ./install/bin/touch "$butch_install_dir"/bin

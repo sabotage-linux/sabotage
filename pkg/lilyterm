@@ -1,16 +1,20 @@
 [vars]
-filesize=3812944
-sha512=6f9c5142db3b155bd601149b5632807b3c20dcfa7006ce5f7e120e6fc4b2174a3f4671c18232c040ffd69ebfb5950be5c563ac5cc08b88d03eb5a9f1b0f96c04
+filesize=328443
+sha512=52d105c9543b3ee27ea16026339b58d8b65643ae4f54f19f90f41681bd7902be237ef126edf9dc6a12a26373f7d69eb51b4849dbef07e28ef2043de02819a221
+desc="LilyTerm is a terminal emulator based off of libvte that aims to be fast and lightweight, Licensed under GPLv3."
 
 [mirrors]
-http://ftp.gnu.org/gnu/texinfo/texinfo-5.2.tar.xz
+http://lilyterm.luna.com.tw/file/lilyterm-0.9.9.2.tar.gz
 
-[deps.host]
-perl
+[deps]
+vte2
+gtk+2
 
 [build]
+#patch -p1 < "$K"/some.patch
+
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine) \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
@@ -21,11 +25,3 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-
-# needs evalution which host tool provides "install-info"
-cd "$butch_install_dir"/share/info
-rm -vf dir
-for f in *
-  do install-info $f dir 2>/dev/null
-done
-cd -

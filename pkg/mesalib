@@ -69,3 +69,4 @@ echo true >  bin/missing
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+ln -s /lib/dri /lib/xorg/modules/
