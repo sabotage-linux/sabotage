@@ -1,7 +1,6 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.1.11.tar.xz
+http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.1.16.tar.xz
 
 [vars]
-filesize=83033600
-sha512=da4db5cd7aa886475401f1cfea3afa8f29d34545bd0e8fcac42edacbd18f326fcb89f82b15ce45773c824f44b9b78c1b90a5c9950cdf9b4de85359b103f0aba0
-
+filesize=83053516
+sha512=d3b6e0c236af7bd7789af6ffe5b17ed72a6c0d8a451f934d1045ab5b476a6e790efc6cbafbeae9aec9387f1429b6276df3e3f9fbd9fe2ca10a476d7616a89bb6
