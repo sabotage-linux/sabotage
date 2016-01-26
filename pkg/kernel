@@ -3,11 +3,9 @@ gcc4
 
 [deps]
 kernel-tarball
-grsec
 
 [build]
 LINUX_VER=$(cat "$K"/kernel.version)
-GRSEC_VER=$(cat "$K"/grsecurity.version)
 
 rm -rf linux-"$LINUX_VER" || true
 tar xf "$C"/linux-"$LINUX_VER".tar.xz
@@ -30,13 +28,6 @@ dopatch "$K"/linux-virtio9p.patch
 
 # patches to support busybox trap and sed with strict musl BRE engine
 dopatch "$K"/linux-3.18-posix_sed.patch
-
-if [ -n "$ENABLE_GRSEC" ] ; then
-	patchname="$GRSEC_VER".patch
-	xzcat "$C"/"$patchname".xz > "$patchname"
-	ln -sf "$patchname" grsec.patch
-	dopatch grsec.patch
-fi
 
 export ARCH=$A
 linux_config="$K"/linux.config
@@ -85,11 +76,7 @@ make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 
 if [ "$got_modules" = 1 ] ; then
-  if [ -n "$ENABLE_GRSEC" ] ; then
-    v="$LINUX_VER"-grsec
-  else
-    v="$LINUX_VER"
-  fi
+  v="$LINUX_VER"
   depmod "$v"
 fi
 
