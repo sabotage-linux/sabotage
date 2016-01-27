@@ -1,18 +1,16 @@
+[mirrors]
+http://nginx.org/download/nginx-1.9.9.tar.gz
+
+[vars]
+filesize=887908
+sha512=9b8a82cccb834a1647f0d0ea5e202d8bebae273ed9865c232dae228746e7c4334aa03616a7553494550dbbd99d41f790ba4d880b10381da50513c8659cb5e9b3
+
 [deps]
 openssl
 pcre
 zlib
 
-[mirrors]
-http://nginx.org/download/nginx-1.5.8.tar.gz
-
-[vars]
-filesize=790523
-sha512=a7366551c84f0f3b82107cc2891f85a7721448af52c3169c3704635268920fcd78739858b26fbaf16fccf9026f76071f974313c4f8e2b00a75e413c1369f8f85
-
 [build]
-patch -p1 < "$K"/nginx.patch
-
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" ./configure \
   --with-http_ssl_module --with-ipv6 \
