@@ -54,4 +54,6 @@ mkdir -p "$xmoddest"
 cp "$K"/20-modules.conf "$xmoddest"/
 
 # FIXME starting X as non-root needs suid bit on the "server"
-chmod +s "$dest"/Xfbdev
+for i in Xfbdev Xorg ; do
+	[ -e "$dest"/"$i" ] && chmod +s "$dest"/"$i"
+done
