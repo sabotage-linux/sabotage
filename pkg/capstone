@@ -1,0 +1,42 @@
+[mirrors]
+https://github.com/aquynh/capstone/archive/3722c74.tar.gz
+
+[vars]
+filesize=3186302
+sha512=7854d6365c19d3ff9a65882bd34a247085746b4854940471dbdf62f23119a37569f123f3b6ced5a2f74782f2188bf8a3b5c7aff6beb063b44fdf9a1b44f90ad1
+tarball=capstone-3722c74.tar.gz
+tardir=capstone-3722c74f69ffa5b705d36cd49c19acdf958a9b7a
+
+[deps]
+
+[deps.host]
+cmake
+
+[build]
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
