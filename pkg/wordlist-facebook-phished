@@ -1,0 +1,12 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=14457
+sha512=5f745e603fbc2287227d6d851b8afbe82db270a3a9577c71d68c56707b0935abcd542197720174174f1547dfa6d4ac6e51d177a89f750a99233f3d7702e47cb2
+wordlist=facebook-phished
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

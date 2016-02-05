@@ -1,0 +1,13 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=2371487
+sha512=59054d13b6dd0fd7fc78fd55ae3b82e48cf72f668a90276a58b6eb5769337b98295412aced62d00d5e98302a6ac94a0d17503fb3ef5097c885d10f56d8a6efb8
+wordlist=german
+desc='german words, compiled by brandon enright'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

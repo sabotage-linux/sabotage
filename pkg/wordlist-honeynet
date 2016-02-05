@@ -1,0 +1,12 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=889525
+sha512=53f675c88162f7a84dca082408da646498d98309048bf9fdd54b922e19a49954ed106c345e2080d4cd2a38f8eaaa9beb27899921013bd4edeb99532d8f1ab407
+wordlist=honeynet
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

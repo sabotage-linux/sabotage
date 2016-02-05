@@ -1,0 +1,13 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=7158285
+sha512=5590776199bfa3f4f122cc1e264426fbcf7205dc9a8a44de66cb8145b70d2ddc5566fb6f51150ac57d0491f68c1c0e0ec5c8fa9dfeb94116b88a4964365b0d7d
+wordlist=porno
+desc='porno password collection created by matt weir'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

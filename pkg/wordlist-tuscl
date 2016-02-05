@@ -1,0 +1,13 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=176291
+sha512=2c7d0f815d0a1b2910aebcc87aaba4a70f7f405a4356baec6207f3a16532a4c04b76152444fbc7a6b9616c1f7dcc9f5a232f4996e54a29e6b0d35e2f25efdd3a
+wordlist=tuscl
+desc='passwords from the ultimate strip club list'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

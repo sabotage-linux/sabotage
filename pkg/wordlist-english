@@ -1,0 +1,13 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=1368101
+sha512=f5f0e5895bf5991c9996334b9411acecf8cf5c93568da4c23d53455306b6445f705da4bb1a875f88ac6bdda24be49e4d2f07f7592d964460bb739cb8c7d607d4
+wordlist=english
+desc='collection of english words'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

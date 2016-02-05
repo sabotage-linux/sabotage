@@ -1,0 +1,13 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=39327
+sha512=48f78cd02d9e127022bce46200ee0264a337cceceb80118cdc6e2fb46e729ab8e43f160599066f628d2603f55ce9d7ee557d6deb2732614e2811b184d5f9f033
+wordlist=faithwriters
+desc='religious passwords'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

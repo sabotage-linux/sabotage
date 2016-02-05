@@ -1,0 +1,12 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=47195
+sha512=b56c977299d72b53e6ba1099e002ae942d130b3695a44b81110be1a03e68131f735452407e6bb2912085682ebfdecacc802c2c068eb8ec94ab10b396e3bfc62b
+wordlist=hotmail
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt

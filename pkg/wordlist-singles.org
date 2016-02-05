@@ -1,0 +1,12 @@
+[mirrors]
+http://downloads.skullsecurity.org/passwords/$wordlist.txt.bz2
+
+[vars]
+filesize=50697
+sha512=3b80f64778bec1cf83f9af0ef10186d757c245b7950a1c09f3ca17522f6f1e7d9f7cddb692094c9e332dffb472331ec5615ef07ab1c3613b19fae411503c5727
+wordlist=singles.org
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt
