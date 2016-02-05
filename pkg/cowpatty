@@ -11,6 +11,6 @@ libpcap
 openssl
 
 [build]
-make V=1 -j$MAKE_THREADS CFLAGS="-DOPENSSL $optcflags" \
+make V=1 -j1 CFLAGS="-DOPENSSL $optcflags" \
   LDLIBS="$optldflags -lcrypto -lpcap"
 make DESTDIR="$butch_install_dir" BINDIR="$butch_prefix"/bin install
