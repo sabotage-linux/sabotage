@@ -84,7 +84,7 @@ if [ x$1 = xdeauth ] ; then
 		echo "need client mac address!" >&2
 		exit 1
 	fi
-	aireplay-ng -0 1 -a $ap_mac -c $2 $wlanif
+	aireplay-ng -0 1 -a $ap_mac -c $2 $monitor
 fi
 
 [ x$1 = xstopmon ] && airmon-ng stop $monitor
