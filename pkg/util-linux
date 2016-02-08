@@ -1,13 +1,11 @@
+[vars]
+tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+
 [deps]
 util-linux-tarball
 ncurses
 
 [build]
-mkdir -p "$butch_build_dir"
-cd "$butch_build_dir"
-rm -rf util-linux-2.23.1
-tar xf "$C"/util-linux-2.23.1.tar.xz
-cd util-linux-2.23.1
 patch -p1 < "$K"/util-linux.patch
 patch -p1 < "$K"/util-linux-hexdump.patch
 
