@@ -12,7 +12,7 @@ ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2
 [build]
 # force correct ABI detection on x86 (could fail if a 64bit kernel is used)
 abihack=
-[ "$A" = "i386" ] && abihack="ABI=32"
+case "$A" in i[3-6]86) abihack="ABI=32" ;; esac
 
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

@@ -11,11 +11,10 @@ pciutils
 libelf
 
 [build]
-if [ "$A" = "i386" ]; then
-  sed -ri 's, --no-undefined,,g' Make.defaults
-elif [ "$A" != "x86_64" ]; then
-  echo "WARNING: gnu-efi-libs only supports the pc architecture"
-  exit 0
-fi
+case "$A" in
+  i[3-6]86) sed -ri 's, --no-undefined,,g' Make.defaults ;;
+  x86_64) ;;
+  *) echo "ERROR: gnu-efi-libs only supports the intel architecture" ; exit 0 ;;
+esac
 make CC="$CC" PREFIX="$butch_prefix" INSTALLROOT="$butch_install_dir" \
   -j1 all install

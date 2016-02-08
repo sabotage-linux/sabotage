@@ -17,8 +17,11 @@ curl
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+
 align=yes
-[ "$A" = x86_64 ] || [ "$A" = i386 ] && align=no
+[ "$A" = x86_64 ] && align=no
+case "$A" in i[3-6]86) align=no ;; esac
+
 sed -i 's@-Wl,-syslibroot,@-Wl,-syslibroot=@' configure
 # remove execinfo.h test which breaks xcompile
 sed -i '18116,18150d' configure >/dev/null

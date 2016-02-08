@@ -16,7 +16,9 @@ patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \;
 
-if [ "$A" = "i386" ] && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
+intel32=false
+case "$A" in i[3-6]86) intel32=true ;; esac
+if $intel32 && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
 	printf '#!/bin/sh\necho i386-unknown-linux-gnu\n' > config.guess
 fi
 
@@ -41,15 +43,12 @@ sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linu
 
 $K/bin/libibertyfix libiberty
 
-archflags=
-#[ "$A" = "arm" ] && archflags="--with-float=soft --enable-multilib --enable-interwork"
-# gcc 3.4.6 is broken, it emits code for __floatsisf, which according to linaro staff shouldn't be used
-# it is supposed to be in libgcc for some archs. should not be too hard to fix, but it yet has to be done
-# musl-0.9.2/src/malloc/malloc.c:120: undefined reference to `__floatsisf'
-
-[ "$A" = "arm" ] && archflags="--disable-multilib"
-[ "$A" = "x86_64" ] && archflags=--disable-multilib
-[ "$A" = "i386" ] && archflags=--disable-multilib
+case "$A" in
+  arm) echo "error: gcc 3.4.6 does not support EABI!" ; exit 1 ;;
+  x86_64) archflags=--disable-multilib ;;
+  i[3-6]86) archflags=--disable-multilib ;;
+  *) archflags= ;;
+esac
 [ -n "$GCC_ARCH_CONFIG_FLAGS" ] && archflags="$archflags $GCC_ARCH_CONFIG_FLAGS"
 
 # workaround for debian idiocy: they put bits/ into an arch-specific

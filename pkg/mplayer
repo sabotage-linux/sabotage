@@ -28,10 +28,18 @@ patch -p1 < "$K"/mplayer-x11-libs.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--target="$A"-linux"
-
-test "$A"x = i386x -o "$A"x = x86_64x || xconfflags="$xconfflags \
+isx86=0
+disrt=0
+case "$A" in
+  i[3-6]86) isx86=1 ;;
+  x86_64) isx86=1 ;;
+  x32) isx86=1 ;;
+  arm) disrt=1 ;;
+  mips) disrt=1 ;;
+esac
+test "$isx86"x = 0x && xconfflags="$xconfflags \
   --disable-mmx --disable-mmxext --disable-sse --disable-sse2 --disable-ssse3"
-test "$A"x = armx -o "$A"x = mipsx && \
+test "$disrt"x = 1x && \
   xconfflags="$xconfflags --disable-runtime-cpudetection"
 
 # figure out arm cpu optimizations...

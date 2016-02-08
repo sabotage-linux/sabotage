@@ -20,12 +20,17 @@ http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/sys
 http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
 
 [build]
+isx86=0
+case "$A" in
+  i[3-6]86) isx86=1 ;;
+  x86_64) isx86=1 ;;
+  x32) isx86=1 ;;
+esac
 
-[ "$A" = "i386" ] || \
-  [ "$A" = "x86_64" ] || ( \
-    echo "WARNING: syslinux6 only supports the pc architecture"
+[ "$isx86" = 1 ] || {
+    echo "ERROR: syslinux6 only supports the intel architecture"
     exit 0
-  )
+}
 sed -i 's,codepage com32 lzo core memdisk mbr memdump gpxe sample,codepage com32 core mbr,g' Makefile
 sed -i 's,diag libinstaller dos win32 win64 dosutil txt,libinstaller txt,g' Makefile
 sed -i 's,win32/syslinux.exe win64/syslinux64.exe,,g' Makefile
@@ -57,10 +62,7 @@ PREFIXED_PATHS="BINDIR='/bin' LIBDIR='/lib' DATADIR='/share' MANDIR='/man' INCDI
 make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux/bios" INSTALLROOT="$butch_install_dir" bios installer
 make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux/bios" INSTALLROOT="$butch_install_dir" -j1 bios install
 
-if [ "$A" == "i386" ]; then
-  make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" efi32 installer
-  make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" -j1 efi32 install
-elif [ "$A" == "x86_64" ]; then
-  make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" efi64 installer
-  make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" -j1 efi64 install
-fi
+target=efi64
+case "$A" in i[3-6]86) target=efi32 ;; esac
+make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" $target installer
+make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" -j1 $target install

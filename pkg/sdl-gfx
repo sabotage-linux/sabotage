@@ -12,7 +12,7 @@ sdl
 # the configure script is too stupid to detect if we're on non-x86
 # we have to manually disable mmx asm.
 usemmx="--enable-mmx=no"
-[ "$A" = "i386" ] && usemmx=
+case "$A" in i[3-6]86) usemmx= ;; esac
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
