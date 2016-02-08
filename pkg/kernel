@@ -13,6 +13,11 @@ tarball=linux-"$LINUX_VER".tar.xz
 # get into menuconfig using
 # make HOSTCFLAGS="-D_GNU_SOURCE" HOSTLDFLAGS=-lncurses menuconfig
 
+# install regulatory domain database into kernel tree
+# we build it fixed into the kernel so we don't need the bloated "crda" tool
+# to change regulatory domains with iw set reg.
+cp -f "$K"/linux-regdb.txt net/wireless/db.txt
+
 dopatch() {
 	echo "applying patch $1"
 	if ! patch -p1 < "$1" ; then
