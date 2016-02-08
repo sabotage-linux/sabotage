@@ -10,7 +10,7 @@ printf "%s: start\n" "`date`"
 # that butch uses (R,S,C...).
 %BUTCH_CONFIG
 BUTCH_HAVE_TARBALL=false
-[ -n "%BUTCH_MIRROR_URLS" ] && BUTCH_HAVE_TARBALL=true
+[ -n "%BUTCH_MIRROR_URLS" ] || [ -n "$tarball" ] && BUTCH_HAVE_TARBALL=true
 get_file_name() {
 printf "%s" "$1" | awk '{n=split($0,a,"/");print a[n];}'
 }
