@@ -1,8 +1,11 @@
-[deps]
+[deps.host]
 bash
 git
 
 [build]
+url=https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+url=git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+
 dest="$S/build/linux-firmware-git"
 mkdir -p "$dest"
 if [ -d "$dest/linux-firmware" ]; then
@@ -10,7 +13,7 @@ if [ -d "$dest/linux-firmware" ]; then
 	git pull
 else
 	cd "$dest"
-	git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+	git clone --depth=1 "$url"
 	cd linux-firmware
 fi
 make SHELL=/bin/bash DESTDIR="$butch_install_dir" install
