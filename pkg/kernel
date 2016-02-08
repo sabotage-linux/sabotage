@@ -5,13 +5,11 @@ gcc4
 kernel-tarball
 kernel-patches
 
-[build]
+[vars]
 LINUX_VER=$(cat "$K"/kernel.version)
+tarball=linux-"$LINUX_VER".tar.xz
 
-rm -rf linux-"$LINUX_VER" || true
-tar xf "$C"/linux-"$LINUX_VER".tar.xz
-cd linux-"$LINUX_VER"
-
+[build]
 # get into menuconfig using
 # make HOSTCFLAGS="-D_GNU_SOURCE" HOSTLDFLAGS=-lncurses menuconfig
 
