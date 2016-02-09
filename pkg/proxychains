@@ -1,9 +1,9 @@
 [mirrors]
-http://heanet.dl.sourceforge.net/project/proxychains-ng/proxychains-4.9.tar.bz2
+http://downloads.sourceforge.net/proxychains-ng/proxychains-ng-4.11.tar.bz2
 
 [vars]
-filesize=30516
-sha512=ce1a4d55f3f401e2397e138d4fa0254b82e323cbb3eb92f3e7917b09442960f6fa054bfb3a1380a81f0842210050cc13fe3f7fc64f4ac0e55d870856af497043
+filesize=31856
+sha512=241365e8a8bbcead22c7844a2970f59bfc1ee9ef9a42a3f800823e70008bd976835d705a8b9894980c46307dce3a886514051023bafef113845531cb5d928e1c
 desc='redirect connections of dynamic linked programs to one or more proxies'
 
 [deps]
