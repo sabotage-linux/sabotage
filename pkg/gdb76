@@ -72,6 +72,13 @@ gdbserverflags="--enable-gdbserver=no"
 # gdbserver tries to build some .so for inprocess-agent, but it doesnt strip away -static
 # from LDFLAGS, so it tries to link the .so with -shared -static, which can't work
 
+static_ldflags=-static
+pythonflags=
+[ "$WANT_PYTHON" = 1 ] && { pythonflags="--with-python" ; static_ldflags= ; }
+[ "$GDB_DYNAMIC" = 1 ] && static_ldflags=
+tuiflags=
+[ "$WANT_TUI" = 1 ] || tuiflags=--disable-tui
+
 xconfflags=
 targets="--enable-64-bit-bfd --enable-targets=x86_64-linux,i386-linux,powerpc-linux,arm-linux,mips-linux,mipsel-linux,microblaze-linux"
 if [ -n "$CROSS_COMPILE" ] ; then
@@ -79,14 +86,16 @@ if [ -n "$CROSS_COMPILE" ] ; then
 	targets=
 fi
 
-LDFLAGS="-static $optldflags" \
+LDFLAGS="$static_ldflags $optldflags" \
 CFLAGS="-Dgnu_fnmatch=fnmatch \
- -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -O0 $optcflags $archflags" \
+ -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_rl_echoing_p=readline_echoing_p \
+  -O0 $optcflags $archflags" \
 ../configure -C \
   --prefix="$butch_prefix" --disable-werror --disable-tls \
   --with-system-zlib=yes $gdbserverflags $xconfflags $targets \
+  $pythonflags \
   --disable-sim \
-  --disable-tui \
+  $tuiflags
 
 
 make -j$MAKE_THREADS
