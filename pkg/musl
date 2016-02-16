@@ -1,16 +1,15 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.12.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.13.tar.gz
 
 [vars]
-filesize=918757
-sha512=7cabbe2665e32bd3408c8865f89f474106e982b4e5de81d0cdeea19e19e20b4d2496faf1adc6b2811d996f30f39258184ba347e8eb5f3811eab89179e8f52d70
+filesize=894640
+sha512=d5f4a6fdb6a2cdbd7ab1ad5a8d91b1c690b3bd31d9049dfc022067019bba11952e375374eed982a0ddac7347d17f9ff2300178c4d5f27bdd8480933cc6e67802
 desc='the C standard library (libc)'
 
 [deps.host]
 gcc4
 
 [build]
-patch -p1 < "$K"/musl-1.1.12-alignas.patch
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 if [ "$A" = "powerpc" ] ; then
 cat << EOF >> config.mak
