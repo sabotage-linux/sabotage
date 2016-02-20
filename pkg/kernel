@@ -62,10 +62,9 @@ make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
 
 mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules $butch_root_dir/lib/firmware
 
-got_modules=0
-egrep -q '\=m$' my.config && got_modules=1
+egrep -q '\=m$' my.config && got_modules=true || got_modules=false
 
-[ "$got_modules" = 1 ] && \
+$got_modules && \
 make INSTALL_MOD_PATH=$butch_root_dir DISABLE_PAX_PLUGINS=y modules_install
 
 cp -f System.map $butch_root_dir/boot/
@@ -86,9 +85,6 @@ make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
 # remove junk from kernel headers
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 
-if [ "$got_modules" = 1 ] ; then
-  v="$LINUX_VER"
-  depmod "$v"
-fi
+$got_modules && depmod "$LINUX_VER"
 
 exit 0
