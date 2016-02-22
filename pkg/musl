@@ -1,16 +1,15 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.13.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.14.tar.gz
 
 [vars]
-filesize=894640
-sha512=d5f4a6fdb6a2cdbd7ab1ad5a8d91b1c690b3bd31d9049dfc022067019bba11952e375374eed982a0ddac7347d17f9ff2300178c4d5f27bdd8480933cc6e67802
+filesize=894971
+sha512=9016246b44a7e6ef51477f0a246373c79f3e796c70031c3323be1b6c4c0518a2d4578f1aa712adfd9a80cdc1d71918bd7a35855052a0452b854755bf0cc2424e
 desc='the C standard library (libc)'
 
 [deps.host]
 gcc4
 
 [build]
-patch -p1 < "$K"/musl-1.1.13-fputs.patch
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 if [ "$A" = "powerpc" ] ; then
 cat << EOF >> config.mak
