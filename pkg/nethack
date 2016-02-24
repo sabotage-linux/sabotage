@@ -6,11 +6,11 @@ sha512=052342c19619219f291571d48cf7799f962eb6ec6f8a276427225c0abbd833eada18abeff
 tardir=nethack-3.4.3
 [deps]
 flex
-ncurses
+curses
 util-linux
 [build]
 patch -p1 < "$K"/nethack-options.patch
 sh ./sys/unix/setup.sh x
 sed -i "s@PREFIX   = /@PREFIX = $butch_install_dir$butch_prefix@" Makefile
-make all
+make all WINTTYLIB="-lcurses -lterminfo"
 make install
