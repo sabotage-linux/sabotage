@@ -1,0 +1,27 @@
+[vars]
+filesize=500140
+sha512=dbc881f3fe0053d60486113a1a7b10663e723c94e691e4f176f2d6d7dc04d479ac4840291eaa485c30b4ca284157a80ecd17964df583809e3bb721729f45a71e
+tarball=netbsd-curses-v0.0.1.tar.xz
+desc='lightweight replacement for ncurses'
+
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/${tarball}
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/${tarball}
+http://dl.2f30.org/mirrors/sabotage/tarballs/${tarball}
+
+[deps]
+
+[build]
+cat << EOF > config.mak
+CC=$CC
+HOSTCC=$HOSTCC
+AR=${CROSS_COMPILE}ar
+RANLIB=${CROSS_COMPILE}ranlib
+CFLAGS=-fPIC $optcflags -DSMALL
+LDFLAGS=$optldflags
+PREFIX=$butch_prefix
+DESTDIR=$butch_install_dir
+EOF
+
+make V=1 -j$MAKE_THREADS
+make install
