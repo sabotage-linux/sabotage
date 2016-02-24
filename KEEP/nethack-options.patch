@@ -1,6 +1,5 @@
-Only in nethack-3.4.3: config.cache
---- nethack-3.4.3.org/include/config.h
-+++ nethack-3.4.3/include/config.h
+--- a/include/config.h
++++ b/include/config.h
 @@ -169,8 +169,8 @@
  
  #ifdef UNIX
@@ -21,6 +20,15 @@ Only in nethack-3.4.3: config.cache
  
  /*
   *	Defining INSURANCE slows down level changes, but allows games that
+@@ -204,7 +204,7 @@
+  * otherwise it will be the current directory.
+  */
+ # ifndef HACKDIR
+-#  define HACKDIR "/usr/games/lib/nethackdir"
++#  define HACKDIR "/lib/nethack"
+ # endif
+ 
+ /*
 @@ -349,7 +349,7 @@
   */
  
@@ -30,8 +38,8 @@ Only in nethack-3.4.3: config.cache
  
  /* End of Section 5 */
  
---- nethack-3.4.3.org/include/unixconf.h
-+++ nethack-3.4.3/include/unixconf.h
+--- a/include/unixconf.h
++++ b/include/unixconf.h
 @@ -37,7 +37,7 @@
  #define NETWORK		/* if running on a networked system */
  			/* e.g. Suns sharing a playground through NFS */
@@ -50,8 +58,8 @@ Only in nethack-3.4.3: config.cache
  #endif
  
  /*
---- nethack-3.4.3.org/sys/unix/Makefile.src
-+++ nethack-3.4.3/sys/unix/Makefile.src
+--- a/sys/unix/Makefile.src
++++ b/sys/unix/Makefile.src
 @@ -61,7 +61,7 @@
  #	if you get setcgtty() warnings during execution, you are feeding gcc
  #		a non-ANSI <sys/ioctl.h> -- either run fixincludes on it or use
@@ -76,13 +84,13 @@ Only in nethack-3.4.3: config.cache
  # WINTTYLIB = -lcurses16
 -# WINTTYLIB = -lncurses
 -WINTTYLIB = -ltermlib
-+WINTTYLIB = -lncurses
++WINTTYLIB = -lcurses -lterminfo
 +# WINTTYLIB = -ltermlib
  #
  # libraries for X11
  # If USE_XPM is defined in config.h, you will also need -lXpm here.
---- nethack-3.4.3.org/sys/unix/Makefile.top
-+++ nethack-3.4.3/sys/unix/Makefile.top
+--- a/sys/unix/Makefile.top
++++ b/sys/unix/Makefile.top
 @@ -14,11 +14,11 @@
  # MAKE = make
  
@@ -110,8 +118,8 @@ Only in nethack-3.4.3: config.cache
  
  # per discussion in Install.X11 and Install.Qt
  VARDATND = 
---- nethack-3.4.3.org/sys/unix/Makefile.utl
-+++ nethack-3.4.3/sys/unix/Makefile.utl
+--- a/sys/unix/Makefile.utl
++++ b/sys/unix/Makefile.utl
 @@ -15,7 +15,7 @@
  
  # if you are using gcc as your compiler,
@@ -146,3 +154,14 @@ Only in nethack-3.4.3: config.cache
   
  # these are the names of the output files from YACC/LEX. Under MS-DOS
  # and similar systems, they may differ
+--- a/sys/unix/nethack.sh
++++ b/sys/unix/nethack.sh
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ #	SCCS Id: @(#)nethack.sh	3.4	1990/02/26
+ 
+-HACKDIR=/usr/games/lib/nethackdir
++HACKDIR=/lib/nethack
+ export HACKDIR
+ HACK=$HACKDIR/nethack
+ MAXNROFPLAYERS=4
