@@ -1,6 +1,6 @@
 [deps]
 alsa-lib
-ncurses
+curses
 
 [mirrors]
 ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.0.28.tar.bz2

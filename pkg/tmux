@@ -10,7 +10,7 @@ http://switch.dl.sourceforge.net/project/tmux/tmux/tmux-1.9/tmux-1.9a.tar.gz
 
 [deps]
 libevent
-ncurses
+curses
 
 [build]
 patch -p1 < "$K"/tmux-imsg.patch

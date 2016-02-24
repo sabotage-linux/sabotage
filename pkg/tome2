@@ -12,7 +12,7 @@ sdl
 sdl-ttf
 sdl-image
 jansson
-ncurses
+curses
 
 [deps.host]
 cmake

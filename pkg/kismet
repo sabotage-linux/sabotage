@@ -7,7 +7,7 @@ sha512=37b81dd89ba3c02af12e55ebddf86901dbe58123bf9b6928339803d80d01c2351b5376e82
 desc='a passive WLAN sniffer/detector'
 
 [deps]
-ncurses
+curses
 libnl-tiny
 libpcap
 

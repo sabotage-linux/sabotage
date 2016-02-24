@@ -7,7 +7,7 @@ sha512=274b2a700cd10c7034ffae50b989419f971c79eac71c8e20649e4138f9710be0505bd9937
 tardir=TiMidity++-2.14.0
 
 [deps]
-ncurses
+curses
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

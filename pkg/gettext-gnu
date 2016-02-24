@@ -1,5 +1,5 @@
 [deps]
-ncurses
+curses
 
 [deps.host]
 dynamic-toolchain

@@ -8,7 +8,7 @@ desc='bittorrent p2p filesharing client'
 
 [deps]
 libtorrent
-ncurses
+curses
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

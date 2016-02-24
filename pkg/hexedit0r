@@ -9,7 +9,7 @@ sha512=53593ace3da9043a3767ce2f8b92533400f453be6702c4712b9d952b130e2072b86f8b5a8
 desc='terminal hex editor, fork of hexedit'
 
 [deps]
-ncurses
+curses
 
 [build]
 make CFLAGS="$optcflags" LDFLAGS="$optldflags" -j$MAKE_THREADS

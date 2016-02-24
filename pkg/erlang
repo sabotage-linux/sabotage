@@ -7,7 +7,7 @@ sha512=84ec2a3834270c1babe153572d6187faa36c12128e604037d55be01719788c0dd79d46769
 tardir=otp_src_18.0
 
 [deps.host]
-ncurses
+curses
 
 [build]
 patch -p1 < "$K"/erlang.patch

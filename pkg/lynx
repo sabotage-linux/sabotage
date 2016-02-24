@@ -1,6 +1,6 @@
 [deps]
 openssl
-ncurses
+curses
 gzip
 ca-certificates
 

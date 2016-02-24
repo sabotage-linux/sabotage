@@ -8,7 +8,7 @@ sha512=7b8abef303837d0aee61a113163cecb0834c0dd99b736d9c165e18de8bcd37f9a8307984a
 [deps]
 libgcrypt
 curl
-ncurses
+curses
 
 [build]
 (

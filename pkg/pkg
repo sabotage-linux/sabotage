@@ -30,7 +30,7 @@ luajit
 lvm
 lynx
 nano
-ncurses
+curses
 ndhcp
 openal
 openssh

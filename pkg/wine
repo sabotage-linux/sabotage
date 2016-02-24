@@ -14,7 +14,7 @@ freetype
 [deps]
 openal
 alsa-lib
-ncurses
+curses
 libjpeg
 libpng
 libx11

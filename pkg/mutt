@@ -8,7 +8,7 @@ desc='terminal email client'
 http://ftp.vim.org/pub/mail/mutt/mutt-1.5.23.tar.gz
 
 [deps]
-ncurses
+curses
 openssl
 cyrus-sasl
 

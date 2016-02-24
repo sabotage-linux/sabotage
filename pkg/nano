@@ -7,7 +7,7 @@ sha512=7f079e307521a47405ba6d107d481df6869dbd7ea9297de6c69e831d00335cee403ac3ec1
 desc='a terminal-based, easy-to-use text editor'
 
 [deps]
-ncurses
+curses
 
 [build]
 sed -ie 's/__time_t/time_t/g' src/text.c

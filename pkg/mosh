@@ -7,7 +7,7 @@ sha512=6a5a42e5ed3f265bc8bee045340a59f604ab8f08b041573264f5679c29678e84d101537aa
 
 [deps]
 protobuf
-ncurses
+curses
 zlib
 openssl
 
