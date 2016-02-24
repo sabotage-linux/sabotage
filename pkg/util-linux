@@ -3,14 +3,14 @@ tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
 
 [deps]
 util-linux-tarball
-ncurses
+curses
 
 [build]
 patch -p1 < "$K"/util-linux.patch
 patch -p1 < "$K"/util-linux-hexdump.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="-Wl,-static $optldflags" \
+LDFLAGS="-Wl,-static $optldflags -lcurses -lterminfo" \
 ./configure -C \
   --prefix="$butch_prefix" --with-ncurses --disable-shared  \
   --disable-silent-rules \
@@ -19,6 +19,7 @@ LDFLAGS="-Wl,-static $optldflags" \
   --disable-mountpoint --disable-fdformat --disable-hwclock \
   --disable-switch_root --disable-kill --disable-login      \
   --disable-sulogin --disable-su --disable-more             \
+  --disable-pg \
   --disable-wall --disable-use-tty-group \
 
 make -j$MAKE_THREADS
