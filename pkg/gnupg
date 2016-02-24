@@ -14,6 +14,6 @@ libgcrypt
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
 make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar
 make DESTDIR="$butch_install_dir" install
