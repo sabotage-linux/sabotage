@@ -16,6 +16,7 @@ desc='a terminal-based text editor with a gazillion of features'
   --with-sysroot=$butch_root_dir"
 CPPFLAGS="-D_GNU_SOURCE -include stdlib.h -DHAVE_SETENV -DHAVE_PUTENV" \
 CFLAGS="$optcflags" \
+LIBS="-lcurses -lterminfo" \
 LDFLAGS="$optldflags -static" \
 ./configure -C $xconfflags \
   vim_cv_toupper_broken=no \
