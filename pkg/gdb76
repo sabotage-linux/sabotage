@@ -9,7 +9,7 @@ desc='the GNU debugger. debug applications created in asm, C, C++'
 
 [deps]
 kernel-headers
-termcap
+curses
 gettext
 readline
 zlib
