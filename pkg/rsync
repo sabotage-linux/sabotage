@@ -1,9 +1,9 @@
 [mirrors]
-http://rsync.samba.org/ftp/rsync/rsync-3.1.1.tar.gz
+http://rsync.samba.org/ftp/rsync/rsync-3.1.2.tar.gz
 
 [vars]
-filesize=890124
-sha512=ec0e46ff532a09a711282aaa822f5f1c133593ee6c1c474acd67284619236e6a202f0f369d3e67a95ceb3a3b1c39ea7fb609d6d6fb950f3be6e0f6372e903e21
+filesize=892724
+sha512=4c55fd69f436ead0cb5a0b7c6fdfef9bb28ddb9c63534eb619e756b118d5b08cfc5e696498650932c86e865b37e06633da947e6720ca0c27ed5c034313ae208b
 
 [deps]
 
