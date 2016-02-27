@@ -34,6 +34,8 @@ cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
 
 libibertyfix libiberty
 
+cp -f "$K"/config.sub .
+
 mkdir build
 cd build
 mv ../config.cache .
@@ -55,7 +57,7 @@ for culprit in readline libiberty libdecnumber opcodes readline bfd ; do
 done
 sed -i 's/noconfigdirs=""/noconfigdirs="intl readline"/' ../configure
 # let's use libedit in lieu of readline and save us from the in-tree compile of the latter...
-ln -sf "$butch_prefix"/lib/libreadline.a readline/libreadline.a
+ln -sf "$butch_root_dir""$butch_prefix"/lib/libreadline.a readline/libreadline.a
 archflags=
 if [ "$A" = "powerpc" ] ; then
 	cp "$K"/ppc-regs.h .
@@ -67,13 +69,18 @@ gdbserverflags="--enable-gdbserver=no"
 # gdbserver tries to build some .so for inprocess-agent, but it doesnt strip away -static
 # from LDFLAGS, so it tries to link the .so with -shared -static, which can't work
 
+xconfflags=
+targets="--enable-64-bit-bfd --enable-targets=x86_64-linux,i386-linux,powerpc-linux,arm-linux,mips-linux,mipsel-linux,microblaze-linux"
+if [ -n "$CROSS_COMPILE" ] ; then
+        xconfflags="--host=$($CC -dumpmachine)"
+        targets=
+fi
+
 LDFLAGS="-static $optldflags" \
 CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE -O0 $optcflags $archflags" \
 ../configure -C \
   --prefix="$butch_prefix" --disable-werror --disable-tls \
-  --with-system-zlib=yes $gdbserverflags \
-  --enable-64-bit-bfd \
-  --enable-targets=x86_64-linux,i386-linux,powerpc-linux,arm-linux,mips-linux,mipsel-linux,microblaze-linux \
+  --with-system-zlib=yes $gdbserverflags $targets $xconfflags \
   --disable-sim \
   --disable-tui \
 
