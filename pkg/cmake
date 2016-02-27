@@ -1,9 +1,9 @@
 [mirrors]
-http://www.cmake.org/files/v2.8/cmake-2.8.10.tar.gz
+http://www.cmake.org/files/v2.8/cmake-2.8.12.2.tar.gz
 
 [vars]
-filesize=5766728
-sha512=6c20056c08f24ddf76677badc5d2e77d1ab25877e2b7a71db413938b07308659ea62b6b866f61c1e54452710d8f59715e5d357e755d585fbc060b438e9728076
+filesize=6068231
+sha512=a0fe8f6305052ba7894a7d58aa30f97b4be1f52eb7de650273a704929a6fbe81c7cebfa6e68a18c9e7d62f7ed02c944f74c2974da9aacc70e2cb186e0a1be44d
 desc='immensely bloated build tool mostly used by windows and C++ folks'
 
 [deps]
