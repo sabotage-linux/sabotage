@@ -1,11 +1,10 @@
 --- a/configure
 +++ b/configure
-@@ -19874,7 +19874,7 @@
+@@ -19874,8 +19874,6 @@
         CFLAGS="-g $CFLAGS"
  else
         CPPFLAGS="-DNDEBUG $CPPFLAGS"
 -       CFLAGS=$(echo "$CFLAGS" | sed 's/-O2//;s/-g//')
-+       CFLAGS=$(echo "$CFLAGS" | sed 's/-O2//')
-        CFLAGS="-O3 -funroll-loops $CFLAGS"
+-       CFLAGS="-O3 -funroll-loops $CFLAGS"
  fi
  
