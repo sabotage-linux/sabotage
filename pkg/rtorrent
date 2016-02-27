@@ -1,9 +1,9 @@
 [mirrors]
-http://pkgs.fedoraproject.org/repo/pkgs/rtorrent/rtorrent-0.9.4.tar.gz/fd9490a2ac67d0fa2a567c6267845876/rtorrent-0.9.4.tar.gz
+http://rtorrent.net/downloads/rtorrent-0.9.6.tar.gz
 
 [vars]
-filesize=601913
-sha512=ae243d0336acff50e91e4ed9d306beb4705559775518e6dc122ec18a1530e59e2c531cf54f4b79899a1569ca18d343fce255071b45c41df1357bddfe926692aa
+filesize=610845
+sha512=704f7b79d5bc78b817da21a6886662a5a97fde210a110c50f708bdc18e1dcf3ef5c5f4e2740261d41221cfc69c19926bf34e10057adf10601da9e6e06b2cef75
 desc='bittorrent p2p filesharing client'
 
 [deps]
@@ -16,7 +16,7 @@ curses
   --with-sysroot=$butch_root_dir"
 sed -i 's@-Wl,-syslibroot,@-Wl,-syslibroot=@' configure
 # remove broken execinfo.h check
-sed -i '15855,15890d' configure
+sed -i '15872,15906d' configure
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
