@@ -1,14 +1,15 @@
 [mirrors]
-http://downloads.sourceforge.net/project/flac/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz
-http://kent.dl.sourceforge.net/project/flac/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz
+http://downloads.xiph.org/releases/flac/flac-1.3.1.tar.xz
 
 [vars]
-filesize=2009217
-sha512=39b216239341fbfe210c3a2fc0d0531ecae26c425365c4b6d4fc1081e44e6dc7a9aba8d4c79cc8025386d0a7bb0d25c413c9b64cf7da9ab04ca34a56d2699787
+filesize=941848
+sha512=923cd0ffe2155636febf2b4633791bc83370d57080461b97ebb69ea21a4b1be7c0ff376c7fc8ca3979af4714e761112114a24b49ff6c80228b58b929db6e96d5
 
 [deps]
 
 [build]
+# apply patch to prevent ./configure from removing "-g" cflag
+patch -p1 -l < "$K"/libflac-dont-remove-cflag.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
 testlib() {
