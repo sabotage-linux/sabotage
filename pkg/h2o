@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/h2o/h2o/archive/v1.3.1.tar.gz
+https://github.com/h2o/h2o/archive/v1.7.0.tar.gz
 
 [vars]
-filesize=4546819
-sha512=47710de9854d6652f80be5ae87e2b6888cb0081c343fa9f0b0bd1a37b97c73454db5d51135c7a4ad29a384098a54252327e549089f9a33b58757bfcf611b3aa5
-tardir=h2o-1.3.1
-tarball=h2o-1.3.1.tar.gz
+filesize=6543732
+sha512=b905cd4c99f150495d7252cc911cfd05285dc8aa1874ffc078e57185b7b3f613d5d0ab7950198d1431e1ed610371f3bee282f7dfef65f1575cf333267ebafa06
+tardir=h2o-1.7.0
+tarball=h2o-1.7.0.tar.gz
 
 [deps]
 openssl
@@ -15,7 +15,6 @@ cmake
 perl
 
 [build]
-sed -i 's@__linux__@__GLIBC__@g' src/main.c
 xconfflags=
 [ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
