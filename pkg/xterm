@@ -2,7 +2,7 @@
 libx11
 libxaw
 libxft
-termcap
+curses
 
 [mirrors]
 ftp://invisible-island.net/xterm/xterm-318.tgz

@@ -1,6 +1,6 @@
 [deps]
 gettext
-termcap
+curses
 
 [vars]
 filesize=492733
