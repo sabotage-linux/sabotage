@@ -1,9 +1,9 @@
 [mirrors]
-https://github.com/libass/libass/releases/download/0.12.3/libass-0.12.3.tar.xz
+https://github.com/libass/libass/releases/download/0.13.2/libass-0.13.2.tar.xz
 
 [vars]
-filesize=313852
-sha512=84931e89f02487ff01bfe24be3d90b1db8599ab2a5ec2277824b4330cd9219189a54f19d2d83f223d2d6f973b5e7474f2691905091749a776147669b72754be2
+filesize=348444
+sha512=71d495c02ea478b8632c177cef8605d23377e2da2c56dd3a1fa59f9a2d01cc642d4d9dc383083ef1dee8ccf2a6e6f25a4ad9bb7dff3618e7646161731b7312c7
 
 [deps]
 libpng
