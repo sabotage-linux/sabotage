@@ -1,9 +1,9 @@
 [mirrors]
-http://pkgs.fedoraproject.org/repo/pkgs/libtorrent/libtorrent-0.13.4.tar.gz/e82f380a9d4b55b379e0e73339c73895/libtorrent-0.13.4.tar.gz
+http://rtorrent.net/downloads/libtorrent-0.13.6.tar.gz
 
 [vars]
-filesize=768382
-sha512=6a5ea944c1193d1160563828c5901f0cf557f38c4de61153d505344f3c3c8509c765e01b6cc5e3a53ec2bb184a9e8db32ed4ec154e93a93822804210f0fa45d0
+filesize=781253
+sha512=b8aea4060357a8a40d15d42f1f698ef6f3ebdc885000bfbfa5bf9c81af8c88b5503a107e05c214e3e8489126928d336356c5e7e0eaf836b6b84a3cf74633b050
 
 [deps.host]
 dynamic-toolchain
@@ -24,7 +24,7 @@ case "$A" in i[3-6]86) align=no ;; esac
 
 sed -i 's@-Wl,-syslibroot,@-Wl,-syslibroot=@' configure
 # remove execinfo.h test which breaks xcompile
-sed -i '18116,18150d' configure >/dev/null
+sed -i '18271,18305d' configure >/dev/null
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
