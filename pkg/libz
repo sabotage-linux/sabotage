@@ -1,0 +1,18 @@
+[mirrors]
+https://sortix.org/libz/release/libz-1.2.8.2015.12.26.tar.gz
+
+[vars]
+filesize=135668
+sha512=20398a642acef402d59301dbffb7c1864d28214f8dddcb5403ae50071b1ebd3c0dc1df5b0e567443ad3813ba9d11bd0da1eeb36db3dcafc48f098a6dd6cd5a54
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine)"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix" $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
