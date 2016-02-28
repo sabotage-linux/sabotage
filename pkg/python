@@ -27,6 +27,7 @@ libffi
 patch -p1 < "$K"/python273-pathsearch.patch
 patch -p1 < "$K"/python-xcompile.patch
 patch -p1 < "$K"/python-includedirs.patch
+patch -p1 < "$K"/python2710-curses.patch
 
 sed -i 's@return readline@return feedline@' configure
 
