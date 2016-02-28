@@ -32,4 +32,8 @@ while read n ; do
 	fi
 done < "$fl"
 
-exit 0
+if [ "$in_sec" = 1 ] ; then
+	exit 0
+else
+	exit 1
+fi
