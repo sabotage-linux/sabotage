@@ -14,10 +14,13 @@ BUTCH_HAVE_TARBALL=false
 get_file_name() {
 printf "%s" "$1" | awk '{n=split($0,a,"/");print a[n];}'
 }
+get_file_ext() {
+printf "%s" "$1" | awk '{n=split($0,a,".");print a[n];}'
+}
 strip_file_ext() {
 case "$1" in
 *.tar.*) printf "%s" "$1"| sed 's/\.tar\.[0-9a-z]*$//' ;;
-*) le=$(printf "%s" "$1"| awk '{n=split($0,a,".");print a[n];}' | wc -c)
+*) le=$(get_file_ext "$1"| wc -c)
    ls=$(printf "%s" "$1"|wc -c)
    l=$(($ls - $le))
    printf "%s" "$1"|cut -b -$l
@@ -138,16 +141,14 @@ if $BUTCH_HAVE_TARBALL ; then
 
 	printf '%s\n' "$BUTCH_TARBALL" >> "$butch_tarballs_used"
 	printf "%s: starting to untar\n" "`date`"
-	if echo $BUTCH_TARBALL | grep -q "\.xz" ; then
-		tarflags=xJf
-	elif echo $BUTCH_TARBALL | grep -q "\.lzma" ; then
-		tarflags=xaf
-	elif echo $BUTCH_TARBALL | grep -q "\.bz2" ; then
-		tarflags=xjf
-	else
-		tarflags=xzf
-	fi
-	if ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
+	tarflags=
+	case $(get_file_ext "$BUTCH_TARBALL") in
+		xz) tarflags=xJf ;;
+		lzma) tarflags=xaf ;;
+		bz2) tarflags=xjf ;;
+		gz) tarflags=xzf ;;
+	esac
+	if [ -z $tarflags ] || ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
 		case "$BUTCH_TARBALL" in
 			*.tar.xz)
 				# old gnu tar passes .xz to lzma instead of xz
@@ -158,6 +159,10 @@ if $BUTCH_HAVE_TARBALL ; then
 			*.tar.*)
 				echo "tarball error"
 				exit 1 ;;
+			*.zip)
+				unzip "$butch_cache_dir/$BUTCH_TARBALL" || {
+				echo "unzip error"
+				exit 1 ; } ;;
 			*)
 				echo "seems we're not dealing with a tarball"
 				echo "handing control to package file..." ;;
