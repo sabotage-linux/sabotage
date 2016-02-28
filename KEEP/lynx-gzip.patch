@@ -1,0 +1,11 @@
+--- lynx2.8.9dev.8.org/src/HTFWriter.c
++++ lynx2.8.9dev.8/src/HTFWriter.c
+@@ -1052,7 +1052,7 @@
+ 		     * It's compressed with the modern gzip.  - FM
+ 		     */
+ 		    StrAllocCopy(uncompress_mask, program);
+-		    StrAllocCat(uncompress_mask, " -d --no-name %s");
++		    StrAllocCat(uncompress_mask, " -d -n %s");
+ 		    compress_suffix = "gz";
+ 		}
+ 		break;
