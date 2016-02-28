@@ -1,0 +1,21 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+if (wget --help 2>&1 |grep -q BusyBox) ; then
+        CMD='wget -s -T 60 -q'
+else
+        CMD='wget --spider --timeout 60 -q'
+fi
+
+tmp=$(mktemp)
+cat "$S"/pkg/* | grep -E '^http://|^https://' > "$tmp"
+
+while read -r p
+do
+        $CMD "$p" 2>/dev/null || echo "$p"
+done < "$tmp"
+
+rm "$tmp"
