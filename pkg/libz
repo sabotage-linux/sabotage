@@ -1,5 +1,5 @@
 [mirrors]
-https://sortix.org/libz/release/libz-1.2.8.2015.12.26.tar.gz
+http://sortix.org/libz/release/libz-1.2.8.2015.12.26.tar.gz
 
 [vars]
 filesize=135668
