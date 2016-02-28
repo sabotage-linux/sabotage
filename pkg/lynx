@@ -1,17 +1,16 @@
+[mirrors]
+http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.8.tar.bz2
+
+[vars]
+filesize=2657804
+sha512=f1705e1fde9b97d65fb223ee5606cd1ea0dfd4e536b523eb36e9ef78f0e4b28e84d37dc0d776670d176698cf27344a1e4f27302a8ff78338cd9fe7cf8e4eaee5
+desc='terminal web browser. supports HTTPS but not javascript'
+
 [deps]
 openssl
 curses
 gzip
 ca-certificates
-
-[vars]
-filesize=2521699
-sha512=34324bee9c51d1330bb141e0c9c7aaeaeea7968b8b33fa7075bf6a8fd412f28020a28a60f1729d014b11ac716975a9f5c07c6f226dd6416965cf1ab780145358
-tardir=lynx2-8-8
-desc='terminal web browser. supports HTTPS but not javascript'
-
-[mirrors]
-http://lynx.isc.org/current/lynx2.8.8dev.9.tar.bz2
 
 [build]
 
