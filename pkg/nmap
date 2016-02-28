@@ -11,7 +11,6 @@ pcre
 zlib
 lua
 openssl
-gnu-getopt
 
 [deps.host]
 dynamic-toolchain
@@ -21,10 +20,9 @@ patch -p1 < "$K"/nmap-configure-pcap_suitable.patch
 patch -p1 < "$K"/nmap-nbase_h.patch
 patch -p1 < "$K"/nmap-ldflags.patch
 
-GNU_GETOPT="-Dgetopt=gnu_getopt -Dgetopt_long=gnu_getopt_long -Dgetopt_long_only=gnu_getopt_long_only"
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $GNU_GETOPT $optcflags" \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" \
 CXXFLAGS="-DIPPROTO_MAX=256 $CFLAGS" \
-LDFLAGS="$optldflags -lgnu_getopt" \
+LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
     --without-subversion --without-nmap-update --without-zenmap \
     --without-ndiff \
