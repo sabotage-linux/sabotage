@@ -1,5 +1,4 @@
 #!/bin/sh
-#set -x
 if [ -z "$C" ] ; then
         echo 'C not set, did you source config ?'
         exit 1
@@ -17,12 +16,12 @@ for p in "$S"/pkg/* ; do
 		if [ -z "$l" ] ; then :
 		elif [ "$section" = mirrors ] && [ -z "$fn" ] ; then
 			fn=$(basename "$l")
-		elif [ "$section" = main ] && [ -z "$fs" ] ; then
+		elif [ "$section" = vars ] && [ -z "$fs" ] ; then
 			case "$l" in filesize=*) fs="${l#*=}" ;; esac
 		elif [ "$l" = "[build]" ]; then
 			break
 		else
-			if [ "$l" = '[mirrors]' ] || [ "$l" = '[main]' ] ; then
+			if [ "$l" = '[mirrors]' ] || [ "$l" = '[vars]' ] ; then
 				section=$(echo "$l"|sed -e 's/^\[//' -e 's/\]$//')
 			else
 				case "$l" in '['*) section= ;;	esac
