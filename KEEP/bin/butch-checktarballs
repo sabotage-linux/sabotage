@@ -8,6 +8,7 @@ getfilesize() {
 	stat "$1" | awk '/Size: /{print $2}'
 }
 
+ec=0
 for p in "$S"/pkg/* ; do
 	fn=
 	fs=
@@ -41,6 +42,9 @@ for p in "$S"/pkg/* ; do
 		fsgot=$(getfilesize "$C"/"$fn")
 		if [ "$fsgot" != "$fs" ] ; then
 			echo "$fn: want $fs, got $fsgot"
+			ec=1
 		fi
 	fi
 done
+
+exit "$ec"
