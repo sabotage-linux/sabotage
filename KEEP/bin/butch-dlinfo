@@ -1,15 +1,15 @@
 #!/bin/sh
 set -e
-if [ -z "$S" ] ; then
+if [ -z "$C" ] ; then
 	if [ -d "`pwd`/KEEP" ] ; then
-		S=`pwd`
+		C=`pwd`/tarballs
+		mkdir -p "$C" 2>/dev/null || true
 	else
-		echo error, missing config and source dir 1>&2
+		echo "error, missing config or not in sabotage tree" 1>&2
 		exit 1
 	fi
 fi
-mkdir "$S"/tarballs 2>/dev/null || true
- 
+
 url=$1
 if [ -z "$url" ] ; then
 	echo error, expecting an url as argument 1>&2
@@ -28,14 +28,14 @@ gethash() {
 	sha512sum "$1" | cut -d ' ' -f 1
 }
 
-fn="$S"/tarballs/$(geturlfilename "$url")
+fn="$C"/$(geturlfilename "$url")
 if [ "$USE_CURL" = 1 ] ; then
 	curl -c /dev/null -C - -k -L "$url" -o "$fn"
 else
 	if (wget --help 2>&1 |grep -q BusyBox) ; then
-        	CMD='wget -O'
+		CMD='wget -O'
 	else
-        	CMD='wget --no-check-certificate -O'
+		CMD='wget --no-check-certificate -O'
 	fi
 
 	$CMD "$fn" "$url"
