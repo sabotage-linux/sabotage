@@ -31,6 +31,7 @@ list:		list all installed packages
 files:		show all files installed by package
 owner:		shows which package owns a file
 search:		search for term in package names (grep syntax)
+dlinfo:		download url, print initial butch recipe
 unlink:		removes symlinks from /opt/packagename into /
 relocate:	creates symlinks for all files under /opt/packagename to /
 relink:		==relocate
@@ -77,6 +78,7 @@ case $1 in
 	checksum) shift; prog=butch-checksum;;
 	checkdownloads) shift; prog=butch-checkdownloads;;
 	checktarballs) shift; prog=butch-checktarballs;;
+	dlinfo) shift; prog=butch-dlinfo;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	update) export BUTCH_SKIPLIST=gcc3:stage0:stage0_musl:stage0_gcc:stage0_prepare:"$BUTCH_SKIPLIST" ;;
