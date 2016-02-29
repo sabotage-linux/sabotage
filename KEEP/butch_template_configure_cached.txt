@@ -114,16 +114,14 @@ butch_configure_cache="$K/config.cache"
 [ -z "$HOSTCC" ]  && HOSTCC="$CC"
 [ -z "$HOSTCXX" ]  && HOSTCXX="$CXX"
 
-user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
 debug_build=0
-if [ -e "$user_optimizations_file" ] ; then
-	printf "sourcing user defined optimization config %s\n" "$user_optimizations_file"
+if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
+	user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
+	printf "%s: sourcing user defined optimization config %s\n" "`date`" "$user_optimizations_file"
 	. "$user_optimizations_file"
 	printf "%s\n" "$optcflags" | \
 		grep -E '(^|\s)[-]g[123]*($|\s)' >/dev/null && \
 		debug_build=1
-else
-	printf "user optimization file %s not found.\n" "$user_optimizations_file"
 fi
 
 if $butch_do_cleanup_builddir && [ -e "$butch_build_dir" ] ; then
