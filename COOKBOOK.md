@@ -2,46 +2,53 @@
 
 A guide to running Sabotage for the experienced Linux user.
 
-
-## Introduction
-
 ### Butch, the build manager
 
-`butch` is a 700 LOC C program written from scratch.
+`butch` is a collection of shell-scripts wrapping around a 700 LOC C
+program written from scratch named `butch-core`.
+
 It handles package downloads, checksums, builds and dependencies in a
-relatively sane manner. 
+relatively sane manner.
 
 It supports the following commands:
 
-	$ butch install [<package> ... ]  # build and install <packages>
-	$ butch prefetch [<package> ... ] # download tarballs required by <packages>
-	$ butch rebuild [<package> ... ]  # rebuild already installed <packages>
+	install [<package> ... ]  # build and install <packages>
+	download [<package> ... ] # download tarballs required by <packages>
+	rebuild [<package> ... ]  # rebuild already installed <packages>
 
-	$ butch relink <package>          # create symlinks for an unlinked <package>
-	$ butch unlink <package>          # remove symlinks to a specific <package>
+	relink <package>          # create symlinks for an unlinked <package>
+	unlink <package>          # remove symlinks to a specific <package>
 
-	$ butch list                      # list all installed packages  
-	$ butch files <package>           # show all files installed by <package>
-	$ butch owner <file>              # shows which package owns a <file>
+	list                      # list installed packages
+	files <package>           # show files installed by <package>
+	mirrors <package>         # print mirrors for <package>
+	owner <file>              # print which package owns a <file>
+	users <package>           # print packages with <package> for dependency
 
-	$ butch print <package>           # pretty-print the specified <package>
-	$ butch search <term>             # search for <term> in package names (grep syntax)
-                 
-	$ butch update                    # rebuild packages whose hash differs from butch.db's hash
+	checksum <package>        # print checksums of files for a <package>
+	checkdownloads            # verify all package download links
+	checktarballs             # verify the downloaded package tarballs
+
+	printsec <pkg> <section>  # print the specified <section> of <package>
+	search <term>             # search for <term> in packages (grep syntax)
+
+	dlinfo <url>              # download url, print initial butch recipe
+
+	update                    # rebuild installed packages with new recipes
 
 `butch` will start up to sixteen download threads and up to two build threads. 
 
-By default, `butch` uses busybox's `wget`.
-This admittedly has some reliability issues and furthermore does not support HTTPS.
-For best results, prefetch all packages before the build process.
-If installed, GNU `wget` will work as a replacement.
-You may also install and use `curl` by exporting `USE_CURL=1`.
-Both of these alternatives support HTTPS. 
+By default, `butch` uses the system's `wget`. For best results, download all
+packages before the install process. GNU wget is preferred to busybox wget,
+as it supports HTTPS. You may also use `curl` by exporting `USE_CURL=1`.
 
-`butch` defaults to installing packages into `/opt/$packagename`.
-Files are then symlinked into a user-definable path, defaulting to `/`.
-Finally, the package name and hash of its recipe are then written to
-`/var/lib/butch.db`.
+`butch` defaults to installing built packages into `/opt/$packagename`. Files
+are then symlinked into a user-definable path, defaulting to `/`. Finally, the
+package name and hash of its recipe are then written to `/var/lib/butch.db`.
+
+`butch` may also be used for system configuration, eschewing the package
+building features by simply calling `exit 0` at the conclusion of a package
+recipe. This will avoid the above package installation procedure.
 
 To completely remove a package:
 
@@ -55,28 +62,26 @@ To completely remove a package:
 `/src` is the default path where `butch` searches for and builds packages.
 
 	/src
-	/src/pkg        # package recipes, used by butch.
-	/src/KEEP       # patches and other files referenced from scripts.
-	/src/build      # package build directory. Can grow quite large, safe to empty from time to time.
-	/src/filelists  # per-package file lists, referenced by `butch unlink`.
-	/src/logs       # per-package download and build logs.
-	/src/tarballs   # upstream package tarballs.
-	/src/utils      # sabotage utilities and helper scripts.
+	/src/pkg        # package recipes, used by butch
+	/src/KEEP       # patches and other files referenced from scripts
+	/src/build      # package build directory. Safe to empty from time to time
+	/src/filelists  # per-package file lists, referenced by `butch unlink`
+	/src/logs       # per-package download and build logs
+	/src/tarballs   # upstream package tarballs
+	/src/utils      # sabotage utilities and helper scripts
 
-`/src` is not required by Sabotage once it has installed `stage1`.
-You may `rm -rf /src` if you no longer need a build manager on the system. 
+`butch` requires `/src/pkg`,`/src/KEEP` and `/src/config`. It will fail to
+start if they are missing. The rest of this directory is optional with caveats.
 
-`butch` requires `/src/pkg`,`/src/KEEP` and `/src/config`.
-It will fail to start if they are missing.
-The rest of this directory is optional with caveats.
+Erasing `/src/filelists` will break `butch unlink <package>` for existing
+packages.
 
-Erasing `/src/filelists` will break `butch unlink <package>` for existing packages.
-`find . -type f -or -type l > /src/filelists/$packagename.txt` from the installation
-directory recovers the list.
+`find . -type f -or -type l > /src/filelists/$packagename.txt` from
+the installation directory recovers the list.
 
 Erasing `/src/utils` will lose scripts for cross-compilation, writing recipes,
-managing chroots and other functionality.
-Each script contains breif documentation explaining usage. 
+managing chroots and other functionality. Each script contains brief
+documentation explaining usage. 
 
 There is no issue erasing `/src/tarballs`, `/src/logs` or `/src/build` beyond
 the obvious. 
@@ -94,8 +99,15 @@ recipes and utilities.
 
 ### Writing recipes
 
+
+	[mirrors]
+	[vars]
+	[deps]
+	[build]
+
 `butch` recipes are plain text files that contain one or more labeled headers
-and their associated data.
+and their associated data. The above four sections are central to an assortment
+of different possible recipes. This section details their use. 
 
 	[mirrors]
 	<url #1>
@@ -106,19 +118,15 @@ and their associated data.
 	filesize=<bytes>
 	sha512=<sha 512 hash>
 	tardir=<directory name the tar extracts to, if it differs from the tar name>
-	tarball=<put name the tarball should be saved to if its default is unsuitable or cannot be easily derived from the mirror URL>
+	tarball=<optionally specified, if needed>
 
 `[mirrors]` and `[vars]` are optional, but must be included together as a set.
-HTTP(S) URLs are the only valid protocol for `[mirrors]`.
-`tardir` is an optional directive and is usually omitted.
-`tarball` is an optional directive and is usually omitted.
-These elements combine with `KEEP/butch_download_template.txt` as a 
-`build/dl_package.sh` script, and with
-`KEEP/butch_template_configure_cached.txt` into `build/build_package.sh`.
-The `[vars]` section is copied verbatim at the top of the generated scripts
-and can contain shell code.
+HTTP(S) is the only valid protocol for `[mirrors]`. `tardir` and `tarball` are
+optional directives and are usually omitted.
 
-This script then downloads and verifies the tarball.
+The `[vars]` section is copied verbatim to the top of these generated scripts and
+may contain shell code.
+
 The `utils/dlinfo` script is useful in generating the above sections for you.
 
 	[deps]
@@ -136,21 +144,23 @@ The `utils/dlinfo` script is useful in generating the above sections for you.
 	...
 	<package #n>
 
-Any or all three of the above headers may be present.
+Any combination of the above three headers may optionally be present.
+
 `[deps]` is the standard list of dependencies required by the recipe.
 `[deps.host]` are dependencies required on the host for cross-compilation.
-`[deps.run]` are requirements for the target cross-compile system.
+`[deps.run]` are requirements to run the package on the target system.
 
 	[build]
 	<shell instructions to build application>
 
-The shell script contents of `[build]` merges with 
-`KEEP/butch_template_configure_cached.txt` into `build/build_package.sh`.
-The resulting build script then executes.
-Specifying `butch_do_relocate=false` inside `[build]` will prevent the
-post-build linking of installed files.
-If the`[build]` phase calls `exit`, `butch` will not perform any 
-post-build activities.
+Shell instructions inside [build] will be performed by butch during
+installation. Specifying `butch_do_relocate=false` inside `[build]` will
+prevent the post-build linking of files. If the`[build]` phase calls `exit`,
+`butch` will not perform any post-build activities at all.
+
+These recipe elements combine with `KEEP/butch_download_template.txt` as a
+`build/dl_package.sh` script. They also join 
+`KEEP/butch_template_configure_cached.txt` to form `build/build_package.sh`.
 
 Metapackages containing only a `[mirrors]` & `[vars]`, `[deps]` or `[build]`
 section are useful.
@@ -158,17 +168,19 @@ section are useful.
 
 ### Variables and Templates
 
-Sabotage provides a modest collection of environment variables, sourced from
-`/src/config`.
+Sabotage provides environment variables used for scripts and recipes, sourced
+from `/src/config`. This section describes them in detail.
+
 The `stage1` values are provided here, along with a brief description of the variable.
 
-	SABOTAGE_BUILDDIR="/tmp/sabotage"
+        SABOTAGE_BUILDDIR="/tmp/sabotage"
 
 Defines where the `./build-stage0` script builds a chroot.
 	
 	A=x86_64
 
-Selects an architecture to build for. 'i386', 'arm', 'mips' and 'powerpc' are other options.
+Selects an architecture to build for. 'i386', 'arm', 'mips' and 'powerpc' are
+other options.
 
 	CC=gcc
 	HOSTCC=gcc
@@ -179,42 +191,32 @@ The C compiler used. `gcc` is currently the only compiler tested and supported.
 
 The number of threads to pass to make via the -j flag.
 
-	ARM_FLOAT_MODE=softfp
+        BUTCH_BIN="/a/path/to/butch-core"
 
-Sets ARM floating point emulation. 'hard' is not currently supported, use 'softfp'.
+If not set, `./build-stage0` will download and build `butch`. On systems lacking a
+proper libc, you may need to statically build `butch` yourself then specify it with
+this variable.
 
-	ARM_FPU=vfp
+	R=/               # `R` is the system root that butch will link packages into
+	S=/src            # `S` is the source directory for `butch`
+	K=/src/KEEP       # `K` is a directory of needed files and patches
+	C=/src/tarballs   # `C` is the downloaded tarball cache
+	LOGPATH=/src/logs # `LOGPATH` is where everything is logged
 
-Sets ARM FPU type. 'neon' is not currently supported, use 'vfp'.
-
-	BUTCH_BIN="/a/path/to/butch-core"
-
-If not set, `./build-stage0` will download and build `butch`.
-On systems lacking a proper libc, you may need to statically build `butch`
-yourself then specify it with this variable. 
-
-	R=/               # `R` is the root. `./build-stage0` and `utils/setup-rootfs.sh` create new systems here.
-	S=/src            # `S` is the `butch` directory containing recipes, files and build directories.
-	K=/src/KEEP       # `K` is a directory of patches and needed files.
-	C=/src/tarballs   # `C` is the downloaded tarball directory.
-	LOGPATH=/src/logs # `LOGPATH` is the log directory for builds.
-	H="$PWD"          # `H` is `./build-stage0`' calling location, used only during `stage0`.
-
-Internal paths, useful when writing scripts and recipes.
-You should leave these all as-is, this is the intended way. 
+Internal paths, useful when writing scripts and recipes. You should leave these
+all as-is, this is the intended way. 
 
 	BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
 
-The build template.
-It creates packages in `$R/opt/$package_name`, supplies a `config.cache` and
-symlinks packages into the root.
+The build template. It creates packages in `$R/opt/$package_name` and
+optionally supplies a `config.cache` file to speed up some from-source
+compilation recipes. Review the template to see its configurable options.
 	
 	BUTCH_DOWNLOAD_TEMPLATE="$K"/butch_download_template.txt
 
-The download template.
-It downloads, tests and unpacks tarballs needed by `butch`.
-	
-	STAGE=1
+The download template. It downloads, tests and unpacks tarballs.
+
+        STAGE=1
 
 Used during the bootstrap process by scripts to determine the current stage.
 Leave this alone.

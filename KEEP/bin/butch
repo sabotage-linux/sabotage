@@ -22,42 +22,36 @@ BINDIR=$(dirname "$(readlink -f "$0")")
 
 usage() {
 cat << EOF >&2
-butch wrapper v0.1.1
+butch v$(butch-core 2>&1 | head -n1 | sed -e 's@BUTCH v@@')
 
 usage: $0 command package ...
 
 ------- available commands -----
-list:		list all installed packages
-files:		show all files installed by package
-owner:		shows which package owns a file
-search:		search for term in package names (grep syntax)
-unlink:		removes symlinks from /opt/packagename into /
-relocate:	creates symlinks for all files under /opt/packagename to /
-relink:		==relocate
-update:		update all packages whose hash changed
-install:	download, build, relocate package(s) and all missing dependencies
-build:		==install
-prefetch:	download package(s) and all missing dependencies
-print:		pretty-print the specified package
-printsec:	print a section of the spec. package
-mirrors:	print all mirror urls of the spec. package
-download:	==prefetch
-rebuild:	unlink, download, rebuild, relocate package(s), but not their dependencies
-checkdownloads: verify all package download links
-checktarballs:	check if filesize of tarballs (if existent) matches packages
-users:		print all users of a package (i.e. pkgs that have it in the deps section)
-checksum:	print a checksum of all files of a package
+install [<package> ... ]  # build and install <packages>
+download [<package> ... ] # download tarballs required by <packages>
+rebuild [<package> ... ]  # rebuild already installed <packages>
 
-all download related actions are only done when needed, i.e. the tarball is missing.
+relink <package>          # create symlinks for an unlinked <package>
+unlink <package>          # remove symlinks to a specific <package>
 
-examples:
-butch build nano strace gdb
-butch files busybox
-butch owner /bin/gcc
+list                      # list installed packages
+files <package>           # show files installed by <package>
+mirrors <package>         # print mirrors for <package>
+owner <file>              # print which package owns a <file>
+users <package>           # print packages with <package> for dependency
 
-butch unlink gettext #temporarily unlinks gettext
-( do some work... for example check if package XY builds without gettext)
-butch relink gettext #put it back into place
+checksum <package>        # print checksums of files for a <package>
+checkdownloads            # verify all package download links
+checktarballs             # verify the downloaded package tarballs
+
+printsec <pkg> <section>  # print the specified <section> of <package>
+search <term>             # search for <term> in packages (grep syntax)
+
+dlinfo <url>              # download url, print initial butch recipe
+
+update                    # rebuild installed packages with new recipes
+
+download related actions are performed on-demand, i.e. the tarball is missing
 
 EOF
 }
@@ -70,18 +64,18 @@ case $1 in
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
 	search) shift; prog=butch-search;;
-	print) shift; prog=butch-print;;
 	printsec) shift; prog=butch-printsec;;
 	mirrors) shift; prog=butch-mirrors;;
 	users) shift; prog=butch-users;;
 	checksum) shift; prog=butch-checksum;;
 	checkdownloads) shift; prog=butch-checkdownloads;;
 	checktarballs) shift; prog=butch-checktarballs;;
+	dlinfo) shift; prog=butch-dlinfo;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	update) export BUTCH_SKIPLIST=gcc3:stage0:stage0_musl:stage0_gcc:stage0_prepare:"$BUTCH_SKIPLIST" ;;
 	install|prefetch|rebuild) : ;;
-	*) usage;; # we exec anyway to get butch-core's usage info
+	*) usage && exit 1;;
 esac
 
 exec "$BINDIR"/$prog "$@"

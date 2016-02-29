@@ -1,0 +1,48 @@
+#!/bin/sh
+set -e
+if [ -z "$S" ] ; then
+	if [ -d "`pwd`/KEEP" ] ; then
+		S=`pwd`
+	else
+		echo error, missing config and source dir 1>&2
+		exit 1
+	fi
+fi
+mkdir "$S"/tarballs 2>/dev/null || true
+ 
+url=$1
+if [ -z "$url" ] ; then
+	echo error, expecting an url as argument 1>&2
+	exit 1
+fi
+
+geturlfilename() {
+	echo "${url##*/}"
+}
+
+getfilesize() {
+	wc -c "$1" | cut -d ' ' -f 1
+}
+
+gethash() {
+	sha512sum "$1" | cut -d ' ' -f 1
+}
+
+fn="$S"/tarballs/$(geturlfilename "$url")
+if [ "$USE_CURL" = 1 ] ; then
+	curl -c /dev/null -C - -k -L "$url" -o "$fn"
+else
+	if (wget --help 2>&1 |grep -q BusyBox) ; then
+        	CMD='wget -O'
+	else
+        	CMD='wget --no-check-certificate -O'
+	fi
+
+	$CMD "$fn" "$url"
+fi
+echo '[mirrors]'
+echo "$url"
+echo
+echo '[vars]'
+echo filesize="$(getfilesize "$fn")"
+echo sha512="$(gethash "$fn")"
