@@ -145,6 +145,7 @@ if $BUTCH_HAVE_TARBALL ; then
 		lzma) tarflags=xaf ;;
 		bz2) tarflags=xjf ;;
 		gz) tarflags=xzf ;;
+		tgz) tarflags=xzf ;;
 	esac
 	if [ -z $tarflags ] || ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
 		case "$BUTCH_TARBALL" in
