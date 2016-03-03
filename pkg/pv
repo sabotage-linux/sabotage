@@ -6,4 +6,15 @@ sha512=913a5c84e24e0bfb23930a790d9e030f2c88014bb61266c96e3d11890c4667fe42662f01c
 http://www.ivarch.com/programs/sources/pv-1.5.2.tar.bz2
 
 [build]
-CFLAGS="$optcflags" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
