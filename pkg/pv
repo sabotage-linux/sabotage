@@ -1,6 +1,7 @@
 [vars]
 filesize=105001
 sha512=913a5c84e24e0bfb23930a790d9e030f2c88014bb61266c96e3d11890c4667fe42662f01c103c4dcbbc2e69515598a8546a4edb185b81422b90524432f7cc2e5
+desc='pipe viewer. add to piped command chains to see speed information'
 
 [mirrors]
 http://www.ivarch.com/programs/sources/pv-1.5.2.tar.bz2
