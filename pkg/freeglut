@@ -8,6 +8,7 @@ http://downloads.sourceforge.net/freeglut/freeglut-3.0.0.tar.gz
 [deps]
 mesalib
 glu
+libxi
 
 [deps.host]
 cmake
