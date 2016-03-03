@@ -6,7 +6,21 @@ sha512=6cf7e191f3814528d977aa2acb2a106aaba0732c5d5f4041ac39039e18b9064f90f96da08
 http://xcb.freedesktop.org/dist/xcb-util-image-0.3.9.tar.bz2
 
 [deps]
+xcb-util
 libxcb
 
 [build]
-CFLAGS="$optcflags -Wno-error=return-type" LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-selective-werror \
+  --disable-silent-rules
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
