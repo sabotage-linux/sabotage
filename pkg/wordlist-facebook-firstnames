@@ -8,4 +8,4 @@ sha512=72c4770909953fd2bca80cf6853d9d29efd004ffc3b218bf3fcd31b25fadca1672fa50e87
 [build]
 dest="$butch_install_dir""$butch_prefix"/share/wordlists
 mkdir -p "$dest"
-bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/facebook-firstnames.txt
+bzcat "$C"/"$BUTCH_TARBALL" > "$dest"/facebook-firstnames.txt

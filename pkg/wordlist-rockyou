@@ -8,4 +8,4 @@ sha512=b7f74d3118bdb3703c5b546b56d98f20f59d4b1819918bdd7d0fb850feae7587268a00ab0
 [build]
 dest="$butch_install_dir""$butch_prefix"/share/wordlists
 mkdir -p "$dest"
-bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/rockyou.txt
+bzcat "$C"/"$BUTCH_TARBALL" > "$dest"/rockyou.txt

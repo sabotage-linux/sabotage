@@ -9,4 +9,4 @@ wordlist=hak5
 [build]
 dest="$butch_install_dir""$butch_prefix"/share/wordlists
 mkdir -p "$dest"
-bunzip2 -k "$C"/"$BUTCH_TARBALL" -c > "$dest"/"$wordlist".txt
+bzcat "$C"/"$BUTCH_TARBALL" > "$dest"/"$wordlist".txt
