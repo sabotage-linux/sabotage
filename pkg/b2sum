@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/BLAKE2/BLAKE2/archive/648089e0555cbed6bd64fbc1e5b97568cde665d9.tar.gz
+
+[vars]
+filesize=502996
+sha512=c1990b15798ede4421731de66e46b38f8c8caffd46446a18b982a51baa6ee4097fba2ec9492e6e2915c26a5935120252523502941f2a8643f437a93c0b67fbf7
+tarname=blake2-648089e0555cbed6bd64fbc1e5b97568cde665d9.tar.gz
+tardir=BLAKE2-648089e0555cbed6bd64fbc1e5b97568cde665d9
+desc='A tool similar to the md5sum or shasum utilities but for BLAKE2.'
+
+[build]
+cd b2sum
+[ "$A" != "x86_64" ] && sed -i 's@-I../sse@@' makefile
+sed -i 's@ -fopenmp@@' makefile
+
+make
+PREFIX=/ make DESTDIR="$butch_install_dir" install
