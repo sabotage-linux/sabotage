@@ -1,0 +1,10 @@
+--- qttools/src/assistant/assistant/stdinlistener.cpp.org
++++ qttools/src/assistant/assistant/stdinlistener.cpp
+@@ -34,6 +34,7 @@
+ #include "stdinlistener.h"
+ 
+ #include "tracer.h"
++#include <stdio.h>
+ 
+ QT_BEGIN_NAMESPACE
+ 
