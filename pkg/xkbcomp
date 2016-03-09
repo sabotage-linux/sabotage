@@ -1,6 +1,9 @@
 [deps]
 libx11
 libxkbfile
+libxdmcp
+libxau
+libxcb
 
 [vars]
 filesize=217437
