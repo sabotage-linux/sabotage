@@ -1,0 +1,62 @@
+From 78c7b6088d4325cfc454672d0f853a4961243f18 Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Fri, 11 Mar 2016 21:52:45 +0000
+Subject: [PATCH 2/2] support fullscreen toggle via ALT-ENTER
+
+---
+ main-sdl.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/main-sdl.c b/main-sdl.c
+index 079df17..2ad18c9 100644
+--- a/main-sdl.c
++++ b/main-sdl.c
+@@ -44,6 +44,12 @@
+ /* delay in milliseconds */
+ #define TIME_DELAY 10
+ 
++static int in_fullscreen;
++static void toggle_fullscreen(SDL_Surface *surface) {
++	in_fullscreen = !in_fullscreen;
++	SDL_WM_ToggleFullScreen(surface);
++}
++
+ void run(struct state *st, struct ui *ui, 
+     SDL_Surface *screen, SDL_Surface *tileset, SDL_Surface *typeface, SDL_Surface *uisurf){
+   /* tile variation */
+@@ -77,6 +83,11 @@ void run(struct state *st, struct ui *ui,
+           case SDL_KEYDOWN:
+             c = '\0';
+             switch (event.key.keysym.sym) {
++              case SDLK_RETURN:
++                if((event.key.keysym.mod & KMOD_LALT) ||
++                   (event.key.keysym.mod & KMOD_RALT))
++                    toggle_fullscreen(screen);
++                break;
+               case SDLK_LEFT: c = 'h'; break;
+               case SDLK_RIGHT: c = 'l'; break;
+               case SDLK_UP: c = 'k'; break;
+@@ -161,6 +172,11 @@ void run_client(struct state *st, struct ui *ui,
+           case SDL_KEYDOWN:
+             c = '\0';
+             switch (event.key.keysym.sym) {
++              case SDLK_RETURN:
++                if((event.key.keysym.mod & KMOD_LALT) ||
++                   (event.key.keysym.mod & KMOD_RALT))
++                    toggle_fullscreen(screen);
++                break;
+               case SDLK_LEFT: c = 'h'; break;
+               case SDLK_RIGHT: c = 'l'; break;
+               case SDLK_UP: c = 'k'; break;
+@@ -302,6 +318,8 @@ int main(int argc, char *argv[]) {
+   }
+ #endif
+ 
++  if(in_fullscreen) toggle_fullscreen(screen);
++
+   /* Finalize */
+   SDL_FreeSurface(tileset);
+   SDL_FreeSurface(typeface);
+-- 
+1.8.4
+
