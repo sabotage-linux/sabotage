@@ -1,8 +1,8 @@
 [vars]
-filesize=500140
-sha512=dbc881f3fe0053d60486113a1a7b10663e723c94e691e4f176f2d6d7dc04d479ac4840291eaa485c30b4ca284157a80ecd17964df583809e3bb721729f45a71e
-tarball=netbsd-curses-v0.0.1.tar.xz
-desc='lightweight replacement for ncurses'
+filesize=500556
+sha512=66361379957bd5ce2dd7b74a98359d3c202a4e8055bd27f84a7ad8a6d63a2990a92df99138048b0803dd9ec90cba170bf75ebb4d445b1854c8cfbba89c11c960
+tarball=netbsd-curses-0.0.2.tar.xz
+desc='netbsd libcurses, lightweight replacement for ncurses'
 
 [mirrors]
 http://ftp.barfooze.de/pub/sabotage/tarballs/${tarball}
