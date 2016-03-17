@@ -1,9 +1,9 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.6.3.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.7.3.tar.xz
 
 [vars]
-filesize=3819080
-sha512=c388235806c5cc67e6ee4ba56225b91f27c09305cbc4f988199a45897c0bf065b9e44f18bd671bb0483133598e5bfa08382742caaca8a77ca117b039bf59d024
+filesize=3909636
+sha512=f7acbf52d12f39d323bd90a82c7135aa2aacf2661f7087c71b41dbfbec688342e0a2fc061fc0f216848a538a0dbc4fce68e24ea2a26e747f5eb92f763fa5bc72
 
 [deps]
 curl
