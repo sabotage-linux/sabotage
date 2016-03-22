@@ -1,7 +1,7 @@
 [vars]
-filesize=500556
-sha512=66361379957bd5ce2dd7b74a98359d3c202a4e8055bd27f84a7ad8a6d63a2990a92df99138048b0803dd9ec90cba170bf75ebb4d445b1854c8cfbba89c11c960
-tarball=netbsd-curses-0.0.2.tar.xz
+filesize=500724
+sha512=d6ea0c6eb7fd19a668ce7f61bcc04bc64325352e7aad9a966cc405a7039390031ca38adc0ffa44c97940776d834a59d82d43eb2106643840ed25a0c51625c5b1
+tarball=netbsd-curses-0.0.3.tar.xz
 desc='netbsd libcurses, lightweight replacement for ncurses'
 
 [mirrors]
@@ -17,7 +17,7 @@ CC=$CC
 HOSTCC=$HOSTCC
 AR=${CROSS_COMPILE}ar
 RANLIB=${CROSS_COMPILE}ranlib
-CFLAGS=-fPIC $optcflags -DSMALL
+CFLAGS=-fPIC $optcflags
 LDFLAGS=$optldflags
 PREFIX=$butch_prefix
 DESTDIR=$butch_install_dir
