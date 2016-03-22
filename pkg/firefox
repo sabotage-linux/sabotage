@@ -1,11 +1,11 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/31.0/source/firefox-31.0.source.tar.bz2
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/31.0/source/firefox-31.0.source.tar.bz2
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/31.8.0esr/source/firefox-31.8.0esr.source.tar.bz2
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/31.8.0esr/source/firefox-31.8.0esr.source.tar.bz2
 
 [vars]
-filesize=147507120
-sha512=43e8f538591afde4c1bb4f0651df32a77456c5445204d0538d90112258e1f2cc90b822777799b96b97682b8fc1d8b5648dd3e3648a9392db0dc432c1e8520c85
-tardir=mozilla-release
+filesize=148730951
+sha512=4f98aea568fb8f6c2bbef8cb509af3b4ebd8a17360fc1b3908d1dcb53f94f457c125e14619d3bf78c68123a3be107830d83cfac51bd7c5ad75dc2ee46b2d705b
+tardir=mozilla-esr31
 
 [deps]
 libevent
@@ -27,7 +27,7 @@ perl
 python
 
 [build]
-FF_VERSION=29.0.1
+FF_VERSION=31.8.0esr
 export SHELL=/bin/sh
 
 PATCH() {
@@ -41,9 +41,6 @@ PATCH firefox-finite.patch
 PATCH firefox-gregor.patch
 PATCH firefox-profiler.patch
 PATCH firefox-hunspell.patch
-
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1008851
-PATCH firefox-31-nonascii.patch
 
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1041962
 PATCH firefox-31-basename.patch
