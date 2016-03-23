@@ -20,8 +20,9 @@ patch -p1 < "$K"/kismet-kernelheader.patch
 libnl20_CFLAGS=-I$butch_root_dir$butch_prefix/include/libnl-tiny \
 libnl20_LIBS=-lnl-tiny \
 CPPFLAGS="-I$butch_root_dir$butch_prefix/include/libnl-tiny" \
-LIBS=-lnl-tiny \
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+LIBS="-lnl-tiny -lcurses -lterminfo" \
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
 make -j$MAKE_THREADS
