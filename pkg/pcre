@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.37.tar.bz2
-http://sourceforge.net/projects/pcre/files/pcre/8.34/pcre-8.37.tar.bz2
+http://sourceforge.net/projects/pcre/files/pcre/8.38/pcre-8.38.tar.bz2
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.bz2
 
 [vars]
-filesize=1557603
-sha512=19344c9add2ebbd26c528505d07d3b028d79bc3e6103d51453a449cebd76bc76f5bc7ddd9ef0de41f98c50be74a2d9a65db539ed60f1add1086d99bde8a81466
+filesize=1562265
+sha512=ad3412ceee8f992787a3e7cbe0155ffba67affd4b2dfece6c4501dc8d2012f52dcc1ee1f56759362e04bbbd10ea9370b3e46f238e2f75005cb69f6c8439e52c0
 
 [deps]
 zlib
