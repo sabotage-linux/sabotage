@@ -1,8 +1,11 @@
 [mirrors]
-http://www.php.net/distributions/php-5.4.24.tar.bz2
+http://www.php.net/distributions/php-7.0.4.tar.xz
+
 [vars]
-filesize=12256796
-sha512=c4bf209c9da183d0fa4aa96ea1e58e93f8034bd23dbe009dfc15a432416cb9fde441627d0068a9ddbd6e8ca273d97096e169dfe2c1a3cc99e49f2a181b664c6c
+filesize=11406556
+sha512=94285f86a4901bd410525a9e1d8a70d2ec62cb3416afd1311bb3e2dd53cb811ce9967aa520d793a33f4d5a94b2fe89aaceb1fe53829737fed8315d9d1b15498b
+desc='heavily broken scripting language for web development'
+
 [deps]
 gettext
 freetype
@@ -21,12 +24,16 @@ json-c
 bzip2
 
 [build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
 [ -z "$butch_prefix" ] && butch_prefix=/
 pfx="$butch_prefix"
 # all the below *_cv_ tests fail because the php configure tests
 # use exit() but dont include stdlib.h. same for strcmp and string.h etc.
-LDFLAGS="-Wl,--no-keep-memory" \
-CFLAGS="-D_BSD_SOURCE -D_GNU_SOURCE" ./configure -C  \
+LDFLAGS="-Wl,--no-keep-memory  $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CFLAGS="-D_BSD_SOURCE -D_GNU_SOURCE $optcflags" ./configure -C $xconfflags \
   --prefix="$butch_prefix" --enable-re2c-cgoto \
   --mandir="$butch_prefix"/share/man \
   _cv_have_broken_glibc_fopen_append=no \
