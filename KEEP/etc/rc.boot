@@ -27,8 +27,6 @@ grep -q " verbose" /proc/cmdline && dmesg -n 8 || dmesg -n 3
 
 hwclock -u -s
 
-swapon -a
-
 hostname $(cat /etc/hostname)
 ifconfig lo up
 
@@ -44,6 +42,8 @@ $rw && mount -o remount,ro /
 fsck -A -T -C -p
 mkdir -p /dev/shm /dev/pts
 $rw && mount -o remount,rw /
+
+swapon -a
 
 cryptmount -M # make encrypted devices from /etc/crypttab available
 mount -a # mount stuff from /etc/fstab
