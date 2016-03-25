@@ -1,12 +1,12 @@
 [vars]
-filesize=211672
-sha512=9b6d6df2e57cb963190546b11cdfed5b14a51017721f272a94bd141b5a2719f7d6e56407a444423b3a9353bf2d0ea383b70bd9546ed6364f8340411adb9ce2c4
+filesize=210060
+sha512=dc6e949e73a3ce27103abd80c5011b885199a756f9625e52a9a4a9561cb339687cb49b7a0530e2b2cfa590bb76db0d0482d72a0390dfe75f9212d52016a1f150
 desc='emulator for gameboy, gameboy color and gameboy advance'
 
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.0.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.0.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.0.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.1.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.1.tar.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/VisualBoyAdvanceSDL-1.8.1.tar.xz
 
 [deps]
 sdl
