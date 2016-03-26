@@ -1,11 +1,11 @@
---- mozilla-release.org/xpcom/ds/nsMathUtils.h	2013-10-25 22:27:44.000000000 +0000
-+++ mozilla-release/xpcom/ds/nsMathUtils.h	2013-10-31 01:06:40.483466820 +0000
-@@ -103,7 +103,7 @@
-     // not present in the iOS SDK.
-     return std::isfinite(d);
- #else
--    return finite(d);
-+    return std::isfinite(d);
- #endif
- }
- 
+--- a/xpcom/ds/nsMathUtils.h
++++ b/xpcom/ds/nsMathUtils.h
+@@ -104,7 +104,7 @@
+ #ifdef WIN32
+   // NOTE: '!!' casts an int to bool without spamming MSVC warning C4800.
+   return !!_finite(aNum);
+-#elif defined(XP_DARWIN)
++#elif 1
+   // Darwin has deprecated |finite| and recommends |isfinite|. The former is
+   // not present in the iOS SDK.
+   return std::isfinite(aNum);

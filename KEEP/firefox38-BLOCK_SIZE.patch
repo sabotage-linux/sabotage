@@ -1,0 +1,13 @@
+--- a/xpcom/io/nsLocalFileUnix.cpp
++++ b/xpcom/io/nsLocalFileUnix.cpp
+@@ -74,6 +74,10 @@
+ #include "nsTraceRefcnt.h"
+ #include "nsHashKeys.h"
+ 
++#ifndef BLOCK_SIZE
++#define BLOCK_SIZE  1024
++#endif
++
+ using namespace mozilla;
+ 
+ #define ENSURE_STAT_CACHE()                     \

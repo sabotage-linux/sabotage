@@ -1,11 +1,11 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/31.8.0esr/source/firefox-31.8.0esr.source.tar.bz2
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/31.8.0esr/source/firefox-31.8.0esr.source.tar.bz2
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
 
 [vars]
-filesize=148730951
-sha512=4f98aea568fb8f6c2bbef8cb509af3b4ebd8a17360fc1b3908d1dcb53f94f457c125e14619d3bf78c68123a3be107830d83cfac51bd7c5ad75dc2ee46b2d705b
-tardir=mozilla-esr31
+filesize=181300248
+sha512=af569b37fd5b0ec9ae772e98192c1597c88be77090e6542892a0567918507f4e7ce46dac1208620d5ab9c47d76c6ab45ebe18b55bc63f7f085271270289660ad
+tardir=mozilla-esr38
 
 [deps]
 libevent
@@ -27,7 +27,7 @@ perl
 python
 
 [build]
-FF_VERSION=31.8.0esr
+FF_VERSION=38.7.1esr
 export SHELL=/bin/sh
 
 PATCH() {
@@ -45,7 +45,8 @@ PATCH firefox-hunspell.patch
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1041962
 PATCH firefox-31-basename.patch
 
-PATCH firefox-29-pthread_t.patch
+PATCH firefox38-BLOCK_SIZE.patch
+PATCH firefox38-xul-order.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
