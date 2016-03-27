@@ -1,6 +1,6 @@
 [mirrors]
-http://downloads.yoctoproject.org/mirror/sources/startup-notification-0.12.tar.gz
 http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
+http://downloads.yoctoproject.org/mirror/sources/startup-notification-0.12.tar.gz
 
 [vars]
 filesize=355285
