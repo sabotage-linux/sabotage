@@ -1,9 +1,9 @@
-[vars]
-filesize=499108
-sha512=d056e759544a2b8c90c01d32d78131dcc4f3312508548d46038ae1a274ad213b43c11c659595bf4f3df5d6576f6e0601997b192ae1f170f9d2cd7a051e767efd
-
 [mirrors]
-http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.34/librsvg-2.34.2.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.13.tar.xz
+
+[vars]
+filesize=552900
+sha512=7549f78d25c3319b5b74803c46cc0d1bd5c53a425b632a5b306eb238080df0da2b4bcefb159064988bd56cb1d69e0c94ecd0a073315acff14abb187ba6d4c788
 
 [deps]
 gdk-pixbuf
@@ -13,6 +13,7 @@ cairo
 fontconfig
 freetype
 gtk+2
+libcroco
 
 [build]
 cp -f "$K"/config.sub .
@@ -21,7 +22,10 @@ cp -f "$K"/config.sub .
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --disable-silent-rules
+  --disable-silent-rules \
+  --disable-introspection \
+  --disable-tools \
+  --disable-gtk-doc-html
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
