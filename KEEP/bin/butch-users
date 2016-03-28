@@ -25,7 +25,7 @@ for fn in `find "$pkgdir"/` ; do
 		sec=deps.$(printf "%s" "$DEPS" | cut -d : -f $i)
 		[ "$sec" = "deps." ] && continue
 		[ "$sec" = "deps.build" ] && sec=deps
-		get_section "$sec" "$fn" | grep "$search_pkg">/dev/null && {
+		get_section "$sec" "$fn" | grep -x "$search_pkg">/dev/null && {
 #		butch printsec "$pkg" "$sec" | grep "$search_pkg">/dev/null && {
 			printf "%s\n" "$pkg"
 			break
