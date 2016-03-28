@@ -1,9 +1,9 @@
 [mirrors]
-http://download.savannah.gnu.org/releases/freetype/freetype-2.5.5.tar.gz
+http://download.savannah.gnu.org/releases/freetype/freetype-2.6.3.tar.bz2
 
 [vars]
-filesize=2245805
-sha512=1c8812252d748c6ccc5f6002b57c8a7cb0f08fe15e3c700ac8b2714c7648d756cd4af4207a765cf0d320509be6d09c74239d69e9ca6a05bb15ca6a475cf96ce3
+filesize=1753083
+sha512=e1f9018835fc88beeb4479537b59f866c52393ae18d24a1e0710a464cf948ab02b35c2c6043bc20c1db3a04871ee4eb0bb1d210550c0ea2780c8b1aea98fbf0d
 
 [deps]
 zlib
