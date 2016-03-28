@@ -49,4 +49,5 @@ sed -e 's#=/share/#=${DESTDIR}/share/#' -i update-ca-certificates
 sed -e 's#=/local/#=${DESTDIR}/local/#' -i update-ca-certificates
 
 DESTDIR="$butch_install_dir" sh ./update-ca-certificates --fresh
-
+# make sure everything in /etc gets overwritten
+butch_do_overwrite_on_copy=true
