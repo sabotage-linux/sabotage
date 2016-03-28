@@ -1,9 +1,10 @@
 [mirrors]
-http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.4.0.tar.bz2
+http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
 
 [vars]
-filesize=1807989
-sha512=70234220e0ed64db000689ec8bea02dadef938a4f4dea96e5781d361c15245456212c1b6aec2b698d32ed423e73917d2303009e49224a2237669cab416dd6984
+filesize=1906571
+sha512=5a952aa53e539a130d316723d424fa02a8f42a450950d74a16d8abc5df569ba5559b3b09a32140b638d7a0cd54be1c7b0f8306ad286825bc1281f513bb665fc5
+uchkurl=http://downloads.webmproject.org/releases/webm/index.html
 
 [deps.host]
 yasm
