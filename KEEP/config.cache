@@ -1541,6 +1541,10 @@ gl_cv_sys_struct_lconv_ok=yes
 gl_cv_sys_struct_timespec_in_time_h=yes
 gl_cv_sys_struct_timeval=yes
 gl_cv_sys_struct_utimbuf=yes
+gl_cv_func_perror_works=yes
+gl_cv_func_mbrtowc_empty_input=yes
+gl_cv_func_strerror_r_works=yes
+gl_cv_func_strerror_r_posix_signature=yes
 
 gt_cv_inttypes_pri_broken=no
 gt_cv_c_wint_t=yes
