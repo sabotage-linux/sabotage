@@ -26,23 +26,3 @@
  int
  main ()
  {
-@@ -24191,7 +24192,9 @@
- 		if test "$cross_compiling" = yes; then :
-   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
- /* end confdefs.h.  */
--
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <string.h>
- int
- main ()
- {
-@@ -24302,6 +24305,8 @@
-     /* Not all these includes are needed, but the minimal set varies from
-      * system to system.
-      */
-+    #include <stdlib.h>
-+    #include <unistd.h>
-     #include <stdio.h>
-     #include <string.h>
-     #include <sys/types.h>
