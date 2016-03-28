@@ -1,15 +1,14 @@
+[mirrors]
+http://ftp.gnu.org/gnu/wget/wget-1.17.tar.xz
+
+[vars]
+filesize=1884628
+sha512=4936dad41580f6ba33df73de041e407cd6dd5266af4af947ebf4c54457f0f296e3462cfff1fb203b27ff5760ec4f6f4d24ea4faceeea461f98c22b031225947f
+
 [deps]
 openssl
 
-[vars]
-filesize=1446492
-sha512=e21f409306869ad5ca956b9cfe4605f5945a8594004b83c3287ffc1b4f25f3ea91275923ebf5e07fde7ba30fa099adc50da4c4ea32b412bcb2d92e31abc9efc1
-
-[mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.13.tar.xz
-
 [build]
-patch -p1 < "$K"/wget-libressl.patch
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
