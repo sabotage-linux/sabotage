@@ -6,6 +6,7 @@ ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-
 filesize=181300248
 sha512=af569b37fd5b0ec9ae772e98192c1597c88be77090e6542892a0567918507f4e7ce46dac1208620d5ab9c47d76c6ab45ebe18b55bc63f7f085271270289660ad
 tardir=mozilla-esr38
+uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 
 [deps]
 libevent
