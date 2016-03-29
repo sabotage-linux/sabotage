@@ -1,3 +1,10 @@
+[mirrors]
+ftp://invisible-island.net/xterm/xterm-324.tgz
+
+[vars]
+filesize=1235312
+sha512=f6f2518a11eec6e41afb10ca4ec298c566b1fc5c3b3c4c4d533311b3f64ec04c2bc692798e75bbd34382cb64eca9b21ee4b05438c4d18486046d3c710c586626
+
 [deps]
 libx11
 libxaw
@@ -6,10 +13,6 @@ curses
 
 [mirrors]
 ftp://invisible-island.net/xterm/xterm-318.tgz
-
-[vars]
-filesize=1208968
-sha512=d1ff9b4359a49f47cc9e5e7d6311242b7beef57e554389fe3033f69263b871ad5ba89d74b428d79564f013efced2d2d36cfac987aed8ab873722fdeb8fd6abf6
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
