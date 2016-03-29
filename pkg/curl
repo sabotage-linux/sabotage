@@ -1,9 +1,9 @@
 [mirrors]
-http://curl.haxx.se/download/curl-7.44.0.tar.lzma
+https://curl.haxx.se/download/curl-7.48.0.tar.lzma
 
 [vars]
-filesize=2792083
-sha512=efca81affff6c172d13bd31e9937cf8c35c58ac3a485ad3224d9645749b60564ffec678345347fde2d4a08c8fa5c7dc8d82cb7bb593a42ae71e803b9e2a85744
+filesize=5924818
+sha512=1e4cc613aa56d3547beff46c3124a6cb3ba5df89da00055df0b27e2ad57beccec33fd80b2b0d0858cf0de45da5ab5cad8345b0f23f0c536a690a5eab7518a3af
 
 [deps]
 openssl
@@ -11,6 +11,8 @@ ca-certificates
 zlib
 
 [build]
+patch -p1 < "$K"/curl-libressl.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
@@ -25,5 +27,6 @@ LIBS="-lssl -lcrypto -lz" \
   --with-ca-path="$butch_prefix"/etc/ssl/certs \
   --with-random=/dev/urandom $xconfflags
 
+sed -i -e '/SUBDIRS/s:scripts::' Makefile
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
