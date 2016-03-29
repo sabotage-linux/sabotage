@@ -1,18 +1,17 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/git-manpages-1.8.4.tar.xz
-http://codu.org/~rofl/tarballs/git-manpages-1.8.4.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/git-manpages-1.8.4.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/git-manpages-1.8.4.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-manpages-2.8.0.tar.xz
 
 [vars]
-filesize=350096
-sha512=9ede2b8ee9b9589b314ae6e5c205a749bc19b686714dd02ccab3221f1d652e7212894c2f0fd6a564925cffe9f0778410469a395bd63292e82f3962fe18e8a521
+filesize=386684
+sha512=67a0ddc1a8cec0d835f0889467315523020bb75460cffba39883528833b4e714496950738898c79d156a821db78d16bd76dff0bc7aa5eab8a0217862aa2672e8
 desc='manpages for git'
 
 [deps]
 man
 
 [build]
-dest="$butch_install_dir""$butch_prefix"
+dest="$butch_install_dir""$butch_prefix"/share/man
 mkdir -p "$dest"
-mv share "$dest"/
+for i in 1 5 7 ; do
+cp -a ./man$i "$dest"/
+done
