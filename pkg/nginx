@@ -1,9 +1,9 @@
 [mirrors]
-http://nginx.org/download/nginx-1.9.9.tar.gz
+http://nginx.org/download/nginx-1.9.13.tar.gz
 
 [vars]
-filesize=887908
-sha512=9b8a82cccb834a1647f0d0ea5e202d8bebae273ed9865c232dae228746e7c4334aa03616a7553494550dbbd99d41f790ba4d880b10381da50513c8659cb5e9b3
+filesize=907611
+sha512=883e3d3be7a2a9abbeca54bed5b7004fc9810c1548a4de8f09ffc453ee077e75abfd0ae21bc87cd0814278a2cfefd2a5814b03faf4ec0298afbf75e530eb62f0
 
 [deps]
 openssl
