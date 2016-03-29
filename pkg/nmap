@@ -1,9 +1,9 @@
 [mirrors]
-http://nmap.org/dist/nmap-6.40.tar.bz2
+http://nmap.org/dist/nmap-7.12.tar.bz2
 
 [vars]
-filesize=7871636
-sha512=b0ccb7634838e814dc0e36a0dbfc8c74853ef9dc6a119b73ffc90caab8875cbae893e0d24371ea568f9fff969440ed2a2e89953a6dbb6eb26313a4ea25b02b3b
+filesize=8960599
+sha512=91156499c6f903fb565fa2b0faa74043d078493312f9489071fafc687301017afc16c7eb26c092f1fa142e78c98a436833f56a9f015cb2a17aa6f6220b6a0b98
 
 [deps]
 libpcap
@@ -18,12 +18,15 @@ dynamic-toolchain
 [build]
 patch -p1 < "$K"/nmap-configure-pcap_suitable.patch
 patch -p1 < "$K"/nmap-nbase_h.patch
-patch -p1 < "$K"/nmap-ldflags.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" \
 CXXFLAGS="-DIPPROTO_MAX=256 $CFLAGS" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
     --without-subversion --without-nmap-update --without-zenmap \
     --without-ndiff \
     ac_cv_working_getaddrinfo=yes ac_cv_working_getnameinfo=yes
