@@ -1,12 +1,12 @@
-[deps.host]
-dynamic-toolchain
-
 [mirrors]
-http://tukaani.org/xz/xz-5.2.1.tar.bz2
+http://tukaani.org/xz/xz-5.2.2.tar.xz
 
 [vars]
-filesize=1186051
-sha512=cc1105e7d53e3164fb6d7abfc02b205c7ac703daad68953d80c0f73b6ddbe154f6234f525178dec2c9e82e647800f404205a4b59ab5c6fe654aa8aed55e09673
+filesize=1016404
+sha512=949ef90669a31b9855c5328d7f9d7e2e537c8072b700b1d2f5d69c307eb7f7635a2a4b1b5bb1bb300fba9429355a6d8935b803c505be5c0104bda9e81d0cf477
+
+[deps.host]
+dynamic-toolchain
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
