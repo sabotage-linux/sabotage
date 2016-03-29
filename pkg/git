@@ -1,20 +1,16 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.7.3.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.8.0.tar.xz
 
 [vars]
-filesize=3909636
-sha512=f7acbf52d12f39d323bd90a82c7135aa2aacf2661f7087c71b41dbfbec688342e0a2fc061fc0f216848a538a0dbc4fce68e24ea2a26e747f5eb92f763fa5bc72
+filesize=3969912
+sha512=1b1f786d540efc96f89fdb5d6cc85db5ccc36fa03b066093e149ff491c349501806832279c09ed85afe7f248c6f183834b343e28ea8a9117499032569479c5fd
+desc='tools to work with the git distributed version control system'
 
 [deps]
 curl
 
 [deps.run]
 perl
-
-[vars]
-filesize=3279768
-sha512=f62fcd8f20c0e8dc6909de8ccc950c39703e4c9b36acba643ab22051a1290fbe0eb606c417718ec9978c547a0515c389fbd270a24fbf245afc56a1b837840976
-desc='tools to work with the git distributed version control system'
 
 [build]
 
