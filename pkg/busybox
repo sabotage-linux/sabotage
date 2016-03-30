@@ -48,7 +48,7 @@ dopatch "$K"/busybox-ping2.patch
 dopatch "$K"/busybox-grep-x.patch
 dopatch "$K"/busybox-sort.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
-
+dopatch "$K"/busybox-cve-2013-1813.patch
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
