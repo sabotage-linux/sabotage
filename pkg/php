@@ -1,9 +1,9 @@
 [mirrors]
-http://www.php.net/distributions/php-7.0.4.tar.xz
+http://www.php.net/distributions/php-7.0.5.tar.xz
 
 [vars]
-filesize=11406556
-sha512=94285f86a4901bd410525a9e1d8a70d2ec62cb3416afd1311bb3e2dd53cb811ce9967aa520d793a33f4d5a94b2fe89aaceb1fe53829737fed8315d9d1b15498b
+filesize=11461716
+sha512=9a91c1748bc2034016b4d25a116c96e7f60bc48a698864ed7f805870a2c5f6f75aa9a24ec4501403ba1fd45baccfefb2076db149da03c00dabc12e3190068c7c
 desc='heavily broken scripting language for web development'
 
 [deps]
