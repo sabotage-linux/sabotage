@@ -1,9 +1,9 @@
 [mirrors]
-http://download.rsyslog.com/librelp/librelp-1.2.8.tar.gz
+http://download.rsyslog.com/librelp/librelp-1.2.10.tar.gz
 
 [vars]
-filesize=415452
-sha512=300210e017416aa31f310734d3c84fa25e86690e91eb3d123cd2061d4ada40ed2d40d3a7bc645ccd4ad7cbc2dfb871fe55f9039d6b2544e3cb9467fd31b5bf1b
+filesize=415653
+sha512=09f88daa59711449a50b9414f30bc7a217bf3dd7722af53caee024bfe1060e1749f1083d2965c79cbe3c12819359cd3cc262e9dea8ab5ad7bf275f3b61ca907f
 
 [deps]
 gnutls
