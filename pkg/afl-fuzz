@@ -1,9 +1,9 @@
 [mirrors]
-http://lcamtuf.coredump.cx/afl/releases/afl-1.83b.tgz
+http://lcamtuf.coredump.cx/afl/releases/afl-2.10b.tgz
 
 [vars]
-filesize=799736
-sha512=efb9126b89b294ee171b0d4fa7e9e71d2bb55e572a17d9d2c7c83ee613b42fc27f70b75671e7fb1d816bad1a9baaf71c36ba4b05135d39a1644e732d35fe09ec
+filesize=815650
+sha512=2273632f156427967bb794ecbf013aebe06d769c27c2fb26e9550d376364e4e3750ff0ebe0d5a6a29bf9ecf39fdf724b7dd0666ed0467584cd4863893e619b1e
 
 [deps]
 
