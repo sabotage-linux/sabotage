@@ -1,13 +1,13 @@
 [mirrors]
-ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.0.tar.bz2
-http://gentoo.netnitco.net/distfiles/alsa-lib-1.1.0.tar.bz2
-http://alsa.cybermirror.org/lib/alsa-lib-1.1.0.tar.bz2
-http://distfiles.lesslinux.org/alsa-lib-1.1.0.tar.bz2
-http://distfiles.exherbo.org/distfiles/alsa-lib-1.1.0.tar.bz2
+ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.1.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-lib-1.1.1.tar.bz2
+http://alsa.cybermirror.org/lib/alsa-lib-1.1.1.tar.bz2
+http://distfiles.lesslinux.org/alsa-lib-1.1.1.tar.bz2
+http://distfiles.exherbo.org/distfiles/alsa-lib-1.1.1.tar.bz2
 
 [vars]
-filesize=929874
-sha512=2939d0b621c1c619b0a492b05f2e84f354d588c9cc982d93dbcf01c582319258dd5f803ff5c10be52343cd8827d690f671ab5b20ad586a0ee371f0949c9e98f4
+filesize=932105
+sha512=dacd0a74adc682ac0034cbeba2de3d1a141e0ac2e564c9e04dae202ffaf87ef3a1e01307afc2fd2d9cfe679e5b101c379f9b6ea5f7ccceeed14a427bd5232bc7
 
 [deps]
 kernel-headers
