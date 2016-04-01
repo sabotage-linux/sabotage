@@ -1,21 +1,14 @@
 [mirrors]
-http://rada.re/get/radare2-0.10.0.tar.xz
+http://rada.re/get/radare2-0.10.1.tar.xz
 
 [vars]
-filesize=4827432
-sha512=16c386122dfa55377fb2d4626235c47648ec36ef080aaf3bd50c20218659a2014f56e1939b6b837f469748b7ac32d8f3f36c7ce9242761dcb4589a3c0bcc524c
-
-[deps]
-capstone
+filesize=4912104
+sha512=33cfc1f43a1571c7d8104394f3996dac7a6a5580e766ee206478caf03b4e618d4d35127b21b1164df09b9af0a7b577621c4ce717d6c0d761ab907d5cb8d59268
 
 [build]
-patch -p1 < "$K"/radare2.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
-
-sed -i 's@^"--\(.*\)")@--\1)@g' configure
 
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
@@ -25,5 +18,5 @@ CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 # https://github.com/radare/radare2/issues/4056
 unset DEPS
 
-make V=1 -j$MAKE_THREADS USE_CAPSTONE=1 #CAPSTONE_LDFLAGS=-lcapstone
+make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
