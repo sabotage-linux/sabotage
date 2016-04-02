@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.13.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.15.tar.xz
 
 [vars]
-filesize=552900
-sha512=7549f78d25c3319b5b74803c46cc0d1bd5c53a425b632a5b306eb238080df0da2b4bcefb159064988bd56cb1d69e0c94ecd0a073315acff14abb187ba6d4c788
+filesize=554608
+sha512=1169c02247dbf3d71d3d4bfb1aa2580a4b1e243e1c2c6d1c86aaa09c54c66857b959df4358a1ca6a34ec5fbb34b9529963b993fc978ec1fe401dbc56ac460101
 
 [deps]
 gdk-pixbuf
