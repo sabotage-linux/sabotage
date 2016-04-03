@@ -1,9 +1,9 @@
 [mirrors]
-http://www.midnight-commander.org/downloads/mc-4.8.1.7.tar.xz
+http://www.midnight-commander.org/downloads/mc-4.8.16.tar.xz
 
 [vars]
-filesize=2049316
-sha512=48fb6f010c61bac1b0af82713a6951032298e152cd51756a2442fdd1b1a54937545399725b66f6f20905223c0a756507ac6ff10d935209741f59bb518f41240e
+filesize=2387724
+sha512=209a4f92f493d1df5d9976bbd2547b92172270fd35c221e4d4d99630b3530a5cc849bfdff842b47f35e32d215d5af35aadd5cd02bd12567f3736ad4915abb944
 desc='midnight commander - terminal file manager (norton commander clone)'
 
 [deps]
@@ -11,7 +11,6 @@ curses
 glib
 
 [build]
-patch -p1 < "$K"/mc-CTRL.patch
 patch -p1 < "$K"/mc-curses.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
