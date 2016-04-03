@@ -1,10 +1,11 @@
 [mirrors]
-http://ftp.postgresql.org/pub/source/v9.4.6/postgresql-9.4.6.tar.bz2
+http://ftp.postgresql.org/pub/source/v9.4.7/postgresql-9.4.7.tar.bz2
 
 [vars]
-filesize=17734946
-sha512=03e2c68ec7fb40b4886885136692e96ed5d7e50ead8ebd094ede402eeb8ed94a791357e8eff2776a2e4a537ced3d900e032779a33c1fbd920588d89f8b6705ee
+filesize=17746987
+sha512=e61d74a4a9caeb7d4a3fb9509b37aaeb5bd563d61d20739edd777ec990c92011286a7485f275178f9f8c1ebb8c84a98290e2b5351b11e0f9a1baa781f323e374
 desc="professional SQL database server and interface libraries"
+uchkurl=http://ftp.postgresql.org/pub/source/
 
 [deps.host]
 python
