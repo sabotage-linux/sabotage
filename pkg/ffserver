@@ -5,7 +5,7 @@ ffmpeg
 [build]
 # template service for a video-stream server
 dest="$butch_install_dir""$butch_prefix"
-install -dM 644 "$K"/ffserver.conf "$dest"/etc/ffserver.conf
+install -Dm 644 "$K"/ffserver.conf "$dest"/etc/ffserver.conf
 IS="$K"/bin/install-service
 "$IS" --down --log --force ffserver "$K"/services/ffserver
 "$IS" --down --log --force ffclient "$K"/services/ffclient
