@@ -10,6 +10,7 @@ curses
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+LIBS="-lcurses -lterminfo" \
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
