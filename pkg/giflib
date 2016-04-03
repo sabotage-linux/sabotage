@@ -1,9 +1,10 @@
-[vars]
-filesize=506050
-sha512=f47954218ed7d3415cc195a1031a688fcb7dd2bc2b394491830e6b5f5332903ed7c4433b795cd3da9ac53bfc969fe94bec2a4e66b15c0385c732c01b1b7e5057
-
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/giflib/giflib-4.1.6.tar.bz2
+http://downloads.sourceforge.net/sourceforge/giflib/giflib-5.1.4.tar.bz2
+
+[vars]
+filesize=639703
+sha512=32b5e342056c210e6478e9cb3b6ceec9594dcfaf34feea1eb4dad633a081ed4465bceee578c19165907cb47cb83912ac359ceea666a8e07dbbb5420f9928f96d
+uchkurl=http://sourceforge.net/projects/giflib/files/
 
 [deps]
 libx11
