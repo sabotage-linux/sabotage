@@ -12,6 +12,7 @@ sha512=e93604a79d693ccc4be5ba4b41bb3f046186d95ebfdb075f8b201adde8405299cf34011c4
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 CPPFLAGS=-D_GNU_SOURCE \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

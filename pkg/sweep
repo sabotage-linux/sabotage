@@ -27,6 +27,7 @@ CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -lgmodule-2.0 -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 CPPFLAGS=-D_GNU_SOURCE \
   ./configure -C $xconfflags \
+  --disable-nls \
   --with-ogg-includes=$butch_root_dir$butch_prefix/include \
   --with-vorbis-includes=$butch_root_dir$butch_prefix/include \
   --disable-speex --disable-oggtest --disable-vorbistest \

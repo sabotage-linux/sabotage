@@ -19,6 +19,7 @@ PATH="$PWD:$PATH" \
 LDFLAGS="-static $optldflags" CFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-utf8 \
+  --disable-nls \
   --disable-wrapping
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
