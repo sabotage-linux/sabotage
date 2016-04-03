@@ -1,9 +1,10 @@
-[vars]
-filesize=895624
-sha512=3016f68305bf431644c1ba159ce56f58cb31318bc36a8c794603bbcd8d7f19cb3408d671bc255ad47d105e5b6693f0985341a61592bc6f6a1f3674aed1862faa
-
 [mirrors]
-http://downloads.sourceforge.net/enlightenment/imlib2-1.4.5.tar.bz2
+http://downloads.sourceforge.net/enlightenment/imlib2-1.4.8.tar.bz2
+
+[vars]
+filesize=891876
+sha512=ddfd9a27edb8a27d992e2e6d911fd9330062b4c402283ecf1914d3da4f7aa39c59728ae4cbbbf73c6f875ad4aabbe43db9ec46fb54754f217eeabf66f6ef3bdf
+uchkurl=https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 [deps]
 bzip2
