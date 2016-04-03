@@ -1,9 +1,10 @@
-[vars]
-filesize=6695020
-sha512=3dad38279c328e671f65018d86c04da59a6dff481ff48530a6341505abbd3e2a526a5825a0995d77c690f54acbaa0818832bd44dd4246a87d726862e0c31d82b
-
 [mirrors]
-http://leptonica.com/source/leptonica-1.68.tar.gz
+http://leptonica.com/source/leptonica-1.73.tar.gz
+
+[vars]
+filesize=10894175
+sha512=4808474d5941a91fbf542a22fed26ddc33f9c4baf2699096acf5e894b7e4e84889d165373b7d1df391a68cda8176113cf122f15203a9e38d3059e17140efc575
+uchkurl=http://leptonica.com/download.html
 
 [deps]
 zlib
@@ -14,7 +15,7 @@ giflib
 
 [build]
 patch -p1 < "$K"/liblepton_pngio.patch
-patch -p1 < "$K"/liblepton-makefile.patch
+patch -p1 < "$K"/liblepton-endianness.patch
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 cd src
 
