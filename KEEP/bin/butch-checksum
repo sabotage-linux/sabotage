@@ -9,7 +9,10 @@ if [ -z "$pkg" ] ; then
 	exit 1
 fi
 
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+
 [ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+
 fl="$butch_filelists"/"$pkg".txt
 if [ ! -e "$fl" ] ; then
 	echo "filelist $fl does not exist, probably the program is not installed"
@@ -24,7 +27,7 @@ getsha() {
 for f in `cat "$fl" | sort` ; do
 	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
 	[ "$R" = "/" ] || fs="$R""$fs"
-	butch_install_dir=/opt/"$pkg"
+	butch_install_dir="$butch_staging_dir"/"$pkg"
 	sha=$(getsha "$butch_install_dir""$fs") || {
 		rm "$tmpf"
 		exit 1

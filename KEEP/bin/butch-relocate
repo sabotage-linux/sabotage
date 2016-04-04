@@ -1,6 +1,14 @@
 #!/bin/sh
 #set -x
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+[ 1 = $(printf "%s" "$butch_staging_dir" | awk '{n=split($0,a,"/"); print n-1;}') ] || {
+	echo "error: butch_staging_dir may contain only one slash"
+	echo "good: /opt /pkgs /app"
+	echo "bad: /opt/ /var/pkgs /my/apps/"
+	exit 1
+}
+
 
 relocate() {
 	local dir=$1
@@ -35,7 +43,7 @@ relocate() {
 
 if [ -z "$1" ] ; then
 	echo "tool to manually symlink a built package"
-	echo "(i.e. the ones in /opt/packagename)"
+	echo "(i.e. the ones in $butch_staging_dir/packagename)"
 	echo "into /"
 
 	echo "error: need to pass package name to relocate" >&2
@@ -47,7 +55,7 @@ ec=0
 for pkg ; do
 	[ "$R" = "/" ] && R=
 	butch_root=$R
-	butch_install_dir=/opt/"$pkg"
+	butch_install_dir="$butch_staging_dir"/"$pkg"
 	if [ -d "$R""$butch_install_dir" ] ; then
 		for loc in bin sbin include lib libexec share ; do
 			relocate $loc .. false

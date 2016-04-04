@@ -74,8 +74,11 @@ filelist="$butch_filelists/$butch_package_name.txt"
 # a config file or so.
 # use it, if you need to reference something that lies in the directory structure.
 butch_root_dir="$R"
+# butch_staging_dir is where packages get installed into via DESTDIR
+# and then linked into $R
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
 [ "$butch_root_dir" = "/" ] && butch_root_dir=
-butch_custom_destdir_base=/opt/$butch_package_name
+butch_custom_destdir_base="$butch_staging_dir"/$butch_package_name
 butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
 
 #currently passing a version from a package is not implemented.
