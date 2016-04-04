@@ -6,8 +6,8 @@ bison
 bridge-utils
 busybox-man
 capchroot
-cpan-Data-Dump
-cpan-File-Slurp
+perl5-Data-Dump
+perl5-File-Slurp
 curl
 cryptsetup
 diffutils

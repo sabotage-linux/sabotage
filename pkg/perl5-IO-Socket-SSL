@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-Net-SSLeay
+perl5-Net-SSLeay
 
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/S/SU/SULLR/IO-Socket-SSL-1.955.tar.gz

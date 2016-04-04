@@ -14,7 +14,7 @@ menu-cache
 [deps.host]
 pkgconf
 perl
-cpan-XML-Parser
+perl5-XML-Parser
 intltool
 
 [build]

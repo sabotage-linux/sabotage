@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-Crypt-Eksblowfish
+perl5-Crypt-Eksblowfish
 
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/J/JA/JAITKEN/Digest-Bcrypt-1.0.1.tar.gz

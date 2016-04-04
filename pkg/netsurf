@@ -17,7 +17,7 @@ liblcms
 
 [deps.host]
 perl
-cpan-HTML-Parser
+perl5-HTML-Parser
 flex
 gperf
 

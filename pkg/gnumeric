@@ -11,7 +11,7 @@ goffice
 gettext
 
 [deps.host]
-cpan-XML-Parser
+perl5-XML-Parser
 
 [build]
 

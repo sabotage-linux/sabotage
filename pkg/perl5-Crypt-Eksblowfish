@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-Class-Mix
+perl5-Class-Mix
 
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/Z/ZE/ZEFRAM/Crypt-Eksblowfish-0.009.tar.gz

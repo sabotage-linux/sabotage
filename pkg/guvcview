@@ -10,7 +10,7 @@ gtk+3
 libv4l2
 libusbx
 portaudio
-cpan-XML-Parser
+perl5-XML-Parser
 
 [build]
 patch -p1 < "$K"/guvcview-decls.patch

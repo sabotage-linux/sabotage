@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-IO-Socket-SSL
+perl5-IO-Socket-SSL
 
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/C/CW/CWEST/Net-SMTP-SSL-1.01.tar.gz

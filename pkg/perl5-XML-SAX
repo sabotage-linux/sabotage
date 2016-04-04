@@ -1,7 +1,7 @@
 [deps]
 perl
-cpan-XML-SAX-Base
-cpan-XML-Namespacesupport
+perl5-XML-SAX-Base
+perl5-XML-Namespacesupport
 
 [mirrors]
 http://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-0.99.tar.gz

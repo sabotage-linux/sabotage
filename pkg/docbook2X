@@ -7,7 +7,7 @@ sha512=cc336017ad734fc62d96d289105e8ea154c418a03a37f3e21b0b3520063f8b466b4aae5a5
 
 [deps.host]
 iconv
-cpan-XML-SAX
+perl5-XML-SAX
 
 [deps.run]
 perl

@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-HTML-Tagset
+perl5-HTML-Tagset
 
 [mirrors]
 http://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.71.tar.gz

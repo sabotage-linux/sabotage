@@ -11,7 +11,7 @@ libxt
 gtk+2
 
 [deps.host]
-cpan-XML-Parser
+perl5-XML-Parser
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

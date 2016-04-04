@@ -1,6 +1,6 @@
 [deps]
 perl
-cpan-Params-Classify
+perl5-Params-Classify
 
 [mirrors]
 http://search.cpan.org/CPAN/authors/id/Z/ZE/ZEFRAM/Class-Mix-0.005.tar.gz
