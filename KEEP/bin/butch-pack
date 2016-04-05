@@ -1,0 +1,62 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+usage() {
+cat << EOF
+butch pack : creates a distributable binary archive of an installed pkg in the
+current directory.
+may require root to catch all files.
+
+butch pack [compressor] pkgname
+
+optional: compressor can be one of
+  --none: no compression. plain tar archive is created.
+  --gz:   gzip compression.
+  --xz:   fast xz compression.
+  --xze:  xz compression (extreme).
+EOF
+exit 1
+}
+
+[ -z "$1" ] && usage
+
+comp=none
+ext=tar
+case $1 in
+--none) shift ;;
+--gz) comp=gz ; ext=tar.gz ; shift ;;
+--xz) comp=xz ; ext=tar.xz ; shift ;;
+--xze) comp=xze ; ext=tar.xz ; shift ;;
+esac
+
+pkg=$1
+[ -z "$pkg" ] && usage
+
+fl=$S/pkg/$pkg
+if [ ! -e "$fl" ] ; then
+	echo "package $fl does not exist!"
+	exit 1
+fi
+
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+me="$PWD"
+
+tarflags=cf
+test $comp = gz && tarflags=czf
+test $comp = xz && tarflags=cJf
+[ "$R" = "/" ] && R=
+cd "$R"$butch_staging_dir
+[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; exit 1 ; }
+out=$me/${pkg}_$A.$ext
+tar $tarflags "$out" "$pkg"
+[ -e "$out" ] || exit 1
+if test $comp = xze ; then
+	tr=$me/${pkg}_$A.tar
+	mv "$out" "$tr"
+	xz -z -9 -e "$tr"
+	[ -e "$out" ] || exit 1
+fi
+echo "$(basename $out) created."

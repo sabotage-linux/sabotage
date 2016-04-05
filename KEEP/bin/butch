@@ -34,6 +34,9 @@ rebuild [<package> ... ]  # rebuild already installed <packages>
 relink <package>          # create symlinks for an unlinked <package>
 unlink <package>          # remove symlinks to a specific <package>
 
+pack [--method] <package> # create a binary archive of <package>
+unpack <filename>         # install binary archive <filename> created with pack
+
 list                      # list installed packages
 files <package>           # show files installed by <package>
 mirrors <package>         # print mirrors for <package>
@@ -60,6 +63,8 @@ prog=butch-core
 case $1 in
 	build) shift ; set -- install "$@";;
 	download) shift ; set -- prefetch "$@";;
+	pack) shift; prog=butch-pack;;
+	unpack) shift; prog=butch-unpack;;
 	list) shift; prog=butch-list;;
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;

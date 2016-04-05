@@ -1,0 +1,64 @@
+#!/bin/sh
+#set -x
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+[ "$R" = "/" ] && R=
+[ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
+usage() {
+cat << EOF
+butch unpack : install binary package.
+- unpacks a distributable binary archive of a pkg
+- installs it into $R$butch_staging_dir
+- links it into $R
+- creates butch.db entry in $BUTCHDB
+may require root access.
+
+synapsis:
+butch unpack filename
+EOF
+exit 1
+}
+
+print_pkg_and_sha() {
+	printf "%s " "$pkg"
+	i=0
+	while test $i -lt 16 ; do
+		printf "00000000"
+		i=$(($i + 1))
+	done
+	echo
+}
+
+[ -z "$1" ] && usage
+[ ! -e "$1" ] && usage
+pkg=$(basename "$1" | cut -d '_' -f 1)
+pl=$(printf "%s" "$pkg"|wc -c | cut -d " " -f 1)
+arch=$(basename "$1" | cut -b $(($pl + 2))- | cut -d "." -f 1)
+[ "$arch" = "$A" ] || {
+	echo "error: arch $arch of "$1" doesnt match arch $A of config!"
+	exit 1
+}
+fn=$(readlink -f "$1")
+
+set -e
+[ -e "$R$butch_staging_dir/$pkg" ] && {
+butch unlink "$pkg" || true
+rm -rf "$R$butch_staging_dir/$pkg"
+}
+
+(
+cd $R$butch_staging_dir || {
+echo "error: could not cd to $R$butch_staging_dir"
+exit 1
+}
+tar xf "$fn"
+)
+
+butch relink "$pkg"
+sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
+
+print_pkg_and_sha >> "$BUTCHDB"
+echo "successfully installed $pkg"
