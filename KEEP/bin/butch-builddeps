@@ -1,0 +1,20 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+pkg=$1
+if [ -z "$pkg" ] ; then
+	echo 'this script installs all dependencies of a package'
+	echo '(but not the package itself).'
+	exit 1
+fi
+
+fl=$S/pkg/$pkg
+if [ ! -e "$fl" ] ; then
+	echo "package $fl does not exist!"
+	exit 1
+fi
+
+butch install `butch printsec "$pkg" deps`

@@ -37,6 +37,7 @@ genfilelist <package>     # create filelist for <package>
 
 pack [--method] <package> # create a binary archive of <package>
 unpack <filename>         # install binary archive <filename> created with pack
+builddeps <package>       # build and install dependencies of package
 
 list                      # list installed packages
 files <package>           # show files installed by <package>
@@ -67,6 +68,7 @@ case $1 in
 	pack) shift; prog=butch-pack;;
 	unpack) shift; prog=butch-unpack;;
 	genfilelist) shift; prog=butch-genfilelist;;
+	builddeps) shift; prog=butch-builddeps;;
 	list) shift; prog=butch-list;;
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
