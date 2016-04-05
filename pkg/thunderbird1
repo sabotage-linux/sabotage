@@ -14,7 +14,7 @@ zip
 cairo
 glib
 gtk+2
-libIDL
+libidl
 
 [build]
 patch -p1 < "$K"/thunderbird1-getprotobyname_r.patch
