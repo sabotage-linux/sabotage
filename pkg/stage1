@@ -18,7 +18,7 @@ patch
 [build]
 if [ -d "$butch_root_dir""$butch_staging_dir"/stage0 ] ; then
 	rm -rf "$butch_root_dir""$butch_staging_dir"/gcc3
-	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0_musl
+	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0-musl
 	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0
 
 	butch unlink gcc3

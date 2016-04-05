@@ -7,7 +7,7 @@ desc='the standard build tool for *nix source packages'
 kernel-headers
 
 [deps.host]
-stage0_musl
+stage0-musl
 
 [mirrors]
 http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2

@@ -3,7 +3,7 @@ filesize=239408
 sha512=3eaf474dfe5b09ddd8268311e8ac61d0b760cda391af1d79d5bf4e8e1a1b488be024a05dd6b89d44ae2ec18b3947f06a517ce66f453ff299f51a869a26ba1749
 
 [deps.host]
-stage0_musl
+stage0-musl
 
 [mirrors]
 http://ftp.gnu.org/gnu/patch/patch-2.6.1.tar.xz

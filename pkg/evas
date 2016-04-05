@@ -8,7 +8,7 @@ sha512=7ee95adc71c9e83ae88a0ef45a40a8f1837edc190d435ebb173a8d6af07b311f6453b3036
 [deps]
 musl
 eina
-evas_generic_loaders
+evas-generic-loaders
 freetype
 libx11
 libxcb

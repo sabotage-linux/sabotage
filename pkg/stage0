@@ -1,7 +1,7 @@
 [deps]
 services
-stage0_gcc
-stage0_musl
+stage0-gcc
+stage0-musl
 kernel-headers
 butch
 busybox

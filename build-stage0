@@ -39,7 +39,7 @@ if [ ! -d "$R"/bin ] ; then
 	"$H"/utils/update-chroot.sh
 		
 	# on ARM, gcc 3.4.6 is not sufficient to build for EABI
-	[ "$A" = "arm" ] && cat <<- EOF > "$S"/pkg/stage0_gcc
+	[ "$A" = "arm" ] && cat <<- EOF > "$S"/pkg/stage0-gcc
 		[deps]
 		gcc424
 		EOF
