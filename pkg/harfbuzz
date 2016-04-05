@@ -1,9 +1,9 @@
 [mirrors]
-http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.2.4.tar.bz2
+http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.2.5.tar.bz2
 
 [vars]
-filesize=1320609
-sha512=fd721f172b329cb39ae053da77fc4ef9675d9578bf1043647dcdc06d6dd92f43cf39a75a780899364b82363f8271269c6eae71169f5c160c726d65fe3fafd16e
+filesize=1334740
+sha512=a94b032895490215fdace430f04db02caf79c4ab705edea26844f31a79f4e213558550be216a14fd406cb2aecfab1ae8e1503f7f90b4a38ad498b78554495eb9
 
 [deps]
 freetype
