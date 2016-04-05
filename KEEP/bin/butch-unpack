@@ -5,6 +5,7 @@ if [ -z "$S" ] ; then
 	exit 1
 fi
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+[ -z "$butch_do_filelists" ] && butch_do_filelists=true
 [ "$R" = "/" ] && R=
 [ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
 usage() {
@@ -59,6 +60,6 @@ tar xf "$fn"
 
 butch relink "$pkg"
 sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
-
 print_pkg_and_sha >> "$BUTCHDB"
+$butch_do_filelists && butch genfilelist "$pkg"
 echo "successfully installed $pkg"

@@ -50,7 +50,7 @@ butch_do_custom_destdir=true
 # the options below all require a custom destdir to be set.
 butch_do_cleanup_custom_destdir=true
 [ -z "$butch_do_relocate" ] && butch_do_relocate=true
-butch_do_filelists=true
+[ -z "$butch_do_filelists" ] && butch_do_filelists=true
 butch_do_create_tarball=false
 butch_do_separate_debug_info=true
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
@@ -225,10 +225,8 @@ if $have_files ; then
 	# here you could place some code that makes a tarball out of $butch_install_dir
 	# moves the contents to / or create some sort of package file list.
 	# e.g.
-	if [ "$butch_do_filelists" ] ; then
-		mkdir -p "$butch_filelists"
-		echo "creating filelist $filelist"
-		find . -type f -or -type l > "$filelist"
+	if $butch_do_filelists ; then
+		sh -x $K/bin/butch-genfilelist "$butch_package_name"
 	fi
 
 	if $butch_do_relocate ; then
