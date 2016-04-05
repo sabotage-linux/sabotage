@@ -19,6 +19,9 @@ It supports the following commands:
 	relink <package>          # create symlinks for an unlinked <package>
 	unlink <package>          # remove symlinks to a specific <package>
 
+	pack [--method] <package> # create a binary archive of <package>
+	unpack <filename>         # install binary archive <filename> created with pack
+
 	list                      # list installed packages
 	files <package>           # show files installed by <package>
 	mirrors <package>         # print mirrors for <package>
@@ -45,6 +48,11 @@ as it supports HTTPS. You may also use `curl` by exporting `USE_CURL=1`.
 `butch` defaults to installing built packages into `/opt/$packagename`. Files
 are then symlinked into a user-definable path, defaulting to `/`. Finally, the
 package name and hash of its recipe are then written to `/var/lib/butch.db`.
+
+The `/opt` path can be overridden by adding the variable `butch_staging_dir` to
+the config file and setting it to the desired value. It must consist of a single
+component, for example `/foo` `/app` or `/Packages`. The staging dir will
+always be used inside the filesystem root specified in the used config.
 
 `butch` may also be used for system configuration, eschewing the package
 building features by simply calling `exit 0` at the conclusion of a package
@@ -307,6 +315,17 @@ For example, kernel messages are in `/var/log/dmesg/current`.
 You can look at all logs with `sort /var/log/*/current |less`.
 
 For more information, see `runit` docs. 
+
+### Transfering packages
+
+Packages can be transfered and installed on another system than the one they
+were built on. basically it's sufficient to copy the build host's directory
+`/opt/packagename` to the target's `/opt`, (use cp -a to preserve symlinks) and
+then call `butch relink packagename` on the target.
+An entry should be added to `/var/lib/butch.db`, so butch knows that it's
+already installed (the sha512sum can be copied from another package's entry).
+The commands `butch pack packagename` and `butch unpack filename` automate this
+task on the build and target host, respectively.
 
 
 ### Other advice
