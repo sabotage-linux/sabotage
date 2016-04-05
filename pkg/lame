@@ -5,16 +5,17 @@ http://sourceforge.net/projects/lame/files/lame/3.99/lame-3.99.5.tar.gz
 filesize=1445348
 sha512=ce62d7eb9fc8c53c343374ded30f11153a296910f0be7e649197bca7412c6660aad1aa6143d56b750f866229eb492cf7bb4f682535c383fb4aa57d7077d8b4d8
 
+[deps]
+curses
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
 xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
-    
+LIBS="-lcurses -lterminfo" \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-      
-#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-      
+
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
