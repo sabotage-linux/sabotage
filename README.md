@@ -169,7 +169,7 @@ Please follow the style and conventions of your fellow contributors.
 
 When creating packages, try starting from the autoconf template:
 
-	$ cp KEEP/pkg_skel/autoconf pkg/my_new_pkg
+	$ cp KEEP/pkg_skel/autoconf pkg/my-new-pkg
 
 There are other convenient templates located in `KEEP/pkg_skel/` as well.
 
@@ -179,6 +179,21 @@ Try running `utils/dlinfo.sh`:
 
 `utils/dlinfo.sh` will return the file stats and sha512sum for easy copying
 and pasting into your new package.
+
+### Package Name Guideline
+
+Package names may consist of the following characters: a-z 0-9 -
+i.e: lower-case and numbers only, dash to separate.
+
+Perl5 modules from cpan must be named as perl5-Module-Submodule,
+for examples perl5-XML-Parser. Uppercase should be applied exactly
+as in the module name.
+
+Python modules must be named as python-module.
+example: python-setuptools
+
+Following this convention makes it possible to use package names in
+regexes or URLs without having to escape or encode/decode them.
 
 ### Package Sources and Philosophy
 
