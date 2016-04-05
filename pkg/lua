@@ -12,7 +12,12 @@ readline
 sed -i "s@#define LUA_ROOT\t"'"/usr/local/"@#define LUA_ROOT "/"@' src/luaconf.h
 sed -i 's@INSTALL_TOP= /usr/local@INSTALL_TOP='"$butch_install_dir""$butch_prefix"'@' Makefile
 
-make CC="$CC" -j$MAKE_THREADS MYCFLAGS="-fPIC $optcflags" MYLDFLAGS="$optldflags" linux
+make \
+  CC="$CC" \
+  -j$MAKE_THREADS \
+  MYCFLAGS="-fPIC $optcflags" \
+  MYLDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  linux
 make INSTALL_TOP="$butch_install_dir""$butch_prefix" install
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/pkgconfig
