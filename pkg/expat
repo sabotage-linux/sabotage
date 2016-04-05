@@ -1,13 +1,14 @@
-[deps]
-musl
+[mirrors]
+http://sourceforge.net/projects/expat/files/expat/2.1.1/expat-2.1.1.tar.bz2
 
 [vars]
-filesize=562616
-sha512=2a9ad2b44b87b84087979fe4114d661838df3b03dbdcb74d590cb74096bf35ce9d5a86617b0941a2655ea441a94537bcbcd78252da92342238823be36de2d09d
+filesize=405103
+sha512=088e2ef3434f2affd4fc79fe46f0e9826b9b4c3931ddc780cd18892f1cd1e11365169c6807f45916a56bb6abcc627dcd17a23f970be0bf464f048f5be2713628
 desc='library to interface with XML files'
+uchkurl=https://sourceforge.net/projects/expat/files/expat/
 
-[mirrors]
-http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz
+[deps]
+musl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
