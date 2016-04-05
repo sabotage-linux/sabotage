@@ -33,6 +33,7 @@ rebuild [<package> ... ]  # rebuild already installed <packages>
 
 relink <package>          # create symlinks for an unlinked <package>
 unlink <package>          # remove symlinks to a specific <package>
+genfilelist <package>     # create filelist for <package>
 
 pack [--method] <package> # create a binary archive of <package>
 unpack <filename>         # install binary archive <filename> created with pack
@@ -65,6 +66,7 @@ case $1 in
 	download) shift ; set -- prefetch "$@";;
 	pack) shift; prog=butch-pack;;
 	unpack) shift; prog=butch-unpack;;
+	genfilelist) shift; prog=butch-genfilelist;;
 	list) shift; prog=butch-list;;
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
