@@ -1,0 +1,22 @@
+--- arp-scan-1.9.org/arp-scan.c
++++ arp-scan-1.9/arp-scan.c
+@@ -482,7 +482,7 @@
+ /*
+  *      Display initial message.
+  */
+-   printf("Starting %s with %u hosts (http://www.nta-monitor.com/tools/arp-scan/)\n",
++   printf("Starting %s with %u hosts\n",
+           PACKAGE_STRING, num_hosts);
+ /*
+  *      Display the lists if verbose setting is 3 or more.
+@@ -604,8 +604,8 @@
+    elapsed_seconds = (elapsed_time.tv_sec*1000 +
+                       elapsed_time.tv_usec/1000) / 1000.0;
+ 
+-   printf("Ending %s: %u hosts scanned in %.3f seconds (%.2f hosts/sec). %u responded\n",
+-          PACKAGE_STRING, num_hosts, elapsed_seconds,
++   printf("%u hosts scanned in %.3f seconds (%.2f hosts/sec). %u responded.\n",
++          num_hosts, elapsed_seconds,
+           num_hosts/elapsed_seconds, responders);
+    if (debug) {print_times(); printf("main: End\n");}
+    return 0;
