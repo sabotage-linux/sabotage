@@ -226,7 +226,7 @@ if $have_files ; then
 	# moves the contents to / or create some sort of package file list.
 	# e.g.
 	if $butch_do_filelists ; then
-		sh -x $K/bin/butch-genfilelist "$butch_package_name"
+		$K/bin/butch-genfilelist "$butch_package_name"
 	fi
 
 	if $butch_do_relocate ; then
