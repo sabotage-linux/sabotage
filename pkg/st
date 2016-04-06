@@ -15,9 +15,10 @@ libxft
 [build]
 make \
  PREFIX="$butch_prefix" \
- CFLAGS="$optcflags -D_GNU_SOURCE -std=c99 -I"$butch_prefix"/include/freetype2 \
+ CFLAGS="$optcflags -D_GNU_SOURCE -std=c99 -I$butch_root_dir$butch_prefix/include/freetype2 \
    -DVERSION=\\\"0.4.1\\\" -D_BSD_SOURCE -D_XOPEN_SOURCE=600" \
- LDFLAGS="$optldflags -lX11 -lXext -lXft -lfontconfig -lfreetype" \
+ LDFLAGS="$optldflags -lX11 -lXext -lXft -lfontconfig -lfreetype \
+  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
   -j$MAKE_THREADS all install
 #make DESTDIR="$butch_install_dir" install
