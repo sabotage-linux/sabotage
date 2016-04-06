@@ -51,13 +51,13 @@ butch_do_custom_destdir=true
 butch_do_cleanup_custom_destdir=true
 [ -z "$butch_do_relocate" ] && butch_do_relocate=true
 [ -z "$butch_do_filelists" ] && butch_do_filelists=true
-butch_do_create_tarball=false
+[ -z "$butch_do_create_tarball" ] && butch_do_create_tarball=false
 butch_do_separate_debug_info=true
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
 
 [ -z "$butch_filelists" ] && butch_filelists="$S/filelists/"
 [ -z "$butch_tarballs_used" ] && butch_tarballs_used="$S/tarballs_used.txt"
-butch_created_tarball_dest="$S/dist/"
+[ -z "$butch_pack_dest" ] && butch_pack_dest="$S/dist/"
 
 butch_package_name=%BUTCH_PACKAGE_NAME
 butch_prefix=/
@@ -235,10 +235,10 @@ if $have_files ; then
 	fi
 
 	if $butch_do_create_tarball ; then
-		mkdir -p "$butch_created_tarball_dest"
-		tarball="$butch_created_tarball_dest/$butch_package_name-$package_version-$A.tar.bz2"
-		echo "creating dist tarball $tarball"
-		tar cjf "$tarball" *
+		(
+		mkdir -p "$butch_pack_dest" && cd "$butch_pack_dest" && \
+		"$K"/bin/butch-pack --xz "$butch_package_name"
+		)
 	fi
 
 fi
