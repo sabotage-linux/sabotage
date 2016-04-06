@@ -21,6 +21,7 @@ mesalib
 libogg
 libvorbis
 icu
+libvpx
 
 [deps.host]
 yasm
@@ -48,6 +49,7 @@ PATCH firefox-31-basename.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox38-xul-order.patch
+PATCH firefox38-arm-temp-failure.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
@@ -104,7 +106,7 @@ ac_add_options --disable-pulseaudio
 # recommended dependencies:
 #ac_add_options --enable-system-sqlite
 ac_add_options --with-system-libevent
-#ac_add_options --with-system-libvpx
+ac_add_options --with-system-libvpx
 #ac_add_options --with-system-nspr
 #ac_add_options --with-system-nss
 ac_add_options --with-system-icu
@@ -139,6 +141,9 @@ ac_add_options --with-system-zlib
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
+[ -n "$CROSS_COMPILE" ] && \
+  printf "ac_add_options %s\n" "--target=$($CC -dumpmachine)" >> mozconfig
+
 mkdir -p include/sys
 cat << EOF > include/sys/cdefs.h
 #ifndef __P
@@ -154,10 +159,13 @@ sed -i 's@MOZ_PGO_OPTIMIZE_FLAGS=@MOZ_PGO_OPTIMIZE_FLAGS= #@g' configure
 sed -i 's@MOZ_DEBUG_FLAGS=@MOZ_DEBUG_FLAGS= #@g' configure
 sed -i 's@HOST_OPTIMIZE_FLAGS=@HOST_OPTIMIZE_FLAGS= #@g' configure
 
-allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags -Wl,--no-keep-memory"
+reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 # on arm binutils 2.24 assertion failure is triggered due to some of the cflags
 # in the default butch config. see issue #186
-[ "$A" = arm ] && allflags="-D_GNU_SOURCE -I$PWD/include -Os -g0 -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -Wl,--no-keep-memory"
+[ "$A" = arm ] && \
+allflags="-D_GNU_SOURCE -I$PWD/include -Os -g0 -fno-unwind-tables \
+-fno-asynchronous-unwind-tables -Wa,--noexecstack $reqldf"
 CFLAGS="$allflags" \
 CXXFLAGS="$allflags" \
 make -f client.mk
