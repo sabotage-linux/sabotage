@@ -1,16 +1,16 @@
+[mirrors]
+http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.11.95.tar.bz2
+
+[vars]
+filesize=1591200
+sha512=e3d7696814b585512bbe191ae4e5a4fe5a645895b4b1f5783dc575efe3f0a2b725daa48eb9c43168d2cd2fc752bf114be41c58a4ae81f2db49f431984e134b54
+
 [deps]
 freetype
 expat
 
 [deps.host]
 pkgconf
-
-[vars]
-filesize=1526089
-sha512=5339ac2db160b672a4c9be09f019120c003d90ff6ad7d99894c4ffef7aefb7f3913d886090e4248c33a93481b522561b6057e45243842c8c830e1608e7e5d83f
-
-[mirrors]
-http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.93.tar.bz2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
