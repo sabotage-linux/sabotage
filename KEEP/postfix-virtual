@@ -1,5 +1,17 @@
 # (address-match) (mbox-destination)
-# @catchall-example.com user
-# a@another-example.com user1
-# b@another-example.com user2
+
+# catchall-example.com	DOMAIN
+# @catchall-example.com	user1
+# a@catchall-example.com	user2
+# b@catchall-example.com	user3
+
+# For the next example, add this to /etc/aliases:
+# nobody:		/dev/null
+# Then run 'postalias /etc/aliases'
+
+# killfile-example.com	DOMAIN
+# spam@killfile-example.com	nobody
+# junk@killfile-example.com	nobody
+# @killfile-example.com	user1
+
 example@removeme.com root
