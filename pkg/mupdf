@@ -1,9 +1,9 @@
-[vars]
-filesize=13975531
-sha512=3a47d47b81550f531039153385fc22bb81a24df334706e23b7f118d08d97bb103566eef2a6ea3602ebe242fcb9d53304bb9d8230109572204491415a3a1b0645
-
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.6-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.8-source.tar.gz
+
+[vars]
+filesize=14169777
+sha512=938fbed4afc0dd0aa621911cd70b9289c6a4f13d026f9390b11fc86d5b37845a76943c9fa42f218f67fe298295f15d6664a18be7bf73b5d952724122510f9deb
 
 [deps]
 zlib
