@@ -1,14 +1,13 @@
 [mirrors]
-ftp://www.kernel.org/pub/software/network/ethtool/ethtool-3.14.tar.xz
+http://cdn.kernel.org/pub/software/network/ethtool/ethtool-4.5.tar.xz
 
 [vars]
-filesize=194360
-sha512=745feeb4fa3bfcee40c9299f7f6102646029e8079f8ed9904a348f09ab5f23b17d929c65cf892d38fe38b629d8dedf8706c1902993da3c24337c52e65bb161de
+filesize=204244
+sha512=fa5b4547de0315c54113d9c7baea53dd4bb6e46c9340255cecf9a39f549190cb5de9db98ad4330a6eeced3a1f9ed6f2ae42cf5a602c0ef1c5a9fd17c825558a4
 
 [deps]
 
 [build]
-patch -p1 < "$K"/ethtool-uint.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
