@@ -9,6 +9,7 @@ http://downloads.sourceforge.net/project/aria2/stable/aria2-1.19.0/aria2-1.19.0.
 [deps]
 gnutls
 libnettle
+libgcrypt
 gmp
 libxml2
 
@@ -19,10 +20,10 @@ pkgconf
 patch -p1 < "$K"/aria2-logger.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
-  --with-sysroot=$butch_root_dir"
+  --with-sysroot=$butch_root_dir --with-libgcrypt-prefix=$butch_root_dir$butch_prefix"
 
 CFLAGS="$optcflags" \
-LDFLAGS="$optldflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 CXXFLAGS="$optcflags" \
 CPPFLAGS="-DHAVE_GETTIMEOFDAY -DHAVE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_USLEEP -DHAVE_SLEEP" \
   ./configure  --prefix="$butch_prefix" $xconfflags
