@@ -1,12 +1,11 @@
 [mirrors]
-ftp://sources.redhat.com/pub/lvm2/LVM2.2.02.149.tgz
-http://sourceware.mirrors.tds.net/pub/sourceware.org/lvm2/LVM2.2.02.149.tgz
-ftp://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.149.tgz
-http://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.149.tgz
+ftp://sources.redhat.com/pub/lvm2/LVM2.2.02.150.tgz
+http://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.150.tgz
+ftp://mirrors.kernel.org/sources.redhat.com/lvm2/LVM2.2.02.150.tgz
 
 [vars]
-filesize=1997419
-sha512=f00310fd398d4f84d67677e47b148ab5cc79319e25547ee56160703a425f2f506a4c92ee9958c363a1640ae1fa17b4337242d76e0c5e4a256192edfbf9c4fcdc
+filesize=1998624
+sha512=66d1a247170f685c72d91d5fc52a2394ba5d5a477686101b9a472a8ac163813f9c80c0d75e4f29939b16000456263e9191cd294520ab5b320915f23f0797f22e
 
 [deps]
 kernel-headers
