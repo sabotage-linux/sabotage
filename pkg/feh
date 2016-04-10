@@ -1,9 +1,10 @@
-[vars]
-filesize=2239395
-sha512=b0518c3a9040e7dc18836e6f15ebec260c055642a2cea41b8ed9184a02c6c5d5ce0f8de355408408123c0d076b7e85036e9336e37431a41df04b8c7370a800c5
-
 [mirrors]
-http://feh.finalrewind.org/feh-2.7.tar.bz2
+http://feh.finalrewind.org/feh-2.15.tar.bz2
+
+[vars]
+filesize=2120955
+sha512=8040f9b16a6fbd88928ed7749cdffb321b9ac9056fbaffcaf62f8da31fecbc099708b23056cfdd60763e9572d84506f5691a87e7d30ca3e9c4f13e7ed84b9562
+desc='command-line oriented X11 image viewer'
 
 [deps]
 curl
@@ -13,6 +14,7 @@ libexif
 libxt
 
 [build]
-CFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE $optcflags -include string.h" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   make -j$MAKE_THREADS PREFIX="$butch_prefix" exif=1 help=1
 make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
