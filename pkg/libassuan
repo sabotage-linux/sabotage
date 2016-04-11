@@ -1,12 +1,22 @@
 [mirrors]
-http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libassuan/libassuan-2.0.3.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.2.tar.bz2
+http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libassuan/libassuan-2.4.2.tar.bz2
+
 [vars]
-filesize=529149
-sha512=8a67d3e357b490e6c07ea475e55271d6e86354cac9d65c8271aeac264b027041c83c7a83a87abb4ebb860f2a603730af181f27dc77c6429d2eb7765b36d0d088
+filesize=587631
+sha512=175f9807b7c960750d8177bc879be1476b7948c9af17cce48a60e8ef35cf1f62dc0909fe6c53898d0ac0b991aa22d6aa0720bfbc48894a89775d32f287ea9f7b
 
 [deps]
+libgpg-error
 
 [build]
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir \
+  --with-gpg-error-prefix=$butch_root_dir$butch_prefix"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
