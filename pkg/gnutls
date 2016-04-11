@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/gnutls-3.4.7.tar.xz
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.4/gnutls-3.4.7.tar.xz
+ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/gnutls-3.4.11.tar.xz
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.4/gnutls-3.4.11.tar.xz
 
 [vars]
-filesize=6613096
-sha512=fdfca4c37292ee07d2d1e398380afe79a20f56040a7c84deb7a5b5221f3bcb4080471b9644c7f2bacb42247c3cc62e32a511f1e2ec6e31c15d9b08b20e8050b6
+filesize=6652224
+sha512=cf58309a45f751d07dc05858c163209cefd09831717220df7e072a303c7af5f71da872e975a776557e42982bc21efbe2e4d6f2ec46aec020e7d465274d1d4b42
 
 [deps]
 libnettle
