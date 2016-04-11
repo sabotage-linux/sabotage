@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.7.tar.gz
+http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.8.tar.gz
 
 [vars]
-filesize=1851611
-sha512=9e93264bfad250d88c528550db4731d07c5c1b2ec319b892e9b536dc3d46b2a4166241ebf3470127c4f662067b7dabaa407ce1f16bdf05ee31495881eefe5572
+filesize=1859924
+sha512=22a0d1b2fc57efd18aa23ea720f915ec0c31bd2f60653181b0537d3d7c3c3262cef3a76e3be03fdb7d7cd5a6b4156a1033b156e56717bfa37a32f176692319f3
 
 [deps]
 
