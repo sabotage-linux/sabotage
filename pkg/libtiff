@@ -1,8 +1,9 @@
 [mirrors]
-http://download.osgeo.org/libtiff/tiff-4.0.3.tar.gz
+http://download.osgeo.org/libtiff/tiff-4.0.6.tar.gz
+
 [vars]
-filesize=2051630
-sha512=d80e18b00e9e696a30b954c0d92e5f2f773fd9a7a0a944cf6cabb69c1798e671506580daa1cd2ebf493ae922000170c2491dfc6d4c0a9cd0b865684070595a73
+filesize=2192991
+sha512=2c8dbaaaab9f82a7722bfe8cb6fcfcf67472beb692f1b7dafaf322759e7016dad1bc58457c0f03db50aa5bd088fef2b37358fcbc1524e20e9e14a9620373fdf8
 
 [deps]
 libjpeg
@@ -11,8 +12,9 @@ zlib
 xz
 
 [build]
+cp -f "$K"/config.sub config/
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
    ./configure -C --prefix="$butch_prefix" --with-pic \
      --enable-shared --enable-static $xconfflags
