@@ -1,9 +1,9 @@
 [mirrors]
-http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.4.tar.gz
+http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.5.tar.gz
 
 [vars]
-filesize=7227428
-sha512=89af66021ad10a437be085c0ee40e7ac3df44f68660bb582017569d5982974ba68777cfb924cb2de585b972ea8112bc033b8905906f9be18c6b8a154a9ae0a46
+filesize=7190734
+sha512=a39eb8c11b394e4d5c1164da46d74f283f489057f70c192277d94e511a3716c86474a07a7c80ce602a53e41959f75e82312ad9f5cb365953c24445af4456e1ce
 
 [deps]
 libpng
