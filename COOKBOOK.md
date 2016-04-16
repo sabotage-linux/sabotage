@@ -18,9 +18,11 @@ It supports the following commands:
 
 	relink <package>          # create symlinks for an unlinked <package>
 	unlink <package>          # remove symlinks to a specific <package>
+	genfilelist <package>     # create filelist for <package>
 
 	pack [--method] <package> # create a binary archive of <package>
 	unpack <filename>         # install binary archive <filename> created with pack
+	builddeps <package>       # build and install dependencies of package
 
 	list                      # list installed packages
 	files <package>           # show files installed by <package>
