@@ -12,7 +12,6 @@ freetype
 jbig2dec
 libjpeg
 libxext
-openssl
 
 [deps.host]
 freetype

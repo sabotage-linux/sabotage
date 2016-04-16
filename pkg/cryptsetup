@@ -11,7 +11,6 @@ desc='required component to use encrypted filesystems'
 
 [deps]
 libuuid
-openssl
 popt
 libdevmapper
 

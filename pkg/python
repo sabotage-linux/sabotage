@@ -10,7 +10,6 @@ desc='interpreter for the python 2.x scripting language'
 [deps]
 musl
 curses
-openssl
 bzip2
 expat
 libffi

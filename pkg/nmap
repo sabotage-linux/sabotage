@@ -10,7 +10,6 @@ libpcap
 pcre
 zlib
 lua
-openssl
 
 [deps.host]
 dynamic-toolchain

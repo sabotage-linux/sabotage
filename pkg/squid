@@ -7,7 +7,6 @@ sha512=f2e4d077aafa9c3adc6bc972fdcdd1fa041eeb93792a194a46025b56bf2afda0f38928d97
 desc="HTTP proxy and cache"
 
 [deps]
-openssl
 libstdc++
 
 [deps.host]

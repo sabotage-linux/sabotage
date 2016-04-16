@@ -13,7 +13,6 @@ libedit
 re2c
 curl
 db
-openssl
 openssh
 libjpeg
 libpng

@@ -7,10 +7,10 @@ sha512=4291ba58057b66d56853162b71862832135eab6f444a5e2cf3dd1089495d44624246dc0c5
 tardir=ca-certificates
 
 [deps]
-openssl
+libressl
 
 [deps.host]
-openssl
+libressl
 
 [build]
 $HOSTCC "$K"/c_rehash.c -o c_rehash -lssl -lcrypto

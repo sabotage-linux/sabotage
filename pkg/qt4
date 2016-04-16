@@ -10,7 +10,6 @@ libpng
 libmng
 libtiff
 libjpeg
-openssl
 sqlite
 
 [build]

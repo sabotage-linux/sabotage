@@ -10,7 +10,6 @@ musl
 libjpeg
 zlib
 eina
-openssl
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"

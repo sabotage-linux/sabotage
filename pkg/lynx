@@ -7,7 +7,6 @@ sha512=f1705e1fde9b97d65fb223ee5606cd1ea0dfd4e536b523eb36e9ef78f0e4b28e84d37dc0d
 desc='terminal web browser. supports HTTPS but not javascript'
 
 [deps]
-openssl
 curses
 
 [build]

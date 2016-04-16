@@ -7,9 +7,6 @@ sha512=b905cd4c99f150495d7252cc911cfd05285dc8aa1874ffc078e57185b7b3f613d5d0ab795
 tardir=h2o-1.7.0
 tarball=h2o-1.7.0.tar.gz
 
-[deps]
-openssl
-
 [deps.host]
 cmake
 perl

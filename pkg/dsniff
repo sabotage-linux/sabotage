@@ -13,7 +13,6 @@ libnet
 libnids
 portablexdr
 db
-openssl
 libx11
 libxmu
 
