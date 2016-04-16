@@ -1,12 +1,12 @@
 [mirrors]
-ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.6.5.tar.bz2
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.6.5.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.6.5.tar.bz2
-http://dbg.download.sourcemage.org/mirror/libgcrypt-1.6.5.tar.bz2
+ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.0.tar.bz2
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.0.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.7.0.tar.bz2
+http://dbg.download.sourcemage.org/mirror/libgcrypt-1.7.0.tar.bz2
 
 [vars]
-filesize=2549601
-sha512=1b76640a68514369da3b6be51d66e7040b64d03eba68d6b0d1b1ba88336c9da3ef41b21170a9eb641dae5a36a7c53cb167e15c8da964a5a6793aec947afe91f4
+filesize=2840453
+sha512=658eca9161d104b81c249dc47d9e4f2df58f26c63bd28ee9ad7a642fd84f09faddbde51e070bc923bfd54fb5785acf8ff2f0da244e6b497b57407f5f67c3574b
 
 [deps]
 libgpg-error
