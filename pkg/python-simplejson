@@ -10,7 +10,6 @@ python
 
 [deps.host]
 python
-wget
 
 [build]
 # FIXME: there appears to be no mirror without https

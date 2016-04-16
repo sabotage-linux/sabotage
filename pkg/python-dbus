@@ -7,7 +7,6 @@ sha512=65cc9d0fb1f9f58f8ee01fca566d7b15de7d7097ccb3bd6c575a1130f166c1aead3368a0d
 
 [deps]
 python
-wget
 dbus
 
 [build]

@@ -9,7 +9,6 @@ desc='terminal web browser. supports HTTPS but not javascript'
 [deps]
 openssl
 curses
-ca-certificates
 
 [build]
 # fix gnu assumptions

@@ -7,7 +7,6 @@ sha512=1e4cc613aa56d3547beff46c3124a6cb3ba5df89da00055df0b27e2ad57beccec33fd80b2
 
 [deps]
 openssl
-ca-certificates
 zlib
 
 [build]

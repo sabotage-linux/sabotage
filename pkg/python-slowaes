@@ -12,7 +12,6 @@ python
 [deps.host]
 python
 setuptools
-wget
 
 [deps.run]
 python
