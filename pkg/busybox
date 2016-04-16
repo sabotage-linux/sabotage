@@ -4,6 +4,8 @@ sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837eb
 
 [deps]
 kernel-headers
+libressl
+ca-certificates
 
 [deps.host]
 patch
@@ -48,6 +50,7 @@ dopatch "$K"/busybox-ping2.patch
 dopatch "$K"/busybox-grep-x.patch
 dopatch "$K"/busybox-sort.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
+dopatch "$K"/busybox-wget-https.patch
 dopatch "$K"/busybox-cve-2013-1813.patch
 dopatch "$K"/busybox-cve-2014-4607.patch
 dopatch "$K"/busybox-cve-2016-2147.patch
