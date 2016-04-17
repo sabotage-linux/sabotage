@@ -1,9 +1,9 @@
 [mirrors]
-http://download.redis.io/releases/redis-3.0.3.tar.gz
+http://download.redis.io/releases/redis-3.0.7.tar.gz
 
 [vars]
-filesize=1360959
-sha512=68b2d85341487efed26c92cd7925b4e9d889b5a19f08f4695ffd07087c01ae0c872086575744636513b01720829002c8d5c7bf43b20ee2c561599fa8d1c475f5
+filesize=1375200
+sha512=6c8f4c88d911e1433fd28efff2f6d62763e08be89814ebf4aa4e68e2c8bd605eba24ca3410548b2f480ae094437ce96c0bafa7a5762b3b405d5d850886297ba3
 
 [deps]
 
