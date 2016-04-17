@@ -1,11 +1,11 @@
 [vars]
-filesize=842961
-sha512=c3b4c95b7d120d656f422b041b6b03de250c8f38f1251c34378c424f7babf572584d7761a09eca7028d88522cb664d9cd24563396eab0bde790b08194e2be705
+filesize=854987
+sha512=990637f12e890bfa7f86c194c8b112701436e92b60afb829194879efb85d558b986261e6508fe29bde73981feada874438e2d442cec8ea5730c889954f9bc907
 
 [mirrors]
-http://prdownloads.sourceforge.net/levent/libevent-2.0.19-stable.tar.gz
-http://kent.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
-http://switch.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.19-stable.tar.gz
+http://prdownloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
+http://kent.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
+http://switch.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
 
 [deps]
 
