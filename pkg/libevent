@@ -1,11 +1,12 @@
-[vars]
-filesize=854987
-sha512=990637f12e890bfa7f86c194c8b112701436e92b60afb829194879efb85d558b986261e6508fe29bde73981feada874438e2d442cec8ea5730c889954f9bc907
-
 [mirrors]
 http://prdownloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 http://kent.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
 http://switch.dl.sourceforge.net/project/levent/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
+
+[vars]
+filesize=854987
+sha512=990637f12e890bfa7f86c194c8b112701436e92b60afb829194879efb85d558b986261e6508fe29bde73981feada874438e2d442cec8ea5730c889954f9bc907
+uchkurl=https://github.com/libevent/libevent/releases
 
 [deps]
 
