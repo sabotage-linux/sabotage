@@ -19,7 +19,8 @@ done
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags"
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-readline
 
 # since musl's BRE regex engine is now sufficiently glibc-compatible,
 # the versioning nonsense in the .export.sym linker script is now correctly
