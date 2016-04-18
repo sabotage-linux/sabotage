@@ -1,0 +1,176 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+        echo 'S not set, did you source config ?'
+        exit 1
+fi
+
+call=
+[ -n "$DEBUG" ] && call="sh -x"
+cdwasempty=true
+[ -z "$UCHKDIR" ] && UCHKDIR=. || cdwasempty=false
+store=$UCHKDIR/files
+if $cdwasempty && ! [ -d "$store" ] ; then
+	echo "$0 needs a working directory and drops a bunch of files in it."
+	echo "unless UCHKDIR is set, it will default to doing so in the current"
+	echo "directory. if you're fine with that and want to drop the files"
+	echo "in here ($PWD), create a subdirectory named 'files' and try again."
+	echo "in other words, run: mkdir -p $store"
+	exit 1
+else
+	mkdir -p $store
+fi
+
+get_filesize() {
+	wc -c "$1" |cut -d ' ' -f 1
+}
+get_chkurl() {
+local chkurl=
+tmp=$(mktemp -u).$$
+trap "rm -f $tmp" SIGINT SIGHUP SIGTERM
+butch printsec "$1" vars > $tmp
+grep uchkurl= < $tmp >/dev/null && . $tmp
+rm -f $tmp
+if [ -n "$uchkurl" ] ; then
+	printf "%s\n" "$uchkurl"
+	return 0
+fi
+local mirrors="$(butch mirrors "$1" | head -n 1)"
+[ -z "$mirrors" ] && return 1
+printf "%s/\n" "$(dirname "$mirrors")"
+return 0
+}
+url2sha() {
+	printf %s "$1" | sha1sum |cut -d ' ' -f 1
+}
+
+usage() {
+	echo -e \
+	"$0 --check [pkg1] [pkg2] ... [pkgn]\n" \
+	"   the only option for a user to call.\n" \
+	"   automates all of the below commands\n" \
+	"$0 --url [pkg]\n" \
+	"   prints an URL to download\n" \
+	"$0 --san [pkg]\n" \
+	"   opens .html, sanitizes input, stores it in .new, deletes .html\n" \
+	"$0 --dl [url]\n" \
+	"   downloads url and saves it to sha.html\n" \
+	"$0 --diff [pkg]\n" \
+	"  diffs sha vs sha.new and adds sha entry in ucheck.index\n" \
+	"$0 --db [pkg]\n" \
+	"  adds pkg and sha to ucheck.index\n"
+}
+
+mode=
+case "$1" in
+	--check) mode=check ;;
+	--url) mode=url ;;
+	--san) mode=san ;;
+	--dl) mode=dl ;;
+	--diff) mode=diff ;;
+	--db) mode=db;;
+esac
+shift
+
+[ -z "$mode" ] && { usage ; exit 1 ; }
+[ -z "$1" ] && { usage ; exit 1 ; }
+
+if [ "$mode" = dl ] ; then
+	fn=$store/$(url2sha "$1").html
+	curl -L -s "$1" > $fn.tmp && mv $fn.tmp $fn || rm -f $fn.tmp
+elif [ "$mode" = san ] ; then
+	chkurl=$(get_chkurl "$1")
+	[ $? != 0 ] && exit 1
+	sha=$(url2sha "$chkurl")
+	[ -e $store/$sha.html ] || exit 1
+	[ $(get_filesize $store/$sha.html) -gt 0 ] || {
+		rm $store/$sha.html
+		exit 1
+	}
+	case "$chkurl" in
+		ftp://*) fhref=cat ; fhref_arg=- ;;
+		*) fhref=awk ; fhref_arg='/[Hh][Rr][Ee][Ff]=/ {n=split($0,a,"="); n=split(a[2],b,"\"");if(n==3) print b[2]; else print a[2];}' ;;
+	esac
+	cat $store/$sha.html | sed 's,>,>\n,g' \
+	| $fhref "$fhref_arg" \
+	| grep -e '[0-9]\.[0-9]' -e '\.tar\.' -e '\.xz' -e '\.tgz' \
+	| grep -v -e '\.rpm$' -e '\.asc$' -e '\.sha1$' -e '\.sha256$' \
+	  -e '\.sha256sum$' -e '\.md5$' -e '\.news$' -e '\.changes$' \
+	  -e '\.sign$' -e '\.sig$' -e '\.deb$' -e '\.7z$' \
+	| sort -u \
+	> $store/$sha.new
+	rm $store/$sha.html
+	[ $(get_filesize $store/$sha.new) -gt 0 ] || {
+		rm $store/$sha.new
+		exit 1
+	}
+	exit 0
+elif [ "$mode" = url ] ; then
+	get_chkurl "$1"
+elif [ "$mode" = diff ] ; then
+	chkurl=$(get_chkurl "$1")
+	[ $? != 0 ] && exit 1
+	sha=$(url2sha "$chkurl")
+	[ -e "$store/$sha".new ] || exit 1
+	if [ -e "$store/$sha" ] ; then
+		diff -uw $store/$sha $store/$sha.new|sed 's/'$sha'/'$1'/g'
+	fi
+	mv "$store/$sha".new "$store/$sha"
+elif [ "$mode" = db ] ; then
+	chkurl=$(get_chkurl "$1")
+	[ $? != 0 ] && exit 1
+	sha=$(url2sha "$chkurl")
+	e=false
+	up=false
+	[ -e ucheck.index ] && while read n ; do
+		for p in $n ; do
+			break
+		done
+		#p=$(printf %s "$n"|cut -d ':' -f 1)
+		[ "$p" = "$1" ] && {
+			for q in $n ; do : ; done
+			[ "$q" = "$sha" ] && e=true || up=true
+			break
+		}
+	done < ucheck.index
+	$up && sed -i '/^'"$1 $q"'$/d' ucheck.index
+	$e || printf "%s %s\n" "$1" "$sha" >> ucheck.index
+
+elif [ "$mode" = check ] ; then
+	echo "preparing download list..."
+	rm -f urllist.tmp
+	pkglist=
+	for i ; do
+	pkg="$(basename "$i")"
+	$call $0 --url "$pkg" >> urllist.tmp
+	if [ "$?" = 0 ] ; then
+		[ -n "$pkglist" ] && pkglist="$pkglist $pkg" || pkglist="$pkg"
+	fi
+	done
+	cat urllist.tmp | sort -u > urllist
+	rm -f urllist.tmp
+	echo -ne "downloading..."
+	[ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
+	if [ -n "$JOBFLOW" ] ; then
+		echo "with jobflow..."
+		cat urllist | "$JOBFLOW" -threads=16 -delayedspinup=160 \
+			-exec $call $0 --dl {}
+	else
+		echo "without jobflow..."
+		for i in `cat urllist` ; do $call $0 --dl "$i" ; done
+	fi
+	rm -f urllist
+	echo "sanitizing..."
+	for pkg in $pkglist ; do
+		$call $0 --san "$pkg"
+	done
+	echo "adding db entries..."
+	for pkg in $pkglist ; do
+		$call $0 --db "$pkg"
+	done
+	echo "diffing..."
+	for pkg in $pkglist ; do
+		$call $0 --diff "$pkg"
+	done
+
+fi
+
