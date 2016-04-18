@@ -1,0 +1,34 @@
+if previously a dependency was already installed, butch would not
+try if its dependencies are as well installed.
+
+diff --git a/butch.c b/butch.c
+index 4159d0b..70d8ba7 100644
+--- a/butch.c
++++ b/butch.c
+@@ -505,11 +505,6 @@ static void queue_package(pkgstate* state, stringptr* packagename, jobtype jt, i
+ 
+ 	if(is_in_queue(packagename, queue)) goto end;
+ 
+-	if(!force && is_installed(state, packagename)) {
+-		ulz_fprintf(1, "package %s is already installed, skipping %s\n", packagename->ptr, queue_names[jt]);
+-		goto end;
+-	}
+-
+ 	uint32_t hash = stringptr_hash(packagename);
+ 	pkgdata* pkg = packagelist_get(state->package_list, packagename, hash);
+ 	unsigned i;
+@@ -524,6 +519,11 @@ static void queue_package(pkgstate* state, stringptr* packagename, jobtype jt, i
+ 		pkg = packagelist_get(state->package_list, packagename, hash);
+ 	}
+ 
++	if(!force && is_installed(state, packagename)) {
++		ulz_fprintf(1, "package %s is already installed, skipping %s\n", packagename->ptr, queue_names[jt]);
++		goto end;
++	}
++
+ 	if(
+ 		// if sizeof mirrors is 0, it is a meta package
+ 		(jt == JT_DOWNLOAD && stringptrlist_getsize(pkg->mirrors))
+-- 
+2.7.3
+
