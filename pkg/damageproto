@@ -1,12 +1,16 @@
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/damageproto-1.2.1.tar.bz2
+
 [vars]
 filesize=98392
 sha512=f124e85fb3cc70ed3536cb9db57ac93461bbb5df1a713bc6b67a5ea49122556c321781ca150df681502f6ccfb7305f290e131ad25ce9ccbff5af268df11c86fc
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/damageproto-1.2.1.tar.bz2
+[deps.host]
+pkgconf
 
 [build]
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
