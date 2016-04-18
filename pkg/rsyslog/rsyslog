@@ -34,7 +34,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
-install -D -m640 "$K"/rsyslog.conf "$butch_install_dir"/"$butch_prefix"/etc/rsyslog.conf
+install -D -m640 "$P"/rsyslog.conf "$butch_install_dir"/"$butch_prefix"/etc/rsyslog.conf
 
 IS="$K"/bin/install-service
 "$IS" --down --log --force rsyslog "$K"/services/rsyslog

@@ -15,5 +15,5 @@ make ARCH="$A" prefix="$butch_prefix" DESTDIR="$butch_install_dir" install \
 
 dest="$butch_install_dir""$butch_prefix"
 #fix ext2 header...
-cp -f "$K"/ext2_fs.h "$dest"/include/linux/
+cp -f "$P"/ext2_fs.h "$dest"/include/linux/
 

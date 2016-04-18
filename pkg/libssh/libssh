@@ -6,8 +6,8 @@ sha512=9142896f02801c78748bc1107b9b547506d61bda737b945bd691ebf10cc6c20511ea896b9
 http://www.libssh.org/files/0.5/libssh-0.5.0.tar.gz
 
 [build]
-cp $K/libssh-Makefile ./Makefile
-cp $K/libssh-config.mak ./config.mak
+cp "$P"/libssh-Makefile ./Makefile
+cp "$P"/libssh-config.mak ./config.mak
 touch include/libssh/config.h
 touch include/config.h
 #patch -p1 < "$K"/libssh.patch

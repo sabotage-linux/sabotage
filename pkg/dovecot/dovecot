@@ -33,7 +33,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --without-lzma --without-gc --without-bzlib
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-install -D -m 644 "$K"/dovecot.conf \
+install -D -m 644 "$P"/dovecot.conf \
   "$butch_install_dir""$butch_prefix"/etc/dovecot/dovecot.conf
 
 IS="$K"/bin/install-service

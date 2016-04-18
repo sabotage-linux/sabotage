@@ -24,6 +24,6 @@ CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
 
 patch -p1 < "$K"/libtool-sysroot.patch
 
-cp "$K"/xcb-util_atom.c src/atom.c
+cp "$P"/xcb-util_atom.c src/atom.c
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

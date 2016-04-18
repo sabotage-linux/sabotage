@@ -1,5 +1,5 @@
 [vars]
-tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+tarball=util-linux-$(cat "$P"/util-linux.version).tar.xz
 
 [deps]
 util-linux-tarball

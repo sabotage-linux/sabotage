@@ -26,7 +26,7 @@ dopatch() {
 	"$PATCH" -p1 < "$1"
 }
 
-cp "$K"/busybox.stage1.config .config
+cp "$P"/busybox.stage1.config .config
 dopatch "$K"/busybox.patch
 dopatch "$K"/busybox-blowfish.patch
 dopatch "$K"/busybox-unzip.patch

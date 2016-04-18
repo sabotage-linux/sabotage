@@ -14,7 +14,7 @@ mv Alc/mixer_inc.c Alc/mixer_inc.h
 # patch so *.c can be compiled without depending on system specifics
 patch -p1 < "$K"/openal-mixer.patch
 
-cp "$K/openal.Makefile" Makefile
+cp "$P/openal.Makefile" Makefile
 
 # find openal-soft-1.15.1/ -name '*.c' | xargs grep HAVE_ | perl -pe 's/.*?(HAVE_[\w+]*).*/$1/;' | sort -u | perl -ne 'print "// #define $_"'
 
@@ -85,5 +85,5 @@ make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/pkgconfig
-cp "$K"/openal.pc "$dest"/lib/pkgconfig/
+cp "$P"/openal.pc "$dest"/lib/pkgconfig/
 sed -i "s/@prefix@/""$butch_prefix""/" "$dest"/lib/pkgconfig/openal.pc

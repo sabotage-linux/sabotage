@@ -1,7 +1,7 @@
 [vars]
 filesize=3368432
 sha512=bbe3cb82c35a78331067ce098396acabf83599d7061e3b8ddc063411327dca8ba0ba4e1b258a25d6a37a124342f381dd77c7e70c04adb508f6ddc18e437cd73f
-tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+tarball=util-linux-$(cat "$S"/pkg/util-linux/util-linux.version).tar.xz
 
 [mirrors]
 ftp://www.kernel.org/pub/linux/utils/util-linux/v2.23/$tarball

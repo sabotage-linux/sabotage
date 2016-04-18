@@ -27,4 +27,4 @@ make DESTDIR="$butch_install_dir" install
 # install desktop file
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/share/applications
-cp "$K"/milkytracker.desktop "$dest"/share/applications/
+cp "$P"/milkytracker.desktop "$dest"/share/applications/

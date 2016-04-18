@@ -21,7 +21,7 @@ done
 #it is created using:
 #ncurses/tinfo/MKfallback.sh /usr/share/terminfo/ /etc/termcap tic linux vt100 term xterm-256color > fallback.c
 #on a machine that has those files.
-cp "$K"/ncurses-fallback.c ncurses/fallback.c
+cp "$P"/ncurses-fallback.c ncurses/fallback.c
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 

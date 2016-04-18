@@ -27,7 +27,7 @@ EOF
 
 touch config-git.h
 
-cp "$K"/weechat.Makefile Makefile
+cp "$P"/weechat.Makefile Makefile
 
 cat << EOF > config.mak
 prefix = $butch_prefix

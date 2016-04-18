@@ -9,4 +9,6 @@ libx11
 http://dl.suckless.org/tools/sselp-0.2.tar.gz
 
 [build]
-cp "$K/sselp.config.mk" ./config.mk && make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install
+cp "$P/sselp.config.mk" ./config.mk
+make -j $MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

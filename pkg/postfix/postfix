@@ -30,9 +30,9 @@ rm -rf "$dest"/usr "$dest"/sbin
 
 mv "$dest"/etc/postfix "$dest"/share/doc
 if [ ! -f  "$dest"/etc/postfix/main.cf ] ; then
-	install -D -m 644 "$K"/postfix-main.cf "$dest"/etc/postfix/main.cf
-	install -D -m 644 "$K"/postfix-master.cf "$dest"/etc/postfix/master.cf
-	install -D -m 644 "$K"/postfix-virtual "$dest"/etc/postfix/virtual
+	install -D -m 644 "$P"/postfix-main.cf "$dest"/etc/postfix/main.cf
+	install -D -m 644 "$P"/postfix-master.cf "$dest"/etc/postfix/master.cf
+	install -D -m 644 "$P"/postfix-virtual "$dest"/etc/postfix/virtual
 	cat <<- EOF > "$dest"/etc/postfix/README
 	Edit 'virtual' to route mail to users, then reload with 'postmap /etc/postfix/virtual'.
 	See /share/doc/postfix for further information.

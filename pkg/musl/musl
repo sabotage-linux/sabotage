@@ -33,7 +33,7 @@ ln -sf  ../lib/libc.so "$dest"/bin/ldd
 
 musl_gcc="$dest/bin/musl-gcc"
 
-cp "$K/musl-gcc" "$musl_gcc"
+cp "$P/musl-gcc" "$musl_gcc"
 chmod +x "$musl_gcc"
 sed -i "s,AAAA,$A," "$musl_gcc"
 sed -i "s,PPPP,$butch_prefix," "$musl_gcc"

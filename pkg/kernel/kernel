@@ -6,7 +6,7 @@ kernel-tarball
 kernel-patches
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel.version)
+LINUX_VER=$(cat "$P"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
 
 [build]
@@ -16,7 +16,7 @@ tarball=linux-"$LINUX_VER".tar.xz
 # install regulatory domain database into kernel tree
 # we build it fixed into the kernel so we don't need the bloated "crda" tool
 # to change regulatory domains with iw set reg.
-cp -f "$K"/linux-regdb.txt net/wireless/db.txt
+cp -f "$P"/linux-regdb.txt net/wireless/db.txt
 
 dopatch() {
 	echo "applying patch $1"
@@ -26,7 +26,7 @@ dopatch() {
 	fi
 }
 
-for p in $(cat "$K"/kernel.patches) ; do
+for p in $(cat "$P"/kernel.patches) ; do
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
 done
 
@@ -41,7 +41,7 @@ dopatch "$K"/linux-3.18-posix_sed.patch
 dopatch "$K"/linux-4.3-ralink-monitor.patch
 
 export ARCH=$A
-linux_config="$K"/linux.config
+linux_config="$P"/linux.config
 
 if [ -z "$HOSTCC" ] ; then
 	HOSTCC="$CC"
@@ -49,7 +49,7 @@ fi
 
 if [ "$A" = arm ] ; then
 	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
-	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
+	linux_config="$linux_config $P/linux.config.armv${ARM_ARCH}l"
 fi
 
 cat "$linux_config" > my.config

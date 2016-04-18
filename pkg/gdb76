@@ -33,7 +33,7 @@ patch -p1 < "$K"/gdb-76-configure-ash.patch
 patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 
 # fix mips build ...
-cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
+cp "$S"/pkg/gdb/gdb-sgidefs.h gdb/sgidefs.h
 
 "$K"/bin/libibertyfix libiberty
 # total madness: gdb uses libiberty *AND* gnulib
@@ -63,7 +63,7 @@ sed -i 's/noconfigdirs=""/noconfigdirs="intl readline"/' ../configure
 ln -sf "$butch_root_dir""$butch_prefix"/lib/libreadline.a readline/libreadline.a
 archflags=
 if [ "$A" = "powerpc" ] ; then
-	cp "$K"/ppc-regs.h .
+	cp "$S"/pkg/gdb/ppc-regs.h .
 	archflags="-include $PWD/ppc-regs.h"
 fi
 

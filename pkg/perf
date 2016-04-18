@@ -1,6 +1,6 @@
 [vars]
 desc='profiling tool using instrumentation facilities provided by the kernel'
-LINUX_VER=$(cat "$K"/kernel.version)
+LINUX_VER=$(cat "$S"/pkg/kernel/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
 
 [deps]

@@ -11,7 +11,7 @@ liblcms
 
 [build]
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
-cp "$K"/libmng.Makefile Makefile
+cp "$P"/libmng.Makefile Makefile
 echo prefix=$butch_prefix > config.mak
 make CC="$CC" -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

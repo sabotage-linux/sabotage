@@ -14,6 +14,6 @@ CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
-cp -f "$K"/sabotage-menu.png  "$dest"/share/lxde/images/
-cp -f "$K"/panel "$dest"/share/lxpanel/profile/LXDE/panels/panel
+cp -f "$P"/sabotage-menu.png  "$dest"/share/lxde/images/
+cp -f "$P"/panel "$dest"/share/lxpanel/profile/LXDE/panels/panel
 

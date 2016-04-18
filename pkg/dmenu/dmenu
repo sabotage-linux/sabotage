@@ -13,6 +13,6 @@ libxdmcp
 libxinerama
 
 [build]
-cp "$K/dmenu.config.mk" config.mk
+cp "$P/dmenu.config.mk" config.mk
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

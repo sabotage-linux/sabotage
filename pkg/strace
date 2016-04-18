@@ -20,7 +20,7 @@ if [ "$A" = "arm" ] ; then
 elif [ "$A" = "mips" ] ; then
 	sed -i 's,sgidefs\.h,asm/sgidefs.h,' defs.h
 elif [ "$A" = "powerpc" ] ; then
-	cp "$K"/ppc-regs.h .
+	cp "$S"/pkg/gdb/ppc-regs.h .
 	archflags="-include ppc-regs.h"
 	patch -p1 < "$K"/strace-ppc-defs.patch
 	patch -p1 < "$K"/strace-ppc-signal.patch

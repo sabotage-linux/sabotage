@@ -25,5 +25,5 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_p
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-install -D -m 660 "$K"/lxc-debian.X.common.conf $butch_install_dir/share/lxc/config/debian.X.common.conf
-install -D -m 750 "$K"/lxc-autodev-X $butch_install_dir/share/lxc/hooks/autodev-debian.X
+install -D -m 660 "$P"/lxc-debian.X.common.conf $butch_install_dir/share/lxc/config/debian.X.common.conf
+install -D -m 750 "$P"/lxc-autodev-X $butch_install_dir/share/lxc/hooks/autodev-debian.X
