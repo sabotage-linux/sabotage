@@ -1,0 +1,39 @@
+--- miniupnpc-1.7.20120830.org/Makefile
++++ miniupnpc-1.7.20120830/Makefile
+@@ -65,7 +65,7 @@
+ HEADERS = miniupnpc.h miniwget.h upnpcommands.h igd_desc_parse.h \
+           upnpreplyparse.h upnperrors.h miniupnpctypes.h \
+           portlistingparse.h \
+-          declspec.h
++          declspec.h bsdqueue.h
+ 
+ # library names
+ LIBRARY = libminiupnpc.a
+--- miniupnpc-1.7.20120830.org/upnpreplyparse.h
++++ miniupnpc-1.7.20120830/upnpreplyparse.h
+@@ -8,11 +8,7 @@
+ #ifndef __UPNPREPLYPARSE_H__
+ #define __UPNPREPLYPARSE_H__
+ 
+-#if defined(NO_SYS_QUEUE_H) || defined(_WIN32) || defined(__HAIKU__)
+ #include "bsdqueue.h"
+-#else
+-#include <sys/queue.h>
+-#endif
+ 
+ #ifdef __cplusplus
+ extern "C" {
+--- miniupnpc-1.7.20120830.org/portlistingparse.h
++++ miniupnpc-1.7.20120830/portlistingparse.h
+@@ -11,11 +11,7 @@
+ /* for the definition of UNSIGNED_INTEGER */
+ #include "miniupnpctypes.h"
+ 
+-#if defined(NO_SYS_QUEUE_H) || defined(_WIN32) || defined(__HAIKU__)
+ #include "bsdqueue.h"
+-#else
+-#include <sys/queue.h>
+-#endif
+ 
+ #ifdef __cplusplus
+ extern "C" {
