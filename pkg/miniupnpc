@@ -10,5 +10,6 @@ sha512=cb1635bea248c0205efd576a0710c201426bfd4c2f4e6b1804cfa35d96c06ba702af78ce9
 [build]
 patch -p1 < "$K"/miniupnpc.patch
 patch -p1 < "$K"/miniupnp-cve-2015-6031.patch
+patch -p1 < "$K"/miniupnp-cve-2014-3985.patch
 make -j$MAKE_THREADS
 make INSTALLPREFIX="$butch_install_dir""$butch_prefix" install
