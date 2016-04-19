@@ -23,4 +23,4 @@ make VERBOSE=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 IS="$K"/bin/install-service                                               
-"$IS" --down --log --force h2o "$K"/services/h2o
+"$IS" --down --log --force h2o "$P"/h2o.service

@@ -32,4 +32,4 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 IS="$K"/bin/install-service
-"$IS" --down --log --force postgres "$K"/services/postgres
+"$IS" --down --log --force postgres "$P"/postgres.service

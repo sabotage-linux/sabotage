@@ -47,7 +47,7 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install-nokeys
 
 IS="$K"/bin/install-service
-"$IS" --down --log --force openssh "$K"/services/openssh
+"$IS" --down --log --force openssh "$P"/openssh.service
 
 dest="$butch_install_dir""$butch_prefix"
 

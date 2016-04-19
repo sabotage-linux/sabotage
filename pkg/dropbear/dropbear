@@ -34,4 +34,4 @@ make SCPPROGRESS=1 PROGRAMS="dropbear scp dbclient dropbearkey dropbearconvert" 
 [ -e "$butch_prefix"/ssh ] || ln -s dbclient "$butch_install_dir""$butch_prefix"/bin/ssh
 
 IS="$K"/bin/install-service
-"$IS" --down --log --force dropbear "$K"/services/dropbear
+"$IS" --down --log --force dropbear "$P"/dropbear.service

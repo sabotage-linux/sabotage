@@ -37,4 +37,4 @@ make DESTDIR="$butch_install_dir" install
 install -D -m640 "$P"/rsyslog.conf "$butch_install_dir"/"$butch_prefix"/etc/rsyslog.conf
 
 IS="$K"/bin/install-service
-"$IS" --down --log --force rsyslog "$K"/services/rsyslog
+"$IS" --down --log --force rsyslog "$P"/rsyslog.service

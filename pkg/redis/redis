@@ -25,4 +25,4 @@ install -Dm400 redis.conf "$butch_install_dir"/etc/redis.conf
 
 # install the service
 IS="$K"/bin/install-service
-"$IS" --down --log --force redis "$K"/services/redis
+"$IS" --down --log --force redis "$P"/redis.service

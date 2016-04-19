@@ -14,4 +14,4 @@ make BINDIR="$butch_prefix"/bin PREFIX="$butch_prefix" DESTDIR="$butch_install_d
 install -D -m 640 dnsmasq.conf.example "$butch_install_dir"/"$butch_prefix"/etc/dnsmasq.conf
 
 IS="$K"/bin/install-service
-"$IS" --down --log --force dnsmasq "$K"/services/dnsmasq
+"$IS" --down --log --force dnsmasq "$P"/dnsmasq.service

@@ -22,4 +22,4 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 IS="$K"/bin/install-service
-"$IS" --force --down --log haveged "$K"/services/haveged
+"$IS" --force --down --log haveged "$P"/haveged.service

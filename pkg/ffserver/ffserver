@@ -7,6 +7,6 @@ ffmpeg
 dest="$butch_install_dir""$butch_prefix"
 install -Dm 644 "$P"/ffserver.conf "$dest"/etc/ffserver.conf
 IS="$K"/bin/install-service
-"$IS" --down --log --force ffserver "$K"/services/ffserver
-"$IS" --down --log --force ffclient "$K"/services/ffclient
+"$IS" --down --log --force ffserver "$P"/ffserver.service
+"$IS" --down --log --force ffclient "$P"/ffclient.service
 

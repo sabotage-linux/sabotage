@@ -47,4 +47,4 @@ make DESTDIR="$butch_install_dir" install
 
 # install the service
 IS="$K"/bin/install-service
-"$IS" --down --log --force hiawatha "$K"/services/hiawatha
+"$IS" --down --log --force hiawatha "$P"/hiawatha.service
