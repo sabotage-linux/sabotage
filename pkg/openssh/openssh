@@ -11,7 +11,7 @@ openssl
 sshd-service
 
 [build]
-patch -p1 < "$K"/openssh-sys_param.patch
+patch -p1 < "$P"/openssh-sys_param.patch
 
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in

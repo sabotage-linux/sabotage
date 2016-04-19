@@ -11,7 +11,7 @@ gtk+2
 intltool
 
 [build]
-patch -p1 < "$K"/lxtask-types.patch
+patch -p1 < "$P"/lxtask-types.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

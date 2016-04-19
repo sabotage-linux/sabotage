@@ -13,8 +13,8 @@ sdl
 curses
 
 [build]
-patch -p1 < "$K"/curseofwar-Makefile.patch
-patch -p1 < "$K"/curseofwar-fullscreen.patch
+patch -p1 < "$P"/curseofwar-Makefile.patch
+patch -p1 < "$P"/curseofwar-fullscreen.patch
 
 cat << EOF > config.mak
 CC=$CC

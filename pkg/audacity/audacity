@@ -17,9 +17,9 @@ expat
 for i in . lib-src/sbsms lib-src/portaudio-v19 lib-src/libresample ; do
 cp -f "$K"/config.sub "$i"/
 done
-patch -p1 < "$K"/audacity-timeb.patch
-patch -p1 < "$K"/audacity-filedialog-segfault.patch
-patch -p1 < "$K"/audacity-format.patch
+patch -p1 < "$P"/audacity-timeb.patch
+patch -p1 < "$P"/audacity-filedialog-segfault.patch
+patch -p1 < "$P"/audacity-format.patch
 sed -i 's@test "\$cross_compiling" = yes \&\&@false \&\&@g' configure
 
 [ -n "$CROSS_COMPILE" ] && \

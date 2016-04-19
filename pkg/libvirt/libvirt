@@ -11,8 +11,8 @@ portablexdr
 libxml2
 
 [build]
-patch -p1 < "$K"/libvirt-symbol-versioning.patch
-patch -p1 < "$K"/libvirt-debug-python.patch
+patch -p1 < "$P"/libvirt-symbol-versioning.patch
+patch -p1 < "$P"/libvirt-debug-python.patch
 
 [ -z "$butch_prefix" ] && butch_prefix=/
 

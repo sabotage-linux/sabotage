@@ -8,8 +8,8 @@ sha512=d7c5e54b6d4d8b9211f0006ca8786f7609d180cc1aaebf4f25e7e35e12959779cf6644735
 http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
 
 [build]
-patch -p1 < "$K"/ncurses-cross-include.patch
-patch -p1 < "$K"/ncurses-gcc5.patch
+patch -p1 < "$P"/ncurses-cross-include.patch
+patch -p1 < "$P"/ncurses-gcc5.patch
 # prevent pulling in the hosts termcap.h which may conflict - plus it doesn't
 # define everything ncurses expects from its own termcap.h
 ln -s termcap.h include/termcap_internal.h

@@ -10,7 +10,7 @@ desc="provides brctl utility, required to create and manage bridge devices"
 
 [build]
 
-patch -p1 < "$K"/bridge-utils.patch
+patch -p1 < "$P"/bridge-utils.patch
 
 # since bridgeutils package comes without configure script, rather than
 # relying on autoreconf -r etc, we just throw *.c at gcc.

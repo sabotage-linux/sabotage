@@ -11,8 +11,8 @@ libnet
 glib
 
 [build]
-patch -p1 < "$K"/libnids-xcompile.patch
-patch -p1 < "$K"/libnids-DESTDIR.patch
+patch -p1 < "$P"/libnids-xcompile.patch
+patch -p1 < "$P"/libnids-DESTDIR.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

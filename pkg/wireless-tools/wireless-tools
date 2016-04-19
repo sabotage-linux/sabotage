@@ -8,8 +8,8 @@ sha512=c169e29d53353e3d65913a5a5ba219752218968b0c036d4bfb25e7f3a9e31fe1e6adfcdbb
 [deps]
 
 [build]
-patch -p1 < "$K"/wireless-tools-Makefile.patch
-patch -p1 < "$K"/wireless-tools-headers.patch
+patch -p1 < "$P"/wireless-tools-Makefile.patch
+patch -p1 < "$P"/wireless-tools-headers.patch
 # package causes gcc breakage when lto is used
 # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61487
 if [ x"$A" = xmips ] ; then

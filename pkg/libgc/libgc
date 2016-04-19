@@ -7,8 +7,8 @@ sha512=5b342754a1efeef0cf78983b7a0e48a36495beac04fc881ab356b26dc153b343e940ec7af
 tardir=gc-7.2
 
 [build]
-patch -p0 < "$K"/libgc-configure.patch
-patch -p1 < "$K"/libgc-os_dep.patch
+patch -p0 < "$P"/libgc-configure.patch
+patch -p1 < "$P"/libgc-os_dep.patch
 
 # -DUSE_PROC_FOR_LIBRARIES
 

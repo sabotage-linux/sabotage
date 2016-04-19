@@ -9,9 +9,9 @@ desc='lists open files and sockets'
 [build]
 tar xf lsof_4.89_src.tar && cd lsof_4.89_src
 
-patch -p1 < "$K"/lsof-rpc-configure.patch
-patch -p1 < "$K"/lsof-Makefile.patch
-patch -p1 < "$K"/lsof-dsock.patch
+patch -p1 < "$P"/lsof-rpc-configure.patch
+patch -p1 < "$P"/lsof-Makefile.patch
+patch -p1 < "$P"/lsof-dsock.patch
 
 ./Configure -n linux
 

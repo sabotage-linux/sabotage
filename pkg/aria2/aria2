@@ -17,7 +17,7 @@ libxml2
 pkgconf
 
 [build]
-patch -p1 < "$K"/aria2-logger.patch
+patch -p1 < "$P"/aria2-logger.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir --with-libgcrypt-prefix=$butch_root_dir$butch_prefix"

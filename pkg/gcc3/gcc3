@@ -10,9 +10,9 @@ http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2
 
 [build]
 VERSION=3.4.6
-patch -p1 < "$K"/gcc-346-unwind2.patch
-patch -p1 < "$K"/gcc-346-unlink.patch
-patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
+patch -p1 < "$P"/gcc-346-unwind2.patch
+patch -p1 < "$P"/gcc-346-unlink.patch
+patch -p1 < "$P"/gcc-346-libgcc-visibility.patch
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \;
 

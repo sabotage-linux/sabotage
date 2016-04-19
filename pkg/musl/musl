@@ -10,7 +10,7 @@ desc='the C standard library (libc)'
 gcc4
 
 [build]
-patch -p1 < "$K"/musl-1.1.14-regex.patch
+patch -p1 < "$P"/musl-1.1.14-regex.patch
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 if [ "$A" = "powerpc" ] ; then
 cat << EOF >> config.mak

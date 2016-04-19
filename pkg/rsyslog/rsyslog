@@ -18,8 +18,8 @@ librelp
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
-patch -p1 < "$K"/rsyslog-fcntl.patch
-patch -p1 < "$K"/rsyslog-gnutls.patch
+patch -p1 < "$P"/rsyslog-fcntl.patch
+patch -p1 < "$P"/rsyslog-gnutls.patch
 sed -i 's@^extern char \*strdup.*@@' grammar/lexer.c
 CPPFLAGS="-DHAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION -D_GNU_SOURCE" \
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \

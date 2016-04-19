@@ -8,7 +8,7 @@ ftp://ftp.denx.de/pub/u-boot/u-boot-2013.07.tar.bz2
 [deps]
 
 [build]
-patch -p1 < "$K"/uboot-ulong.patch
+patch -p1 < "$P"/uboot-ulong.patch
 
 make HOSTCFLAGS_XXX+="-D_GNU_SOURCE $optcflags" \
   HOSTLDFLAGS_XXX+="$optldflags" \

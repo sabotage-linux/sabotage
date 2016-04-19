@@ -8,7 +8,7 @@ sha512=3b9242805a042dc6bf53bfa8355f5f157425a944c49a780ae131642484463aa63cf629590
 libcap2
 
 [build]
-patch -p1 < "$K"/pax-utils-cvs.patch
+patch -p1 < "$P"/pax-utils-cvs.patch
 #touch man/scanmacho.1
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 make depend

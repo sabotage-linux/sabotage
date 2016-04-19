@@ -14,7 +14,7 @@ libnl-tiny
 pkgconf
 
 [build]
-patch -p1 < "$K"/iw-libnl-tiny.patch
+patch -p1 < "$P"/iw-libnl-tiny.patch
 CFLAGS="-D_GNU_SOURCE -I$butch_prefix/include/libnl-tiny \
   -DCONFIG_LIBNL20 -DLIBNL1_COMPAT \
   -D__int32_t=int32_t -D__int16_t=int16_t -D__uint8_t=uint8_t \

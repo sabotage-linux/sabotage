@@ -15,7 +15,7 @@ zlib
 scons
 
 [build]
-patch -p1 < "$K"/serf-format-UB.patch
+patch -p1 < "$P"/serf-format-UB.patch
 cat << EOF > apr-1-config
 #!/bin/sh
 res=\$($butch_root_dir$butch_prefix/bin/apr-1-config "\$@")

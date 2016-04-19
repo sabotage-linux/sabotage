@@ -8,7 +8,7 @@ tardir=hping2-rc3
 [deps]
 
 [build]
-patch -p1 < "$K"/hping2-endian.patch
+patch -p1 < "$P"/hping2-endian.patch
 sed -i 's@./hping2 -v@true@g' Makefile.in
 
 [ -n "$CROSS_COMPILE" ] && \

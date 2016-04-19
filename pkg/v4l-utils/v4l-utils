@@ -10,7 +10,7 @@ argp
 glu
 
 [build]
-patch -p1 < "$K"/v4l-utils-open64.patch
+patch -p1 < "$P"/v4l-utils-open64.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

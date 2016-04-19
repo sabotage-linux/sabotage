@@ -12,7 +12,7 @@ gtk+2
 intltool
 
 [build]
-patch -p1 < "$K"/lxmusic-segfault.patch
+patch -p1 < "$P"/lxmusic-segfault.patch
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 
 for i in po ; do

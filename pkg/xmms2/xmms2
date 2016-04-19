@@ -18,7 +18,7 @@ dynamic-toolchain
 # xmms2's waf is broken: when prefix is empty, it will not install any dso's into /lib
 [ -z "$butch_prefix" ] && butch_prefix=/
 
-patch -p1 < "$K"/xmms2-rtp.patch
+patch -p1 < "$P"/xmms2-rtp.patch
 CFLAGS=-D_GNU_SOURCE ./waf configure --prefix="$butch_prefix"
 ./waf build -j$MAKE_THREADS
 ./waf install --destdir="$butch_install_dir"

@@ -16,8 +16,8 @@ libcap2
 
 # WARNING this package needs more than 512 MB ram to build
 
-patch -p1 < "$K"/qemu-170-openpty.patch
-patch -p1 < "$K"/qemu-170-sigset_t.patch
+patch -p1 < "$P"/qemu-170-openpty.patch
+patch -p1 < "$P"/qemu-170-sigset_t.patch
 
 CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 # F_EXLCK is 4; F_SHLCK 8 on all archs except alpha

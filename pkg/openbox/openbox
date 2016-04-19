@@ -17,7 +17,7 @@ pango
 pkgconf
 
 [build]
-patch -p1 < "$K"/openbox-git.patch
+patch -p1 < "$P"/openbox-git.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" \

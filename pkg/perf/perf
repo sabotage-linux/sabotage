@@ -8,7 +8,7 @@ kernel-tarball
 libelf
 
 [build]
-patch -p1 < "$K"/linux-4.10-perf-sysconf.patch
+patch -p1 < "$P"/linux-4.10-perf-sysconf.patch
 cd tools/perf
 cat << EOF > hack.h
 #ifndef __ASSEMBLER__

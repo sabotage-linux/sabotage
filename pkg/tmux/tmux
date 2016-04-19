@@ -13,7 +13,7 @@ libevent
 curses
 
 [build]
-patch -p1 < "$K"/tmux-imsg.patch
+patch -p1 < "$P"/tmux-imsg.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \

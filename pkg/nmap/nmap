@@ -16,8 +16,8 @@ openssl
 dynamic-toolchain
 
 [build]
-patch -p1 < "$K"/nmap-configure-pcap_suitable.patch
-patch -p1 < "$K"/nmap-nbase_h.patch
+patch -p1 < "$P"/nmap-configure-pcap_suitable.patch
+patch -p1 < "$P"/nmap-nbase_h.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

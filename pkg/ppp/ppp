@@ -9,7 +9,7 @@ sha512=65d6967ba43cd8b4d3f63f52ff69f6fed964f748fc780dff982629668213c2cd1891671f6
 libnl-tiny
 
 [build]
-patch -p1 < "$K"/ppp-headers.patch
+patch -p1 < "$P"/ppp-headers.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

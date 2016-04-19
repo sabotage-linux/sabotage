@@ -11,8 +11,8 @@ zlib
 zziplib
 
 [build]
-patch -p1 < "$K"/milkytracker-64bit.patch
-patch -p1 < "$K"/milkytracker-gzip.patch
+patch -p1 < "$P"/milkytracker-64bit.patch
+patch -p1 < "$P"/milkytracker-gzip.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

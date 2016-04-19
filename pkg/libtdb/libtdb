@@ -11,7 +11,7 @@ sha512=8b293bca847a49da416f0b84056846f63703ae96a34cc890673befcc015424bba0781e8d4
 gdbm
 
 [build]
-patch -p1 < "$K"/tdb-help.patch
+patch -p1 < "$P"/tdb-help.patch
 
 # this package is 12 years old and doesnt recognise x86_64
 # there is a recent fork of fedora / redhat, but it is 4 times as big

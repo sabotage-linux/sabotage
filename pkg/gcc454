@@ -66,15 +66,15 @@ sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/sysv4.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
 
-patch -p1 < "$K"/gcc-453-patch0.patch
+patch -p1 < "$S"/pkg/gcc/gcc-453-patch0.patch
 
 config_arch_flags=
 config_arch_target_cflags=
 config_arch_target_ldflags=
 if [ "$A" = "arm" ] ; then
-	patch -p1 < "$K"/gcc-453-patch1.patch
+	patch -p1 < "$S"/pkg/gcc/gcc-453-patch1.patch
 elif [ "$A" = "powerpc" ] ; then
-	patch -p1 < "$K"/gcc-454-stackend.patch
+	patch -p1 < "$S"/pkg/gcc/gcc-454-stackend.patch
 	config_arch_flags="--enable-secureplt --with-long-double-64"
 	config_arch_target_cflags="-Wl,--secure-plt"
 	config_arch_target_ldflags="-Wl,--secure-plt"

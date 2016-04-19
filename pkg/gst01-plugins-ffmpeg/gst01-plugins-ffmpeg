@@ -9,7 +9,7 @@ sha512=f1141fc73b4bf1d774053ce53c4a67d5e600d6f0118ee7824cd2ff4fc8af8ba1dfbd5cf82
 gstreamer01
 
 [build]
-patch -p1 < "$K"/gst-ffmpeg-0.10.13-gcc-4.7-1.patch
+patch -p1 < "$P"/gst-ffmpeg-0.10.13-gcc-4.7-1.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \

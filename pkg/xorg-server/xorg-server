@@ -22,8 +22,8 @@ ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.16.3.tar.bz2
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 sed -i 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h
-patch -p0 < "$K"/xorg-server-musl-arm.patch
-patch -p1 < "$K"/xorg-server-gcc5.patch
+patch -p0 < "$P"/xorg-server-musl-arm.patch
+patch -p1 < "$P"/xorg-server-gcc5.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

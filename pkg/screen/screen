@@ -9,9 +9,9 @@ desc='terminal multiplexer'
 [deps]
 
 [build]
-patch -p1 < "$K"/screen-root.patch
-patch -p1 < "$K"/screen-configure.patch
-patch -p1 < "$K"/screen-chmod.patch
+patch -p1 < "$P"/screen-root.patch
+patch -p1 < "$P"/screen-configure.patch
+patch -p1 < "$P"/screen-chmod.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \

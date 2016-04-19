@@ -6,7 +6,7 @@ sha512=00ace5438cfa0c577e5f578d8a808613187eff5217c35164ffe044fbafdfec9e98f4192c0
 http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
 
 [build]
-patch -p1 < "$K"/bzip2-flags.patch
+patch -p1 < "$P"/bzip2-flags.patch
 sed -i 's@$(PREFIX)@$(DESTDIR)$(PREFIX)@g' Makefile
 sed -i 's@$(PREFIX)/man@$(PREFIX)/share/man@g' Makefile
 # test target is not cross-compile compatible

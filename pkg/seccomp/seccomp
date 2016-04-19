@@ -8,7 +8,7 @@ sha512=1f2916d80a9b9937d2ab9ecf9c4f1e2a8ffc27f90f14e8481eb2f32c8122ea1756950f753
 bash
 
 [build]
-patch -p1 < "$K"/seccomp.patch
+patch -p1 < "$P"/seccomp.patch
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
    ./configure -C --prefix="$butch_prefix" \
      --libdir=/lib

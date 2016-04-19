@@ -13,8 +13,8 @@ desc='lightweight drop-in replacement for pkg-config'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
-patch -p1 < "$K"/pkgconf-fix-empty-prefix.patch
-patch -p1 < "$K"/pkgconf-sysroot-twice.patch
+patch -p1 < "$P"/pkgconf-fix-empty-prefix.patch
+patch -p1 < "$P"/pkgconf-sysroot-twice.patch
 CFLAGS="$CFLAGS -D_GNU_SOURCE -D_BSD_SOURCE $optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags

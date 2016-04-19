@@ -9,7 +9,7 @@ desc='library to interface with berkeley (file-based) databases'
 [deps]
 
 [build]
-patch -p1 < "$K"/bdb-configure.patch
+patch -p1 < "$P"/bdb-configure.patch
 cd build_unix
 mv ../config.cache .
 

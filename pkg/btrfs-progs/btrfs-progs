@@ -20,7 +20,7 @@ attr
 libblkid
 
 [build]
-patch -p1 < "$K"/btrfs-progs.patch
+patch -p1 < "$P"/btrfs-progs.patch
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir"\
      CFLAGS="-DXATTR_NAME_MAX=255 -DXATTR_LIST_MAX=65536 \
      -DXATTR_SIZE_MAX=65536 -DPATH_MAX=4096 $optcflags" \

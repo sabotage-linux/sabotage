@@ -8,7 +8,7 @@ sha512=22a0d1b2fc57efd18aa23ea720f915ec0c31bd2f60653181b0537d3d7c3c3262cef3a76e3
 [deps]
 
 [build]
-#patch -p1 < "$K"/some.patch
+#patch -p1 < "$P"/some.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

@@ -18,7 +18,7 @@ python
 
 patch -p1 < "$P"/nodejs-nameser_compat.h
 patch -p1 < "$P"/nodejs-openssl_termios.h
-patch -p1 < "$K"/nodejs-prefix.patch
+patch -p1 < "$P"/nodejs-prefix.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \

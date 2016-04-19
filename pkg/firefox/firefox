@@ -34,7 +34,7 @@ export SHELL=/bin/sh
 
 PATCH() {
 	echo "***** $1 *****"
-	patch -p1 < "$K"/"$1"
+	patch -p1 < "$P"/"$1"
 }
 
 PATCH firefox-virtualenv.patch

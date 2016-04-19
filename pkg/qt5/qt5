@@ -33,7 +33,7 @@ xkeyboard-config
 for i in stdin execinfo libressl musl-iconv-no-bom musl-mallinfo musl-pthread_getattr_np musl-resolve musl-siginfo_t musl-socklen musl-sys_errno_h pic ; do
   p=qt-$i.patch
   echo applying patch  $p
-  patch -p0 < "$K"/$p
+  patch -p0 < "$P"/$p
 done
 # fix default size of 2GB for some "executable allocator"
 sed -i 's@#if CPU.*$@#if 0@' qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/ExecutableAllocatorFixedVMPool.cpp
@@ -85,9 +85,9 @@ QMAKE_LDFLAGS="$optldflags" \
 #  -system-pcre \
 
 #cd qtbase
-#patch -p1 < "$K"/qt5-fix-compilation-with-libressl.patch
+#patch -p1 < "$P"/qt5-fix-compilation-with-libressl.patch
 #cd ../qtwebkit
-#patch -p1 < "$K"/qt5-exclude-backtrace-api-for-non-glibc-libraries.patch
+#patch -p1 < "$P"/qt5-exclude-backtrace-api-for-non-glibc-libraries.patch
 #cd ..
 
 make -j$MAKE_THREADS

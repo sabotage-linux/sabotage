@@ -24,7 +24,7 @@ liblcms
 freetype
 
 [build]
-patch -p1 < "$K"/inkscape-gcc48.patch
+patch -p1 < "$P"/inkscape-gcc48.patch
 # https://bugs.launchpad.net/altlinux/+source/inkscape/+bug/910335
 sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
 [ -n "$CROSS_COMPILE" ] && \

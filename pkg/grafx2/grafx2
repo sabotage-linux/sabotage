@@ -13,7 +13,7 @@ sdl-ttf
 lua
 
 [build]
-patch -p1 < "$K"/grafx2-sighandler.patch
+patch -p1 < "$P"/grafx2-sighandler.patch
 cd src
 make -j$MAKE_THREADS
 make prefix=$butch_prefix DESTDIR="$butch_install_dir" install

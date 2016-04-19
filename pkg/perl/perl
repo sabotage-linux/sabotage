@@ -13,7 +13,7 @@ dynamic-toolchain
 VERSION=5.22.1
 
 #workaround for issue #185
-patch -p1 < "$K"/perl-arm-gcc473bug.patch
+patch -p1 < "$P"/perl-arm-gcc473bug.patch
 
 # with empty prefix, perl will disregard the prefix parameters entirely, failing to build
 [ -z "$butch_prefix" ] && butch_prefix=/

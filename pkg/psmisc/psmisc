@@ -10,7 +10,7 @@ sha512=8f4526e53c80a3bc19430b5721610b733f59a330ee0230a3a285d104f99969c092421cb59
 http://downloads.sourceforge.net/psmisc/psmisc-22.19.tar.gz
 
 [build]
-patch -p1 < "$K"/psmisc-termcap.patch
+patch -p1 < "$P"/psmisc-termcap.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \

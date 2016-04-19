@@ -12,7 +12,7 @@ sha512=ca6dafdd503d06892dff08763bc00b974ec6e7c4bf3dcebb4cb41a486b4ea777c278299a1
 mv Alc/mixer_inc.c Alc/mixer_inc.h
 
 # patch so *.c can be compiled without depending on system specifics
-patch -p1 < "$K"/openal-mixer.patch
+patch -p1 < "$P"/openal-mixer.patch
 
 cp "$P/openal.Makefile" Makefile
 

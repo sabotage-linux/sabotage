@@ -24,10 +24,10 @@ libffi
 # it will emit empty PREFIX and EXEC_PREFIX macros into pyconfig.h
 # additionally it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
-patch -p1 < "$K"/python273-pathsearch.patch
-patch -p1 < "$K"/python-xcompile.patch
-patch -p1 < "$K"/python-includedirs.patch
-patch -p1 < "$K"/python2710-curses.patch
+patch -p1 < "$P"/python273-pathsearch.patch
+patch -p1 < "$P"/python-xcompile.patch
+patch -p1 < "$P"/python-includedirs.patch
+patch -p1 < "$P"/python2710-curses.patch
 
 sed -i 's@return readline@return feedline@' configure
 

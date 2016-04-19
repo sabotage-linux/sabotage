@@ -11,7 +11,7 @@ sha512=2cad30347fb310dc605c46bacd9da117f447a5cabedd8fefdb24ab5de641429e5ec5ce8af
 
 [build]
 # patch from debian: http://patch-tracker.debian.org/package/libmad
-patch -p1 < "$K"/libmad-mips-asm.patch
+patch -p1 < "$P"/libmad-mips-asm.patch
 cp -f "$K"/config.sub .
 
 # there are other debian patches that may be interesting, also:

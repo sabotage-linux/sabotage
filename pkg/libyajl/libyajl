@@ -12,7 +12,7 @@ ruby
 cmake
 
 [build]
-patch -p1 < "$K"/yajl-test.patch
+patch -p1 < "$P"/yajl-test.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix"

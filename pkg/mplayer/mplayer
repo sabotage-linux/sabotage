@@ -24,7 +24,7 @@ libpng
 yasm
 
 [build]
-patch -p1 < "$K"/mplayer-x11-libs.patch
+patch -p1 < "$P"/mplayer-x11-libs.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--target="$A"-linux"

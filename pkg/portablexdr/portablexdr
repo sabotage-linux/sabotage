@@ -8,7 +8,7 @@ sha512=47f2402e7ed9f2f518e2a45e76e8ad6c4b1e7ae1bd9408ca4dca3d0883697e755460ee64e
 [deps]
 
 [build]
-patch -p1 < "$K"/portablexdr-quad.patch
+patch -p1 < "$P"/portablexdr-quad.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

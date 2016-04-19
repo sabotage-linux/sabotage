@@ -9,7 +9,7 @@ sha512=5fae9938f0f7586d13a04b20751ccffb1d0c067842f24c831dce354b075eb290491806a9d
 openssl
 
 [build]
-patch -p1 < "$K"/stunnel-libressl.patch
+patch -p1 < "$P"/stunnel-libressl.patch
 
 if [ -n "$CROSS_COMPILE" ] ; then
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

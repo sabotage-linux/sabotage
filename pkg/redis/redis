@@ -11,7 +11,7 @@ sha512=6c8f4c88d911e1433fd28efff2f6d62763e08be89814ebf4aa4e68e2c8bd605eba24ca341
 [build]
 
 # patch is from arch linux
-patch -p1 < "$K"/redis-sane-defaults.patch
+patch -p1 < "$P"/redis-sane-defaults.patch
 sed -i "s@ar rcs@""$CROSS_COMPILE""ar rcs@" deps/hiredis/Makefile
 sed -i 's@CC:=.*$@@' deps/hiredis/Makefile
 # MALLOC=libc: use musl malloc instead of jemalloc. This might be bad for performance though,

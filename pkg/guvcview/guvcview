@@ -13,7 +13,7 @@ portaudio
 perl5-XML-Parser
 
 [build]
-patch -p1 < "$K"/guvcview-decls.patch
+patch -p1 < "$P"/guvcview-decls.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

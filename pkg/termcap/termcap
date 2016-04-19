@@ -8,7 +8,7 @@ sha512=2bc2829af05a942e6041e9f2de7c9c50e466cd525f056c58c4f664b0e39012d901276737b
 [deps]
 
 [build]
-patch -p1 < "$K"/termcap.patch
+patch -p1 < "$P"/termcap.patch
 ./configure --prefix="$butch_prefix"
 
 make -j$MAKE_THREADS CFLAGS="-D_GNU_SOURCE -fPIC $optcflags"

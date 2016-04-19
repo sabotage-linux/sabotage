@@ -38,8 +38,8 @@ case "$A" in
   ;;
 esac
 
-patch -p1 < "$K"/wine-file_h.patch
-patch -p1 < "$K"/wine-iphlpapi.patch
+patch -p1 < "$P"/wine-file_h.patch
+patch -p1 < "$P"/wine-iphlpapi.patch
 
 cp -f "$K"/config.sub tools/
 

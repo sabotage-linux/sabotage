@@ -9,7 +9,7 @@ sha512=44848286ccf3aa269df1680e14a8d3c41be1c2af956bd5121fc05d97a892fdc13d1e74191
 [deps]
 
 [build]
-patch -p1 < "$K"/openbox-config.patch
+patch -p1 < "$P"/openbox-config.patch
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

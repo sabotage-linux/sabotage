@@ -6,8 +6,8 @@ util-linux-tarball
 curses
 
 [build]
-patch -p1 < "$K"/util-linux.patch
-patch -p1 < "$K"/util-linux-hexdump.patch
+patch -p1 < "$P"/util-linux.patch
+patch -p1 < "$P"/util-linux-hexdump.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="-Wl,-static $optldflags -lcurses -lterminfo" \

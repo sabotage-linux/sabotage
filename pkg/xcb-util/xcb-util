@@ -22,7 +22,7 @@ export PATH="$PWD:$PATH"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
-patch -p1 < "$K"/libtool-sysroot.patch
+patch -p1 < "$S"/pkg/libtool/libtool-sysroot.patch
 
 cp "$P"/xcb-util_atom.c src/atom.c
 make -j$MAKE_THREADS

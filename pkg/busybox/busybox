@@ -27,31 +27,31 @@ dopatch() {
 }
 
 cp "$P"/busybox.stage1.config .config
-dopatch "$K"/busybox.patch
-dopatch "$K"/busybox-blowfish.patch
-dopatch "$K"/busybox-unzip.patch
-dopatch "$K"/busybox-xz-bugfix1.patch
-dopatch "$K"/busybox-xz-bugfix2.patch
-dopatch "$K"/busybox-xz-bugfix3.patch
-dopatch "$K"/busybox-man.patch
-dopatch "$K"/busybox-sed.patch
-dopatch "$K"/busybox-awk-emptyfun.patch
-dopatch "$K"/busybox-awk-int-overflow.patch
-dopatch "$K"/busybox-tar-norecurse.patch
-dopatch "$K"/busybox-tar-xz.patch
-dopatch "$K"/busybox-tar-xz2.patch
-dopatch "$K"/busybox-bzip2bug.patch
-dopatch "$K"/busybox-fdisk-gpt-size.patch
-dopatch "$K"/busybox-fdisk-sector-size.patch
-dopatch "$K"/busybox-ping.patch
-dopatch "$K"/busybox-ping2.patch
-dopatch "$K"/busybox-grep-x.patch
-dopatch "$K"/busybox-sort.patch
-dopatch "$K"/busybox-libbb-make-unicode-printable.patch
-dopatch "$K"/busybox-wget-https.patch
-dopatch "$K"/busybox-cve-2013-1813.patch
-dopatch "$K"/busybox-cve-2014-4607.patch
-dopatch "$K"/busybox-cve-2016-2147.patch
+dopatch "$P"/busybox.patch
+dopatch "$P"/busybox-blowfish.patch
+dopatch "$P"/busybox-unzip.patch
+dopatch "$P"/busybox-xz-bugfix1.patch
+dopatch "$P"/busybox-xz-bugfix2.patch
+dopatch "$P"/busybox-xz-bugfix3.patch
+dopatch "$P"/busybox-man.patch
+dopatch "$P"/busybox-sed.patch
+dopatch "$P"/busybox-awk-emptyfun.patch
+dopatch "$P"/busybox-awk-int-overflow.patch
+dopatch "$P"/busybox-tar-norecurse.patch
+dopatch "$P"/busybox-tar-xz.patch
+dopatch "$P"/busybox-tar-xz2.patch
+dopatch "$P"/busybox-bzip2bug.patch
+dopatch "$P"/busybox-fdisk-gpt-size.patch
+dopatch "$P"/busybox-fdisk-sector-size.patch
+dopatch "$P"/busybox-ping.patch
+dopatch "$P"/busybox-ping2.patch
+dopatch "$P"/busybox-grep-x.patch
+dopatch "$P"/busybox-sort.patch
+dopatch "$P"/busybox-libbb-make-unicode-printable.patch
+dopatch "$P"/busybox-wget-https.patch
+dopatch "$P"/busybox-cve-2013-1813.patch
+dopatch "$P"/busybox-cve-2014-4607.patch
+dopatch "$P"/busybox-cve-2016-2147.patch
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped

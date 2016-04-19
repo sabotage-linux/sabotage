@@ -35,9 +35,9 @@ if false ; then
   mv Mesa-7.9.2/include/GL/* include/GL/
 fi
 
-patch -p1 < "$K"/mesa-10.patch
-patch -p1 < "$K"/mesa-tls.patch
-patch -p1 < "$K"/mesalib-fpclassify.patch
+patch -p1 < "$P"/mesa-10.patch
+patch -p1 < "$P"/mesa-tls.patch
+patch -p1 < "$P"/mesalib-fpclassify.patch
 
 archflags=
 [ "$A" = arm ] || [ "$A" = mips ] && archflags=--with-dri-drivers=swrast

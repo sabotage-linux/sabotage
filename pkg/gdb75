@@ -22,12 +22,12 @@ find . -name 'configure' -exec sed -i 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=t
 # remove hardcoded -O2 -g CFLAGS which are *not* overridable (i.e. always appended, taking precedence)
 find . -name configure -exec sed -e 's/CFLAGS="-g -O2"/:/g' -e 's/CFLAGS="-O2"/:/g' -i "{}" \;
 
-patch -p1 < "$K"/gdb-threaddb.patch
-patch -p1 < "$K"/gdb-linux_nat.patch
-patch -p1 < "$K"/gdb-amd64-debugreg.patch
-patch -p1 < "$K"/gdb-arm-gentmap.patch
-patch -p1 < "$K"/gdb-76-linux-low-threaddb.patch
-patch -p1 < "$K"/gdb-76-pid_t.patch
+patch -p1 < "$S"/pkg/gdb/gdb-threaddb.patch
+patch -p1 < "$S"/pkg/gdb/gdb-linux_nat.patch
+patch -p1 < "$S"/pkg/gdb/gdb-amd64-debugreg.patch
+patch -p1 < "$S"/pkg/gdb/gdb-arm-gentmap.patch
+patch -p1 < "$S"/pkg/gdb/gdb-76-linux-low-threaddb.patch
+patch -p1 < "$S"/pkg/gdb/gdb-76-pid_t.patch
 
 # fix mips build ...
 cp "$S"/pkg/gdb/gdb-sgidefs.h gdb/sgidefs.h

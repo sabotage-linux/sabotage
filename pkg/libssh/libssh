@@ -10,7 +10,7 @@ cp "$P"/libssh-Makefile ./Makefile
 cp "$P"/libssh-config.mak ./config.mak
 touch include/libssh/config.h
 touch include/config.h
-#patch -p1 < "$K"/libssh.patch
+#patch -p1 < "$P"/libssh.patch
 #do a echo hack until busybox fixed its patch program
 echo -ne "#include <fcntl.h>\n" > /tmp/libssh.h
 cat include/libssh/libssh.h >> /tmp/libssh.h

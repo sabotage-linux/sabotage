@@ -13,8 +13,8 @@ libpcap
 sqlite
 
 [build]
-patch -p1 < "$K"/reaver_u_char.patch
-patch -p1 < "$K"/reaver_DESTDIR.patch
+patch -p1 < "$P"/reaver_u_char.patch
+patch -p1 < "$P"/reaver_DESTDIR.patch
 
 cd src
 [ -n "$CROSS_COMPILE" ] && \

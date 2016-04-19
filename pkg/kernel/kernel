@@ -32,13 +32,13 @@ done
 
 # work around mismatch between devicename and channel name in 9p virtfs code
 # p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
-dopatch "$K"/linux-virtio9p.patch
+dopatch "$P"/linux-virtio9p.patch
 
 # patches to support busybox trap and sed with strict musl BRE engine
-dopatch "$K"/linux-3.18-posix_sed.patch
+dopatch "$P"/linux-3.18-posix_sed.patch
 # linux 4.3 broke monitor mode on ralink wireless chips
 # https://bugs.kali.org/view.php?id=3028
-dopatch "$K"/linux-4.3-ralink-monitor.patch
+dopatch "$P"/linux-4.3-ralink-monitor.patch
 
 export ARCH=$A
 linux_config="$P"/linux.config

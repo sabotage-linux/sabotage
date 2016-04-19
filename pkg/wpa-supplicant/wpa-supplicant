@@ -13,10 +13,10 @@ openssl
 zlib
 
 [build]
-patch -p1 < "$K"/wpa_supplicant-fflush.patch
-patch -p1 < "$K"/wpa_supplicant-action_script.patch
-patch -p0 < "$K"/wpa_supplicant25-libressl.patch
-patch -p0 < "$K"/wpa_supplicant25-eloop.patch
+patch -p1 < "$P"/wpa_supplicant-fflush.patch
+patch -p1 < "$P"/wpa_supplicant-action_script.patch
+patch -p0 < "$P"/wpa_supplicant25-libressl.patch
+patch -p0 < "$P"/wpa_supplicant25-eloop.patch
 cd wpa_supplicant
 cp defconfig .config
 

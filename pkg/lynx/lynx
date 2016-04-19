@@ -13,7 +13,7 @@ ca-certificates
 
 [build]
 # fix gnu assumptions
-patch -p1 < "$K"/lynx-gzip.patch
+patch -p1 < "$P"/lynx-gzip.patch
 sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userdefs.h
 
 [ -n "$CROSS_COMPILE" ] && \

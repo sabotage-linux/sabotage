@@ -24,7 +24,7 @@ shared-mime-info
 [ -z "$butch_prefix" ] && butch_prefix=/
 
 # disable the gimp head in the toolbox by default
-patch -p1 < "$K"/gimp-toolbox-wilber.patch
+patch -p1 < "$P"/gimp-toolbox-wilber.patch
 sed -i 's@^[[:space:]]*-I$(includedir)@@' $(find . -name Makefile.in)
 sed -i 's@^libgimpui = .*$@libgimpui = $(top_builddir)/libgimp/libgimpui-$(GIMP_API_VERSION).la $(top_builddir)/libgimpmodule/libgimpmodule-$(GIMP_API_VERSION).la@' $(find plug-ins/ -name Makefile.in)
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config

@@ -15,7 +15,7 @@ kernel-headers
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 
-patch -p1 < "$K"/alsa-lib_mask_inline.patch
+patch -p1 < "$P"/alsa-lib_mask_inline.patch
 
 sed -i 's,#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE),#if 0,' include/global.h
 

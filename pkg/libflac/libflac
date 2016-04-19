@@ -9,7 +9,7 @@ sha512=923cd0ffe2155636febf2b4633791bc83370d57080461b97ebb69ea21a4b1be7c0ff376c7
 
 [build]
 # apply patch to prevent CFLAGS manipulation in ./configure
-patch -p1 -l < "$K"/libflac-prevent-cflag-manipulation.patch
+patch -p1 -l < "$P"/libflac-prevent-cflag-manipulation.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
 testlib() {

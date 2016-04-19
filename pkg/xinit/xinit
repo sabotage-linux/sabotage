@@ -10,7 +10,7 @@ sha512=afb525e8fce9e460f513926a7aeb3344b064834b1d5031ba30400fa2bcb5bddada57b4e42
 http://xorg.freedesktop.org/releases/individual/app/xinit-1.3.0.tar.bz2
 
 [build]
-patch -p1 < "$K"/xinit-startx_hostname.patch
+patch -p1 < "$P"/xinit-startx_hostname.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \

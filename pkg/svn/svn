@@ -18,8 +18,8 @@ filesize=6773731
 sha512=7ecb0a30751884d72d4039b7b33ec643ff42325f904c3c3ec5a1ef5c90c67b52adec908f908d74a1ffffb8bdb58086c71980b4cd279dad926b8d7f846fe446ca
 
 [build]
-patch -p1 < "$K"/svn-perlbindings-delta-apr-dep.patch
-patch -p1 < "$K"/svn-xcompile-configure.patch
+patch -p1 < "$P"/svn-perlbindings-delta-apr-dep.patch
+patch -p1 < "$P"/svn-xcompile-configure.patch
 sed -i 's#Makefile.PL.in$#& libsvn_swig_perl#' Makefile.in
 cat << EOF > apr-1-config
 #!/bin/sh

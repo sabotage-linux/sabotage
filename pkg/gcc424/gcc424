@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 [build]
 VERSION=4.2.4
 
-patch -p1 < "$K"/gcc-424-libgcc-visibility.patch
+patch -p1 < "$P"/gcc-424-libgcc-visibility.patch
 
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h

@@ -13,7 +13,7 @@ kernel-headers
 [build]
 for i in stdio mallinfo libdir-config mlockall-config ; do
 	echo lvm2-$i.patch
-	patch -p1 < "$K"/lvm2-$i.patch
+	patch -p1 < "$P"/lvm2-$i.patch
 done
 
 [ -n "$CROSS_COMPILE" ] && \

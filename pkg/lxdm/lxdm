@@ -13,7 +13,7 @@ gtk+2
 intltool
 
 [build]
-patch -p1 < "$K"/lxdm-backtrace.patch
+patch -p1 < "$P"/lxdm-backtrace.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

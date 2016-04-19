@@ -18,7 +18,7 @@ pkgconf
 [build]
 for p in glib-gtimer-varargs glib-no_python ; do
 	echo $p
-	patch -p1 < "$K"/$p.patch
+	patch -p1 < "$P"/$p.patch
 done
 
 this_dir="$PWD"

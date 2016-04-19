@@ -10,10 +10,10 @@ glib
 pkgconf
 
 [build]
-patch -p1 < "$K"/xmms-configure.patch
-patch -p1 < "$K"/xmms-gtk.patch
-patch -p1 < "$K"/xmms-ir.patch
-patch -p1 < "$K"/xmms-leader_window.patch
+patch -p1 < "$P"/xmms-configure.patch
+patch -p1 < "$P"/xmms-gtk.patch
+patch -p1 < "$P"/xmms-ir.patch
+patch -p1 < "$P"/xmms-leader_window.patch
 
 mkdir PATH
 printf '#!/bin/sh\npkg-config glib-2.0 $@\n' > PATH/glib-config

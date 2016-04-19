@@ -13,10 +13,8 @@ gtk+2
 libglade
 
 [build]
-patch -p1 < "$K"/obconf-git.patch || \
-  echo "WARNING: Patch failed to apply properly"
-patch -p1 < "$K"/obconf-implicit.patch || \
-  echo "WARNING: Patch failed to apply properly"
+patch -p1 < "$P"/obconf-git.patch
+patch -p1 < "$P"/obconf-implicit.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

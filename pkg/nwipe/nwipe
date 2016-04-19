@@ -16,7 +16,7 @@ libblkid
 parted
 
 [build]
-patch -p1 < "$K"/nwipe-configure.patch
+patch -p1 < "$P"/nwipe-configure.patch
 sh init.sh
 CFLAGS="-Dloff_t=off_t $optcflags" LDFLAGS="$optldflags" LIBS="-lparted -luuid -ldevmapper -lblkid" \
   ./configure --prefix="$butch_prefix" 

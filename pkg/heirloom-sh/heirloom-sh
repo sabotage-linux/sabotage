@@ -8,7 +8,7 @@ http://sourceforge.net/projects/heirloom/files/heirloom-sh/050706/heirloom-sh-05
 [deps]
 
 [build]
-patch -p0 defs.h < "$K"/heirloom-sh-defs.patch #disable dependency on sys/acct.h
+patch -p0 defs.h < "$P"/heirloom-sh-defs.patch #disable dependency on sys/acct.h
 sed -i 's@getopt(@mygetopt(@g' jobs.c getopt.c bltin.c ulimit.c
 make -j$MAKE_THREADS CFLAGS="$optcflags" LDFLAGS="$optldflags -static"
 dest="$butch_install_dir""$butch_prefix"

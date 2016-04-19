@@ -9,9 +9,9 @@ sha512=d49e5c3d2bc1ef22d25b4e38e8043f3cf0bb50ee6d7f7763e512ab8a740031eabb575e8f6
 [deps]
 
 [build]
-patch -p1 < "$K"/pciutils-io.patch
-patch -p1 < "$K"/pciutils-implicit.patch
-patch -p1 < "$K"/pciutils-pread.patch
+patch -p1 < "$P"/pciutils-io.patch
+patch -p1 < "$P"/pciutils-implicit.patch
+patch -p1 < "$P"/pciutils-pread.patch
 
 make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags" \
   PREFIX="$butch_prefix" SBINDIR="$butch_prefix"/bin \

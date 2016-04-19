@@ -11,7 +11,7 @@ ca-certificates
 zlib
 
 [build]
-patch -p1 < "$K"/curl-libressl.patch
+patch -p1 < "$P"/curl-libressl.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"

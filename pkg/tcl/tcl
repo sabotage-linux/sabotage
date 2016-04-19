@@ -11,7 +11,7 @@ desc='interpreter for the TCL scripting language'
 sqlite
 
 [build]
-patch -p1 < "$K"/tcl-stat64.patch
+patch -p1 < "$P"/tcl-stat64.patch
 rm -rf pkgs/*sqlit*
 cd unix
 rm -rf *sqlit*

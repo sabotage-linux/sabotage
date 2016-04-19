@@ -14,8 +14,8 @@ sha512=26424f30936170a28fdb0188e10985c2b0e1e4266c4c1832384a02b69828741eb13700156
 http://www.webdav.org/neon/neon-0.29.6.tar.gz
 
 [build]
-patch -p1 < "$K"/neon-configure.patch
-patch -p1 < "$K"/neon-ne_socket.patch
+patch -p1 < "$P"/neon-configure.patch
+patch -p1 < "$P"/neon-ne_socket.patch
 CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" --with-ssl=openssl --enable-shared=yes
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

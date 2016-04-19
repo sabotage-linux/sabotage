@@ -10,8 +10,8 @@ sha512=719a0fe328bc24ecd6af1b23fd4436f07258a4d598e434b98057735d2ad8e3fc5567374a2
 [deps]
 
 [build]
-patch -p1 < "$K"/gettext-tiny-noop.patch
-patch -p1 < "$K"/gettext-tiny-msgmerge-configure.patch
+patch -p1 < "$P"/gettext-tiny-noop.patch
+patch -p1 < "$P"/gettext-tiny-msgmerge-configure.patch
 echo prefix="$butch_prefix" > config.mak
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

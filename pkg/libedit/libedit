@@ -9,7 +9,7 @@ sha512=06420df987429bdec6aea216046548cb7d1e1ed004e140c01692625dfb9149cc42ad98755
 curses
 
 [build]
-patch -p1 < "$K"/libedit_readlineh.patch
+patch -p1 < "$P"/libedit_readlineh.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 

@@ -7,8 +7,8 @@ sha512=312d891c1337256c9aeeda2c743907ce8c51444a165a97d2007fd2f8d05cafab37cf16e85
 [deps]
 
 [build]
-patch -p1 < "$K"/libpciaccess_PATH_MAX.patch
-patch -p1 < "$K"/libpciaccess-arm.patch
+patch -p1 < "$P"/libpciaccess_PATH_MAX.patch
+patch -p1 < "$P"/libpciaccess-arm.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \

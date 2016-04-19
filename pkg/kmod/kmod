@@ -10,7 +10,7 @@ sha512=67a03cabe9d81c14eb0bef20f3c8ff4614418cb2b2c3e1428d8a57399372ecdce6e403399
 [build]
 
 for i in kmod kmod-test-stdout kmod-test-glibc-assumption kmod-static-assert ; do
-	patch -p1 < "$K"/"$i".patch
+	patch -p1 < "$P"/"$i".patch
 done
 
 [ -n "$CROSS_COMPILE" ] && \

@@ -28,7 +28,7 @@ echo "CC = $CC" >> config.mk
 echo "STRIP = true" >> config.mk
 if [ -n "$CROSS_COMPILE" ] ; then
 	echo "YACC = yacc" >> config.mk
-	patch -p1 < "$K"/9base-bc-yacc.patch
+	patch -p1 < "$P"/9base-bc-yacc.patch
 fi
 
 for i in diff rc lib9 sam ; do sed -i 's@-I\${PREFIX}/include@@' $i/Makefile ; done
@@ -42,7 +42,7 @@ sed -i '/^.touch./d' Makefile  # we don't have futimes
 
 # ed's getline clobbers the one defined in musl, and this causes problems
 # when libc functions like getpwuid call getline.
-patch -p1 < "$K"/9base-ed-getline.patch
+patch -p1 < "$P"/9base-ed-getline.patch
 
 stuff_to_build="yacc ascii bc cleanname dc ed factor fmt freq getflags hoc join \
 look mk mtime pbd primes rc read sam troff unicode"

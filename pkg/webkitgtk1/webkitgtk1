@@ -21,7 +21,7 @@ libxt
 libxcomposite
 
 [build]
-patch -p1 < "$K"/webkitgtk1-assert.patch
+patch -p1 < "$P"/webkitgtk1-assert.patch
 # BLFS fixes for some issues
 sed -i '/generate-gtkdoc --rebase/s:^:# :' GNUmakefile.in
 sed -i '/parse-param/ a%lex-param {YYLEX_PARAM}' \

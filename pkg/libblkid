@@ -5,7 +5,7 @@ tarball=util-linux-$(cat "$S"/pkg/util-linux/util-linux.version).tar.xz
 util-linux-tarball
 
 [build]
-patch -p1 < "$K"/util-linux.patch
+patch -p1 < "$S"/pkg/util-linux/util-linux.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \

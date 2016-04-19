@@ -11,7 +11,7 @@ apr-util
 pcre
 
 [build]
-patch -p1 < "$K"/apache-libressl.patch
+patch -p1 < "$P"/apache-libressl.patch
 CFLAGS=-D_GNU_SOURCE ./configure -C \
   --prefix="$butch_prefix" \
   --sysconfdir="$butch_prefix"/etc \

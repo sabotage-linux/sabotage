@@ -18,8 +18,8 @@ libx11
 libxmu
 
 [build]
-patch -p1 < "$K"/dsniff-xcompile.patch
-patch -p1 < "$K"/dsniff-rpc.patch
+patch -p1 < "$P"/dsniff-xcompile.patch
+patch -p1 < "$P"/dsniff-rpc.patch
 
 tar xf "$C"/dsniff_2.4b1+debian-22.1.debian.tar.gz
 while read i ; do

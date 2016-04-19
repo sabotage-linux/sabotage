@@ -8,9 +8,9 @@ sha512=03f43f88694ec7e039ff3579a8e76349b5a5a05872c55901fc1d9ee53dbb6b1e69f6dd000
 [deps]
 
 [build]
-patch -p1 < "$K"/fuse-lock.patch
-patch -p1 < "$K"/fuse-paths.patch
-patch -p1 < "$K"/fuse-headers.patch
+patch -p1 < "$P"/fuse-lock.patch
+patch -p1 < "$P"/fuse-paths.patch
+patch -p1 < "$P"/fuse-headers.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

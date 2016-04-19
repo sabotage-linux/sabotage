@@ -16,7 +16,7 @@ gdbm
 # Upstream report: https://bugs.ruby-lang.org/issues/10053
 # Patch similar to the wget one discussed here:
 # https://devsonacid.wordpress.com/2014/07/12/how-compatible-is-libressl/
-patch -p1 < "$K"/ruby-libressl.patch
+patch -p1 < "$P"/ruby-libressl.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

@@ -21,7 +21,7 @@ sqlite
 # and other CA loading patches from 2010-now
 
 for p in socklen tolower libpng15 backspace None gl iconv gcc47 3rdparty linguist ; do
-	patch -p1 < "$K"/qt464-"$p".patch
+	patch -p1 < "$P"/qt464-"$p".patch
 done
 
 debugflags=

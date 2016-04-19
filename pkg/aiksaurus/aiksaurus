@@ -9,7 +9,7 @@ http://downloads.sourceforge.net/project/aiksaurus/aiksaurus/1.2.1/aiksaurus-1.2
 gtk+2
 
 [build]
-patch -p1 < "$K"/aiksaurus.patch
+patch -p1 < "$P"/aiksaurus.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

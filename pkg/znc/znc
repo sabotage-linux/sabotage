@@ -10,8 +10,8 @@ http://znc.in/releases/archive/znc-1.4.tar.gz
 openssl
 
 [build]
-patch -p1 < "$K"/znc.patch
-patch -p1 < "$K"/znc-comp.patch
+patch -p1 < "$P"/znc.patch
+patch -p1 < "$P"/znc-comp.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"

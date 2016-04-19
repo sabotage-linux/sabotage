@@ -10,8 +10,8 @@ desc='minimalistic GTK+ text editor. useful to copy text terminal <-> GUI apps'
 gtk+2
 
 [build]
-patch -p1 < "$K"/leafpad-savebug.patch
-patch -p1 < "$K"/leafpad-taskbar-icon.patch
+patch -p1 < "$P"/leafpad-savebug.patch
+patch -p1 < "$P"/leafpad-taskbar-icon.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \

@@ -11,8 +11,8 @@ sha512=0ad0f71fe2f91b8bdba2daf2beed93c746a7cb0afcd94e8d5a4d092ea61fccc543d332d32
 kernel-headers
 
 [build]
-patch -p1 < "$K"/mdadm_h.patch
-patch -p1 < "$K"/mdadm_canonicalize.patch
+patch -p1 < "$P"/mdadm_h.patch
+patch -p1 < "$P"/mdadm_canonicalize.patch
 
 # -ftree-dce -fdata-sections -ffunction-sections -Wl,--gc-sections
 # is supported by gcc4+, and removes dead code.

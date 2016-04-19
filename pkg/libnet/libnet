@@ -8,7 +8,7 @@ sha512=4f1c5c1a72e2c35ca3add772cb1af63e8245bb5c127e4a74fb9f619f987a4ea047bf17caa
 [deps]
 
 [build]
-patch -p1 < "$K"/libnet-kernelheaders.patch
+patch -p1 < "$P"/libnet-kernelheaders.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

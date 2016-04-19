@@ -16,7 +16,7 @@ gcc4
 # for further reference on how this package is supposed to be used, we only use it
 # to strip the keymaps off.
 for p in kbd kbd-1.15.3-upstream_fixes-1 kbd-1.15.3-backspace-1 kbd-1.15.3-busyboxkmap ; do
-	patch -p1 < "$K"/$p.patch
+	patch -p1 < "$P"/$p.patch
 done
 
 #fix bug in spanish transl.

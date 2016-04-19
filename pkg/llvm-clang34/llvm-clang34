@@ -20,8 +20,8 @@ mv ./clang-3.4 ./tools/clang
 tar xf "$C"/compiler-rt-3.4.src.tar.gz
 mv ./compiler-rt-3.4 ./projects/compiler-rt
 
-patch -p1 < "$K"/llvm34.patch
-patch -p1 < "$K"/llvm34-dynlinker.patch
+patch -p1 < "$P"/llvm34.patch
+patch -p1 < "$P"/llvm34-dynlinker.patch
 
 conflags='--enable-libffi --enable-optimized --enable-shared
 	--disable-docs --enable-targets=all --prefix='"$butch_prefix"

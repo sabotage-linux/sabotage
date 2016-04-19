@@ -10,7 +10,7 @@ desc='swiss army knife of dealing with sockets, pipes and other byte streams'
 openssl
 
 [build]
-patch -p0 < "$K"/socat-libressl.patch
+patch -p0 < "$P"/socat-libressl.patch
 
 [ -n "$CROSS_COMPILE" ] &&
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

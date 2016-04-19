@@ -8,7 +8,7 @@ sha512=adbeab5af780ae70d2a98a81e96ad2cdfbcbc20153372b0085f6ac75ae9fadff82bd09b46
 dynamic-toolchain
 
 [build]
-patch -p1 < "$K"/coreutils-xcompile.patch
+patch -p1 < "$P"/coreutils-xcompile.patch
 # by default gnulib builds 230 of 389 C-files.
 GNULIB_CPPFLAGS=$("$K"/bin/gnulibfix lib)
 dir=$PWD

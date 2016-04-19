@@ -22,7 +22,7 @@ flex
 gperf
 
 [build]
-patch -p1 < "$K"/netsurf-gperf-warning.patch
+patch -p1 < "$P"/netsurf-gperf-warning.patch
 # FIXME: netsurfs Makefile suppresses parallel builds
 CFLAGS="-I$butch_prefix/include/cairo/" NETSURF_USE_BMP=NO \
  make Q= -j$MAKE_THREADS

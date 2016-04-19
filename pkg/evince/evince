@@ -19,11 +19,11 @@ glib
 
 [build]
 # https://bugzilla.gnome.org/show_bug.cgi?id=637055
-patch -p1 < "$K"/evince-scroll.patch
+patch -p1 < "$P"/evince-scroll.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=638312
-patch -p1 < "$K"/evince-quit-crash.patch
-patch -p1 < "$K"/evince-segfault.patch
-patch -p1 < "$K"/evince-segfault2.patch
+patch -p1 < "$P"/evince-quit-crash.patch
+patch -p1 < "$P"/evince-segfault.patch
+patch -p1 < "$P"/evince-segfault2.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

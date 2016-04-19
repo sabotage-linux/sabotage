@@ -15,7 +15,7 @@ echo "go is not compatible with crosscompilation"
 echo "it tries to build and execute stuff built with \$CC"
 exit 1
 }
-patch -p1 < "$K"/go.patch
+patch -p1 < "$P"/go.patch
 cd ./src && ./make.bash
 cd ../../ && cp -ar go/* "$butch_install_dir""$butch_prefix"
 [ -h "$butch_root_dir""$butch_prefix"/bin/go ] && rm "$butch_root_dir""$butch_prefix"/bin/go

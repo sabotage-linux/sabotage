@@ -16,7 +16,7 @@ python
 vala
 
 [build]
-patch -p1 < "$K"/midori-no-notify.patch
+patch -p1 < "$P"/midori-no-notify.patch
 
 rm extensions/devpet.vala
 

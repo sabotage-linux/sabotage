@@ -12,7 +12,7 @@ libvirt
 python-virtinst
 
 [build]
-patch -p1 < "$K"/virt-manager-no-dbus.patch
+patch -p1 < "$P"/virt-manager-no-dbus.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix"

@@ -14,8 +14,8 @@ libtiff
 giflib
 
 [build]
-patch -p1 < "$K"/liblepton_pngio.patch
-patch -p1 < "$K"/liblepton-endianness.patch
+patch -p1 < "$P"/liblepton_pngio.patch
+patch -p1 < "$P"/liblepton-endianness.patch
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 cd src
 

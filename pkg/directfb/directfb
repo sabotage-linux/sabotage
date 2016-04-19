@@ -8,9 +8,9 @@ sha512=47ab8803d6af28b167cd5eb1d231a503aad8cf4d9f3a811a7253af1dc5a49e432f917cf45
 [deps]
 
 [build]
-patch -p1 < "$K"/directfb-sigval.patch
-patch -p1 < "$K"/directfb-comparfn.patch
-patch -p1 < "$K"/directfb-matrox.patch
+patch -p1 < "$P"/directfb-sigval.patch
+patch -p1 < "$P"/directfb-comparfn.patch
+patch -p1 < "$P"/directfb-matrox.patch
 
 CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" \
   --disable-silent-rules

@@ -19,7 +19,7 @@ gtk+2
 glib
 
 [build]
-patch -p1 < "$K"/sweep-default-device.patch
+patch -p1 < "$P"/sweep-default-device.patch
 cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"

@@ -9,7 +9,7 @@ http://freefr.dl.sourceforge.net/project/squashfs/squashfs/squashfs4.2/squashfs4
 zlib
 
 [build]
-patch -p1 < "$K"/squashfs-tools.patch
+patch -p1 < "$P"/squashfs-tools.patch
 
 cd squashfs-tools
 
