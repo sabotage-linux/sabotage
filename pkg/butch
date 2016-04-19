@@ -17,7 +17,8 @@ if [ ! -z "$BUTCH_FROM_GIT" ] ; then
 	git clone https://github.com/sabotage-linux/butch
 else
 	patch -p 1 < "$K"/butch-deep-resolve.patch
-	sed -i 's@VERSION "0.6.1"@VERSION "0.6.1p1"@' butch.c
+	patch -p 1 < "$K"/butch-rebuild-dbupate.patch
+	sed -i 's@VERSION "0.6.1"@VERSION "0.6.1p2"@' butch.c
 fi
 
 # prepare build config...
