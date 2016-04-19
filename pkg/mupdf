@@ -1,11 +1,13 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.8-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.9-source.tar.gz
 
 [vars]
-filesize=14169777
-sha512=938fbed4afc0dd0aa621911cd70b9289c6a4f13d026f9390b11fc86d5b37845a76943c9fa42f218f67fe298295f15d6664a18be7bf73b5d952724122510f9deb
+filesize=20470618
+sha512=fa065d2ffbd03280fa7d0c5547cfd245b9efa5ec63f8a14f9d3999c81a732433550b33525939df6cb2c3bbfe80f4eae179855f96e0f37ea15520142b6a45bbd1
+desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
+musl
 zlib
 curl
 freetype
