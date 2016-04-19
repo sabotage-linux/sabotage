@@ -1,0 +1,43 @@
+[mirrors]
+http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-3.1.0.tar.gz
+http://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.1.0.tar.gz
+ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.1.0.tar.gz
+
+[vars]
+filesize=4336709
+sha512=06cf4c827de8d613cab6a57a8e76198d293660a263f60d17dd189f511da4b1e12eb98bbcf75695697a62959e26ca204bf2a53eb6657e8bd756a816977e717783
+
+[deps]
+db
+openssl
+dovecot
+
+[build]
+sed -i -e 's@#if OPENSSL_VERSION_NUMBER < 0x10100000L@#ifndef OPENSSL_VERSION@' src/tls/tls.h
+CCARGS="-DNO_NIS -DUSE_TLS -DUSE_SASL_AUTH -DDEF_SASL_SERVER_TYPE=\"dovecot\"" \
+AUXLIBS="-lssl -lcrypto" make -f Makefile.init makefiles
+make -j$MAKE_THREADS
+sh postfix-install -non-interactive \
+   install_root="$butch_install_dir" \
+   daemon_directory="$butch_prefix"/lib/postfix \
+   manpage_directory="$butch_prefix"/share/man
+
+dest="$butch_install_dir""$butch_prefix"
+mv "$dest"/usr/* "$dest"/
+rm "$dest"/bin/*
+mv "$dest"/sbin/* "$dest"/bin/
+rm -rf "$dest"/usr "$dest"/sbin
+
+mv "$dest"/etc/postfix "$dest"/share/doc
+if [ ! -f  "$dest"/etc/postfix/main.cf ] ; then
+	install -D -m 644 "$P"/postfix-main.cf "$dest"/etc/postfix/main.cf
+	install -D -m 644 "$P"/postfix-master.cf "$dest"/etc/postfix/master.cf
+	install -D -m 644 "$P"/postfix-virtual "$dest"/etc/postfix/virtual
+	cat <<- EOF > "$dest"/etc/postfix/README
+	Edit 'virtual' to route mail to users, then reload with 'postmap /etc/postfix/virtual'.
+	See /share/doc/postfix for further information.
+	EOF
+fi
+
+IS="$K"/bin/install-service
+"$IS" --down --log --force postfix "$P"/postfix.service

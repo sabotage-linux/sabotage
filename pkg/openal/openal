@@ -1,0 +1,89 @@
+[deps]
+alsa-lib
+
+[mirrors]
+http://kcat.strangesoft.net/openal-releases/openal-soft-1.15.1.tar.bz2
+
+[vars]
+filesize=253006
+sha512=ca6dafdd503d06892dff08763bc00b974ec6e7c4bf3dcebb4cb41a486b4ea777c278299a198db182fee888a19a5716bd57d91a2859b764a532138a79f2bd672f
+
+[build]
+mv Alc/mixer_inc.c Alc/mixer_inc.h
+
+# patch so *.c can be compiled without depending on system specifics
+patch -p1 < "$P"/openal-mixer.patch
+
+cp "$P/openal.Makefile" Makefile
+
+# find openal-soft-1.15.1/ -name '*.c' | xargs grep HAVE_ | perl -pe 's/.*?(HAVE_[\w+]*).*/$1/;' | sort -u | perl -ne 'print "// #define $_"'
+
+cat << EOF > config.h
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define ALSOFT_VERSION "1.15.1"
+#define AL_ALEXT_PROTOTYPES
+
+#ifdef __GNUC__
+#define ALIGN(x) __attribute__((aligned(x)))
+#define RESTRICT __restrict
+#else
+#define ALIGN(x)
+#define RESTRICT
+#endif
+
+// #define HAVE_ALIGNED_ALLOC
+#define HAVE_ALSA
+// #define HAVE_ARM_NEON_H
+// #define HAVE_COREAUDIO
+// #define HAVE_CPUID_H
+// #define HAVE_DLFCN_H
+// #define HAVE_DSOUND
+// #define HAVE_DYNLOAD
+// #define HAVE_FESETROUND
+#define HAVE_FLOAT_H
+#define HAVE_GCC_DESTRUCTOR
+// #define HAVE_GUIDDEF_H
+// #define HAVE_IEEEFP_H
+// #define HAVE_MALLOC_H
+// #define HAVE_MMDEVAPI
+// #define HAVE_NEON
+// #define HAVE_OPENSL
+// #define HAVE_OSS
+// #define HAVE_PORTAUDIO
+#define HAVE_POSIX_MEMALIGN
+// #define HAVE_PTHREAD_NP_H
+// #define HAVE_PTHREAD_SETSCHEDPARAM
+// #define HAVE_PULSEAUDIO
+// #define HAVE_SNDIO
+// #define HAVE_SOLARIS
+// #define HAVE_SSE
+#define HAVE_STAT
+#define HAVE_STDINT_H
+#define HAVE_STRTOF
+// #define HAVE_WAVE
+// #define HAVE_WINDOWS_H
+// #define HAVE_WINMM
+// #define HAVE_XMMINTRIN_H
+// #define HAVE__ALIGNED_MALLOC
+// #define HAVE__CONTROLFP
+// #define HAVE___CONTROL87_2
+// #define HAVE___INT64
+
+
+#endif
+EOF
+
+for i in OpenAL32/ Alc/ Alc/backends; do cp config.h $i ; done
+
+printf '%s\n' "CFLAGS += $optcflags" >> config.mak
+
+mkdir lib
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/pkgconfig
+cp "$P"/openal.pc "$dest"/lib/pkgconfig/
+sed -i "s/@prefix@/""$butch_prefix""/" "$dest"/lib/pkgconfig/openal.pc

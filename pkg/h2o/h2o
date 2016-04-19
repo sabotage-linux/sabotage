@@ -1,0 +1,26 @@
+[mirrors]
+https://github.com/h2o/h2o/archive/v1.7.0.tar.gz
+
+[vars]
+filesize=6543732
+sha512=b905cd4c99f150495d7252cc911cfd05285dc8aa1874ffc078e57185b7b3f613d5d0ab7950198d1431e1ed610371f3bee282f7dfef65f1575cf333267ebafa06
+tardir=h2o-1.7.0
+tarball=h2o-1.7.0.tar.gz
+
+[deps]
+openssl
+
+[deps.host]
+cmake
+perl
+
+[build]
+xconfflags=
+[ -n "$CROSS_COMPILE" ] && xconfflags="-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix"
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+cmake $xconfflags -DCMAKE_INSTALL_PREFIX="$butch_prefix" .
+make VERBOSE=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+IS="$K"/bin/install-service                                               
+"$IS" --down --log --force h2o "$P"/h2o.service

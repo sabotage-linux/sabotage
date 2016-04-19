@@ -1,0 +1,24 @@
+[deps]
+musl
+
+[mirrors]
+http://files.etoilebsd.net/pkgconf/pkgconf-0.8.9.tar.bz2
+http://mirror.r0x0r.me/sabotage/pkgconf-0.8.9.tar.bz2
+http://ftp.barfooze.de/pub/sabotage/tarballs/pkgconf-0.8.9.tar.bz2
+
+[vars]
+filesize=80211
+sha512=3acb571412dedc2587203ed05537ce3adbaa64f2fab4f561da9824917c15e2ea771db7525f9a026261086f4ae196c3a5183e1bb3d33e14fdd779fbe74e6215c3
+desc='lightweight drop-in replacement for pkg-config'
+
+[build]
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+patch -p1 < "$P"/pkgconf-fix-empty-prefix.patch
+patch -p1 < "$P"/pkgconf-sysroot-twice.patch
+CFLAGS="$CFLAGS -D_GNU_SOURCE -D_BSD_SOURCE $optcflags" \
+LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+ln -sf pkgconf "$butch_install_dir/bin/pkg-config"
+

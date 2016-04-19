@@ -1,0 +1,38 @@
+[mirrors]
+http://ftp.barfooze.de/pub/butch/butch-0.6.1.tar.bz2
+http://foss.aueb.gr/mirrors/linux/butch/butch-0.6.1.tar.bz2
+
+[vars]
+filesize=42849
+sha512=412cb47d14e7d9d50924b4fc66ab8ca15b583911ee710744381a76e3c166de86d04697007e68e2ed9fd2bfb9128fb813e0dd8f97dc65869e63779ee05518affc
+desc='multithreaded package build manager used by sabotage linux'
+
+[deps.host]
+stage0-musl
+
+[build]
+# set environment variable BUTCH_FROM_GIT to 1 if you want to test the latest butch
+if [ ! -z "$BUTCH_FROM_GIT" ] ; then
+	rm -rf butch
+	git clone https://github.com/sabotage-linux/butch
+else
+	patch -p 1 < "$P"/butch-deep-resolve.patch
+	sed -i 's@VERSION "0.6.1"@VERSION "0.6.1p1"@' butch.c
+fi
+
+# prepare build config...
+printf "LDFLAGS += -static %s\n" "$optldflags" > config.mak
+printf "CFLAGS += %s\n" "$optcflags" >> config.mak
+
+# and build
+[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+make -j$MAKETHREADS
+BUTCH_BIN=butch
+mv "$BUTCH_BIN" "$BUTCH_BIN"-core
+
+# "make install"
+dest=$butch_install_dir$butch_prefix
+mkdir -p "$dest"/bin
+cp -f "$BUTCH_BIN"-core "$dest"/bin/butch-core
+
+

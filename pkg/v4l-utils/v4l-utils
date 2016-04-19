@@ -1,0 +1,27 @@
+[mirrors]
+http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.6.3.tar.bz2
+
+[vars]
+filesize=1151081
+sha512=8fa9f5e0af9c9f111ffbf4d2d599112e98017447623a83c484963ef32c495de195cbd53b4b9e1b2130e9c7ac0b5ab7a35e72e04ea4089db771028485e3c4df69
+
+[deps]
+argp
+glu
+
+[build]
+patch -p1 < "$P"/v4l-utils-open64.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -D__off_t=off_t -D__off64_t=off_t" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -largp" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -10,7 +10,7 @@ tcl
 libpcap
 
 [build]
-patch -p1 < "$K"/hping2-endian.patch
+patch -p1 < "$S"/pkg/hping2/hping2-endian.patch
 
 sed -i 's@net/bpf.h@pcap/bpf.h@g' libpcap_stuff.c script.c
 sed -i 's@-L/usr/local/lib@@g' Makefile.in

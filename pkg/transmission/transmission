@@ -1,0 +1,34 @@
+[mirrors]
+http://download-origin.transmissionbt.com/files/transmission-2.60.tar.xz
+
+[vars]
+filesize=2905156
+sha512=0aea93263ce0bfb11629486a6f9d0ed9a5b0ec85cc15933271c073f73bb55f31ae6a32804b528093b2e435143ce3d6a25625bfb0411c75aaaf3832a7ffa26f34
+desc='bittorrent p2p filesharing client'
+
+[deps]
+gtk+2
+miniupnpc
+libevent
+openssl
+curl
+
+[build]
+patch -p1 < "$P"/transmission-off_t.patch
+# transmission insists on --enable-nls/intltool when gtk is selected
+# - the only reason is the generation of the .desktop file
+patch -p1 < "$P"/transmission-nls.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+sed -i 's@gtk_version="3"@gtk_version="2"@g' configure
+CPPFLAGS="-D_GNU_SOURCE -DGETTEXT_PACKAGE=\\\"transmission\\\"" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls --disable-silent-rules \
+  --enable-utp
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

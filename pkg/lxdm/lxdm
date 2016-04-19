@@ -1,0 +1,28 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/lxde/lxdm/LXDM%200.4.1/lxdm-0.4.1.tar.gz
+http://switch.dl.sourceforge.net/project/lxde/lxdm/LXDM%200.4.1/lxdm-0.4.1.tar.gz
+
+[vars]
+filesize=296714
+sha512=8ed4a955a910def4db66958d1cb24976db178b8763199a024b6c2119894745e3646566c42d01472dffbbcbb7fd21784b01e74dc88038e01caebaa3b6d720ff27
+
+[deps]
+glib
+gdk-pixbuf
+gtk+2
+intltool
+
+[build]
+patch -p1 < "$P"/lxdm-backtrace.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+CFLAGS="$optcflags -D_GNU_SOURCE" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+for i in po ; do
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+done
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

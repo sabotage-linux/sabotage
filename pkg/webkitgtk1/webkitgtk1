@@ -1,0 +1,44 @@
+[mirrors]
+http://webkitgtk.org/releases/webkitgtk-1.10.2.tar.xz
+
+[vars]
+filesize=8633640
+sha512=0c2909eabdc9532619d6486cd42f18a4eb4868c02be3f1c62a6d11d2cb23b4d5a84dd9b60fc353a25134c4ecd8f7cc9f75690bfc17a0360fd4a4c1f4f07aac8f
+
+[deps.host]
+gperf
+ruby
+perl
+
+[deps]
+gst01-plugins-base
+gtk+2
+icu
+libsoup
+mesalib
+sqlite
+libxt
+libxcomposite
+
+[build]
+patch -p1 < "$P"/webkitgtk1-assert.patch
+# BLFS fixes for some issues
+sed -i '/generate-gtkdoc --rebase/s:^:# :' GNUmakefile.in
+sed -i '/parse-param/ a%lex-param {YYLEX_PARAM}' \
+             Source/ThirdParty/ANGLE/src/compiler/glslang.y
+cp -f "$K"/config.sub Source/autotools/
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+printf '#!/bin/sh\necho -licui18n -licuuc -licudata\n' > icu-config
+chmod +x icu-config
+PATH="$PWD:$PATH" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+	--with-gtk=2.0 --disable-webkit2 --disable-jit --disable-geolocation \
+	--disable-fast-malloc --disable-glibtest \
+	--disable-silent-rules --disable-gtk-doc-html
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,31 @@
+[mirrors]
+https://nodejs.org/download/release/v0.12.13/node-v0.12.13.tar.xz
+
+[vars]
+filesize=12357620
+sha512=2195b91c1816e2e70931f3db1b4a8968ea6a4c63699d0170835356f53565a82a36ca209dba8e628d1869ee5dc7dd700234a6fec702452ba06cdcc93d8c5816c7
+uchkurl=https://nodejs.org/download/release/
+
+[deps.host]
+dynamic-toolchain
+python
+
+[build]
+# nodejs has 3 supported versions currently:
+# - v5 (stable)
+# - v4 (LTS)
+# - v0.12 (Maintenance, does not require GCC 4.8, support end: 2017)
+
+patch -p1 < "$P"/nodejs-nameser_compat.h
+patch -p1 < "$P"/nodejs-openssl_termios.h
+patch -p1 < "$P"/nodejs-prefix.patch
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+CXXFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" --without-snapshot
+
+# the python configure script does not care about C(XX)FLAGS being passed
+sed -i "s@cflags': \[\]@cflags': ['-D_GNU_SOURCE -D_BSD_SOURCE']@" config.gypi
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

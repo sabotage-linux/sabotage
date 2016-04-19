@@ -1,0 +1,26 @@
+[mirrors]
+http://heanet.dl.sourceforge.net/project/mad/libmad/0.15.1b/libmad-0.15.1b.tar.gz
+http://surfnet.dl.sourceforge.net/project/mad/libmad/0.15.1b/libmad-0.15.1b.tar.gz
+http://switch.dl.sourceforge.net/project/mad/libmad/0.15.1b/libmad-0.15.1b.tar.gz
+
+[vars]
+filesize=502379
+sha512=2cad30347fb310dc605c46bacd9da117f447a5cabedd8fefdb24ab5de641429e5ec5ce8af7aefa6a75a3f545d3adfa255e3fa0a2d50971f76bc0c4fc0400cc45
+
+[deps]
+
+[build]
+# patch from debian: http://patch-tracker.debian.org/package/libmad
+patch -p1 < "$P"/libmad-mips-asm.patch
+cp -f "$K"/config.sub .
+
+# there are other debian patches that may be interesting, also:
+# http://m.baert.free.fr/contrib/docs/libmad/ (documentation patch)
+# AVR32 patch http://www.mars.org/pipermail/mad-dev/2010-March/001410.html
+
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CPPFLAGS=-D_GNU_SOURCE \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

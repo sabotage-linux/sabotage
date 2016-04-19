@@ -11,7 +11,7 @@ sha512=9ecdea460858b7e6ad7ca2534ecb3581397e6c1fa904459affe19ce49f528e580e143b42b
 allegro4
 
 [build]
-patch -p1 < "$K"/dumb-Makefile-DESTDIR.patch
+patch -p1 < "$S"/pkg/dumb/dumb-Makefile-DESTDIR.patch
 
 cat << EOF > make/config.txt
 include make/unix.inc

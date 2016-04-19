@@ -1,0 +1,23 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/lxde/LXMusic%20%28music%20player%29/LXMusic%200.4.5/lxmusic-0.4.5.tar.gz
+http://switch.dl.sourceforge.net/project/lxde/LXMusic%20%28music%20player%29/LXMusic%200.4.5/lxmusic-0.4.5.tar.gz
+
+[vars]
+filesize=288873
+sha512=2467096190fd8e1d628e234e4646fbbf96683eca6244990353cade732d91487783e4462d7619d57ce4bc9b9bda9cdacd8c857abcf73c94296f9863546f95a11f
+
+[deps]
+xmms2
+gtk+2
+intltool
+
+[build]
+patch -p1 < "$P"/lxmusic-segfault.patch
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+
+for i in po ; do
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+done
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

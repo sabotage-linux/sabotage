@@ -1,0 +1,31 @@
+[mirrors]
+http://samba.org/ftp/ppp/ppp-2.4.6.tar.gz
+
+[vars]
+filesize=687744
+sha512=65d6967ba43cd8b4d3f63f52ff69f6fed964f748fc780dff982629668213c2cd1891671f6f4a0c1c22118a382e282fabdd2328e60a120d9b984d3c17f9355cc6
+
+[deps]
+libnl-tiny
+
+[build]
+patch -p1 < "$P"/ppp-headers.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+sed -i 's/HAVE_SYS_CDEFS_H/FOOBAR/' pppd/plugins/rp-pppoe/config.h
+sed -i 's,#include <sys/cdefs.h>,#define __P(foo) foo,' pppd/magic.h
+
+export CPPFLAGS="-D_GNU_SOURCE"
+export CFLAGS="$optcflags" CXXFLAGS="$optcflags"
+export LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lnl-tiny"
+./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+for i in pppstats pppd/plugins/rp-pppoe pppd/plugins/radius pppd chat pppdump ; do
+	sed -i 's/-s -c/-D/g' $i/Makefile
+done
+
+make V=1 COPTS="$CPPFLAGS $CFLAGS $LDFLAGS" -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

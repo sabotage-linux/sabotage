@@ -1,0 +1,31 @@
+[mirrors]
+http://www.hboehm.info/gc/gc_source/gc-7.2d.tar.gz
+
+[vars]
+filesize=1263064
+sha512=5b342754a1efeef0cf78983b7a0e48a36495beac04fc881ab356b26dc153b343e940ec7af070f4fc875be44adc559f7be995919fe9229f68d2e0237cdbeaabcc
+tardir=gc-7.2
+
+[build]
+patch -p0 < "$P"/libgc-configure.patch
+patch -p1 < "$P"/libgc-os_dep.patch
+
+# -DUSE_PROC_FOR_LIBRARIES
+
+touch include/execinfo.h
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE -DNO_GETCONTEXT -DSEARCH_FOR_DATA_START -DUSE_MMAP \
+-DHAVE_DL_ITERATE_PHDR $optcflags" \
+LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-cplusplus \
+  --enable-threads=pthreads \
+
+#  --disable-threads \
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

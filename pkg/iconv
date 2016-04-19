@@ -1,4 +1,0 @@
-[build]
-$CC $optcflags -std=gnu99 -o iconv "$K"/iconv.c -static $optldflags
-
-mv iconv "$butch_root_dir""$butch_prefix"/bin/

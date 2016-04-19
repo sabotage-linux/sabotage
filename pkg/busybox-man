@@ -17,7 +17,7 @@ http://www.busybox.net/downloads/busybox-1.20.1.tar.bz2
 
 [build]
 
-cp $K/busybox.stage1.config .config
+cp "$S"/pkg/busybox/busybox.stage1.config .config
 
 make V=1 HOSTCFLAGS="-D_GNU_SOURCE -std=gnu89" docs/busybox.1
 

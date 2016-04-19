@@ -1,0 +1,14 @@
+[vars]
+filesize=2562
+sha512=f53163bd6bf257ef912d23dd813690a6a8700344bcc3caad73556917f12e76364b6ebc9bd11224fe8f4013d83518459440f113a313fc9721de2a124277270044
+
+[deps]
+libx11
+
+[mirrors]
+http://dl.suckless.org/tools/sselp-0.2.tar.gz
+
+[build]
+cp "$P/sselp.config.mk" ./config.mk
+make -j $MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

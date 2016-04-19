@@ -1,0 +1,28 @@
+[mirrors]
+http://downloads.sourceforge.net/project/nethack/nethack/3.4.3/nethack-343-src.tgz
+
+[vars]
+filesize=3497458
+sha512=052342c19619219f291571d48cf7799f962eb6ec6f8a276427225c0abbd833eada18abeff9fbd647919f2a9e3bb097d7f154675e283fe48abc4752f24c192d8f
+tardir=nethack-3.4.3
+
+[deps]
+flex
+curses
+
+[build]
+patch -p1 < "$P"/nethack-options.patch
+sh ./sys/unix/setup.sh x
+sed -i "s@PREFIX   = /@PREFIX = $butch_install_dir$butch_prefix@" Makefile
+sed -i 's@recover Guidebook@recover@' Makefile
+make all
+mkdir -p "$butch_install_dir$butch_prefix"/bin
+mkdir -p "$butch_install_dir$butch_prefix"/lib/nethack
+for i in dat/cmdhelp dat/opthelp dat/history dat/license dat/hh \
+	dat/wizhelp dat/nhdat dat/help ;
+do
+	cp "$i" "$butch_install_dir$butch_prefix"/lib/nethack/
+done
+touch "$butch_install_dir$butch_prefix"/lib/nethack/perm
+cp src/nethack "$butch_install_dir$butch_prefix"/bin/nethack
+cp util/recover "$butch_install_dir$butch_prefix"/bin/nethack-recover

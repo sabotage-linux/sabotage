@@ -1,0 +1,62 @@
+[mirrors]
+http://audacity.googlecode.com/files/audacity-minsrc-2.0.2.tar.bz2
+
+[vars]
+filesize=6794285
+sha512=3099c01b099306ee77c3df569a7412c230006ba8e7f85d6e79f0bc0373cc4c95f231aab7e1bde0d297afa3c1db7fe6dc125715d803dc78a47df4b716d7423d2e
+tardir=audacity-src-2.0.2
+desc="audio editor and recording app written in C++"
+
+[deps]
+libsndfile
+libsamplerate
+wxgtk
+expat
+
+[build]
+for i in . lib-src/sbsms lib-src/portaudio-v19 lib-src/libresample ; do
+cp -f "$K"/config.sub "$i"/
+done
+patch -p1 < "$P"/audacity-timeb.patch
+patch -p1 < "$P"/audacity-filedialog-segfault.patch
+patch -p1 < "$P"/audacity-format.patch
+sed -i 's@test "\$cross_compiling" = yes \&\&@false \&\&@g' configure
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+cat << EOF > wx-config
+#!/bin/sh
+#for i ; do
+#printf "XXX %s\n" "\$i" >&2
+#done
+opts=
+for i ; do
+	case "\$i" in
+	--version)  exec pkg-config --modversion wxgtk ;;
+	--libs)     opts="\$opts --libs" ;;
+	--cflags)   opts="\$opts --cflags" ;;
+	--cxxflags) opts="\$opts --cflags" ;;
+	esac
+done
+exec pkg-config \$opts wxgtk
+EOF
+chmod +x wx-config
+
+PATH="$PWD:$PATH" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags -std=gnu89 -Wno-strict-prototypes" \
+CXXFLAGS="$optcflags -Wno-unused-local-typedefs" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-sse \
+  --with-ffmpeg=no
+
+[ -n "$CROSS_COMPILE" ] && {
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+for i in portaudio-v19 sbsms; do cp -f libtool lib-src/"$i"/ ; done
+}
+
+# audacity does weird things with msgfmt & xgettext
+printf "install:\n\ttrue\n\nclean:\n\ttrue\n" > locale/Makefile
+make V=1 -j$MAKE_THREADS AR="$CROSS_COMPILE"ar
+make DESTDIR="$butch_install_dir" install

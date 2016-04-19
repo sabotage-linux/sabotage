@@ -1,0 +1,24 @@
+[deps]
+gettext
+curses
+
+[vars]
+filesize=492733
+sha512=8f4526e53c80a3bc19430b5721610b733f59a330ee0230a3a285d104f99969c092421cb59b4e535aff3337c4de2118c148e2ea2e7019b704a28b22eff40b19d3
+
+[mirrors]
+http://downloads.sourceforge.net/psmisc/psmisc-22.19.tar.gz
+
+[build]
+patch -p1 < "$P"/psmisc-termcap.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-harden-flags
+echo "#include <limits.h>" >>config.h
+sed -i 's/!strcmp(__progname, "pstree.x11")/0/' src/pstree.c
+sed -i '/__progname/d' src/pstree.c
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+rm "$butch_install_dir""$butch_prefix"/bin/pstree.x11

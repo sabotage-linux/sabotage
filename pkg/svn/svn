@@ -1,0 +1,49 @@
+[deps]
+musl
+apr
+apr-util
+zlib
+serf
+sqlite
+swig
+
+[deps.host]
+pkgconf
+
+[mirrors]
+http://archive.apache.org/dist/subversion/subversion-1.8.3.tar.bz2
+
+[vars]
+filesize=6773731
+sha512=7ecb0a30751884d72d4039b7b33ec643ff42325f904c3c3ec5a1ef5c90c67b52adec908f908d74a1ffffb8bdb58086c71980b4cd279dad926b8d7f846fe446ca
+
+[build]
+patch -p1 < "$P"/svn-perlbindings-delta-apr-dep.patch
+patch -p1 < "$P"/svn-xcompile-configure.patch
+sed -i 's#Makefile.PL.in$#& libsvn_swig_perl#' Makefile.in
+cat << EOF > apr-1-config
+#!/bin/sh
+res=\$($butch_root_dir$butch_prefix/bin/apr-1-config "\$@")
+rc=\$?
+printf "%s\n" "\$res" | sed \
+  -e 's,-I'$butch_prefix'/include,-I'"$butch_root_dir""$butch_prefix"/include',' \
+  -e 's,-L'$butch_prefix'/lib,-L'"$butch_root_dir""$butch_prefix"/lib','
+exit \$rc
+EOF
+chmod +x apr-1-config
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -laprutil-1 -lapr-1 -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CPPFLAGS="-D_GNU_SOURCE" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --with-apr=$PWD/apr-1-config \
+  --with-apr-util=$PWD/apr-1-config \
+  --without-berkeley-db \
+  --disable-experimental-libtool \
+  --disable-nls
+make -j$MAKE_THREADS
+make -j$MAKE_THREADS swig-pl  # needed for git-svn
+make DESTDIR="$butch_install_dir" install
+make DESTDIR="$butch_install_dir" install-swig-pl
+

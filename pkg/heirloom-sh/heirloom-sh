@@ -1,0 +1,16 @@
+[vars]
+filesize=82725
+sha512=3a0dbec19eb093b6a818910a1b24f2d7328dc785dc12cd0097c37f98e7ac558d31cda8717381d814259bd54f5de12e50cc8d9d617bd4e09c4a903ef63838807f
+
+[mirrors]
+http://sourceforge.net/projects/heirloom/files/heirloom-sh/050706/heirloom-sh-050706.tar.bz2
+
+[deps]
+
+[build]
+patch -p0 defs.h < "$P"/heirloom-sh-defs.patch #disable dependency on sys/acct.h
+sed -i 's@getopt(@mygetopt(@g' jobs.c getopt.c bltin.c ulimit.c
+make -j$MAKE_THREADS CFLAGS="$optcflags" LDFLAGS="$optldflags -static"
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 644 sh.1.out "$dest"/share/man/man1/jsh.1
+install -D -m 755 sh "$dest"/bin/jsh

@@ -1,0 +1,27 @@
+[vars]
+filesize=782025
+sha512=00ace5438cfa0c577e5f578d8a808613187eff5217c35164ffe044fbafdfec9e98f4192c02a7d67e01e5a5ccced630583ad1003c37697219b0f147343a3fdd12
+
+[mirrors]
+http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+
+[build]
+patch -p1 < "$P"/bzip2-flags.patch
+sed -i 's@$(PREFIX)@$(DESTDIR)$(PREFIX)@g' Makefile
+sed -i 's@$(PREFIX)/man@$(PREFIX)/share/man@g' Makefile
+# test target is not cross-compile compatible
+sed -i 's@all: libbz2.a bzip2 bzip2recover test@all: libbz2.a bzip2 bzip2recover@' Makefile
+make -f Makefile-libbz2_so -j$MAKE_THREADS \
+  CFLAGS="$optcflags -D_GNU_SOURCE -fPIC" \
+  LDFLAGS="$optldflags" CC="$CC"
+make -j$MAKE_THREADS PREFIX="$butch_prefix" \
+  CFLAGS="$optcflags -D_GNU_SOURCE -fPIC" \
+  LDFLAGS="$optldflags" CC="$CC"
+
+make DESTDIR="$butch_install_dir" \
+  PREFIX="$butch_prefix" install
+
+dest="${butch_install_dir}${butch_prefix}/lib/"
+install -m 0644 libbz2.so.1.0.6 "$dest/"
+ln -sf libbz2.so.1.0.6 "$dest/libbz2.so.1.0"
+ln -sf libbz2.so.1.0.6 "$dest/libbz2.so"

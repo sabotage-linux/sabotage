@@ -1,0 +1,51 @@
+[mirrors]
+http://downloads.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
+http://surfnet.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
+http://heanet.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
+
+[vars]
+filesize=19712522
+sha512=55954925e74e2c222e7ddb86bf75e9ad17c854d991258fd3a1bf1b2aafe7014418138246a51f9ab9c4444795b03419781517910debd3448ae461f1dd1b5848be
+desc='vector graphic manipulation program'
+
+[deps]
+poppler
+poppler-data
+cairo
+libgc
+gtkmm
+libxml2
+libxslt
+libpng
+gsl
+boost
+popt
+liblcms
+freetype
+
+[build]
+patch -p1 < "$P"/inkscape-gcc48.patch
+# https://bugs.launchpad.net/altlinux/+source/inkscape/+bug/910335
+sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
+chmod +x freetype-config
+export PATH="$PWD:$PATH"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags -O0 -g0" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls \
+  --disable-silent-rules \
+  --enable-poppler-cairo \
+  --without-inkjar
+
+for i in po ; do
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+done
+
+make -j$MAKE_THREADS V=1
+make DESTDIR="$butch_install_dir" install

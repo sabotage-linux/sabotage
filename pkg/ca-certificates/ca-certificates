@@ -1,0 +1,53 @@
+[mirrors]
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20160104.tar.xz
+
+[vars]
+filesize=293632
+sha512=4291ba58057b66d56853162b71862832135eab6f444a5e2cf3dd1089495d44624246dc0c540871851fe9aaceb42054516309402525c8f16a88911d3af9c3518a
+tardir=ca-certificates
+
+[deps]
+openssl
+
+[deps.host]
+openssl
+
+[build]
+$HOSTCC "$P"/c_rehash.c -o c_rehash -lssl -lcrypto
+export PATH=$PWD:"$PATH"
+mkdir -p "$butch_install_dir""$butch_prefix"/share/ca-certificates/mozilla
+cat << EOF > sbin/Makefile
+install:
+	install -Dm755 update-ca-certificates \$(DESTDIR)\$(sbindir)/update-ca-certificates
+EOF
+cp "$P"/certdata2pem.c mozilla/
+cat << EOF > mozilla/Makefile
+all: a.out
+	./a.out
+a.out:
+	\$(HOSTCC) -Wall -Wextra -O0 -g certdata2pem.c
+clean:
+	-rm -f *.crt
+install:
+	for p in *.crt; do \
+	 install -D -m 644 \$\$p \$(CERTSDIR)/\$\$p ; \
+	done
+EOF
+sed -i 's@/usr@'"$butch_prefix"'@g' sbin/update-ca-certificates
+make CERTSDIR="$butch_prefix"/share/ca-certificates
+make CERTSDIR="$butch_prefix"/share/ca-certificates \
+     DESTDIR="$butch_install_dir" sbindir="$butch_prefix"/bin install
+
+mkdir -p "$butch_install_dir/etc/ssl/certs"
+
+( cd "$butch_install_dir/share/ca-certificates/"
+  find . -name '*.crt' | sort | cut -b3- > "$butch_install_dir/etc/ca-certificates.conf" )
+
+cp sbin/update-ca-certificates .
+sed -e 's#=/etc/#=${DESTDIR}/etc/#' -i update-ca-certificates
+sed -e 's#=/share/#=${DESTDIR}/share/#' -i update-ca-certificates
+sed -e 's#=/local/#=${DESTDIR}/local/#' -i update-ca-certificates
+
+DESTDIR="$butch_install_dir" sh ./update-ca-certificates --fresh
+# make sure everything in /etc gets overwritten
+butch_do_overwrite_on_copy=true

@@ -18,6 +18,6 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   lf_cv_sane_realloc=yes
-patch -p1 < "$K"/libtool-sysroot.patch
+patch -p1 < "$S"/pkg/libtool/libtool-sysroot.patch
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,26 @@
+[mirrors]
+http://rtorrent.net/downloads/rtorrent-0.9.6.tar.gz
+
+[vars]
+filesize=610845
+sha512=704f7b79d5bc78b817da21a6886662a5a97fde210a110c50f708bdc18e1dcf3ef5c5f4e2740261d41221cfc69c19926bf34e10057adf10601da9e6e06b2cef75
+desc='bittorrent p2p filesharing client'
+
+[deps]
+libtorrent
+curses
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+sed -i 's@-Wl,-syslibroot,@-Wl,-syslibroot=@' configure
+# remove broken execinfo.h check
+sed -i '15872,15906d' configure
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" $xconfflags
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+install -D -m 644 "$P"/rtorrent.1 \
+"$butch_install_dir""$butch_prefix"/share/man/man1/rtorrent.1

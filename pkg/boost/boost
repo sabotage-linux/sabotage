@@ -1,0 +1,36 @@
+[mirrors]
+http://downloads.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
+http://heanet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
+http://surfnet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
+
+[vars]
+filesize=64724106
+sha512=8de651beb9a48f91f8a797f44966b8f25c3351d6893c1d79969aeb2ded3adeaf8fc14aa9b8a4410081dde9ef155330b41a4982a62b55adde40bb73f0066c74a2
+desc="monstruous collection of C++ libraries"
+
+[deps]
+bzip2
+
+[deps.host]
+dynamic-toolchain
+
+[build]
+# https://svn.boost.org/trac/boost/ticket/7847
+patch -p1 < "$P"/boost-execinfo.patch
+patch -p1 < "$P"/boost-endian.patch
+
+# FIXME there's no DESTDIR support, thus internal hardcoded paths will be all wrong
+# https://svn.boost.org/trac/boost/ticket/7846
+CC=gcc CFLAGS=-D_GNU_SOURCE ./bootstrap.sh --prefix="$butch_install_dir""$butch_prefix"
+
+cat << EOF > tools/build/v2/user-config.jam
+using gcc : foo : $CXX ;
+EOF
+
+sed -i 's@tm_gmtoff@__tm_gmtoff@g' libs/locale/src/std/../util/numeric.hpp
+sed -i 's@tm_zone@__tm_zone@g' libs/locale/src/std/../util/numeric.hpp
+
+# boost wants to build some asm stuff which fails on mips, but the rest is properly
+# built/installed, so we must catch the error return code
+./b2 toolset=gcc-foo -d+2 stage threading=multi link=shared -j$MAKE_THREADS || echo ERROR1
+./b2 -d+2 install threading=multi link=shared || echo ERROR2

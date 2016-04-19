@@ -1,0 +1,34 @@
+[mirrors]
+http://downloads.sourceforge.net/project/guvcview/source/guvcview-src-2.0.1.tar.gz
+
+[vars]
+filesize=960661
+sha512=b3877f00f4caf224eac2010f62e1c3d575b94f84cd0a8da7a5f1df6c851384c7a9e356de905ce27e143dc9761137ae1cce146bb4f6c0aa6d270dd53551bce67a
+
+[deps]
+gtk+3
+libv4l2
+libusbx
+portaudio
+perl5-XML-Parser
+
+[build]
+patch -p1 < "$P"/guvcview-decls.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-sdl2 \
+  --disable-pulse \
+  --disable-debian-menu \
+  --disable-nls \
+  --disable-gsl
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

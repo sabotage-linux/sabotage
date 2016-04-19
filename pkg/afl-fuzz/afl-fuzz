@@ -1,0 +1,15 @@
+[mirrors]
+http://lcamtuf.coredump.cx/afl/releases/afl-2.10b.tgz
+
+[vars]
+filesize=815650
+sha512=2273632f156427967bb794ecbf013aebe06d769c27c2fb26e9550d376364e4e3750ff0ebe0d5a6a29bf9ecf39fdf724b7dd0666ed0467584cd4863893e619b1e
+
+[deps]
+
+[build]
+patch -p0 < "$P"/afl-Makefile.patch
+
+make V=1 -j$MAKE_THREADS PREFIX="$butch_prefix" USER_CFLAGS="$optcflags" \
+     LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+     CC="$CC" DESTDIR="$butch_install_dir" all install

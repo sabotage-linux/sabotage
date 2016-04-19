@@ -1,0 +1,30 @@
+[mirrors]
+http://openbox.org/dist/obconf/obconf-2.0.3.tar.gz
+
+[vars]
+filesize=267589
+sha512=6bfef2a2b9be7c921ae2717582f53bef74f232d6cd5fee7da2ee1c982bbb61e0b3bc3bcdd64909d78cf3d6ab5eb774eb60b26d28786e1efc4f6def0c25866965
+desc='configuration frontend for the openbox window manager'
+
+[deps]
+openbox
+libstartup-notification
+gtk+2
+libglade
+
+[build]
+patch -p1 < "$P"/obconf-git.patch || \
+  echo "WARNING: Patch failed to apply properly"
+patch -p1 < "$P"/obconf-implicit.patch || \
+  echo "WARNING: Patch failed to apply properly"
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+CFLAGS="$optcflags -D_GNU_SOURCE" \
+LDFLAGS="$optldflags -llzma -lz -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C $xconfflags \
+  --prefix="$butch_prefix" \
+  --disable-nls
+printf '#include <ctype.h>\n' >> config.h
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,34 @@
+[mirrors]
+http://downloads.xiph.org/releases/flac/flac-1.3.1.tar.xz
+
+[vars]
+filesize=941848
+sha512=923cd0ffe2155636febf2b4633791bc83370d57080461b97ebb69ea21a4b1be7c0ff376c7fc8ca3979af4714e761112114a24b49ff6c80228b58b929db6e96d5
+
+[deps]
+
+[build]
+# apply patch to prevent CFLAGS manipulation in ./configure
+patch -p1 -l < "$P"/libflac-prevent-cflag-manipulation.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+testlib() {
+	printf "int main() {}\n" > test_lib.c
+	$CC test_lib.c -l$1 >/dev/null 2>&1
+}
+testlib ogg && \
+  oggflags="--with-ogg-libraries=$butch_root_dir$butch_prefix/lib --with-ogg-includes=$butch_root_dir$butch_prefix/include" || \
+  oggflags="--disable-ogg"
+
+CFLAGS="$optcflags -D_GNU_SOURCE" \
+LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags $oggflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+# build only libFLAC and not all the C++ crap
+make -j$MAKE_THREADS -C src/libFLAC
+make DESTDIR="$butch_install_dir" -C src/libFLAC install
+
+echo installing headers
+make -j$MAKE_THREADS -C include
+make DESTDIR="$butch_install_dir" -C include install

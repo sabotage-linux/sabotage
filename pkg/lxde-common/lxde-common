@@ -1,0 +1,19 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/LXDE%20Common%200.5.5/lxde-common-0.5.5.tar.gz
+http://switch.dl.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/LXDE%20Common%200.5.5/lxde-common-0.5.5.tar.gz
+
+[vars]
+filesize=899075
+sha512=44848286ccf3aa269df1680e14a8d3c41be1c2af956bd5121fc05d97a892fdc13d1e74191a2a11a40e96a8f31f8be37b1cfb9afeac4474fcab88d07508647c7f
+
+[deps]
+
+[build]
+patch -p1 < "$P"/openbox-config.patch
+CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+cp -f "$P"/sabotage-menu.png  "$dest"/share/lxde/images/
+cp -f "$P"/panel "$dest"/share/lxpanel/profile/LXDE/panels/panel
+

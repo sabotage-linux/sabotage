@@ -1,0 +1,40 @@
+[mirrors]
+http://heanet.dl.sourceforge.net/project/sweep/sweep/0.9.3/sweep-0.9.3.tar.bz2
+http://surfnet.dl.sourceforge.net/project/sweep/sweep/0.9.3/sweep-0.9.3.tar.bz2
+http://switch.dl.sourceforge.net/project/sweep/sweep/0.9.3/sweep-0.9.3.tar.bz2
+
+[vars]
+filesize=946060
+sha512=6c3fce80152f7b17cb130e05a2597efedd10c081dd2c98912a12375b838efdc50f0c980a457ce04ff1b68e40c81774dd06398ec56756efed8de32432ee0c88cc
+desc='GTK+ audio waveform editor. supports multiple formats and filters.'
+
+[deps]
+alsa-lib
+libsndfile
+libsamplerate
+libtdb
+libvorbis
+libmad
+gtk+2
+glib
+
+[build]
+patch -p1 < "$P"/sweep-default-device.patch
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -lgmodule-2.0 -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CPPFLAGS=-D_GNU_SOURCE \
+  ./configure -C $xconfflags \
+  --disable-nls \
+  --with-ogg-includes=$butch_root_dir$butch_prefix/include \
+  --with-vorbis-includes=$butch_root_dir$butch_prefix/include \
+  --disable-speex --disable-oggtest --disable-vorbistest \
+  --prefix="$butch_prefix"
+
+# included libtool version is too old.
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

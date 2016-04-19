@@ -1,0 +1,25 @@
+[deps]
+musl
+kernel-headers
+
+[deps.host]
+pkgconf
+
+[vars]
+filesize=507123
+sha512=3bf6db564359acafa738068980793129982318317bea69f21282d80f40dcb1e16938f8e2928e6cdcc4e77d89b2bc3f6c45aad7eb11ff84063b78e5f8e1907f9e
+desc='packet filter, firewall, routing'
+
+[mirrors]
+http://ftp.netfilter.org/pub/iptables/iptables-1.4.14.tar.bz2
+
+[build]
+patch -p1 < "$P"/iptables-1.4.14-musl-fixes.patch
+patch -p1 < "$P"/iptables-1.4.14-nf-header.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
+LDFLAGS="$optldflags -static" \
+ ./configure -C --prefix="$butch_prefix" $xconfflags --disable-shared
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

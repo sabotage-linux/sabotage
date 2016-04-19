@@ -9,7 +9,7 @@ sha512=00963674f41d12fb231c59813693f7b665924a1b57d9410a7a00de533aa6c5693b3852fbf
 freetype
 
 [build]
-#patch -p1 < "$K"/some.patch
+#patch -p1 < "$P"/some.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

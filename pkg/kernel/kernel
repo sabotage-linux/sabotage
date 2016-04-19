@@ -1,0 +1,90 @@
+[deps.host]
+gcc4
+
+[deps]
+kernel-tarball
+kernel-patches
+
+[vars]
+LINUX_VER=$(cat "$P"/kernel.version)
+tarball=linux-"$LINUX_VER".tar.xz
+
+[build]
+# get into menuconfig using
+# make HOSTCFLAGS="-D_GNU_SOURCE" HOSTLDFLAGS=-lncurses menuconfig
+
+# install regulatory domain database into kernel tree
+# we build it fixed into the kernel so we don't need the bloated "crda" tool
+# to change regulatory domains with iw set reg.
+cp -f "$P"/linux-regdb.txt net/wireless/db.txt
+
+dopatch() {
+	echo "applying patch $1"
+	if ! patch -p1 < "$1" ; then
+		echo "patch failed!"
+		exit 1
+	fi
+}
+
+for p in $(cat "$P"/kernel.patches) ; do
+	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
+done
+
+# work around mismatch between devicename and channel name in 9p virtfs code
+# p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
+dopatch "$P"/linux-virtio9p.patch
+
+# patches to support busybox trap and sed with strict musl BRE engine
+dopatch "$P"/linux-3.18-posix_sed.patch
+# linux 4.3 broke monitor mode on ralink wireless chips
+# https://bugs.kali.org/view.php?id=3028
+dopatch "$P"/linux-4.3-ralink-monitor.patch
+
+export ARCH=$A
+linux_config="$P"/linux.config
+
+if [ -z "$HOSTCC" ] ; then
+	HOSTCC="$CC"
+fi
+
+if [ "$A" = arm ] ; then
+	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
+	linux_config="$linux_config $P/linux.config.armv${ARM_ARCH}l"
+fi
+
+cat "$linux_config" > my.config
+
+make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
+  KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
+
+make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
+  HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
+
+mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules $butch_root_dir/lib/firmware
+
+egrep -q '\=m$' my.config && got_modules=true || got_modules=false
+
+$got_modules && \
+make INSTALL_MOD_PATH=$butch_root_dir DISABLE_PAX_PLUGINS=y modules_install
+
+cp -f System.map $butch_root_dir/boot/
+
+if [ "$A" = arm ] ; then
+	kpath="arch/arm/boot/zImage"
+else
+	kpath="arch/x86/boot/bzImage"
+fi
+cp -f $kpath $butch_root_dir/boot/vmlinuz
+
+# "build" headers into dest/
+# we need to build them after the kernel because grsec assumes this order
+# otherwise some generated headers won't be found
+make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
+  DISABLE_PAX_PLUGINS=y headers_install
+
+# remove junk from kernel headers
+find dest/include \( -name .install -o -name ..install.cmd \) -delete
+
+$got_modules && depmod "$LINUX_VER"
+
+exit 0

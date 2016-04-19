@@ -1,0 +1,30 @@
+[mirrors]
+https://github.com/t6x/reaver-wps-fork-t6x/archive/4032b98.tar.gz
+
+[vars]
+filesize=710570
+sha512=f80ba153a38d66f769901a59bb148b9dc9595e6936d9d228886e6e0aca8df1ed2963fedb47c9c8d75564efc09ef4e715fd6df2e2c2eb72c570e81d5d9ef49f7e
+tarball=reaver_t6x-1.52.4032b98.tar.gz
+tardir=reaver-wps-fork-t6x-4032b98216446fcd1c94a2f46d96d15b234baddf
+desc='cracking tool for WIFI routers with WPS feature'
+
+[deps]
+libpcap
+sqlite
+
+[build]
+patch -p1 < "$P"/reaver_u_char.patch
+patch -p1 < "$P"/reaver_DESTDIR.patch
+
+cd src
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+make V=1 CC="$CC" -j$MAKE_THREADS CONFDIR="$butch_prefix"/var/lib
+make DESTDIR="$butch_install_dir" CONFDIR="$butch_prefix"/var/lib install \
+

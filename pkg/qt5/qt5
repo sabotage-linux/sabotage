@@ -1,0 +1,174 @@
+[mirrors]
+http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.tar.xz
+
+[vars]
+filesize=320459924
+sha512=da91768481aa439a0f85392cfa4c87c59efa40d921867479985fac9beb2cd86be3db8ab66cf064b947f55513dc5712c39e4985907594daac4254aeafd0bad7a5
+
+[deps]
+xcb-util-renderutil
+openssl
+glib
+gst01-plugins-base
+icu
+libjpeg
+libmng
+libpng
+libtiff
+libwebp
+mtdev
+pcre
+sqlite
+ruby
+libxcb
+xcb-util-image
+xcb-util-keysyms
+xcb-util-wm
+xcb-util-image
+librsvg
+harfbuzz
+xkeyboard-config
+
+[build]
+for i in stdin execinfo libressl musl-iconv-no-bom musl-mallinfo musl-pthread_getattr_np musl-resolve musl-siginfo_t musl-socklen musl-sys_errno_h pic ; do
+  p=qt-$i.patch
+  echo applying patch  $p
+  patch -p0 < "$P"/$p
+done
+# fix default size of 2GB for some "executable allocator"
+sed -i 's@#if CPU.*$@#if 0@' qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/ExecutableAllocatorFixedVMPool.cpp
+
+[ -z "$butch_prefix" ] && butch_prefix=/
+debugflags=
+[ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
+
+# Wno-parentheses has no effect...
+QMAKE_CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
+QMAKE_CFLAGS="$optcflags" \
+QMAKE_LDFLAGS="$optldflags" \
+./configure \
+  -prefix "$butch_prefix" \
+  -plugindir "$butch_prefix"/lib/qt5/plugins \
+  -importdir "$butch_prefix"/lib/qt5/imports \
+  -translationdir "$butch_prefix"/share/qt5/translations \
+  -docdir "$butch_prefix"/share/qt5/docs \
+  -sysconfdir "$butch_prefix""/etc/xdg"	\
+  -archdatadir "$butch_prefix"/lib/qt5 \
+  -xkb-config-root "$butch_prefix"/share/X11/xkb \
+  -opensource \
+  -confirm-license \
+  -release \
+  -nomake examples \
+  -openssl-linked \
+  -no-dbus \
+  -no-cups \
+  -no-strip \
+  -no-pch \
+  -no-audio-backend \
+  -no-opengl \
+  -system-libpng \
+  -system-libjpeg \
+  -system-zlib \
+  -system-sqlite \
+  -system-harfbuzz \
+  -system-xcb \
+  -no-optimized-qmake \
+  -skip qtwebengine \
+  -no-libproxy \
+  -no-mtdev \
+  -no-qml-debug \
+  -no-c++11 \
+  -verbose \
+  -no-separate-debug-info
+
+#  -no-rpath \
+#  -system-pcre \
+
+#cd qtbase
+#patch -p1 < "$P"/qt5-fix-compilation-with-libressl.patch
+#cd ../qtwebkit
+#patch -p1 < "$P"/qt5-exclude-backtrace-api-for-non-glibc-libraries.patch
+#cd ..
+
+make -j$MAKE_THREADS
+
+make INSTALL_ROOT="$butch_install_dir" install
+
+# Remove references to the build directory from the installed .pc files by running the following command:
+# TODO: the pkgconfig files are heavily messed up and work by chance
+# FIX EM
+#find "$butch_install_dir"/lib/pkgconfig/ -name "*.pc" -exec perl -pi -e "s, -L$PWD/?\S+,,g" {} \;
+# Remove references to the build directory from installed library dependency (prl) and profile include (pri) files by running the following commands as the root user:
+
+find "$butch_install_dir"/ -name qt_lib_bootstrap_private.pri \
+   -exec sed -i -e "s:$PWD/qtbase:/"$butch_install_dir"/lib/:g" {} \; &&
+
+find "$butch_install_dir"/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+# Install images and create the menu entries for installed applications. The QT5BINDIR variable is used here to point to the directory for the executable programs. If you have changed the bindir above, QT5BINDIR will need to be adjusted below. Be sure that the QT5BINDIR variable is defined in root's environment and as the root user:
+
+QT5BINDIR="$butch_install_dir"/bin
+
+install -v -dm755 "$butch_install_dir"/share/pixmaps/                  &&
+
+install -v -Dm644 qttools/src/assistant/assistant/images/assistant-128.png \
+                  "$butch_install_dir"/share/pixmaps/assistant-qt5.png &&
+
+install -v -Dm644 qttools/src/designer/src/designer/images/designer.png \
+                  "$butch_install_dir"/share/pixmaps/designer-qt5.png  &&
+
+install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
+                  "$butch_install_dir"/share/pixmaps/linguist-qt5.png  &&
+
+install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+                  "$butch_install_dir"/share/pixmaps/qdbusviewer-qt5.png &&
+
+install -dm755 "$butch_install_dir"/share/applications &&
+
+echo '[Desktop Entry]
+Name=Qt5 Assistant 
+Comment=Shows Qt5 documentation and examples
+Exec=$QT5BINDIR/assistant
+Icon=assistant-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Documentation;' > "$butch_install_dir"/share/applications/assistant-qt5.desktop
+
+echo '[Desktop Entry]
+Name=Qt5 Designer
+GenericName=Interface Designer
+Comment=Design GUIs for Qt5 applications
+Exec=$QT5BINDIR/designer
+Icon=designer-qt5.png
+MimeType=application/x-designer;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;' > "$butch_install_dir"/share/applications/designer-qt5.desktop
+
+echo '[Desktop Entry]
+Name=Qt5 Linguist
+Comment=Add translations to Qt5 applications
+Exec=$QT5BINDIR/linguist
+Icon=linguist-qt5.png
+MimeType=text/vnd.trolltech.linguist;application/x-linguist;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;' > "$butch_install_dir"/share/applications/linguist-qt5.desktop
+
+echo '[Desktop Entry]
+Name=Qt5 QDbusViewer 
+GenericName=D-Bus Debugger
+Comment=Debug D-Bus applications
+Exec=$QT5BINDIR/qdbusviewer
+Icon=qdbusviewer-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Debugger;' > "$butch_install_dir"/share/applications/qdbusviewer-qt5.desktop
+
+#ln -s "$butch_install_dir"/mkspecs "$butch_root_dir"/
+
+

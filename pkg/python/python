@@ -1,0 +1,87 @@
+[mirrors]
+https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tar.xz
+http://sources.buildroot.net/Python-2.7.10.tar.xz
+
+[vars]
+filesize=12250696
+sha512=67615a6defbcda062f15a09f9dd3b9441afd01a8cc3255e5bc45b925378a0ddc38d468b7701176f6cc153ec52a4f21671b433780d9bde343aa9b9c1b2ae29feb
+desc='interpreter for the python 2.x scripting language'
+
+[deps]
+musl
+curses
+openssl
+bzip2
+expat
+libffi
+
+[build]
+# work around buggy installer which puts stuff into prefix directly (omitting destdir) when
+# the prefix equals "/"
+[ "$butch_prefix" = "/" ] && butch_prefix=
+
+# python can't deal with prefix= or prefix=/ correctly.
+# it will emit empty PREFIX and EXEC_PREFIX macros into pyconfig.h
+# additionally it searches for stuff only relative to its own binary.
+# this doesn't work well with our symlink relocation strategy.
+patch -p1 < "$P"/python273-pathsearch.patch
+patch -p1 < "$P"/python-xcompile.patch
+patch -p1 < "$P"/python-includedirs.patch
+patch -p1 < "$P"/python2710-curses.patch
+
+sed -i 's@return readline@return feedline@' configure
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --build=$($HOSTCC -dumpmachine)"
+
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC $optcflags" \
+LDFLAGS="$optldflags" ./configure -C --prefix="$butch_prefix" \
+  --with-system-expat --with-system-ffi $xconfflags \
+  ac_cv_lib_readline_rl_callback_handler_install=no \
+  ac_cv_lib_readline_rl_pre_input_hook=no \
+  ac_cv_lib_readline_rl_completion_display_matches_hook=no \
+  ac_cv_lib_readline_rl_completion_matches=no \
+  ac_cv_file__dev_ptmx=yes
+
+if [ -n "$CROSS_COMPILE" ] ; then
+	cp pyconfig.h pyconfig.h.target
+	for i in SIZEOF_LONG SIZEOF_PTHREAD_T SIZEOF_SIZE_T SIZEOF_TIME_T SIZEOF_VOID_P SIZEOF_UINTPTR_T ; do
+		sed -i 's,#define '$i',//,' pyconfig.h
+	done
+	printf "%s\n" 'int main() { printf("%zu\n", sizeof(time_t)); return 0;}' > foo.c
+	$HOSTCC -include time.h -include stdio.h foo.c
+	l=$(./a.out)
+cat << EOF >> pyconfig.h
+#define SIZEOF_LONG __SIZEOF_LONG__
+#define SIZEOF_PTHREAD_T SIZEOF_LONG
+#define SIZEOF_SIZE_T SIZEOF_LONG
+#define SIZEOF_VOID_P SIZEOF_LONG
+#define SIZEOF_UINTPTR_T SIZEOF_LONG
+#define SIZEOF_TIME_T $l
+EOF
+	make Parser/pgen CC="$HOSTCC" -j$MAKE_THREADS
+	cp pyconfig.h.target pyconfig.h
+else
+	make Parser/pgen -j$MAKE_THREADS
+fi
+
+# python does not use the user CFLAGS as last element, so they override our
+# optimization and debug level with their hardcoded one.
+# thus the usage of EXTRA_CFLAGS to get into the last position.
+EXTRA_CFLAGS="$optcflags" make -j$MAKE_THREADS
+
+make DESTDIR="$butch_install_dir" install
+
+# shrinking python's install size from 90+ MB to 40+...
+dest="$butch_install_dir""$butch_prefix"
+# removing duplicate libpython2.7.a which takes 10-17MB depending on CFLAGS
+ln -sf ../../libpython2.7.a "$dest"/lib/python2.7/config/libpython2.7.a
+# removing tests
+for test in sqlite3/test email/test ctypes/test test unittest/test lib-tk/test \
+            bsddb/test json/tests lib2to3/tests distutils/tests tests ; do
+	rm -rf "$dest"/lib/python2.7/"$test"
+done
+# removing precompiled python code
+# this can cause a minimal startup time increase
+find "$dest"/lib/python2.7/ -name '*.pyo' -or -name '*.pyc' -exec rm {} \;
+

@@ -1,0 +1,36 @@
+[mirrors]
+http://www.dest-unreach.org/socat/download/socat-1.7.3.1.tar.bz2
+
+[vars]
+filesize=488467
+sha512=463340f578d4d1d54458b8ef9573ad3eff51dbcc736205e1b62e9a4782770d4bb76e6a07506350fd35405b130660559aaa79dfa2664c53ea268d7d64231f9b32
+desc='swiss army knife of dealing with sockets, pipes and other byte streams'
+
+[deps]
+openssl
+
+[build]
+patch -p0 < "$P"/socat-libressl.patch
+
+[ -n "$CROSS_COMPILE" ] &&
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+
+CFLAGS="-DNETDB_INTERNAL=-1 $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix" $xconfflags \
+            --bindir=/bin \
+            --sbindir=/bin \
+            --enable-help \
+            --disable-readline \
+            --disable-filan \
+
+#            --disable-sycls
+#            --disable-tun \
+#            --disable-udp \
+#            --disable-socks4 \
+#            --disable-socks4a \
+#            --disable-proxy \
+#            --disable-sctp \
+
+make PREFIX="$butch_prefix" -j$MAKE_THREADS all
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install

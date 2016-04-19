@@ -11,8 +11,8 @@ openssl
 libnl-tiny
 
 [build]
-patch -p0 < "$K"/wpa_supplicant25-libressl.patch
-patch -p0 < "$K"/wpa_supplicant25-eloop.patch
+patch -p0 < "$S"/pkg/wpa-supplicant/wpa_supplicant25-libressl.patch
+patch -p0 < "$S"/pkg/wpa-supplicant/wpa_supplicant25-eloop.patch
 cd hostapd
 cp defconfig .config
 

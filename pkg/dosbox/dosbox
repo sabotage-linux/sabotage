@@ -1,0 +1,33 @@
+[mirrors]
+http://heanet.dl.sourceforge.net/project/dosbox/dosbox/0.74/dosbox-0.74.tar.gz
+
+[vars]
+filesize=1265711
+sha512=4a6ff4c658997a495119d200ec6ad37649da940814a4b14fca0dd29a99142026e324695b7aa9d2946efc2abf9067a819d911e43778efe905ed10ddf9b9f2dd3d
+desc='x86/DOS emulator to play the good old games'
+
+[deps.host]
+dynamic-toolchain
+
+[deps]
+sdl
+alsa-lib
+zlib
+libpng
+
+[build]
+patch -p1 < "$P"/dosbox.patch
+patch -p1 < "$P"/dosbox-gcc47.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+printf '#!/bin/sh\nif test x$1 = x--version ; then echo 1.2.15 ; else echo -lSDL -I$butch_root_dir$butch_prefix/include/SDL ; fi\n' > sdl-config
+chmod +x sdl-config
+export PATH="$PWD:$PATH"
+
+CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-opengl
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,24 @@
+[mirrors]
+ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.2.1.tar.xz
+http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.2.1.tar.xz
+
+[vars]
+filesize=282268
+sha512=d49e5c3d2bc1ef22d25b4e38e8043f3cf0bb50ee6d7f7763e512ab8a740031eabb575e8f64fb5122dd97d27e2017b51dd356e112c59c76df3fc4b7fd0457ccf8
+
+[deps]
+
+[build]
+patch -p1 < "$P"/pciutils-io.patch
+patch -p1 < "$P"/pciutils-implicit.patch
+patch -p1 < "$P"/pciutils-pread.patch
+
+make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" SBINDIR="$butch_prefix"/bin \
+  DESTDIR="$butch_install_dir" \
+  -j$MAKE_THREADS all install
+make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" SBINDIR="$butch_prefix"/bin \
+  DESTDIR="$butch_install_dir" \
+  -j$MAKE_THREADS install-lib
+

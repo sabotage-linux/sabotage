@@ -1,0 +1,37 @@
+[vars]
+filesize=2155310
+sha512=ba505b45f84266543cb403752cc3592469545dea806e77bd7b7fec1fbe7ed5baf14372cf6dea840ccbdd054cd0c92cdeb4516eb52b167aca03909000f02aec95
+desc="bloated C++-11 download utility. supports torrents/magnet."
+
+[mirrors]
+http://downloads.sourceforge.net/project/aria2/stable/aria2-1.19.0/aria2-1.19.0.tar.bz2
+
+[deps]
+gnutls
+libnettle
+libgcrypt
+gmp
+libxml2
+
+[deps.host]
+pkgconf
+
+[build]
+patch -p1 < "$P"/aria2-logger.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir --with-libgcrypt-prefix=$butch_root_dir$butch_prefix"
+
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+CPPFLAGS="-DHAVE_GETTIMEOFDAY -DHAVE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_USLEEP -DHAVE_SLEEP" \
+  ./configure  --prefix="$butch_prefix" $xconfflags
+cat << EOF > src/getaddrinfo.h
+#include <netdb.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+EOF
+rm src/libgen.c ; touch src/libgen.c
+make -j$MAKE_THREADS V=1
+make DESTDIR="$butch_install_dir" install

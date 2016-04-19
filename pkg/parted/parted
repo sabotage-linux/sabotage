@@ -1,0 +1,24 @@
+[vars]
+filesize=1655244
+sha512=4e37dbdd6f5032c9ebfec43704f6882379597d038167b9c4d04053efa083c68a705196713864451fa9e11d32777e16c68982877945c5efd9ea5f8252cb20e1c4
+
+[mirrors]
+http://ftp.gnu.org/gnu/parted/parted-3.2.tar.xz
+
+[deps]
+libdevmapper
+libuuid
+
+[build]
+patch -p1 < "$P"/parted-3.2-xfs.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE -Dloff_t=off_t $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-threads=posix       \
+  --disable-shared --disable-nls --without-readline
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

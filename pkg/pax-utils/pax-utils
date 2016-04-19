@@ -1,0 +1,16 @@
+[mirrors]
+http://dev.gentoo.org/~vapier/dist/pax-utils-0.4.tar.xz
+[vars]
+filesize=80300
+sha512=3b9242805a042dc6bf53bfa8355f5f157425a944c49a780ae131642484463aa63cf62959075215cb9dde02b15cdab2210e7ad4f4498dad8218ada9459dbd3be8
+
+[deps]
+libcap2
+
+[build]
+patch -p1 < "$P"/pax-utils-cvs.patch
+#touch man/scanmacho.1
+#CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+make depend
+make -j$MAKE_THREADS
+make PREFIX="$butch_install_dir$butch_prefix" install

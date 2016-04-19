@@ -1,0 +1,207 @@
+[mirrors]
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
+
+[vars]
+filesize=181300248
+sha512=af569b37fd5b0ec9ae772e98192c1597c88be77090e6542892a0567918507f4e7ce46dac1208620d5ab9c47d76c6ab45ebe18b55bc63f7f085271270289660ad
+tardir=mozilla-esr38
+uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
+
+[deps]
+libevent
+gtk+2
+alsa-lib
+zip
+zlib
+libpng
+bzip2
+libxt
+mesalib
+libogg
+libvorbis
+icu
+libvpx
+
+[deps.host]
+yasm
+perl
+python
+
+[build]
+FF_VERSION=38.7.1esr
+export SHELL=/bin/sh
+
+PATCH() {
+	echo "***** $1 *****"
+	patch -p1 < "$P"/"$1"
+}
+
+PATCH firefox-virtualenv.patch
+PATCH firefox-getprotobyname_r.patch
+PATCH firefox-finite.patch
+PATCH firefox-gregor.patch
+PATCH firefox-profiler.patch
+PATCH firefox-hunspell.patch
+
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1041962
+PATCH firefox-31-basename.patch
+
+PATCH firefox38-BLOCK_SIZE.patch
+PATCH firefox38-xul-order.patch
+PATCH firefox38-arm-temp-failure.patch
+
+cat << EOF > mozconfig
+mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
+mk_add_options MOZ_GL_DEFAULT_PROVIDER=NONE
+ac_add_options --disable-dbus
+ac_add_options --disable-necko-wifi
+ac_add_options --disable-libnotify
+ac_add_options --disable-jemalloc
+ac_add_options --disable-replace-malloc
+ac_add_options --disable-wrap-malloc
+
+ac_add_options --disable-profiling
+ac_add_options --disable-shark
+ac_add_options --disable-callgrind
+ac_add_options --disable-vtune
+
+ac_add_options --disable-elf-hack
+
+# this option breaks the build
+#ac_add_options --disable-webspeech
+# disabling ogg as the makefile forgets to add -logg -lvorbis
+#ac_add_options --disable-ogg
+#ac_add_options --disable-opus
+ac_add_options --disable-webgl
+
+
+# GStreamer is necessary for H.264 video playback in HTML5 Video Player;
+# to be enabled, also remember to set "media.gstreamer.enabled" to "true"
+# in about:config. If you have installed GStreamer comment out this line:
+ac_add_options --disable-gstreamer
+
+# Uncomment these lines if you have installed optional dependencies:
+#ac_add_options --enable-system-hunspell
+#ac_add_options --enable-startup-notification
+
+# Uncomment this line if you compiled Cairo with --enable-tee switch and want
+# to use it instead of the bundled one:
+#ac_add_options --enable-system-cairo
+
+# If you have not installed Yasm then uncomment these 3 lines:
+#ac_add_options --disable-webm
+ac_add_options --disable-webrtc
+ac_add_options --disable-libjpeg-turbo
+
+ac_add_options --disable-pulseaudio
+
+# If you have installed xulrunner uncomment the next two ac_add_options lines
+# and check that the sdk will be set by running pkg-config in a subshell
+# and has not become hardcoded or empty when you created this file
+#ac_add_options --with-system-libxul
+#ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
+
+# Comment out following options if you have not installed
+# recommended dependencies:
+#ac_add_options --enable-system-sqlite
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+#ac_add_options --with-system-nspr
+#ac_add_options --with-system-nss
+ac_add_options --with-system-icu
+
+# It is recommended not to touch anything below this line
+ac_add_options --prefix=/$butch_prefix
+ac_add_options --enable-application=browser
+
+ac_add_options --disable-crashreporter
+ac_add_options --disable-installer
+ac_add_options --disable-updater
+ac_add_options --disable-debug
+ac_add_options --disable-tests
+
+ac_add_options --enable-optimize
+ac_add_options --enable-strip
+ac_add_options --enable-install-strip
+ac_add_options --enable-gio
+ac_add_options --enable-official-branding
+ac_add_options --enable-safe-browsing
+ac_add_options --enable-url-classifier
+
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+ac_add_options --with-pthreads
+
+ac_add_options --with-system-bz2
+#ac_add_options --with-system-jpeg
+#ac_add_options --with-system-png
+ac_add_options --with-system-zlib
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
+EOF
+[ -n "$CROSS_COMPILE" ] && \
+  printf "ac_add_options %s\n" "--target=$($CC -dumpmachine)" >> mozconfig
+
+mkdir -p include/sys
+cat << EOF > include/sys/cdefs.h
+#ifndef __P
+#define __P(foo) foo
+#endif
+EOF
+
+find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@g'
+
+# prevent overriding our own CFLAGS with built-in -O3 -g by appending
+sed -i 's@MOZ_OPTIMIZE_FLAGS=@MOZ_OPTIMIZE_FLAGS= #@g' configure
+sed -i 's@MOZ_PGO_OPTIMIZE_FLAGS=@MOZ_PGO_OPTIMIZE_FLAGS= #@g' configure
+sed -i 's@MOZ_DEBUG_FLAGS=@MOZ_DEBUG_FLAGS= #@g' configure
+sed -i 's@HOST_OPTIMIZE_FLAGS=@HOST_OPTIMIZE_FLAGS= #@g' configure
+
+reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
+# on arm binutils 2.24 assertion failure is triggered due to some of the cflags
+# in the default butch config. see issue #186
+[ "$A" = arm ] && \
+allflags="-D_GNU_SOURCE -I$PWD/include -Os -g0 -fno-unwind-tables \
+-fno-asynchronous-unwind-tables -Wa,--noexecstack $reqldf"
+CFLAGS="$allflags" \
+CXXFLAGS="$allflags" \
+make -f client.mk
+
+# TODO: check whether this step is actually necessary
+CFLAGS="$allflags" \
+CXXFLAGS="$allflags" \
+make -C firefox-build-dir/browser/installer
+
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/firefox-"$FF_VERSION" "$dest"/bin \
+  "$dest"/share/applications "$dest"/share/pixmaps
+cp -r firefox-build-dir/dist/firefox/* "$dest"/lib/firefox-"$FF_VERSION"/ \
+
+ln -sf ../lib/firefox-"$FF_VERSION"/firefox-bin "$dest"/bin/
+
+cat << EOF > "$dest"/bin/firefox
+#!/bin/sh
+LD_LIBRARY_PATH="$dest"/lib/firefox-"$FF_VERSION" \
+firefox-bin
+EOF
+chmod +x "$dest"/bin/firefox
+
+cat << EOF > "$dest"/share/applications/firefox.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Firefox Web Browser
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+Exec=firefox %u
+Terminal=false
+Type=Application
+Icon=firefox
+Categories=GNOME;GTK;Network;WebBrowser;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+EOF
+ln -sf ../../lib/firefox-"$FF_VERSION"/browser/icons/mozicon128.png \
+"$dest"/share/pixmaps/firefox.png

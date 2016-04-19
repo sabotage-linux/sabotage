@@ -1,0 +1,49 @@
+[mirrors]
+http://www.weechat.org/files/src/weechat-0.4.1.tar.bz2
+
+[vars]
+filesize=1772500
+sha512=7b8abef303837d0aee61a113163cecb0834c0dd99b736d9c165e18de8bcd37f9a8307984a4c66038a51262ac15286d44bbd2e53b62ed437d410e4df35292a0ed
+
+[deps]
+libgcrypt
+curl
+curses
+
+[build]
+(
+cd src/core
+
+cat << EOF > config.h
+#define WEECHAT_HOME "~/weechat"
+#define WEECHAT_LIBDIR "$butch_prefix/lib"
+#define WEECHAT_SHAREDIR "$butch_prefix/share"
+#define LOCALEDIR "/dev/null/"
+#define PACKAGE_NAME "weechat"
+#define PACKAGE_VERSION "0.4.1"
+#define PACKAGE_STRING PACKAGE_NAME " v" PACKAGE_VERSION
+#define PACKAGE_VERSION_GIT ""
+EOF
+
+touch config-git.h
+
+cp "$P"/weechat.Makefile Makefile
+
+cat << EOF > config.mak
+prefix = $butch_prefix
+CFLAGS += -I. -D_GNU_SOURCE $optcflags
+LDFLAGS += $optldflags -lncurses -lcurl -lgcrypt
+EOF
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+)
+
+# RCB flags needed to compile
+cat << EOF > /dev/null
+//RcB: DEP "*.c"
+//RcB: DEP "../gui/*.c"
+//RcB: DEP "../gui/curses/*.c"
+//RcB: DEP "../plugins/*.c"
+CFLAGS="-DHAVE_CONFIG_H -I."  rcb weechat.c -lncurses -lcurl -lgcrypt
+EOF

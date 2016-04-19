@@ -1,3 +1,0 @@
-[build]
-IS="$K"/bin/install-service
-"$IS" --down --log --force sshd "$K"/services/sshd

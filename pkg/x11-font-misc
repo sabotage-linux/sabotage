@@ -11,7 +11,7 @@ bdftopcf
 font-util
 
 [build]
-#patch -p1 < "$K"/some.patch
+#patch -p1 < "$P"/some.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

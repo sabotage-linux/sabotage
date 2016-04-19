@@ -1,0 +1,29 @@
+[mirrors]
+https://linuxcontainers.org/downloads/lxc-1.1.0.tar.gz
+http://pkgs.fedoraproject.org/repo/extras/lxc/lxc-1.1.0.tar.gz/ab1cbabf859abc15165050c854979c5c/lxc-1.1.0.tar.gz
+[vars]
+filesize=833398
+sha512=1df418ae8a49a36df169191855244500b3b1361ab852a0b0b07ce992fb6e3c914962af81d1555ad5a9cbbc53560be9c4e6db69765b5bd93b3687fde8ca7d53ae
+
+[deps]
+libcap2
+bash
+debootstrap
+rsync
+seccomp
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+CFLAGS="$optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+   ./configure -C --prefix="$butch_prefix" \
+            --bindir="$butch_prefix"/bin \
+            --sbindir="$butch_prefix"/bin \
+            --with-usernic-db=/var/run/lxc/nics \
+            --with-runtime-path=/var/run \
+            $xconfflags
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+install -D -m 660 "$P"/lxc-debian.X.common.conf $butch_install_dir/share/lxc/config/debian.X.common.conf
+install -D -m 750 "$P"/lxc-autodev-X $butch_install_dir/share/lxc/hooks/autodev-debian.X

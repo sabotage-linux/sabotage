@@ -1,0 +1,29 @@
+[mirrors]
+https://www.torproject.org/dist/tor-0.2.7.6.tar.gz
+http://mirror.hackthissite.org/tor/tor-0.2.7.6.tar.gz
+
+[vars]
+filesize=4869754
+sha512=9b0dbfabe6cd05189b179da24bfaa73b89ab237775e3b5b0ebc0a22ee98909e9b13e55841a466f04000e0ff876c15f76515ff46abca28d05eeddbdc52f183afc
+desc='onion router for anonymization of internet traffic'
+
+[deps]
+openssl
+libevent
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS=-D_GNU_SOURCE \
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -static" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags tor_cv_cflags__fPIE=no \
+  --disable-seccomp
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+IS="$K"/bin/install-service
+"$IS" --down --log --force tor "$P"/tor.service

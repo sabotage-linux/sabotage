@@ -1,0 +1,41 @@
+[deps]
+kernel-headers
+
+[mirrors]
+http://downloads.sourceforge.net/project/strace/strace/4.8/strace-4.8.tar.xz
+
+[vars]
+filesize=441712
+sha512=c3316382f60cd4d02eec1eef46a0ef2d000afbccf2c176a6fec652e1b3391685f0e33f184497cb3ccf54d72d460471a4945d3a864fb5bce1f45f32fdf132cfe3
+desc='display system calls (and parameters) of arbitrary programs for debugging'
+
+[build]
+patch -p1 < "$P"/strace-musl.patch
+patch -p1 < "$P"/strace-kernelhdr_3.12.6.patch
+sed -i -e 's/include <linux\/socket.h>/include <sys\/socket.h>/g' configure
+
+archflags=
+if [ "$A" = "arm" ] ; then
+	patch -p1 < "$P"/strace-arm_process.patch
+elif [ "$A" = "mips" ] ; then
+	sed -i 's,sgidefs\.h,asm/sgidefs.h,' defs.h
+elif [ "$A" = "powerpc" ] ; then
+	cp "$S"/pkg/gdb/ppc-regs.h .
+	archflags="-include ppc-regs.h"
+	patch -p1 < "$P"/strace-ppc-defs.patch
+	patch -p1 < "$P"/strace-ppc-signal.patch
+	patch -p1 < "$P"/strace-ppc-syscall.patch
+fi
+
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+
+#CFLAGS="-static $archflags -D_GNU_SOURCE -DHAVE_LONG_LONG_OFF_T -DFPE_FLTUND=5 -DHAVE_SYS_REG_H \
+#-D__sched_priority=sched_priority -Dbool=int -DPTRACE_POKEUSR=PTRACE_POKEUSER \
+#-DMSG_EXCEPT=020000 -Dloff_t=int64_t $optcflags" \
+CFLAGS="$archflags -Dsigcontext_struct=sigcontext $optcflags" \
+LDFLAGS="$optldflags -static" \
+ ./configure -C --prefix="$butch_prefix" \
+ ac_cv_have_long_long_off_t=yes $xconfflags
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

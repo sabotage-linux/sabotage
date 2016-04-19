@@ -1,0 +1,29 @@
+[mirrors]
+http://downloads.sourceforge.net/project/xmms/xmms/1.2.6/xmms-1.2.6.tar.gz
+
+[vars]
+filesize=2855872
+sha512=0b559f66520777e5e92ee6cf05c8fbeb899656c2246f6848cb484f5da70bd4316170eda6eaa96fd596849c152997d8ff939ff47f38a573938fd42e0c6a44c1b2
+
+[deps]
+glib
+pkgconf
+
+[build]
+patch -p1 < "$P"/xmms-configure.patch
+patch -p1 < "$P"/xmms-gtk.patch
+patch -p1 < "$P"/xmms-ir.patch
+patch -p1 < "$P"/xmms-leader_window.patch
+
+mkdir PATH
+printf '#!/bin/sh\npkg-config glib-2.0 $@\n' > PATH/glib-config
+gtkflags=`pkg-config --libs --cflags gtk+-2.0 gthread-2.0`
+printf "#!/bin/sh\nprintf \"$gtkflags -D_GNU_SOURCE -include string.h -include stdlib.h -DGTK_WINDOW_DIALOG=0 -Dgdk_error_warnings=errno\"\n" \
+  > PATH/gtk-config
+chmod +x PATH/glib-config
+chmod +x PATH/gtk-config
+export PATH="$PWD/PATH:$PATH"
+CFLAGS="-D_GNU_SOURCE -include string.h -include stdlib.h -DGTK_WINDOW_DIALOG=0" \
+./configure --prefix="$butch_prefix"
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

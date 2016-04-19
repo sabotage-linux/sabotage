@@ -1,0 +1,20 @@
+[deps]
+bash
+git
+popt
+perl
+
+[build]
+dest="$S/build/efivar-git"
+mkdir -p "$dest"
+if [ -d "$dest/efivar" ]; then
+	cd "$dest/efivar"
+	git pull
+else
+	cd "$dest"
+	git clone -b efivar-0.14 --depth=1 https://github.com/rhinstaller/efivar.git efivar
+	cd efivar
+fi
+patch -p1 < "$P"/efivar-git.patch
+make DESTDIR="$butch_install_dir" includedir="/include" bindir="/bin" libdir="/lib"  install
+ln -s ./libefivar.so.0 "$butch_install_dir"/lib/libefivar.so

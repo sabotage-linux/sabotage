@@ -1,0 +1,27 @@
+[mirrors]
+http://www.midnight-commander.org/downloads/mc-4.8.16.tar.xz
+
+[vars]
+filesize=2387724
+sha512=209a4f92f493d1df5d9976bbd2547b92172270fd35c221e4d4d99630b3530a5cc849bfdff842b47f35e32d215d5af35aadd5cd02bd12567f3736ad4915abb944
+desc='midnight commander - terminal file manager (norton commander clone)'
+
+[deps]
+curses
+glib
+
+[build]
+patch -p1 < "$P"/mc-curses.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" LDFLAGS="$optldflags -lterminfo" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls \
+  --disable-silent-rules \
+  --without-x \
+  --without-gpm-mouse \
+  --with-screen=ncurses
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

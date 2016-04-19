@@ -1,0 +1,44 @@
+[mirrors]
+http://www.musl-libc.org/releases/musl-1.1.14.tar.gz
+
+[vars]
+filesize=894971
+sha512=9016246b44a7e6ef51477f0a246373c79f3e796c70031c3323be1b6c4c0518a2d4578f1aa712adfd9a80cdc1d71918bd7a35855052a0452b854755bf0cc2424e
+desc='the C standard library (libc)'
+
+[deps.host]
+gcc4
+
+[build]
+patch -p1 < "$P"/musl-1.1.14-regex.patch
+./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
+if [ "$A" = "powerpc" ] ; then
+cat << EOF >> config.mak
+LDFLAGS += -Wl,--secure-plt
+CFLAGS += -msecure-plt
+EOF
+fi
+
+# enable debug libc when DEBUGBUILD is set
+[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
+[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS_ALL_SHARED += -O0 -g" >> config.mak
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+[ "$butch_prefix" = "/" ] && butch_prefix=
+dest=$butch_install_dir$butch_prefix
+mkdir -p "$dest"/bin
+ln -sf  ../lib/libc.so "$dest"/bin/ldd
+
+musl_gcc="$dest/bin/musl-gcc"
+
+cp "$P/musl-gcc" "$musl_gcc"
+chmod +x "$musl_gcc"
+sed -i "s,AAAA,$A," "$musl_gcc"
+sed -i "s,PPPP,$butch_prefix," "$musl_gcc"
+
+#create dynlinker path file which only contains /lib
+#this should speed up dynamic linker path search
+mkdir -p "$dest"/etc
+printf "%s\n" "$butch_prefix"/lib > "$dest"/etc/ld-musl-$A.path

@@ -1,0 +1,52 @@
+[mirrors]
+http://download.gimp.org/pub/gimp/v2.8/gimp-2.8.14.tar.bz2
+
+[vars]
+sha512=533f6b931624d36525cb2f3fbc27fe27565d761bbe26873bb5445c06c01523c044d1814363a8cd76b6e381440db4c6e302b0d3f7a9e5aac7f60072770552f1ba
+filesize=20440077
+desc='GNOME image manipulation program'
+
+[deps]
+babl
+gegl
+gtk+2
+glib
+atk
+gdk-pixbuf
+shared-mime-info
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+# with empty prefix, gimp references share/... instead of /share/...
+[ -z "$butch_prefix" ] && butch_prefix=/
+
+# disable the gimp head in the toolbox by default
+patch -p1 < "$P"/gimp-toolbox-wilber.patch
+sed -i 's@^[[:space:]]*-I$(includedir)@@' $(find . -name Makefile.in)
+sed -i 's@^libgimpui = .*$@libgimpui = $(top_builddir)/libgimp/libgimpui-$(GIMP_API_VERSION).la $(top_builddir)/libgimpmodule/libgimpmodule-$(GIMP_API_VERSION).la@' $(find plug-ins/ -name Makefile.in)
+printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
+chmod +x freetype-config
+export PATH="$PWD:$PATH"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags\
+  --mandir="$butch_prefix"/share/man \
+  --disable-python \
+  --disable-alsatest \
+  --disable-nls \
+  --disable-silent-rules \
+  --disable-glibtest \
+  --without-lcms
+#  --with-lcms=lcms2
+
+for i in po po-plug-ins po-python po-libgimp po-script-fu po-tips ; do
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+done
+
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

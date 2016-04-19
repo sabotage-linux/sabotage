@@ -1,0 +1,41 @@
+[mirrors]
+http://w1.fi/releases/wpa_supplicant-2.5.tar.gz
+http://hostap.epitest.fi/releases/wpa_supplicant-2.5.tar.gz
+
+[vars]
+filesize=2607336
+sha512=e3ca36ed10b4dae8f663e98ad230c8c059c952316c21a6b0638ecb1b40a5ef1b9083138ab45207cb764a17e870b4bd0625dd6efdb65856cb4dca13ccc0559e81
+desc='service to support WPA(2) encryption of wireless networks'
+
+[deps]
+libnl-tiny
+openssl
+zlib
+
+[build]
+patch -p1 < "$P"/wpa_supplicant-fflush.patch
+patch -p1 < "$P"/wpa_supplicant-action_script.patch
+patch -p0 < "$P"/wpa_supplicant25-libressl.patch
+patch -p0 < "$P"/wpa_supplicant25-eloop.patch
+cd wpa_supplicant
+cp defconfig .config
+
+CFLAGS="-D_GNU_SOURCE -I$butch_prefix/include/libnl-tiny \
+  -DLIBNL1_COMPAT \
+  -DCONFIG_LIBNL20 \
+  -D__int32_t=int32_t -D__int16_t=int16_t -D__uint8_t=uint8_t \
+  -D__uint32_t=uint32_t -D__uint16_t=uint16_t \
+  -include stdint.h $optcflags" \
+  LDFLAGS="-lz $optldflags" make -j$MAKE_THREADS CONFIG_LIBNL_TINY=y V=1
+make BINDIR=/bin DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 600 "$P"/wpa_supplicant.conf "$dest"/etc/wpa_supplicant.conf
+for m in wpa_background.8 wpa_cli.8 wpa_passphrase.8 wpa_supplicant.8 ; do
+install -D -m 644 doc/docbook/$m "$dest"/share/man/man8/$m
+done
+install -D -m 644 doc/docbook/wpa_supplicant.conf.5 \
+  "$dest"/share/man/man5/wpa_supplicant.conf.5
+
+IS="$K"/bin/install-service
+"$IS" --down --log --force wpa_supplicant "$P"/wpa_supplicant.service

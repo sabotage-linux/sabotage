@@ -1,0 +1,25 @@
+[mirrors]
+http://people.redhat.com/~rjones/portablexdr/files/portablexdr-4.9.1.tar.gz
+
+[vars]
+filesize=354321
+sha512=47f2402e7ed9f2f518e2a45e76e8ad6c4b1e7ae1bd9408ca4dca3d0883697e755460ee64eef405e23b1840ad3b89ad54555bdf59dc8bae3cd8b67086d6ab3b1f
+
+[deps]
+
+[build]
+patch -p1 < "$P"/portablexdr-quad.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+printf '#include <rpc/types.h>\n#include <rpc/xdr.h>\n' \
+  > "$dest"/include/rpc/rpc.h
+ln -s portable-rpcgen "$dest"/bin/rpcgen

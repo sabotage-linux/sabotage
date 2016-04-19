@@ -1,0 +1,24 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/xmms2/xmms2/0.8%20DrO_o/xmms2-0.8DrO_o.tar.bz2
+http://switch.dl.sourceforge.net/project/xmms2/xmms2/0.8%20DrO_o/xmms2-0.8DrO_o.tar.bz2
+
+[vars]
+filesize=1670726
+sha512=478103d80264c0cb32912e828f74d0f5b2f10fe310f530a87ebecda7ca547a69e238cd572788f90bda29494494160d459fa6d1356b4fb87c7a8f0bf02e3b75f8
+
+[deps]
+sqlite
+glib
+
+[deps.host]
+python
+dynamic-toolchain
+
+[build]
+# xmms2's waf is broken: when prefix is empty, it will not install any dso's into /lib
+[ -z "$butch_prefix" ] && butch_prefix=/
+
+patch -p1 < "$P"/xmms2-rtp.patch
+CFLAGS=-D_GNU_SOURCE ./waf configure --prefix="$butch_prefix"
+./waf build -j$MAKE_THREADS
+./waf install --destdir="$butch_install_dir"

@@ -1,0 +1,54 @@
+[mirrors]
+ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.1.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-lib-1.1.1.tar.bz2
+http://alsa.cybermirror.org/lib/alsa-lib-1.1.1.tar.bz2
+http://distfiles.lesslinux.org/alsa-lib-1.1.1.tar.bz2
+http://distfiles.exherbo.org/distfiles/alsa-lib-1.1.1.tar.bz2
+
+[vars]
+filesize=932105
+sha512=dacd0a74adc682ac0034cbeba2de3d1a141e0ac2e564c9e04dae202ffaf87ef3a1e01307afc2fd2d9cfe679e5b101c379f9b6ea5f7ccceeed14a427bd5232bc7
+
+[deps]
+kernel-headers
+
+[build]
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
+
+patch -p1 < "$P"/alsa-lib_mask_inline.patch
+
+sed -i 's,#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE),#if 0,' include/global.h
+
+THIS="$PWD"
+
+debugcflags=
+debugflags=
+if [ "$DEBUGBUILD" = 1 ] ; then
+	debugflags=--with-debug
+	debugcflags="-O0 -g3"
+fi
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+
+# by default alsa-lib uses --with-versioned, which will create 2 sets of functions,
+# one for the old ABI that was deprecated over 10 years ago, and the current one,
+# with versioning symbols. since musl's symlinker previously didn't support
+# symbol versioning at all, the effect was that we got the wrong (old) functions
+# used instead of the new ones, which caused serious breakage.
+# musl now implements the subset of symbol versioning needed to get the default
+# symbol version, so this isn't strictly needed anymore - however using the versioned
+# stuff still bloats up the library with obsolete ancient junk nobody uses.
+
+CFLAGS="-include stdlib.h -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE -Os $debugcflags $optcflags" \
+LDFLAGS="$optldflags" \
+  ./configure -C \
+	 --prefix="$butch_prefix" \
+         --disable-python \
+         --without-versioned \
+         $debugflags $xconfflags
+
+find . -name Makefile -exec sed -i 's,STRIP = strip,STRIP = echo,' "{}" \;
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

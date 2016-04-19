@@ -1,0 +1,23 @@
+[mirrors]
+http://ftp.u-strasbg.fr/securite/lsof/lsof_4.89.tar.bz2
+
+[vars]
+filesize=784560
+sha512=cafb0209143c7863e5cebe7efc33a2520d36f9e26222350e4edfa18debbcfb5c81f42f71469e5913fb21f49a7562bbe761b72dfc8f297dadf75ac619cdcb318c
+desc='lists open files and sockets'
+
+[build]
+tar xf lsof_4.89_src.tar && cd lsof_4.89_src
+
+patch -p1 < "$P"/lsof-rpc-configure.patch
+patch -p1 < "$P"/lsof-Makefile.patch
+patch -p1 < "$P"/lsof-dsock.patch
+
+./Configure -n linux
+
+make -j$MAKE_THREADS CC="$CC" CDEF="$optcflags" \
+  LDFLAGS="$optldflags -static"
+
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 755 lsof "$dest"/bin/lsof && \
+install -D -m 644 lsof.8 "$dest"/share/man/man8

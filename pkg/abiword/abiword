@@ -1,0 +1,27 @@
+[vars]
+filesize=9218827
+sha512=327ffa6da73f7a1b74d1bc374239ac087ee76672da590626da3a068f972684b0963c50641718c39a7fb2429a56c1076bdfd67e8f7f0eab0eda90b70cf846bbbd
+
+[mirrors]
+http://abisource.org/downloads/abiword/2.8.6/source/abiword-2.8.6.tar.gz
+
+[deps]
+librsvg
+goffice
+fribidi
+glib
+wv
+
+[build]
+patch -p1 < "$P"/abiword-png15.patch
+
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+cp -f "$K"/config.sub .
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+   --disable-default-plugins
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+patch -p1 < "$P"/abiword-makefile.patch
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

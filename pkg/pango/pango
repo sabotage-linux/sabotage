@@ -1,0 +1,41 @@
+[mirrors]
+http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.8.tar.xz
+
+[vars]
+filesize=1033528
+sha512=799fad4add3b1ff297bd151a302d6724c5fb0223c9e0f710f97192c024de0175db9a03458e0c18019bdd987b04b5f74737659e113d6b511cf1fc118b9be3c215
+
+[deps]
+glib
+fontconfig
+libstdc++
+libx11
+libxft
+cairo
+harfbuzz
+
+[build]
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
+cp "$P"/pango-querymodules.c pango/querymodules.c
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
+CXXFLAGS="$optcflags" \
+./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-introspection=no FREETYPE_LIBS=-lfreetype
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make -j$MAKE_THREADS V=1
+make DESTDIR="$butch_install_dir" install
+
+if [ -z "$CROSS_COMPILE" ] ; then
+echo query modules
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/etc/pango
+LD_LIBRARY_PATH="$dest"/lib \
+  "$dest"/bin/pango-querymodules prefix="$butch_install_dir" > "$dest"/etc/pango/pango.modules
+else
+	echo "XXXXXXXXXXX WARNING: you must run pango-querymodules in the target rootfs! XXXXXXXXXX"
+fi
+

@@ -1,0 +1,76 @@
+[mirrors]
+http://download.qt-project.org/archive/qt/4.6/qt-everywhere-opensource-src-4.6.4.tar.gz
+
+[vars]
+filesize=160837056
+sha512=3441b74bd7c0f981bed4886abef8934a6193ab9d0a6d31a7d850ea8ff49172295a6d9c8b26893d88748d6f8759e8e0305b8242230e5e8519ffd35b641566621f
+
+[deps]
+libpng
+libmng
+libtiff
+libjpeg
+openssl
+sqlite
+
+[build]
+
+# TODO: add security patches, for example
+# http://qt.gitorious.org/qt/qt/commit/9a982779eabc4fafafe18dc9ad1b44fb2425563c
+# http://qt.gitorious.org/qt/qt/commit/d28c9e9105f4b3f638bfa7492af10ce7d4f1c644
+# and other CA loading patches from 2010-now
+
+for p in socklen tolower libpng15 backspace None gl iconv gcc47 3rdparty linguist ; do
+	patch -p1 < "$P"/qt464-"$p".patch
+done
+
+debugflags=
+[ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
+
+# Wno-parentheses has no effect...
+CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS" \
+./configure \
+  -prefix "$butch_prefix"/ \
+  -plugindir "$butch_prefix"/share/qt4/plugins \
+  -translationdir "$butch_prefix"/share/qt4/translations \
+  -docdir "$butch_prefix"/share/qt4/docs \
+  --opensource \
+  -confirm-license \
+  -release                 \
+  -nomake examples         \
+  -nomake demos            \
+  -no-qt3support $debugflags \
+  -no-dbus \
+  -no-cups \
+  -no-phonon-backend \
+  -no-audio-backend \
+  -no-opengl \
+  -system-libmng \
+  -system-libpng \
+  -system-libjpeg \
+  -system-zlib \
+  -system-sqlite \
+  -no-separate-debug-info
+
+make -j$MAKE_THREADS
+make INSTALL_ROOT="$butch_install_dir" install
+
+cat << EOF > /dev/null
+to debug qt4 strings, we need to paste the following into gdb
+
+define printq4stringdata
+    set $d = ('QString::Data'*) $arg0
+    set $i = 0
+    # abort after a '-1' character, to avoid going on forever when printing a garbage string
+    while $i < $d->size && ($i == 0 || (char)$d->data[$i-1] != -1)
+        printf "%c", (char)($d->data[$i++] & 0xff)
+    end
+    printf "\n"
+end
+define printq4string
+    printq4stringdata ($arg0).d
+end
+
+then use printq4string myqstring
+( taken from https://raw.github.com/wyuka/kdesdk/master/scripts/kde-devel-gdb )
+EOF

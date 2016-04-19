@@ -1,0 +1,87 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.28.tar.xz
+
+[vars]
+filesize=13354884
+sha512=86d563645ca70c1e14afd4b38d925f496e596cbf6181f2e95310f58c2f4152aaecc559e3c513e6d405fcf48d8d413d59a9d72782216529c1280bd8e1947d7760
+
+[deps]
+pango
+cairo
+atk
+gdk-pixbuf
+libx11
+libxext
+libxrender
+libxdamage
+libxcomposite
+libxcursor
+libxrandr
+libxinerama
+
+[deps.host]
+pkgconf
+
+[build]
+patch -p1 < "$P"/gtk-icontheme-fallback.patch
+
+# fixes from LFS: fix messed up makefile when docbook is installed
+sed -i 's#l \(gtk-.*\).sgml#& -o \1#' docs/tutorial/Makefile.in
+sed -i 's#l \(gtk-.*\).sgml#& -o \1#' docs/faq/Makefile.in
+sed -i 's#.*@man_#man_#' docs/reference/gtk/Makefile.in
+
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > gdk/tests/Makefile.in
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > gtk/tests/Makefile.in
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > tests/Makefile.in
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > modules/other/gail/tests/Makefile.in
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > docs/reference/gtk/Makefile.in
+
+# remove obfuscated symbols
+printf '#!/bin/sh\ntrue\n' > gtk/makegtkalias.pl
+for i in gtk/gtkaliasdef.c gtk/gtkalias.h ; do
+        rm -f "$i" && touch "$i"
+done
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix"\
+ --disable-rebuilds  --disable-glibtest \
+ --disable-cups --disable-introspection $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+echo '#include <string.h>' >> config.h
+
+for i in demos tests po po-properties ; do
+  printf 'all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue' \
+    > "$i"/Makefile
+done
+
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/share/doc/gtk+-2.24.10 &&
+cp -R docs/faq/html "$dest"/share/doc/gtk+-2.24.10/faq &&
+cp -R docs/tutorial/html "$dest"/share/doc/gtk+-2.24.10/tutorial &&
+install -m644 docs/*.txt "$dest"/share/doc/gtk+-2.24.10
+
+
+if [ -z "$CROSS_COMPILE" ] ; then
+LD_LIBRARY_PATH="$dest"/lib \
+  "$dest"/bin/gtk-query-immodules-2.0 > "$dest"/etc/gtk-2.0/gtk.immodules
+else
+	echo "XXXXXXX WARNING gtk-query-immodules-2.0 needs to be run on the target rootfs XXXXXXX"
+fi
+
+cat > "$dest"/etc/gtk-2.0/gtkrc << "EOF"
+include "/share/themes/Clearlooks/gtk-2.0/gtkrc"
+gtk-icon-theme-name = "elementary"
+EOF
+
+# add missing pkgconfig dependency
+sed -i 's@gio-2.0@gio-2.0 gmodule-2.0@' "$dest"/lib/pkgconfig/gtk+-x11-2.0.pc
+

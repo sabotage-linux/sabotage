@@ -1,0 +1,27 @@
+[mirrors]
+ftp://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
+http://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
+http://mirror.mcs.anl.gov/pub/linux/utils/raid/mdadm/mdadm-3.2.6.tar.xz
+
+[vars]
+filesize=365196
+sha512=0ad0f71fe2f91b8bdba2daf2beed93c746a7cb0afcd94e8d5a4d092ea61fccc543d332d326b5420645aec141af9e607280897b014824f64b0b59d3ebe57e7a8a
+
+[deps]
+kernel-headers
+
+[build]
+patch -p1 < "$P"/mdadm_h.patch
+patch -p1 < "$P"/mdadm_canonicalize.patch
+
+# -ftree-dce -fdata-sections -ffunction-sections -Wl,--gc-sections
+# is supported by gcc4+, and removes dead code.
+# it's not as efficient as -flto -fwhole-program, but it takes
+# *much* less time to compile.
+# in this specific case, the difference is only 16K but build time
+# with lto is more than 4x slower.
+
+make -j$MAKE_THREADS LDFLAGS="-static -Wl,--gc-sections" STRIP=-s \
+  CXFLAGS="-Os -ftree-dce -fdata-sections -ffunction-sections -Wl,--gc-sections" \
+  CWFLAGS=-Wall \
+  DESTDIR="$butch_install_dir" install

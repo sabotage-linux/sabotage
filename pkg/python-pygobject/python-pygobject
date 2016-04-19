@@ -1,0 +1,20 @@
+[mirrors]
+http://ftp.acc.umu.se/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.6.tar.xz
+[vars]
+filesize=747248
+sha512=37544ea2377258758169b25a2969d5ee1c9ffb9b6e63e05bc7a0471a49ac9169c51ec587d4489172c7d256f53df878a81c1992a08059aa7e43dbbb69f799545c
+
+[deps]
+python
+glib
+gobject-introspection
+python-py2cairo
+
+[build]
+patch -p1 < "$P"/pygobject-2.28.6-introspection-1.patch
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix"
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

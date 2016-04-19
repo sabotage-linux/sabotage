@@ -1,0 +1,25 @@
+[mirrors]
+http://kent.dl.sourceforge.net/project/lxde/LXPanel%20%28desktop%20panel%29/LXPanel%200.5.10/lxpanel-0.5.10.tar.gz
+http://switch.dl.sourceforge.net/project/lxde/LXPanel%20%28desktop%20panel%29/LXPanel%200.5.10/lxpanel-0.5.10.tar.gz
+
+[vars]
+filesize=1330296
+sha512=52985cffeb2db215f8fb77a9b01e5671c285741a2e333f2b4a630d6b514177dbf6f1ab45449787bb058edbe91d74c0176e7408e9df4144f6746700a44b5b5ac7
+
+[deps]
+gtk+2
+glib
+menu-cache
+libwnck
+wireless-tools
+intltool
+
+[build]
+patch -p1 < "$P"/lxpanel-linux.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+CFLAGS="$optcflags -D_GNU_SOURCE -std=gnu89" \
+LDFLAGS="$optldflags -lgmodule-2.0 -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

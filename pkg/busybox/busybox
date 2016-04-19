@@ -1,0 +1,140 @@
+[vars]
+filesize=2186738
+sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837ebc3cc9954deef3e8f766d16a1928aecb2c169fe3de5a722eea7ea3dd
+
+[deps]
+kernel-headers
+
+[deps.host]
+patch
+stage0-musl
+
+[mirrors]
+http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
+
+[build]
+
+if [ "$STAGE" = "0" ] ; then
+	CC="$butch_root_dir"/bin/musl-gcc
+	PATCH="$butch_root_dir"/bin/patch
+else
+	PATCH=patch
+fi
+
+dopatch() {
+	echo "applying patch $1"
+	"$PATCH" -p1 < "$1"
+}
+
+cp "$P"/busybox.stage1.config .config
+dopatch "$P"/busybox.patch
+dopatch "$P"/busybox-blowfish.patch
+dopatch "$P"/busybox-unzip.patch
+dopatch "$P"/busybox-xz-bugfix1.patch
+dopatch "$P"/busybox-xz-bugfix2.patch
+dopatch "$P"/busybox-xz-bugfix3.patch
+dopatch "$P"/busybox-man.patch
+dopatch "$P"/busybox-sed.patch
+dopatch "$P"/busybox-awk-emptyfun.patch
+dopatch "$P"/busybox-awk-int-overflow.patch
+dopatch "$P"/busybox-tar-norecurse.patch
+dopatch "$P"/busybox-tar-xz.patch
+dopatch "$P"/busybox-tar-xz2.patch
+dopatch "$P"/busybox-bzip2bug.patch
+dopatch "$P"/busybox-fdisk-gpt-size.patch
+dopatch "$P"/busybox-fdisk-sector-size.patch
+dopatch "$P"/busybox-ping.patch
+dopatch "$P"/busybox-ping2.patch
+dopatch "$P"/busybox-grep-x.patch
+dopatch "$P"/busybox-sort.patch
+dopatch "$P"/busybox-libbb-make-unicode-printable.patch
+dopatch "$P"/busybox-wget-https.patch
+dopatch "$P"/busybox-cve-2013-1813.patch
+dopatch "$P"/busybox-cve-2014-4607.patch
+dopatch "$P"/busybox-cve-2016-2147.patch
+
+#__inline seems to get activated when -std=gnu99 is used, causing havoc
+sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
+
+if [ ! -z "$DEBUGBUILD" ] ; then
+	debugcflags="-O0 -g"
+	sed -i 's/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/' .config
+	sed -i 's/# CONFIG_DEBUG_PESSIMIZE is not set/CONFIG_DEBUG_PESSIMIZE=y/' .config
+	sed -i 's/CONFIG_NO_DEBUG_LIB=y/# CONFIG_NO_DEBUG_LIB is not set/' .config
+fi
+
+# alternative:
+# make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
+# HOSTCFLAGS=-D_GNU_SOURCE -j$MAKE_THREADS
+
+[ -z "$HOSTCC" ] && HOSTCC="$CC"
+
+make V=1 LDFLAGS=-static HOSTLDFLAGS=-static \
+CFLAGS_busybox="$debugcflags -Wl,-z,muldefs -Werror-implicit-function-declaration" \
+HOSTCC="$HOSTCC -static" CC="$CC -static" HOSTCFLAGS=-D_GNU_SOURCE  -j$MAKE_THREADS
+echo busybox build complete
+
+# make true and false binaries so scripts using it are faster
+# than when using several layers of indirection including a shell
+# script
+cat << EOF > true.c
+int main() { return 0; }
+EOF
+cat << EOF > false.c
+int main() { return 1; }
+EOF
+
+for p in true false ; do
+$CC -static $optcflags "$p".c -o "$p" $optldflags
+done
+# done, continue with "make install" equivalent
+
+dest=$butch_install_dir$butch_prefix
+mkdir -p "$dest"/bin
+
+busybox_bin=busybox
+[ "$DEBUGBUILD" = "1" ] && busybox_bin=busybox_unstripped
+# on armv4tl and mips, the stripped busybox binary is buggy - argv parsing is broken somehow:
+# this manifests when trying to use enter-chroot script which fails.
+#[ "$A" = "arm" ] || [ "$A" = "mips" ] && busybox_bin=busybox_unstripped
+
+echo cp "$busybox_bin" "$dest"/bin/busybox
+cp "$busybox_bin" "$dest"/bin/busybox
+
+echo check if busybox works:
+if [ -z $CROSS_COMPILE ] ; then
+	"$dest"/bin/busybox --list >/dev/null
+fi
+
+trylink() {
+	if [ ! -e bb-link ] ; then
+		printf '#!%s/bin/busybox\n' "$butch_prefix" > bb-link
+		chmod +x bb-link
+	fi
+	printf "trying to link busybox to %s ... " "$1"
+	if ! cp -f bb-link "$1" ; then
+		echo FAIL
+		exit 1
+	else
+		echo OK
+	fi
+}
+
+for f in $($HOSTCC -E -include include/autoconf.h -DMAKE_LINKS include/applets.h | sed -e 's/^LINK BB_DIR_BIN //' -e 's/^LINK BB_DIR_SBIN //' -e 's/LINK BB_DIR_ROOT //' -e '/^#/d' -e '/^}/d' -e '/^[ ]*$/d' | sort -u); do
+	#echo ln -sf busybox "$dest"/bin/"$f"
+	[ ! -f "$butch_root_dir/bin/$f" ] && \
+	  trylink "$dest"/bin/"$f"
+done
+
+ln -sf busybox "$dest"/bin/sh
+
+echo symlinks done.
+
+for p in true false ; do
+	# in case a symlink from one of the above program names to busybox
+	#  already exists, we need to delete it
+	# before copying. otherwise the *busybox binary* gets replaced
+	# through the symlink...
+	rm -f "$dest"/bin/"$p"
+	cp -f "$p" "$dest"/bin/
+done

@@ -1,0 +1,18 @@
+[vars]
+filesize=15057
+sha512=e54fd10c0b1274eb90173aea442f0bfc496f4dda861a36d94f939e1fd835594f9aa12f3d0f90043d64e519d919b9a5273ab65012230ac022f727ee6bb64862e3
+
+[mirrors]
+http://dl.suckless.org/tools/dmenu-4.6.tar.gz
+
+[deps]
+libx11
+libxcb
+libxau
+libxdmcp
+libxinerama
+
+[build]
+cp "$P/dmenu.config.mk" config.mk
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

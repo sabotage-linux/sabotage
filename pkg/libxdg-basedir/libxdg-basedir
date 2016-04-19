@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/devnev/libxdg-basedir/archive/libxdg-basedir-1.2.0.tar.gz
+
+[vars]
+filesize=30159
+sha512=8584405d45e0b57e570666b6eab6d99d70411d00f88965826c9ed0292372385668f190157a10ff536f3a5a59fd0031b332ecbb8a38ac64eda1b04a0603997406
+
+[deps]
+
+[build]
+# cd fails in butch
+cd libxdg-basedir-libxdg-basedir-1.2.0
+
+# add overflow patch, as found in the arch PKGBUILD:
+# https://projects.archlinux.org/svntogit/community.git/tree/trunk/PKGBUILD?h=packages/libxdg-basedir
+patch -Np0 -i "$P"/libxdg-basedir.patch
+
+./autogen.sh --prefix=/
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+
