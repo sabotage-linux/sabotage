@@ -12,7 +12,6 @@ libpng
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
-  --with-harfbuzz=no \
   --with-sysroot=$butch_root_dir"
 printf "#!/bin/sh\necho -lpng15 -I$butch_root_dir$butch_prefix/include/libpng15\n" > libpng-config
 chmod +x libpng-config
@@ -21,7 +20,8 @@ export PATH="$PWD:$PATH"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="-L/lib $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-harfbuzz=no
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
