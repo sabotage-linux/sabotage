@@ -1,0 +1,7 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.7-8.xz
+
+[vars]
+filesize=46188
+sha512=04cf64c02ebc1d9999e3e8fcc39b328ccf998c3e1f580b544a30fd2355ebf453c8aaa26568dd02eac6ea0a87db244dd01df1483ade1510cfad7429eeeb722d3e
+
