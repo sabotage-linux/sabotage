@@ -8,7 +8,6 @@ tardir=OpenXcom-1.0
 tarball=OpenXcom-1.0.tar.gz
 
 [deps]
-ca-certificates
 glu
 libx11
 mesalib
@@ -21,7 +20,6 @@ yaml-cpp
 
 [deps.host]
 cmake
-wget
 
 [build]
 mkdir -p build && cd build

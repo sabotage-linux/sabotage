@@ -9,7 +9,6 @@ desc='service to support WPA(2) encryption of wireless networks'
 
 [deps]
 libnl-tiny
-openssl
 zlib
 
 [build]

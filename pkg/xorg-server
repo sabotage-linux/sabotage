@@ -10,7 +10,6 @@ libxau
 libxdmcp
 libxfont
 mesalib
-openssl
 
 [vars]
 filesize=5806406

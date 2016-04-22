@@ -9,7 +9,6 @@ tardir=libtins-3.2
 
 [deps]
 libpcap
-openssl
 libstdc++
 
 [deps.host]

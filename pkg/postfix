@@ -9,7 +9,6 @@ sha512=06cf4c827de8d613cab6a57a8e76198d293660a263f60d17dd189f511da4b1e12eb98bbcf
 
 [deps]
 db
-openssl
 dovecot
 
 [build]

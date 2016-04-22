@@ -15,7 +15,6 @@ lua
 
 [deps.host]
 python
-wget
 
 [build]
 ./bootstrap.py

@@ -7,7 +7,6 @@ sha512=077c8d821ff3942b7ddad51b4045a6a9aa05b50da58f5446ee2e536dbdffa81018141feea
 
 [deps]
 gnutls
-ca-certificates
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -7,7 +7,6 @@ filesize=1475829
 sha512=d5be60f3645ec238b21e1f2dfd801b2136146674bbc086ebdb14be516c613819bc87c84b5089f3a45fe6e137a7458404f79f42572c69d91571e45ebed9d5e3af
 
 [deps]
-openssl
 sshd-service
 
 [build]

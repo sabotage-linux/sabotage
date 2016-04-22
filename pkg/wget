@@ -5,9 +5,6 @@ http://ftp.gnu.org/gnu/wget/wget-1.17.tar.xz
 filesize=1884628
 sha512=4936dad41580f6ba33df73de041e407cd6dd5266af4af947ebf4c54457f0f296e3462cfff1fb203b27ff5760ec4f6f4d24ea4faceeea461f98c22b031225947f
 
-[deps]
-openssl
-
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \

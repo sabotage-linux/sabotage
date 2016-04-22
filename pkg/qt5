@@ -7,7 +7,6 @@ sha512=da91768481aa439a0f85392cfa4c87c59efa40d921867479985fac9beb2cd86be3db8ab66
 
 [deps]
 xcb-util-renderutil
-openssl
 glib
 gst01-plugins-base
 icu

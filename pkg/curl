@@ -6,8 +6,6 @@ filesize=5924818
 sha512=1e4cc613aa56d3547beff46c3124a6cb3ba5df89da00055df0b27e2ad57beccec33fd80b2b0d0858cf0de45da5ab5cad8345b0f23f0c536a690a5eab7518a3af
 
 [deps]
-openssl
-ca-certificates
 zlib
 
 [build]

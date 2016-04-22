@@ -10,7 +10,6 @@ desc='bittorrent p2p filesharing client'
 gtk+2
 miniupnpc
 libevent
-openssl
 curl
 
 [build]

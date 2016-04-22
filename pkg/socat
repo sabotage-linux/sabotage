@@ -6,9 +6,6 @@ filesize=488467
 sha512=463340f578d4d1d54458b8ef9573ad3eff51dbcc736205e1b62e9a4782770d4bb76e6a07506350fd35405b130660559aaa79dfa2664c53ea268d7d64231f9b32
 desc='swiss army knife of dealing with sockets, pipes and other byte streams'
 
-[deps]
-openssl
-
 [build]
 patch -p0 < "$K"/socat-libressl.patch
 

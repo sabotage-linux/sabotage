@@ -8,7 +8,6 @@ desc='interpreter for the ruby scripting language'
 
 [deps]
 zlib
-openssl
 gdbm
 
 [build]
