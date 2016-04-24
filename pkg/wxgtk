@@ -6,6 +6,7 @@ http://switch.dl.sourceforge.net/project/wxwindows/2.8.12/wxGTK-2.8.12.tar.gz
 [vars]
 filesize=12834260
 sha512=5db19299fd4607c943ceaceaf5ef666d03f6473d09957233055564ed6b2e916383835436c375f65b3ad40be2cbfe7c3ce1f3a52c9a3aa7c86602853667f13847
+uchkurl=https://sourceforge.net/projects/wxwindows/files/
 
 [deps]
 gtk+2
