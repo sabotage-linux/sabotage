@@ -1,16 +1,17 @@
+[mirrors]
+http://distfiles.macports.org/file/file-5.26.tar.gz
+ftp://ftp.astron.com/pub/file/file-5.26.tar.gz
+http://dbg.download.sourcemage.org/fallback/file-5.26.tar.gz
+
 [vars]
-filesize=597347
-sha512=858cae086aaca14381961ea13fd77d4b6c16e8fb7b533c83c828c0797ad1f14be25bb55b05b608727c54251e2b92615e674408b95e07e345dbdd11f1d5cf73f3
+filesize=773061
+sha512=e3251dde54f200b6bcade5db97fda25e73efcb2629ff5c464601c82190e12290b89eb942d820d43aa67ef37be3c0f2db00e7e5c303c083e4a8d1c49499b907dd
 desc='analyzes files and often outputs helpful information'
 
-[mirrors]
-http://distfiles.macports.org/file/file-5.07.tar.gz
-ftp://ftp.astron.com/pub/file/file-5.07.tar.gz
-http://dbg.download.sourcemage.org/fallback/file-5.07.tar.gz
-
 [build]
+cp -f "$K"/config.sub .
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags" \
 CC="$CC -Wl,-static -static-libgcc -static -D_GNU_SOURCE -D_BSD_SOURCE" \
 CFLAGS="$optcflags" \
