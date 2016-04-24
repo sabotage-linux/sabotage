@@ -44,6 +44,7 @@ files <package>           # show files installed by <package>
 mirrors <package>         # print mirrors for <package>
 owner <file>              # print which package owns a <file>
 users <package>           # print packages with <package> for dependency
+deps [<package> ... ]     # print deps of <packages>
 
 checksum <package>        # print checksums of files for a <package>
 checkdownloads            # verify all package download links
@@ -78,6 +79,7 @@ case $1 in
 	printsec) shift; prog=butch-printsec;;
 	mirrors) shift; prog=butch-mirrors;;
 	users) shift; prog=butch-users;;
+	deps) shift; prog=butch-deps;;
 	checksum) shift; prog=butch-checksum;;
 	checkdownloads) shift; prog=butch-checkdownloads;;
 	checktarballs) shift; prog=butch-checktarballs;;
