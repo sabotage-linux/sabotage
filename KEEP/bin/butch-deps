@@ -8,25 +8,55 @@ BEGIN {
 	if (ARGC<2) {
 		error("please provide one or more packages to print the build order for.")
 	}
+	debugmode=ENVIRON["DEBUG"]
+	if(!ENVIRON["DEPS"]) ENVIRON["DEPS"]="all"
+	split(ENVIRON["DEPS"],x,":")
+	for(a in x) {
+		if(x[a]=="all") {
+			DEPTYPES["build"]="deps";
+			DEPTYPES["host"]="deps.host";
+			DEPTYPES["run"]="deps.run";
+			break;
+		} else {
+			DEPTYPES[x[a]]= x[a]=="build"?"deps":"deps." x[a];
+		}
+	}
+	recursion=0
 	for(a=1; a<ARGC; a++) {
 		print_build_order(ARGV[a])
 	}
 }
 
+function eprint(msg) {
+	print msg > "/dev/stderr"
+}
 function error(msg) {
-	print "error: " msg > "/dev/stderr"
+	eprint("error: " msg)
 	exit 1
 }
 
-function print_build_order(pkg,		inDepsSection, dep, pkgFile) {
+function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 	pkgFile=ENVIRON["S"] "/pkg/" pkg
 	if (SEEN[pkg]) {
 		return
 	}
+	recursion++;
+	if(debugmode) {
+		if(debugmode > 1) eprint("< " pkgFile " :")
+		foo=""
+		for(i=0;i<recursion;i++) foo = foo "-"
+		eprint(foo pkg)
+	}
 	while ((r = getline < pkgFile) == 1) {
 		dep=$0
 		if (/\[deps(\.host|\.run)?\]/) {
-			inDepsSection=1
+			inDepsSection=0
+			for(i in DEPTYPES) {
+				if ($0 == "[" DEPTYPES[i] "]") {
+					inDepsSection=1
+					break
+				}
+			}
 			continue
 		}
 		if (/\[/) {
@@ -38,12 +68,13 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile) {
 		print_build_order(dep)
 	}
 	if (r == -1) {
-		error("unable to read from " pkgFile) 
+		error("unable to read from " pkgFile)
 	}
 	if(SEEN[pkg]) {
 		error("circular dependency detected for " pkg ".")
-	} 
+	}
 	print pkg
 	SEEN[pkg]=1
 	close(pkgFile)
+	recursion--
 }
