@@ -1,0 +1,47 @@
+--- busybox-1.24.2.orig/networking/libiproute/libnetlink.c
++++ busybox-1.24.2/networking/libiproute/libnetlink.c
+@@ -72,10 +72,10 @@
+ 	struct sockaddr_nl nladdr;
+ 	struct iovec iov[2] = { { &nlh, sizeof(nlh) }, { req, len } };
+ 	struct msghdr msg = {
+-		(void*)&nladdr, sizeof(nladdr),
+-		iov,  2,
+-		NULL, 0,
+-		0
++		.msg_name = (void*)&nladdr, .msg_namelen = sizeof(nladdr),
++		.msg_iov = iov,  .msg_iovlen = 2,
++		.msg_control = NULL, .msg_controllen = 0,
++		.msg_flags = 0
+ 	};
+ 
+ 	memset(&nladdr, 0, sizeof(nladdr));
+@@ -106,10 +106,10 @@
+ 		struct nlmsghdr *h;
+ 
+ 		struct msghdr msg = {
+-			(void*)&nladdr, sizeof(nladdr),
+-			&iov, 1,
+-			NULL, 0,
+-			0
++			.msg_name = (void*)&nladdr, .msg_namelen = sizeof(nladdr),
++			.msg_iov = &iov,  .msg_iovlen = 1,
++			.msg_control = NULL, .msg_controllen = 0,
++			.msg_flags = 0
+ 		};
+ 
+ 		status = recvmsg(rth->fd, &msg, 0);
+@@ -212,10 +212,10 @@
+ 	struct iovec iov = { (void*)n, n->nlmsg_len };
+ 	char   *buf = xmalloc(8*1024); /* avoid big stack buffer */
+ 	struct msghdr msg = {
+-		(void*)&nladdr, sizeof(nladdr),
+-		&iov, 1,
+-		NULL, 0,
+-		0
++		.msg_name = (void*)&nladdr, .msg_namelen = sizeof(nladdr),
++		.msg_iov = &iov,  .msg_iovlen = 1,
++		.msg_control = NULL, .msg_controllen = 0,
++		.msg_flags = 0
+ 	};
+ 
+ 	memset(&nladdr, 0, sizeof(nladdr));
