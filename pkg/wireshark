@@ -1,9 +1,9 @@
 [mirrors]
-http://www.wireshark.org/download/src/all-versions/wireshark-1.10.2.tar.bz2
+http://www.wireshark.org/download/src/all-versions/wireshark-1.12.11.tar.bz2
 
 [vars]
-filesize=26667284
-sha512=fd2ad466b122e2044718d8b42d0b323293d2e7fe04af700a1e94d00c720f78ba664e9cdb9a7fb35a13a6f7d99d81e4345482ee8d98b7538972a3f23250a44702
+filesize=29307302
+sha512=4752a56386bebab951044309381e736ed1e1bb5a7ea852d2e382be56493bd429d90f60868cd2914c43498dd1e0a2a26c350e3926383f2b75683fa3c16400f053
 desc='sniff, decrypt, analyze and visualize network traffic'
 
 [deps]
@@ -34,7 +34,8 @@ export PATH="$PWD:$PATH"
 CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags -Werror=implicit-function-declaration" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --with-qt=no --with-gtk2=yes --with-gtk3=no
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
