@@ -1,0 +1,8 @@
+[vars]
+filesize=40096
+sha512=2752812457c5ddc9507c1a4be4c3a0d848cd9113ba3bbd2efe5107fdfd794ef9857ce3015d608dacc3d8c1cd4382605c2432c31074b28b30f16fb9b43063c2b0
+versionstr=$(cat "$K"/ubase.version)
+
+[mirrors]
+http://git.suckless.org/ubase/snapshot/ubase-"$versionstr".tar.bz2
+
