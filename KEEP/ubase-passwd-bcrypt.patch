@@ -1,0 +1,63 @@
+diff -u -r ubase_before/passwd.c ubase/passwd.c
+--- ubase_before/passwd.c	2016-04-25 15:33:45.175988938 +0000
++++ ubase/passwd.c	2016-04-28 20:41:33.928452534 +0000
+@@ -18,6 +18,18 @@
+ #include "text.h"
+ #include "util.h"
+ 
++#include <sys/syscall.h>
++
++static int getrandom(void *buf, size_t buflen, unsigned int flags) {
++	return syscall(SYS_getrandom, buf, buflen, flags);
++}
++static void bfsalt(unsigned char buf[22]) {
++	static const char dict[]="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
++	getrandom(buf, 22, 0);
++	unsigned i;
++	for(i=0; i<22; i++) buf[i] = dict[buf[i] % (sizeof(dict)-1)];
++}
++
+ static FILE *
+ spw_get_file(const char *user)
+ {
+@@ -137,7 +149,9 @@
+ main(int argc, char *argv[])
+ {
+ 	char *cryptpass1 = NULL, *cryptpass2 = NULL, *cryptpass3 = NULL;
+-	char *inpass, *p, *salt = PW_CIPHER, *prevhash = NULL;
++	char *inpass, *p, *prevsalt = NULL, *prevhash = NULL;
++	char salt[30] = "$2a$08$";
++	unsigned char buf[22] = {0};
+ 	struct passwd *pw;
+ 	struct spwd *spw = NULL;
+ 	FILE *fp = NULL;
+@@ -188,9 +202,9 @@
+ 			goto newpass;
+ 		}
+ 		if (pw->pw_passwd[0] == 'x')
+-			prevhash = salt = spw->sp_pwdp;
++			prevhash = prevsalt = spw->sp_pwdp;
+ 		else
+-			prevhash = salt = pw->pw_passwd;
++			prevhash = prevsalt = pw->pw_passwd;
+ 	}
+ 
+ 	printf("Changing password for %s\n", pw->pw_name);
+@@ -199,7 +213,7 @@
+ 		eprintf("getpass:");
+ 	if (inpass[0] == '\0')
+ 		eprintf("no password supplied\n");
+-	p = crypt(inpass, salt);
++	p = crypt(inpass, prevsalt);
+ 	if (!p)
+ 		eprintf("crypt:");
+ 	cryptpass1 = estrdup(p);
+@@ -207,6 +221,8 @@
+ 		eprintf("incorrect password\n");
+ 
+ newpass:
++	bfsalt((unsigned char*)salt+7);
++
+ 	inpass = getpass("Enter new password: ");
+ 	if (!inpass)
+ 		eprintf("getpass:");
