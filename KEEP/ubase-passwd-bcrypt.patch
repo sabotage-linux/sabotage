@@ -12,26 +12,6 @@ diff -u -r ubase_before/config.def.h ubase/config.def.h
  #undef UTMP_PATH
  #define UTMP_PATH	"/var/run/utmp"
  #undef BTMP_PATH
-Only in ubase: config.h
-Only in ubase/libutil: agetcwd.o
-Only in ubase/libutil: agetline.o
-Only in ubase/libutil: apathmax.o
-Only in ubase/libutil: concat.o
-Only in ubase/libutil: ealloc.o
-Only in ubase/libutil: eprintf.o
-Only in ubase/libutil: estrtol.o
-Only in ubase/libutil: estrtoul.o
-Only in ubase/libutil: explicit_bzero.o
-Only in ubase/libutil: passwd.o
-Only in ubase/libutil: proc.o
-Only in ubase/libutil: putword.o
-Only in ubase/libutil: recurse.o
-Only in ubase/libutil: strlcat.o
-Only in ubase/libutil: strlcpy.o
-Only in ubase/libutil: strtonum.o
-Only in ubase/libutil: tty.o
-Only in ubase: libutil.a
-Only in ubase: passwd
 diff -u -r ubase_before/passwd.c ubase/passwd.c
 --- ubase_before/passwd.c	2016-04-25 15:33:45.175988938 +0000
 +++ ubase/passwd.c	2016-04-25 20:03:34.924832252 +0000
@@ -117,4 +97,3 @@ diff -u -r ubase_before/passwd.c ubase/passwd.c
  	inpass = getpass("Enter new password: ");
  	if (!inpass)
  		eprintf("getpass:");
-Only in ubase: passwd.o
