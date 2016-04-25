@@ -1,0 +1,19 @@
+[deps.host]
+dynamic-toolchain
+
+[deps]
+ubase-tarball
+
+[vars]
+versionstr=$(cat "$K"/ubase.version)
+tarball=ubase-"$versionstr".tar.bz2
+
+[build]
+patch -p 1 < "$K"/ubase-passwd-bcrypt.patch
+make -j$MAKE_THREADS \
+ PREFIX="$butch_prefix" \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags -static" \
+ passwd
+install -Dm 6755 passwd "$butch_install_dir""$butch_prefix"/bin/passwd
+
