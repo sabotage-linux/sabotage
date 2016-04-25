@@ -1,0 +1,17 @@
+[deps.host]
+dynamic-toolchain
+
+[deps]
+ubase-tarball
+
+[vars]
+versionstr=$(cat "$K"/ubase.version)
+tarball=ubase-"$versionstr".tar.bz2
+
+[build]
+sed -i 's@^\(PREFIX = *\).*@\1'"$butch_prefix"'@' config.mk
+sed -i 's@^\(CFLAGS * = *\).*@\1'"$optcflags"'@' config.mk
+sed -i 's@^\(LDFLAGS * = *\).*@\1'"$optldflags"' -static@' config.mk
+make -j$MAKE_THREADS passwd
+install -Dm 6755 passwd "$butch_install_dir""$butch_prefix"/bin/passwd
+
