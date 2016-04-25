@@ -33,6 +33,7 @@ rebuild [<package> ... ]  # rebuild already installed <packages>
 
 relink <package>          # create symlinks for an unlinked <package>
 unlink <package>          # remove symlinks to a specific <package>
+rm [<package> ... ]       # completely remove installed <packages>
 genfilelist <package>     # create filelist for <package>
 
 pack [--method] <package> # create a binary archive of <package>
@@ -85,6 +86,7 @@ case $1 in
 	checktarballs) shift; prog=butch-checktarballs;;
 	dlinfo) shift; prog=butch-dlinfo;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
+	rm) shift; prog=butch-rm;;
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	update) export BUTCH_SKIPLIST=gcc3:stage0:stage0_musl:stage0_gcc:stage0_prepare:"$BUTCH_SKIPLIST" ;;
 	install|prefetch|rebuild) : ;;
