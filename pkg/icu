@@ -27,6 +27,7 @@ if [ -n "$CROSS_COMPILE" ] ; then
 fi
 
 cd source
+[ -z "$CXX" ] && export CXX=g++
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" $xconfflags \
