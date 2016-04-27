@@ -16,6 +16,7 @@ if [ x"$A" = xmips ] ; then
   optldflags=$(printf "%s" "$optldflags"|sed 's/-flto//g')
   optcflags=$(printf "%s" "$optcflags"|sed 's/-flto//g')
 fi
+sed -i 's@sbin@bin@' Makefile
 make CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" \
      LDFLAGS="$optldflags -static" PREFIX="$butch_prefix" -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
