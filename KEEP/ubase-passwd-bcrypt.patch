@@ -1,59 +1,55 @@
 diff -u -r ubase_before/config.def.h ubase/config.def.h
 --- ubase_before/config.def.h	2016-04-25 15:33:45.172988937 +0000
-+++ ubase/config.def.h	2016-04-25 20:01:07.801824588 +0000
-@@ -2,7 +2,9 @@
++++ ubase/config.def.h	2016-04-27 19:24:17.313710492 +0000
+@@ -2,7 +2,6 @@
  
  #define ENV_SUPATH	"/bin"
  #define ENV_PATH	"/bin"
 -#define PW_CIPHER	"$6$"	/* SHA-512 */
-+#define PW_CIPHER	"$2a$08$"
-+#define STRLEN_BF_INTRO 7
-+#define SALT_LEN	22
  #undef UTMP_PATH
  #define UTMP_PATH	"/var/run/utmp"
  #undef BTMP_PATH
 diff -u -r ubase_before/passwd.c ubase/passwd.c
 --- ubase_before/passwd.c	2016-04-25 15:33:45.175988938 +0000
-+++ ubase/passwd.c	2016-04-25 20:03:34.924832252 +0000
-@@ -18,6 +18,21 @@
++++ ubase/passwd.c	2016-04-27 19:27:42.642721187 +0000
+@@ -2,6 +2,7 @@
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include <sys/syscall.h>
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+@@ -18,6 +19,16 @@
  #include "text.h"
  #include "util.h"
  
-+static ssize_t
-+readall(int fd, void *buf, size_t len)
-+{
-+	size_t count = 0;
-+
-+	while (count<len) {
-+		int i = read(fd, (char *)buf+count, len-count);
-+		if (!i) break;
-+		if (i<0) return i;
-+		count += i;
-+	}
-+
-+	return count;
++static int getrandom(void *buf, size_t buflen, unsigned int flags) {
++	return syscall(SYS_getrandom, buf, buflen, flags);
++}
++static void bfsalt(unsigned char buf[22]) {
++	static const char dict[]="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
++	getrandom(buf, 22, 0);
++	unsigned i;
++	for(i=0; i<22; i++) buf[i] = dict[buf[i] % (sizeof(dict)-1)];
 +}
 +
  static FILE *
  spw_get_file(const char *user)
  {
-@@ -137,11 +152,14 @@
+@@ -137,7 +148,10 @@
  main(int argc, char *argv[])
  {
  	char *cryptpass1 = NULL, *cryptpass2 = NULL, *cryptpass3 = NULL;
 -	char *inpass, *p, *salt = PW_CIPHER, *prevhash = NULL;
 +	char *inpass, *p, *prevsalt = NULL, *prevhash = NULL;
-+	char salt[STRLEN_BF_INTRO + SALT_LEN + 1] = "$2a$08$";
-+	char libbuf[4096];
++	char salt[27] = "$2a$08$";
++	unsigned char buf[22] = {0};
++	unsigned i;
  	struct passwd *pw;
  	struct spwd *spw = NULL;
  	FILE *fp = NULL;
- 	int r = -1, status = 1;
-+	int len = SALT_LEN;
- 
- 	ARGBEGIN {
- 	default:
-@@ -188,9 +206,9 @@
+@@ -188,9 +202,9 @@
  			goto newpass;
  		}
  		if (pw->pw_passwd[0] == 'x')
@@ -65,7 +61,7 @@ diff -u -r ubase_before/passwd.c ubase/passwd.c
  	}
  
  	printf("Changing password for %s\n", pw->pw_name);
-@@ -199,14 +217,29 @@
+@@ -199,7 +213,7 @@
  		eprintf("getpass:");
  	if (inpass[0] == '\0')
  		eprintf("no password supplied\n");
@@ -74,25 +70,12 @@ diff -u -r ubase_before/passwd.c ubase/passwd.c
  	if (!p)
  		eprintf("crypt:");
  	cryptpass1 = estrdup(p);
- 	if (strcmp(cryptpass1, prevhash) != 0)
+@@ -207,6 +221,9 @@
  		eprintf("incorrect password\n");
  
--newpass:
-+newpass:;
-+	int i = open("/dev/urandom", O_RDONLY);
-+	readall(i, libbuf, len*6);
-+	close(i);
-+
-+	for (i=0; i<len; i++) {
-+		int bitpos = i*6, bits = bitpos/8;
-+
-+		bits = ((libbuf[i]+(libbuf[i+1]<<8)) >> (bitpos&7)) & 0x3f;
-+		bits += 46;
-+		if (bits > 57) bits += 7;
-+		if (bits > 90) bits += 6;
-+
-+		salt[STRLEN_BF_INTRO+i] = bits;
-+	}
+ newpass:
++	bfsalt(buf);
++	for(i=0; i<22; i++) salt[i+7] = buf[i];
 +
  	inpass = getpass("Enter new password: ");
  	if (!inpass)

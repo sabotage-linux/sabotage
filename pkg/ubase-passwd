@@ -9,6 +9,7 @@ versionstr=$(cat "$K"/ubase.version)
 tarball=ubase-"$versionstr".tar.bz2
 
 [build]
+# attention: a random salt will only be generated if the getrandom syscall is available
 patch -p 1 < "$K"/ubase-passwd-bcrypt.patch
 make -j$MAKE_THREADS \
  PREFIX="$butch_prefix" \
