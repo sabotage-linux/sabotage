@@ -112,10 +112,16 @@ elif [ "$mode" = diff ] ; then
 	[ $? != 0 ] && exit 1
 	sha=$(url2sha "$chkurl")
 	[ -e "$store/$sha".new ] || exit 1
+	skip=false
 	if [ -e "$store/$sha" ] ; then
-		diff -uw $store/$sha $store/$sha.new|sed 's/'$sha'/'$1'/g'
+		diff -uw $store/$sha $store/$sha.new | sed 's/'$sha'/'$1'/g' \
+		| grep '^+' | tee $store/$sha.diff
+		sed -i '/^+++/d' $store/$sha.diff
+		test $(get_filesize $store/$sha.diff) -gt 1 || skip=true
+		rm -f $store/$sha.diff
 	fi
-	mv "$store/$sha".new "$store/$sha"
+	$skip || mv "$store/$sha".new "$store/$sha"
+	$skip && rm -f "$store/$sha".new
 elif [ "$mode" = db ] ; then
 	chkurl=$(get_chkurl "$1")
 	[ $? != 0 ] && exit 1
