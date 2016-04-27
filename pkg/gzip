@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.gnu.org/gnu/gzip/gzip-1.7.tar.xz
+http://ftp.gnu.org/gnu/gzip/gzip-1.8.tar.xz
 
 [vars]
-filesize=764056
-sha512=e28f23738f0d2936773d9b50ea9e46c59945e227a90ca7d8e953fb5a774b8692a3341b744320e924da2d5825117dab730affce506f6fc8e65f0af372f3082539
+filesize=728116
+sha512=efd3e2439476054badeb127d9156e24e9252129111219f13fd939596c057b2a96291630b2717181984b391abf249ac8699488bbd01ceeb8a70b121c500b10c55
 
 [deps]
 zlib
