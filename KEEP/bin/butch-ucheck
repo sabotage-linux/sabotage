@@ -96,6 +96,7 @@ elif [ "$mode" = san ] ; then
 	| grep -v -e '\.rpm$' -e '\.asc$' -e '\.sha1$' -e '\.sha256$' \
 	  -e '\.sha256sum$' -e '\.md5$' -e '\.news$' -e '\.changes$' \
 	  -e '\.sign$' -e '\.sig$' -e '\.deb$' -e '\.7z$' \
+	  -e '\.readme$' -e '\.meta$' -e '\.txt$' \
 	| sort -u \
 	> $store/$sha.new
 	rm $store/$sha.html
