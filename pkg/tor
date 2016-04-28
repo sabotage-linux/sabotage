@@ -25,5 +25,5 @@ LDFLAGS="$optldflags -static" \
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/install-service
+IS="$K"/butch/butch-install-service
 "$IS" --down --log --force tor "$K"/services/tor

@@ -22,5 +22,5 @@ cmake $xconfflags -DCMAKE_INSTALL_PREFIX="$butch_prefix" .
 make VERBOSE=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/install-service                                               
+IS="$K"/butch/butch-install-service                                               
 "$IS" --down --log --force h2o "$K"/services/h2o

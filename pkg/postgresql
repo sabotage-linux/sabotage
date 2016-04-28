@@ -31,5 +31,5 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/install-service
+IS="$K"/butch/butch-install-service
 "$IS" --down --log --force postgres "$K"/services/postgres
