@@ -1,10 +1,10 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.7.1esr/source/firefox-38.7.1esr.source.tar.bz2
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/38.8.0esr//source/firefox-38.8.0esr.source.tar.bz2
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.8.0esr/source/firefox-38.8.0esr.source.tar.bz2
 
 [vars]
-filesize=181300248
-sha512=af569b37fd5b0ec9ae772e98192c1597c88be77090e6542892a0567918507f4e7ce46dac1208620d5ab9c47d76c6ab45ebe18b55bc63f7f085271270289660ad
+filesize=181198635
+sha512=fcd2497a60176b8403a1793d1ad0a1c96a0a60217c2d4d7acd0506abf6810892bd51fd113d8f952f92b20032efc539a6b1233d8d124c2eb72d726b0935c04d65
 tardir=mozilla-esr38
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 
@@ -29,7 +29,7 @@ perl
 python
 
 [build]
-FF_VERSION=38.7.1esr
+FF_VERSION=38.8.0esr
 export SHELL=/bin/sh
 
 PATCH() {
