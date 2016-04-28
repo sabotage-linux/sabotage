@@ -1,0 +1,8 @@
+[mirrors]
+ftp://sourceware.org/pub/java/ecj-4.5.jar
+
+[vars]
+filesize=1470676
+sha512=d4e1bf7538ace56e3d69fa91da5bbd16c272923b4de0a9d8dee23ea2b75f9f38c603de72fc4061df49285c450b63f3df211cee5270e9fffc5447445d1a9c9e4e
+desc='eclipse java compiler modified to be usable by gcc as gcj backend'
+

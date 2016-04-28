@@ -37,6 +37,9 @@ patch -p1 < "$K"/gcc473-powerpc-libc-stack-end.patch
 patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
 patch -p1 < "$K"/gcc474-libssp_nonshared.patch
 patch -p1 < "$K"/gcc474-libgcc_fixver.patch
+patch -p1 < "$K"/gcc4-boehm-gc.patch
+patch -p1 < "$K"/gcc4-gcj-musl.patch
+patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
@@ -117,6 +120,12 @@ if [ -n "$CROSS_COMPILE" ] ; then
 	xconfflags="--host=$machine --target=$machine $GCC_ARCH_CONFIG_FLAGS"
 	export GCC_FOR_TARGET="$CC"
 fi
+
+extralangs=
+extrainst=
+[ "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
+&& cp -f "$C"/ecj-4.5.jar ./ecj.jar
+
 export CC="$CC -static -D_GNU_SOURCE"
 
 CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" \
@@ -136,7 +145,7 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
   --enable-lto \
   --with-system-zlib \
   --with-target-libiberty=no --with-target-zlib=no \
-  --enable-languages=c,c++ --enable-clocale=generic \
+  --enable-languages=c,c++$extralangs --enable-clocale=generic \
   $config_arch_flags $xconfflags
 
 
@@ -147,7 +156,7 @@ make -j1 DESTDIR="$butch_install_dir" \
   install-lto-plugin \
   install-target-libgcc \
   install-target-libssp \
-  install-target-libstdc++-v3
+  install-target-libstdc++-v3 $extrainst
 
 dest=$butch_install_dir$butch_prefix
 
@@ -189,3 +198,11 @@ ln -sf g++ "$dest"/bin/g++-$VERSION
 
 rm "$butch_install_dir""$butch_prefix"/lib/*.la
 
+if test "$option_java" = 1 ; then
+	ln -sf gcj "$dest"/bin/gcj-$VERSION
+	GCJ=$dest/bin/gcj
+	[ -n "$CROSS_COMPILE" ] && GCJ=gcj
+	$GCJ -Wl,-Bsymbolic -findirect-dispatch -o $dest/bin/javac \
+	--main=org.eclipse.jdt.internal.compiler.batch.Main "$C"/ecj-4.5.jar \
+	-lgcj || echo "WARNING: optimized javac not created" >&2
+fi
