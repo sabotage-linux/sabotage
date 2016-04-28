@@ -27,6 +27,11 @@ dopatch() {
 }
 
 for p in $(cat "$K"/kernel.patches) ; do
+	kpatch="$C"/kernel-patch-"$p".xz
+	[ -e "$kpatch" ] || {
+		echo "error: kernel patch $kpatch not found"
+		exit 1
+	}
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
 done
 
