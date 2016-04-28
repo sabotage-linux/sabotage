@@ -36,11 +36,12 @@ for pkg ; do
 if [ -e "$R$butch_staging_dir/$pkg" ] ; then
 	butch unlink "$pkg" > /dev/null
 	rm -rf "$R$butch_staging_dir/$pkg"
-	fl="$butch_filelists"/"$pkg".txt
-	rm -f "$fl"
-	sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
 	echo "$pkg: removed."
 else
 	echo "$pkg: not installed."
 fi
+fl="$butch_filelists"/"$pkg".txt
+rm -f "$fl"
+sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
+
 done
