@@ -9,6 +9,8 @@ tardir=gcc-3.4.6
 http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2
 
 [build]
+# do not rebuild stage0 packages once we're past that stage
+test "$STAGE" = "0" || exit 0
 VERSION=3.4.6
 patch -p1 < "$K"/gcc-346-unwind2.patch
 patch -p1 < "$K"/gcc-346-unlink.patch
