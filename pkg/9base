@@ -65,4 +65,5 @@ do
   fi
 done
 
+cp "$K"/ssam "$butch_install_dir""$butch_prefix"/bin
 ln -sf troff "$butch_install_dir""$butch_prefix"/bin/nroff
