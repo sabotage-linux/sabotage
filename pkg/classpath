@@ -1,0 +1,30 @@
+[mirrors]
+ftp://ftp.gnu.org/gnu/classpath/classpath-0.99.tar.gz
+
+[vars]
+filesize=11078232
+sha512=d8f38677ecc6a0f4b26197ab16e9888c51043364141675ad69684828e2d0ecb93122249672e2e7997aea817cc4aac68c17ccf59bf8913afe81e9536bee6b73ac
+
+[deps]
+gcc474.java
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+[ -z "$GCJ" ] && GCJ=gcj
+[ -z "$JAVAC" ] && export JAVAC="$GJC -Wno-all -Wno-unchecked -Wno-raw \
+  -Wno-allDeadCode -Wno-compareIdentical -Wno-serial -C"
+extraflags=--disable-gtk-peer
+test "$option_gtk" = 1 && extraflags=
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-gconf-peer ac_cv_prog_java_works=yes --without-gjdoc \
+  --disable-Werror \
+  --disable-gjdoc --disable-examples --disable-xmlj \
+  --disable-dependency-tracking
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
