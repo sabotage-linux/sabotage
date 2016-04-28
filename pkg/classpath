@@ -14,7 +14,7 @@ gcc474.java
   --with-sysroot=$butch_root_dir"
 
 [ -z "$GCJ" ] && GCJ=gcj
-[ -z "$JAVAC" ] && export JAVAC="$GJC -Wno-all -Wno-unchecked -Wno-raw \
+[ -z "$JAVAC" ] && export JAVAC="$GCJ -Wno-all -Wno-unchecked -Wno-raw \
   -Wno-allDeadCode -Wno-compareIdentical -Wno-serial -C"
 extraflags=--disable-gtk-peer
 test "$option_gtk" = 1 && extraflags=
