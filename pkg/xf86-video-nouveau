@@ -1,15 +1,23 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.12.tar.bz2
+
+[vars]
+filesize=599816
+sha512=dd3be4b89d4b39f02b7cbf058be90e6777adc61a580c0987e737056ff85ed2685e7d6a7848b2c7ab8957810e057d7693c5dd2c425f88609670e02ea8368d77e9
+
 [deps]
 xproto
 libx11
+libdrm
 xorg-server
 
-[vars]
-filesize=580019
-sha512=61118a57c3918b516d250fdba917cc32d85576aa46fe84b4632e6cb1cd0e00dba76cd36667d66821361d75ddd6cc1c91a7f4d13ce0bce79e1ff2f19297474de1
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.9.tar.bz2
 [build]
-./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
