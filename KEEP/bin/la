@@ -1,3 +1,0 @@
-#!/bin/sh
-# busybox shell doesn't seem to implement "alias"
-ls -la "$@"
