@@ -1,0 +1,29 @@
+[mirrors]
+http://downloads.sourceforge.net/project/jamvm/jamvm/JamVM%202.0.0/jamvm-2.0.0.tar.gz
+
+[vars]
+filesize=741459
+sha512=8ac27787ee94fa8fde962635d3c08d1dc1e5244c9d56bb693e73f3fd9b58e944ad3f7a0127afeed727d7c00d904a775d2c483157f5ac87e7eab6ecade1aad21d
+desc='lightweight java vm (needed to run java programs)'
+
+[deps]
+classpath
+
+[build]
+#patch -p1 < "$K"/some.patch
+cp -f src/os/darwin/i386/init.c src/os/linux/i386/init.c
+cp -f src/os/darwin/i386/init.c src/os/linux/x86_64/init.c
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-classpath-install-dir="$butch_prefix"
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
