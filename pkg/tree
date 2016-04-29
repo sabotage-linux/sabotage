@@ -1,15 +1,15 @@
 [mirrors]
-http://mama.indstate.edu/users/ice/tree/src/tree-1.6.0.tgz
+http://mama.indstate.edu/users/ice/tree/src/tree-1.7.0.tgz
 
 [vars]
-filesize=42706
-sha512=2a72de62b14f194dd4902901facbf44551d6fa6a5f00bb5461ee2c99de277744d8c8032d931513a9f339bfbd98f86bf20acb64b8ea684a1e90544a242272010f
+filesize=47082
+sha512=b234fb1428ba75da72d7e4aeb24bf961e123332342593e441b29a0baa2270d12bb187d889c179d6463c940c8dce9fe9dffeb4ad3f06cf11f057b83234d7b4b4a
 desc='terminal app to display filesystem hierarchy in a tree structure'
 
 [deps]
 
 [build]
-$CC $optcflags -static tree.c unix.c html.c xml.c hash.c color.c -o tree $optldflags
+$CC $optcflags -static tree.c unix.c html.c xml.c hash.c color.c json.c -o tree $optldflags
 dest="$butch_install_dir""$butch_prefix"
 install -D tree "$dest"/bin/tree
 install -D doc/tree.1 "$dest"/share/man/man1/tree.1
