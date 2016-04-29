@@ -43,7 +43,7 @@ sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
 
 
-$K/bin/libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 case "$A" in
   arm) echo "error: gcc 3.4.6 does not support EABI!" ; exit 1 ;;

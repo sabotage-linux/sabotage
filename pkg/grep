@@ -12,7 +12,7 @@ xz
 gettext
 
 [build]
-GNULIB_CPPFLAGS=$("$K"/bin/gnulibfix lib)
+GNULIB_CPPFLAGS=$("$K"/gnulibfix lib)
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags $GNULIB_CPPFLAGS" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
