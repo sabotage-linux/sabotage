@@ -11,9 +11,6 @@ libxaw
 libxft
 curses
 
-[mirrors]
-ftp://invisible-island.net/xterm/xterm-318.tgz
-
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
