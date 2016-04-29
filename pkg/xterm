@@ -22,6 +22,10 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --mandir=/share/man \
   --enable-256-color \
   --enable-wide-chars \
+  --disable-tek4014 \
+  --disable-active-icon \
+  --disable-builtin-xpms \
+  --without-xpm \
   ac_cv_header_lastlog_h=no cf_cv_path_lastlog=no $xconfflags
 cat <<EOF >>ptyx.h
 #ifndef HACKY_HACKY_GETPT
