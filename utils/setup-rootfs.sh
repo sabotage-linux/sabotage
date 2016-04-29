@@ -19,7 +19,7 @@ mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 
 cd "$R"
 mkdir -p boot bin dev etc home lib mnt proc root share srv src sys tmp var
-mkdir -p src/logs var/log/sshd var/log/crond var/log/dmesg
+mkdir -p src/logs src/build var/log/sshd var/log/crond var/log/dmesg
 mkdir -p var/empty var/service var/lib var/spool/cron/crontabs
 
 # usr and sbin are a mistake
@@ -27,6 +27,8 @@ ln -sfn . usr
 ln -sfn bin sbin
 
 ln -sfn ../tmp var/tmp
+
+chmod 775 src/build
 chmod 1777 tmp
 chmod 700 root
 
