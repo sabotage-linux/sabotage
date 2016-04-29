@@ -1,3 +1,4 @@
 [build]
 $CC $optcflags -std=gnu99 -o man "$K"/man.c -static $optldflags
 install -D -m 755 man "$butch_install_dir""$butch_prefix"/bin/man
+install -D -m 755 "$K"/manpp "$butch_install_dir""$butch_prefix"/bin/manpp
