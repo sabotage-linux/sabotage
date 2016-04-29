@@ -37,5 +37,5 @@ done
 install -D -m 644 doc/docbook/wpa_supplicant.conf.5 \
   "$dest"/share/man/man5/wpa_supplicant.conf.5
 
-IS="$K"/bin/install-service
+IS="$K"/bin/butch-install-service
 "$IS" --down --log --force wpa_supplicant "$K"/services/wpa_supplicant

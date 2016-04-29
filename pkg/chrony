@@ -18,5 +18,5 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 install -D -m 644 examples/chrony.conf.example "$butch_install_dir"/"$butch_prefix"/etc/chrony.conf
 
-IS="$K"/bin/install-service
+IS="$K"/bin/butch-install-service
 "$IS" --down --log --force chrony "$K"/services/chrony

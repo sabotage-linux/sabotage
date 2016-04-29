@@ -1,5 +1,5 @@
 [build]
-IS="$K"/bin/install-service
+IS="$K"/bin/butch-install-service
 "$IS" --log --force crond "$K"/services/crond
 "$IS" --force dmesg "$K"/services/dmesg
 "$IS" --force tty1 "$K"/services/tty1

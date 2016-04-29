@@ -36,5 +36,5 @@ make DESTDIR="$butch_install_dir" install
 install -D -m 644 "$K"/dovecot.conf \
   "$butch_install_dir""$butch_prefix"/etc/dovecot/dovecot.conf
 
-IS="$K"/bin/install-service
+IS="$K"/bin/butch-install-service
 "$IS" --down --log --force dovecot "$K"/services/dovecot

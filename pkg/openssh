@@ -46,7 +46,7 @@ make -j$MAKE_THREADS
 #the sshd service will create the keys on service prereqs
 make DESTDIR="$butch_install_dir" install-nokeys
 
-IS="$K"/bin/install-service
+IS="$K"/bin/butch-install-service
 "$IS" --down --log --force openssh "$K"/services/openssh
 
 dest="$butch_install_dir""$butch_prefix"
