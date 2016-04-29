@@ -31,6 +31,8 @@ install [<package> ... ]  # build and install <packages>
 download [<package> ... ] # download tarballs required by <packages>
 rebuild [<package> ... ]  # rebuild already installed <packages>
 
+install-service <args>    # install runit system service
+
 relink <package>          # create symlinks for an unlinked <package>
 unlink <package>          # remove symlinks to a specific <package>
 rm [<package> ... ]       # completely remove installed <packages>
@@ -85,6 +87,7 @@ case $1 in
 	checkdownloads) shift; prog=butch-checkdownloads;;
 	checktarballs) shift; prog=butch-checktarballs;;
 	dlinfo) shift; prog=butch-dlinfo;;
+	install-service) shift; prog=butch-install-service;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	rm) shift; prog=butch-rm;;
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
