@@ -21,3 +21,4 @@ ethtool
 [ -n "$CROSS_COMPILE" ] && export CC="$CC -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 make -j$MAKE_THREADS
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
+cp "$K"/aircrack-ng-frontend "$butch_install_dir""$butch_prefix"/bin

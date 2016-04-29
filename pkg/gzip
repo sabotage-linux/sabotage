@@ -9,7 +9,7 @@ sha512=efd3e2439476054badeb127d9156e24e9252129111219f13fd939596c057b2a96291630b2
 zlib
 
 [build]
-"$K"/bin/gnulibfix lib
+"$K"/gnulibfix lib
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 CPPFLAGS="-Drpl_fdopendir=fdopendir -DS_IRWXUGO=0777 -DO_BINARY=0" \

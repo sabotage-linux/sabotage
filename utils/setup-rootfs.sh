@@ -33,10 +33,23 @@ chmod 1777 tmp
 chmod 700 root
 
 cp -r "$K"/etc/* "$R"/etc/
-cp -r "$K"/bin/* "$R"/bin/
 cp -r "$K"/boot/* "$R"/boot/
 cp -r "$K"/share/* "$R"/share/
 chmod 0600 "$R"/etc/shadow
 
+cp "$K"/runsvdir-start "$R"/bin
+cp "$K"/cryptmount "$R"/bin
+cp "$K"/dhclient "$R"/bin
+
 echo nameserver 8.8.8.8 > "$R"/etc/resolv.conf
+
+cat << 'EOF' > "$R"/bin/la && chmod +x "$R"/bin/la
+#!/bin/sh
+ls -la "$@"
+EOF
+
+cat << 'EOF' > "$R"/bin/lat && chmod +x "$R"/bin/lat
+#!/bin/sh
+ls -lat $@
+EOF
 

@@ -10,7 +10,7 @@ dynamic-toolchain
 [build]
 patch -p1 < "$K"/coreutils-xcompile.patch
 # by default gnulib builds 230 of 389 C-files.
-GNULIB_CPPFLAGS=$("$K"/bin/gnulibfix lib)
+GNULIB_CPPFLAGS=$("$K"/gnulibfix lib)
 dir=$PWD
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 FORCE_UNSAFE_CONFIGURE=1 \

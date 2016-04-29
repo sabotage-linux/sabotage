@@ -27,7 +27,7 @@ sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linu
 sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-eabi.h
 sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-elf.h
 
-$K/bin/libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 archflags=
 [ -n "$GCC_ARCH_CONFIG_FLAGS" ] && archflags="$GCC_ARCH_CONFIG_FLAGS"

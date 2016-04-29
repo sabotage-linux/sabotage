@@ -39,5 +39,5 @@ if [ ! -f  "$dest"/etc/postfix/main.cf ] ; then
 	EOF
 fi
 
-IS="$K"/bin/install-service
+IS="$K"/butch/butch-install-service
 "$IS" --down --log --force postfix "$K"/services/postfix
