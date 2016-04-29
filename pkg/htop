@@ -1,9 +1,9 @@
 [mirrors]
-http://hisham.hm/htop/releases/1.0.3/htop-1.0.3.tar.gz
+http://hisham.hm/htop/releases/2.0.1/htop-2.0.1.tar.gz
 
 [vars]
-filesize=399306
-sha512=4c5c784b093bcad06eb2e8d8bb215e14f6e838a3d47d8da8402344c270c1724f85d0bcde2899571ba5d0e5a02274a0c3390a76fed61785b2604b51351f08f232
+filesize=477196
+sha512=57991a55b69028c01549b067ec749099466df5b08a0ed9a65dd779e6d2c8ee0a5d9c330bb6c727b04a349146ad441b7115718e433d1f8232f74b28903fb351ff
 
 [deps]
 curses
