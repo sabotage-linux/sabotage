@@ -1,12 +1,12 @@
+[mirrors]
+https://github.com/tmux/tmux/releases/download/1.9a/tmux-1.9a.tar.gz
+http://distfiles.macports.org/tmux/tmux-1.9a.tar.gz
+
 [vars]
 filesize=447938
 sha512=842984638dc1f7364c03393187379598f35679d535d911d5df4016944d6032e61a1bf840d7d339c6e99b30c55581d470acca85ab6ee5799b8927d18c0e9a91df
+uchkurl=https://github.com/tmux/tmux/releases/
 desc='terminal multiplexer, similar to GNU screen but with more features'
-
-[mirrors]
-http://prdownloads.sourceforge.net/tmux/tmux-1.9a.tar.gz
-http://kent.dl.sourceforge.net/project/tmux/tmux/tmux-1.9/tmux-1.9a.tar.gz
-http://switch.dl.sourceforge.net/project/tmux/tmux/tmux-1.9/tmux-1.9a.tar.gz
 
 [deps]
 libevent
