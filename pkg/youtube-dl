@@ -1,9 +1,9 @@
 [mirrors]
-http://youtube-dl.org/downloads/2015.12.29/youtube-dl-2015.12.29.tar.gz
+http://youtube-dl.org/downloads/2016.04.24/youtube-dl-2016.04.24.tar.gz
 
 [vars]
-filesize=1863530
-sha512=15bef247acca28f29c798bda8413155c8985e0f2ffc8be35ec539de95710747c2c6af4304286eebb21cb0d6932d4d0d51f5a0e581d479d9fec5dc930e01b7e6e
+filesize=2084276
+sha512=b30b01eb9100a30ce792283e1598f5f2058a56a90d1a1f0359efb79ca2d360dff4f525a3b906d777d4e09e046e3e21ed0342b29bf90c42be6321fc77a303ee42
 tardir=youtube-dl
 
 [deps]
