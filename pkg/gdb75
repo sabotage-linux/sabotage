@@ -32,7 +32,7 @@ patch -p1 < "$K"/gdb-76-pid_t.patch
 # fix mips build ...
 cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
 
-libibertyfix libiberty
+"$K"/libibertyfix libiberty
 
 cp -f "$K"/config.sub .
 

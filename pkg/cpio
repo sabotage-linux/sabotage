@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/cpio/cpio-2.11.tar.bz2
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
-gl_cflags=$("$K"/bin/gnulibfix gnu)
+gl_cflags=$("$K"/gnulibfix gnu)
 CPPFLAGS="-D_GNU_SOURCE $gl_cflags" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
