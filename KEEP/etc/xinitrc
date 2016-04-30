@@ -3,6 +3,6 @@
 # if you use xfbdev, use the evdev rules/model - do not use it for Xorg.
 #setxkbmap -rules evdev -model evdev
 #setxkbmap -layout de -rules evdev -model evdev -variant nodeadkeys
-
+type xrdb >/dev/null 2>&1 && test -e ~/.Xresources && xrdb -load ~/.Xresources
 # this will automatically start lxde. if you do not want this, start xterm oslt
 exec startlxde
