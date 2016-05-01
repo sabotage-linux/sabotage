@@ -1,0 +1,35 @@
+[mirrors]
+http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/f2fs-tools-1.6.1.tar.gz
+http://distro.ibiblio.org/quirky/quirky6/sources/alphabetical/f/f2fs-tools-1.6.1.tar.gz
+
+[vars]
+filesize=73428
+sha512=715d37507312d994612fb2b2f177656e3752fbd2f6145f0049e60ffca701eae923bb9939d716caceb3f680755516de954093173fdbf72fc84f8048f792b406ec
+desc='utilities for the f2fs filesystem'
+
+[deps]
+e2fsprogs
+autoconf
+automake
+libtool
+m4
+pkgconf
+
+[build]
+#libuuid required, provided by either e2fsprogs or util-linux
+#pkgconf or pkg-config
+
+#want to compile statically:
+echo 'mkfs_f2fs_LDFLAGS = -all-static' >> mkfs/Makefile.am
+echo 'fsck_f2fs_LDFLAGS = -all-static' >> fsck/Makefile.am
+
+if [ -n "$CROSS_COMPILE" ];then
+ xconfflags="--host=$($CC -dumpmachine)"
+else
+ xconfflags="--build=$($CC -dumpmachine)" #ex: x86_64-pc-linux-gnu
+fi
+
+autoreconf --install
+LDFLAGS="$optldflags -static" ./configure --prefix="$butch_prefix" $xconfflags --disable-shared --enable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
