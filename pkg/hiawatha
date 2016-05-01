@@ -46,5 +46,5 @@ sed -i 's/#ServerId = www-data/ServerId = www-data/' config/hiawatha.conf
 make DESTDIR="$butch_install_dir" install
 
 # install the service
-IS="$K"/bin/butch-install-service
+IS="$K"/butch/butch-install-service
 "$IS" --down --log --force hiawatha "$K"/services/hiawatha

@@ -35,5 +35,5 @@ mv "$BUTCH_BIN" "$BUTCH_BIN"-core
 dest=$butch_install_dir$butch_prefix
 mkdir -p "$dest"/bin
 cp -f "$BUTCH_BIN"-core "$dest"/bin/butch-core
-
+cp "$K"/butch/* "$dest"/bin
 

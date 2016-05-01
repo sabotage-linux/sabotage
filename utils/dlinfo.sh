@@ -1,1 +1,1 @@
-../KEEP/bin/butch-dlinfo
+../KEEP/butch/butch-dlinfo
