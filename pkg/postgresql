@@ -11,7 +11,7 @@ uchkurl=http://ftp.postgresql.org/pub/source/
 python
 
 [deps]
-openssl
+libressl
 libxml2
 libxslt
 readline

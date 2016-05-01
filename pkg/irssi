@@ -14,7 +14,7 @@ perl
 
 [deps]
 glib
-openssl
+libressl
 zlib
 curses
 

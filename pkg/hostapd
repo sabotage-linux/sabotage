@@ -7,7 +7,7 @@ sha512=bbb0547c29f4925aff8639cae3291ed020c2a9d989dd267be831b2418880916d2ec69003e
 
 [deps]
 zlib
-openssl
+libressl
 libnl-tiny
 
 [build]

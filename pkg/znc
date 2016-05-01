@@ -7,7 +7,7 @@ desc='IRC bouncer'
 http://znc.in/releases/archive/znc-1.4.tar.gz
 
 [deps]
-openssl
+libressl
 
 [build]
 patch -p1 < "$K"/znc.patch

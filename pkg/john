@@ -9,7 +9,7 @@ tardir=JohnTheRipper-1.8.0.6-jumbo-1
 desc='password hash cracker'
 
 [deps]
-openssl
+libressl
 
 [build]
 #patch -p1 < "$K"/some.patch

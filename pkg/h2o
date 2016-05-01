@@ -8,7 +8,7 @@ tardir=h2o-1.7.0
 tarball=h2o-1.7.0.tar.gz
 
 [deps]
-openssl
+libressl
 
 [deps.host]
 cmake
