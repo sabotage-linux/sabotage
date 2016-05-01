@@ -1,10 +1,15 @@
 # 
 # /etc/fstab: static file system information
 #
+# the 'pass' column decides whether we want to run fsck automatically on a fs
+# set to 0 to skip check, and >0 for the order in which fs are checked
+# usually one sets root fs to 1 and others to 2 to check them in parallel.
+
 # <file system>        <dir>         <type>    <options>          <dump> <pass>
 proc                   /proc         proc      defaults            0      0
 devpts                 /dev/pts      devpts    defaults            0      0
 shm                    /dev/shm      tmpfs     nodev,nosuid        0      0
+/dev/root              /             ext4      defaults            0      1
 #example for use with squash read-only root built with squash-tool
 #/dev/sda2             /rw           btrfs     defaults            0      0
 #/rw/var               /var          none      defaults,bind       0      0
