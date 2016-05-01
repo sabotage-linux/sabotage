@@ -1,4 +1,5 @@
 [deps]
+sabotage-core
 services
 stage0-gcc
 stage0-musl
