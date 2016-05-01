@@ -38,6 +38,8 @@ else
 	rw=false
 fi
 
+cryptmount -M # make encrypted devices from /etc/crypttab available
+
 $rw && mount -o remount,ro /
 fsck -A -T -C -p
 mkdir -p /dev/shm /dev/pts
@@ -45,7 +47,6 @@ $rw && mount -o remount,rw /
 
 swapon -a
 
-cryptmount -M # make encrypted devices from /etc/crypttab available
 mount -a # mount stuff from /etc/fstab
 
 if touch "$rwtest" 2>/dev/null; then
