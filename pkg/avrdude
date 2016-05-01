@@ -1,0 +1,20 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/avrdude/avrdude-6.3.tar.gz
+
+[vars]
+filesize=909744
+sha512=b671008388d6a552e71066fec46429bc7f6639e8eac41113bcbba5a56212b78be31fcf04956b31e11c6b14888b0f6e825f7458395b9ff4fc28406074c7ded2b2
+
+[deps.host]
+flex
+bison
+
+[deps]
+libelf
+libusbx
+readline
+
+[build]
+./configure -C --prefix="$butch_prefix"
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
