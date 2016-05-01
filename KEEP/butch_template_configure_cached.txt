@@ -85,7 +85,7 @@ butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
 butch_package_version=0.0.0
 
 # if we unlink these packages nothing will work anymore
-for i in butch busybox coreutils gcc454 gcc424 gcc447 gcc463 gcc464 gcc472 gcc473 gcc474 gcc485 gcc493 gcc520 binutils musl-git musl sed make grep ; do
+for i in butch busybox coreutils gcc454 gcc424 gcc447 gcc463 gcc464 gcc472 gcc473 gcc474 gcc485 gcc493 gcc520 gcc530 binutils musl-git musl sed make grep ; do
 	[ "$butch_package_name" = "$i" ] && butch_do_cleanup_custom_destdir=false
 done
 
