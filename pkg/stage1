@@ -1,4 +1,5 @@
 [deps]
+sabotage-core
 kbd
 9base
 busybox
