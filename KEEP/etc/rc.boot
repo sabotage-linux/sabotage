@@ -38,6 +38,12 @@ else
 	rw=false
 fi
 
+# make /dev/root symlink in case kernel root bootparam was set
+test -e /dev/root || {
+	dv=$(sed -n 's,.*root=\(/dev/[sh]d[a-z][0-9]\).*,\1,p' < /proc/cmdline)
+	test -n "$dv" && test -e "$dv" && ln -s "$dv" /dev/root
+}
+
 cryptmount -M # make encrypted devices from /etc/crypttab available
 
 $rw && mount -o remount,ro /
