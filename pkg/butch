@@ -34,6 +34,9 @@ mv "$BUTCH_BIN" "$BUTCH_BIN"-core
 # "make install"
 dest=$butch_install_dir$butch_prefix
 mkdir -p "$dest"/bin
-cp -f "$BUTCH_BIN"-core "$dest"/bin/butch-core
+install -Dm 755 "$BUTCH_BIN"-core "$dest"/bin/butch-core
+for i in $(ls "$K"/bin/butch*); do
+	install -Dm 755 "$i" "$dest"/bin/$(basename "$i")
+done
 
 
