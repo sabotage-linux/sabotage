@@ -1,0 +1,7 @@
+[deps]
+stage1
+core
+xorg
+pkg
+world
+f2fs-tools
