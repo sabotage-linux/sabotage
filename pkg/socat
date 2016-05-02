@@ -7,7 +7,7 @@ sha512=463340f578d4d1d54458b8ef9573ad3eff51dbcc736205e1b62e9a4782770d4bb76e6a075
 desc='swiss army knife of dealing with sockets, pipes and other byte streams'
 
 [deps]
-openssl
+libressl
 
 [build]
 patch -p0 < "$K"/socat-libressl.patch

@@ -84,7 +84,14 @@ The `enter-chroot` script automatically handles this scenario.
 
 	$ ./build-stage0        # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz
 	$ ./enter-chroot
-	$ butch install stage1	# ... longer yet. 
+
+Once inside the chroot, you may decide between installing `stage1` or `stage2`:
+
+	$ butch install stage1	# Installs core system + build chain
+	$ butch install stage2  # Installs stage1 + libressl
+
+If `libressl` is present, `wget` will be HTTPS-enabled. This will allow butch to
+download packages via HTTPS protocol.
 
 Older pre-3.8 Linux systems will not support the rootless chroot approach used
 by `./enter-chroot`.
@@ -205,8 +212,7 @@ Space considerations are a top issue, both bandwidth and HD image size.
 Sabotage ISOs and images ship with all tarballs to fulfill the GPL.
 ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
 
-Please do not use HTTPS or FTP mirrors.
-Busybox wget does not support HTTPS.  FTP is a broken, ancient protocol.
+Please do not use FTP mirrors. FTP is a broken, ancient protocol.
  
 Downloads from git or other source repositories are not desired.
 This would add an internet connection as a build-time dependency.

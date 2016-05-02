@@ -8,7 +8,7 @@ sha512=9b0dbfabe6cd05189b179da24bfaa73b89ab237775e3b5b0ebc0a22ee98909e9b13e55841
 desc='onion router for anonymization of internet traffic'
 
 [deps]
-openssl
+libressl
 libevent
 
 [build]

@@ -6,7 +6,7 @@ filesize=5345872
 sha512=90d98996e75353ae631c1e2da2520cc340928f427276c757316714892d7b281745284bf4cb30459eecdb9c96b7d9450eb6801e002e6acafc8669deb2b5e65a81
 
 [deps]
-openssl
+libressl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
