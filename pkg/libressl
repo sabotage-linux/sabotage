@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.6.tar.gz
-http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.6.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.7.tar.gz
+http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.2.7.tar.gz
 
 [vars]
-filesize=2965531
-sha512=41e29431ad9e8b18e2dbc30fe9df1d7be3ca372d5d7757b5b01f8904515bafd5333446957fbc9874f64f384dae56cf6bf29d6808a7c0df1836b55ea64804a4bf
+filesize=2958862
+sha512=562394e84903c5b121da21cb3f45744df80b06d8717efc5567a6f663d1dcb8dd2bf505db7ab78ea83c9223a62c1bc541bf6c905720d73410bff352a63f5f8fc1
 desc="tls and crypto library. replaces openssl"
 
 [deps]
