@@ -1,0 +1,28 @@
+[mirrors]
+http://www.littlesvr.ca/asunder/releases/asunder-2.8.tar.bz2
+
+[vars]
+filesize=269472
+sha512=54f606e10a27cc73aa5c0f1dc74a2df87020562fb74f14ad7030dd1b5f4ab1a4f42477c7d23b5285a7b0cba00f75929f444bc63e18e8da545c3cbdd2c3330ebe
+desc="Asunder is a graphical CD ripper and encoder"
+
+[deps]
+gtk+2
+flac
+lame
+libcddb
+libcdio
+libcdio-paranoia
+libvorbis-aotuv
+vorbis-tools
+
+[build]
+#actually, i am not sure if libcdio-paranoia can be used instead of cdparanoia.
+
+CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+

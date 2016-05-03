@@ -43,7 +43,7 @@ giflib
 libmad
 libtiff
 libogg
-libvorbis
+libvorbis-aotuv
 libtheora
 lame
 libvpx
@@ -54,8 +54,13 @@ xvid
 a52dec
 flac
 audiofile
+vorbis-tools
+libcddb
+libcdio
+libcdio-paranoia
 ffmpeg
 mplayer
+asunder
 openbox
 obconf
 bluefish
