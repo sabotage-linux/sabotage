@@ -4,6 +4,7 @@ coreutils-cut
 core
 xorg
 pkg
+libtool
 xclip
 xprop
 xrandr
@@ -50,6 +51,9 @@ libwebp
 x264
 x265
 xvid
+a52dec
+flac
+audiofile
 ffmpeg
 mplayer
 openbox
