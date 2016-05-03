@@ -1,0 +1,64 @@
+#!/bin/awk -f
+BEGIN {
+	if (!ENVIRON["BUTCHDB"]) {
+		error("$BUTCHDB not set")
+	}
+	if (!ENVIRON["BUTCHBINDIR"]) {
+		error("$BUTCHBINDIR not set")
+	}
+	while ((r = getline < ENVIRON["BUTCHDB"]) == 1) {
+		INSTALLED[$1] = 1
+	}
+	close(ENVIRON["BUTCHDB"])
+}
+function eprint(msg) {
+        print msg > "/dev/stderr"
+}
+function error(msg) {
+        eprint("error: " msg)
+        exit 1
+}
+function get_deps(pkg,   var) {
+	if(!GOTDEPS[pkg]) {
+		command=ENVIRON["BUTCHBINDIR"] "/butch-deps " pkg
+		while ((command | getline var) > 0) {
+			if(!DEPS[pkg]) DEPS[pkg] = var;
+			else DEPS[pkg] = DEPS[pkg] " " var
+		}
+		close(command)
+		GOTDEPS[pkg] = 1
+	}
+}
+# uppercase command: notification
+# lowercase command: question
+/^QUIT$/ {
+	exit 0
+}
+/^INSTALLED / {
+	INSTALLED[$2] = 1
+}
+/^installed / {
+	print INSTALLED[$2] ? INSTALLED[$2] : "0"
+}
+/^DOWNLOADED / {
+	DOWNLOADED[$2] = 1
+}
+/^downloaded / {
+	print DOWNLOADED[$2] ? DOWNLOADED[$2] : "0"
+}
+/^deps / {
+	get_deps($2)
+	print DEPS[$2]
+}
+/^hasdeps / {
+	get_deps($2)
+	n=split(DEPS[$2],a," ")
+	res=1
+	for(i=1;i<=n;i++) {
+		if(a[i] != $2 && !INSTALLED[a[i]]) {
+			res=0
+			break;
+		}
+	}
+	print res
+}
