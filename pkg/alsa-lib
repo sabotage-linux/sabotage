@@ -48,6 +48,8 @@ LDFLAGS="$optldflags" \
          --without-versioned \
          $debugflags $xconfflags
 
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
 find . -name Makefile -exec sed -i 's,STRIP = strip,STRIP = echo,' "{}" \;
 
 make V=1 -j$MAKE_THREADS
