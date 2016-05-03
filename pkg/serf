@@ -8,7 +8,7 @@ sha512=4e9a117c08db172cfc159d43b7a1a5cd4d888e74cbc8b55af6c5e5dc70562d4a3e1d87509
 [deps]
 apr
 apr-util
-openssl
+libressl
 zlib
 
 [deps.host]

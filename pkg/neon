@@ -1,6 +1,6 @@
 [deps]
 musl
-openssl
+libressl
 expat
 
 [deps.host]

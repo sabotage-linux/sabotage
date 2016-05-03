@@ -10,7 +10,7 @@ desc='GTK+ IRC client based on latest xchat2 release + some hexchat backports'
 
 [deps]
 gtk+2
-openssl
+libressl
 
 [deps.host]
 gdk-pixbuf

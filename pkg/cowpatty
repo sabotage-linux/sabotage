@@ -8,7 +8,7 @@ desc='wpa cracking and handshake verification tool'
 
 [deps]
 libpcap
-openssl
+libressl
 
 [build]
 make V=1 -j1 CFLAGS="-DOPENSSL $optcflags" \

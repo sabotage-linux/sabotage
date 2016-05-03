@@ -8,7 +8,7 @@ sha512=6feabc19b31deb099bc974be28e009b688338b7cf726e2c7d917cfa07e2c28bfba3ef09be
 [deps]
 fltk13
 libpng
-openssl
+libressl
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \

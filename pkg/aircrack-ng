@@ -8,7 +8,7 @@ desc='cracking/monitoring/security assessment tool for wireless networks'
 
 [deps]
 libpcap
-openssl
+libressl
 sqlite
 libnl-tiny
 

@@ -43,9 +43,10 @@ It supports the following commands:
 
 `butch` will start up to sixteen download threads and up to two build threads. 
 
-By default, `butch` uses the system's `wget`. For best results, download all
-packages before the install process. GNU wget is preferred to busybox wget,
-as it supports HTTPS. You may also use `curl` by exporting `USE_CURL=1`.
+By default, `butch` uses the system's `wget`. To enable HTTPS support install 
+the `stage2` package, which adds `libressl` and `ca-certificates` to the system.
+You may also use `curl` by exporting `USE_CURL=1`. For best results, download
+all packages before the install process.
 
 `butch` defaults to installing built packages into `/opt/$packagename`. Files
 are then symlinked into a user-definable path, defaulting to `/`. Finally, the

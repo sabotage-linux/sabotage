@@ -14,12 +14,12 @@ freetype
 jbig2dec
 libjpeg
 libxext
-openssl
+libressl
 
 [deps.host]
 freetype
 zlib
-openssl
+libressl
 jbig2dec
 
 [build]

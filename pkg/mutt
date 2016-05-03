@@ -9,7 +9,7 @@ http://ftp.vim.org/pub/mail/mutt/mutt-1.5.23.tar.gz
 
 [deps]
 curses
-openssl
+libressl
 cyrus-sasl
 
 [deps.host]
