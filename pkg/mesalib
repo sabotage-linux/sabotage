@@ -19,11 +19,11 @@ libxml2
 libxshmfence
 libxxf86vm
 eudev
-bison
 expat
 
 [deps.host]
 flex
+bison
 
 [build]
 if false ; then
