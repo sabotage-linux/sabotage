@@ -103,8 +103,8 @@ start_dl() {
 [ -z "$@" ] && echo "DONE DONE" && return 0
 [ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
 if [ -n "$JOBFLOW" ] && [ -x "$JOBFLOW" ] ; then
-cat << EOF | sed 's/ /\n/g' | "$JOBFLOW" -buffered -joinoutput \
--threads=$BUTCH_DL_THREADS -delayedspinup=160 -exec $0 dl_one {}
+cat << EOF | sed 's/ /\n/g' | "$JOBFLOW" -threads=$BUTCH_DL_THREADS \
+  -delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 dl_one {}
 $@
 EOF
 else
