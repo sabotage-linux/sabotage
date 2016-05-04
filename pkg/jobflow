@@ -1,0 +1,26 @@
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/jobflow-1.0.0.tar.bz2
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/jobflow-1.0.0.tar.bz2
+
+[vars]
+filesize=27202
+sha512=3f0a1b5f1c47506e69418ceb22ba58b95a6cd20d2d95f5b1ae0c20caca4d3300492976a8e81deb8b329c29e9e3117f22a05f131af3450f1c01a50b5eeac71962
+desc='parallel execution of command line tasks'
+
+[deps.host]
+stage0-musl
+
+[build]
+# prepare build config...
+printf "LDFLAGS += -static %s\n" "$optldflags" > config.mak
+printf "CFLAGS += %s\n" "$optcflags" >> config.mak
+
+# and build
+[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+make -j$MAKETHREADS
+
+# "make install"
+dest=$butch_install_dir$butch_prefix
+install -Dm 755 jobflow "$dest"/bin/jobflow
+
+
