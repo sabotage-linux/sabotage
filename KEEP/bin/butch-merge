@@ -1,6 +1,7 @@
 #!/bin/sh
 [ -n "$CONFIG" ] && . $CONFIG
 [ -z "$S" ] && { "error: S not set" ; exit 1; }
+BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
 cat << EOF
 $0 pkg filename-of-template
@@ -13,7 +14,7 @@ template="$2"
 [ -r "$S/pkg/$pkg" ] && [ -r "$2" ] || { echo "error could not read $S/pkg/$pkg and $2"; exit 1; }
 hasbuild=false
 grep -x '\[build\]' "$S/pkg/$pkg" >/dev/null 2>&1 && hasbuild=true
-mirrors=$(butch printsec "$pkg" mirrors | sed 's/\n/ /g')
+mirrors=$($BINDIR/butch-printsec "$pkg" mirrors | sed 's/\n/ /g')
 while read -r line ; do
 if printf "%s\n" "$line" | grep -x "%BUTCH_CONFIG">/dev/null 2>&1 ; then
 cat << EOF
@@ -24,14 +25,14 @@ export C=$C
 export K=$K
 export B=$B
 EOF
-butch printsec "$pkg" vars
+$BINDIR/butch-printsec "$pkg" vars
 cat << EOF
 BUTCH_PACKAGE_NAME=$pkg
 BUTCH_MIRROR_URLS="$mirrors"
 EOF
 elif printf "%s\n" "$line" | grep -x "%BUTCH_BUILDSCRIPT">/dev/null 2>&1 ; then
 if $hasbuild ; then
-	butch printsec "$pkg" build
+	$BINDIR/butch-printsec "$pkg" build
 else
 	echo "exit 0"
 fi
