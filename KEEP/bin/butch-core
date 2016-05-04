@@ -124,6 +124,7 @@ setup_pipe() {
 buildlist=
 dllist=
 dlerr=
+builderr=
 mode=
 force=false
 case $1 in
@@ -157,6 +158,9 @@ add_dllist() {
 add_dlerr() {
 	test -z "$dlerr" && dlerr="$1" || dlerr="$dlerr $1"
 }
+add_builderr() {
+	test -z "$builderr" && builderr="$1" || builderr="$builderr $1"
+}
 add_downloaded() {
 	echo "DOWNLOADED $1" >&4
 }
@@ -189,7 +193,7 @@ start_build() {
 launch_build() {
 	for j_ in $buildlist ; do
 		if has_all_deps "$j_" && is_downloaded "$j_" ; then
-			start_build "$j_"
+			start_build "$j_" || add_builderr "$j_"
 			rem_buildlist "$j_"
 			return 0
 		fi
@@ -255,10 +259,14 @@ done <&5
 echo "QUIT" >&4
 wait $hlppid
 bfails=0
-test $mode = download || \
-  for p in $buildlist ; do bfails=$(($bfails + 1)) ; done
-info "got $dlfails download errors and $bfails build errors."
-test $dlfails -gt 0 && info "failed to download: $dlerr"
-test $bfails -gt 0 && info "failed to build: $buildlist"
+afails=0
+test $mode = download || {
+  for p in $builderr ; do bfails=$(($bfails + 1)) ; done
+  for p in $buildlist ; do afails=$(($afails + 1)) ; done
+}
 info "done."
+echo "got $dlfails download errors and $bfails build errors."
+test $dlfails -gt 0 && echo "failed to download: $dlerr"
+test $bfails -gt 0 && echo "failed to build: $builderr"
+test $afails -gt 0 && echo "not built due to missing deps: $buildlist"
 exit $(($dlfails + $bfails))
