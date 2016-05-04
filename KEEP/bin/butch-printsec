@@ -18,7 +18,7 @@ function error(msg) {
 	exit 1
 }
 
-function print_sec(pkg, sec		r, insect, pkgFile, isbuild) {
+function print_sec(pkg, sec,		r, insect, pkgFile, isbuild) {
 	pkgFile=ENVIRON["S"] "/pkg/" pkg
 	insect=0
 	isbuild=(sec == "build")
