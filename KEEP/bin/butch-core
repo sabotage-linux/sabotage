@@ -258,6 +258,8 @@ while read line ; do
 done <&5
 echo "QUIT" >&4
 wait $hlppid
+# at this point the child processes are reaped, undo EXIT trap
+trap - EXIT
 bfails=0
 afails=0
 test $mode = download || {
