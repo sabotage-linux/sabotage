@@ -23,6 +23,8 @@ patch -p1 < "$K"/transmission-nls.patch
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+cp -f "$K"/config.sub .
+
 sed -i 's@gtk_version="3"@gtk_version="2"@g' configure
 CPPFLAGS="-D_GNU_SOURCE -DGETTEXT_PACKAGE=\\\"transmission\\\"" \
 CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
