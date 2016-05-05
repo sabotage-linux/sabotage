@@ -1,0 +1,14 @@
+
+[build]
+#want to leave the sabotage-linux/sabotage repository intact.
+#changes for building binary packages for Quirky Linux, where they
+#conflict with main repo, are kept separate. This includes alternative
+#recipes named with "qky-" prefix, for example "pkg/qky-e2fsprogs".
+
+#as quirky is building libblkid and libuuid in util-linux (actually qky-util-linux),
+#need to modify pkg/libuuid and pkg/libblkid, but have to do this at build-time...
+echo '[deps]
+qky-util-linux' > "$K"/../pkg/libuuid
+echo '[deps]
+qky-util-linux' > "$K"/../pkg/libblkid
+
