@@ -1,0 +1,273 @@
+#!/bin/sh
+test -n "$CONFIG" && . $CONFIG
+BINDIR=$(dirname $(readlink -f "$0"))
+timestamp() {
+	date '+%Y-%m-%d %H:%M:%S'
+}
+info() {
+	printf "%s %s\n" "$(timestamp)" "$1"
+}
+die() {
+	echo "$@" >&2
+	exit 1
+}
+usage() {
+cat << EOF
+butch-core v0.7.0
+syntax: $0 command options
+
+commands: install, rebuild, prefetch
+
+pass an arbitrary number of package names as options
+
+        install: installs one or more packages when they're not yet installed
+                (list of installed packages is kept in /var/lib/butch.db unless
+                 overridden via BUTCHDB env var.)
+        rebuild: installs one or more packages even when they're already
+                installed
+        prefetch: only download the given package and all of its dependencies,
+                unless they're not already in $C
+        <strike>update: rebuild all packages that changed since last build</strike>
+
+EOF
+exit 1
+}
+check_access() {
+	test -$2 $1 || die "permissions for $1 insufficient (want: $2)"
+}
+check_config() {
+[ -z "$BUTCH_DOWNLOAD_TEMPLATE" ] && die "BUTCH_DOWNLOAD_TEMPLATE not set"
+[ -z "$BUTCH_BUILD_TEMPLATE" ] && die "BUTCH_BUILD_TEMPLATE not set"
+[ -e "$BUTCH_DOWNLOAD_TEMPLATE" ] || die "$BUTCH_DOWNLOAD_TEMPLATE not found"
+[ -e "$BUTCH_BUILD_TEMPLATE" ] || die "$BUTCH_BUILD_TEMPLATE not found"
+[ -z "$A" ] && die "need to set A to your arch (ex. x86_64, i386, arm, mips...)"
+[ -z "$R" ] && R=/
+[ -z "$S" ] && S=$R/src
+[ -z "$B" ] && B=$S/build
+[ -z "$C" ] && C=$S/tarballs
+[ -z "$K" ] && K=$S/KEEP
+[ -z "$LOGPATH" ] && LOGPATH=$S/logs
+[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+[ -z "$BUTCH_DL_THREADS" ] && BUTCH_DL_THREADS=16
+check_access $LOGPATH w
+check_access $R w
+check_access $S r
+check_access $C w
+check_access $K r
+if ! test -w $B ; then
+	mkdir -p $B
+	check_access $B w
+fi
+local dbd=$(dirname $BUTCHDB)
+mkdir -p $dbd
+check_access $dbd w
+export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
+BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
+}
+has_mirrors() {
+	grep -x '\[mirrors\]' $S/pkg/$1 >/dev/null 2>&1
+}
+is_installed() {
+	echo "installed $1" >&4
+	read res_ <&3
+	test $res_ = 0 && return 1
+	return 0
+}
+gethash() {
+	sha512sum "$S"/pkg/"$1" | cut -d " " -f 1
+}
+update_butchdb() {
+	echo "INSTALLED $1" >&4
+	rm -f $BUTCHDB.tmp
+	[ -e "$BUTCHDB" ] && while read pkg_ hash_ ; do
+	test "$pkg_" = "$1" || printf "%s %s\n" "$pkg_" "$hash_" >> $BUTCHDB.tmp
+	done < $BUTCHDB
+	printf "%s %s\n" "$1" "$(gethash $1)" >> $BUTCHDB.tmp
+	mv $BUTCHDB.tmp $BUTCHDB
+}
+has_all_deps() {
+	echo "hasdeps $1" >&4
+	read resp_ <&3
+	test $resp_ = 1 && return 0 || return 1
+}
+dl_one() {
+	scrname=$B/dl_$1.sh
+	logname=$LOGPATH/dl_$1.log
+	info "downloading $1 ($scrname) -> $logname"
+	$BINDIR/butch-merge $1 $BUTCH_DOWNLOAD_TEMPLATE > $scrname
+	chmod +x $scrname
+	$scrname > $logname 2>&1 && echo "OK $1" || echo "FAIL $1"
+}
+
+start_dl() {
+[ -z "$@" ] && echo "DONE DONE" && return 0
+[ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
+if [ -n "$JOBFLOW" ] && [ -x "$JOBFLOW" ] ; then
+cat << EOF | sed 's/ /\n/g' | "$JOBFLOW" -threads=$BUTCH_DL_THREADS \
+  -delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 dl_one {}
+$@
+EOF
+else
+	for p in $@ ; do
+		$0 dl_one "$p"
+	done
+fi
+echo DONE DONE
+}
+setup_pipe() {
+	fd=$1
+	node="$(mktemp -u)" || exit 1
+	mkfifo -m0600 "$node" || exit 1
+	eval "exec $fd<> $node"
+	rm "$node"
+}
+buildlist=
+dllist=
+dlerr=
+builderr=
+mode=
+force=false
+case $1 in
+	install) mode=build;;
+	build) mode=build;;
+	rebuild) mode=build; force=true;;
+	download) mode=download; force=true;;
+	prefetch) mode=download; force=true;;
+	dl_one) mode=download_one;;
+	*) usage ;;
+esac
+shift
+test $mode = download_one && { dl_one "$1" ; exit $? ; }
+check_config
+args="$@"
+for x_ in $args ; do
+	test -r "$S"/pkg/"$x_" || die "$S/pkg/$x_ does not exist or no read permission!"
+done
+in_args() {
+	for x_ in $args ; do
+		test "$x_" = "$1" && return 0
+	done
+	return 1
+}
+add_dllist() {
+	test -z "$dllist" && dllist="$1" || dllist="$dllist $1"
+}
+add_dlerr() {
+	test -z "$dlerr" && dlerr="$1" || dlerr="$dlerr $1"
+}
+add_builderr() {
+	test -z "$builderr" && builderr="$1" || builderr="$builderr $1"
+}
+add_downloaded() {
+	echo "DOWNLOADED $1" >&4
+}
+add_buildlist() {
+	test -z "$buildlist" && buildlist="$1" || buildlist="$buildlist $1"
+}
+rem_buildlist() {
+	bl_old="$buildlist"
+	buildlist=
+	for h_ in $bl_old ; do
+		test "$h_" = "$1" || add_buildlist "$h_"
+	done
+}
+is_downloaded() {
+	echo "downloaded $1" >&4
+	read resss_ <&3
+	test $resss_ = 1 && return 0 || return 1
+}
+start_build() {
+	scrname=$B/build_$1.sh
+	logname=$LOGPATH/build_$1.log
+	info "building $1 ($scrname) -> $logname"
+	$BINDIR/butch-merge $1 $BUTCH_BUILD_TEMPLATE > $scrname
+        chmod +x $scrname
+	success=false
+        $scrname > $logname 2>&1 && success=true
+	$success && update_butchdb "$1" || info "WARNING: $1 failed to build! wait for other jobs to finish."
+	$success
+}
+launch_build() {
+	for j_ in $buildlist ; do
+		if has_all_deps "$j_" && is_downloaded "$j_" ; then
+			start_build "$j_" || add_builderr "$j_"
+			rem_buildlist "$j_"
+			return 0
+		fi
+	done
+	return 1
+}
+
+setup_pipe "3"
+setup_pipe "4"
+(BUTCHBINDIR=$BINDIR awk -f $BINDIR/butch-core-helper <&4 >&3) &
+hlppid=$!
+
+trap "exit" INT TERM
+trap "kill 0" EXIT
+
+deps=$(awk -f $BINDIR/butch-deps "$@")
+
+for p in $deps ; do
+	if is_installed "$p" ; then
+		if $force && in_args "$p" ; then
+			test $mode != download && add_buildlist "$p"
+			has_mirrors "$p" && add_dllist "$p" || add_downloaded "$p"
+		else
+			echo "package $p is already installed, skipping"
+		fi
+	else
+		test $mode != download && add_buildlist "$p"
+		has_mirrors "$p" && add_dllist "$p" || add_downloaded "$p"
+	fi
+done
+
+echo "*** downloadqueue ***"
+for p in $dllist ; do printf "%s\n" "$p" ; done
+
+setup_pipe "5"
+start_dl "$dllist" >&5 &
+dlpid=$!
+
+dlfails=0
+
+echo "*** buildqueue ***"
+for p in $buildlist ; do printf "%s\n" "$p" ; done
+
+while read line ; do
+	cnt=0
+	for foo in $line ; do
+		test $cnt = 0 && status="$foo"
+		test $cnt = 1 && pkg="$foo" && break
+		cnt=1
+	done
+	if [ "$status" != OK ] && [ "$status" != FAIL ] && [ "$status" != DONE ] ; then
+		printf "%s\n" "$line"
+	fi
+	test "$status" = OK && add_downloaded "$pkg"
+	test "$status" = "FAIL" && add_dlerr "$pkg" && dlfails=$(($dlfails + 1)) && \
+	info "WARNING: package $pkg failed to download!"
+	while launch_build ; do
+		:
+	done
+	test "$status" = DONE && {
+		wait $dlpid
+		break
+	}
+done <&5
+echo "QUIT" >&4
+wait $hlppid
+# at this point the child processes are reaped, undo EXIT trap
+trap - EXIT
+bfails=0
+afails=0
+test $mode = download || {
+  for p in $builderr ; do bfails=$(($bfails + 1)) ; done
+  for p in $buildlist ; do afails=$(($afails + 1)) ; done
+}
+info "done."
+echo "got $dlfails download errors and $bfails build errors."
+test $dlfails -gt 0 && echo "failed to download: $dlerr"
+test $bfails -gt 0 && echo "failed to build: $builderr"
+test $afails -gt 0 && echo "not built due to missing deps: $buildlist"
+exit $(($dlfails + $bfails))

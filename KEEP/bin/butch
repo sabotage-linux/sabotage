@@ -22,7 +22,7 @@ BINDIR=$(dirname "$(readlink -f "$0")")
 
 usage() {
 cat << EOF >&2
-butch v$(butch-core 2>&1 | head -n1 | sed -e 's@BUTCH v@@')
+butch v$(butch-core 2>&1 | head -n1 | sed -e 's@butch-core v@@')
 
 usage: $0 command package ...
 

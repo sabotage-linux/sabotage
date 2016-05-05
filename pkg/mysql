@@ -67,6 +67,7 @@ CC="$CC -DTHD_LIB_LT=1 -Dthd_lib_detected=2" cmake \
   -DWITH_LIBEDIT=system \
   -DDEFAULT_MYSQL_HOME="/" \
   -DDEFAULT_CHARSET_HOME="/" \
+  -DCMAKE_EXE_LINKER_FLAGS="-lterminfo $optldflags" \
       ..
 
 CC="$CC -DTHD_LIB_LT=1 -Dthd_lib_detected=2" make -j$MAKE_THREADS VERBOSE=1
