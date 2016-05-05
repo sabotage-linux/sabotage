@@ -1,6 +1,7 @@
 [deps]
-stage1
-coreutils-cut
+qky-stage1
+qky-core
+
 core
 xorg
 pkg
@@ -52,7 +53,7 @@ x264
 x265
 xvid
 a52dec
-flac
+libflac
 audiofile
 vorbis-tools
 libcddb
