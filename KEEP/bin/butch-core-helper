@@ -18,6 +18,10 @@ function error(msg) {
         eprint("error: " msg)
         exit 1
 }
+function say(msg) {
+	print msg
+	system("") #force gawk to flush stdout portably
+}
 function get_deps(pkg,   var) {
 	if(!GOTDEPS[pkg]) {
 		command="awk -f " ENVIRON["BUTCHBINDIR"] "/butch-deps " pkg
@@ -38,17 +42,17 @@ function get_deps(pkg,   var) {
 	INSTALLED[$2] = 1
 }
 /^installed / {
-	print INSTALLED[$2] ? INSTALLED[$2] : "0"
+	say(INSTALLED[$2] ? INSTALLED[$2] : "0")
 }
 /^DOWNLOADED / {
 	DOWNLOADED[$2] = 1
 }
 /^downloaded / {
-	print DOWNLOADED[$2] ? DOWNLOADED[$2] : "0"
+	say(DOWNLOADED[$2] ? DOWNLOADED[$2] : "0")
 }
 /^deps / {
 	get_deps($2)
-	print DEPS[$2]
+	say(DEPS[$2])
 }
 /^hasdeps / {
 	get_deps($2)
@@ -60,5 +64,5 @@ function get_deps(pkg,   var) {
 			break;
 		}
 	}
-	print res
+	say(res)
 }
