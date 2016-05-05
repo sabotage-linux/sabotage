@@ -20,7 +20,7 @@ function error(msg) {
 }
 function get_deps(pkg,   var) {
 	if(!GOTDEPS[pkg]) {
-		command=ENVIRON["BUTCHBINDIR"] "/butch-deps " pkg
+		command="awk -f " ENVIRON["BUTCHBINDIR"] "/butch-deps " pkg
 		while ((command | getline var) > 0) {
 			if(!DEPS[pkg]) DEPS[pkg] = var;
 			else DEPS[pkg] = DEPS[pkg] " " var

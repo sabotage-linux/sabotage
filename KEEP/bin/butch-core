@@ -65,7 +65,7 @@ export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
 BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
 }
 has_mirrors() {
-	test "$($BINDIR/butch-printsec "$1" mirrors|wc -l)" -gt 0
+	grep -x '\[mirrors\]' $S/pkg/$1 >/dev/null 2>&1
 }
 is_installed() {
 	echo "installed $1" >&4
@@ -137,15 +137,12 @@ case $1 in
 	*) usage ;;
 esac
 shift
+test $mode = download_one && { dl_one "$1" ; exit $? ; }
 check_config
 args="$@"
 for x_ in $args ; do
 	test -r "$S"/pkg/"$x_" || die "$S/pkg/$x_ does not exist or no read permission!"
 done
-case $mode in
-download_one) dl_one "$1" ; exit $? ;;
-*) deps=$($BINDIR/butch-deps "$@");;
-esac
 in_args() {
 	for x_ in $args ; do
 		test "$x_" = "$1" && return 0
@@ -203,11 +200,13 @@ launch_build() {
 
 setup_pipe "3"
 setup_pipe "4"
-(BUTCHBINDIR=$BINDIR $BINDIR/butch-core-helper <&4 >&3) &
+(BUTCHBINDIR=$BINDIR awk -f $BINDIR/butch-core-helper <&4 >&3) &
 hlppid=$!
 
 trap "exit" INT TERM
 trap "kill 0" EXIT
+
+deps=$(awk -f $BINDIR/butch-deps "$@")
 
 for p in $deps ; do
 	if is_installed "$p" ; then
