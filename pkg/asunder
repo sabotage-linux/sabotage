@@ -8,7 +8,7 @@ desc="Asunder is a graphical CD ripper and encoder"
 
 [deps]
 gtk+2
-flac
+libflac
 lame
 libcddb
 libcdio
