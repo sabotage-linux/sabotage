@@ -3,7 +3,6 @@ services
 stage0-gcc
 stage0-musl
 kernel-headers
-butch
 busybox
 patch
 binutils
