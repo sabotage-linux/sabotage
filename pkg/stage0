@@ -1,4 +1,5 @@
 [deps]
+jobflow
 sabotage-core
 services
 stage0-gcc
