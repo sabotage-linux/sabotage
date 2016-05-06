@@ -1,0 +1,6 @@
+[build]
+dest="$butch_install_dir""$butch_prefix"
+for i in "$K"/bin/*; do
+	install -Dm 755 "$i" "$dest"/bin/$(basename "$i")
+done
+cp -rf "$K"/share "$dest"
