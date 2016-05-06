@@ -6,7 +6,7 @@ filesize=741459
 sha512=8ac27787ee94fa8fde962635d3c08d1dc1e5244c9d56bb693e73f3fd9b58e944ad3f7a0127afeed727d7c00d904a775d2c483157f5ac87e7eab6ecade1aad21d
 desc='lightweight java vm (needed to run java programs)'
 
-[deps]
+[deps.run]
 classpath
 
 [build]
