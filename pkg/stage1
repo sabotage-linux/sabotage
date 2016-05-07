@@ -1,4 +1,6 @@
 [deps]
+jobflow
+sabotage-core
 kbd
 9base
 busybox
@@ -11,7 +13,6 @@ musl
 dynamic-toolchain
 man
 zlib
-butch
 binutils
 patch
 

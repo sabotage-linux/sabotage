@@ -45,23 +45,11 @@ if [ ! -d "$R"/bin ] ; then
 		EOF
 fi
 
-### build butch, if missing and not provided
-if [ ! -x "$R"/bin/butch-core -a -z "$BUTCH_BIN" ] ; then
-	echo "$(date +'%F %T') building butch"
-	
-	. "$H"/utils/build-butch.sh
-fi
-
-### install provided butch, if any
-if [ ! -z "$BUTCH_BIN" ] ; then
-	cp "$BUTCH_BIN" "$R"/bin/butch-core
-fi
-
 ### install stage0, if missing. note the space in "stage0 "
 if ! grep -q "stage0 " "$R"/var/lib/butch.db 2>/dev/null ; then
 	echo "$(date +'%F %T') installing stage0"
 
-	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db "$R"/bin/butch install stage0
+	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db "$K"/bin/butch install stage0
 	
 	echo "export A=$A" > "$R"/src/config
 	cat "$K"/config.stage1 >> "$R"/src/config

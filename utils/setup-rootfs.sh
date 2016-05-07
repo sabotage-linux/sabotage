@@ -33,9 +33,7 @@ chmod 1777 tmp
 chmod 700 root
 
 cp -r "$K"/etc/* "$R"/etc/
-cp -r "$K"/bin/* "$R"/bin/
 cp -r "$K"/boot/* "$R"/boot/
-cp -r "$K"/share/* "$R"/share/
 chmod 0600 "$R"/etc/shadow
 
 echo nameserver 8.8.8.8 > "$R"/etc/resolv.conf
