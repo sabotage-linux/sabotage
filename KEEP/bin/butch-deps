@@ -49,7 +49,7 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 	}
 	while ((r = getline < pkgFile) == 1) {
 		dep=$0
-		if (/\[deps(\.host|\.run)?\]/) {
+		if (/^\[deps(\.([a-z0-9])+)?\]$/) {
 			inDepsSection=0
 			for(i in DEPTYPES) {
 				if ($0 == "[" DEPTYPES[i] "]") {
