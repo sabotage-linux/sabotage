@@ -7,7 +7,7 @@ filesize=23659627
 sha512=dcd93cb314d5c275529c58d134956e48d64860bdd2e58bc94aa339aeba0ee66fbd7423ace1f71eba9905fa5b05db922c2242f585c8eef0247c4fa5fda56367af
 desc="provides linker, assembler and other utils to handle object files"
 
-[deps.host]
+[deps.stage0]
 stage0-musl
 
 [build]

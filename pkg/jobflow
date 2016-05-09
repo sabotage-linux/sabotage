@@ -7,7 +7,7 @@ filesize=27202
 sha512=3f0a1b5f1c47506e69418ceb22ba58b95a6cd20d2d95f5b1ae0c20caca4d3300492976a8e81deb8b329c29e9e3117f22a05f131af3450f1c01a50b5eeac71962
 desc='parallel execution of command line tasks'
 
-[deps.host]
+[deps.stage0]
 stage0-musl
 
 [build]

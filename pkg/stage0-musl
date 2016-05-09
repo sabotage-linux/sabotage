@@ -5,7 +5,7 @@ http://www.musl-libc.org/releases/musl-1.1.14.tar.gz
 filesize=894971
 sha512=9016246b44a7e6ef51477f0a246373c79f3e796c70031c3323be1b6c4c0518a2d4578f1aa712adfd9a80cdc1d71918bd7a35855052a0452b854755bf0cc2424e
 
-[deps.host]
+[deps.stage0]
 stage0-gcc
 
 [build]

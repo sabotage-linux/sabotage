@@ -49,7 +49,8 @@ fi
 if ! grep -q "stage0 " "$R"/var/lib/butch.db 2>/dev/null ; then
 	echo "$(date +'%F %T') installing stage0"
 
-	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db "$K"/bin/butch install stage0
+	CONFIG="$H"/config BUTCHDB="$R"/var/lib/butch.db DEPS=build:stage0 \
+	   "$K"/bin/butch install stage0
 	
 	echo "export A=$A" > "$R"/src/config
 	cat "$K"/config.stage1 >> "$R"/src/config
