@@ -13,7 +13,9 @@ libblkid
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
-
+for i in misc/fsck.c misc/mke2fs.c e2fsck/unix.c ; do
+sed -i 's@sbin@bin@g' $i
+done
 CFLAGS="-D_GNU_SOURCE $optcflags -D__uint64_t=u_int64_t -fPIC" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --with-root-prefix="$butch_prefix" \
