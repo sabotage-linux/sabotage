@@ -1,0 +1,24 @@
+[mirrors]
+http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20150503.tgz
+
+[vars]
+filesize=468794
+sha512=ac9dde6948328d8db94458448abdf7389f8862ae6093315dd19ed9d1cbeab60fca1fc7b084cda4ce09505010f7108612585e3c4ba9663ddf3adb869bf1d9d7b6
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
