@@ -197,10 +197,14 @@ launch_build() {
 	done
 	return 1
 }
-
+[ -z "$AWKPROG" ] && AWKPROG=awk
+if [ "$STAGE" = 0 ] ; then
+	$AWKPROG -W version 2>/dev/null | grep "mawk" > /dev/null && \
+	AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
+fi
 setup_pipe "3"
 setup_pipe "4"
-(BUTCHBINDIR=$BINDIR awk -f $BINDIR/butch-core-helper <&4 >&3) &
+(BUTCHBINDIR=$BINDIR $AWKPROG -f $BINDIR/butch-core-helper <&4 >&3) &
 hlppid=$!
 
 trap "exit" INT TERM
