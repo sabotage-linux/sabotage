@@ -1,11 +1,14 @@
 [mirrors]
 ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-15.tar.xz
+http://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-15.tar.xz
 
 [vars]
 filesize=1453996
 sha512=67a03cabe9d81c14eb0bef20f3c8ff4614418cb2b2c3e1428d8a57399372ecdce6e403399a578d2f62a1ae4b61c83713edd1ad1e31533ea35503c5b11b92c223
 
 [deps]
+zlib
+xz
 
 [build]
 
@@ -19,7 +22,17 @@ done
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --with-zlib --disable-manpages --with-xz --enable-tools
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+#need symlinks...
+dest="$butch_install_dir""$butch_prefix"
+ln -s kmod "$dest"/bin/lsmod
+ln -s kmod "$dest"/bin/depmod
+ln -s kmod "$dest"/bin/insmod
+ln -s kmod "$dest"/bin/modinfo
+ln -s kmod "$dest"/bin/modprobe
+ln -s kmod "$dest"/bin/rmmod
