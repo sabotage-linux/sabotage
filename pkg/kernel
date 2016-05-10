@@ -65,7 +65,8 @@ make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
 make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
 
-mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules $butch_root_dir/lib/firmware
+mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules/$LINUX_VER \
+         $butch_root_dir/lib/firmware
 
 egrep -q '\=m$' my.config && got_modules=true || got_modules=false
 
