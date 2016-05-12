@@ -6,9 +6,19 @@ sha512=a43e976dd7ca39d576ae51b0f66f9bc4fa21f30626cb814fa237389c9bbc1c0b5a3a28b1d
 http://downloads.sourceforge.net/project/cmus/cmus-v2.5.0.tar.bz2
 
 [deps]
+curses
+alsa-lib
+libogg
+libvorbis
+libmad
 
 [build]
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+# fix call to check_program $CC which fails since it lacks quoting around "$CC"
+sed -i 's@^\tcheck_program.*$@#@' scripts/checks.sh
+LDFLAGS="$optldflags -lcurses -lterminfo" \
+CFLAGS="$optcflags" \
+LD="$CC" \
+HOSTLD="$HOSTCC" \
 ./configure prefix="$butch_prefix"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
