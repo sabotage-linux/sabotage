@@ -197,6 +197,10 @@ launch_build() {
 	done
 	return 1
 }
+
+deps=$(awk -f $BINDIR/butch-deps "$@")
+test $? = 0 || die "butch deps failed"
+
 [ -z "$AWKPROG" ] && AWKPROG=awk
 if [ "$STAGE" = 0 ] ; then
 	$AWKPROG -W version 2>/dev/null | grep "mawk" > /dev/null && \
@@ -209,8 +213,6 @@ hlppid=$!
 
 trap "exit" INT TERM
 trap "kill 0" EXIT
-
-deps=$(awk -f $BINDIR/butch-deps "$@")
 
 for p in $deps ; do
 	if is_installed "$p" ; then
