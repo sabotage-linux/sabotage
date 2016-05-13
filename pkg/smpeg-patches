@@ -1,0 +1,7 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/s/smpeg/smpeg_0.4.5+cvs20030824-7.1.debian.tar.xz
+
+[vars]
+filesize=18500
+sha512=80337768df8835af58b274bd1b3d293fe1abddbe9e209e62ef13601597442fae6e8ef294ff63f9aa0435a1c9d47ac5a1c04ff6261f7e5c3ba7c7bc13af1c08b3
+

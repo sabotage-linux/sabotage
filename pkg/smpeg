@@ -1,0 +1,32 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/s/smpeg/smpeg_0.4.5+cvs20030824.orig.tar.gz
+
+[vars]
+filesize=340290
+sha512=f5bdaf0adcc98210c2e47a007762f26a7c81a7f04dd52939e6d1a1b3e06ba389b41fe7a4d1ad72bf275fffe28f082560b6784a67585c607b8aae86fe163641b5
+tardir='smpeg-0.4.5+cvs20030824.orig'
+
+[deps]
+smpeg-patches
+sdl
+libice
+
+[build]
+tar xf "$C"/smpeg_0.4.5+cvs20030824-7.1.debian.tar.xz
+for p in 200_export_mpegaudio_class 210_gtk+2.0-code 320_gnu_stack 330_format_security ; do
+	patch -p1 < debian/patches/$p.diff
+done
+cp -f "$K"/config.sub .
+sed -i 's/CXXLD = cc/CXXLD = $(CXX)/' Makefile.in
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
