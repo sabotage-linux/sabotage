@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/source/n/numpy/numpy-1.10.4.tar.gz
+
+[vars]
+filesize=4069996
+sha512=57ace46e357d49be0efd904e5ceb9862c626c916987c8798a12de7ae1e06816ad8483439ac4619792a04889631b5998f2397dc601c78dea33a784b4831c19c79
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+patch -p0 < "$K"/numpy-musl.patch
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
