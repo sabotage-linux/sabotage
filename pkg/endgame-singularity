@@ -1,0 +1,36 @@
+[mirrors]
+https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/endgame-singularity/singularity-0.30c-src.tar.gz
+
+[vars]
+filesize=2265133
+sha512=ffca50c179b745561a25e3fb3525abb862d72f63f533f8a41472067d0ce94c8a236486c9c40a5040335d84e903c498805d591dc546a92d0a7651105103fe114f
+tardir=singularity-0.30c
+desc='strategy game'
+
+[deps]
+endgame-singularity-music
+
+[deps.run]
+python
+python-pygame
+python-numpy
+
+[deps.host]
+python
+
+[build]
+mkdir music
+unzip "$C"/endgame-singularity-music-007.zip
+mv endgame-singularity-music-007/* music/
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/bin
+mkdir -p "$dest"/share/singularity
+for i in code data music utils singularity.py ; do
+mv $i "$dest"/share/singularity/
+done
+cat << EOF > "$dest"/bin/endgame-singularity
+#!/bin/sh
+cd $butch_prefix/share/singularity/
+exec python singularity.py "\$@"
+EOF
+chmod +x "$dest"/bin/endgame-singularity
