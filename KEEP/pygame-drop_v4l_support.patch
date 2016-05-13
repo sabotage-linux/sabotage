@@ -1,0 +1,188 @@
+From: Nirav Patel
+Subject: Patch from Martijn Schmidt. Remove V4L support.
+ With modifications by Nirav Patel.  V4L has effectively
+ been deprecated from the Linux kernel as of 2.6.38. Support
+ in pygame was just a placeholder, and removing it
+ will not change any functionality.
+Origin: Upstream, http://svn.seul.org/viewcvs/viewvc.cgi?view=rev&root=PyGame&revision=3077
+Bug-Ubuntu: http://bugs.launchpad.net/bugs/755980
+Last-Update: 2011-06-20
+
+Upstream-Commit-Date: 2011-04-23 14:39:19 -0400
+Comments-Ubuntu: 
+ Minor changes made by Scott Moser to apply upstream patch to 1.9.1release
+ This patch can be dropped when 1.9.2 is released and integrated.
+--- a/Setup.in
++++ b/Setup.in
+@@ -34,7 +34,7 @@ _numericsurfarray src/_numericsurfarray.
+ _numericsndarray src/_numericsndarray.c $(SDL) $(MIXER) $(DEBUG)
+ movie src/movie.c $(SDL) $(SMPEG) $(DEBUG)
+ scrap src/scrap.c $(SDL) $(SCRAP) $(DEBUG)
+-_camera src/_camera.c src/camera_v4l2.c src/camera_v4l.c $(SDL) $(DEBUG)
++_camera src/_camera.c src/camera_v4l2.c $(SDL) $(DEBUG)
+ pypm src/pypm.c $(SDL) $(PORTMIDI) $(PORTTIME) $(DEBUG)
+ 
+ GFX = src/SDL_gfx/SDL_gfxPrimitives.c 
+--- a/pygame.egg-info/SOURCES.txt
++++ b/pygame.egg-info/SOURCES.txt
+@@ -241,7 +241,6 @@ src/bitmask.h
+ src/bufferproxy.c
+ src/camera.doc
+ src/camera.h
+-src/camera_v4l.c
+ src/camera_v4l2.c
+ src/cdrom.c
+ src/cdrom.doc
+@@ -465,4 +464,4 @@ test/util/build_page/results/.htaccess
+ test/util/build_page/results/index.py
+ test/util/build_page/results/results.css
+ test/util/build_page/upload_results/.htaccess
+-test/util/build_page/upload_results/index.py
+\ No newline at end of file
++test/util/build_page/upload_results/index.py
+--- a/src/_camera.c
++++ b/src/_camera.c
+@@ -22,7 +22,7 @@
+  * Author: Nirav Patel
+  *
+  * This module allows for use of v4l2 webcams in pygame.  The code is written
+- * such that adding support for v4l or vfw cameras should be possible without
++ * such that adding support for vfw cameras should be possible without
+  * much modification of existing functions.  v4l2 functions are kept seperate
+  * from functions available to pygame users and generic functions like
+  * colorspace conversion.
+@@ -160,20 +160,8 @@ PyObject* camera_start (PyCameraObject*
+ {
+ #if defined(__unix__)
+     if (v4l2_open_device(self) == 0) {
+-        if (v4l_open_device(self) == 0) {
+-            v4l2_close_device(self);
+-            return NULL;
+-        } else {
+-            self->camera_type = CAM_V4L;
+-            if (v4l_init_device(self) == 0) {
+-                v4l2_close_device(self);
+-                return NULL;
+-            }
+-            if (v4l_start_capturing(self) == 0) {
+-                v4l2_close_device(self);
+-                return NULL;
+-            }
+-        }
++        v4l2_close_device(self);
++        return NULL;
+     } else {
+         self->camera_type = CAM_V4L2;
+         if (v4l2_init_device(self) == 0) {
+--- a/src/camera.h
++++ b/src/camera.h
+@@ -39,7 +39,6 @@
+ 
+     #include <asm/types.h>          /* for videodev2.h */
+ 
+-    #include <linux/videodev.h>
+     #include <linux/videodev2.h>
+ #endif
+ 
+@@ -51,7 +50,7 @@
+ #define RGB_OUT 1
+ #define YUV_OUT 2
+ #define HSV_OUT 4
+-#define CAM_V4L 1
++#define CAM_V4L 1 /* deprecated. the incomplete support in pygame was removed */
+ #define CAM_V4L2 2
+ 
+ struct buffer 
+@@ -111,8 +110,4 @@ int v4l2_init_device (PyCameraObject* se
+ int v4l2_close_device (PyCameraObject* self);
+ int v4l2_open_device (PyCameraObject* self);
+ 
+-/* internal functions specific to v4l */
+-int v4l_open_device (PyCameraObject* self);
+-int v4l_init_device(PyCameraObject* self);
+-int v4l_start_capturing(PyCameraObject* self);
+ #endif
+--- a/src/camera_v4l.c
++++ /dev/null
+@@ -1,81 +0,0 @@
+-/*
+-  pygame - Python Game Library
+-
+-  This library is free software; you can redistribute it and/or
+-  modify it under the terms of the GNU Library General Public
+-  License as published by the Free Software Foundation; either
+-  version 2 of the License, or (at your option) any later version.
+-
+-  This library is distributed in the hope that it will be useful,
+-  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  Library General Public License for more details.
+-
+-  You should have received a copy of the GNU Library General Public
+-  License along with this library; if not, write to the Free
+-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-  
+-*/
+-#if defined(__unix__)
+-#include "camera.h"
+-
+-/*
+- * V4L functions
+- */
+- 
+-int v4l_open_device (PyCameraObject* self)
+-{
+-    struct stat st;
+-    struct video_capability cap;
+-    struct video_mbuf buf;
+-    
+-    if (-1 == stat (self->device_name, &st)) {
+-        PyErr_Format(PyExc_SystemError, "Cannot identify '%s': %d, %s",
+-            self->device_name, errno, strerror (errno));
+-        return 0;
+-    }
+-
+-    if (!S_ISCHR (st.st_mode)) {
+-        PyErr_Format(PyExc_SystemError, "%s is no device",self->device_name);
+-        return 0;
+-    }
+-
+-    self->fd = open (self->device_name, O_RDWR /* required | O_NONBLOCK */, 0);
+-
+-    if (-1 == self->fd) {
+-        PyErr_Format(PyExc_SystemError, "Cannot open '%s': %d, %s",
+-            self->device_name, errno, strerror (errno));
+-        return 0;
+-    }
+-    
+-    if(ioctl(self->fd, VIDIOCGCAP, cap) == -1) {
+-        PyErr_Format(PyExc_SystemError, "%s is not a V4L device",
+-            self->device_name);        
+-	return 0;
+-    }
+-    
+-    if(!(cap.type & VID_TYPE_CAPTURE)) {
+-        PyErr_Format(PyExc_SystemError, "%s is not a video capture device",
+-            self->device_name);
+-        return 0;
+-    }
+-    
+-    if( ioctl(self->fd , VIDIOCGMBUF , buf ) == -1 ) {
+-        PyErr_Format(PyExc_SystemError, "%s does not support streaming i/o",
+-            self->device_name);
+-	return 0;
+-    }
+-    
+-    return 1;
+-}
+-
+-int v4l_init_device(PyCameraObject* self)
+-{
+-    return 0;
+-}
+-
+-int v4l_start_capturing(PyCameraObject* self)
+-{
+-    return 0;
+-}
+-#endif

@@ -1,0 +1,29 @@
+[mirrors]
+http://www.pygame.org/ftp/pygame-1.9.1release.tar.gz
+
+[vars]
+filesize=2134254
+sha512=485f02c4f3113a9de5e731c089de8a9bdcc639152de162f20eb8b50659a42e24f53d0685346dc46f390439be5a5c001dcce7cb866b180948c0f1441d01a7d6c2
+
+[deps]
+sdl
+sdl-mixer
+smpeg
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+patch -p1 < "$K"/pygame-drop_v4l_support.patch
+sed -i 's@int pos = 0@Py_ssize_t pos = 0@' src/scrap_x11.c
+printf "#!/bin/sh\necho 1.2.15\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
+printf "#!/bin/sh\necho 0.4.5\necho -lsmpeg -I$butch_root_dir$butch_prefix/include/smpeg\n" > smpeg-config
+chmod +x sdl-config
+chmod +x smpeg-config
+export PATH="$PWD:$PATH"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
