@@ -1,16 +1,15 @@
 [mirrors]
-https://www.mercurial-scm.org/release/mercurial-3.7.3.tar.gz
+https://www.mercurial-scm.org/release/mercurial-3.8.2.tar.gz
 
 [vars]
-filesize=4636732
-sha512=7f9f97229e40c7092c16ccf227b19a08a9839d8ce19a9d057341fff75876bff32241ee9aa10eab293f779ea3e8a1d97577597187bd96251fb499cbb1075a82cf
+filesize=4771143
+sha512=16705396e71d86e7b0eec5d42e39d013812169f62cee10998bdfc088570759576aadcb7845f438b0e12664a3d8487fe5cd19c034811aefda8b2ee59e3d9a0f60
 
 [deps.run]
 python
 
 [deps.host]
 python
-wget
 
 [build]
 python setup.py build
