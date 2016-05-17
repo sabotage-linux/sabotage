@@ -1,10 +1,11 @@
 [mirrors]
-https://github.com/norayr/voc/archive/8b66c787da358c76b141503cc9e09f5292ca856d.tar.gz
+https://github.com/norayr/voc/archive/7f6c73341414af134c2ae23cd5dab5629d0d5fe5.tar.gz
 
 [vars]
-filesize=4219332
-sha512=9b89c92d432df748fae377ec73a8f41a56c3c363a49b71d10da7b2ad28c72c6d5653419d531b64889143e62c48c2849e5fb299cacf7cf4e110c9bb82584a5a62
-tardir=voc-8b66c787da358c76b141503cc9e09f5292ca856d
+filesize=4601447
+sha512=c02261b9adebd6444d45b8a3c4171469a2ca99a8b1d57c5297a362088a7e1ebb929e4cfa74e265bae100976d19f8862246584d215d0e5b32c8ab075d79e985ee
+tardir=voc-7f6c73341414af134c2ae23cd5dab5629d0d5fe5
+tarball=voc-7f6c73341414af134c2ae23cd5dab5629d0d5fe5.tar.gz
 
 [deps.host]
 sed
