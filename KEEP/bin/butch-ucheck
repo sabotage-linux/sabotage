@@ -97,6 +97,7 @@ elif [ "$mode" = san ] ; then
 	  -e '\.sha256sum$' -e '\.md5$' -e '\.news$' -e '\.changes$' \
 	  -e '\.sign$' -e '\.sig$' -e '\.deb$' -e '\.7z$' \
 	  -e '\.readme$' -e '\.meta$' -e '\.txt$' \
+	  -e '\.dsc$' -e '\.udeb$' \
 	| sort -u \
 	> $store/$sha.new
 	rm $store/$sha.html
