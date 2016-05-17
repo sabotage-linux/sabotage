@@ -1,0 +1,29 @@
+[mirrors]
+http://pkgs.fedoraproject.org/repo/pkgs/graphviz/graphviz-2.38.0.tar.gz/5b6a829b2ac94efcd5fa3c223ed6d3ae/graphviz-2.38.0.tar.gz
+
+[vars]
+filesize=25848858
+sha512=0e51a97dae595f4e80bc9e4a12ba3c48485fab19941a28d522f5a0624b6a767e0ba720e9e55bff8efe8308dd1cd3793e2c99cb5fdfceb2d5cafb0cbee907e531
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+[ -n "$CROSS_COMPILE" ] && {
+	echo "THIS PACKAGE IS CURRENTLY BROKEN FOR X-COMPILE"
+	exit 1
+}
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-swig=no
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
