@@ -249,6 +249,7 @@ while read line ; do
 	done
 	if [ "$status" != OK ] && [ "$status" != FAIL ] && [ "$status" != DONE ] ; then
 		printf "%s\n" "$line"
+		continue
 	fi
 	test "$status" = OK && add_downloaded "$pkg"
 	test "$status" = "FAIL" && add_dlerr "$pkg" && dlfails=$(($dlfails + 1)) && \
