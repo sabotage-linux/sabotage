@@ -10,9 +10,7 @@ python
 
 [deps.host]
 python
-wget
 
 [build]
-# FIXME: there appears to be no mirror without https
 python setup.py build
 python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir"

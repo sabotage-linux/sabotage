@@ -10,7 +10,6 @@ python
 [deps.host]
 python
 setuptools
-wget
 
 [build]
 python setup.py build

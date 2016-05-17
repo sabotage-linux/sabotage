@@ -21,7 +21,6 @@ yaml-cpp
 
 [deps.host]
 cmake
-wget
 
 [build]
 mkdir -p build && cd build
