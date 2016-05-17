@@ -69,6 +69,9 @@ if $do_init_alsa ; then
 	[ -e /etc/asound.conf ] || \
 		printf "defaults.pcm.card %s\ndefaults.pcm.device %s\ndefaults.ctl.card %s\n" \
 		       "$alsa_card" "$alsa_device" "$alsa_card" > /etc/asound.conf
+	# in order to save your alsamixer settings permanently, do:
+	# alsactl --file /etc/asound.state store
+	[ -e /etc/asound.state ] && alsactl --file /etc/asound.state restore
 fi
 
 if $do_kmap ; then
