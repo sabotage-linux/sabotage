@@ -1,0 +1,12 @@
+[mirrors]
+https://raw.githubusercontent.com/freebsd/freebsd/0647fdddb3df86e40812519e4913a3f61d94c95c/sys/sys/queue.h
+
+[vars]
+filesize=25249
+sha512=4532bd619e20f9495e36deb09ca084eb757996900c4de277c071015eff5c2a7b0595d579f056779b27683d2d3e460921ab88e0d00039ce29ef38db102c3d81d7
+tarball=bsd_queue.h
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 "$C"/bsd_queue.h "$dest"/include/sys/queue.h
+sed -i '/^.*cdefs\.h.*$/d' "$dest"/include/sys/queue.h
