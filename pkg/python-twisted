@@ -1,0 +1,20 @@
+[mirrors]
+https://pypi.python.org/packages/source/T/Twisted/Twisted-16.1.1.tar.bz2
+
+[vars]
+filesize=2938611
+sha512=2a7e9eddace9f8025c5a2150e09d8154c9751235e7c5fe8a6fbcdc6121e3c77d7c954a126d37265d90ad19a02cfcba87150a6ae8226861143e3556bbe03c9b
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[deps]
+libtirpc
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

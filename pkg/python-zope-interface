@@ -1,0 +1,17 @@
+[mirrors]
+https://pypi.python.org/packages/source/z/zope.interface/zope.interface-4.1.3.tar.gz
+
+[vars]
+filesize=141561
+sha512=4579b7f3f5ae9cde83fcba24147f7480172015d3ec7480e4fac40d06f7846cf4fd1da966fc3e5c12c3f7058762052ef33d0535c685b120c1370d09d2274780e2
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

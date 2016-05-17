@@ -1,0 +1,17 @@
+[mirrors]
+https://pypi.python.org/packages/source/P/Pillow/Pillow-3.2.0.tar.gz
+
+[vars]
+filesize=10306543
+sha512=3ce55370a63fa2edd8b471f81aa7696f39d02a4a171d5f1f44cc19a31eb670e311e7f7aee166604958ed8817a890115bf6c783099747cabc311cac8ac7e03f79
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
