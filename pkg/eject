@@ -1,0 +1,36 @@
+[vars]
+tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+
+[deps]
+util-linux-tarball
+
+[build]
+patch -p1 < "$K"/util-linux.patch
+cp -f "$K"/config.sub config/
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static --static $optldflags" \
+  ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
+                 --disable-nls --disable-rpath --disable-tls --disable-libuuid \
+                 --enable-libmount --disable-mount --disable-losetup \
+                 --disable-cytune --disable-fsck --disable-partx \
+                 --disable-uuidd --disable-mountpoint --disable-fallocate \
+                 --disable-unshare --disable-nsenter --disable-setpriv \
+                 --disable-partx --disable-agetty --disable-cramfs --disable-bfs \
+                 --disable-fdformat --disable-hwclock --disable-wdctl \
+                 --disable-switch_root --disable-pivot_root --disable-kill \
+                 --disable-utmpdump --disable-raw --disable-rename \
+                 --disable-chfn-chsh-password --disable-chsh-only-listed \
+                 --disable-login --disable-sulogin --disable-su --disable-runuser \
+                 --disable-ul --disable-more --disable-pg --disable-setterm \
+                 --disable-schedutils --disable-wall --disable-bash-completion \
+                 --disable-pg-bell --disable-use-tty-group \
+                 --disable-makeinstall-chown --disable-makeinstall-setuid \
+                 --enable-libblkid --enable-eject \
+                 scanf_cv_alloc_modifier=ms $xconfflags
+make V=1 -j$MAKE_THREADS eject
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 755 eject "$dest"/bin/eject
