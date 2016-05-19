@@ -44,7 +44,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 #  --with-lcms=lcms2
 
 for i in po po-plug-ins po-python po-libgimp po-script-fu po-tips ; do
-	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
 done
 
 

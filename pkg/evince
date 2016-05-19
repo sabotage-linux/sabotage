@@ -54,7 +54,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 printf '#define HAVE_POPPLER_DOCUMENT_IS_LINEARIZED\n' >> config.h
 
 for i in po ; do
-	printf 'all:\n\ttrue\ninstall:\n\ttrue\clean:\n\ttrue\n' > "$i"/Makefile
+	printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
 done
 
 
