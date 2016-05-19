@@ -183,7 +183,7 @@ start_build() {
 	$BINDIR/butch-merge $1 $BUTCH_BUILD_TEMPLATE > $scrname
         chmod +x $scrname
 	success=false
-        $scrname > $logname 2>&1 && success=true
+        $scrname </dev/null > $logname 2>&1 && success=true
 	$success && update_butchdb "$1" || info "WARNING: $1 failed to build! wait for other jobs to finish."
 	$success
 }
