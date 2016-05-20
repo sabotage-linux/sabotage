@@ -17,6 +17,8 @@ python
 python
 
 [build]
+# prevent asking dumb questions and reading from stdin
+sed -i 's@"ask a yes.*"@return 1@' config_unix.py
 patch -p1 < "$K"/pygame-drop_v4l_support.patch
 sed -i 's@int pos = 0@Py_ssize_t pos = 0@' src/scrap_x11.c
 printf "#!/bin/sh\necho 1.2.15\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
