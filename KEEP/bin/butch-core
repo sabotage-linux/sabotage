@@ -240,7 +240,7 @@ dlfails=0
 echo "*** buildqueue ***"
 for p in $buildlist ; do printf "%s\n" "$p" ; done
 
-while read line ; do
+while read line <&5 ; do
 	cnt=0
 	for foo in $line ; do
 		test $cnt = 0 && status="$foo"
@@ -261,7 +261,7 @@ while read line ; do
 		wait $dlpid
 		break
 	}
-done <&5
+done
 echo "QUIT" >&4
 wait $hlppid
 # at this point the child processes are reaped, undo EXIT trap
