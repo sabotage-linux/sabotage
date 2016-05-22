@@ -46,4 +46,9 @@ for i in  lib*.* ; do
 	l=$(echo $i | awk '{ p = index($1, "."); if(substr($1, p-1, 1) == "w") { a = substr($1, 0, p -2);} else { a = substr($1, 0, p -4) "_g"; } ; b = substr ($1, p); $0 = a b; print; }')
 	ln -s "$i" "$l"
 done
+# create empty libterminfo.a and symlinks to libcurses.a,so to be compatible
+# with recipes written for netbsd-curses
+"$CROSS_COMPILE"ar rc libterminfo.a
+ln -sf libncurses.a libcurses.a
+ln -sf libncurses.so libcurses.so
 )
