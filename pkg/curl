@@ -1,9 +1,9 @@
 [mirrors]
-https://curl.haxx.se/download/curl-7.48.0.tar.lzma
+https://curl.haxx.se/download/curl-7.49.0.tar.lzma
 
 [vars]
-filesize=5924818
-sha512=1e4cc613aa56d3547beff46c3124a6cb3ba5df89da00055df0b27e2ad57beccec33fd80b2b0d0858cf0de45da5ab5cad8345b0f23f0c536a690a5eab7518a3af
+filesize=5985374
+sha512=3c83b65689cb2cac8962b7f08b1430726a6638b33f4775d25d95506a197a3195799896106bfcd736ca5302a873f8bcfd4aa3d6e1bfe7f49b142f2097447f333f
 
 [deps]
 libressl
@@ -11,8 +11,6 @@ ca-certificates
 zlib
 
 [build]
-patch -p1 < "$K"/curl-libressl.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
