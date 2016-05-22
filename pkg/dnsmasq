@@ -1,9 +1,9 @@
 [mirrors]
-http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.68.tar.xz
+http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.76.tar.xz
 
 [vars]
-filesize=420968
-sha512=c67605f21fc5e64fe70ac4349c45a246575ebdb07ada14602c453b9a1152a12c3a7f3a01d5749db9f7a24a9f281a7fb9fd24bfaff1ec35e9ab0d213ae14cac07
+filesize=480796
+sha512=8a930f3e7cdc0c291ce89bea8128a4b8438b9aa9e660a2ac037e0baa4c5c74f4482a8f83b0410066a759444b3c4e1cf62a9beb625e38509690227996de10e06a
 desc="provides DNS, DHCP, router advertisement and network boot services"
 
 [deps]
