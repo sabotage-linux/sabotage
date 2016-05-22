@@ -1,0 +1,28 @@
+[mirrors]
+http://triptico.com/download/mp/mp-5.2.10.tar.gz
+
+[vars]
+filesize=504306
+sha512=17fc7b30933051d453801577c0243a61af595fea9fd6fd5ae15548af5d4f9339d64a9caaea5244f9a7c578fac785a6c0c36dbe7d02a57bbfb0ac844c37eb285c
+desc='lightweight terminal text editor'
+
+[deps]
+curses
+
+[build]
+sed -i -e '/TMP_CFLAGS=.*/d' -e '/TMP_LDFLAGS=.*/d' config.sh
+mkdir ncursesw
+echo "#include <curses.h>" > ncursesw/ncurses.h
+
+sed -i 's@initscr()@cw = initscr()@' mpv_curses.c
+
+AR="$CROSS_COMPILE"ar \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+TMP_CFLAGS="-I$PWD" \
+TMP_LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lcurses -lterminfo" \
+  ./config.sh -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --without-gtk --without-qt4 --without-win32 --without-gettext
+
+make V=1 -j$MAKE_THREADS
+mkdir -p "$butch_install_dir""$butch_prefix"/bin
+make DESTDIR="$butch_install_dir" install
