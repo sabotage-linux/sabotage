@@ -1,0 +1,16 @@
+[mirrors]
+http://triptico.com/download/mp-3.2.13.tar.gz
+
+[vars]
+filesize=191455
+sha512=30115b5b534e46dcf936cdf45ec140328bf7f4a7a933c9ed5b191e96341623b5ab9f0537dfe3cc56167ce30cc9e095378d4595f317dcac7580302600a74c8e6c
+desc='older version of mp text editor, preferred by puppy/quirky linux'
+
+[deps]
+curses
+
+[build]
+echo "LIBS=-lcurses -lterminfo" >> makefile.depend
+LDFLAGS="$optldflags -static" CFLAGS="$optcflags" make -j$MAKE_THREADS mp
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 mp $dest/bin/mp
