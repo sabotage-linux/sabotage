@@ -18,6 +18,9 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 patch -p1 < "$K"/alsa-lib_mask_inline.patch
 
 sed -i 's,#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE),#if 0,' include/global.h
+for i in asoundlib-head.h local.h ; do
+sed -i 's,sys/poll\.h,poll.h,' include/$i
+done
 
 THIS="$PWD"
 
