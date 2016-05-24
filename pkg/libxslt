@@ -1,16 +1,17 @@
 [mirrors]
-http://xmlsoft.org/sources/libxslt-1.1.28.tar.gz
+http://xmlsoft.org/sources/libxslt-1.1.29.tar.gz
 
 [vars]
-filesize=3435907
-sha512=20b65bdaceaac5bd11d509bf683ce8e344030bc95164639266ae705d41659bcba47b5be1b059d0d67681e6428b0710db675d1749c06aa531bc2212ed3d0511b1
+filesize=3428524
+sha512=a1ce555a74a9dabe65e8f64bb66e27e77760fd76940d88f2d59f58dd63ca73c8ae59f3fcbd8e76c8f92ff992fb0c09328528c20ea38ccac83e63252106bf5f31
+desc='XSLT transformation library from the libxml2 authors'
 
 [deps]
 libxml2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
   --without-python --without-crypto $xconfflags
 make V=1 -j$MAKE_THREADS
