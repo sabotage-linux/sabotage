@@ -235,7 +235,7 @@ if $have_files ; then
 				else
 					$compressor "$i" > "$new"
 				fi
-				rm -f "$i"
+				[ $? = 0 ] && rm -f "$i"
 			done
 			echo done
 		fi
