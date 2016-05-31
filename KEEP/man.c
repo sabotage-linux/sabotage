@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
 static int find_page(char *name, char *sect) {
 	static char defpath[] = "/usr/local/share/man:/usr/share/man";
 	static char defsect[] = "1p:1:1perl:2:3p:3:3perl:4:5:6:7:8:9:0p";
-	static char defsuff[] = ":.gz:.Z";
+	static char defsuff[] = ":.gz:.xz";
 	static char manorcat[] = "man:cat";
 
 	char fbuf[256];
@@ -297,7 +297,7 @@ static int open_page(char *name) {
 
 	if((p = strrchr(name, '.'))) {
 		if(!strcmp(p, ".gz")) command = "gzip -dc ";
-		else if(!strcmp(p, ".Z")) command = "uncompress -c ";
+		else if(!strcmp(p, ".xz")) command = "xzcat -dc ";
 	}
 	if(!command) command = "cat ";
 
