@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/libgsf/1.14/libgsf-1.14.33.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/libgsf/1.14/libgsf-1.14.37.tar.xz
 
 [vars]
-filesize=608364
-sha512=9dbda65a610f3e6efaf40bb51ed9ebabe485e0c2c9c8d0ff155ae39fa1aa3074df8094f51d9b0f27eb251b1aed4b4faa77ffce4d6dc16ef7c99c5b697528be5f
+filesize=611476
+sha512=0e05f14e2ecaa6ce47c2f166e48cc603f40a7d125080f05cf670c437fad770f112be88ed102069448cc5c0d24767dfff6fa6ccfb73040d9cde55b4768f098c4c
+desc='library for r/w of structured files (filesystem-in-a-file)'
 
 [deps]
 libxml2
