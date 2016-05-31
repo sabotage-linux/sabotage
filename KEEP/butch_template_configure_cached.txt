@@ -46,6 +46,7 @@ BUTCH_TARDIR="$tardir"
 # note that you could set similar stuff using env variables.
 butch_do_config_cache=true
 butch_do_cleanup_builddir=true
+[ -z "$butch_do_compress_manpages" ] && butch_do_compress_manpages=true
 
 [ -z "$butch_do_custom_destdir" ] && butch_do_custom_destdir=true
 
@@ -209,6 +210,36 @@ echo "please fix package (examples: xtrans eudev libyajl usbutils shared-mime-in
 exit 1
 }
 if $have_files ; then
+	if $butch_do_compress_manpages ; then
+		compressor=
+		ext=
+		if type gzip >/dev/null 2>&1 ; then
+			compressor="gzip -c"
+			ext=.gz
+		fi
+		if type xz >/dev/null 2>&1 && ! xz --help 2>&1 | grep BusyBox>/dev/null 2>&1 ; then
+			compressor="xz -z -c"
+			ext=.xz
+		fi
+		if [ -n "$compressor" ] ; then
+			printf "compressing manpages with %s..." "$compressor"
+			for i in share/man/man*/* ; do
+				case "$i" in
+					*.gz) continue ;;
+					*.bz2) continue ;;
+					*.xz) continue ;;
+				esac
+				new="$i""$ext"
+				if [ -L "$i" ] ; then
+					ln -sf $(readlink "$i")"$ext" "$new"
+				else
+					$compressor "$i" > "$new"
+				fi
+				rm -f "$i"
+			done
+			echo done
+		fi
+	fi
 	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
 		printf "stripping debug info into external files..."
 		mkdir -p lib/debug && chmod 775 lib/debug
