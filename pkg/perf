@@ -24,5 +24,5 @@ cat << EOF > hack.h
 EOF
 
 make WERROR=0 V=1 EXTRA_CFLAGS="-I$PWD -include hack.h $optcflags" \
-LDFLAGS="$optldflags -static" NO_LIBPYTHON=1
+LDFLAGS="$optldflags -static" NO_LIBPYTHON=1 NO_LIBBPF=1
 install -Dm 755  perf "$butch_install_dir""$butch_prefix"/bin/perf
