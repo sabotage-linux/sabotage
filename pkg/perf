@@ -7,6 +7,10 @@ tarball=linux-"$LINUX_VER".tar.xz
 kernel-tarball
 libelf
 
+[deps.host]
+flex
+bison
+
 [build]
 patch -p1 < "$K"/linux-4.10-perf-sysconf.patch
 cd tools/perf
