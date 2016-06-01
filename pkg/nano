@@ -13,7 +13,7 @@ curses
 sed -ie 's/__time_t/time_t/g' src/text.c
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
-printf '#!/bin/sh\necho -lncursesw\n' > ncursesw5-config
+printf '#!/bin/sh\necho -lncursesw -lterminfo\n' > ncursesw5-config
 chmod +x ncursesw5-config
 PATH="$PWD:$PATH" \
 LDFLAGS="-static $optldflags" CFLAGS="$optcflags" \
