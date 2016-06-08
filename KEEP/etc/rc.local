@@ -17,6 +17,7 @@ do_protected_hardlinks=true
 do_allow_user_ping=true
 do_disable_ipv6=false
 do_disable_ipv6_accept_ra=true
+do_cleanup_x11=true
 
 if $do_allow_user_ping ; then
 	# give groups 1000 - MAX access.
@@ -131,4 +132,8 @@ if $do_disable_ipv6_accept_ra ; then
 	# disable automatic processing of router advertisement.
 	# this can silently and unexpectedly add ipv6 routes behind one's back.
 	echo "0" > /proc/sys/net/ipv6/conf/all/accept_ra
+fi
+if $do_cleanup_x11 ; then
+	# auto-cleanup stale X11 lock
+	rm -f /tmp/.X0-lock
 fi
