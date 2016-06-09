@@ -22,7 +22,10 @@ cat << EOF > hack.h
 #define strerror_r(a,b,c) ((strerror_r)(a,b,c),b)
 #endif
 EOF
-
-make WERROR=0 V=1 EXTRA_CFLAGS="-I$PWD -include hack.h $optcflags" \
+# create a gcc wrapper that filters out -s (strip) flag passed from the PoS
+# build system which i were unable to detect where it comes from
+printf '#!/bin/sh\nflags=\naddflags() {\ntest -z "$flags" && flags="$1" || flags="$flags $1" \n}\nfor arg; do\ntest "$arg" = -s || addflags "$arg"\ndone\n%s $flags\n' "$CC" > mycc
+chmod +x mycc
+make CC=$PWD/mycc WERROR=0 V=1 EXTRA_CFLAGS="-I$PWD -include hack.h $optcflags" \
 LDFLAGS="$optldflags -static" NO_LIBPYTHON=1 NO_LIBBPF=1
 install -Dm 755  perf "$butch_install_dir""$butch_prefix"/bin/perf
