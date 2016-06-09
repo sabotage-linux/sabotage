@@ -1,7 +1,9 @@
 #!/bin/sh
-
+timestamp() {
+        date '+%Y-%m-%d %H:%M:%S'
+}
 start=$(date +%s)
-printf "%s: start\n" "`date`"
+printf "%s: start\n" "`timestamp`"
 
 # ALL VARIABLES STARTING WITH % WILL BE REPLACED BY BUTCH
 # WITH VALUES TAKEN FROM THE PKG FILE.
@@ -127,7 +129,7 @@ butch_configure_cache="$K/config.cache"
 debug_build=0
 if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
 	user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
-	printf "%s: sourcing user defined optimization config %s\n" "`date`" "$user_optimizations_file"
+	printf "%s: sourcing user defined optimization config %s\n" "`timestamp`" "$user_optimizations_file"
 	. "$user_optimizations_file"
 	printf "%s\n" "$optcflags" | \
 		grep -E '(^|\s)[-]g[123]*($|\s)' >/dev/null && \
@@ -145,7 +147,7 @@ cd "$butch_build_root"
 if $BUTCH_HAVE_TARBALL ; then
 
 	printf '%s\n' "$BUTCH_TARBALL" >> "$butch_tarballs_used"
-	printf "%s: starting to untar\n" "`date`"
+	printf "%s: starting to untar\n" "`timestamp`"
 	tarflags=
 	case $(get_file_ext "$BUTCH_TARBALL") in
 		xz) tarflags=xJf ;;
@@ -174,7 +176,7 @@ if $BUTCH_HAVE_TARBALL ; then
 				echo "handing control to package file..." ;;
 		esac
 	fi
-	printf "%s: untar done\n" "`date`"
+	printf "%s: untar done\n" "`timestamp`"
 	cd "$butch_build_dir"
 
 	# this copies a config.cache template (gets installed by pkg/config-cache)
@@ -184,7 +186,7 @@ if $BUTCH_HAVE_TARBALL ; then
 	fi
 fi
 
-printf "%s: start build\n" "`date`"
+printf "%s: start build\n" "`timestamp`"
 # this will be replaced by the contents of the pkg's [build] section.
 # note that all critical commands in the buildscript should use || exit 1
 # so that it aborts on error!
@@ -192,7 +194,7 @@ set -e
 %BUTCH_BUILDSCRIPT
 set +e
 
-printf "%s: end build\n" "`date`"
+printf "%s: end build\n" "`timestamp`"
 # if stuff was directly installed into the rootfs, i.e. without
 # butch_do_custom_destdir, any further action is unwanted/impossible
 $butch_do_custom_destdir || exit 0
@@ -222,7 +224,7 @@ if $have_files ; then
 			ext=.xz
 		fi
 		if [ -n "$compressor" ] ; then
-			printf "compressing manpages with %s..." "$compressor"
+			printf "%s: compressing manpages with %s...\n" "$(timestamp)" "$compressor"
 			for i in share/man/man*/* ; do
 				case "$i" in
 					*.gz) continue ;;
@@ -241,7 +243,7 @@ if $have_files ; then
 		fi
 	fi
 	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
-		printf "stripping debug info into external files..."
+		printf "%s: stripping debug info into external files...\n" "$(timestamp)"
 		mkdir -p lib/debug && chmod 775 lib/debug
 		for i in lib/*.so* bin/* ; do
 			printf "%s" "$i" | grep '\*'>/dev/null && continue
@@ -256,7 +258,7 @@ if $have_files ; then
 			"$CROSS_COMPILE"objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
 		done
 		chmod 664 lib/debug/*
-		echo done
+		printf "%s: done\n" "$(timestamp)"
 	fi
 
 	# here you could place some code that makes a tarball out of $butch_install_dir
@@ -268,7 +270,9 @@ if $have_files ; then
 
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into butch_prefix
+		printf "%s: linking into rootfs...\n" "$(timestamp)"
 		"$K"/bin/butch-relocate "$butch_package_name"
+		printf "%s: done\n" "$(timestamp)"
 	fi
 
 	if $butch_do_create_tarball ; then
@@ -280,5 +284,5 @@ if $have_files ; then
 
 fi
 
-printf "%s: done.\n" "`date`"
+printf "%s: done.\n" "`timestamp`"
 [ -n "$start" ] && printf "total build time: %d seconds.\n" $(($(date +%s) - $start))
