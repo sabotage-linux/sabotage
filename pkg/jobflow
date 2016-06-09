@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/jobflow-1.0.0.tar.bz2
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/jobflow-1.0.0.tar.bz2
+http://ftp.barfooze.de/pub/sabotage/tarballs/jobflow-1.1.1.tar.bz2
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/jobflow-1.1.1.tar.bz2
 
 [vars]
-filesize=27202
-sha512=3f0a1b5f1c47506e69418ceb22ba58b95a6cd20d2d95f5b1ae0c20caca4d3300492976a8e81deb8b329c29e9e3117f22a05f131af3450f1c01a50b5eeac71962
+filesize=33317
+sha512=8168ef468347fd30aefe28e89ff74c486c571ec4c0670b6095b879547ac7fac63d3c58412f8fd470fb026e133c0545860d78f6eac59157c1a893c27062bb0d43
 desc='parallel execution of command line tasks'
 
 [deps.stage0]
