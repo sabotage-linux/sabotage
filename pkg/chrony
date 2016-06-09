@@ -1,8 +1,10 @@
 [mirrors]
-http://download.tuxfamily.org/chrony/chrony-1.29.tar.gz
+http://download.tuxfamily.org/chrony/chrony-2.4.tar.gz
+
 [vars]
-filesize=392880
-sha512=bea384e098a7ea3862e49b31ee85959ae1d23af3a095dd34dbfc6e52329dc9404ff2ca9d0e01eb12ea79d2f5ab484a67f025c152a374bc6bd0e3a803a3bec93e
+filesize=390077
+sha512=29bbeba05fb9897d438cddca7dd4e573a1e9da0d583bd737185088e8b777fdfba4056d091d2bbab78824de284b6244a8de7ada8f62be316e815a3d8ae6145485
+desc='versatile NTP implementation. comes with server and client'
 
 [deps]
 libcap2
@@ -16,7 +18,8 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
               --without-nss
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-install -D -m 644 examples/chrony.conf.example "$butch_install_dir"/"$butch_prefix"/etc/chrony.conf
+install -D -m 644 examples/chrony.conf.example3 \
+  "$butch_install_dir"/"$butch_prefix"/etc/chrony.conf
 
 IS="$K"/bin/butch-install-service
 "$IS" --down --log --force chrony "$K"/services/chrony
