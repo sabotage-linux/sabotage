@@ -1,9 +1,9 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.8.3.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.8.4.tar.xz
 
 [vars]
-filesize=3979536
-sha512=747b6927700ab47648746f61984588a040ec0bda6db218e1c0a86cb443846fc3efd4875758bab9b1004d6239f285ce546f7df0b9d189177d77b0f8ba62776ad2
+filesize=3982836
+sha512=92c3b4437d1160cc23612b4df62646b80a1245d4ed482c3543ba19511f754a34d0185d5dd5d16f2a42bc3097bebc47ece0670c45a1c53ca38cbfbff7d43de87b
 desc='tools to work with the git distributed version control system'
 
 [deps]
