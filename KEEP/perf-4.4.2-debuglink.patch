@@ -1,0 +1,22 @@
+--- linux-4.4.2/tools/perf/util/dso.c.org
++++ linux-4.4.2/tools/perf/util/dso.c
+@@ -44,16 +44,9 @@
+ 
+ 	switch (type) {
+ 	case DSO_BINARY_TYPE__DEBUGLINK: {
+-		char *debuglink;
+-
+-		len = __symbol__join_symfs(filename, size, dso->long_name);
+-		debuglink = filename + len;
+-		while (debuglink != filename && *debuglink != '/')
+-			debuglink--;
+-		if (*debuglink == '/')
+-			debuglink++;
+-		ret = filename__read_debuglink(filename, debuglink,
+-					       size - (debuglink - filename));
++		char dlinkbuf[1024];
++		ret = filename__read_debuglink(dso->long_name, dlinkbuf, sizeof(dlinkbuf));
++		snprintf(filename, size, "/lib/debug/%s", dlinkbuf);
+ 		}
+ 		break;
+ 	case DSO_BINARY_TYPE__BUILD_ID_CACHE:
