@@ -1,9 +1,9 @@
 [mirrors]
-http://lcamtuf.coredump.cx/afl/releases/afl-2.13b.tgz
+http://lcamtuf.coredump.cx/afl/releases/afl-2.14b.tgz
 
 [vars]
-filesize=815983
-sha512=00e922a4c11c015173eabd4ca897df29ab785bae97eb78eb0a7a68acd802e3596f37dac62370b2a52036cc4f17ac640f5eebeb4e8916b3bb727429dee49ce3d1
+filesize=816357
+sha512=fd97374ac5c1f5edc0ded2735b537b570d54684553952927754adc0ad83b33c4de465f15b1e1d0f5feb0002d2f9c01d5f5e4b820e2aa940a2d5f7e9c7f99ba8e
 desc='powerful instrumented binary fuzzer'
 
 [deps]
