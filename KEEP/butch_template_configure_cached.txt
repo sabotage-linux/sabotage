@@ -211,16 +211,23 @@ echo "error: package installed pkgconfig files into /share"
 echo "please fix package (examples: xtrans eudev libyajl usbutils shared-mime-info)"
 exit 1
 }
+add_joblist() {
+        test -z "$joblist" && joblist="$1" || joblist="$joblist $1"
+}
+
 if $have_files ; then
 	if $butch_do_compress_manpages ; then
+		have_jf=false
+		type jobflow >/dev/null 2>&1 && have_jf=true
+		joblist=
 		compressor=
 		ext=
 		if type gzip >/dev/null 2>&1 ; then
-			compressor="gzip -c"
+			compressor="gzip"
 			ext=.gz
 		fi
 		if type xz >/dev/null 2>&1 && ! xz --help 2>&1 | grep BusyBox>/dev/null 2>&1 ; then
-			compressor="xz -z -c"
+			compressor="xz -z"
 			ext=.xz
 		fi
 		if [ -n "$compressor" ] ; then
@@ -233,13 +240,21 @@ if $have_files ; then
 				esac
 				new="$i""$ext"
 				if [ -L "$i" ] ; then
-					ln -sf $(readlink "$i")"$ext" "$new"
+					ln -sf $(readlink "$i")"$ext" "$new" \
+					&& rm -f "$i"
+				elif $have_jf ; then
+					add_joblist "$i"
 				else
-					$compressor "$i" > "$new"
+					$compressor "$i"
 				fi
-				[ $? = 0 ] && rm -f "$i"
 			done
-			echo done
+			if $have_jf && test -n "$joblist" ; then
+				cat <<- EOF | sed 's/ /\n/g' | jobflow \
+				-threads=$MAKE_THREADS -exec $compressor {}
+				$joblist
+				EOF
+			fi
+			printf "%s: done\n" "$(timestamp)"
 		fi
 	fi
 	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
