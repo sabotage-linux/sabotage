@@ -240,6 +240,8 @@ dlfails=0
 echo "*** buildqueue ***"
 for p in $buildlist ; do printf "%s\n" "$p" ; done
 
+starttime=$(date +%s)
+
 while read line <&5 ; do
 	cnt=0
 	for foo in $line ; do
@@ -277,4 +279,9 @@ echo "got $dlfails download errors and $bfails build errors."
 test $dlfails -gt 0 && echo "failed to download: $dlerr"
 test $bfails -gt 0 && echo "failed to build: $builderr"
 test $afails -gt 0 && echo "not built due to missing deps: $buildlist"
+totaltime=$(($(date +%s) - $starttime))
+hrs=$(($totaltime / 3600))
+mins=$((($totaltime % 3600) / 60))
+secs=$(($totaltime % 60))
+printf "time spent: %02d:%02d:%02d\n" $hrs $mins $secs
 exit $(($dlfails + $bfails))
