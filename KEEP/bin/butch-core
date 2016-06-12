@@ -22,7 +22,7 @@ die() {
 }
 usage() {
 cat << EOF
-butch-core v0.7.0
+butch-core v0.7.1
 syntax: $0 command options
 
 commands: install, rebuild, prefetch
