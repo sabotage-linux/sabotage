@@ -174,26 +174,14 @@ in_args() {
 	done
 	return 1
 }
-add_dllist() {
-	test -z "$dllist" && dllist="$1" || dllist="$dllist $1"
-}
-add_dlerr() {
-	test -z "$dlerr" && dlerr="$1" || dlerr="$dlerr $1"
-}
-add_builderr() {
-	test -z "$builderr" && builderr="$1" || builderr="$builderr $1"
-}
 add_downloaded() {
 	echo "DOWNLOADED $1" >&4
-}
-add_buildlist() {
-	test -z "$buildlist" && buildlist="$1" || buildlist="$buildlist $1"
 }
 rem_buildlist() {
 	bl_old="$buildlist"
 	buildlist=
 	for h_ in $bl_old ; do
-		test "$h_" = "$1" || add_buildlist "$h_"
+		test "$h_" = "$1" || add_list buildlist "$h_"
 	done
 }
 is_downloaded() {
@@ -215,7 +203,7 @@ start_build() {
 launch_build() {
 	for j_ in $buildlist ; do
 		if has_all_deps "$j_" && is_downloaded "$j_" ; then
-			start_build "$j_" || add_builderr "$j_"
+			start_build "$j_" || add_list builderr "$j_"
 			rem_buildlist "$j_"
 			return 0
 		fi
@@ -293,14 +281,14 @@ test $? = 0 || die "butch deps failed"
 for p in $deps ; do
 	if is_installed "$p" ; then
 		if $force && in_args "$p" ; then
-			test $mode != download && add_buildlist "$p"
-			has_mirrors "$p" && add_dllist "$p" || add_downloaded "$p"
+			test $mode != download && add_list buildlist "$p"
+			has_mirrors "$p" && add_list dllist "$p" || add_downloaded "$p"
 		else
 			echo "package $p is already installed, skipping"
 		fi
 	else
-		test $mode != download && add_buildlist "$p"
-		has_mirrors "$p" && add_dllist "$p" || add_downloaded "$p"
+		test $mode != download && add_list buildlist "$p"
+		has_mirrors "$p" && add_list dllist "$p" || add_downloaded "$p"
 	fi
 done
 
@@ -330,7 +318,7 @@ while read line <&5 ; do
 		continue
 	fi
 	test "$status" = OK && add_downloaded "$pkg"
-	test "$status" = "FAIL" && add_dlerr "$pkg" && dlfails=$(($dlfails + 1)) && \
+	test "$status" = "FAIL" && add_list dlerr "$pkg" && dlfails=$(($dlfails + 1)) && \
 	info "WARNING: package $pkg failed to download!"
 	while launch_build ; do
 		:
