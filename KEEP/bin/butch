@@ -59,7 +59,8 @@ ucheck [<package> ... ]   # check for upstream updates in <packages>
 
 dlinfo <url>              # download url, print initial butch recipe
 
-update                    # rebuild installed packages with new recipes
+update                    # interactively rebuild inst. packages /w new recipes
+outdated                  # print list of inst. pkgs that have an updated recipe
 
 download related actions are performed on-demand, i.e. the tarball is missing
 
@@ -91,8 +92,7 @@ case $1 in
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	rm) shift; prog=butch-rm;;
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
-	update) export BUTCH_SKIPLIST=gcc3:stage0:stage0_musl:stage0_gcc:stage0_prepare:"$BUTCH_SKIPLIST" ;;
-	install|prefetch|rebuild) : ;;
+	install|prefetch|rebuild|update|outdated) : ;;
 	*) usage && exit 1;;
 esac
 

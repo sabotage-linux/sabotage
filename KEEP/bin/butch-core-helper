@@ -7,7 +7,7 @@ BEGIN {
 		error("$BUTCHBINDIR not set")
 	}
 	while ((r = getline < ENVIRON["BUTCHDB"]) == 1) {
-		INSTALLED[$1] = 1
+		INSTALLED[$1] = $2
 	}
 	close(ENVIRON["BUTCHDB"])
 }
@@ -42,6 +42,9 @@ function get_deps(pkg,   var) {
 	INSTALLED[$2] = 1
 }
 /^installed / {
+	say(INSTALLED[$2] ? "1" : "0")
+}
+/^pkghash / {
 	say(INSTALLED[$2] ? INSTALLED[$2] : "0")
 }
 /^DOWNLOADED / {
