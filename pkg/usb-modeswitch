@@ -1,9 +1,10 @@
 [mirrors]
-http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.2.0.tar.bz2
+http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.4.0.tar.bz2
 
 [vars]
-filesize=261888
-sha512=1311365c580035361e961ffefb84acf88771aae17d4b084733f2e0d10ac2ad770cf7d3b64c1c6cc400f19082530b425714f3afb88d10d6023e3798261a982e67
+filesize=259433
+sha512=cf232b8333509012415fe9afbd1becbf54bbf7ebbb6cd450d16546840afc2dbdbc253f8ae6ae294c1e3a490d935e675b984a02ddbe243b57d80443f5d265117c
+desc='tool to switch 3G USB modems from storage to modem mode'
 
 [deps]
 usb-modeswitch-data
@@ -24,4 +25,5 @@ cd ..
 make V=1 PREFIX="$butch_install_dir""$butch_prefix" \
      -j$MAKE_THREADS -C jim lib
 make DESTDIR="$butch_install_dir" PREFIX="$butch_install_dir""$butch_prefix"\
+     SBINDIR="$butch_install_dir""$butch_prefix"/bin \
      install
