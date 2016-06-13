@@ -1,10 +1,10 @@
-[vars]
-filesize=11202492
-sha512=06371d47b02caec83c7662f6bb4a827eafb7f3309f6cda959a0f49b647df031166a6e7c5d530b57b580104289ee260aa96f3f43cbfffcef816cea776b0d5aed0
-desc='media player with support for most audio/video formats'
-
 [mirrors]
-http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.1.1.tar.xz
+http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.3.0.tar.xz
+
+[vars]
+filesize=13278984
+sha512=10007e471a941f8a3dabf6149e6e44fc1a364a9ccb5cd08c670fc22560e5053a15f3249e9d3e18cdda06b6b7e77e537026b5d33dc356e928c63747d6ed73dbae
+desc='media player with support for most audio/video formats'
 
 [deps]
 libtheora
@@ -19,6 +19,7 @@ libxvmc
 alsa-lib
 mesalib
 libpng
+ffmpeg
 
 [deps.host]
 yasm
@@ -79,6 +80,7 @@ export PATH="$PWD:$PATH"
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure --prefix="$butch_prefix" \
+	--disable-ffmpeg_a \
 	--disable-gui \
 	--disable-gif \
 	--disable-arts \
@@ -87,11 +89,9 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 	--disable-nas \
 	--enable-gl \
 	--disable-musepack \
-	--disable-mp3lib \
 	--disable-ossaudio \
 	--disable-pulse \
 	--disable-openal \
-	--disable-mp3lib \
 	--disable-esd \
 	--disable-mga \
 	--disable-lirc \
