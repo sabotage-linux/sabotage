@@ -166,7 +166,8 @@ esac
 shift
 test $mode = download_one && { dl_one "$1" ; exit $? ; }
 check_config
-args="$@"
+args=
+for x_ in "$@" ; do add_list args $(basename "$x_") ; done
 
 in_args() {
 	for x_ in $args ; do
