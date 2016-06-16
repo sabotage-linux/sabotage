@@ -1,9 +1,9 @@
 [mirrors]
-http://dl.winehq.org/wine/source/1.8/wine-1.8.2.tar.bz2
+http://dl.winehq.org/wine/source/1.8/wine-1.8.3.tar.bz2
 
 [vars]
-filesize=22857786
-sha512=ed4883443b29c00409143932de40c543a65acfc01ce61f223e6ed852e6869d1936e5d6c1c3942335d2fb6c9ee923f6187ba9f3207af9900911c4258c0266a321
+filesize=22901016
+sha512=16e0e0161ded64d6abd4503e4a458e62cc630fd1ce7f8eee885404c42be784159213144aa049ff6628924828e13438453071d29b6975747ea4101c9da7e89f28
 desc='windows API emulator to execute win32 binaries. requires x86 32bit TC'
 
 [deps.host]
