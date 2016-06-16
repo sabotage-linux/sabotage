@@ -1,6 +1,9 @@
+[mirrors]
+http://www.bennewitz.com/bluefish/stable/source/bluefish-2.2.9.tar.gz
+
 [vars]
-filesize=5172523
-sha512=47003cd693af07ccd7a7cc186abec97954aaeb50ffa017ebea085e3d407fc66bcbcb94443fa6db3491340d942e3eb1fcc6ff7676de16c8267d1f35fd5277d438
+filesize=5449955
+sha512=856755bec57c0bb332a7c9ade3ded4e3218de0ac8ef2d734f576c89209b092db7aeef528482c99856f7899435c096b159fcd7d585ee9b952e31336ba03f2b1da
 desc="GTK+ code editor with syntax highlighting, tabs... focus on web dev"
 
 [mirrors]
