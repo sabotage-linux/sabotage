@@ -1,9 +1,9 @@
 [mirrors]
-http://poppler.freedesktop.org/poppler-data-0.4.6.tar.gz
+http://poppler.freedesktop.org/poppler-data-0.4.7.tar.gz
 
 [vars]
-filesize=4182141
-sha512=5e5f5302c475d3630961b7a89a2e8c8b77884ee99289d97b626d9f1daee54314f4b1d070397c8f3dce0c420a71960d4663c56637eb9ba54de2eec3e481636035
+filesize=4182339
+sha512=9a865f077f8760a106c6b28302357253c6d63a8f4f10a9506724d1f0ba42e3481bd790ca07e7ee245c63de3650a33c12e80e20e94415a0e37b05225cfe0efce2
 
 [deps]
 poppler
@@ -12,3 +12,8 @@ poppler
 #CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 #make -j$MAKE_THREADS
 make prefix="$butch_install_dir""$butch_prefix" install
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/pkgconfig
+mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
+rm -rf "$dest"/share/pkgconfig
+
