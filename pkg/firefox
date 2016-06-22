@@ -1,11 +1,11 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/38.8.0esr//source/firefox-38.8.0esr.source.tar.bz2
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/38.8.0esr/source/firefox-38.8.0esr.source.tar.bz2
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.2.0esr/source/firefox-45.2.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.2.0esr/source/firefox-45.2.0esr.source.tar.xz
 
 [vars]
-filesize=181198635
-sha512=fcd2497a60176b8403a1793d1ad0a1c96a0a60217c2d4d7acd0506abf6810892bd51fd113d8f952f92b20032efc539a6b1233d8d124c2eb72d726b0935c04d65
-tardir=mozilla-esr38
+filesize=185458280
+sha512=fd67353cff9400080a311af92562b1ed26d20ca2229e32e8c8289b364ebe27fd501eed78c72b614e0501c3841ae9b17f2102158fbeef5083bee8c12d952660e6
+tardir=firefox-45.2.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 
 [deps]
@@ -22,6 +22,7 @@ libogg
 libvorbis
 icu
 libvpx
+hunspell
 
 [deps.host]
 yasm
@@ -29,7 +30,7 @@ perl
 python
 
 [build]
-FF_VERSION=38.8.0esr
+FF_VERSION=45.2.0esr
 export SHELL=/bin/sh
 
 PATCH() {
@@ -41,15 +42,14 @@ PATCH firefox-virtualenv.patch
 PATCH firefox-getprotobyname_r.patch
 PATCH firefox-finite.patch
 PATCH firefox-gregor.patch
-PATCH firefox-profiler.patch
-PATCH firefox-hunspell.patch
-
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1041962
-PATCH firefox-31-basename.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox38-xul-order.patch
-PATCH firefox38-arm-temp-failure.patch
+PATCH firefox45-mallinfo.patch
+PATCH firefox45-tools.patch
+PATCH firefox45-libavutil.patch
+PATCH firefox45-seccomp-bpf.patch
+PATCH firefox45-youtube-embed.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
@@ -74,6 +74,7 @@ ac_add_options --disable-elf-hack
 #ac_add_options --disable-ogg
 #ac_add_options --disable-opus
 ac_add_options --disable-webgl
+ac_add_options --disable-gconf
 
 
 # GStreamer is necessary for H.264 video playback in HTML5 Video Player;
@@ -82,7 +83,7 @@ ac_add_options --disable-webgl
 ac_add_options --disable-gstreamer
 
 # Uncomment these lines if you have installed optional dependencies:
-#ac_add_options --enable-system-hunspell
+ac_add_options --enable-system-hunspell
 #ac_add_options --enable-startup-notification
 
 # Uncomment this line if you compiled Cairo with --enable-tee switch and want

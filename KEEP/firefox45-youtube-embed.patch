@@ -1,0 +1,301 @@
+
+# HG changeset patch
+# User Kyle Machulis <kyle@nonpolynomial.com>
+# Date 1452067319 28800
+# Node ID df9aaad130a3e95969bb52181029872ba43b21e7
+# Parent  28a2f47fced812306c72e4039ecb477bbb5c47fa
+Bug 769117 - Rewrite youtube flash embed tags to possibly use HTML5; r=bz r=hsivonen
+
+
+diff --git a/dom/base/nsObjectLoadingContent.cpp b/dom/base/nsObjectLoadingContent.cpp
+--- a/dom/base/nsObjectLoadingContent.cpp
++++ b/dom/base/nsObjectLoadingContent.cpp
+@@ -98,16 +98,17 @@
+ // fix bug 1147521.  Should later be replaced by proper interface methods,
+ // maybe on nsIObjectLoadingContext.
+ #include "mozilla/dom/HTMLObjectElement.h"
+ #endif
+ 
+ static NS_DEFINE_CID(kAppShellCID, NS_APPSHELL_CID);
+ 
+ static const char *kPrefJavaMIME = "plugin.java.mime";
++static const char *kPrefYoutubeRewrite = "plugins.rewrite_youtube_embeds";
+ 
+ using namespace mozilla;
+ using namespace mozilla::dom;
+ 
+ static LogModule*
+ GetObjectLog()
+ {
+   static LazyLogModule sLog("objlc");
+@@ -699,17 +700,18 @@ nsObjectLoadingContent::UnbindFromTree(b
+   if (doc && doc->IsActive()) {
+     nsCOMPtr<nsIRunnable> ev = new nsSimplePluginEvent(doc,
+                                                        NS_LITERAL_STRING("PluginRemoved"));
+     NS_DispatchToCurrentThread(ev);
+   }
+ }
+ 
+ nsObjectLoadingContent::nsObjectLoadingContent()
+-  : mType(eType_Loading)
++  : mRewrittenYoutubeEmbed(false)
++  , mType(eType_Loading)
+   , mFallbackType(eFallbackAlternate)
+   , mRunID(0)
+   , mHasRunID(false)
+   , mChannelLoaded(false)
+   , mInstantiating(false)
+   , mNetworkCreated(true)
+   , mActivated(false)
+   , mIsStopping(false)
+@@ -1477,17 +1479,17 @@ nsObjectLoadingContent::CheckJavaCodebas
+          this));
+     return false;
+   }
+ 
+   return true;
+ }
+ 
+ bool
+-nsObjectLoadingContent::IsYoutubeEmbed()
++nsObjectLoadingContent::ShouldRewriteYoutubeEmbed(nsIURI* aURI)
+ {
+   nsCOMPtr<nsIContent> thisContent =
+     do_QueryInterface(static_cast<nsIImageLoadingContent*>(this));
+   NS_ASSERTION(thisContent, "Must be an instance of content");
+ 
+   // We're only interested in switching out embed and object tags
+   if (!thisContent->NodeInfo()->Equals(nsGkAtoms::embed) &&
+       !thisContent->NodeInfo()->Equals(nsGkAtoms::object)) {
+@@ -1495,35 +1497,51 @@ nsObjectLoadingContent::IsYoutubeEmbed()
+   }
+   nsCOMPtr<nsIEffectiveTLDService> tldService =
+     do_GetService(NS_EFFECTIVETLDSERVICE_CONTRACTID);
+   // If we can't analyze the URL, just pass on through.
+   if(!tldService) {
+     NS_WARNING("Could not get TLD service!");
+     return false;
+   }
++
+   nsAutoCString currentBaseDomain;
+-  bool ok = NS_SUCCEEDED(tldService->GetBaseDomain(mURI, 0, currentBaseDomain));
++  bool ok = NS_SUCCEEDED(tldService->GetBaseDomain(aURI, 0, currentBaseDomain));
+   if (!ok) {
+-    // Data URIs won't parse correctly, so just fail silently here.
++    // Data URIs (commonly used for things like svg embeds) won't parse
++    // correctly, so just fail silently here.
+     return false;
+   }
++
+   // See if URL is referencing youtube
+-  nsAutoCString domain("youtube.com");
+-  if (!StringEndsWith(domain, currentBaseDomain)) {
++  if (!currentBaseDomain.EqualsLiteral("youtube.com")) {
+     return false;
+   }
++
++  // We should only rewrite URLs with paths starting with "/v/", as we shouldn't
++  // touch object nodes with "/embed/" urls that already do that right thing.
++  nsAutoCString path;
++  aURI->GetPath(path);
++  if (!StringBeginsWith(path, NS_LITERAL_CSTRING("/v/"))) {
++    return false;
++  }
++
+   // See if requester is planning on using the JS API.
+   nsAutoCString uri;
+-  mURI->GetSpec(uri);
+-  // Only log urls that are rewritable, e.g. not using enablejsapi=1
++  aURI->GetSpec(uri);
+   if (uri.Find("enablejsapi=1", true, 0, -1) != kNotFound) {
+     return false;
+   }
+-  return true;
++
++  // If we've made it this far, we've got a rewritable embed. Log it in
++  // telemetry.
++  Telemetry::Accumulate(Telemetry::YOUTUBE_REWRITABLE_EMBED_SEEN, 1);
++
++  // Even if node is rewritable, only rewrite if the pref tells us we should.
++  return Preferences::GetBool(kPrefYoutubeRewrite);
+ }
+ 
+ bool
+ nsObjectLoadingContent::CheckLoadPolicy(int16_t *aContentPolicy)
+ {
+   if (!aContentPolicy || !mURI) {
+     NS_NOTREACHED("Doing it wrong");
+     return false;
+@@ -1764,23 +1782,37 @@ nsObjectLoadingContent::UpdateObjectPara
+     thisContent->GetAttr(kNameSpaceID_None, nsGkAtoms::data, uriStr);
+   } else if (thisContent->NodeInfo()->Equals(nsGkAtoms::embed)) {
+     thisContent->GetAttr(kNameSpaceID_None, nsGkAtoms::src, uriStr);
+   } else {
+     // Applet tags should always have a java MIME type at this point
+     NS_NOTREACHED("Unrecognized plugin-loading tag");
+   }
+ 
++  mRewrittenYoutubeEmbed = false;
+   // Note that the baseURI changing could affect the newURI, even if uriStr did
+   // not change.
+   if (!uriStr.IsEmpty()) {
+     rv = nsContentUtils::NewURIWithDocumentCharset(getter_AddRefs(newURI),
+                                                    uriStr,
+                                                    thisContent->OwnerDoc(),
+                                                    newBaseURI);
++    if (ShouldRewriteYoutubeEmbed(newURI)) {
++      // Switch out video access url formats, which should possibly allow HTML5
++      // video loading.
++      uriStr.ReplaceSubstring(NS_LITERAL_STRING("/v/"),
++                              NS_LITERAL_STRING("/embed/"));
++      rv = nsContentUtils::NewURIWithDocumentCharset(getter_AddRefs(newURI),
++                                                     uriStr,
++                                                     thisContent->OwnerDoc(),
++                                                     newBaseURI);
++      mRewrittenYoutubeEmbed = true;
++      newMime = NS_LITERAL_CSTRING("text/html");
++    }
++
+     if (NS_SUCCEEDED(rv)) {
+       NS_TryToSetImmutable(newURI);
+     } else {
+       stateInvalid = true;
+     }
+   }
+ 
+   // For eAllowPluginSkipChannel tags, if we have a non-plugin type, but can get
+@@ -1934,19 +1966,19 @@ nsObjectLoadingContent::UpdateObjectPara
+   //     to proceed.
+   //  6) Otherwise, type null to indicate unloadable content (fallback)
+   //
+ 
+   if (stateInvalid) {
+     newType = eType_Null;
+     newMime.Truncate();
+   } else if (newChannel) {
+-      // If newChannel is set above, we considered it in setting newMime
+-      newType = GetTypeOfContent(newMime);
+-      LOG(("OBJLC [%p]: Using channel type", this));
++    // If newChannel is set above, we considered it in setting newMime
++    newType = GetTypeOfContent(newMime);
++    LOG(("OBJLC [%p]: Using channel type", this));
+   } else if (((caps & eAllowPluginSkipChannel) || !newURI) &&
+              GetTypeOfContent(newMime) == eType_Plugin) {
+     newType = eType_Plugin;
+     LOG(("OBJLC [%p]: Plugin type with no URI, skipping channel load", this));
+   } else if (newURI) {
+     // We could potentially load this if we opened a channel on mURI, indicate
+     // This by leaving type as loading
+     newType = eType_Loading;
+@@ -2165,21 +2197,16 @@ nsObjectLoadingContent::LoadObject(bool 
+   } else if (mChannelLoaded && mChannel != aLoadingChannel) {
+     // The only time we should have a loaded channel with a changed state is
+     // when the channel has just opened -- in which case this call should
+     // have originated from OnStartRequest
+     NS_NOTREACHED("Loading with a channel, but state doesn't make sense");
+     return NS_OK;
+   }
+ 
+-  // Check whether this is a youtube embed.
+-  if (IsYoutubeEmbed()) {
+-    Telemetry::Accumulate(Telemetry::YOUTUBE_REWRITABLE_EMBED_SEEN, 1);
+-  }
+-
+   //
+   // Security checks
+   //
+ 
+   if (mType != eType_Null) {
+     bool allowLoad = true;
+     if (IsJavaMIME(mContentType)) {
+       allowLoad = CheckJavaCodebase();
+diff --git a/dom/base/nsObjectLoadingContent.h b/dom/base/nsObjectLoadingContent.h
+--- a/dom/base/nsObjectLoadingContent.h
++++ b/dom/base/nsObjectLoadingContent.h
+@@ -326,16 +326,22 @@ class nsObjectLoadingContent : public ns
+     void UnbindFromTree(bool aDeep = true,
+                         bool aNullParent = true);
+ 
+     /**
+      * Return the content policy type used for loading the element.
+      */
+     virtual nsContentPolicyType GetContentPolicyType() const = 0;
+ 
++    // True if object represents an object/embed tag pointing to a flash embed
++    // for a youtube video. When possible (see IsRewritableYoutubeEmbed function
++    // comments for details), we change these to try to load HTML5 versions of
++    // videos.
++    bool                        mRewrittenYoutubeEmbed : 1;
++
+   private:
+ 
+     // Object parameter changes returned by UpdateObjectParameters
+     enum ParameterUpdateFlags {
+       eParamNoChange           = 0,
+       // Parameters that potentially affect the channel changed
+       // - mOriginalURI, mOriginalContentType
+       eParamChannelChanged     = 1u << 0,
+@@ -514,17 +520,37 @@ class nsObjectLoadingContent : public ns
+     ObjectType GetTypeOfContent(const nsCString& aMIMEType);
+ 
+     /**
+      * Gets the frame that's associated with this content node.
+      * Does not flush.
+      */
+     nsPluginFrame* GetExistingFrame();
+ 
+-    bool IsYoutubeEmbed();
++    /**
++     * Used for identifying whether we can rewrite a youtube flash embed to
++     * possibly use HTML5 instead.
++     *
++     * Returns true if plugin.rewrite_youtube_embeds pref is true and the
++     * element this nsObjectLoadingContent instance represents:
++     *
++     * - is an embed or object node
++     * - has a URL pointing at the youtube.com domain, using "/v/" style video
++     *   path reference, and without enablejsapi=1 in the path
++     *
++     * Having the enablejsapi flag means the document that contains the element
++     * could possibly be manipulating the youtube video elsewhere on the page
++     * via javascript. We can't rewrite these kinds of elements without possibly
++     * breaking content, which we want to avoid.
++     *
++     * If we can rewrite the URL, we change the "/v/" to "/embed/", and change
++     * our type to eType_Document so that we render similarly to an iframe
++     * embed.
++     */
++    bool ShouldRewriteYoutubeEmbed(nsIURI* uri);
+ 
+     // Helper class for SetupProtoChain
+     class SetupProtoChainRunner final : public nsIRunnable
+     {
+       ~SetupProtoChainRunner();
+     public:
+       NS_DECL_ISUPPORTS
+ 
+--- firefox-45.2.0esr.org/dom/html/HTMLSharedObjectElement.cpp
++++ firefox-45.2.0esr/dom/html/HTMLSharedObjectElement.cpp
+@@ -345,6 +345,11 @@
+   if (mNodeInfo->Equals(nsGkAtoms::embed)) {
+     capabilities |= eSupportSVG | eSupportImages | eSupportDocuments;
+   }
++  // If this is a rewritten youtube flash embed, add documents to capabilities 
++  // so that we can render HTML5 if possible.
++  if (mRewrittenYoutubeEmbed) {
++    capabilities |= eSupportDocuments;
++  }
+ 
+   return capabilities;
+ }
+--- firefox-45.2.0esr.org/modules/libpref/init/all.js
++++ firefox-45.2.0esr/modules/libpref/init/all.js
+@@ -5146,3 +5146,8 @@
+ pref("toolkit.pageThumbs.screenSizeDivisor", 7);
+ pref("toolkit.pageThumbs.minWidth", 0);
+ pref("toolkit.pageThumbs.minHeight", 0);
++
++// Turn rewriting of youtube embeds on/off
++pref("plugins.rewrite_youtube_embeds", true);
++
++
