@@ -1,11 +1,14 @@
 [mirrors]
-http://downloads.sourceforge.net/hunspell/hunspell-1.3.3.tar.gz
+https://github.com/hunspell/hunspell/archive/v1.3.4.tar.gz
 
 [vars]
-filesize=986081
-sha512=7599981d002a4a032c41c83f6287243a4942b0e25c408049a3ba86c16f63ce964800a3ac325ace0402b0d7256690c4a4151a66f19a8f58cc455af0498bb1af04
+filesize=1004935
+sha512=092818570f5eb152b2bf8d0964068510185304f41e1eb0946bf7589c640d21bff67d2b79b49f770e8c0baa9031ab449eefb9e3b0bce8a28e2fc4809007fefa99
+tarball=hunspell-1.3.4.tar.gz
+desc='Spell checker and morphological analyzer library and program'
 
 [deps]
+gettext
 
 [build]
 cp -f "$K"/config.sub .
@@ -15,10 +18,7 @@ cp -f "$K"/config.sub .
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
-sed -i 's/#include <error.h>//g' ./src/tools/munch.c
-sed -i 's/#include <errno.h>//g' ./src/tools/munch.c
-sed -i 's/#include <error.h>//g' ./src/tools/unmunch.c
-sed -i 's/#include <errno.h>//g' ./src/tools/unmunch.c
+./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls \
+  --disable-static --without-included-gettext
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
