@@ -1,9 +1,9 @@
 [mirrors]
-http://sourceforge.net/projects/expat/files/expat/2.1.1/expat-2.1.1.tar.bz2
+http://sourceforge.net/projects/expat/files/expat/2.2.0/expat-2.2.0.tar.bz2
 
 [vars]
-filesize=405103
-sha512=088e2ef3434f2affd4fc79fe46f0e9826b9b4c3931ddc780cd18892f1cd1e11365169c6807f45916a56bb6abcc627dcd17a23f970be0bf464f048f5be2713628
+filesize=414352
+sha512=2be1a6eea87b439374bfacb1fbb8e814fd8a085d5dfd3ca3be69d1af29b5dc93d36cbdec5f6843ca6d5910843c7ffbc498adc2a561b9dcece488edf3c6f8c7c8
 desc='library to interface with XML files'
 uchkurl=https://sourceforge.net/projects/expat/files/expat/
 
