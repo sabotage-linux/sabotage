@@ -1,16 +1,17 @@
 [mirrors]
-http://download.rsyslog.com/librelp/librelp-1.2.10.tar.gz
+http://download.rsyslog.com/librelp/librelp-1.2.11.tar.gz
 
 [vars]
-filesize=415653
-sha512=09f88daa59711449a50b9414f30bc7a217bf3dd7722af53caee024bfe1060e1749f1083d2965c79cbe3c12819359cd3cc262e9dea8ab5ad7bf275f3b61ca907f
+filesize=437328
+sha512=3e474067845f7841510f389e823d0b55352cf4cc5a6b6ffb3f8a033375327df9b851758d8760db89f5aea3befca32f869fa4c2e650447100b01f4346dd23a488
+desc='reliable logging library'
 
 [deps]
 gnutls
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" $xconfflags
