@@ -1,0 +1,23 @@
+[mirrors]
+http://downloads.sourceforge.net/project/gptfdisk/gptfdisk/1.0.1/gptfdisk-1.0.1.tar.gz
+
+[vars]
+filesize=195378
+sha512=6aa2ed6213183ea38ce7dd6e7f4f23b88cc56bed5a4d078f563b9e0a3c276eacf869e28a27ccb4e473753f7bced7ecb5de4535626f9ed22b7a59a39906d0419c
+desc="A text-mode partitioning tool that works on Globally Unique Identifier (GUID) Partition Table (GPT) disks"
+
+[deps.host]
+curses
+e2fsprogs
+kernel-headers
+popt
+
+[build]
+make CXX="${CXX:-g++}" CFLAGS="$optcflags" LDFLAGS="$optldflags"
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/bin "$dest"/share/man/man8
+for i in gdisk cgdisk sgdisk fixparts; do
+	install $i "$dest"/bin/ || return 1
+	install $i.8 "$dest"/share/man/man8/ || return 1
+done
+
