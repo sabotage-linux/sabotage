@@ -55,6 +55,7 @@ checktarballs             # verify the downloaded package tarballs
 
 printsec <pkg> <section>  # print the specified <section> of <package>
 search <term>             # search for <term> in package names (grep syntax)
+descsearch [<term> ... ]  # search for <term> in package descriptions (grep)
 ucheck [<package> ... ]   # check for upstream updates in <packages>
 
 dlinfo <url>              # download url, print initial butch recipe
@@ -79,6 +80,7 @@ case $1 in
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
 	search) shift; prog=butch-search;;
+	descsearch) shift; prog=butch-descsearch;;
 	ucheck) shift; prog="butch-ucheck --check";;
 	printsec) shift; prog=butch-printsec;;
 	mirrors) shift; prog=butch-mirrors;;

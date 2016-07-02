@@ -1,0 +1,19 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo "error: S is not set, did you source config?"
+	exit 1
+fi
+pkgdir="$S"/pkg
+if [ ! -d "$pkgdir" ] ; then
+	echo "error: cannot find pkg dir $pkgdir"
+	exit 1
+fi
+IFS='
+'
+for i in `grep "$@" $pkgdir/*` ; do
+	printf "%s" "$i" | grep ':desc=' >/dev/null 2>&1 || continue
+	pkg=$(basename $(printf "%s" "$i"| cut -d ":" -f 1))
+	txt=$(printf "%s" "$i"| cut -d ":" -f 2)
+	desc=$(printf "%s" "$txt" | sed -e "s/^desc=['\"]//" -e "s/['\"]$//")
+	printf "%s: %s\n" "$pkg" "$desc"
+done
