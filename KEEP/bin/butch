@@ -54,7 +54,7 @@ checkdownloads            # verify all package download links
 checktarballs             # verify the downloaded package tarballs
 
 printsec <pkg> <section>  # print the specified <section> of <package>
-search <term>             # search for <term> in packages (grep syntax)
+search <term>             # search for <term> in package names (grep syntax)
 ucheck [<package> ... ]   # check for upstream updates in <packages>
 
 dlinfo <url>              # download url, print initial butch recipe
