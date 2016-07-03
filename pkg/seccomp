@@ -1,16 +1,19 @@
 [mirrors]
-http://downloads.sourceforge.net/project/libseccomp/libseccomp-2.1.1/libseccomp-2.1.1.tar.gz
-[vars]
-filesize=113133
-sha512=1f2916d80a9b9937d2ab9ecf9c4f1e2a8ffc27f90f14e8481eb2f32c8122ea1756950f753f25fb571053f492cc97c8792760e0f058e7ea07ec4bb442508d1112
+https://github.com/seccomp/libseccomp/releases/download/v2.3.1/libseccomp-2.3.1.tar.gz
 
-[deps]
-bash
+[vars]
+filesize=552299
+sha512=246b30e1c513d5e1fa35a47905d99036e276c1e6483a96f3e79ddca536a8c6f641c11bf324ed10c9c8d18fa27d73667c9c72fc7459f827d2883926769ac1cb45
 
 [build]
-patch -p1 < "$K"/seccomp.patch
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-   ./configure -C --prefix="$butch_prefix" \
-     --libdir=/lib
-make -j$MAKE_THREADS
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+   ./configure -C --prefix="$butch_prefix" $xconfflags \
+     --libdir="$butch_prefix"/lib
+
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
