@@ -1,9 +1,9 @@
 [mirrors]
-http://www.kismetwireless.net/code/kismet-2013-03-R1b.tar.xz
+http://www.kismetwireless.net/code/kismet-2016-07-R1.tar.xz
 
 [vars]
-filesize=699968
-sha512=37b81dd89ba3c02af12e55ebddf86901dbe58123bf9b6928339803d80d01c2351b5376e829292859ecc89539cebd4e1db6aa0d104142ccb289696405a8b2c783
+filesize=709364
+sha512=88891a0cd5ef94a4815d259e433f946f52552c125e05a5d8ac447d04e6090f2bd92f8bd8573440f0dfe446b29233bef81d9889e53170757ad0116ddfc2cb8416
 desc='a passive WLAN sniffer/detector'
 
 [deps]
@@ -23,7 +23,8 @@ CPPFLAGS="-I$butch_root_dir$butch_prefix/include/libnl-tiny" \
 LIBS="-lnl-tiny -lcurses -lterminfo" \
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  ac_cv_lib_panel_new_panel=yes ac_cv_search_stdscr="-lcurses -lterminfo"
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
