@@ -1,9 +1,9 @@
 [mirrors]
-https://www.mercurial-scm.org/release/mercurial-3.8.2.tar.gz
+https://www.mercurial-scm.org/release/mercurial-3.8.4.tar.gz
 
 [vars]
-filesize=4771143
-sha512=16705396e71d86e7b0eec5d42e39d013812169f62cee10998bdfc088570759576aadcb7845f438b0e12664a3d8487fe5cd19c034811aefda8b2ee59e3d9a0f60
+filesize=4775341
+sha512=2ee785f631f9ae346e10ca77251a9ce6d3dacd598588c39f1a69ce1f4b668866f6109d682428512c37c300b26741b74672195538d66845e85cfff5ead886cf4c
 
 [deps.run]
 python
