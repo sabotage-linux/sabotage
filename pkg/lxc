@@ -1,26 +1,26 @@
 [mirrors]
-https://linuxcontainers.org/downloads/lxc-1.1.0.tar.gz
-http://pkgs.fedoraproject.org/repo/extras/lxc/lxc-1.1.0.tar.gz/ab1cbabf859abc15165050c854979c5c/lxc-1.1.0.tar.gz
+https://linuxcontainers.org/downloads/lxc-2.0.3.tar.gz
+
 [vars]
-filesize=833398
-sha512=1df418ae8a49a36df169191855244500b3b1361ab852a0b0b07ce992fb6e3c914962af81d1555ad5a9cbbc53560be9c4e6db69765b5bd93b3687fde8ca7d53ae
+filesize=1061364
+sha512=bdc1231805d8370525640ab3ca46ba3ba597d6d437aa092c1202c798956408d80c99d47704bedd29038da98fa4a7449ea93cd93893a06a10e9ce86a2070c0670
+desc='linux containers for running isolated virtualized environments'
 
 [deps]
 libcap2
-bash
-debootstrap
-rsync
 seccomp
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
+sed -i 's@-Werror@-Wall@g' configure
 CFLAGS="$optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
    ./configure -C --prefix="$butch_prefix" \
             --bindir="$butch_prefix"/bin \
             --sbindir="$butch_prefix"/bin \
             --with-usernic-db=/var/run/lxc/nics \
             --with-runtime-path=/var/run \
+            --with-distro=unknown \
             $xconfflags
 
 make -j$MAKE_THREADS
