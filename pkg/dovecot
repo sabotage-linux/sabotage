@@ -1,9 +1,9 @@
 [mirrors]
-http://dovecot.org/releases/2.2/dovecot-2.2.24.tar.gz
+http://dovecot.org/releases/2.2/dovecot-2.2.25.tar.gz
 
 [vars]
-filesize=5345872
-sha512=90d98996e75353ae631c1e2da2520cc340928f427276c757316714892d7b281745284bf4cb30459eecdb9c96b7d9450eb6801e002e6acafc8669deb2b5e65a81
+filesize=5576235
+sha512=b38d815a727723dbeccf844be4bf05509fc4808ac1a25ba482da7ca25f30c5c57107b6064791326b39aa80bd45b61043266b451ee33ece3521bdbffca57fdecf
 
 [deps]
 libressl
