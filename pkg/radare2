@@ -1,9 +1,10 @@
 [mirrors]
-http://rada.re/get/radare2-0.10.2.tar.xz
+http://rada.re/get/radare2-0.10.4.tar.xz
 
 [vars]
-filesize=5055040
-sha512=437e8fcef7429e294a199030b6cc4401b824262211d512f69b8718d41ff5aa270868e812ecaf6fe22d5fbb14715e7e89d7a13d16a70d68e0bd37e582327ac4f7
+filesize=5022540
+sha512=ed5afd80ac7505c93478c0bbb871202d45afe191c2d0253b519845224452c43b7f7eb91aa814140297483b34f43a07cb8ce2ddb5ace09ad0904c83fd94aebd3a
+desc='reverse engineering and (dis)assembling framework'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
