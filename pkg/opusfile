@@ -1,9 +1,10 @@
 [mirrors]
-https://ftp.mozilla.org/pub/mozilla.org/opus/opusfile-0.6.tar.gz
+https://ftp.mozilla.org/pub/mozilla.org/opus/opusfile-0.8.tar.gz
 
 [vars]
-filesize=437980
-sha512=6fee48f3da21eeffed1ee5a3852234032aa559335225b07383c1104f5efba2f88aebe41c453ab2de472a69766e0fa9b48bec2f97d2a096b27afa96901802ba02
+filesize=464600
+sha512=4db553211ac52b9cd9c03449e602fb720d757df385b74e076ce3552a17ecf0e80c861c326fd2570b26f5ffc1c42dff781eef61c25d7a016116a021c9d2176bbb
+desc='library for decoding and seeking in .opus files'
 
 [deps]
 libopus
@@ -15,7 +16,8 @@ libopus
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-http
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
