@@ -1,9 +1,9 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.14.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.15.tar.gz
 
 [vars]
-filesize=894971
-sha512=9016246b44a7e6ef51477f0a246373c79f3e796c70031c3323be1b6c4c0518a2d4578f1aa712adfd9a80cdc1d71918bd7a35855052a0452b854755bf0cc2424e
+filesize=911600
+sha512=9e923572c0d6bad3dc2d2646d4b0699c10b477ce6300ac6c6224895192a90667f581ddf6eda2ab8c4c16f47bde4bccb03bb90478638d136d9df721430f4d0163
 
 [deps.stage0]
 stage0-gcc
@@ -11,7 +11,6 @@ stage0-gcc
 [build]
 # do not rebuild stage0 packages once we're past that stage
 test "$STAGE" = "0" || exit 0
-patch -p1 < "$K"/musl-1.1.14-regex.patch
 CC=$R/bin/gcc ./configure --enable-gcc-wrapper \
   --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 
