@@ -25,6 +25,10 @@ this_dir="$PWD"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
+for culprit in tests gio/tests ; do
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > $culprit/Makefile.in
+done
+
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -Dloff_t=off_t $optcflags" \
 LDFLAGS="$optldflags" ./configure -C $xconfflags \
   --prefix="$butch_prefix" --disable-modular-tests --disable-selinux --disable-fam \
