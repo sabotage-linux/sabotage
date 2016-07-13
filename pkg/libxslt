@@ -12,7 +12,11 @@ libxml2
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+printf '#!/bin/sh\n[ "$1" = --version ] && echo 2.9.4 || echo -lxml2 -I%s/include/libxml2\n' "$butch_root_dir$butch_prefix" > xml2-config
+chmod +x xml2-config
+export PATH="$PWD:$PATH"
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
   --without-python --without-crypto $xconfflags
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
