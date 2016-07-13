@@ -9,6 +9,9 @@ filesize=757200
 sha512=f6a8eff1c93556aced47c0ac962b8356c3394ad9b25dcfe425a87d26f35391608a9d06f7f5010c1146fa4959c2093ca01ab251b2215f6c21298827ab0fc01032
 
 [build]
+case "$A" in
+	i?86) A=i386 ;;
+esac
 make ARCH="$A" prefix="$butch_prefix" DESTDIR="$butch_install_dir" install \
 
 dest="$butch_install_dir""$butch_prefix"
