@@ -24,7 +24,7 @@ VERSION_REMOVE='s,4\.7\.4.*,,'
 # that is statically linked against musls libc.a.
 # this will lead to random crashes in C++ apps since two concurrent
 # malloc implementations will call brk and mess up each other.
-if [ ! -f "$butch_prefix"/lib/libc.so ] ; then
+if [ ! -f "$butch_root_dir$butch_prefix"/lib/libc.so ] ; then
 	echo "libc.so non-existing or symlink broken"
 	exit 1
 fi
