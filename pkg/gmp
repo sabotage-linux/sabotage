@@ -15,7 +15,9 @@ abihack=
 case "$A" in i[3-6]86) abihack="ABI=32" ;; esac
 
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && \
+xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') NM=${CROSS_COMPILE}nm"
+
 CPPFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" \
 CFLAGS="-Wno-implicit $optcflags" \
 LDFLAGS="$optldflags" \
