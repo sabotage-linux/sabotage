@@ -1,13 +1,14 @@
 [mirrors]
-ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.19.tar.bz2
-http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.19.tar.bz2
-http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.19.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.19.tar.bz2
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.19.tar.bz2
+ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
+http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.24.tar.bz2
+http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.24.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
 
 [vars]
-filesize=761622
-sha512=24ac1799260611f6fe3d0931fbb735f6e7e9d3a794190fba71c71d0324230f635655db96db134a1ddf56ea9c46654feb4ea2649c31e6ee31c9fd1ca41e86b56b
+filesize=783628
+sha512=d577ebf36251402dd27187056f7c54cea226119f499d1c3bc1c4201ba4d2ae4a9dcefdf4502411cfcffe52b1cefab8c2cfddfa16b7e6ad3b49305a3394ccca31
+desc='library defining common error values for all GnuPG components'
 
 [deps]
 
