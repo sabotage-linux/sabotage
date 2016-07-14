@@ -1,0 +1,31 @@
+--- procps-ng-3.3.12.org/top/top.c
++++ procps-ng-3.3.12/top/top.c
+@@ -61,6 +61,7 @@
+ #include "top.h"
+ #include "top_nls.h"
+ 
++#define TPARM2(a, b) tparm(a, b, 0, 0, 0, 0, 0, 0, 0, 0)
+ 
+ /*######  Miscellaneous global stuff  ####################################*/
+ 
+@@ -703,15 +704,15 @@
+       the job's done until he/she/it has a change-of-heart */
+    STRLCPY(q->cap_bold, CHKw(q, View_NOBOLD) ? Cap_norm : tIF(enter_bold_mode))
+    if (CHKw(q, Show_COLORS) && max_colors > 0) {
+-      STRLCPY(q->capclr_sum, tparm(set_a_foreground, q->rc.summclr))
++      STRLCPY(q->capclr_sum, TPARM2(set_a_foreground, q->rc.summclr))
+       snprintf(q->capclr_msg, sizeof(q->capclr_msg), "%s%s"
+-         , tparm(set_a_foreground, q->rc.msgsclr), Cap_reverse);
++         , TPARM2(set_a_foreground, q->rc.msgsclr), Cap_reverse);
+       snprintf(q->capclr_pmt, sizeof(q->capclr_pmt), "%s%s"
+-         , tparm(set_a_foreground, q->rc.msgsclr), q->cap_bold);
++         , TPARM2(set_a_foreground, q->rc.msgsclr), q->cap_bold);
+       snprintf(q->capclr_hdr, sizeof(q->capclr_hdr), "%s%s"
+-         , tparm(set_a_foreground, q->rc.headclr), Cap_reverse);
++         , TPARM2(set_a_foreground, q->rc.headclr), Cap_reverse);
+       snprintf(q->capclr_rownorm, sizeof(q->capclr_rownorm), "%s%s"
+-         , Caps_off, tparm(set_a_foreground, q->rc.taskclr));
++         , Caps_off, TPARM2(set_a_foreground, q->rc.taskclr));
+    } else {
+       q->capclr_sum[0] = '\0';
+ #ifdef USE_X_COLHDR
