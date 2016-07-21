@@ -1,10 +1,11 @@
 [mirrors]
-http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
+http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.6.0.tar.bz2
 
 [vars]
-filesize=1906571
-sha512=5a952aa53e539a130d316723d424fa02a8f42a450950d74a16d8abc5df569ba5559b3b09a32140b638d7a0cd54be1c7b0f8306ad286825bc1281f513bb665fc5
+filesize=1943026
+sha512=dd753372a156bbf7ceb4090276e5fb32b4c8581c93925dded93efee74153b5eb24ee8c3d8ee6339a6878482f0ecf178a2befeeb36e17eada6c440b48c60e9162
 uchkurl=http://downloads.webmproject.org/releases/webm/index.html
+desc='reference implementation of the VP8/VP9 video codec used in webm/html5'
 
 [deps.host]
 yasm
