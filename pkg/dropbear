@@ -1,9 +1,9 @@
 [mirrors]
-http://matt.ucc.asn.au/dropbear/releases/dropbear-2015.68.tar.bz2
+http://matt.ucc.asn.au/dropbear/releases/dropbear-2016.74.tar.bz2
 
 [vars]
-filesize=1611161
-sha512=7725cd4077a3968684db3646f6013c6202977e79d281619e029366e45fca9c4e33e271812626237b6e33938eeb4c8b260902fe2b57cff085086bf930713a934a
+filesize=1622234
+sha512=c0f4ea7840077b8302b48e27b5b588a4babac6583740dfdb845c40f633aa3ec96174d1d2ade81d2c3e23ea99b75e906312c512d8c7580e6e4105b2dbd37e5e22
 desc="lightweight ssh server/client"
 
 [deps]
