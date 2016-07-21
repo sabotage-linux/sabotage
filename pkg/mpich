@@ -1,0 +1,31 @@
+[mirrors]
+http://www.mpich.org/static/downloads/3.2/mpich-3.2.tar.gz
+
+[vars]
+filesize=11862150
+sha512=083c51655b4355827bd7fa4fe528046e2bc77b7747d869ff87b79fa324c3cc2a9b5640ccb7271490ccc0dd627e354a33a449bbab448501bbfddcfe5f999ee717
+
+[deps]
+musl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-fortran
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+# html/pdf docs can be read on http://www.mpich.org/documentation/guides/
+# they're equivalent to the installed manpages.
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/share/doc
+# if a user wants to use mpicc/c++, it should use the native toolchain
+sed -i 's/CC=.*$/CC=gcc/' "$dest"/bin/mpicc
+sed -i 's/CXX=.*$/CXX=g++/' "$dest"/bin/mpic++
