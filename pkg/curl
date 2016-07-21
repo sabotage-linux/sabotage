@@ -1,9 +1,10 @@
 [mirrors]
-https://curl.haxx.se/download/curl-7.49.0.tar.lzma
+https://curl.haxx.se/download/curl-7.50.0.tar.lzma
 
 [vars]
-filesize=5985374
-sha512=3c83b65689cb2cac8962b7f08b1430726a6638b33f4775d25d95506a197a3195799896106bfcd736ca5302a873f8bcfd4aa3d6e1bfe7f49b142f2097447f333f
+filesize=5992396
+sha512=79abed9bfe11df6962e1233088470c8c930c07470a6799ea8b5b473d15b4440a6409e0b6b7ed4f9e904b9b2ec4f9ebfa9d1d9922d2fe9b51ade9b6512b20b718
+desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
 
 [deps]
 libressl
