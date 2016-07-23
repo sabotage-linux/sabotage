@@ -1,0 +1,19 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/l/lm-sensors/lm-sensors_3.4.0.orig.tar.bz2
+
+[vars]
+filesize=175802
+sha512=993064bd14b855c1ae8c057e89313df5b3d5efe441fb2e8c3e508f42bb15658564df2563fac8fabbdb0d650dfdbc694037736c748d45cb9d85dfb8fb5a3d1ea9
+tardir=lm_sensors-3.4.0
+
+[deps]
+
+[build]
+patch -p1 < "$K"/lm_sensors.patch
+# avoid compiler ICE
+sed -i 's@int sensors_yylineno@//int sensors_yylineno@' lib/conf-lex.l
+
+make CC="$CC" CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" MACHINE=$A DESTDIR="$butch_install_dir" \
+  V=1 -j$MAKE_THREADS LIBICONV=-lc all install
