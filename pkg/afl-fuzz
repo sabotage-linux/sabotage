@@ -1,12 +1,13 @@
 [mirrors]
-http://lcamtuf.coredump.cx/afl/releases/afl-2.20b.tgz
+http://lcamtuf.coredump.cx/afl/releases/afl-2.21b.tgz
 
 [vars]
-filesize=818285
-sha512=17f2054a01a903b11c1019de0d907338eabc536246f530d8736fbecf2ae0350cef631cf5e3da2f9ca038144fce11217ba1ceae568db6b1369ba93b3d694bce06
+filesize=818316
+sha512=28f76ca856121fffd24869c01369400f1138821bce2f43b77f223b23f994522a90eec0e2d9c5bde49135ffa63299dbeb4e4fcace071960d0975d02ea253b3f3e
 desc='powerful instrumented binary fuzzer'
 
 [deps]
+musl
 
 [build]
 patch -p0 < "$K"/afl-Makefile.patch
