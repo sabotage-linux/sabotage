@@ -12,6 +12,9 @@ tardir=lm_sensors-3.4.0
 patch -p1 < "$K"/lm_sensors.patch
 # avoid compiler ICE
 sed -i 's@int sensors_yylineno@//int sensors_yylineno@' lib/conf-lex.l
+for i in superio.c isaset.c isadump.c util.c ; do
+	sed -i s'@asm/io.h@sys/io.h@g' prog/dump/"$i"
+done
 
 make CC="$CC" CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
   LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
