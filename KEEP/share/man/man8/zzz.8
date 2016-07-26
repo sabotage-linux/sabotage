@@ -1,0 +1,94 @@
+.Dd July 25, 2014
+.Dt ZZZ 8
+.Os Linux
+.Sh NAME
+.Nm zzz ,
+.Nm ZZZ
+.Nd suspend or hibernate your computer
+.Sh SYNOPSIS
+.Nm zzz
+.Op Fl nSzZRH
+.Nm ZZZ
+.Op Fl nSzZRH
+.Sh DESCRIPTION
+.Nm
+is a simple script to suspend or hibernate your computer.
+It supports hooks before and after suspending.
+.Bl -tag -width indent
+.It Fl n
+dry-run mode.
+Instead of performing an ACPI action,
+.Nm
+will just sleep for a few seconds.
+.It Fl S
+Enter low-power idle mode (ACPI S0, kernel name "freeze").
+.It Fl z
+Enter suspend to RAM mode (ACPI S3, kernel name "mem").
+This is the default for
+.Nm zzz .
+.It Fl Z
+Enter hibernate to disk mode (ACPI S4, kernel name "disk") and power off.
+This is the default for
+.Nm ZZZ .
+.It Fl R
+Enter hibernate to disk mode and reboot.
+This can be used to switch operating systems.
+.It Fl H
+Enter hibernate to disk mode and suspend.
+This is also know as suspend-hybrid.
+.El
+.Sh FILES
+Before suspending,
+.Nm zzz
+runs the executable files in
+.Pa /etc/zzz.d/suspend
+in alphanumeric order.
+After suspending,
+.Nm zzz
+runs the executable files in
+.Pa /etc/zzz.d/resume
+in alphanumeric order (not in reverse order!).
+.Pp
+The environment variable
+.Ev ZZZ_MODE
+can be used in these hooks to differentiate between
+.Ic standby ,
+.Ic suspend ,
+and
+.Ic resume .
+.Sh DIAGNOSTICS
+.Bl -tag -width indent
+.It suspend/hibernate not supported
+The hardware does not support ACPI S3/S4 with this kernel.
+.It sleep permission denied
+You lack sufficent privilege to write to
+.Pa /sys/power/state .
+.It another instance of zzz is running
+.Nm
+locks
+.Pa /sys/power
+during operation.
+Perhaps a hook is stuck?
+.It Zzzz... yawn.
+The system has woken up again.
+Everything is fine.
+You feel refreshed.
+.Sh SEE ALSO
+.Xr pm-action 8 ,
+.Xr s2disk 8 ,
+.Xr s2ram 8 ,
+OpenBSD's
+.Xr apm 8
+.Sh HISTORY
+A similar
+.Nm apm
+command appeared in
+.Nx 1.3
+and
+.Ox 1.2 .
+.Sh AUTHOR
+.An Christian Neukirchen ,
+.Mt chneukirchen@gmail.com .
+.Sh LICENSE
+.Nm
+is in the public domain.
