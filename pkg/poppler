@@ -1,9 +1,10 @@
 [mirrors]
-http://poppler.freedesktop.org/poppler-0.45.0.tar.xz
+http://poppler.freedesktop.org/poppler-0.46.0.tar.xz
 
 [vars]
-filesize=1674464
-sha512=b703bed35da3572801834740bf61d59b6a3ee3b88bc1b3181bde3472264be4f6b89ceacb56179d7093329946abd6ba2501acfaf209d4f543352ff9fd38c47f1b
+filesize=1680940
+sha512=c303875ae8082e8cd0332ecff82e52678393d0015d092aee6fec3cc191218f155aca049ce43996c255122f550aae53ed019bb7855291d117d0b9e25ab83e9caf
+desc='PDF rendering library and some utilities'
 
 [deps.host]
 pkgconf
@@ -41,3 +42,5 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/share/gtk-doc
