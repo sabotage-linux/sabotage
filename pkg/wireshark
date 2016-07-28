@@ -1,9 +1,9 @@
 [mirrors]
-http://www.wireshark.org/download/src/all-versions/wireshark-1.12.12.tar.bz2
+https://www.wireshark.org/download/src/all-versions/wireshark-1.12.13.tar.bz2
 
 [vars]
-filesize=29335173
-sha512=486533edae534952fe93e8a12eed24245b024e3d07b117a0dd5e8864e08b16154df62b6913e39fcfbc2edde51edfc4da852c0ad59e1cd035f1385a1aaf6398ba
+filesize=29398804
+sha512=60ce38c9850bcb2532ffcba9b372d2aa71383110c425dc1db20707f29ca81411813ba88bc12d50ce17bc67df1015b80611b67155fe669313075c10da474ad04e
 desc='sniff, decrypt, analyze and visualize network traffic'
 
 [deps]
