@@ -25,6 +25,7 @@ export C=$C
 export K=$K
 export B=$B
 EOF
+$hasbuild || echo 'skip_build=true'
 awk -f $BINDIR/butch-printsec "$pkg" vars
 cat << EOF
 BUTCH_PACKAGE_NAME=$pkg

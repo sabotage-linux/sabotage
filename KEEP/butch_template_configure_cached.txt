@@ -11,6 +11,11 @@ printf "%s: start\n" "`timestamp`"
 # BUTCH_CONFIG will get replaced by the environment variables
 # that butch uses (R,S,C...).
 %BUTCH_CONFIG
+
+# early exit when producing a build script for a package without build
+# section.
+test "$skip_build" = true && exit 0
+
 BUTCH_HAVE_TARBALL=false
 [ -n "%BUTCH_MIRROR_URLS" ] || [ -n "$tarball" ] && BUTCH_HAVE_TARBALL=true
 get_file_name() {
