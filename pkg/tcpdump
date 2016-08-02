@@ -1,19 +1,21 @@
 [mirrors]
-http://www.tcpdump.org/release/tcpdump-4.6.1.tar.gz
-http://www.uk.tcpdump.org/release/tcpdump-4.6.1.tar.gz
-http://tcpdump.cybermirror.org/release/tcpdump-4.6.1.tar.gz
+http://www.tcpdump.org/release/tcpdump-4.8.0.tar.gz
+http://www.uk.tcpdump.org/release/tcpdump-4.8.0.tar.gz
+http://tcpdump.cybermirror.org/release/tcpdump-4.8.0.tar.gz
 
 [vars]
-filesize=1105053
-sha512=f465f03dc5056b3440f5f132a1ba0c0b54f7470da903678251985bf27b418f2c24c65bfa837e0977388c9e37c5b7d6a25167c89f98d47c2bd5f8bde3d47c07bd
+filesize=1210470
+sha512=dda074d14337099990fbde62692a50bea80f4492c61dded17cb31fc451f115c8b0815cd7f56e92c6658f02a27b363378cd30fc5d5e38ae782e99485066699817
 desc='sniff and dump network and usb traffic'
 
 [deps]
+musl
 libpcap
 
 [build]
+TCPDUMP_VERSION=4.8.0
 if [ -n "$CROSS_COMPILE" ] ; then
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') ac_cv_linux_vers=3"
+  xconfflags="--host=$($CC -dumpmachine) ac_cv_linux_vers=3"
   tru=/usr/bin/true
   [ -x /bin/true ] && tru=/bin/true
 fi
@@ -22,7 +24,8 @@ CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -static" \
 LIBS="-lpcap -lnl-tiny" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --without-crypto ac_cv_path_PCAP_CONFIG=$tru td_cv_buggygetaddrinfo=no
+  --without-crypto ac_cv_path_PCAP_CONFIG=$tru td_cv_buggygetaddrinfo=no \
+  --sbindir="$butch_prefix"/bin
 make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib
 make DESTDIR="$butch_install_dir" install
-rm "$butch_install_dir""$butch_prefix"/sbin/tcpdump.4.6.1
+rm "$butch_install_dir""$butch_prefix"/bin/tcpdump."$TCPDUMP_VERSION"
