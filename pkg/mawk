@@ -1,11 +1,13 @@
 [mirrors]
-http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20150503.tgz
+http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20160615.tgz
 
 [vars]
-filesize=468794
-sha512=ac9dde6948328d8db94458448abdf7389f8862ae6093315dd19ed9d1cbeab60fca1fc7b084cda4ce09505010f7108612585e3c4ba9663ddf3adb869bf1d9d7b6
+filesize=466312
+sha512=97062fe278f1ec30db2233f9bd5a2f60557e2362a2c785bce94a7b9eec9065138cf1349bc145c18194b5af56c8e943e63c95baea839282a65ba09062bdcca2ae
+desc='ancient awk implementation used by debian derivates'
 
 [deps]
+musl
 
 [build]
 #patch -p1 < "$K"/some.patch
