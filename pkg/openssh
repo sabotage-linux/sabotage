@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.2p2.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.2p2.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz
 
 [vars]
-filesize=1499808
-sha512=44f62b3a7bc50a0735d496a5aedeefb71550d8c10ad8f22b94e29fcc8084842db96e8c4ca41fced17af69e1aab09ed1182a12ad8650d9a46fd8743a0344df95b
+filesize=1522617
+sha512=7ba2d6140f38bd359ebf32ef17626e0ae1c00c3a38c01877b7c6b0317d030f10a8f82a0a51fc3b6273619de9ed73e24b8cf107b1e968f927053a3bedf97ff801
 
 [deps]
 libressl
