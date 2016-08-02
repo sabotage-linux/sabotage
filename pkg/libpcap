@@ -1,14 +1,16 @@
 [mirrors]
-http://www.tcpdump.org/release/libpcap-1.6.1.tar.gz
-http://www.uk.tcpdump.org/release/libpcap-1.6.1.tar.gz
-http://tcpdump.cybermirror.org/release/libpcap-1.6.1.tar.gz
+http://www.tcpdump.org/release/libpcap-1.8.0.tar.gz
+http://www.uk.tcpdump.org/release/libpcap-1.8.0.tar.gz
+http://tcpdump.cybermirror.org/release/libpcap-1.8.0.tar.gz
 
 [vars]
-filesize=651061
-sha512=721f20ccf93d0a033945a8ed618dad2aeb7334eea26ee128f2eebf65e19bd6523698191e59e727adb83b96f4ca45f2f218f9af94af9923453c06a57cab36487b
+filesize=683150
+sha512=66199242a6fb7d00597a809fbec53fd502681dbd7ebace73a6d1ba4f612d9a4e436527c0cb586d8619c13beb8ebb4f256bccc612ebc9c7bd83abd5939f554203
+desc='library for capturing network and other packets'
 
 [deps]
 libnl-tiny
+musl
 
 [deps.host]
 flex
