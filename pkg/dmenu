@@ -6,6 +6,7 @@ sha512=e54fd10c0b1274eb90173aea442f0bfc496f4dda861a36d94f939e1fd835594f9aa12f3d0
 http://dl.suckless.org/tools/dmenu-4.6.tar.gz
 
 [deps]
+freetype
 libx11
 libxcb
 libxau
