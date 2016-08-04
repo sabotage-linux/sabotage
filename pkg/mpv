@@ -1,11 +1,12 @@
 [mirrors]
-https://github.com/mpv-player/mpv/archive/v0.15.0.tar.gz
+https://github.com/mpv-player/mpv/archive/v0.18.1.tar.gz
 
 [vars]
-filesize=2849513
-sha512=6f12487ff9bedd6872993189e3359c04ab0de559fd42bfcc5accdbfbd02e0d863cf3d7cfa5cceaedd174a4c16c831914945cf9cf6c918732f72fa44467127332
-tardir=mpv-0.15.0
-tarball=mpv-0.15.0.tar.gz
+filesize=2763392
+sha512=4ed94a5365d432d1fb07c11a8e40ed7564925eacec8b61576690b8f3d8ff82d4e0b2841cc941fb711c659c77ff67bfea86b66bd5f570d3ae953bce715981cd2a
+uchkurl=https://github.com/mpv-player/mpv/releases
+tardir=mpv-0.18.1
+tarball=mpv-0.18.1.tar.gz
 desc='media player forked from mplayer with major cleanups'
 
 [deps]
