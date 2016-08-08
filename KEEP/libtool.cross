@@ -5113,7 +5113,7 @@ func_mode_link ()
 	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
 	    dlopen_self=$dlopen_self_static
 	  fi
-	  prefer_static_libs=built
+	  prefer_static_libs=yes
 	  ;;
 	-static-libtool-libs)
 	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
