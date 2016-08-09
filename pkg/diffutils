@@ -1,9 +1,9 @@
-[vars]
-filesize=1824077
-sha512=9c93735d1da1eb668b33b8763a1e504c1ffb5ffb2ebccce91f289e7eb51cd5342ab481c607bfeabafe3728cb25578ddbbe10c6722761247d8d3c2594ea744953
-
 [mirrors]
-ftp://ftp.gnu.org/gnu/diffutils/diffutils-3.0.tar.gz
+ftp://ftp.gnu.org/gnu/diffutils/diffutils-3.4.tar.xz
+
+[vars]
+filesize=1358392
+sha512=0fc273007e35e67e217116e776956c6a24421f298d3e6fe60aa1d4250938a65bb8e685cd815517317b5637f5c412c1550d7c1994a9e0283ebbcae9bde24a260d
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
@@ -14,3 +14,5 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/share/info
