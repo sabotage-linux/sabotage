@@ -1,7 +1,7 @@
 [vars]
-filesize=500724
-sha512=d6ea0c6eb7fd19a668ce7f61bcc04bc64325352e7aad9a966cc405a7039390031ca38adc0ffa44c97940776d834a59d82d43eb2106643840ed25a0c51625c5b1
-tarball=netbsd-curses-0.0.3.tar.xz
+filesize=514012
+sha512=cc3a57cf9bb985cca0e2ecb78217d6b28f6cd3a4f1d3dfc7fa6faa5cbc4d585ebef7828f797a7325d97bf494629e8fb155bd5bdcb678d17d671762f3d3fbaf78
+tarball=netbsd-curses-0.0.4.tar.xz
 desc='netbsd libcurses, lightweight replacement for ncurses'
 
 [mirrors]
