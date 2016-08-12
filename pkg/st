@@ -1,9 +1,10 @@
-[vars]
-filesize=32947
-sha512=06a75cdf7d22c64c1331276b0f58577c3c42c1c2edcb41a33a3c37f7b65bd284a3b006dd94e0dc081f42f028dd18b60f278e8b3f33a1cf6611b1398bff80df7d
-
 [mirrors]
-http://dl.suckless.org/st/st-0.4.1.tar.gz
+http://dl.suckless.org/st/st-0.7.tar.gz
+
+[vars]
+filesize=42418
+sha512=9384820d373bfaaef1887290351d8c34abeef26cd7d50ddbae56ffb865864bcca9be798c6238bf1ce595ba7c317f2c1d97653055da0aa302e322eeee822768d4
+desc='simple terminal for X by suckless'
 
 [deps]
 fontconfig
