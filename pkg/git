@@ -1,9 +1,9 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.9.2.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.9.3.tar.xz
 
 [vars]
-filesize=4019916
-sha512=4a6e2ac7680b8896dc9c58a3fabad2201c800dbca26f0c117892b9d6149b02ff0335d313037f50771932cea4971913e3d9b9e79f22e075b3ed77a1a69ddc11ac
+filesize=4025288
+sha512=7152d075b705c92c813e977558b1a6d8d1c9e6ac01b41ee052bcd40c056f08c6fdb030ef0995822c6d22ce44b739935d89026aeae35f8b93fb569773c4b005bb
 desc='tools to work with the git distributed version control system'
 
 [deps]
