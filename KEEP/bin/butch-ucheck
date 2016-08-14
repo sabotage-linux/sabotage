@@ -76,7 +76,7 @@ shift
 
 if [ "$mode" = dl ] ; then
 	fn=$store/$(url2sha "$1").html
-	curl -L -s "$1" > $fn.tmp && mv $fn.tmp $fn || rm -f $fn.tmp
+	curl -f -m 60 -L -s "$1" > $fn.tmp && mv $fn.tmp $fn || rm -f $fn.tmp
 elif [ "$mode" = san ] ; then
 	chkurl=$(get_chkurl "$1")
 	[ $? != 0 ] && exit 1
