@@ -58,7 +58,7 @@ search <term>             # search for <term> in package names (grep syntax)
 descsearch [<term> ... ]  # search for <term> in package descriptions (grep)
 ucheck [<package> ... ]   # check for upstream updates in <packages>
 
-dlinfo <url>              # download url, print initial butch recipe
+dlinfo <url> [filename]   # download url, print initial butch recipe
 
 update                    # interactively rebuild inst. packages /w new recipes
 outdated                  # print list of inst. pkgs that have an updated recipe

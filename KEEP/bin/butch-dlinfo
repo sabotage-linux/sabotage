@@ -12,7 +12,8 @@ fi
 
 url=$1
 if [ -z "$url" ] ; then
-	echo error, expecting an url as argument 1>&2
+	echo "error, usage: $0 URL [filename]">&2
+	echo "filename is optional and overrides the filename used for saving">&2
 	exit 1
 fi
 
@@ -28,7 +29,13 @@ gethash() {
 	sha512sum "$1" | cut -d ' ' -f 1
 }
 
-fn="$C"/$(geturlfilename "$url")
+customname=false
+if [ -n "$2" ] ; then
+	fn="$C"/"$2"
+	customname=true
+else
+	fn="$C"/$(geturlfilename "$url")
+fi
 if [ "$USE_CURL" = 1 ] ; then
 	curl -c /dev/null -C - -k -L "$url" -o "$fn"
 else
@@ -46,3 +53,4 @@ echo
 echo '[vars]'
 echo filesize="$(getfilesize "$fn")"
 echo sha512="$(gethash "$fn")"
+$customname && echo "tarball=$2"
