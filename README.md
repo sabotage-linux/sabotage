@@ -30,10 +30,12 @@ Native builds are well tested and considered stable.
 ## Cross-Compile Requirements:
 
 * `musl-cross` for your target arch.
-* `butch` compiled and installed for the build host in $PATH.
+* `butch` installed for the build host in $PATH
+   (since it lives in KEEP/bin, adding that to $PATH will also do).
 * `pkgconf` symlinked as pkg-config in $PATH, before other pkg-config versions.
+  a standard `pkg-config` installed on the host may also work, but is untested.
 * Packages may have a `deps.host` section listing further packages required on
-  the host. 
+  the host.
 
 The only tested cross-compile setup is a Sabotage host that has the same
 packages installed as the ones you wish to compile.
@@ -43,7 +45,7 @@ openSUSE 13.2, Alpine 3.1.2 and Void Linux.
 
 ## Obtaining Sabotage
 
-You can bootstrap your own build from the scripts at: 
+You can bootstrap your own build from the scripts at:
 
 https://github.com/sabotage-linux/sabotage
 
@@ -90,20 +92,20 @@ Once inside the chroot, you may decide between installing `stage1` or `stage2`:
 	$ butch install stage1	# Installs core system + build chain
 	$ butch install stage2  # Installs stage1 + libressl
 
-If `libressl` is present, `wget` will be HTTPS-enabled. This will allow butch to
-download packages via HTTPS protocol.
+If `libressl` is present, `wget` will be HTTPS-enabled.
+This will allow butch to download packages via HTTPS protocol.
 
 Older pre-3.8 Linux systems will not support the rootless chroot approach used
 by `./enter-chroot`.
 Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
- 
+
 Once completed, you may install optional packages:
 
 	$ butch install core    # installs a sane subset for a developer base system
 	$ butch install xorg    # install everything needed for xfbdev
 	$ butch install pkg     # things such as file, git, gdb ...
 	$ butch install world   # almost everything
-	
+
 You may list available packages by using `ls /src/pkg`.
 
 If you wish to build the default kernel:
@@ -132,7 +134,7 @@ Finally, we use `butch` to start cross-compiling and installing packages into it
 
 ## After Compiling
 
-When finished compiling, exit the chroot and either: 
+When finished compiling, exit the chroot and either:
 
 * Use the rootfs directly, by copying it to some disk.
 * Use `utils/run-emulator.sh` to boot the system in QEMU.
@@ -206,14 +208,14 @@ regexes or URLs without having to escape or encode/decode them.
 
 Sabotage is designed with limited internet availability in mind.
 After downloading packages in advance, when you have internet, you may build
-later offline at your leisure. 
+later offline at your leisure.
 
 Space considerations are a top issue, both bandwidth and HD image size.
 Sabotage ISOs and images ship with all tarballs to fulfill the GPL.
 ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
 
 Please do not use FTP mirrors. FTP is a broken, ancient protocol.
- 
+
 Downloads from git or other source repositories are not desired.
 This would add an internet connection as a build-time dependency.
 
