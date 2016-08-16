@@ -4,11 +4,16 @@ A guide to running Sabotage for the experienced Linux user.
 
 ### Butch, the build manager
 
-`butch` is a collection of shell-scripts wrapping around a 700 LOC C
-program written from scratch named `butch-core`.
+`butch` is a collection of shell-scripts, living in KEEP/bin of this repo
+and is usually also installed into /bin of a sabotage system.
+it was originally written in C for speed, but was recently replaced with a
+pure POSIX shell implementation (the performance-sensitive parts are outsourced
+into awk scripts).
 
 It handles package downloads, checksums, builds and dependencies in a
 relatively sane manner.
+parallel downloads are automatically enabled if a `jobflow` binary is present
+on the system (default on a sabotage install).
 
 It supports the following commands:
 
@@ -41,10 +46,11 @@ It supports the following commands:
 
 	update                    # rebuild installed packages with new recipes
 
-`butch` will start up to sixteen download threads and up to two build threads. 
+`butch` will start up to sixteen download threads and up to two build threads.
 
-By default, `butch` uses the system's `wget`. To enable HTTPS support install 
-the `stage2` package, which adds `libressl` and `ca-certificates` to the system.
+By default, `butch` uses the system's `wget`.
+To enable HTTPS support install the `stage2` package, which adds `libressl`
+and `ca-certificates` to the system.
 You may also use `curl` by exporting `USE_CURL=1`. For best results, download
 all packages before the install process.
 
@@ -92,10 +98,10 @@ the installation directory recovers the list.
 
 Erasing `/src/utils` will lose scripts for cross-compilation, writing recipes,
 managing chroots and other functionality. Each script contains brief
-documentation explaining usage. 
+documentation explaining usage.
 
 There is no issue erasing `/src/tarballs`, `/src/logs` or `/src/build` beyond
-the obvious. 
+the obvious.
 
 It is suggested to clone the upstream repo as `/src/sabotage`:
 
@@ -118,7 +124,7 @@ recipes and utilities.
 
 `butch` recipes are plain text files that contain one or more labeled headers
 and their associated data. The above four sections are central to an assortment
-of different possible recipes. This section details their use. 
+of different possible recipes. This section details their use.
 
 	[mirrors]
 	<url #1>
@@ -165,12 +171,12 @@ Any combination of the above three headers may optionally be present.
 	<shell instructions to build application>
 
 Shell instructions inside [build] will be performed by butch during
-installation. Specifying `butch_do_relocate=false` inside `[build]` will
+compilation. Specifying `butch_do_relocate=false` inside `[build]` will
 prevent the post-build linking of files. If the`[build]` phase calls `exit`,
 `butch` will not perform any post-build activities at all.
 
 These recipe elements combine with `KEEP/butch_download_template.txt` as a
-`build/dl_package.sh` script. They also join 
+`build/dl_package.sh` script. They also join
 `KEEP/butch_template_configure_cached.txt` to form `build/build_package.sh`.
 
 Metapackages containing only a `[mirrors]` & `[vars]`, `[deps]` or `[build]`
@@ -187,7 +193,7 @@ The `stage1` values are provided here, along with a brief description of the var
         SABOTAGE_BUILDDIR="/tmp/sabotage"
 
 Defines where the `./build-stage0` script builds a chroot.
-	
+
 	A=x86_64
 
 Selects an architecture to build for. 'i386', 'arm', 'mips' and 'powerpc' are
@@ -197,7 +203,7 @@ other options.
 	HOSTCC=gcc
 
 The C compiler used. `gcc` is currently the only compiler tested and supported.
-	
+
 	MAKE_THREADS=1
 
 The number of threads to pass to make via the -j flag.
@@ -215,14 +221,14 @@ this variable.
 	LOGPATH=/src/logs # `LOGPATH` is where everything is logged
 
 Internal paths, useful when writing scripts and recipes. You should leave these
-all as-is, this is the intended way. 
+all as-is, this is the intended way.
 
 	BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
 
 The build template. It creates packages in `$R/opt/$package_name` and
 optionally supplies a `config.cache` file to speed up some from-source
 compilation recipes. Review the template to see its configurable options.
-	
+
 	BUTCH_DOWNLOAD_TEMPLATE="$K"/butch_download_template.txt
 
 The download template. It downloads, tests and unpacks tarballs.
@@ -246,6 +252,9 @@ http://wiki.centos.org/HowTos/EncryptedFilesystem
 
 Add appropriate entries in `/etc/crypttab` and `/etc/fstab`.
 On startup, Sabotage's `rc.boot` will mount them.
+By default, Sabotage does not use an initramfs, so if you require an encrypted
+root mount, you will have to customize your kernel build to piggyback a small
+initramfs to you kernel.
 
 
 ## System Administration
@@ -255,12 +264,12 @@ Sabotage does things a bit differently than your usual Linux distribution!
 
 ### The file system
 
-Sabotage does not follow the Filesystem Hierarchy Standard.  
+Sabotage does not follow the Filesystem Hierarchy Standard.
 
 For legacy support, `/usr` is a symlink to `/` and `/sbin` is a symlink to
 `/bin`.
 Install software with `--prefix=/` when possible.
-The times of a separate root partition are long over. 
+The times of a separate root partition are long over.
 
 `/local` is provided to users, use it wisely.
  Software not packaged by Sabotage should not touch stuff outside of `/local`,
@@ -274,6 +283,8 @@ Use `/srv/$SERVICE/$VHOST` for all server data.
 Sabotage uses `runit` as init system, though we use Busybox init to start
 `runsvdir`.
 See: http://busybox.net/~vda/init_vs_runsv.html
+
+We do not use runlevels.
 
 The base system has a few services:
 
@@ -311,13 +322,13 @@ stdout/stderr.
 
 Examples: `/etc/service/crond/run` and `/etc/service/dmesg/run`
 
-You can inspect the logs by looking at `/var/log/$SERVICE/current`. 
+You can inspect the logs by looking at `/var/log/$SERVICE/current`.
 
 For example, kernel messages are in `/var/log/dmesg/current`.
 
 You can look at all logs with `sort /var/log/*/current |less`.
 
-For more information, see `runit` docs. 
+For more information, see `runit` docs.
 
 ### Transfering packages
 
@@ -374,10 +385,10 @@ task on the build and target host, respectively.
 * Execute `route add default gw 192.168.0.1`.
 
 You can put the above into a script which `/etc/rc.local` can execute at boot
-time. 
+time.
 
 
-#### Wine 
+#### Wine
 
 Wine builds on Sabotage i386.
 To use it on x86_64, one needs to use packages built on i386 Sabotage.
@@ -433,20 +444,24 @@ The `timezones` package installs timezone description files into
 `/share/zoneinfo`.
 `musl` supports timezones via the POSIX `TZ` environment variable.
 You should set it in your `~/.profile` or in `/etc/profile`.
-`glibc` also supports `/etc/localtime`, which is a copy or symlink of one of 
-the zoneinfo files. 
+`glibc` also supports `/etc/localtime`, which is a copy or symlink of one of
+the zoneinfo files.
 
 Example values for `TZ`:
 
 	# Reads `/share/zoneinfo/Europe/Berlin` the first time an app calls localtime().
-	TZ=Europe/Berlin 
+	TZ=Europe/Berlin
+
 	# Reads `/etc/localtime` the first time an app calls localtime().
+	# you may want to symlink it to the file for your timezone.
 	TZ=/etc/localtime
+
 	# Will set the timezone to GMT+2. (POSIX reverses the meaning of +/-)
 	TZ=GMT-2
-	# Like Europe/Berlin, except it reads no file. 
+
+	# Like Europe/Berlin, except it reads no file.
 	# The string is the last "line" from the zoneinfo file.
-	TZ="CET-1CEST,M3.5.0,M10.5.0/3" 
+	TZ="CET-1CEST,M3.5.0,M10.5.0/3"
 
 
 #### hwclock and ntp
