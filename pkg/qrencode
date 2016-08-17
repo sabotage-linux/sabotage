@@ -1,0 +1,23 @@
+[mirrors]
+https://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
+
+[vars]
+filesize=468788
+sha512=2c7a5bb6a51993a4d44a8e4ef30a3d3e43c55dc726fb7d702cde306a5bfcea1faa5a1bd851aa57c7550c81dadb4cc1cf6ea8afa7b5fa4e9b9c5ed7d9bb6b68cc
+
+[deps]
+libpng
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -static --static -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
