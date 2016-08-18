@@ -1,0 +1,40 @@
+[mirrors]
+http://wiki.qemu-project.org/download/qemu-2.6.1.tar.bz2
+
+[vars]
+filesize=25762855
+sha512=adb55d0774618c9cd02d376222814f2047977bfbca73248841275084ae537db583db4ac6cfa5cc65c3182941d5f4b40f2f7f4661b2cd93cbb3796e2f325bc919
+
+[deps]
+glib
+sdl
+libx11
+pixman
+libcap2
+
+[deps.host]
+python
+
+[build]
+
+# WARNING this package needs more than 512 MB ram to build
+
+patch -p1 < "$K"/qemu22-fix-sigevent-and-sigval_t.patch
+
+CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
+# F_EXLCK is 4; F_SHLCK 8 on all archs except alpha
+CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8"
+CFLAGS="$CFLAGS $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure --prefix="$butch_prefix" \
+  --host-cc="$HOSTCC" \
+  --disable-strip \
+  --enable-kvm \
+  --enable-virtfs \
+  --disable-werror \
+  --disable-vnc \
+  --disable-bluez \
+  --enable-sdl
+
+make -j$MAKE_THREADS V=1
+make DESTDIR="$butch_install_dir" install
