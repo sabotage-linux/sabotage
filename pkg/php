@@ -1,9 +1,9 @@
 [mirrors]
-http://www.php.net/distributions/php-7.0.5.tar.xz
+http://www.php.net/distributions/php-7.0.10.tar.xz
 
 [vars]
-filesize=11461716
-sha512=9a91c1748bc2034016b4d25a116c96e7f60bc48a698864ed7f805870a2c5f6f75aa9a24ec4501403ba1fd45baccfefb2076db149da03c00dabc12e3190068c7c
+filesize=12474728
+sha512=124fa1a5ef1bab39b04d03be965fbcfedf173542fa060288642573f60360ae8ed627827040dc6ed6a4c67bd66852ffea8d54743ac7922465e8f545478529c35d
 desc='heavily broken scripting language for web development'
 
 [deps]
@@ -24,30 +24,62 @@ json-c
 bzip2
 
 [build]
-[ -n "$CROSS_COMPILE" ] && \
+[ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+	type php >/dev/null 2>&1 || {
+		echo "ERROR: cross-compiling php needs php installed on the host"
+		exit 1
+	}
+}
 
 [ -z "$butch_prefix" ] && butch_prefix=/
 pfx="$butch_prefix"
+cpfx="$butch_root_dir""$butch_prefix"
+
+printf '#!/bin/sh\n[ "$1" = --version ] && echo 2.9.4 || echo -lxml2 -I%s/include/libxml2\n' "$butch_root_dir$butch_prefix" > xml2-config
+chmod +x xml2-config
+
+sed -i 's,pthreads_working=no,pthreads_working=yes,g' configure
+[ -n "$CROSS_COMPILE" ] && \
+sed -i 's@\$(top_builddir)/sapi/cli/php@php@g' pear/Makefile.frag
+
 # all the below *_cv_ tests fail because the php configure tests
 # use exit() but dont include stdlib.h. same for strcmp and string.h etc.
 LDFLAGS="-Wl,--no-keep-memory  $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 CFLAGS="-D_BSD_SOURCE -D_GNU_SOURCE $optcflags" ./configure -C $xconfflags \
   --prefix="$butch_prefix" --enable-re2c-cgoto \
   --mandir="$butch_prefix"/share/man \
+  ac_cv_php_xml2_config_path="$PWD"/xml2-config \
+  --with-pcre-regex="$cpfx" \
+  --with-pcre-dir="$cpfx" \
   _cv_have_broken_glibc_fopen_append=no \
   ac_cv_what_readdir_r=POSIX ac_cv_broken_sprintf=no \
   ac_cv_crypt_blowfish=yes ac_cv_crypt_md5=yes ac_cv_crypt_SHA256=yes \
   ac_cv_crypt_SHA512=yes ac_cv_crypt_des=yes ac_cv_crypt_ext_des=yes \
   ac_cv_pwrite=yes ac_cv_pread=yes \
-  --with-curlwrappers --with-libxml-dir="$pfx" --with-jpeg-dir="$pfx" \
-  --with-png-dir="$pfx" --with-openssl-dir="$pfx" --with-sqlite3 \
-  --with-pcre-regex="$pfx" --with-pcre-dir="$pfx" --with-zlib="$pfx" \
-  --with-zlib-dir="$pfx" --with-curl="$pfx" --with-bz2="$pfx" \
-  --with-db4="$pfx" --with-gmp="$pfx" \
-  --with-libedit="$pfx" --with-freetype-dir="$pfx" \
+  --with-curlwrappers --with-libxml-dir="$cpfx" --with-jpeg-dir="$cpfx" \
+  --with-png-dir="$cpfx" --with-openssl-dir="$cpfx" --with-sqlite3 \
+  --with-zlib="$cpfx" \
+  --with-zlib-dir="$cpfx" --with-curl="$cpfx" --with-bz2="$cpfx" \
+  --with-db4="$pfx" --with-gmp="$cpfx" \
+  --with-libedit="$cpfx" --with-freetype-dir="$cpfx" \
   --enable-maintainer-zts \
+  --disable-fileinfo \
+  --disable-opcache \
 
-make -j$MAKE_THREADS
+sed -i 's@-[RL]/\{1,2\}lib@@g' config.status
+sed -i 's@-I/usr/include@@g' config.status
+sed -i 's@/usr/include@'"$cpfx"'/include@g' config.status
+
+./config.status
+
+sed -i 's@/usr/include@'"$cpfx"'/include@g' Makefile
+[ -n "$CROSS_COMPILE" ] && \
+sed -i 's@PHP_PHARCMD_EXECUTABLE =@PHP_PHARCMD_EXECUTABLE = php\nFOO=@' Makefile
+
+make -j$MAKE_THREADS || {
+	"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+	make -j$MAKE_THREADS
+}
 make INSTALL_ROOT="$butch_install_dir" install
