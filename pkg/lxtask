@@ -1,17 +1,15 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/LXTask%20%28task%20manager%29/LXTask%200.1.4/lxtask-0.1.4.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/LXTask%20%28task%20manager%29/LXTask%200.1.4/lxtask-0.1.4.tar.gz
+http://downloads.sourceforge.net/project/lxde/LXTask%20%28task%20manager%29/LXTask%200.1.x/lxtask-0.1.7.tar.xz
 
 [vars]
-filesize=241034
-sha512=60a9b55880ee0a5b86043edacefb93b83caddbb045e781537b6fd04d2e3259e4fa5117fc84c7f0ca0dd914d9e14b602a9ab0022a74d9b634b72fdf4f950189c5
+filesize=137152
+sha512=eb5c6af2d0953d09d62b53efda1f88140cc6d5734ef98effd9a72b896e397d0c29ff4263b93c12fd23fcb0ec129b31eb769b0a8c769ae92ed9fc1d2f2689a4ef
 
 [deps]
 gtk+2
 intltool
 
 [build]
-patch -p1 < "$K"/lxtask-types.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
