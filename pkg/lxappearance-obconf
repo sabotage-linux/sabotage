@@ -1,17 +1,21 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/LXAppearance%20Obconf/lxappearance-obconf-0.2.0.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/LXAppearance%20Obconf/lxappearance-obconf-0.2.0.tar.gz
+http://downloads.sourceforge.net/project/lxde/LXAppearance%20Obconf/lxappearance-obconf-0.2.3.tar.xz
 
 [vars]
-filesize=414949
-sha512=51635e37a5d0e13cc6cc3ee8c7361239b7984d25233358e73684ebe475671012d698141508f373e368d999ed120ce0b8b2ba0642b20b025382b8d439b5ebe348
+filesize=290204
+sha512=cec56238b2b8ea86ab310fdf3d9d43ef665aac7762018a296803ef7caccb6a5a7854c4b17e0028152b379a373602ede30edb02811a9a370ba369b62bb3caee09
 
 [deps]
 lxappearance
+openbox
 
 [build]
-# TODO
-exit 1
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
