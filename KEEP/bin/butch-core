@@ -60,11 +60,15 @@ check_config() {
 [ -z "$LOGPATH" ] && LOGPATH=$S/logs
 [ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
 [ -z "$BUTCH_DL_THREADS" ] && BUTCH_DL_THREADS=16
+check_access $S r
+check_access $K r
+export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
+BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
+}
+check_write_access() {
 check_access $LOGPATH w
 check_access $R w
-check_access $S r
 check_access $C w
-check_access $K r
 if ! test -w $B ; then
 	mkdir -p $B
 	check_access $B w
@@ -72,8 +76,6 @@ fi
 local dbd=$(dirname $BUTCHDB)
 mkdir -p $dbd
 check_access $dbd w
-export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
-BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
 }
 has_mirrors() {
 	grep -x '\[mirrors\]' $S/pkg/$1 >/dev/null 2>&1
@@ -292,6 +294,8 @@ for p in $deps ; do
 		has_mirrors "$p" && add_list dllist "$p" || add_downloaded "$p"
 	fi
 done
+
+check_write_access
 
 echo "*** downloadqueue ***"
 for p in $dllist ; do printf "%s\n" "$p" ; done
