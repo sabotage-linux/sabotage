@@ -1,0 +1,30 @@
+[mirrors]
+https://github.com/engla/keybinder/releases/download/v0.3.1/keybinder-0.3.1.tar.gz
+
+[vars]
+filesize=391730
+sha512=aec4070b3d3b6c00900c3cb814e4b6a98beea09817eba3c3f7e6d5ce1ff68c091d183583f09b475e3e56bac67c94c1d912ebbe079dcece8195ac0ed9379d5f82
+
+[deps]
+gtk+2
+
+[build]
+#patch -p1 < "$K"/some.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-python \
+  --disable-lua \
+  --disable-gtk-doc \
+  --disable-gtk-doc-html \
+  --disable-gtk-doc-pddf
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
