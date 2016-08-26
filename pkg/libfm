@@ -1,11 +1,9 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/libfm-1.0rc1.tar.gz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/libfm-1.0rc1.tar.gz
-http://dl.2f30.org/mirrors/sabotage/tarballs/libfm-1.0rc1.tar.gz
+http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/LibFM/libfm-1.2.4.tar.xz
 
 [vars]
-filesize=985089
-sha512=12af732321a99320ea05e2692877c9d9631a83394ceecf559ab84874599f6d7646d353595288e2260ae0af83ae6faa1f5f33247e3eba80da6185e8168102629a
+filesize=912164
+sha512=c609e822959f9fa83eaee6552906b6fd22d210f0802944816230b1932fc06632dc557b8998d2d065100212f79dffe13257587c744aba78592983681c8410dc24
 
 [deps]
 gtk+2
