@@ -1,19 +1,25 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/LXDE%20Common%200.5.5/lxde-common-0.5.5.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/LXDE%20Common%200.5.5/lxde-common-0.5.5.tar.gz
+http://downloads.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/lxde-common%200.99/lxde-common-0.99.1.tar.xz
 
 [vars]
-filesize=899075
-sha512=44848286ccf3aa269df1680e14a8d3c41be1c2af956bd5121fc05d97a892fdc13d1e74191a2a11a40e96a8f31f8be37b1cfb9afeac4474fcab88d07508647c7f
+filesize=889656
+sha512=f5a14c44d827ba2355efd10c78732157f5645392ebbeb8e2a8126340a36eeba2842eff0c5338bb36623e5fe2da894c89d60a45c0b177704e2260413d63232b05
 
 [deps]
 
 [build]
 patch -p1 < "$K"/openbox-config.patch
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
 cp -f "$K"/sabotage-menu.png  "$dest"/share/lxde/images/
-cp -f "$K"/panel "$dest"/share/lxpanel/profile/LXDE/panels/panel
+cp -f "$K"/panel "$dest"/etc/xdg/lxpanel/LXDE/panels/panel
 
