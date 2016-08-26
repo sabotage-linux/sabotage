@@ -1,10 +1,9 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.5.2.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.5.2.tar.gz
+http://downloads.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.6.2.tar.xz
 
 [vars]
-filesize=278331
-sha512=b08adf0cb9e5d3efe2d6be05c3fef99f18be6b4f85497951c111fde76010351b6265ea162acd8920ebb382c660d29d45a0a0bf601757d29739c8394b1328c0d5
+filesize=165788
+sha512=ddfd63045cae61f60e2745e7fbdafcf68cdc0443a7ff271ff11a40f39b2e08de902a980f6c68e1615a690690a3c33abc2de8ab854d08f7707be210b0addb67e7
 
 [deps]
 gtk+2
@@ -12,7 +11,7 @@ intltool
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
