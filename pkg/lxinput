@@ -1,10 +1,9 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.2/lxinput-0.3.2.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.2/lxinput-0.3.2.tar.gz
+http://downloads.sourceforge.net/project/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.x/lxinput-0.3.5.tar.xz
 
 [vars]
-filesize=259203
-sha512=50921151d3050fae1e4640aade2b0bf88d94445f95e18c21c3d67a012ec7d33b6b9dada8574898d915a350c37fcd568f376bafff1b804e222543a5cadf87431a
+filesize=145356
+sha512=d5233f03c4314ac16fb548db56ae2d17651b29d8a59bfef3e6e6805f6b9bc8100b0711bbc72e31a6bc458eccc6fe1b4a38cf097dbf6a1b04f600bba58ff03f35
 
 [deps]
 gtk+2
