@@ -1,12 +1,9 @@
 [mirrors]
-http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/pcmanfm-1.0rc1.tar.gz
-http://ftp.barfooze.de/pub/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
-http://dl.2f30.org/mirrors/sabotage/tarballs/pcmanfm-1.0rc1.tar.gz
+http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/pcmanfm-1.2.4.tar.xz
 
 [vars]
-filesize=447192
-sha512=78f76dbf8c6452df9017b42d5df11bae1fd0cfd270219030d7e44476c8d2ff7c5fe4a8639f36e2754094775427f90c74e8ab727588906dad03f595b2bee7c09c
+filesize=417316
+sha512=f4d0ed9d5dcc1b01643715fd54b94ff46967801f0c6d1dde6d196fadbedb5551cfda536d548237b187e5545cceea0a987f7c1c8e38659cae109b6483f14798f7
 desc='GTK+ filemanager, major component of the LXDE desktop'
 
 [deps]
@@ -16,9 +13,8 @@ libx11
 gtk+2
 
 [build]
-patch -p1 < "$K"/pcmanfm-xcompile.patch
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
