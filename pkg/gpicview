@@ -1,21 +1,23 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/GPicView%20%28image%20Viewer%29/GpicView%200.2.3/gpicview-0.2.3.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/GPicView%20%28image%20Viewer%29/GpicView%200.2.3/gpicview-0.2.3.tar.gz
+http://downloads.sourceforge.net/project/lxde/GPicView%20%28image%20Viewer%29/0.2.x/gpicview-0.2.5.tar.xz
 
 [vars]
-filesize=478447
-sha512=22eaf70937c6b72ca41f056bc22abb6084181b7fc67a0089672b80bca2a959a002292fd20648338a6429bce37723fd2d278ed7517c2318c0a757a940f87f5cd4
+filesize=349536
+sha512=afc7e67c7ae1252f9c1816ee46fe69e96ea7be9a60e03406a539f17b2e4f0e4b93a028c6f3f1c455f5433d6d7d78a58dcee2cb0ac91ea53093a21935bf454afd
+desc='simple GTK+ picture viewer program'
 
 [deps]
 gtk+2
 libjpeg
-perl5-XML-Parser
 intltool
 shared-mime-info
 
+[deps.host]
+perl5-XML-Parser
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
