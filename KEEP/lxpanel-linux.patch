@@ -1,5 +1,5 @@
---- lxpanel-0.5.10.org/src/plugins/netstat/devproc.c
-+++ lxpanel-0.5.10/src/plugins/netstat/devproc.c
+--- lxpanel-0.5.10.org/plugins/netstat/devproc.c
++++ lxpanel-0.5.10/plugins/netstat/devproc.c
 @@ -26,14 +26,24 @@
  #include <net/if_arp.h>
  #include <arpa/inet.h>
