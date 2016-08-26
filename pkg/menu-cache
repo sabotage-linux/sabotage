@@ -1,17 +1,14 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/menu-cache/menu-cache%200.3.3/menu-cache-0.3.3.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/menu-cache/menu-cache%200.3.3/menu-cache-0.3.3.tar.gz
+http://downloads.sourceforge.net/project/lxde/menu-cache/1.0/menu-cache-1.0.1.tar.xz
 
 [vars]
-filesize=392291
-sha512=1966b94989cdae0a1a3a48f19d337471a28acadecf7f03dac8c27d515324b8eb4d15102e2aa293c251e020f521f6e586aa13c8eca7ae7909b9ce5e67ef3ebafe
+filesize=262508
+sha512=5de4bf99ab5a511da6781d54b03349cc0232b379a73f9f9c328fb9aed6ec03558a9adda85be1fbbe53d94669d07a5196929ab67cd3291de7aae59f587afda3a3
 
 [deps]
 glib
 
 [build]
-sed -i 's@sys/fcntl.h@fcntl.h@' libmenu-cache/menu-cache.c
-sed -i 's@sys/fcntl.h@fcntl.h@' menu-cache-daemon/menu-cached.c
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
