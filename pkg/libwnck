@@ -1,9 +1,9 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/libwnck/2.18/libwnck-2.18.3.tar.bz2
+http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.29/libwnck-2.29.6.tar.bz2
 
 [vars]
-filesize=482211
-sha512=9ad6cd029137ed740d118c167d72cc063482889c43491856767a1d1046ab3096f8ac12d21f1610b3afcd9c44ed139b1f167c452cef1ba2c88682982f75c44e8f
+filesize=686407
+sha512=b6054fd07e949345d4c06591e1a41d3e426f7ed9e95180e320b1f4dd513a93cd2d07951f8f16eb6d3b62a8d7e8f7604e8ab837a5456165d3f9ac1eb41a5896c0
 
 [deps]
 libstartup-notification
@@ -14,8 +14,9 @@ gtk+2
 perl5-XML-Parser
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
