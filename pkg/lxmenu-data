@@ -1,17 +1,16 @@
 [mirrors]
-http://kent.dl.sourceforge.net/project/lxde/lxmenu-data%20%28desktop%20menu%29/lxmenu-data%200.1.2/lxmenu-data-0.1.2.tar.gz
-http://switch.dl.sourceforge.net/project/lxde/lxmenu-data%20%28desktop%20menu%29/lxmenu-data%200.1.2/lxmenu-data-0.1.2.tar.gz
+http://downloads.sourceforge.net/project/lxde/lxmenu-data%20%28desktop%20menu%29/lxmenu-data%200.1.4/lxmenu-data-0.1.4.tar.xz
 
 [vars]
-filesize=298734
-sha512=8e18d5a0309d69fbd410f8e3e5393f8a49852c2684aa2d2f0c460cf9e1f0fb88810885551d6b3dee1c6270a2a8a8a14973ca5e72b714898d1b6b9b676e3bf922
+filesize=179180
+sha512=2aa8949504e981582b8e94d999a3f3e4876750ee6244d63b585bb0553c5f584401c952682d7eb524ab87dd36f6e22a8b849f5f15559a40f5edfff3d7aa6eb244
 
 [deps]
 intltool
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 make -j$MAKE_THREADS
