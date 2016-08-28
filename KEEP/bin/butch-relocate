@@ -2,13 +2,14 @@
 #set -x
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+if type awk >/dev/null 2>&1 ; then
 [ 1 = $(printf "%s" "$butch_staging_dir" | awk '{n=split($0,a,"/"); print n-1;}') ] || {
 	echo "error: butch_staging_dir may contain only one slash"
 	echo "good: /opt /pkgs /app"
 	echo "bad: /opt/ /var/pkgs /my/apps/"
 	exit 1
 }
-
+fi
 
 relocate() {
 	local dir=$1
