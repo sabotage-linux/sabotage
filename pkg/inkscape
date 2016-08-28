@@ -1,12 +1,11 @@
 [mirrors]
-http://downloads.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
-http://surfnet.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
-http://heanet.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.bz2
+https://inkscape.org/en/gallery/item/3860/inkscape-0.91.tar.bz2
 
 [vars]
-filesize=19712522
-sha512=55954925e74e2c222e7ddb86bf75e9ad17c854d991258fd3a1bf1b2aafe7014418138246a51f9ab9c4444795b03419781517910debd3448ae461f1dd1b5848be
+filesize=25858909
+sha512=3778ef7d4a1c759a7afc093e55eefb69a78dcb60332655cc8ab8c481f54a3e6550df6070178390eb08588245531906b8bef33301f0765a4d28d6c7506fcf3bc7
 desc='vector graphic manipulation program'
+uchkurl=https://inkscape.org/en/download/source/
 
 [deps]
 poppler
@@ -24,11 +23,9 @@ liblcms
 freetype
 
 [build]
-patch -p1 < "$K"/inkscape-gcc48.patch
-# https://bugs.launchpad.net/altlinux/+source/inkscape/+bug/910335
 sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
