@@ -1,9 +1,10 @@
 [mirrors]
-http://ffmpeg.org/releases/ffmpeg-3.1.2.tar.xz
+http://ffmpeg.org/releases/ffmpeg-3.1.3.tar.xz
 
 [vars]
-filesize=7808332
-sha512=8e5ce90ca650cd51be667e60ead0936f723051bbbdb24b5b69c9a7305d95ed492f64083dee52cff0d9a3909b069b4137527e814eb01fec8f3b611bffda0f0f76
+filesize=7813508
+sha512=6350f95e09bbda69cdcf28086ccd05c327a5107f3874699569b574333a763e0bf18cf82a94bf26198be0c3184bea5a654127e6c3b0540a7bd120ab87988a2b3d
+pkgver=2
 
 [deps]
 alsa-lib
@@ -36,7 +37,7 @@ CFLAGS="-D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
   --enable-shared --enable-postproc --enable-gpl $libvpx $libv4l2 $libx11 \
   --enable-libvorbis \
-  --disable-stripping 
-  
+  --disable-stripping
+
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
