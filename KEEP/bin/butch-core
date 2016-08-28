@@ -97,12 +97,14 @@ gethash_installed() {
 	return 0
 }
 update_butchdb() {
-	echo "INSTALLED $1" >&4
+	cmd=INSTALLED
+	test "$2" = installed || cmd=REMOVED
+	echo "$cmd $1" >&4
 	rm -f $BUTCHDB.tmp
 	[ -e "$BUTCHDB" ] && while read pkg_ hash_ ; do
 	test "$pkg_" = "$1" || printf "%s %s\n" "$pkg_" "$hash_" >> $BUTCHDB.tmp
 	done < $BUTCHDB
-	printf "%s %s\n" "$1" "$(gethash $1)" >> $BUTCHDB.tmp
+	test "$2" = installed && printf "%s %s\n" "$1" "$(gethash $1)" >> $BUTCHDB.tmp
 	mv $BUTCHDB.tmp $BUTCHDB
 }
 has_all_deps() {
@@ -200,7 +202,12 @@ start_build() {
         chmod +x $scrname
 	success=false
         $scrname </dev/null > $logname 2>&1 && success=true
-	$success && update_butchdb "$1" || info "WARNING: $1 failed to build! wait for other jobs to finish."
+	if $success ; then
+		update_butchdb "$1" installed
+	else
+		info "WARNING: $1 failed to build! wait for other jobs to finish."
+		$force && update_butchdb "$1" removed
+	fi
 	$success
 }
 launch_build() {

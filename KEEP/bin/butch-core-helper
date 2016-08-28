@@ -44,6 +44,9 @@ function get_deps(pkg,   var) {
 /^installed / {
 	say(INSTALLED[$2] ? "1" : "0")
 }
+/^REMOVED / {
+	INSTALLED[$2] = 0
+}
 /^pkghash / {
 	say(INSTALLED[$2] ? INSTALLED[$2] : "0")
 }
