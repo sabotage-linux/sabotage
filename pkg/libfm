@@ -6,8 +6,8 @@ filesize=912164
 sha512=c609e822959f9fa83eaee6552906b6fd22d210f0802944816230b1932fc06632dc557b8998d2d065100212f79dffe13257587c744aba78592983681c8410dc24
 
 [deps]
+menu-cache-old
 gtk+2
-menu-cache
 
 [deps.host]
 pkgconf
@@ -17,7 +17,7 @@ intltool
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')  --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine)  --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 
