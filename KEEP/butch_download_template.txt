@@ -43,11 +43,20 @@ download() {
 	if [ "$USE_CURL" = 1 ] ; then
 		curl -c /dev/null -C - --retry $retries -k -L "$url" -o "$out"
 	else
-		if ! wget --help 2>&1 | grep BusyBox > /dev/null ; then
+		WGET=wget
+		is_bb=false
+		$WGET --help 2>&1 | grep BusyBox > /dev/null && is_bb=true
+		if ! $is_bb && ! $WGET --help >/dev/null 2>&1 ; then
+			# appears it is GNU wget and it is broken, eventually
+			# through a libressl soname bump. fall back to busybox.
+			WGET="busybox wget"
+			is_bb=true
+		fi
+		if ! $is_bb ; then
 			append wgetflags "--tries=$retries"
 			append wgetflags --no-check-certificate
 		fi
-		wget $wgetflags -O "$out" -c "$url"
+		$WGET $wgetflags -O "$out" -c "$url"
 	fi
 }
 
