@@ -1,15 +1,22 @@
-[vars]
-filesize=2063647
-sha512=9a337673725d3190c76da7e61f9b5e6df348eb4e08a3f7a7a1b5869d0bec6514d97782dffbb56ec5c4897e8f2ec9994b401c00fe0b47e0510e11eb963c9c2efb
-
 [mirrors]
-http://ftpmirror.gnu.org/gawk/gawk-4.0.0.tar.bz2
-http://ftp.gnu.org/pub/gnu/gawk/gawk-4.0.0.tar.bz2
+http://ftpmirror.gnu.org/gawk/gawk-4.1.4.tar.xz
+http://ftp.gnu.org/pub/gnu/gawk/gawk-4.1.4.tar.bz2
+
+[vars]
+filesize=2367832
+sha512=6a0e9cf086544212f54b54261dcd517b611aaf495ef99c4b7740d07e363bb00c5632f3d7fd5e12a954d5aa9793764162a57453e0e18884b29c6c54b5f444c097
+pkgver=2
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
-CC="$CC -static" ./configure -C --prefix="$butch_prefix" --libexecdir="$butch_prefix"/lib \
-  --disable-nls ac_cv_header_dlfcn_h=no
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" --libexecdir="$butch_prefix"/lib \
+  --disable-nls ac_cv_header_dlfcn_h=no $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
