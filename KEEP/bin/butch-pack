@@ -23,6 +23,16 @@ exit 1
 
 [ -z "$1" ] && usage
 
+BINDIR=$(dirname $(readlink -f "$0"))
+get_pkgver() {
+	ver=$($BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
+	if [ -n "$ver" ] ; then
+		printf "%s\n" "$ver" | cut -b 8-
+	else
+		echo 1
+	fi
+}
+
 comp=none
 ext=tar
 case $1 in
@@ -50,7 +60,8 @@ test $comp = xz && tarflags=cJf
 [ "$R" = "/" ] && R=
 cd "$R"$butch_staging_dir
 [ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; exit 1 ; }
-out=$me/${pkg}_$A.$ext
+ver=$(get_pkgver $pkg)
+out=$me/${pkg}_${A}_${ver}.$ext
 tar $tarflags "$out" "$pkg"
 [ -e "$out" ] || exit 1
 if test $comp = xze ; then

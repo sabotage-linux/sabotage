@@ -23,21 +23,21 @@ EOF
 exit 1
 }
 
-print_pkg_and_sha() {
-	printf "%s " "$pkg"
-	i=0
-	while test $i -lt 16 ; do
-		printf "00000000"
-		i=$(($i + 1))
-	done
-	echo
+print_pkg_and_ver() {
+	printf "%s %s\n" "$pkg" "$ver"
 }
 
 [ -z "$1" ] && usage
 [ ! -e "$1" ] && usage
 pkg=$(basename "$1" | cut -d '_' -f 1)
 pl=$(printf "%s" "$pkg"|wc -c | cut -d " " -f 1)
-arch=$(basename "$1" | cut -b $(($pl + 2))- | cut -d "." -f 1)
+archnver=$(basename "$1" | cut -b $(($pl + 2))- | cut -d "." -f 1)
+case $archnver in
+	x86_64_*) arch=x86_64; ver=$(printf "%s\n" "$archnver"| cut -b 8-);;
+	*)
+	arch=$(printf "%s\n" "$archnver"|cut -d "_" -f 1)
+	ver=$(printf "%s\n" "$archnver"|cut -d "_" -f 2);;
+esac
 [ "$arch" = "$A" ] || {
 	echo "error: arch $arch of "$1" doesnt match arch $A of config!"
 	exit 1
@@ -60,6 +60,6 @@ tar xf "$fn"
 
 butch relink "$pkg"
 sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
-print_pkg_and_sha >> "$BUTCHDB"
+print_pkg_and_ver >> "$BUTCHDB"
 $butch_do_filelists && butch genfilelist "$pkg"
 echo "successfully installed $pkg"
