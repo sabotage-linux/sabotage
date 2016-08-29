@@ -4,8 +4,10 @@ http://downloads.sourceforge.net/project/lxde/LXDE%20Icon%20Theme/lxde-icon-them
 [vars]
 filesize=4469552
 sha512=4ae0e7efd610bc68c4fec2fa00e83b4cc61a313fa4207c213d592f7c8f40bda79117e45dfe7df537baddc8834a55f8ab8864918655136d938a7201c7520597b5
+pkgver=2
 
 [deps]
+faenza-audio-icons
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
@@ -13,3 +15,25 @@ sed -i 's@--no-preserve=ownership@@g' Makefile
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+tar xvf "$C"/faenza-dark-audiovolume-icons.tar.xz
+
+cd faenza-dark-audiovolume-icons
+
+dest="$butch_install_dir""$butch_prefix"
+dest_direct="$butch_root_dir""$butch_prefix"
+cd status
+for d in * ; do
+        test "$d" = scalable && continue
+        cd $d
+        for i in * ; do
+                install -Dm 644 "$i" "$dest"/share/icons/nuoveXT2/"$d"x"$d"/status/"$i"
+        done
+        cd ..
+done
+cd scalable
+for i in * ; do
+        install -Dm 644 "$i" "$dest"/share/icons/nuoveXT2/scalable/status/"$i"
+done
+gtk-update-icon-cache -f "$dest"/share/icons/nuoveXT2
+

@@ -1,0 +1,9 @@
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/faenza-dark-audiovolume-icons.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/faenza-dark-audiovolume-icons.tar.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/faenza-dark-audiovolume-icons.tar.xz
+
+[vars]
+filesize=65536
+sha512=cfd244a46b0ea79972e17fedaab9ea2979b0b3f4377b54d26344ca0a5d9348d6a09fc6fc01138bf682ca10fe3f61e5ca30f4a3ed6a8b2a315a3be2f1684e0f20
+
