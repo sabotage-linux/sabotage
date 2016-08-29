@@ -1,6 +1,8 @@
 #!/bin/sh
 [ -n "$CONFIG" ] && . $CONFIG
 [ -z "$S" ] && { "error: S not set" ; exit 1; }
+AWK=awk
+type awk >/dev/null 2>&1 || AWK="busybox awk"
 BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
 cat << EOF
@@ -14,7 +16,7 @@ template="$2"
 [ -r "$S/pkg/$pkg" ] && [ -r "$2" ] || { echo "error could not read $S/pkg/$pkg and $2"; exit 1; }
 hasbuild=false
 grep -x '\[build\]' "$S/pkg/$pkg" >/dev/null 2>&1 && hasbuild=true
-mirrors=$(awk -f $BINDIR/butch-printsec "$pkg" mirrors | sed 's/\n/ /g')
+mirrors=$($AWK -f $BINDIR/butch-printsec "$pkg" mirrors | sed 's/\n/ /g')
 while read -r line ; do
 if printf "%s\n" "$line" | grep -x "%BUTCH_CONFIG">/dev/null 2>&1 ; then
 cat << EOF
@@ -26,14 +28,14 @@ export K=$K
 export B=$B
 EOF
 $hasbuild || echo 'skip_build=true'
-awk -f $BINDIR/butch-printsec "$pkg" vars
+$AWK -f $BINDIR/butch-printsec "$pkg" vars
 cat << EOF
 BUTCH_PACKAGE_NAME=$pkg
 BUTCH_MIRROR_URLS="$mirrors"
 EOF
 elif printf "%s\n" "$line" | grep -x "%BUTCH_BUILDSCRIPT">/dev/null 2>&1 ; then
 if $hasbuild ; then
-	awk -f $BINDIR/butch-printsec "$pkg" build
+	$AWK -f $BINDIR/butch-printsec "$pkg" build
 else
 	echo "exit 0"
 fi
