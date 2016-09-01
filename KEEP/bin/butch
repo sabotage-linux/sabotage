@@ -12,6 +12,7 @@ if [ ! -e "$CONFIG" ] ; then
 	exit 1
 fi
 
+export CONFIG
 . "$CONFIG"
 
 BINDIR=$(dirname "$(readlink -f "$0")")
