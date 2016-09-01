@@ -4,10 +4,11 @@ http://downloads.sourceforge.net/project/lxde/menu-cache/1.0/menu-cache-1.0.1.ta
 [vars]
 filesize=262508
 sha512=5de4bf99ab5a511da6781d54b03349cc0232b379a73f9f9c328fb9aed6ec03558a9adda85be1fbbe53d94669d07a5196929ab67cd3291de7aae59f587afda3a3
+pkgver=2
 
 [deps]
 glib
-libfm
+libfm-extra
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

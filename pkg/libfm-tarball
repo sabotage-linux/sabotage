@@ -1,0 +1,6 @@
+[mirrors]
+http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/LibFM/libfm-1.2.4.tar.xz
+
+[vars]
+filesize=912164
+sha512=c609e822959f9fa83eaee6552906b6fd22d210f0802944816230b1932fc06632dc557b8998d2d065100212f79dffe13257587c744aba78592983681c8410dc24

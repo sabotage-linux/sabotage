@@ -1,11 +1,8 @@
 [vars]
 tarball=libfm-1.2.4.tar.xz
-pkgver=2
 
 [deps]
 libfm-tarball
-menu-cache
-gtk+2
 
 [deps.host]
 pkgconf
@@ -18,6 +15,8 @@ intltool
   xconfflags="--host=$($CC -dumpmachine)  --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-extra-only  \
+  --with-gtk=no \
   --disable-static
 
 for i in po ; do
