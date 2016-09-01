@@ -28,15 +28,6 @@ export MAKE_THREADS=1
 # if SUPER is set, the enter-chroot script will use super_chroot.
 #export SUPER=1
 
-# you can use a prebuilt butch to speed the build up a bit
-# or in case you use aboriginal, with its uclibc toolchain lacking the
-# required posix_spawn. if you don't have a butch binary there, you have
-# to compile musl, and build butch statically with musl-gcc instead.
-# i personally put it into the tarballs dir since i always copy that one
-# to the prefered destination anyway.
-# if you don't set BUTCH_BIN, it will be downloaded and built before stage0.
-#export BUTCH_BIN=$PWD/tarballs/butch-armv6l
-
 # internal paths
 # you should leave these all as-is, this is the intended way.
 # K is the directory where patches and configs are kept
