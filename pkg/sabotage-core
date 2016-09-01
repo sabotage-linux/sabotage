@@ -1,5 +1,5 @@
 [vars]
-pkgver=3
+pkgver=4
 
 [build]
 dest="$butch_install_dir""$butch_prefix"
