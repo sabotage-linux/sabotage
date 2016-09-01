@@ -4,49 +4,31 @@ A guide to running Sabotage for the experienced Linux user.
 
 ### Butch, the build manager
 
-`butch` is a collection of shell-scripts, living in KEEP/bin of this repo
-and is usually also installed into /bin of a sabotage system.
+`butch` is a collection of small shell scripts, living in `KEEP/bin` of this
+repo and is usually also installed into /bin of a sabotage system.
 it was originally written in C for speed, but was recently replaced with a
 pure POSIX shell implementation (the performance-sensitive parts are outsourced
-into awk scripts).
+into awk scripts, so at least on an average-speed CPU there's no notable
+difference. It's probably slightly slower now on low-end ARM and MIPS CPUs).
 
 It handles package downloads, checksums, builds and dependencies in a
 relatively sane manner.
-parallel downloads are automatically enabled if a `jobflow` binary is present
+Parallel downloads are automatically enabled if a `jobflow` binary is present
 on the system (default on a sabotage install).
 
-It supports the following commands:
+To see a list of supported commands, execute `butch` without arguments.
 
-	install [<package> ... ]  # build and install <packages>
-	download [<package> ... ] # download tarballs required by <packages>
-	rebuild [<package> ... ]  # rebuild already installed <packages>
-
-	relink <package>          # create symlinks for an unlinked <package>
-	unlink <package>          # remove symlinks to a specific <package>
-	genfilelist <package>     # create filelist for <package>
-
-	pack [--method] <package> # create a binary archive of <package>
-	unpack <filename>         # install binary archive <filename> created with pack
-	builddeps <package>       # build and install dependencies of package
-
-	list                      # list installed packages
-	files <package>           # show files installed by <package>
-	mirrors <package>         # print mirrors for <package>
-	owner <file>              # print which package owns a <file>
-	users <package>           # print packages with <package> for dependency
-
-	checksum <package>        # print checksums of files for a <package>
-	checkdownloads            # verify all package download links
-	checktarballs             # verify the downloaded package tarballs
-
-	printsec <pkg> <section>  # print the specified <section> of <package>
-	search <term>             # search for <term> in packages (grep syntax)
-
-	dlinfo <url>              # download url, print initial butch recipe
-
-	update                    # rebuild installed packages with new recipes
-
-`butch` will start up to sixteen download threads and up to two build threads.
+`butch` will by default start sixteen download jobs and one build job.
+You can influence the number of download jobs with the `BUTCH_DL_THREADS`
+environment variable.
+If you're behind a super-fast gigabit link, it may make sense to increase this
+number considerably, for example to `64`.
+If your connection is very poor, you may want to set it to only `1`-`4`.
+To make the setting persistent, put it into your `config`.
+The previous C version of butch used to support multiple build jobs as well,
+however that turned out to be very confusing since it was not possible to tell
+which package is currently building and we achieve parallel CPU usage anyway
+using the `MAKE_THREADS` variable (see section `Variables` for details).
 
 By default, `butch` uses the system's `wget`.
 To enable HTTPS support install the `stage2` package, which adds `libressl`
