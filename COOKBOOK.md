@@ -56,7 +56,7 @@ all packages before the install process.
 
 `butch` defaults to installing built packages into `/opt/$packagename`. Files
 are then symlinked into a user-definable path, defaulting to `/`. Finally, the
-package name and hash of its recipe are then written to `/var/lib/butch.db`.
+package name and `pkgver` of its recipe are then written to `/var/lib/butch.db`.
 
 The `/opt` path can be overridden by adding the variable `butch_staging_dir` to
 the config file and setting it to the desired value. It must consist of a single
@@ -136,6 +136,7 @@ of different possible recipes. This section details their use.
 	sha512=<sha 512 hash>
 	tardir=<directory name the tar extracts to, if it differs from the tar name>
 	tarball=<optionally specified, if needed>
+	pkgver=<package revision>
 
 `[mirrors]` and `[vars]` are optional, but must be included together as a set.
 HTTP(S) is the only valid protocol for `[mirrors]`. `tardir` and `tarball` are
@@ -244,6 +245,32 @@ Leave this alone.
 See the wiki page "Bootstrap to HD Image" or `utils/write-hd-image`.
 
 
+### Updating the system
+
+packages that have a different `pkgver` tag than the one that's installed
+are scheduled for update when you run `butch update`.
+`butch update` opens your editor (set via `EDITOR` environment variable, usually
+from `/etc/profile` or `~/.bashrc` when using bash) with the list of packages
+scheduled for rebuild. you can use the editor to remove packages that you don't
+want to rebuild, or change the order of rebuild by moving the line containing
+the package name to another position (the package on top of the list is built
+first). Once you're satisfied with the list, save it in your editor and quit.
+Then the rebuild will start, unless the list is empty.
+If you're only interested in seeing which packages would need to be
+updated, run `butch outdated`.
+`butch rebuild $(butch outdated)` is equivalent to running `butch update`
+without the editor step (i.e. everything gets updated non-interactively).
+
+The `pkgver` tag in the package's `[vars]` section is completely independent of
+the package's actual version (for example 4.7.4).
+A missing `pkgver` tag means the revision is `1`.
+It is increased by one whenever a rebuild is necessary.
+This is the case when the version of the package was updated, or when one of its
+dependencies was updated in a way that requires a rebuild of all users, for
+example a soname bump due to API changes in libressl, libpng, etc, but not if
+there were only cosmetic changes (for example addition of a description tag).
+
+
 ### Encrypted file systems
 
 Install the `cryptsetup` package, then follow this guide to setup your partitions:
@@ -337,7 +364,8 @@ were built on. basically it's sufficient to copy the build host's directory
 `/opt/packagename` to the target's `/opt`, (use cp -a to preserve symlinks) and
 then call `butch relink packagename` on the target.
 An entry should be added to `/var/lib/butch.db`, so butch knows that it's
-already installed (the sha512sum can be copied from another package's entry).
+already installed (the `pkgver` for the second column in the DB can be taken
+from the package's `[vars]` section - if it is missing put `1`).
 The commands `butch pack packagename` and `butch unpack filename` automate this
 task on the build and target host, respectively.
 
