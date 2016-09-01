@@ -1,14 +1,17 @@
 [mirrors]
-http://mirror.switch.ch/ftp/mirror/gnu/gsl/gsl-1.15.tar.gz
+http://mirror.switch.ch/ftp/mirror/gnu/gsl/gsl-2.2.1.tar.gz
+
 [vars]
-filesize=3281134
-sha512=dcea557bcd34d4ee6d2c52741c2f95702e5e6110a99f033b412489b1930d21a40ead29392f754656375801d706df01199878263e856ca3081f9a514dc3299185
+filesize=4473802
+sha512=834210d91db6bc4be1df0c0be8e66af16bdf607bfc9d9d33bc240c428e3452e60bdab92240b88dcb15f24171be541e1fafa18368c7a257a44241e568c1c11942
+desc='GNU scientific library for numerical computations'
+pkgver=2
 
 [deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
