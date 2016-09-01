@@ -6,6 +6,7 @@ filesize=25858909
 sha512=3778ef7d4a1c759a7afc093e55eefb69a78dcb60332655cc8ab8c481f54a3e6550df6070178390eb08588245531906b8bef33301f0765a4d28d6c7506fcf3bc7
 desc='vector graphic manipulation program'
 uchkurl=https://inkscape.org/en/download/source/
+pkgver=2
 
 [deps]
 poppler
