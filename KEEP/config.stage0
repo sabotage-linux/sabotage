@@ -28,6 +28,18 @@ export MAKE_THREADS=1
 # if SUPER is set, the enter-chroot script will use super_chroot.
 #export SUPER=1
 
+# SCP_MIRRORS is a newline-separated list where the default download template
+# tries to download source tarballs from if set (before doing regular download).
+# first %s passed is the tarball filename, second %s the local destination.
+# it's very flexible, you can even call a custom script that does the download
+# in a different way. if using scp, the used host key must allow login without
+# interactive password.
+# note that during stage1/2 no scp command will be available.
+#export SCP_MIRRORS='
+#scp -i ~/.ssh/host1_key user@host1:/src/tarballs/%s %s
+#scp -P 2222 -i ~/.ssh/host2_key user@host2:/src/tarballs/%s %s
+#'
+
 # internal paths
 # you should leave these all as-is, this is the intended way.
 # K is the directory where patches and configs are kept
