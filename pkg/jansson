@@ -1,9 +1,10 @@
 [mirrors]
-http://www.digip.org/jansson/releases/jansson-2.6.tar.bz2
+http://www.digip.org/jansson/releases/jansson-2.8.tar.bz2
 
 [vars]
-filesize=319429
-sha512=42e66a2fcbbb3483564c20a089ad2712c9cd32f4b36a3c2cee4ae376336e33759eb715026f3e2db0746a45fda24c6c0980b6a2332b45560b571bbb715ecda73e
+filesize=349617
+sha512=85bf880b1db2443ebc1409d83d7386b2894882c7fc71ca1d1ef10b72b1913ad6f461c104960fa25c92cfe11afbf146f9fb516b250c6eba70ca74621bb8d7477d
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
