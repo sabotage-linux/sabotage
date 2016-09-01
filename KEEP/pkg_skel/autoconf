@@ -1,8 +1,9 @@
+[mirrors]
+
 [vars]
 filesize=
 sha512=
-
-[mirrors]
+pkgver=1
 
 [deps]
 
