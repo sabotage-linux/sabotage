@@ -5,6 +5,7 @@ http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
 filesize=2186738
 sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837ebc3cc9954deef3e8f766d16a1928aecb2c169fe3de5a722eea7ea3dd
 no_unlink=1
+pkgver=2
 
 [deps]
 kernel-headers
