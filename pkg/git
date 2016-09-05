@@ -5,6 +5,7 @@ http://cdn.kernel.org/pub/software/scm/git/git-2.10.0.tar.xz
 filesize=4096264
 sha512=69d031f55141c2cb2cfce69ac808d1765c1502e10867e8f6e8fb2d9ac5e2fa5773f3ba4a8f4b59e313c715e757c97b3cd3f1b13da45c7bc3958bf53026f0718e
 desc='tools to work with the git distributed version control system'
+pkgver=2
 
 [deps]
 musl
