@@ -1,10 +1,11 @@
 [mirrors]
-http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20160615.tgz
+http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20160905.tgz
 
 [vars]
-filesize=466312
-sha512=97062fe278f1ec30db2233f9bd5a2f60557e2362a2c785bce94a7b9eec9065138cf1349bc145c18194b5af56c8e943e63c95baea839282a65ba09062bdcca2ae
+filesize=467666
+sha512=0b8dd236d2c318fc46c84ab16c85d5ce77a3eeab81ec690d38a0958a28dca0a49d7b397661c3d024fe8ee1c3a2e92c564b0c7f0e10658661351463d5ee836b8b
 desc='ancient awk implementation used by debian derivates'
+pkgver=2
 
 [deps]
 musl
