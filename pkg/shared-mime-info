@@ -1,9 +1,10 @@
 [mirrors]
-http://freedesktop.org/~hadess/shared-mime-info-1.1.tar.xz
+http://freedesktop.org/~hadess/shared-mime-info-1.7.tar.xz
 
 [vars]
-filesize=506660
-sha512=16aab85d30bc6ec10cbc92667e64a9d4c30f30ab1bcb652cc93387f0f3bf342af9ba318db19325c5e26eacf7caeaa77c496d2aa7fabd3e99dae6ef8d4a57d841
+filesize=582172
+sha512=008745fe23cf751d2fd7f701ffdaaf22eff2c2e37b77455b94c26c718839f681654577035330f740429c862b8060939f9932f313b452ac885bf811dacce3eb78
+pkgver=2
 
 [deps]
 glib
