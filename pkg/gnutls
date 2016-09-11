@@ -1,11 +1,12 @@
 [mirrors]
-ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/gnutls-3.4.14.tar.xz
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.4/gnutls-3.4.14.tar.xz
+ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/gnutls-3.4.15.tar.xz
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.4/gnutls-3.4.15.tar.xz
 
 [vars]
-filesize=6673148
-sha512=d75f6b4dea2dc742cd7f60ee0ee540d41b69991aaa937ca0138cfdf4a1e0dfaaa3863464303bfa5799e14ee02de252f71c59a7a9e57b96ff8af653e419edfd4e
+filesize=6676480
+sha512=03157f2da22890ecd080ad58144a9aabe933382c0b7e969b7b194a0248bb5e6e25207078c0a92755650d0004970eb1c0cf0140dbdbf2e615808f9978e965a5e5
 desc='C library implementing the SSL, TLS and DTLS protocols'
+pkgver=2
 
 [deps]
 libnettle
