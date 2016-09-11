@@ -1,9 +1,10 @@
-[vars]
-filesize=3812944
-sha512=6f9c5142db3b155bd601149b5632807b3c20dcfa7006ce5f7e120e6fc4b2174a3f4671c18232c040ffd69ebfb5950be5c563ac5cc08b88d03eb5a9f1b0f96c04
-
 [mirrors]
-http://ftp.gnu.org/gnu/texinfo/texinfo-5.2.tar.xz
+http://ftp.gnu.org/gnu/texinfo/texinfo-6.3.tar.xz
+
+[vars]
+filesize=4468048
+sha512=ef6c5878d9db497d7963bd9138418b30c39a5605c215bf2f4e8f1f083d93c3c99f8c459aa675f7da3b78da6189cb6bbf3cf19a2ee1d52e569de2f6ce82762bf4
+pkgver=2
 
 [deps.host]
 perl
