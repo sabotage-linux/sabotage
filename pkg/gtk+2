@@ -1,9 +1,11 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.28.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.31.tar.xz
 
 [vars]
-filesize=13354884
-sha512=86d563645ca70c1e14afd4b38d925f496e596cbf6181f2e95310f58c2f4152aaecc559e3c513e6d405fcf48d8d413d59a9d72782216529c1280bd8e1947d7760
+filesize=12805344
+sha512=75b846661308d94b5236e7e1c367deabf57753792ca87e92f9769822dd5ec90e00cd8d5574adcc12162e3702e1ae6dc152278a1d218f9bd9e4d1c8dc1dd520c1
+pkgver=2
+desc='gui toolkit written in C. used by almost all desktop GUI apps in sabotage'
 
 [deps]
 pango
