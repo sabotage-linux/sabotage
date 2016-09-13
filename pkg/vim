@@ -1,18 +1,16 @@
-[deps]
-curses
-
 [mirrors]
-ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
+ftp://ftp.vim.org/pub/vim/unix/vim-8.0.tar.bz2
 
 [vars]
-filesize=9843297
-sha512=65d55da556ee283a364b376d251b70e430b7a157bb5a8ee89565060ff9937907966d416cffd33f701b3314d0fdf16efe00065f66bc8459469f5ae2f713418e0e
-tardir=vim74
+filesize=10610197
+sha512=d5f7fc08c94a5027bc004bf6d38ecba2887cf7e04fb5eb14128121a96f9b910055ceb1ee5327f29fd682a500f19dc479e5a42d55b8a961c52d3370ab682bdd95
+tardir=vim80
 desc='a terminal-based text editor with a gazillion of features'
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS="-D_GNU_SOURCE -include stdlib.h -DHAVE_SETENV -DHAVE_PUTENV" \
 CFLAGS="$optcflags" \
