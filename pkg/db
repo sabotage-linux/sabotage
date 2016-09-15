@@ -1,10 +1,12 @@
 [mirrors]
-http://download.oracle.com/berkeley-db/db-6.1.26.tar.gz
+http://download.oracle.com/berkeley-db/db-6.2.23.tar.gz
 
 [vars]
-filesize=37495772
-sha512=2590ee3d9e30e6eaeb350edbc2fa7400582c0b520177fe0a3a57a966573268e18ad10b1dc6dee3fb1be9c93ac6f96f848c120793eaf873562464edd125cff4d4
+filesize=44305964
+sha512=0aac380673ff4f97a2a6230f135f8151b8d2896a12710f708cd983b5fb95075b55fc2c67af577365e8ec7a32e43357a4f3118e37713d00b227f05eb11b1d12f5
 desc='library to interface with berkeley (file-based) databases'
+uchkurl=http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index.html
+pkgver=2
 
 [deps]
 
@@ -13,9 +15,15 @@ patch -p1 < "$K"/bdb-configure.patch
 cd build_unix
 mv ../config.cache .
 
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+if [ -n "$CROSS_COMPILE" ] ; then
+  host=$($CC -dumpmachine)
+  xconfflags="--host=$host \
   --with-sysroot=$butch_root_dir"
+  case $host in
+	*i[3-7]86*|*x86_64*) xconfflags="$xconfflags db_cv_atomic=x86/gcc-assembly" ;;
+	*) xconfflags="$xconfflags db_cv_atomic=gcc-builtin" ;;
+  esac
+fi
 
 CFLAGS="-D_GNU_SOURCE" ../dist/configure -C \
     --prefix="$butch_prefix" --enable-compat185 $xconfflags \
