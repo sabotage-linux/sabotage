@@ -44,6 +44,9 @@ sed -i 's,pthreads_working=no,pthreads_working=yes,g' configure
 [ -n "$CROSS_COMPILE" ] && \
 sed -i 's@\$(top_builddir)/sapi/cli/php@php@g' pear/Makefile.frag
 
+# https://bugs.php.net/patch-display.php?bug_id=65426&patch=db6.patch&revision=latest
+sed -i 's@DB_VERSION_MAJOR == 5@DB_VERSION_MAJOR >= 5@g' configure
+
 # all the below *_cv_ tests fail because the php configure tests
 # use exit() but dont include stdlib.h. same for strcmp and string.h etc.
 LDFLAGS="-Wl,--no-keep-memory  $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
