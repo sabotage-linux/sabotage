@@ -1,10 +1,11 @@
 [mirrors]
-http://www.php.net/distributions/php-7.0.10.tar.xz
+http://www.php.net/distributions/php-7.0.11.tar.xz
 
 [vars]
-filesize=12474728
-sha512=124fa1a5ef1bab39b04d03be965fbcfedf173542fa060288642573f60360ae8ed627827040dc6ed6a4c67bd66852ffea8d54743ac7922465e8f545478529c35d
+filesize=12258500
+sha512=4d7df513a61489ecb1c3a963fbb76ad8e15b88fa134f52295a5339c900f7b2f98e547a3e479b8061dd4ff3c5f90cd62e3c39ec208d7de03b6146501e60500d5e
 desc='heavily broken scripting language for web development'
+pkgver=2
 
 [deps]
 gettext
