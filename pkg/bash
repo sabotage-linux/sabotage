@@ -1,10 +1,11 @@
 [mirrors]
-http://ftp.gnu.org/gnu/bash/bash-4.3.30.tar.gz
+http://ftp.gnu.org/gnu/bash/bash-4.4.tar.gz
 
 [vars]
-filesize=7977214
-sha512=76e5d91f0d29f857d5ab39423075ee4a577b59bae22f86cefef82c814f25d37456655e083e3cb116406856b192ca8b5749852baf7d01dbac491a2fb2e5ab7686
+filesize=9377313
+sha512=73de3b425faaac55e45456b0f6f6d8077b5dfa7bb76e0d1894a19361b4a2b6bd4fbbe182117ddbfe9b07b4d898fba03537c261badc9533dd3c0da891764c7f29
 desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
+pkgver=2
 
 [deps]
 
@@ -14,7 +15,7 @@ desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
 # "checking for offset of exit status... 0" (due to crosscompile)
 # on a native x86_64 run we get 8 (bash_cv_wexitstatus_offset)
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
