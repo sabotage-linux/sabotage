@@ -1,3 +1,6 @@
+[vars]
+no_unlink=1
+
 [deps.host]
 dynamic-toolchain
 git

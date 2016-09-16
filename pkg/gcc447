@@ -10,6 +10,7 @@ g++447
 filesize=25784094
 sha512=318522e170a9e54d051311416dc221d8d727a85d6e24a97fdbd9125d9dea1530930efd04b846c06ddbe3c5acaeef8810e0d4e79b8e9af535f0b08f1f20e5b10b
 tardir=gcc-4.4.7
+no_unlink=1
 
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.4.7/gcc-core-4.4.7.tar.bz2

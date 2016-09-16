@@ -11,6 +11,7 @@ g++454
 filesize=28265185
 sha512=82f81a6860155e78cecac846038ceb5a5ec68e399f3ab058c5d569745e47460761f162e92f627d0275a37ff24cbc6582a018b5057d57fc01107f615e59192451
 tardir=gcc-4.5.4
+no_unlink=1
 
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.5.4/gcc-core-4.5.4.tar.bz2

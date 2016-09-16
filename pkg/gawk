@@ -6,6 +6,7 @@ http://ftp.gnu.org/pub/gnu/gawk/gawk-4.1.4.tar.bz2
 filesize=2367832
 sha512=6a0e9cf086544212f54b54261dcd517b611aaf495ef99c4b7740d07e363bb00c5632f3d7fd5e12a954d5aa9793764162a57453e0e18884b29c6c54b5f444c097
 pkgver=2
+no_unlink=1
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in

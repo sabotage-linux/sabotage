@@ -5,6 +5,7 @@ http://www.musl-libc.org/releases/musl-1.1.15.tar.gz
 filesize=911600
 sha512=9e923572c0d6bad3dc2d2646d4b0699c10b477ce6300ac6c6224895192a90667f581ddf6eda2ab8c4c16f47bde4bccb03bb90478638d136d9df721430f4d0163
 desc='the musl C standard library (libc)'
+no_unlink=1
 
 [deps.host]
 gcc4

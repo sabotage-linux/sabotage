@@ -15,6 +15,7 @@ http://ftpmirror.gnu.org/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2
 [vars]
 filesize=86165587
 sha512=47fdfeca0c0a624cdec9c4ae47137d056c918d5c386d4b96985bb3c8172aba377cb66cbcc30e80832fd244a7d98f562c20198056915c70cfef0977545073a8ea
+no_unlink=1
 
 [build]
 VERSION=4.8.5

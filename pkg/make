@@ -2,6 +2,7 @@
 filesize=1242186
 sha512=3260be0d1a9a7c5eb0dbb87179a9a9521fdfc7809ca51f13ee5a37ba5e63d21ad50a4249ec7d3929a9d0ce8c8f6cf302558743964f0f7ff742efe283b91df9de
 desc='the standard build tool for *nix source packages'
+no_unlink=1
 
 [deps]
 kernel-headers

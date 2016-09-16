@@ -9,10 +9,12 @@ g++464
 
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.6.4/gcc-core-4.6.4.tar.bz2
+
 [vars]
 filesize=30353380
 sha512=93b1dfb945256ab08d4cadd43237da09b5b37ebc9d82b6ba4072df253f139ae0795860cd58d9fde83018b0b5ce6e23bc679dfb22ca76813a9a29c8129fd2854d
 tardir=gcc-4.6.4
+no_unlink=1
 
 [build]
 VERSION=4.6.4

@@ -59,6 +59,7 @@ butch_do_cleanup_builddir=true
 
 if $butch_do_custom_destdir ; then
 	butch_do_cleanup_custom_destdir=true
+	[ "$no_unlink" = 1 ] && butch_do_cleanup_custom_destdir=false
 	[ -z "$butch_do_relocate" ] && butch_do_relocate=true
 	[ -z "$butch_do_filelists" ] && butch_do_filelists=true
 	[ -z "$butch_do_create_tarball" ] && butch_do_create_tarball=false
@@ -97,11 +98,6 @@ butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
 
 #currently passing a version from a package is not implemented.
 butch_package_version=0.0.0
-
-# if we unlink these packages nothing will work anymore
-for i in sabotage-core busybox coreutils gcc454 gcc424 gcc447 gcc463 gcc464 gcc472 gcc473 gcc474 gcc485 gcc493 gcc520 gcc530 binutils musl-git musl sed make grep gawk ; do
-	[ "$butch_package_name" = "$i" ] && butch_do_cleanup_custom_destdir=false
-done
 
 # butch_install_dir denotes the DESTDIR passed to make
 if $butch_do_custom_destdir ; then

@@ -6,6 +6,7 @@ http://mirrors.kernel.org/gnu/grep/grep-2.25.tar.xz
 filesize=1327856
 sha512=7a738f938dde350ae71eb87083586e25768ba392113cba973a4e567b476c788ca66e0736d63f5e0e12a7847fa70379dc0b6568ec92431ea4604acd2cbedd66c1
 desc='GNU grep with more features than busybox grep'
+no_unlink=1
 
 [deps]
 xz

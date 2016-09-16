@@ -1,8 +1,10 @@
 [mirrors]
 http://ftp.gnu.org/gnu/coreutils/coreutils-8.20.tar.xz
+
 [vars]
 filesize=5273788
 sha512=adbeab5af780ae70d2a98a81e96ad2cdfbcbc20153372b0085f6ac75ae9fadff82bd09b460400820057692b4145d7f2d276630b76b0ed509303587972ed175cd
+no_unlink=1
 
 [deps.host]
 dynamic-toolchain
