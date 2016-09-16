@@ -78,8 +78,11 @@ local dbd=$(dirname $BUTCHDB)
 mkdir -p $dbd
 check_access $dbd w
 }
+has_section() {
+	grep -x '\['"$2"'\]' $S/pkg/$1 >/dev/null 2>&1
+}
 has_mirrors() {
-	grep -x '\[mirrors\]' $S/pkg/$1 >/dev/null 2>&1
+	has_section "$1" mirrors
 }
 is_installed() {
 	echo "installed $1" >&4
@@ -102,10 +105,14 @@ get_pkgver_installed() {
 	test $res_ = 0 && return 1
 	return 0
 }
+is_tarball_pkg() {
+	has_mirrors "$1" && ! has_section "$1" build
+}
 update_butchdb() {
 	cmd=INSTALLED
 	test "$2" = installed || cmd=REMOVED
 	echo "$cmd $1" >&4
+	test "$2" = installed && is_tarball_pkg "$1" && return 0
 	rm -f $BUTCHDB.tmp
 	[ -e "$BUTCHDB" ] && while read pkg_ hash_ ; do
 	test "$pkg_" = "$1" || printf "%s %s\n" "$pkg_" "$hash_" >> $BUTCHDB.tmp
