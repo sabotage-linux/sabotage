@@ -90,6 +90,9 @@ is_installed() {
 	test $res_ = 0 && return 1
 	return 0
 }
+dont_unlink() {
+	$BINDIR/butch-printsec "$1" vars | grep -x 'no_unlink=1' >/dev/null 2>&1
+}
 get_pkgver() {
 	ver=$($BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
 	if [ -n "$ver" ] ; then
@@ -113,6 +116,7 @@ update_butchdb() {
 	test "$2" = installed || cmd=REMOVED
 	echo "$cmd $1" >&4
 	test "$2" = installed && is_tarball_pkg "$1" && return 0
+	test "$2" != installed && dont_unlink "$1" && return 0
 	rm -f $BUTCHDB.tmp
 	[ -e "$BUTCHDB" ] && while read pkg_ hash_ ; do
 	test "$pkg_" = "$1" || printf "%s %s\n" "$pkg_" "$hash_" >> $BUTCHDB.tmp
