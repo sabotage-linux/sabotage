@@ -1,0 +1,31 @@
+[mirrors]
+https://github.com/transmission/transmission-releases/raw/master/transmission-2.92.tar.xz
+
+[vars]
+filesize=3378116
+sha512=4d99476bee88cedcc4238a0eee64a4089016933cbfc1cfb1cca023ad4ebcfe46375c9e7651a17af4aeaaf1feb19cbd8166aa56ef7992d9e745a7bbcbe8efca11
+pkgver=2
+
+[deps]
+musl
+libressl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+sed -i 's@upnp_version="unknown"@upnp_version="none"@' configure
+
+gtkflags=--without-gtk
+[ -z "$PKG_CONFIG" ] && PKG_CONFIG=pkg-config
+# we're assuming a user that has gtk+-3.0 installed wants the gtk gui
+$PKG_CONFIG --exists 'gtk+-3.0' && gtkflags="--with-gtk --enable-nls"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-daemon --enable-cli --enable-utp --without-systemd-daemon $gtkflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
