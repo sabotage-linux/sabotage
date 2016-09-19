@@ -1,20 +1,18 @@
 [mirrors]
-http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20160905.tgz
+http://invisible-mirror.net/archives/mawk/mawk-1.3.4-20160918.tgz
 
 [vars]
-filesize=467666
-sha512=0b8dd236d2c318fc46c84ab16c85d5ce77a3eeab81ec690d38a0958a28dca0a49d7b397661c3d024fe8ee1c3a2e92c564b0c7f0e10658661351463d5ee836b8b
+filesize=466178
+sha512=03a73f78bd5a6e0c1fdeea4578d3336261455e6020cb735a94bdc58ba903f4bd05ffb384b0a22e5fe1e17eff6aaafb1de275a432aee6728527a5f530ff846869
 desc='ancient awk implementation used by debian derivates'
-pkgver=2
+pkgver=3
 
 [deps]
 musl
 
 [build]
-#patch -p1 < "$K"/some.patch
-
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
