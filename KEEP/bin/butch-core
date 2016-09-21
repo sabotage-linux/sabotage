@@ -91,10 +91,10 @@ is_installed() {
 	return 0
 }
 dont_unlink() {
-	$BINDIR/butch-printsec "$1" vars | grep -x 'no_unlink=1' >/dev/null 2>&1
+	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep -x 'no_unlink=1' >/dev/null 2>&1
 }
 get_pkgver() {
-	ver=$($BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
+	ver=$($AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
 	if [ -n "$ver" ] ; then
 		printf "%s\n" "$ver" | cut -b 8-
 	else
