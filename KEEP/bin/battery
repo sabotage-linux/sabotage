@@ -1,5 +1,8 @@
 #!/bin/sh
-curr=$(cat /sys/class/power_supply/battery/charge_now)
-full=$(cat /sys/class/power_supply/battery/charge_full)
-printf "charge: %d%% (%d/%d)\n" $(($curr / ($full / 100))) "$curr" "$full"
-
+for i in /sys/class/power_supply/* ; do
+[ -e "$i"/charge_now ] || continue
+b=$(basename $i)
+curr=$(cat /sys/class/power_supply/$b/charge_now)
+full=$(cat /sys/class/power_supply/$b/charge_full)
+printf "%s charge: %d%% (%d/%d)\n" $b $(($curr / ($full / 100))) "$curr" "$full"
+done
