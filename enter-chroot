@@ -52,7 +52,7 @@ fi
 
 set_title() {
 	[ "$TERM" != "linux" ] && [ "$TERM" != "vt100" ] && \
-	echo -en "\033]2;$1\007"
+	printf "\033]2;%s\007" "$1"
 }
 
 set_title "SABOTAGE CHROOT $(basename $R)"
