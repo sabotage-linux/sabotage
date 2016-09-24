@@ -1,0 +1,8 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.21-22.xz
+
+[vars]
+filesize=31648
+sha512=dec04d1eae9f6e6406ac25aa350efde46fb9787157c9a113b7006ae0142c01bdec13c00400861bfe8a34c62f20e35099628e564c17df8b7e3325c47a3673cd75
+tarball=kernel-patch-4.4.21-22.xz
+
