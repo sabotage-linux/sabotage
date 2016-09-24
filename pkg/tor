@@ -1,12 +1,12 @@
 [mirrors]
-https://dist.torproject.org/tor-0.2.8.7.tar.gz
-http://mirror.hackthissite.org/tor/tor-0.2.8.7.tar.gz
+https://dist.torproject.org/tor-0.2.8.8.tar.gz
+http://mirror.hackthissite.org/tor/tor-0.2.8.8.tar.gz
 
 [vars]
-filesize=5179093
-sha512=79156110804497509564d53a806dc8237e97755556bbaaed83d0f6a3470942a480e53693a7192996bad2b33fe1f77f60eb45e8122af9bfdc4a8f12b943cbc660
+filesize=5093794
+sha512=741521663509d5983aed3561b2aaacab9355a1964b4a24f8e046c116159b22e3df9c76705c11afb84f2cedacaab77f429978ff6920306aa8fdab74fd22950cf6
+pkgver=3
 desc='onion router for anonymization of internet traffic'
-pkgver=2
 
 [deps]
 libressl
