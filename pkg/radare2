@@ -1,14 +1,15 @@
 [mirrors]
-http://rada.re/get/radare2-0.10.4.tar.xz
+http://rada.re/get/radare2-0.10.6.tar.xz
 
 [vars]
-filesize=5022540
-sha512=ed5afd80ac7505c93478c0bbb871202d45afe191c2d0253b519845224452c43b7f7eb91aa814140297483b34f43a07cb8ce2ddb5ace09ad0904c83fd94aebd3a
+filesize=5082028
+sha512=1e33a831244c8bfc6ab317ed74ec108730f361550f504d48d8783e6c3bfc2ce98e4feac08b37b4b8997f0a83a456fe26685c6f4847798dea841a97b259dcef8b
+pkgver=2
 desc='reverse engineering and (dis)assembling framework'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
