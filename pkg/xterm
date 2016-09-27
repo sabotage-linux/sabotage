@@ -1,9 +1,11 @@
 [mirrors]
-ftp://invisible-island.net/xterm/xterm-325.tgz
+ftp://invisible-island.net/xterm/xterm-326.tgz
 
 [vars]
-filesize=1237865
-sha512=7049a013967cb90eb196684e7d6d0664cd0d7c86154fba318493d9249e973a4bf591861cbbc051a80184ef427aad75774b15d79cb571d3f82482c1b51e7a99f4
+filesize=1240064
+sha512=24a26adeeb07f2ed31779578d3a18d6c838bc7596521f5c826c8747b96fae1a296451f55d0046970102cf9f2ef072f6d0505dfc51378796c2834fb9af036dce1
+pkgver=2
+desc='old school X terminal emulator'
 
 [deps]
 libx11
