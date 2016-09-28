@@ -54,3 +54,4 @@ echo '[vars]'
 echo filesize="$(getfilesize "$fn")"
 echo sha512="$(gethash "$fn")"
 $customname && echo "tarball=$2"
+echo pkgver=1
