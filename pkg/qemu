@@ -1,9 +1,10 @@
 [mirrors]
-http://wiki.qemu-project.org/download/qemu-2.6.1.tar.bz2
+http://wiki.qemu-project.org/download/qemu-2.6.2.tar.bz2
 
 [vars]
-filesize=25762855
-sha512=adb55d0774618c9cd02d376222814f2047977bfbca73248841275084ae537db583db4ac6cfa5cc65c3182941d5f4b40f2f7f4661b2cd93cbb3796e2f325bc919
+filesize=25763594
+sha512=7a68b4bf7a3d04a1c4402b09e0b81e37d2431b5dd8a10b07d0e11b28bdf92e6e19800859feee50d54c62dae58bbd85dfd208e9cab4eb0310b4749e6911fcc49f
+pkgver=2
 
 [deps]
 glib
