@@ -1,10 +1,11 @@
 [mirrors]
-https://github.com/tmux/tmux/releases/download/1.9a/tmux-1.9a.tar.gz
-http://distfiles.macports.org/tmux/tmux-1.9a.tar.gz
+https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz
+http://distfiles.macports.org/tmux/tmux-2.3.tar.gz
 
 [vars]
-filesize=447938
-sha512=842984638dc1f7364c03393187379598f35679d535d911d5df4016944d6032e61a1bf840d7d339c6e99b30c55581d470acca85ab6ee5799b8927d18c0e9a91df
+filesize=473944
+sha512=521e3734104be43837cba95d8b3d050d033708fa7469f7e7db66ae6993b002c4d9f6bafec41f3c9446eda91a4499e571019534dfa2e5a0563085b2d16e1b94af
+pkgver=2
 uchkurl=https://github.com/tmux/tmux/releases/
 desc='terminal multiplexer, similar to GNU screen but with more features'
 
@@ -15,7 +16,7 @@ curses
 [build]
 patch -p1 < "$K"/tmux-imsg.patch
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
