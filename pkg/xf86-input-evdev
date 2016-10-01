@@ -1,15 +1,17 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-evdev-2.10.4.tar.bz2
+
+[vars]
+filesize=404465
+sha512=36f5cb1db79d855c2237eadbf4a0758f1a53de695e7f10de828b0bd5e26b0612bea6f5db1266b8db79350b63a7ac74befe9f23a916cb48ffb614ed9d4a64a87b
+pkgver=2
+
 [deps]
 eudev
+libevdev
 xproto
 libx11
 xorg-server
-
-[vars]
-filesize=369337
-sha512=8a9fce3b1d7a577a914d662b5a36dc43d56f16ae9318bbaf09fbd28ee572a69f40b7960d6d51ede9074284eed5a01732a4a246b43f8a1140cb8f1c0073ea189c
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-input-evdev-2.8.1.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
