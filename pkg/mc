@@ -1,9 +1,10 @@
 [mirrors]
-http://www.midnight-commander.org/downloads/mc-4.8.17.tar.xz
+http://www.midnight-commander.org/downloads/mc-4.8.18.tar.xz
 
 [vars]
-filesize=2457156
-sha512=e995e5b1eb0a5831fe567e4398c9a68fa610c8631f1f13fb277f67f709656bc97bd7b20f289bdace35276984556edd1aed324412d225698c5853809a6d128f72
+filesize=2462080
+sha512=edd81f6ab50ca7bb3582064f6722e490d33ae9dfbef3835e26206089d3898420968da394780c594083fa17c01a85cda9068d9931199b8319bf6361f90e900eb8
+pkgver=2
 desc='midnight commander - terminal file manager (norton commander clone)'
 
 [deps]
@@ -11,12 +12,11 @@ curses
 glib
 
 [build]
-patch -p1 < "$K"/mc-curses.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE -DNCURSES_CONST=const" \
+CPPFLAGS="-D_GNU_SOURCE" \
 CFLAGS="$optcflags" LDFLAGS="$optldflags -lterminfo" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls \
