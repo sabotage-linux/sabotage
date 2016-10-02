@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/e4/96/a598fa35f8a625bc39fed50cdbe3fd8a52ef215ef8475c17cabade6656cb/dnspython-1.15.0.zip
+
+[vars]
+filesize=252157
+sha512=942f7cf083d1b0a9f03f040ceca194c38777f2e40862c388051986112b3f2a4a8426733ff46ec5a155319776e4a856412c3430b052b2f92f251f0e3260eb9bc1
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
