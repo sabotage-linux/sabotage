@@ -1,10 +1,11 @@
 [mirrors]
-http://w1.fi/releases/wpa_supplicant-2.5.tar.gz
-http://hostap.epitest.fi/releases/wpa_supplicant-2.5.tar.gz
+http://w1.fi/releases/wpa_supplicant-2.6.tar.gz
+http://hostap.epitest.fi/releases/wpa_supplicant-2.6.tar.gz
 
 [vars]
-filesize=2607336
-sha512=e3ca36ed10b4dae8f663e98ad230c8c059c952316c21a6b0638ecb1b40a5ef1b9083138ab45207cb764a17e870b4bd0625dd6efdb65856cb4dca13ccc0559e81
+filesize=2753524
+sha512=46442cddb6ca043b8b08d143908f149954c238e0f3a57a0df73ca4fab9c1acd91b078f3f26375a1d99cd1d65625986328018c735d8705882c8f91e389cad28a6
+pkgver=2
 desc='service to support WPA(2) encryption of wireless networks'
 
 [deps]
@@ -15,7 +16,6 @@ zlib
 [build]
 patch -p1 < "$K"/wpa_supplicant-fflush.patch
 patch -p1 < "$K"/wpa_supplicant-action_script.patch
-patch -p0 < "$K"/wpa_supplicant25-libressl.patch
 patch -p0 < "$K"/wpa_supplicant25-eloop.patch
 cd wpa_supplicant
 cp defconfig .config
