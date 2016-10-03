@@ -19,7 +19,7 @@ cat << EOF > hack.h
 #ifndef __ASSEMBLER__
 #include <string.h>
 #include <errno.h>
-#define sched_getcpu() (errno = ENOSYS, -1)
+//#define sched_getcpu() (errno = ENOSYS, -1)
 #define strerror_r(a,b,c) ((strerror_r)(a,b,c),b)
 #endif
 EOF
