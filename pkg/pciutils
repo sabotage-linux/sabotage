@@ -1,10 +1,11 @@
 [mirrors]
-ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.1.tar.xz
-http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.1.tar.xz
+ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.2.tar.xz
+http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.2.tar.xz
 
 [vars]
-filesize=312968
-sha512=927e4afc3ffb4e14b24948e74f6c4dfedff33e8d4a559f0821ad07c6fe76865697818dbd9926bc23f67fe11de691b0a135e9a4eb7fa98528e4b9f36fb2f93d63
+filesize=317260
+sha512=6c1b181db94cf31a0086a252adb16196e14bfa965017e374995afa630c1d08240af7a9c811764fddd2831403e0f5d3fce1a32efeadc11ac8f987f6b24c84419a
+pkgver=2
 
 [deps]
 musl
