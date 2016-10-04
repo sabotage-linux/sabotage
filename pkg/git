@@ -1,11 +1,11 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.10.0.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.10.1.tar.xz
 
 [vars]
-filesize=4096264
-sha512=69d031f55141c2cb2cfce69ac808d1765c1502e10867e8f6e8fb2d9ac5e2fa5773f3ba4a8f4b59e313c715e757c97b3cd3f1b13da45c7bc3958bf53026f0718e
+filesize=4102452
+sha512=976c62b530405388f77b01abb9dd40929831e0fdb83574c5c56ea309af462805659a20685221cf011db67635cebfe550853d1ba3764118bb53df41cf480f216a
+pkgver=3
 desc='tools to work with the git distributed version control system'
-pkgver=2
 
 [deps]
 musl
@@ -21,6 +21,7 @@ make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $b
   prefix="$butch_prefix" gitexecdir="$butch_prefix"/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
   CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
+  NO_REGEX=NeedsStartEnd \
   DESTDIR="$butch_install_dir" -j$MAKE_THREADS V=1 all install
 
 dest="$butch_install_dir""$butch_prefix"
