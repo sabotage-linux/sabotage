@@ -1,15 +1,16 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/network/ethtool/ethtool-4.6.tar.xz
+http://cdn.kernel.org/pub/software/network/ethtool/ethtool-4.8.tar.xz
 
 [vars]
-filesize=206072
-sha512=fb7cef1096dcc4bd156fc5dd8f85b157dfddf7257be185b6fe4a70f219f1a53ee972d91347ee831b085ba34e8d7c04d244e98cbaf85e0b4b166594b6b67e94e2
+filesize=214932
+sha512=ab1f13db57129fdef6018d8d8ee4ad9733041813aa0b7a29d46407e93d3c264a42aa24e2f1892084d523ed9946c62c6b9d2ae886629aeb013a58a0946fd6be96
+pkgver=2
 
 [deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
