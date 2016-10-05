@@ -1,9 +1,10 @@
 [mirrors]
-https://www.hiawatha-webserver.org/files/hiawatha-10.3.tar.gz
+https://www.hiawatha-webserver.org/files/hiawatha-10.4.tar.gz
 
 [vars]
-filesize=897607
-sha512=628b8042f732c02eb86d98798078c93cafeadaee1adaebed41a2e40b3c8efb8a1f281403125568d207d8326354dbbb651f6894a69f44142ced5f407d576c725b
+filesize=909924
+sha512=d11272a44530d0656c2df95a30b801e5533a78c99d872eeea35f933e6114b7518f915566d0a548958859d5c4dfd2d107e886f4b67fb9bccc44e70a9bede72752
+pkgver=2
 
 [deps.host]
 cmake
