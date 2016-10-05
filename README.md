@@ -219,6 +219,19 @@ Please do not use FTP mirrors. FTP is a broken, ancient protocol.
 Downloads from git or other source repositories are not desired.
 This would add an internet connection as a build-time dependency.
 
+### Package maintainance
+
+Even though the sabotage linux team is at the moment rather small, we try to
+keep all packages up-to-date, if possible. Updating a package usually requires
+at least one test build, and eventually one or more fixes and another rebuild
+for each fix. So under some circumstances, this might require several hours of
+work. Since our time is limited, some non-core packages that lack a maintainer
+and we consider of low importance will be updated (upstream URL) without a build
+test and marked as `[untested]` in the commit message.
+Those packages may or may not build. If you find a build error in such a package
+feel free to report the error or even better, fix it, make a PR and claim
+maintainership.
+
 
 ## THANKS
 
