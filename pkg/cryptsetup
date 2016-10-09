@@ -7,12 +7,13 @@ http://www.mirrorservice.org/sites/ftp.kernel.org/pub/linux/utils/cryptsetup/v1.
 [vars]
 filesize=1222688
 sha512=ff761bd0c5e9a7941fd27d55839804f2ce96145a45a9689d234954fc43c6172c913c59c83b37ef6cc5459ccecff63212c369077fdea70c14326372076eae7f86
+pkgver=2
 uchkurl=https://gitlab.com/cryptsetup/cryptsetup/blob/master/README.md
 desc='required component to use encrypted filesystems'
 
 [deps]
 libuuid
-libressl
+libnettle
 popt
 libdevmapper
 
@@ -27,7 +28,8 @@ LDFLAGS="$optldflags -static --static -Wl,-rpath-link=$butch_root_dir$butch_pref
   --disable-shared \
   --enable-static \
   --disable-nls \
-  --with-crypto_backend=openssl
+  --with-crypto_backend=nettle
+
 "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
