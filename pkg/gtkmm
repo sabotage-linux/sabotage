@@ -13,6 +13,7 @@ pangomm
 atkmm
 
 [build]
+cp -f "$K"/config.sub build/
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
