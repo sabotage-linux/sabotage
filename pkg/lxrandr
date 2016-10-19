@@ -5,6 +5,9 @@ http://downloads.sourceforge.net/project/lxde/LXRandR%20%28monitor%20config%20to
 filesize=132468
 sha512=525cb8800045f26cb1ecae994e1663db4ce41fbfcf1eabd6c50de38988324cd50f51167fa0caa6872867955c0d18af115bed1d4ae896cb15871efd477eb01196
 
+[deps.run]
+xrandr
+
 [deps]
 gtk+2
 intltool
