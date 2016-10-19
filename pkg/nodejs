@@ -1,10 +1,10 @@
 [mirrors]
-https://nodejs.org/download/release/v0.12.16/node-v0.12.16.tar.xz
+https://nodejs.org/download/release/v0.12.17/node-v0.12.17.tar.xz
 
 [vars]
-filesize=12373192
-sha512=b154af3d113767eda9abf4523e9a2f47218682e9dcc078b6be6fe9a632d80fa8576e7eef3ba567b83bea2ceb88e6ea532af4c8d44668ccb978876874e5632f72
-pkgver=2
+filesize=12373784
+sha512=466821bc2c753a08df91ab5cf3a20c3b8e25b664724762e8597c40748d22d47879dd210a91fa1ecdd84a930e491f1333d6ef4138b6f79340a8cf6f01d7fe0fce
+pkgver=3
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
