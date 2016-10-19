@@ -6,6 +6,7 @@ ftp://mirrors.kernel.org/sources.redhat.com/lvm2/releases/LVM2.2.02.162.tgz
 [vars]
 filesize=2095450
 sha512=9544bb7706488ac128d477af7294bcfd7b7e47cb0b1d604ea52c4545d6c3a5a71311945994dd1114cb1ce086d2006a35ef1d8b0fdd3082dfe5cc468cb0168057
+pkgver=2
 
 [deps]
 kernel-headers
@@ -20,9 +21,11 @@ for i in stdio mallinfo libdir-config mlockall-config ; do
 done
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags"
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  xconfflags="--host=$($CC -dumpmachine)"
+
+./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin \
+  --with-optimisation="$optcflags $optldflags" \
   --disable-readline \
   --enable-static_link
 
@@ -35,3 +38,10 @@ CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags"
 
 # make doesnt work, only make install does
 make -j$MAKE_THREADS DESTDIR="$butch_install_dir" install
+# replace dynamic binaries with static versions
+dest="$butch_install_dir""$butch_prefix"
+for i in lvm dmsetup ; do
+mv "$dest"/sbin/$i.static "$dest"/bin/"$i"
+ln -sf $i "$dest"/bin/"$i".static
+done
+rm -rf "$dest"/sbin
