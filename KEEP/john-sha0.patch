@@ -1,0 +1,15 @@
+--- JohnTheRipper-1.8.0.6-jumbo-1.org/src/rawSHA0_fmt_plug.c
++++ JohnTheRipper-1.8.0.6-jumbo-1/src/rawSHA0_fmt_plug.c
+@@ -116,9 +116,9 @@
+ {
+ 	const int count = *pcount;
+ 
+-	SHA_Init( &ctx );
+-	SHA_Update( &ctx, (unsigned char *) saved_key, strlen( saved_key ) );
+-	SHA_Final( (unsigned char *) crypt_key, &ctx);
++	SHA1_Init( &ctx );
++	SHA1_Update( &ctx, (unsigned char *) saved_key, strlen( saved_key ) );
++	SHA1_Final( (unsigned char *) crypt_key, &ctx);
+ 
+ 	return count;
+ }

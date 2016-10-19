@@ -12,7 +12,7 @@ desc='password hash cracker'
 libressl
 
 [build]
-#patch -p1 < "$K"/some.patch
+patch -p1 < "$K"/john-sha0.patch
 
 cd src
 
