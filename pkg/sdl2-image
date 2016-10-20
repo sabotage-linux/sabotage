@@ -1,9 +1,10 @@
-[vars]
-filesize=8398016
-sha512=300ff078c4c9a74ccc143692630e9c97e25a223bf80661cd5e7d684a25c6ad7760b20778d492d6cc41521dcd2a00e4a76947cf6dffc679fdbd54f430b3906ea6
-
 [mirrors]
-https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz
+https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.tar.gz
+
+[vars]
+filesize=7797848
+sha512=99ed5f7b69966cea5fcf9173e7270167c24b55ab459774f10dbf90f26dcb9d5f118971ffd4e583a83148976f44ca166474669398a561169d24ffba80f852306f
+pkgver=2
 
 [deps]
 zlib
@@ -12,7 +13,7 @@ sdl2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
