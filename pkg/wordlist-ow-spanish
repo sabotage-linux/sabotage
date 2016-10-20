@@ -1,0 +1,12 @@
+[mirrors]
+ftp://ftp.openwall.com/pub/wordlists/languages/Spanish/lower.gz
+
+[vars]
+filesize=248611
+sha512=0e12080cefc1fd9a1f32a01b18383df726ae352dc12d5824970406a8fd6d58c290cd11ec4045f8a52bd06a553ce5014033e4a2db11a60947e3798ec8a4888150
+tarball=wordlist-ow-spanish.gz
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/ow-spanish.txt

@@ -1,0 +1,12 @@
+[mirrors]
+ftp://ftp.openwall.com/pub/wordlists/languages/German/2-large/lower.gz
+
+[vars]
+filesize=307953
+sha512=0e4279cac422a9609aa46c3098d8609566d17a2672ea25b96a5d7461deb92ecffa778929b9eb8caf699ca2a782b6d2456d371e5e156f9604d36f5ee4cad7cae3
+tarball=wordlist-ow-german.gz
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/ow-german.txt

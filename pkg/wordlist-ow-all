@@ -1,0 +1,12 @@
+[mirrors]
+ftp://ftp.openwall.com/pub/wordlists/all.gz
+
+[vars]
+filesize=13220267
+sha512=f0899c722e6f7fe7e72e0e8ce363daf7133558dd6cdf31540895ce42c7d9aff84d8e0bbbfbd7b53368f16e927568ada78ac0dc2c72be5f1284f9cbd1930c9014
+tarball=wordlist-ow-all.gz
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/ow-all.txt

@@ -1,0 +1,12 @@
+[mirrors]
+ftp://ftp.openwall.com/pub/wordlists/languages/Italian/2-large/lower.gz
+
+[vars]
+filesize=895055
+sha512=307a92393970a3b333ef15bfc17de6673c1eecdca8833c9e4a1eac0d6510260763b2f9ca4c5d973ea9e79e6e64004d88aa9e4e9ef229634eb1ec22941ebea922
+tarball=wordlist-ow-italian.gz
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/ow-italian.txt

@@ -1,0 +1,12 @@
+[mirrors]
+ftp://ftp.openwall.com/pub/wordlists/languages/French/lower.gz
+
+[vars]
+filesize=547774
+sha512=f53bf7705ddaf302b15ec3fe8cd6e877023699451cd5ddc34b2369a223248ebe988be079d039ed6a726d9ec85d94fc230c0f671c941942e9b770a862a7fa3e7b
+tarball=wordlist-ow-french.gz
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/ow-french.txt
