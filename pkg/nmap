@@ -1,10 +1,10 @@
 [mirrors]
-http://nmap.org/dist/nmap-7.30.tar.bz2
+http://nmap.org/dist/nmap-7.31.tar.bz2
 
 [vars]
-filesize=9003761
-sha512=effef6d1d3f333a8c9a628a2acc0d0faec5967ef09a7d831a4d8d287f224167305e54f575e571eebb0f30544675bf27c834fdaf468db00cdb3fcad14e392303c
-pkgver=2
+filesize=9000848
+sha512=891593dfa13f235a97c2cebfd8f557d7f8c1c9edacf62c460c7ee8ee7bf5f4df1805da903ee031985b8cc91293c739b025ebe4c5fa9d66a3580b2da2f3b4870c
+pkgver=3
 desc='port scanner/pentest tool with a gazillion of features'
 
 [deps]
