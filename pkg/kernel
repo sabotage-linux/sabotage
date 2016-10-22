@@ -8,7 +8,7 @@ kernel-patches
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=8
+pkgver=9
 
 [build]
 # get into menuconfig using
