@@ -1,0 +1,22 @@
+[vars]
+pkgver=1
+
+[deps]
+busybox
+lvm
+cryptsetup
+
+[build]
+mkdir -p ramfs
+cp $K/initramfs.sh ramfs/init
+chmod +x ramfs/init
+
+mkdir -p ramfs/bin
+for bin in cryptsetup busybox lvm; do
+	[ -f $butch_root_dir/bin/$bin ] && \
+		cp -L $butch_root_dir/bin/$bin ramfs/bin/$bin
+done
+
+( cd ramfs && find . | cpio -H newc -o > ../ramfs.cpio )
+cat ramfs.cpio | gzip > ramfs.igz
+install -Dm 644 ramfs.igz $butch_install_dir/boot/initrd.img
