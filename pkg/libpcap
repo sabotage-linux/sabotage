@@ -1,11 +1,12 @@
 [mirrors]
-http://www.tcpdump.org/release/libpcap-1.8.0.tar.gz
-http://www.uk.tcpdump.org/release/libpcap-1.8.0.tar.gz
-http://tcpdump.cybermirror.org/release/libpcap-1.8.0.tar.gz
+http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz
+http://www.uk.tcpdump.org/release/libpcap-1.8.1.tar.gz
+http://tcpdump.cybermirror.org/release/libpcap-1.8.1.tar.gz
 
 [vars]
-filesize=683150
-sha512=66199242a6fb7d00597a809fbec53fd502681dbd7ebace73a6d1ba4f612d9a4e436527c0cb586d8619c13beb8ebb4f256bccc612ebc9c7bd83abd5939f554203
+filesize=739163
+sha512=bff5ff53fe53324f423e38eb4062c3fbb9125f86ca90d5e88aca9f0b3da72bc0acc6221c022b0f88cb3f000267580719119824c388da545c6f35117660cbb53b
+pkgver=2
 desc='library for capturing network and other packets'
 
 [deps]
