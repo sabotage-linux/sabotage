@@ -1,9 +1,10 @@
 [mirrors]
-http://www.thrysoee.dk/editline/libedit-20121213-3.0.tar.gz
+http://thrysoee.dk/editline/libedit-20160903-3.1.tar.gz
 
 [vars]
-filesize=473665
-sha512=06420df987429bdec6aea216046548cb7d1e1ed004e140c01692625dfb9149cc42ad98755a467c8b26734caff19284cb581bf64d58e49f683445ea01625d146b
+filesize=508108
+sha512=cc1c167b9a787da9aef7c1ae1c35981e6631c79ad50d9f1f42ad11ff2e6903fc16bd6cb3fbb5b33d01021ca6fe6dd5865d2cdeaaf4bdd4b9ae8a7073c294c0cb
+pkgver=2
 
 [deps]
 curses
