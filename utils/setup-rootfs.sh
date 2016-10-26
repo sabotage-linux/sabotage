@@ -11,6 +11,12 @@ if [ -z "$R" ]; then
     printf -- "ERROR: invalid or no config file\n"
     exit 1
 fi
+if [ ! -d "$K" ] || [ ! -d $S/pkg ] ; then
+    printf -- 'ERROR: configured paths for $S/pkg or $K do not exist\n'
+    printf -- 'you configured %s for $K and %s for $S\n' "$K" "$S"
+    printf -- '(fix your config and let S point to your sabotage checkout)\n'
+    exit 1
+fi
 
 # enable verbose printing, abort on error
 set -e
