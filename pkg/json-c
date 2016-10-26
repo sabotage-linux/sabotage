@@ -15,6 +15,7 @@ cp -f "$K"/config.sub .
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 sed -i 's@Werror @Wall @' Makefile.in
+echo "#!/bin/false" > missing; chmod +x missing
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
