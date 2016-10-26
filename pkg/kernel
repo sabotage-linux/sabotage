@@ -9,6 +9,7 @@ gcc4
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
 pkgver=9
+no_unlink=1
 
 [build]
 # get into menuconfig using
@@ -66,22 +67,22 @@ make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
 make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
 
-mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules/$LINUX_VER \
-         $butch_root_dir/lib/firmware
+mkdir -p $butch_install_dir/boot $butch_install_dir/lib/modules/$LINUX_VER \
+         $butch_install_dir/lib/firmware
 
 egrep -q '\=m$' my.config && got_modules=true || got_modules=false
 
 $got_modules && \
-make INSTALL_MOD_PATH=$butch_root_dir DISABLE_PAX_PLUGINS=y modules_install
+make INSTALL_MOD_PATH=$butch_install_dir DISABLE_PAX_PLUGINS=y modules_install
 
-cp -f System.map $butch_root_dir/boot/
+cp -f System.map $butch_install_dir/boot/
 
 if [ "$A" = arm ] ; then
 	kpath="arch/arm/boot/zImage"
 else
 	kpath="arch/x86/boot/bzImage"
 fi
-cp -f $kpath $butch_root_dir/boot/vmlinuz
+cp -f $kpath $butch_install_dir/boot/vmlinuz
 
 # "build" headers into dest/
 # we need to build them after the kernel because grsec assumes this order
@@ -92,6 +93,5 @@ make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
 # remove junk from kernel headers
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 
-$got_modules && depmod "$LINUX_VER"
+$got_modules && depmod -b $butch_install_dir "$LINUX_VER"
 
-exit 0
