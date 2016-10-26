@@ -64,8 +64,13 @@ for pkg ; do
 		for loc in bin sbin include lib libexec share ; do
 			relocate $loc .. false
 		done
-		for loc in etc var ; do
+		for loc in etc var boot ; do
+			if test $loc = boot ; then
+				save_do_ow=$butch_do_overwrite_on_copy
+				butch_do_overwrite_on_copy=true
+			fi
 			relocate $loc .. true
+			test $loc = boot && butch_do_overwrite_on_copy=$save_do_ow
 		done
 	else
 		echo "warning: package $pkg does not seem to be installed" >&2
