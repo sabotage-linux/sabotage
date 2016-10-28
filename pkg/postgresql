@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.postgresql.org/pub/source/v9.4.9/postgresql-9.4.9.tar.bz2
+http://ftp.postgresql.org/pub/source/v9.4.10/postgresql-9.4.10.tar.bz2
 
 [vars]
-filesize=17763281
-sha512=980b1a8828d07151e67793367ea0ee08e4231cd76d9b20b4f4bca08a7976ee82a3aea51ce801a4107680c8203f8ebdb4cf5a0a6aaf93d580c9f337658d50819b
+filesize=17802812
+sha512=2fcf47769b22c69bc82c9d6edc317e18dfcb4a96534e012bae4355e5088afa83da98b21e08a07766794f0a166888acbd16705a806464ea11711ed97c3b4012fb
+pkgver=2
 desc="professional SQL database server and interface libraries"
 uchkurl=http://ftp.postgresql.org/pub/source/
 
@@ -15,6 +16,8 @@ libressl
 libxml2
 libxslt
 readline
+
+[deps.run]
 timezones
 
 [build]
