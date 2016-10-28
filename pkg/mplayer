@@ -5,6 +5,7 @@ http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.3.0.tar.xz
 filesize=13278984
 sha512=10007e471a941f8a3dabf6149e6e44fc1a364a9ccb5cd08c670fc22560e5053a15f3249e9d3e18cdda06b6b7e77e537026b5d33dc356e928c63747d6ed73dbae
 desc='media player with support for most audio/video formats'
+pkgver=2
 
 [deps]
 libtheora
