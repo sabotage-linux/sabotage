@@ -1,10 +1,10 @@
 [mirrors]
-http://ffmpeg.org/releases/ffmpeg-3.1.5.tar.xz
+http://ffmpeg.org/releases/ffmpeg-3.2.tar.xz
 
 [vars]
-filesize=7813540
-sha512=0e91d2335211d3b69c25c2c64d6752e5d60c96a70055f7628de9cd2f6dd7d22b39708c1c05e220fcfcd6da837c18d6fa2517c02c96e782527ec7824a2b378e87
-pkgver=4
+filesize=8017184
+sha512=d8c91a9ba051994b47e6ee64d2ba38ea87c64c073e3c93f1b6760454325fb12ff8f2904ca5ab5f5b6e41e0a688060df597ba3b0fad203683cde158a8f14318ca
+pkgver=5
 
 [deps]
 alsa-lib
