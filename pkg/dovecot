@@ -1,9 +1,11 @@
 [mirrors]
-http://dovecot.org/releases/2.2/dovecot-2.2.25.tar.gz
+http://dovecot.org/releases/2.2/dovecot-2.2.26.0.tar.gz
 
 [vars]
-filesize=5576235
-sha512=b38d815a727723dbeccf844be4bf05509fc4808ac1a25ba482da7ca25f30c5c57107b6064791326b39aa80bd45b61043266b451ee33ece3521bdbffca57fdecf
+filesize=5687576
+sha512=7b4c170efd964eabbd9a0166164e53b7964b90fc245bab1c3328bf199c4880288c89811dcfd9833f899057921eefb4451c561f3b3d725df9ea346df8fde82a3d
+pkgver=2
+desc='security-focused IMAP and POP3 server'
 
 [deps]
 libressl
