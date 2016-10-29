@@ -1,5 +1,5 @@
 [vars]
-pkgver=1
+pkgver=2
 
 [deps]
 busybox

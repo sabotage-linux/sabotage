@@ -29,6 +29,9 @@ if [ -n "${boot}" ]; then
 	mount "${boot}" /boot
 fi
 
+[ -n "$crypt" ] || crypt="$cryptsetup"  #support documented syntax
+[ -n "$crypt" ] || crypt="$cryptdevice" #support archlinux syntax
+
 # Try to mount the cryptdevice
 if [ -n "${crypt}" ]; then
 	# Silence the kernel
