@@ -1,10 +1,10 @@
 [mirrors]
-http://www.nano-editor.org/dist/v2.7/nano-2.7.0.tar.gz
+http://www.nano-editor.org/dist/v2.7/nano-2.7.1.tar.xz
 
 [vars]
-filesize=2019889
-sha512=d70719b9623e3b3c5f43dbf4dd1d53be5d498b28416d1c6bc4459887d34531222827dfb23bc6932a6304fe59df8d278810de813b4bc08b38c03f1badeddad12f
-pkgver=2
+filesize=1005504
+sha512=6e8f88e32e19e98307d266b32afaa7131e5402066717fbf54f4e112d23fc5d105c1daeb4e9a4884e7bd38677f1c2e289c32e8c8f7910993d96a701f08bb322ae
+pkgver=3
 desc='a terminal-based, easy-to-use text editor'
 uchkurl=https://nano-editor.org/download.php
 
