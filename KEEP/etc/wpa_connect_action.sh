@@ -23,6 +23,7 @@ else
 	ifconfig "$if" "$sn".100 netmask 255.255.255.0
 	route delete default
 	route add default gw "$sn".1
+	echo "nameserver 8.8.8.8" > /etc/resolv.conf
 fi
 ;;
 CONNECTED)
