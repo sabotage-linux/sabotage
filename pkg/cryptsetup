@@ -1,13 +1,13 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.2.tar.xz
-https://www.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.2.tar.xz
-http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.2.tar.xz
-http://www.mirrorservice.org/sites/ftp.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.2.tar.xz
+http://cdn.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.3.tar.xz
+https://www.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.3.tar.xz
+http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.3.tar.xz
+http://www.mirrorservice.org/sites/ftp.kernel.org/pub/linux/utils/cryptsetup/v1.7/cryptsetup-1.7.3.tar.xz
 
 [vars]
-filesize=1222688
-sha512=ff761bd0c5e9a7941fd27d55839804f2ce96145a45a9689d234954fc43c6172c913c59c83b37ef6cc5459ccecff63212c369077fdea70c14326372076eae7f86
-pkgver=2
+filesize=1228432
+sha512=616bac2ce272b8e9d1de6b71ba23f6260dfdb17e3969ff4950c3221fc9fa1b9a0a1081327d2806868045395a407452a8c8bcf4ce0faaf2bd2d51a7c9f844a767
+pkgver=3
 uchkurl=https://gitlab.com/cryptsetup/cryptsetup/blob/master/README.md
 desc='required component to use encrypted filesystems'
 
