@@ -1,15 +1,16 @@
-[vars]
-filesize=446563
-sha512=478f5489534d109fa2ac0c5f6ae783cfdb1a8ac6df9d67bb09e11708e9a578bd1a5306916c33b98447c29b551aec593f6defa8a5a2ea70acb35c8f72da8dbbc3
-tardir=jupp
-
 [mirrors]
-http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz
+http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp29.tgz
+
+[vars]
+filesize=465769
+sha512=ade5361703f78b2a401c581eaedb33ca1f4c1198ffdd9b7d67d75836eec857bbb81a9602212e90d7d8515023d7e52f74b37cdd91075bbfba08f806cbc1a484cf
+pkgver=2
+tardir=jupp
 
 [build]
 chmod +x configure
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
