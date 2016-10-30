@@ -8,6 +8,8 @@ do_throttle=false
 
 if="$1"
 state="$2"
+essid="$3"
+
 echo "$0: $if $state"
 case "$state" in
 RECALLED)
@@ -23,7 +25,8 @@ else
 fi
 ;;
 CONNECTED)
-"$0" "$1" RECALLED &
+printf "<<< Connected to '%s' >>>\n" "$essid"
+"$0" "$1" RECALLED "$essid" &
 ;;
 DISCONNECTED)
 :
