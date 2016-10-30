@@ -10,6 +10,7 @@ nasm
 [vars]
 filesize=9772883
 sha512=ca3da9d7f5f1c4ccc2eaa1cc33f5d2bb4afe2518dadeb863169ba2cce023c62112e5312181b047ce868a217e36f9b103622cf2e0e8559c3b7de35ad191388450
+pkgver=2
 
 [mirrors]
 ftp://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
@@ -36,7 +37,7 @@ sed -i 's,diag libinstaller dos win32 win64 dosutil txt,libinstaller txt,g' Make
 sed -i 's,win32/syslinux.exe win64/syslinux64.exe,,g' Makefile
 sed -i 's,dosutil/*.com dosutil/*.sys,,g' Makefile
 sed -i 's,gpxe/gpxelinux.0 dos/syslinux.com,,g' Makefile
-sed -i 's,core/isolinux.bin core/isolinux-debug.bin,,g' Makefile
+sed -i 's,core/isolinux-debug.bin,,g' Makefile
 sed -i 's,core/pxelinux.0 core/lpxelinux.0,,g' Makefile
 sed -i 's,codepage com32 lzo core mbr sample efi txt,codepage com32 core mbr efi txt,g' Makefile
 sed -i 's,com32 utils dosutil,com32 utils,g' Makefile
