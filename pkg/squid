@@ -1,9 +1,10 @@
 [mirrors]
-http://www.squid-cache.org/Versions/v4/squid-4.0.8.tar.xz
+http://www.squid-cache.org/Versions/v4/squid-4.0.16.tar.xz
 
 [vars]
-filesize=2381036
-sha512=f2e4d077aafa9c3adc6bc972fdcdd1fa041eeb93792a194a46025b56bf2afda0f38928d97acba5beac54b228347932b06ce9cff7af5ff9b41008cb4fc0c03a09
+filesize=2407120
+sha512=9502f2328bf0f4003fd5f148b7f1ba19290fc454b8bafe1225b12709cc0d92ed999406ed8aeadaad9133dbf5834b7f92fd44faeaba7812f4260bd52652e8c04f
+pkgver=2
 desc="HTTP proxy and cache"
 
 [deps]
