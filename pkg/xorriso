@@ -1,0 +1,28 @@
+[mirrors]
+https://www.gnu.org/software/xorriso/xorriso-1.4.6.tar.gz
+
+[vars]
+filesize=2652285
+sha512=ba6dfa9b6e534d203369a5d31eb12580277d355c8e418da8cf21e5e4ce33f3085622876b17c1d680efccf9b398ea04b79232eeb975f7b5d03793f6aa69bb8915
+pkgver=1
+
+[deps]
+libz
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-static,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C --prefix="$butch_prefix" $xconfflags
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+cat <<EOF > $butch_install_dir/bin/mkisofs
+#!/bin/sh
+xorriso -as mkisofs $@
+EOF
+chmod +x $butch_install_dir/bin/mkisofs
