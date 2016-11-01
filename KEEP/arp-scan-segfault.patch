@@ -1,0 +1,14 @@
+--- arp-scan-1.9.org/link-packet-socket.c
++++ arp-scan-1.9/link-packet-socket.c
+@@ -122,7 +122,10 @@
+    link_t *handle;
+ 
+    handle = link_open(if_name);
+-
++   if(!handle) {
++       perror("link_open");
++       return;
++   }
+ /* Obtain hardware address for specified interface */
+    if ((ioctl(handle->fd, SIOCGIFHWADDR, &(handle->ifr))) != 0)
+       err_sys("ioctl");
