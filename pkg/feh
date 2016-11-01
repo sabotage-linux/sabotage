@@ -1,9 +1,10 @@
 [mirrors]
-http://feh.finalrewind.org/feh-2.15.1.tar.bz2
+http://feh.finalrewind.org/feh-2.18.tar.bz2
 
 [vars]
-filesize=2120474
-sha512=4e959a1b4d942d16e77ca54546172e1159b8998baff65a01a108e8788b2012d0eef2437c2f7da2fd1e3ba8d568d7574b59e44e36316f579191e2b0d8eb799c90
+filesize=2127627
+sha512=f18493dd202dfa8f51756d466012ba5f668b4e0a4b075e14c8e246724eef11192c1cc0fcd87356a461e7da2b673960112166bf5fddb0916af66d2a229f965365
+pkgver=2
 desc='command-line oriented X11 image viewer'
 
 [deps]
