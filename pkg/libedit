@@ -16,7 +16,7 @@ patch -p1 < "$K"/libedit_readlineh.patch
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D__STDC_ISO_10646__ $optcflags" \
   ./configure -C --prefix="$butch_prefix" --enable-widec $xconfflags
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 
 # use libedit as a readline drop-in replacement (it has 10 KLOC less, 20 instead of 30)
