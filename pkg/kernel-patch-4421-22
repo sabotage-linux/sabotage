@@ -1,5 +1,5 @@
 [mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.21-22.xz
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.21-22.xz
 
 [vars]
 filesize=31648
