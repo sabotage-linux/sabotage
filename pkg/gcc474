@@ -99,7 +99,6 @@ config_arch_target_ldflags=
 if [ "$A" = "arm" ] ; then
 	patch -p1 < "$K"/gcc-453-patch1.patch
 elif [ "$A" = "powerpc" ] ; then
-	patch -p1 < "$K"/gcc-454-stackend.patch
 	config_arch_flags="--enable-secureplt --with-long-double-64"
 	config_arch_target_cflags="-Wl,--secure-plt"
 	config_arch_target_ldflags="-Wl,--secure-plt"
