@@ -4,6 +4,12 @@
 export H="$PWD"
 ret=0
 
+cmd="/bin/sh --login"
+
+if [ -n "$1" ] ; then
+	cmd="/bin/sh -c \"$@\""
+fi
+
 if [ -z "$R" ] ; then
 	echo 'no R environment var set, your config is broken'
 	exit 1
@@ -61,7 +67,7 @@ echo "Entering chroot..."
 
 $linux32 "$CHROOT" "$R" /bin/env -i \
     HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
-    /bin/sh --login || ret=1
+    $cmd || ret=1
 
 tryumount() {
 	dest="$1"
