@@ -1,0 +1,30 @@
+[mirrors]
+http://ftp.gnome.org/pub/GNOME/sources/msitools/0.95/msitools-0.95.tar.xz
+
+[vars]
+filesize=674688
+sha512=0e315cb4a5fdd3f18be62ed3033fe18809e3768847c31f9cfffc6529b4342fafcd8d5661025476d2129483f81bfddcc2fe408daf72ec18dbcc6eba589a501cdf
+pkgver=1
+
+[deps]
+glib
+libgsf
+libxml2
+libuuid
+libgcab
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
