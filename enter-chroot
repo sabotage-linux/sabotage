@@ -4,12 +4,6 @@
 export H="$PWD"
 ret=0
 
-cmd="/bin/sh --login"
-
-if [ -n "$1" ] ; then
-	cmd="/bin/sh -c \"$@\""
-fi
-
 if [ -z "$R" ] ; then
 	echo 'no R environment var set, your config is broken'
 	exit 1
@@ -61,13 +55,24 @@ set_title() {
 	printf "\033]2;%s\007" "$1"
 }
 
-set_title "SABOTAGE CHROOT $(basename $R)"
+if [ -n "$1" ]; then
+    $linux32 "$CHROOT" "$R" /bin/env -i \
+        HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
+        /bin/sh "$@"
+	ret=$?
+else
+    set_title "SABOTAGE CHROOT $(basename $R)"
 
-echo "Entering chroot..."
+    echo "Entering chroot..."
 
-$linux32 "$CHROOT" "$R" /bin/env -i \
-    HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
-    $cmd || ret=1
+    $linux32 "$CHROOT" "$R" /bin/env -i \
+        HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
+        /bin/sh --login
+	ret=$?
+
+	#echo empty line so we get a proper prompt back
+	echo
+fi
 
 tryumount() {
 	dest="$1"
@@ -89,8 +94,4 @@ if [ -z "$SUPER" ] && [ -d "$R"/dev/pts ] ; then
 	tryumount "$R"/proc
 fi
 
-set_title "sabotage"
-
-#echo empty line so we get a proper prompt back
-echo
 exit $ret
