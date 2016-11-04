@@ -1,0 +1,29 @@
+[mirrors]
+http://ftp.acc.umu.se/pub/GNOME/sources/gcab/0.7/gcab-0.7.tar.xz
+
+[vars]
+filesize=332248
+sha512=db8c0b4ee2bc75b8bb540b4fe0e9304782b9848b3ab0ba3077638d13cdec652f6178206ec6474af036fba90e952ef0052dd9d19be9eb72bae97d98f8f18a0c02
+pkgver=1
+
+[deps]
+glib
+
+[deps.host]
+perl5-XML-Parser
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
