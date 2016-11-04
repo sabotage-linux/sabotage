@@ -11,6 +11,14 @@ http://ftp.gnu.org/pub/gnu/sed/sed-4.2.1.tar.bz2
 musl
 
 [build]
-CC="$CC -static" ./configure -C --prefix="$butch_prefix" --disable-nls
-make -j$MAKE_THREADS
+cp -f "$K"/config.sub build-aux/
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CC="$CC -static" ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
