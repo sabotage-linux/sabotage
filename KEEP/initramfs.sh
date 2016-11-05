@@ -4,7 +4,8 @@ rescue() {
 	# Silence the kernel
 	echo 0 > /proc/sys/kernel/printk
 	echo "$@"
-	PS1="(initramfs) \w\$ " exec /bin/sh
+	echo "Exit the shell to continue booting"
+	PS1="(initramfs) \w\$ " /bin/sh
 }
 
 export PATH=/bin
@@ -52,8 +53,8 @@ fi
 mopts=""
 [ -n "${rw}" ]         && rootflags="${rootflags},rw"
 [ -n "${ro}" ]         && rootflags="${rootflags},ro"
-[ -n "${rootflags}" ]  && mountopts="${mopts} -o ${rootflags}"
-[ -n "${rootfstype}" ] && mountopts="${mopts} -t ${rootfstype}"
+[ -n "${rootflags}" ]  && mopts="${mopts} -o ${rootflags}"
+[ -n "${rootfstype}" ] && mopts="${mopts} -t ${rootfstype}"
 dev=$(findfs "${root}")
 mount $mopts "${dev}" /root || rescue "rootfs: mount failed with code $?"
 
@@ -66,4 +67,3 @@ umount /sys /proc
 [ -d /boot ] && umount /boot
 mount --move /dev /root/dev
 exec switch_root /root "${init}"
-rescue "switch_root failed with $?"
