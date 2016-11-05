@@ -57,12 +57,35 @@ mopts=""
 dev=$(findfs "$root")
 mount $mopts "$dev" /root || rescue "rootfs: mount failed with code $?"
 
+# Mount the overlayfs
+if [ -n "$overlay" ] || [ -n "$overlayfstype" ]; then
+	# Move the existing root (new rom) away
+	mkdir -p /rom /overlay
+	mount --move /root /rom
+
+	# Mount the upper (writable) source
+	mopts=""
+	[ -n "$overlayflags" ]  && mopts="$mopts -o $overlayflags"
+	[ -n "$overlayfstype" ] && mopts="$mopts -t $overlayfstype"
+	mount $mopts `findfs "$overlay"` /overlay || rescue "overlayfs: mount failed with code $?"
+
+	# Data is for overwritten data, work is a tempdir for atomic renames by overlayfs
+	mkdir -p /overlay/data /overlay/work
+
+	# Mount the rom and the writable overlay together on /root
+	mount -t overlay overlay -olowerdir=/rom,upperdir=/overlay/data,workdir=/overlay/work /root \
+		|| rescue "overlaymount failed with code $?"
+fi
+
 # Check for some misc. conditions
-[ -x "/root$init" ] || rescue "$init not found"
 [ -n "$rescue" ] && rescue "Rescue shell requested by kernel options"
+[ -x "/root$init" ] || rescue "rootfs: $init not found"
+
+# Inherit to rootfs
+for dir in dev rom overlay boot; do [ -d /$dir ] && mkdir -p /root/$dir && mount --move /$dir /root/$dir; done
+
+# Umount and forget
+for dir in sys proc; do [ -d /$dir ] && umount /$dir; done
 
 # Attempt final switch_root
-umount /sys /proc
-[ -d /boot ] && umount /boot
-mount --move /dev /root/dev
 exec switch_root /root "$init"
