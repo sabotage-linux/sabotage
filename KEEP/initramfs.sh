@@ -30,15 +30,14 @@ if [ -n "$boot" ]; then
 	mount "$boot" /boot
 fi
 
-[ -n "$crypt" ] || crypt="$cryptsetup"  #support documented syntax
-[ -n "$crypt" ] || crypt="$cryptdevice" #support archlinux syntax
+[ -n "$cryptsetup" ] || cryptsetup="$cryptdevice"
 
 # Try to mount the cryptdevice
-if [ -n "$crypt" ]; then
+if [ -n "$cryptsetup" ]; then
 	# Silence the kernel
 	echo 0 > /proc/sys/kernel/printk
-	cryptdev=$(printf "%s\n" "$crypt" | cut -d: -f1)
-	mapper=$(printf "%s\n" "$crypt" | cut -d: -f2)
+	cryptdev=$(printf "%s\n" "$cryptsetup" | cut -d: -f1)
+	mapper=$(printf "%s\n" "$cryptsetup" | cut -d: -f2)
 	cryptsetup luksOpen "`findfs $cryptdev`" "$mapper" \
 		|| rescue "cryptsetup failed with code $?"
 fi
