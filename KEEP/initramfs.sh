@@ -25,16 +25,16 @@ eval `cat /proc/cmdline|tr ' ' '\n'|grep '='`
 eval `cat /proc/cmdline|tr ' ' '\n'|grep -v '='|sed 's/.$/&=1/'`
 
 # Mount boot partition (required for CD boot)
-if [ -n "${boot}" ]; then
+if [ -n "$boot" ]; then
 	mkdir /boot
-	mount "${boot}" /boot
+	mount "$boot" /boot
 fi
 
 [ -n "$crypt" ] || crypt="$cryptsetup"  #support documented syntax
 [ -n "$crypt" ] || crypt="$cryptdevice" #support archlinux syntax
 
 # Try to mount the cryptdevice
-if [ -n "${crypt}" ]; then
+if [ -n "$crypt" ]; then
 	# Silence the kernel
 	echo 0 > /proc/sys/kernel/printk
 	cryptdev=$(printf "%s\n" "$crypt" | cut -d: -f1)
@@ -44,26 +44,26 @@ if [ -n "${crypt}" ]; then
 fi
 
 # Scan around for lvm devices, see if you can find any
-if [ -n "${lvm}" ]; then
+if [ -n "$lvm" ]; then
 	lvm vgscan
 	lvm vgchange -a y
 fi
 
 # Mount the rootfs with options
 mopts=""
-[ -n "${rw}" ]         && rootflags="${rootflags},rw"
-[ -n "${ro}" ]         && rootflags="${rootflags},ro"
-[ -n "${rootflags}" ]  && mopts="${mopts} -o ${rootflags}"
-[ -n "${rootfstype}" ] && mopts="${mopts} -t ${rootfstype}"
-dev=$(findfs "${root}")
-mount $mopts "${dev}" /root || rescue "rootfs: mount failed with code $?"
+[ -n "$rw" ]         && rootflags="${rootflags},rw"
+[ -n "$ro" ]         && rootflags="${rootflags},ro"
+[ -n "$rootflags" ]  && mopts="$mopts -o $rootflags"
+[ -n "$rootfstype" ] && mopts="$mopts -t $rootfstype"
+dev=$(findfs "$root")
+mount $mopts "$dev" /root || rescue "rootfs: mount failed with code $?"
 
 # Check for some misc. conditions
-[ -x "/root${init}" ] || rescue "${init} not found"
-[ -n "${rescue}" ] && rescue "Rescue shell requested by kernel options"
+[ -x "/root$init" ] || rescue "$init not found"
+[ -n "$rescue" ] && rescue "Rescue shell requested by kernel options"
 
 # Attempt final switch_root
 umount /sys /proc
 [ -d /boot ] && umount /boot
 mount --move /dev /root/dev
-exec switch_root /root "${init}"
+exec switch_root /root "$init"
