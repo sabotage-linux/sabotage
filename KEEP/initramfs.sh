@@ -8,6 +8,16 @@ rescue() {
 	PS1="(initramfs) \w\$ " /bin/sh
 }
 
+# Wrapper around findfs to allow values like "tmpfs"
+findblk() {
+	dev="$1"
+	case "$dev" in
+		LABEL=*|UUID=*) dev=$(findfs "$dev");;
+		'') dev="none"
+	esac
+	echo "$dev"
+}
+
 export PATH=/bin
 /bin/busybox --install -s /bin
 
@@ -38,7 +48,7 @@ if [ -n "$cryptsetup" ]; then
 	echo 0 > /proc/sys/kernel/printk
 	cryptdev=$(printf "%s\n" "$cryptsetup" | cut -d: -f1)
 	mapper=$(printf "%s\n" "$cryptsetup" | cut -d: -f2)
-	cryptsetup luksOpen "`findfs $cryptdev`" "$mapper" \
+	cryptsetup luksOpen "`findblk $cryptdev`" "$mapper" \
 		|| rescue "cryptsetup failed with code $?"
 fi
 
@@ -54,8 +64,7 @@ mopts=""
 [ -n "$ro" ]         && rootflags="${rootflags},ro"
 [ -n "$rootflags" ]  && mopts="$mopts -o $rootflags"
 [ -n "$rootfstype" ] && mopts="$mopts -t $rootfstype"
-dev=$(findfs "$root")
-mount $mopts "$dev" /root || rescue "rootfs: mount failed with code $?"
+mount $mopts "`findblk "$root"`" /root || rescue "rootfs: mount failed with code $?"
 
 # Mount the overlayfs
 if [ -n "$overlay" ] || [ -n "$overlayfstype" ]; then
@@ -67,7 +76,7 @@ if [ -n "$overlay" ] || [ -n "$overlayfstype" ]; then
 	mopts=""
 	[ -n "$overlayflags" ]  && mopts="$mopts -o $overlayflags"
 	[ -n "$overlayfstype" ] && mopts="$mopts -t $overlayfstype"
-	mount $mopts `findfs "$overlay"` /overlay || rescue "overlayfs: mount failed with code $?"
+	mount $mopts `findblk "$overlay"` /overlay || rescue "overlayfs: mount failed with code $?"
 
 	# Data is for overwritten data, work is a tempdir for atomic renames by overlayfs
 	mkdir -p /overlay/data /overlay/work
