@@ -66,6 +66,9 @@ mopts=""
 [ -n "$rootfstype" ] && mopts="$mopts -t $rootfstype"
 mount $mopts "`findblk "$root"`" /root || rescue "rootfs: mount failed with code $?"
 
+# Update the fake root device node
+printf "%s\n" "$root"|grep -q '/dev' && ln -sf "$root" /dev/root
+
 # Mount the overlayfs
 if [ -n "$overlay" ] || [ -n "$overlayfstype" ]; then
 	# Move the existing root (new rom) away
