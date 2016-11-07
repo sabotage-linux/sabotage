@@ -1,0 +1,72 @@
+From: John Spencer <maillist-qemu@barfooze.de>
+Date: Tue, 07 Nov 2016 21:07:32 +0000
+Subject: [PATCH] user-exec.c: fix powerpc/linux specific register access
+
+the powerpc register lookup code (copied from wine, according to comments)
+is using a hackish union in GLIBC that's "included for source compatibility
+with programs written against the older ucontext_t definition".
+musl does not provide this hack because it would require pulling in struct
+definitions from user.h and thus clutter the namespace of signal.h.
+additionally uc_mcontext_t is required by POSIX to have type mcontext_t so it
+would be just wrong for musl to support this hackish union.
+instead we just fix qemu to use the right modern type.
+since the floating point register access code was entirely unused, we just
+removed it instead of doing the work of porting it as well.
+
+Signed-off-by: John Spencer <maillist-qemu@barfooze.de>
+
+--- qemu-2.6.2.org/user-exec.c
++++ qemu-2.6.2/user-exec.c
+@@ -244,32 +244,35 @@
+  */
+ #ifdef linux
+ /* All Registers access - only for local access */
+-#define REG_sig(reg_name, context)              \
+-    ((context)->uc_mcontext.regs->reg_name)
++#define REG_sig_nr(context, nr) ((context)->uc_mcontext.gregs[nr])
++#define REG_sig_nip(  context) REG_sig_nr(context, 32+0)
++#define REG_sig_msr(  context) REG_sig_nr(context, 32+1)
++#define REG_sig_ctr(  context) REG_sig_nr(context, 32+3)
++#define REG_sig_link( context) REG_sig_nr(context, 32+4)
++#define REG_sig_xer(  context) REG_sig_nr(context, 32+5)
++#define REG_sig_ccr(  context) REG_sig_nr(context, 32+6)
++#define REG_sig_trap( context) REG_sig_nr(context, 32+8)
++#define REG_sig_dar(  context) REG_sig_nr(context, 32+9)
++#define REG_sig_dsisr(context) REG_sig_nr(context, 32+10)
+ /* Gpr Registers access  */
+-#define GPR_sig(reg_num, context)              REG_sig(gpr[reg_num], context)
++#define GPR_sig(reg_num, context)              REG_sig_nr(context, reg_num)
+ /* Program counter */
+-#define IAR_sig(context)                       REG_sig(nip, context)
++#define IAR_sig(context)                       REG_sig_nip(context)
+ /* Machine State Register (Supervisor) */
+-#define MSR_sig(context)                       REG_sig(msr, context)
++#define MSR_sig(context)                       REG_sig_msr(context)
+ /* Count register */
+-#define CTR_sig(context)                       REG_sig(ctr, context)
++#define CTR_sig(context)                       REG_sig_ctr(context)
+ /* User's integer exception register */
+-#define XER_sig(context)                       REG_sig(xer, context)
++#define XER_sig(context)                       REG_sig_xer(context)
+ /* Link register */
+-#define LR_sig(context)                        REG_sig(link, context)
++#define LR_sig(context)                        REG_sig_link(context)
+ /* Condition register */
+-#define CR_sig(context)                        REG_sig(ccr, context)
++#define CR_sig(context)                        REG_sig_ccr(context)
+ 
+-/* Float Registers access  */
+-#define FLOAT_sig(reg_num, context)                                     \
+-    (((double *)((char *)((context)->uc_mcontext.regs + 48 * 4)))[reg_num])
+-#define FPSCR_sig(context) \
+-    (*(int *)((char *)((context)->uc_mcontext.regs + (48 + 32 * 2) * 4)))
+ /* Exception Registers access */
+-#define DAR_sig(context)                       REG_sig(dar, context)
+-#define DSISR_sig(context)                     REG_sig(dsisr, context)
+-#define TRAP_sig(context)                      REG_sig(trap, context)
++#define DAR_sig(context)                       REG_sig_dar(context)
++#define DSISR_sig(context)                     REG_sig_dsisr(context)
++#define TRAP_sig(context)                      REG_sig_trap(context)
+ #endif /* linux */
+ 
+ #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
