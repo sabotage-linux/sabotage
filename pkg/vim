@@ -1,12 +1,12 @@
 [mirrors]
-ftp://ftp.vim.org/pub/vim/unix/vim-8.0.tar.bz2
+ftp://ftp.vim.org/pub/vim/unix/vim-8.0.069.tar.bz2
 
 [vars]
-filesize=10610197
-sha512=d5f7fc08c94a5027bc004bf6d38ecba2887cf7e04fb5eb14128121a96f9b910055ceb1ee5327f29fd682a500f19dc479e5a42d55b8a961c52d3370ab682bdd95
+filesize=10637407
+sha512=5d4aea40a0cbe76ad112c869a6e802b51acc7b889e2b95db1f9440c1f92e34197aadbb1f2aa4a4c0204210623b5acfcf250ff1f392070cae3e65e0165cac3215
+pkgver=3
 tardir=vim80
 desc='a terminal-based text editor with a gazillion of features'
-pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
