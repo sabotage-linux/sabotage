@@ -10,10 +10,13 @@ mk-squash-iso.sh [options]
 		without asking. The file will be an iso image.
 
 	-l <label>
-		Define a custom ISO9660 disk label.
+		Set the ISO 9660 Label for the result. This value will be the one
+		shown by blkid and can be used for identifying the filesystem
+		from the kernel command line.
 
 	-r <dir>
 		Set the source rootfs. The rootfs itself will not be changed.
+		If you omit this, this script will try to find the SABOTAGE_BUILDROOT
 
 	-t
 		Exclude tarballs directory.
@@ -25,12 +28,11 @@ mk-squash-iso.sh [options]
 	an squashfs containing the rest of the system. The initramfs will be
 	responsible for finding and mounting that squashfs.
 
-	If you use this, prepare to have OVERLAY_FS enabled on the kernel
-	you put into <rootfs>boot/, otherwise your cdrom system will be
-	read-only.
+	If you use this, prepare your rootfs to have an kernel compiled with the
+	OVERLAY_FS option, otherwise your cdrom system will be read-only.
 
-	If you want to create an own isolinux.cfg, you can instruct the
-	initramfs to load the squashfs with the following kernel options:
+	If you want to create an own isolinux.cfg, you can instruct the initramfs
+	to load the squashfs with the following kernel options:
 
 		boot=LABEL="FOOBAR" root=/boot/squashfs.img rootfsflags=loop
 
@@ -74,6 +76,14 @@ while [ -n "$1" ]; do
 			DRY="true"
 			shift 1
 			;;
+		'-h'|'--help')
+			help;
+			exit 0
+			;;
+		*)
+			help >&2
+			exit 1
+			;;
 	esac
 done
 
@@ -97,13 +107,48 @@ cp -r $R/boot/* $ISOROOT
 # Those are required as mountpoints for their actual filesystems
 FAKEROOT=$(mktemp -d)
 mkdir $FAKEROOT/boot $FAKEROOT/proc $FAKEROOT/sys $FAKEROOT/dev $FAKEROOT/tmp $FAKEROOT/mnt
+cfg="isolinux.cfg"
 
-if ! [ -f "$ISOROOT/isolinux.cfg" ]; then 
-	warn "/boot/isolinux.cfg not found, generating default config"
-	cat <<EOF > $ISOROOT/isolinux.cfg
+# Find isolinux.bin, usually in /usr/lib/syslinux/bios/isolinux.bin
+isopath=$(find /lib /usr/lib|grep -E 'isolinux.bin$'|head -n 1)
+
+# Check for isolinux.bin ready
+[ -f "$ISOROOT/isolinux.bin" ] \
+	|| (cp "$isopath" "$ISOROOT/isolinux.bin" && echo "INFO: Using $isopath")\
+	|| fail "isolinux.bin required, but not found"
+
+# Detect syslinux version
+isoversion=$(strings "$ISOROOT/isolinux.bin"|grep ISOLINUX)
+[ -z "$isoversion" ] && fail "ISOLINUX version could not be detected"
+echo "INFO: $isoversion detected"
+
+# Check for ldlinux.c32 ready if required (syslinux >= 5.00)
+if echo $isoversion|awk '{if($2<5) exit 1;}'; then
+	# Find isolinux.bin, usually in /usr/lib/syslinux/bios/isolinux.bin
+	ldlpath=$(find /lib /usr/lib|grep -E 'ldlinux.c32$'|head -n 1)
+
+	[ -f "$ISOROOT/ldlinux.c32" ] \
+		|| (cp "$ldlpath" "$ISOROOT/ldlinux.c32" && echo "INFO: Using $ldlpath") \
+		|| fail "ldlinux.c32 required, but not found"
+
+	cfg="syslinux.cfg"
+fi
+
+# If the user has already defined an isolinux.cfg, dont use syslinux.cfg
+# This allows separate isolinux and syslinux configs
+[ -f "$ISOROOT/isolinux.cfg" ] && cfg="isolinux.cfg"
+
+# Set default config
+# The menu options act as commentary and will be visible when
+#	syslinux's menu.c32 module is activated via UI {vesa}menu.c32
+if ! [ -f "$ISOROOT/$cfg" ]; then
+	warn "/boot/$cfg not found, generating default config"
+	cat <<EOF > $ISOROOT/$cfg
 PROMPT 1
 TIMEOUT 100
 DEFAULT sabotage
+
+MENU TITLE Sabotage Linux $ARCH
 
 LABEL ro
 		MENU LABEL Boot with read-only rootfs
@@ -126,28 +171,16 @@ EOF
 fi
 
 # Do some sort of validation
-cat $ISOROOT/isolinux.cfg|grep '^\s*\(KERNEL\|INITRD\)'|awk '{print($2)}' \
-	|sort -u|while read file; do
+cat $ISOROOT/$cfg|grep '^\s*\(KERNEL\|INITRD\|CONFIG\)'| \
+	awk '{print($2)}'|sort -u|while read file; do
 	[ -f "$ISOROOT/$file" ] \
-		|| warn "/boot/$file not found, but referenced by isolinux.cfg"
+		|| warn "/boot/$file not found, but referenced by $cfg"
 done
 
 # At least some config has to be available
-[ -f "$ISOROOT/isolinux.cfg" ] \
-	|| fail 'isolinux.cfg not present, iso will not be bootable'
+[ -f "$ISOROOT/$cfg" ] \
+	|| fail "$cfg not present, iso will not be bootable"
 
-# Check for isolinux.bin ready
-[ -f "$ISOROOT/isolinux.bin" ] || fail "isolinux.bin required, but not found"
-
-# Detect syslinux version
-isoversion=$(strings "$ISOROOT/isolinux.bin"|grep ISOLINUX)
-[ -z "$isoversion" ] && fail "ISOLINUX version could not be detected"
-echo "INFO: $isoversion detected" 
-
-# Check for ldlinux.c32 ready if required
-if echo $isoversion|awk '{if($2<5) exit 1;}'; then
-	[ -f "$ISOROOT/ldlinux.c32" ] || fail "ldlinux.c32 required, but not found"
-fi
 
 $DRY && fail "Cancelled by -d"
 
