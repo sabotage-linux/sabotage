@@ -1,9 +1,10 @@
-[vars]
-filesize=897398
-sha512=eae646b97c46e464824f62cb95ce2e80298d5432abb9c8f94dba87dcaf1f05e00e9d4bd23d62ba332e0a408203d8b31709de04073f954578a0ee3d353ed74402
-
 [mirrors]
-http://i3wm.org/downloads/i3-4.7.2.tar.bz2
+http://i3wm.org/downloads/i3-4.13.tar.bz2
+
+[vars]
+filesize=1121298
+sha512=1bb1044e8d86e78d3ccb79d49f0eb26665dcd05a348058a5e57138151d74f57d77830efc3025893170fe1b8ec612f739f75247a427410f96286b09afd2c5f14c
+pkgver=2
 
 [deps]
 libev
@@ -16,4 +17,5 @@ pcre
 libstartup-notification
 
 [build]
-CPPFLAGS="-DGLOB_TILDE=0" make -j $MAKE_THREADS && make DESTDIR="$butch_install_dir" install
+CPPFLAGS="-DGLOB_TILDE=0" make -j $MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
