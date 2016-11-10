@@ -1,10 +1,10 @@
 [mirrors]
-http://rada.re/get/radare2-0.10.6.tar.xz
+http://rada.re/get/radare2-1.0.1.tar.xz
 
 [vars]
-filesize=5082028
-sha512=1e33a831244c8bfc6ab317ed74ec108730f361550f504d48d8783e6c3bfc2ce98e4feac08b37b4b8997f0a83a456fe26685c6f4847798dea841a97b259dcef8b
-pkgver=2
+filesize=5013900
+sha512=02bdbdfd4b70ee4652753fd6b8b9f91877ed17323948296be9e10207d185184d6d209ac01e8fc29f2e9bfde9121cc6c746fbbfff9582535357f00b8d5e750e05
+pkgver=3
 desc='reverse engineering and (dis)assembling framework'
 
 [build]
