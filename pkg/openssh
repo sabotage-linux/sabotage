@@ -8,7 +8,6 @@ sha512=7ba2d6140f38bd359ebf32ef17626e0ae1c00c3a38c01877b7c6b0317d030f10a8f82a0a5
 
 [deps]
 libressl
-sshd-service
 
 [build]
 patch -p1 < "$K"/openssh-sys_param.patch

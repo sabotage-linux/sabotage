@@ -8,7 +8,6 @@ desc="lightweight ssh server/client"
 
 [deps]
 zlib
-sshd-service
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
