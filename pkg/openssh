@@ -5,6 +5,8 @@ http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz
 [vars]
 filesize=1522617
 sha512=7ba2d6140f38bd359ebf32ef17626e0ae1c00c3a38c01877b7c6b0317d030f10a8f82a0a51fc3b6273619de9ed73e24b8cf107b1e968f927053a3bedf97ff801
+service=openssh
+serviceflags="--down --log"
 
 [deps]
 libressl
@@ -44,9 +46,6 @@ make -j$MAKE_THREADS
 #key generation is disabled for packaging
 #the sshd service will create the keys on service prereqs
 make DESTDIR="$butch_install_dir" install-nokeys
-
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force openssh "$K"/services/openssh
 
 dest="$butch_install_dir""$butch_prefix"
 

@@ -205,6 +205,10 @@ echo "post buildscript phase..."
 # can just call exit 0 as the last statement
 # if it wants to get some other stuff handled it could simply override
 # butch_install_dir (e.g. for sabotages relocate_toolchain script)
+
+# install service if package has a servicescript.
+[ -n "$service" ] && "$K"/bin/butch-install-service $serviceflags $service "$K"/services/$service
+
 cd "$butch_install_dir"
 [ `ls | wc -l` = "0" ] && have_files=false || have_files=true
 [ -d share/pkgconfig ] && {

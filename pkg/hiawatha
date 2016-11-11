@@ -5,6 +5,8 @@ https://www.hiawatha-webserver.org/files/hiawatha-10.4.tar.gz
 filesize=909924
 sha512=d11272a44530d0656c2df95a30b801e5533a78c99d872eeea35f933e6114b7518f915566d0a548958859d5c4dfd2d107e886f4b67fb9bccc44e70a9bede72752
 pkgver=2
+service=hiawatha
+serviceflags="--down --log"
 
 [deps.host]
 cmake
@@ -45,7 +47,3 @@ make V=1 -j$MAKE_THREADS
 sed -i 's/#ServerId = www-data/ServerId = www-data/' config/hiawatha.conf
 
 make DESTDIR="$butch_install_dir" install
-
-# install the service
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force hiawatha "$K"/services/hiawatha

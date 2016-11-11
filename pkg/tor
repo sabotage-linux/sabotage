@@ -7,6 +7,8 @@ filesize=5306773
 sha512=9a02e4f7901c2abb22f8250077bc078e9b6ae122ee54fbe7ecfb505d449e6e1766f6d9f95d7b794063471cbefe7410fece8524910f83579bff00d6da2a8ea6c1
 pkgver=4
 desc='onion router for anonymization of internet traffic'
+service=tor
+serviceflags="--down --log"
 
 [deps]
 libressl
@@ -29,5 +31,3 @@ LDFLAGS="$optldflags -static" \
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force tor "$K"/services/tor

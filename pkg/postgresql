@@ -7,6 +7,8 @@ sha512=2fcf47769b22c69bc82c9d6edc317e18dfcb4a96534e012bae4355e5088afa83da98b21e0
 pkgver=2
 desc="professional SQL database server and interface libraries"
 uchkurl=http://ftp.postgresql.org/pub/source/
+service=postgresql
+serviceflags="--down --log"
 
 [deps.host]
 python
@@ -34,5 +36,3 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force postgres "$K"/services/postgres

@@ -5,6 +5,8 @@ http://matt.ucc.asn.au/dropbear/releases/dropbear-2016.74.tar.bz2
 filesize=1622234
 sha512=c0f4ea7840077b8302b48e27b5b588a4babac6583740dfdb845c40f633aa3ec96174d1d2ade81d2c3e23ea99b75e906312c512d8c7580e6e4105b2dbd37e5e22
 desc="lightweight ssh server/client"
+service=dropbear
+serviceflags="--down --log"
 
 [deps]
 zlib
@@ -32,5 +34,3 @@ make SCPPROGRESS=1 PROGRAMS="dropbear scp dbclient dropbearkey dropbearconvert" 
 
 [ -e "$butch_prefix"/ssh ] || ln -s dbclient "$butch_install_dir""$butch_prefix"/bin/ssh
 
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force dropbear "$K"/services/dropbear

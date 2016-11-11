@@ -5,6 +5,8 @@ http://download.tuxfamily.org/chrony/chrony-2.4.tar.gz
 filesize=390077
 sha512=29bbeba05fb9897d438cddca7dd4e573a1e9da0d583bd737185088e8b777fdfba4056d091d2bbab78824de284b6244a8de7ada8f62be316e815a3d8ae6145485
 desc='versatile NTP implementation. comes with server and client'
+service=chrony
+serviceflags="--down --log"
 
 [deps]
 libcap2
@@ -21,5 +23,3 @@ make DESTDIR="$butch_install_dir" install
 install -D -m 644 examples/chrony.conf.example3 \
   "$butch_install_dir"/"$butch_prefix"/etc/chrony.conf
 
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force chrony "$K"/services/chrony

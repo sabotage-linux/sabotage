@@ -6,6 +6,8 @@ filesize=6543732
 sha512=b905cd4c99f150495d7252cc911cfd05285dc8aa1874ffc078e57185b7b3f613d5d0ab7950198d1431e1ed610371f3bee282f7dfef65f1575cf333267ebafa06
 tardir=h2o-1.7.0
 tarball=h2o-1.7.0.tar.gz
+service=h2o
+serviceflags="--down --log"
 
 [deps]
 libressl
@@ -22,5 +24,3 @@ cmake $xconfflags -DCMAKE_INSTALL_PREFIX="$butch_prefix" .
 make VERBOSE=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
-IS="$K"/bin/butch-install-service                                               
-"$IS" --down --log --force h2o "$K"/services/h2o

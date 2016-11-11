@@ -5,6 +5,8 @@ http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.76.tar.xz
 filesize=480796
 sha512=8a930f3e7cdc0c291ce89bea8128a4b8438b9aa9e660a2ac037e0baa4c5c74f4482a8f83b0410066a759444b3c4e1cf62a9beb625e38509690227996de10e06a
 desc="provides DNS, DHCP, router advertisement and network boot services"
+service=dnsmasq
+serviceflags="--down --log"
 
 [deps]
 
@@ -12,6 +14,3 @@ desc="provides DNS, DHCP, router advertisement and network boot services"
 make PREFIX="$butch_prefix" CFLAGS="$optcflags" LDFLAGS="$optldflags" -j$MAKE_THREADS
 make BINDIR="$butch_prefix"/bin PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
 install -D -m 640 dnsmasq.conf.example "$butch_install_dir"/"$butch_prefix"/etc/dnsmasq.conf
-
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force dnsmasq "$K"/services/dnsmasq

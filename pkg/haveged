@@ -4,6 +4,8 @@ http://www.issihosts.com/haveged/haveged-1.9.1.tar.gz
 [vars]
 filesize=474845
 sha512=267d62cfeb886ea00fa412de1a91a34821460d0f4ad789dcfb3547018300e1cbf480917571b19652f2d449369293031d9534f9533bbf6a59560f4f10608c9cd2
+service=haveged
+serviceflags="--down --log"
 
 [deps]
 zlib
@@ -20,6 +22,3 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-
-IS="$K"/bin/butch-install-service
-"$IS" --force --down --log haveged "$K"/services/haveged

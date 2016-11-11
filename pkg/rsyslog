@@ -4,6 +4,8 @@ http://www.rsyslog.com/download/files/download/rsyslog/rsyslog-7.6.6.tar.gz
 [vars]
 filesize=3027663
 sha512=851b5f437e3bad60951d00a7411f787eae5203c640918fc27052801b93eb261e69981d3e05b5cee914b96f3d81b26f00a4542fd68542b2435893893475b2e6b4
+service=rsyslog
+serviceflags="--down --log"
 
 [deps]
 libressl
@@ -35,6 +37,3 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 install -D -m640 "$K"/rsyslog.conf "$butch_install_dir"/"$butch_prefix"/etc/rsyslog.conf
-
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force rsyslog "$K"/services/rsyslog

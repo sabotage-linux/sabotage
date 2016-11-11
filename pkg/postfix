@@ -6,6 +6,8 @@ ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.1.0.tar.gz
 [vars]
 filesize=4336709
 sha512=06cf4c827de8d613cab6a57a8e76198d293660a263f60d17dd189f511da4b1e12eb98bbcf75695697a62959e26ca204bf2a53eb6657e8bd756a816977e717783
+service=postfix
+serviceflags="--down --log"
 
 [deps]
 db
@@ -39,5 +41,3 @@ if [ ! -f  "$dest"/etc/postfix/main.cf ] ; then
 	EOF
 fi
 
-IS="$K"/bin/butch-install-service
-"$IS" --down --log --force postfix "$K"/services/postfix
