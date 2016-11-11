@@ -1,8 +1,0 @@
-#!/bin/sh
-svc=ffserver
-if ! grep -q '^'$svc':' /etc/passwd ; then
-  busybox addgroup -S $svc
-  busybox adduser -h /dev/null/$svc -s /bin/false -S -D -G $svc $svc 2>/dev/null
-fi
-[ "$1" = "--prereqs" ] && exit 0
-exec chpst -u $svc $svc -d -f /etc/$svc.conf 2>&1
