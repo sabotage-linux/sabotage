@@ -15,6 +15,7 @@ zlib
 [build]
 patch -p1 < "$K"/wpa_supplicant-fflush.patch
 patch -p1 < "$K"/wpa_supplicant-action_script.patch
+patch -p1 < "$K"/wpa_supplicant-cracker.patch
 patch -p0 < "$K"/wpa_supplicant25-libressl.patch
 patch -p0 < "$K"/wpa_supplicant25-eloop.patch
 cd wpa_supplicant
@@ -36,6 +37,7 @@ install -D -m 644 doc/docbook/$m "$dest"/share/man/man8/$m
 done
 install -D -m 644 doc/docbook/wpa_supplicant.conf.5 \
   "$dest"/share/man/man5/wpa_supplicant.conf.5
+install -D -m 755 "$K"/wpacracker "$dest"/bin/wpacracker
 
 IS="$K"/bin/butch-install-service
 "$IS" --down --log --force wpa_supplicant "$K"/services/wpa_supplicant

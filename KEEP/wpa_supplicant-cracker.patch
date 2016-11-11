@@ -1,0 +1,33 @@
+patch to use wpa_supplicant to try passwords. program quits with
+exit status 1 when password was wrong, 0 when correct.
+this patch requires the action script patch as a prerequisite,
+without it the surrounding code would look slightly different.
+use environment variable WPACRACK to toggle this mode.
+
+--- wpa_supplicant-2.5.org/wpa_supplicant/events.c
++++ wpa_supplicant-2.5/wpa_supplicant/events.c
+@@ -2360,6 +2360,7 @@
+ 		if (wpas_p2p_4way_hs_failed(wpa_s) > 0)
+ 			return; /* P2P group removed */
+ 		wpas_auth_failed(wpa_s, "WRONG_KEY");
++		if(getenv("WPACRACK")) exit(1);
+ 	}
+ 	if (!wpa_s->disconnected &&
+ 	    (!wpa_s->auto_reconnect_disabled ||
+--- wpa_supplicant-2.5.org/wpa_supplicant/notify.c
++++ wpa_supplicant-2.5/wpa_supplicant/notify.c
+@@ -76,8 +76,13 @@
+ 
+ #include <sys/wait.h>
+ static void connect_notify(struct wpa_supplicant *wpa_s, int disconnected) {
++	int crackmode = (getenv("WPACRACK") != 0);
+ 	if(disconnected) wpas_p2p_notif_disconnected(wpa_s);
+-	else wpas_p2p_notif_connected(wpa_s);
++	else {
++		if(crackmode) exit(0);
++		wpas_p2p_notif_connected(wpa_s);
++	}
++	if(crackmode) return; /* don't ever call actionscript in crack mode */
+ 	if (wpa_s->conf->action_script) {
+ 		pid_t child;
+ 		if(!(child = fork())) {
