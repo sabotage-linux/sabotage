@@ -1,9 +1,10 @@
-[vars]
-filesize=34557
-sha512=33c6f32510b17c0dcb3c8a216fd8c4cde14d6874495a9e0992c2104fda2ee7edb9a40de25c2efc84337b6f61858c1bf3e0e4ed5d77ab4d2db01ddfa02c1d4eaa
-
 [mirrors]
-http://www.brain-dump.org/projects/dvtm/dvtm-0.9.tar.gz
+http://www.brain-dump.org/projects/dvtm/dvtm-0.15.tar.gz
+
+[vars]
+filesize=40511
+sha512=48a0c8fd6a50fe5d43414d0223c9f4b9920a31d42fe3bfc428ce1ae7d0e41a41ebe2597eae0824c7c76bfb0e32a13e440c8d5fcdb1886d55d6791fa3fe3fd77b
+pkgver=2
 
 [deps]
 curses
@@ -11,6 +12,6 @@ curses
 [build]
 make all install \
  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
- CFLAGS="-std=gnu99 $optcflags -I. -I/include -DVERSION=\\\"0.9\\\"" \
- LDFLAGS="-lncurses $optldflags" \
+ CFLAGS="-std=gnu99 $optcflags -I. -DVERSION=\\\"0.15\\\"" \
+ LDFLAGS="-lcurses -lterminfo $optldflags" \
  -j$MAKE_THREADS
