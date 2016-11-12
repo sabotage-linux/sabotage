@@ -1,9 +1,10 @@
 [mirrors]
-http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz
+http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz
 
 [vars]
-filesize=382169
-sha512=dea2dea283959c0564cb6e9dbb9eecf004365cd01d83f1a8bbaff319c8ebefc4eb5e85898e207c7ce0577af525be0563e7c6b5f4b3449a2439e93f3f8bfd43ea
+filesize=395538
+sha512=d7a86b6c4b8b4ea91617b7f22caa36b3b2b403213e1577b75662cb5b1e353c9607051036161773a2d0b7c9b07351ea855d3494378a684391a1e61f923aefe757
+pkgver=2
 tardir=mksh
 
 [deps]
