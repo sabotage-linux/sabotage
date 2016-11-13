@@ -17,6 +17,8 @@ for bin in cryptsetup busybox lvm; do
 		cp -L $butch_root_dir/bin/$bin ramfs/bin/$bin
 done
 
-( cd ramfs && find . | cpio -H newc -o > ../ramfs.cpio )
-cat ramfs.cpio | gzip > ramfs.igz
+mkdir -p ramfs/share/kmap
+cp -rL $butch_root_dir/share/kmap ramfs/share/
+
+( cd ramfs && find . | cpio -H newc -o ) | gzip > ramfs.igz
 install -Dm 644 ramfs.igz $butch_install_dir/boot/initrd.img
