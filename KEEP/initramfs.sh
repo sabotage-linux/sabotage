@@ -40,6 +40,11 @@ if [ -n "$boot" ]; then
 	mount "$boot" /boot
 fi
 
+# Load keymap
+if [ -n "$kmap" ]; then
+	loadkmap < /share/kmap/$kmap.kmap
+fi
+
 [ -n "$cryptsetup" ] || cryptsetup="$cryptdevice"
 
 # Try to mount the cryptdevice
