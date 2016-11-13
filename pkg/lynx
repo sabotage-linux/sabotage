@@ -1,9 +1,10 @@
 [mirrors]
-http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.8.tar.bz2
+http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.10.tar.bz2
 
 [vars]
-filesize=2657804
-sha512=f1705e1fde9b97d65fb223ee5606cd1ea0dfd4e536b523eb36e9ef78f0e4b28e84d37dc0d776670d176698cf27344a1e4f27302a8ff78338cd9fe7cf8e4eaee5
+filesize=2664728
+sha512=87cb8971a7048ff69f957a36c40dee430943909f68941782dc8d8b8aacf5469dc526896c870f179212c884832f3aeedeef2f23ba5edda12c4fe4fbc2f7b98bfe
+pkgver=2
 desc='terminal web browser. supports HTTPS but not javascript'
 
 [deps]
@@ -12,6 +13,7 @@ curses
 ca-certificates
 
 [build]
+patch -p1 < "$K"/lynx-2.8.9-dev10-libressl.patch
 # fix gnu assumptions
 patch -p1 < "$K"/lynx-gzip.patch
 sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userdefs.h
