@@ -1,20 +1,21 @@
 [mirrors]
-ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
-http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.24.tar.bz2
-http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.24.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.24.tar.bz2
+ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.25.tar.bz2
+http://luci.subsignal.org/~trondah/tree/dl/libgpg-error-1.25.tar.bz2
+http://x.vm0.ru/wl500g-repo/sources-mirror/libgpg-error-1.25.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/libgpg-error/libgpg-error-1.25.tar.bz2
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.25.tar.bz2
 
 [vars]
-filesize=783628
-sha512=d577ebf36251402dd27187056f7c54cea226119f499d1c3bc1c4201ba4d2ae4a9dcefdf4502411cfcffe52b1cefab8c2cfddfa16b7e6ad3b49305a3394ccca31
+filesize=797159
+sha512=46f276609fc66f09e9633f6a1a33d4cfcfaa65e36f34aaf0802edbc766ed4c0f2dc148582db10c2afce9c0b8ba536dbac78ec0c1a72cb81723403b6ece295590
+pkgver=2
 desc='library defining common error values for all GnuPG components'
 
 [deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
