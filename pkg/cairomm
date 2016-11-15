@@ -1,9 +1,10 @@
 [mirrors]
-http://www.cairographics.org/releases/cairomm-1.10.0.tar.gz
+http://www.cairographics.org/releases/cairomm-1.15.1.tar.gz
 
 [vars]
-filesize=1089577
-sha512=974b1c078c8d7b82f8d026e384811c016fa95cb62942fc12717edd993cb1660bc004bee5f8ce31c0540ef8d4105a2d86cd461ed3f5e996fd3faf65dfb37ac9e2
+filesize=1344450
+sha512=7ad48d9e3b215275512cb9849351c99fa305cd382187ced37b3e201ab4366eb887de32cc2efa8309f2f43f0b37719381fcd676eb07b842ec258d8288f6346d74
+pkgver=2
 
 [deps]
 cairo
@@ -14,7 +15,7 @@ pkgconf
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS=-D_GNU_SOURCE \
