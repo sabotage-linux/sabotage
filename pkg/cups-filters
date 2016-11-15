@@ -4,7 +4,7 @@ http://www.openprinting.org/download/cups-filters/cups-filters-1.0.38.tar.xz
 [vars]
 filesize=1034484
 sha512=877f13e7255d4ad04c735ac18651571cffb21948ed4dd949cdba3c123e28d0d593fa5c648045d41da859b89a724a9ef9549571afb48d0143a794eb9ab718f0d0
-pkgver=2
+pkgver=3
 
 [deps]
 qpdf

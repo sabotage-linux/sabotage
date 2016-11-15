@@ -4,7 +4,7 @@ http://poppler.freedesktop.org/poppler-data-0.4.7.tar.gz
 [vars]
 filesize=4182339
 sha512=9a865f077f8760a106c6b28302357253c6d63a8f4f10a9506724d1f0ba42e3481bd790ca07e7ee245c63de3650a33c12e80e20e94415a0e37b05225cfe0efce2
-pkgver=2
+pkgver=3
 
 [deps]
 poppler
