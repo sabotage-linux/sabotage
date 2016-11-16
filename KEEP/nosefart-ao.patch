@@ -1,0 +1,176 @@
+quick'n'dirty patch to make nosefart use libao instead of OSS' /dev/dsp.
+it wasnt even cleaned up of the code to select a DSP device (TODO).
+also it isnt clear whether the 16bit audio format is the same as used
+previously, but it worked in a test with cv2.nsf.
+
+beware of http://scarybeastsecurity.blogspot.com.es/2016/11/0day-exploit-compromising-linux-desktop.html !
+
+--- nosefart-2.9-mls.org/src/linux/main_linux.c
++++ nosefart-2.9-mls/src/linux/main_linux.c
+@@ -20,6 +20,10 @@
+ #include <sys/soundcard.h>
+ #include <sys/stat.h>
+ 
++#include <stddef.h>
++#include <ao/ao.h>
++
++
+ #include "types.h"
+ #include "nsf.h"
+ 
+@@ -44,6 +48,34 @@
+   #define true TRUE
+ #endif
+ 
++struct AoWriter {
++	ao_device *device;
++	ao_sample_format format;
++	int aodriver;
++} aow;
++
++int AoWriter_init(struct AoWriter *self, unsigned bits, unsigned chans, unsigned rate) {
++	ao_initialize();
++	memset(self, 0, sizeof(*self));
++	self->format.bits = bits;
++	self->format.channels = chans;
++	self->format.rate = rate;
++	self->format.byte_format = AO_FMT_LITTLE;
++	self->aodriver = ao_default_driver_id();
++	self->device = ao_open_live(self->aodriver, &self->format, NULL);
++	return self->device != NULL;
++}
++
++int AoWriter_write(struct AoWriter *self, void* buffer, size_t bufsize) {
++	return ao_play(self->device, buffer, bufsize);
++}
++
++int AoWriter_close(struct AoWriter *self) {
++	return ao_close(self->device);
++}
++
++
++
+ /* This saves the trouble of passing our ONE nsf around the stack all day */
+ static nsf_t *nsf = 0;
+ 
+@@ -184,53 +216,7 @@
+ /* Open up the DSP, then drop the root permissions */
+ static void open_hardware(const char *device)
+ {
+-   struct stat status;
+-
+-   /* Open the file (with root permissions, if we have them) */
+-   if(-1 == (audiofd = open(device, O_WRONLY, 0)))
+-   {
+-      switch(errno)
+-      {
+-      case EBUSY:
+-         printf("%s is busy.\n", device);
+-         exit(1);
+-      default:
+-         printf("Unable to open %s.  Check the permissions.\n", device);
+-         exit(1);
+-      }
+-   }
+-
+-   /* For safety, we should check that device is, in fact, a device.
+-      `nosefart -d /etc/passwd MegaMan2.nsf` wouldn't sound so pretty. */
+-   if(-1 == fstat(audiofd, &status))
+-   {
+-      switch(errno)
+-      {
+-      case EFAULT:
+-      case ENOMEM:
+-         printf("Out of memory.\n");
+-         exit(1);
+-      case EBADF:
+-      case ELOOP:
+-      case EACCES:
+-      default:
+-         printf("Unable to stat %s.\n", device);
+-         exit(1);
+-      }
+-   }
+-   /* if it's not a char device and it's not /dev/dsp */
+-   /* The second check is because when run with esddsp, /dev/dsp
+-   doesn't show up as a char device. The original author (Matthew Conte) seems
+-   to have thought that esddsp should work without this hack.  Is doing this 
+-   bad? --Matthew Strait */
+-   if( !S_ISCHR(status.st_mode) && strcmp("/dev/dsp", device))
+-   {
+-      printf("%s is not a character device.\n", device);
+-      exit(1);
+-   }
+-
+-   /* Drop root permissions */
+-   if(geteuid() != getuid()) setuid(getuid());
++	(void) device;
+ }
+ 
+ /* Configure the DSP */
+@@ -260,42 +246,11 @@
+    logDataSize = -1;
+    while((1 << ++logDataSize) < dataSize);
+    param = 0x10000 | logDataSize + 4;
+-   retval = ioctl(audiofd, SNDCTL_DSP_SETFRAGMENT, &param);
+-   if(-1 == retval)
+-   {
+-      printf("Unable to set buffer size\n");
+-   }
+-   param = stereo;
+-   retval = ioctl(audiofd, SNDCTL_DSP_STEREO, &param);
+-   if(retval == -1 || param != stereo)
+-   {
+-      printf("Unable to set audio channels.\n");
+-      exit(1);
+-   }
+-   param = format;
+-   retval = ioctl(audiofd, SNDCTL_DSP_SETFMT, &param);
+-   if(retval == -1 || param != format)
+-   {
+-      printf("Unable to set audio format.\n");
+-      printf("Wanted %i, got %i\n", format, param);
+-      exit(1);
+-   }
+-   param = freq;
+-   retval = ioctl(audiofd, SNDCTL_DSP_SPEED, &param);
+-   if(retval == -1 || (abs (param - freq) > (freq / 10)))
+-   {
+-      printf("Unable to set audio frequency.\n");
+-      printf("Wanted %i, got %i\n", freq, param);
+-      exit(1);
+-   }
+-   retval = ioctl(audiofd, SNDCTL_DSP_GETBLKSIZE, &param);
+-   if(-1 == retval)
+-   {
+-      printf("Unable to get buffer size\n");
+-      exit(1);
+-   }
++
++AoWriter_init(&aow, bits, stereo ? 2 : 1, freq);
++
+    /* set up our data buffer */
+-   bufferSize = param;
++   bufferSize = freq;
+    buffer = malloc((bufferSize / dataSize + 1) * dataSize);
+    bufferPos = buffer;
+    memset(buffer, 0, bufferSize);
+@@ -304,7 +259,7 @@
+ /* close what we've opened */
+ static void close_hardware(void)
+ {
+-   close(audiofd);
++	AoWriter_close(&aow);
+    free(buffer);
+    buffer = 0;
+    bufferSize = 0;
+@@ -554,7 +509,8 @@
+       if(bufferPos >= buffer + bufferSize)
+       {
+          if(frames >= starting_frame)
+-           write(audiofd, buffer, bufferPos - buffer);
++		AoWriter_write(&aow, buffer, bufferPos - buffer);
++//           write(audiofd, buffer, bufferPos - buffer);
+          bufferPos = buffer;
+       }
+ 

@@ -1,0 +1,22 @@
+[mirrors]
+http://downloads.sourceforge.net/project/nosefart/1.%20All%20stable%20nosefart%20sources/2.9-mls/nosefart-2.9-mls.tar.bz2
+
+[vars]
+filesize=558589
+sha512=9a1e969806acb6d8dcffd6597c66688623b7564cdec5faf068d54a1e5f2bfcb523f1d74a49d716c04992de07cba147b40969421be4b86d9f317875be4587ee3b
+pkgver=1
+desc='player for NES NSF music file format'
+
+[deps]
+libao
+
+[build]
+#beware of http://scarybeastsecurity.blogspot.com.es/2016/11/0day-exploit-compromising-linux-desktop.html
+#the "bad" gstreamer plugin seems to be based on this code!
+patch -p1 < "$K"/nosefart-ao.patch
+sed -i 's,/usr/local/include/,.,' Makefile
+sed -i 's,-ggdb,$(MYCFLAGS),' Makefile
+make WANT_DEBUG=TRUE CC="$CC" \
+MYCFLAGS="$optcflags" LDFLAGS="$optldflags -lao" \
+-j$MAKE_THREADS
+install -Dm 755 nsfobj/nosefart "$butch_install_dir""$butch_prefix"/bin/nosefart
