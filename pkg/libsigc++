@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.3/libsigc++-2.3.1.tar.xz
+http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.4/libsigc++-2.4.1.tar.xz
 
 [vars]
-filesize=3458088
-sha512=8c9aa63c56e978ec3e38fda9919ffbba173b97342d0e19d0ae3126e9edb97aa1d42e79897a65b054044e87604f67f1f804db8d7a8e3dc68540b1441188b8a1ef
+filesize=3620928
+sha512=c461a47bf8a838fd54d2bdcbe465e999de4b49b2a8982a04e7f49f22708ede16c1653c882ba5f6e070442e541e48901cbef6eca076e4175506333fade8fc1aad
+pkgver=2
 
 [deps.host]
 pkgconf
