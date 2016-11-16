@@ -1,10 +1,10 @@
 [mirrors]
-http://nginx.org/download/nginx-1.10.2.tar.gz
+http://nginx.org/download/nginx-1.11.6.tar.gz
 
 [vars]
-filesize=910812
-sha512=f2d5a4fbabaf9333bae46461bcbe3dbcc5ff7e8f8c7a5dead3063e3d59c9ec15dc85262a23ca7d693db45a50ec98a70fb216b3da9872ee23d57b6bfaf064876e
-pkgver=2
+filesize=960331
+sha512=1969f527d4554a976d14e82c2297c519a0d0d82a9fbd3cc703ab42a23067c7fcf101ddf16f1abff374c71f37969fd7c58d2a344c57566538b821acc32cd3d979
+pkgver=3
 
 [deps]
 libressl
