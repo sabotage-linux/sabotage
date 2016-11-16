@@ -1,10 +1,10 @@
 [mirrors]
-http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.10.tar.bz2
+http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.11.tar.bz2
 
 [vars]
-filesize=2664728
-sha512=87cb8971a7048ff69f957a36c40dee430943909f68941782dc8d8b8aacf5469dc526896c870f179212c884832f3aeedeef2f23ba5edda12c4fe4fbc2f7b98bfe
-pkgver=2
+filesize=2665470
+sha512=702be6cb4f97bae4765d3de3d6ef1cd09e2ef27b570dfbea4f26a411f5bba2ab6d16aee5dbec0ebe63533de17664684ff42fb857b2d17d416774777b38083f50
+pkgver=3
 desc='terminal web browser. supports HTTPS but not javascript'
 
 [deps]
