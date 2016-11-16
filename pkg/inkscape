@@ -23,6 +23,9 @@ popt
 liblcms
 freetype
 
+[deps.host]
+intltool
+
 [build]
 sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
 [ -n "$CROSS_COMPILE" ] && \
