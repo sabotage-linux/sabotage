@@ -1,6 +1,6 @@
 [mirrors]
 http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.5.0esr/source/firefox-45.5.0esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.4.0esr/source/firefox-45.5.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.5.0esr/source/firefox-45.5.0esr.source.tar.xz
 
 [vars]
 filesize=184838132
