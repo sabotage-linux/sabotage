@@ -35,6 +35,7 @@ CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags\
   --mandir="$butch_prefix"/share/man \
+  --disable-altivec \
   --disable-python \
   --disable-alsatest \
   --disable-nls \
