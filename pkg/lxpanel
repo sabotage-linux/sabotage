@@ -13,6 +13,7 @@ libwnck
 wireless-tools
 intltool
 keybinder
+libfm
 
 [build]
 patch -p1 < "$K"/lxpanel-linux.patch
