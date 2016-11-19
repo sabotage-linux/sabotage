@@ -1,0 +1,16 @@
+[mirrors]
+http://www.corpit.ru/mjt/tinycdb/tinycdb-0.78.tar.gz
+
+[vars]
+filesize=36754
+sha512=8930086b8e7fddcd4dbd3354c5f5ee05171df68fde1cc222b6c402430042b6e761efbad7e5fa8de18e1d36390f1526cc3e605c5086fe1c363ba1df6c03201553
+pkgver=1
+
+[deps]
+musl
+
+[build]
+make V=1 -j$MAKE_THREADS CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CC="$CC" AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib \
+prefix="$butch_prefix" mandir="$butch_prefix"/share/man \
+DESTDIR="$butch_install_dir" all install
