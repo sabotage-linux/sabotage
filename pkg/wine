@@ -41,6 +41,7 @@ esac
 
 patch -p1 < "$K"/wine-file_h.patch
 patch -p1 < "$K"/wine-iphlpapi.patch
+patch -p1 < "$K"/wine-dlclose.patch
 
 cp -f "$K"/config.sub tools/
 
@@ -80,7 +81,7 @@ cp -f "$K"/config.sub tools/
 
 sed -i 's@EXTRALIBS =.*$@EXTRALIBS =$(LDFLAGS) -lz@' dlls/cabinet/Makefile.in
 
-CPPFLAGS="-DHAVE_LINK_H -DNETDB_INTERNAL=-1" \
+CPPFLAGS="-DHAVE_LINK_H -DNETDB_INTERNAL=-1 -DNO_UNLOAD_AFTER_DLCLOSE" \
 CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -L$butch_root_dir$butch_prefix/lib -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C $xconfflags \
