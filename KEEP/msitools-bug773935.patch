@@ -1,0 +1,24 @@
+--- msitools-0.96.org/tools/msiextract.c
++++ msitools-0.96/tools/msiextract.c
+@@ -679,20 +679,12 @@
+ 	} else {
+ 		const gchar* _tmp10_ = NULL;
+ 		_tmp10_ = name;
+-		if (g_strcmp0 (_tmp10_, ".") == 0) {
++		if (g_strcmp0 (_tmp10_, ".") == 0 || g_strcmp0 (_tmp10_, "SourceDir") == 0) {
+ 			gchar* _tmp11_ = NULL;
+ 			_tmp11_ = g_strdup ("");
+ 			result = _tmp11_;
+ 			_g_free0 (name);
+ 			return result;
+-		} else {
+-			const gchar* _tmp12_ = NULL;
+-			_tmp12_ = name;
+-			if (g_strcmp0 (_tmp12_, "SourceDir") == 0) {
+-				result = NULL;
+-				_g_free0 (name);
+-				return result;
+-			}
+ 		}
+ 	}
+ 	result = name;
