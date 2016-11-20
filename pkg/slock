@@ -1,17 +1,20 @@
 [mirrors]
-http://dl.suckless.org/tools/slock-1.1.tar.gz
+http://dl.suckless.org/tools/slock-1.4.tar.gz
 
 [vars]
-filesize=4604
-sha512=67cd9a62edde6ca0f9f7c09989ab8fa02a11a6ec82cc52b228c0b4fd509c5605668954630b0d2727aeb3c7283580665e4b5e5c0a37f3094a6f5b2a540e45f6b5
+filesize=6889
+sha512=ad285360dd3f16a225159abaf2f82fabf2c675bd74478cf717f68cbe5941a6c620e3c88544ce675ce3ff19af4bb0675c9405685e0f74ee4e84f7d34c61a0532f
+pkgver=2
 desc='locks your X11 session with your password'
 
 [deps]
 libx11
+libxrandr
 
 [build]
-slockflags="-DVERSION=\"1.1\" -DHAVE_SHADOW_H -DCOLOR1=\"black\" -DCOLOR2=\"#005577\""
-$CC -D_GNU_SOURCE $optcflags $slockflags slock.c -o slock $optldflags -lX11 \
+cp config.def.h config.h
+slockflags="-DVERSION=\"1.4\" -DHAVE_SHADOW_H"
+$CC -D_GNU_SOURCE $optcflags $slockflags slock.c explicit_bzero.c -o slock $optldflags -lX11 -lXrandr \
    -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib
 
 dest="$butch_install_dir""$butch_prefix"
