@@ -1,9 +1,10 @@
 [mirrors]
-http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.5.tar.gz
+http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.6.tar.gz
 
 [vars]
-filesize=7190734
-sha512=a39eb8c11b394e4d5c1164da46d74f283f489057f70c192277d94e511a3716c86474a07a7c80ce602a53e41959f75e82312ad9f5cb365953c24445af4456e1ce
+filesize=8403623
+sha512=1b7dcc80efe8e3944e5db7d74da749821adb3ae39700df3efa6ecb347a00e33350e1d56d4139654d50ac41563edf3de52f0eb25bff6490d74144a7970fb6c3b4
+pkgver=2
 
 [deps]
 libpng
@@ -34,8 +35,8 @@ cat << EOF > "$dest"/share/applications/netsurf.desktop
 [Desktop Entry]
 Name=Netsurf
 Comment=Web Browser
-Exec=netsurf
-Icon=netsurf
+Exec=netsurf-gtk
+Icon=netsurf-gtk
 MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
 Terminal=false
 Type=Application
