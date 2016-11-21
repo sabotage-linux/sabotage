@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.33-34.xz
+
+[vars]
+filesize=21048
+sha512=d8c431c6b303b14d44cfe4b7876423bf7df9391db0521d7b32b3ac7c1bdf7727025adc9879825cb7143d10330c7dcd8d128221ac9548c58b77354cd7a4c67413
+tarball=kernel-patch-4.4.33-34.xz
+
