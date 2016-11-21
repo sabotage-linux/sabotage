@@ -1,9 +1,10 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.9a-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.10-source.tar.gz
 
 [vars]
-filesize=20493793
-sha512=9f804fd65c2dc6b7a3bd73961b1f1a8bf93d52903cccf6302acd6982dfa433125a3b8e77b808984921aee097877280fa21aafb87468cd0a8e4cfa900284a262b
+filesize=42265171
+sha512=91dc77f1f785c960a4f70ee3f617b1ddda32c85015eb053c004ab3a90b899634c7e08e7eaa617a6b7b41910bb5e7e9e725fe636890e94098db1d5b61ed2b3c43
+pkgver=2
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
@@ -15,6 +16,8 @@ jbig2dec
 libjpeg
 libxext
 libressl
+libxcursor
+libxinerama
 
 [deps.host]
 freetype
@@ -24,6 +27,10 @@ jbig2dec
 
 [build]
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
+PCS_SAVE="$PKG_CONFIG_SYSROOT_DIR"
+PCL_SAVE="$PKG_CONFIG_LIBDIR"
+PKG_CONFIG_SYSROOT_DIR=
+PKG_CONFIG_LIBDIR=
 for i in fontdump cmapdump bin2hex cquote ; do
 	make verbose=yes CC=cc \
 	FREETYPE_CFLAGS=-I/usr/include/freetype2 \
@@ -32,6 +39,9 @@ for i in fontdump cmapdump bin2hex cquote ; do
 	OPENSSL_LIBS="-lssl -lcrypto" \
 	build=release build/release/"$i"
 done
+PKG_CONFIG_SYSROOT_DIR="$PCS_SAVE"
+PKG_CONFIG_LIBDIR="$PCL_SAVE"
+
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   make verbose=yes -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
