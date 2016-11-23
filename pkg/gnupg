@@ -12,10 +12,13 @@ readline
 libgcrypt
 
 [build]
-[ -n "$CROSS_COMPILE" ] && \
+[ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine)"
+  sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
+}
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
+  ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls \
+  --disable-asm
 make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar
 make DESTDIR="$butch_install_dir" install
