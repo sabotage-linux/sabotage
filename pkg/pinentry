@@ -1,10 +1,11 @@
 [mirrors]
-https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-0.9.7.tar.bz2
-http://www.ring.gr.jp/pub/net/gnupg/pinentry/pinentry-0.9.7.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.0.0.tar.bz2
+http://www.ring.gr.jp/pub/net/gnupg/pinentry/pinentry-1.0.0.tar.bz2
 
 [vars]
-filesize=432978
-sha512=9c5bc8f7246e8b0affd83fea6e64c47cecf6a12515a82dd2a6712b230306a9c3c97da4dbf6519ea98c85c88bf180a5a2b8c46cedcd594f224e5a08f2f0e35bf0
+filesize=436930
+sha512=f109236707c51871b5020ef807a551366461fafcfbe09bf8cda19d4b163a42cf622562b905ceb41429f1d648b3f3d27807538709da6a135b67f9888709eccd62
+pkgver=2
 desc='dialogs for secure password input into gnupg'
 
 [deps]
