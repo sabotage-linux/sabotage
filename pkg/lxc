@@ -1,10 +1,10 @@
 [mirrors]
-https://linuxcontainers.org/downloads/lxc-2.0.5.tar.gz
+https://linuxcontainers.org/downloads/lxc-2.0.6.tar.gz
 
 [vars]
-filesize=1063644
-sha512=6a03b092fdcef93b4d68ac8c0112302f453c91247198e7bb34a2ea3501c2d48c56e1d93c2cafaeddd18493394aecd71f424d03b59a9992e81a80732ebf21ad69
-pkgver=2
+filesize=1300046
+sha512=48f4ebaa503e7bd5b608a35b1f60e708c4f62c8e3327ccf8d5371004323c721446e8ad7d0054c5a8f1c94d96169369caee4cc378638b34cd4961652c1d2a48af
+pkgver=3
 desc='linux containers for running isolated virtualized environments'
 
 [deps]
