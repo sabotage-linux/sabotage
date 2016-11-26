@@ -8,6 +8,7 @@ http://dbg.download.sourcemage.org/mirror/libgcrypt-1.7.3.tar.bz2
 filesize=2861294
 sha512=55c5704e45167dc5adf1e5a92789a5d841dc27966212cc556abb374e724fddcd85c74b83e0cfa5f3ed2575e3fec9465e8a90d1c5bc8ab1f6697c9abfc2dcaa05
 desc='general purpose crypto library based on the code from GnuPC'
+pkgver=2
 
 [deps]
 libgpg-error
