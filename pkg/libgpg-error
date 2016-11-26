@@ -8,18 +8,24 @@ http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.25
 [vars]
 filesize=797159
 sha512=46f276609fc66f09e9633f6a1a33d4cfcfaa65e36f34aaf0802edbc766ed4c0f2dc148582db10c2afce9c0b8ba536dbac78ec0c1a72cb81723403b6ece295590
-pkgver=2
+pkgver=3
 desc='library defining common error values for all GnuPG components'
 
 [deps]
 
 [build]
+patch -p1 < "$K"/libgpg-error-xcompile-lock.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --disable-nls
+  --disable-nls \
+  --disable-languages \
+  --disable-doc \
+  --disable-tests \
+  --enable-threads=posix
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

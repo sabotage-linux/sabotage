@@ -1,0 +1,318 @@
+From 065f16768b0d790ae2d5b1b255f526f98d5a7802 Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Sat, 26 Nov 2016 14:31:27 +0000
+Subject: [PATCH] fix libgpg-error lock madness
+
+libgpg-error has, for "portability" reasons, an utterly overdesigned
+mutex implementation that basically does nothing more than calling the
+pthread_mutex* functions, however it is designed in such a way that it
+needs to know the size of phtread_mutex_t and other implementation details
+of every arch/os/libc combination.
+
+there's a hardcoded list for some archs (which is a bad idea if the
+size of pthread_mutex_t on that arch changes), and any arch/libc
+combination that is not yet in this list fails to compile.
+
+according to the author this is by design[0], and you're supposed to
+crosscompile a helper program and run that on your target computer
+so it spits out a header that has the right values filled in.
+this is a lunatic idea and completely unacceptable as we're trying
+to do *automated* builds and not copying stuff around manually between
+different machines.
+there is an easy fix: just use the pthread primitives directly instead
+of doing all the circus with the arch specific intermediate type.
+
+[0] https://bugs.gnupg.org/gnupg/issue2845
+---
+ src/mkheader.c   |   6 ++
+ src/posix-lock.c | 192 ++++++-------------------------------------------------
+ 2 files changed, 26 insertions(+), 172 deletions(-)
+
+diff --git a/src/mkheader.c b/src/mkheader.c
+index 64d0904..4b670f5 100644
+--- a/src/mkheader.c
++++ b/src/mkheader.c
+@@ -505,8 +505,14 @@ write_special (const char *fname, int lnr, const char *tag)
+     }
+   else if (!strcmp (tag, "include:lock-obj"))
+     {
++#if 0
+       if (try_include_file (fname, lnr, "./lock-obj-pub.native.h", write_line))
+         include_file (fname, lnr, "syscfg/lock-obj-pub.&.h", write_line);
++#else
++write_line("#include <pthread.h>");
++write_line("#define gpgrt_lock_t pthread_mutex_t");
++write_line("#define GPGRT_LOCK_INITIALIZER PTHREAD_MUTEX_INITIALIZER");
++#endif
+     }
+   else
+     return 0; /* Unknown tag.  */
+diff --git a/src/posix-lock.c b/src/posix-lock.c
+index d251d2f..c6d46a9 100644
+--- a/src/posix-lock.c
++++ b/src/posix-lock.c
+@@ -35,13 +35,15 @@
+ #include <errno.h>
+ #include <assert.h>
+ 
+-#if USE_POSIX_THREADS
+ # include <pthread.h>
+-#endif
+ 
+ #include "gpg-error.h"
+ #include "lock.h"
+-#include "posix-lock-obj.h"
++//#include "posix-lock-obj.h"
++
++#define gpgrt_lock_t pthread_mutex_t
++#define GPGRT_LOCK_INITIALIZER PTHREAD_MUTEX_INITIALIZER
++
+ 
+ 
+ /*
+@@ -52,65 +54,6 @@ static void (*pre_lock_func)(void);
+ static void (*post_lock_func)(void);
+ 
+ 
+-#if USE_POSIX_THREADS
+-# if USE_POSIX_THREADS_WEAK
+-   /* On ELF systems it is easy to use pthreads using weak
+-      references.  Take care not to test the address of a weak
+-      referenced function we actually use; some GCC versions have a
+-      bug were &foo != NULL is always evaluated to true in PIC mode.  */
+-#  pragma weak pthread_cancel
+-#  pragma weak pthread_mutex_init
+-#  pragma weak pthread_mutex_lock
+-#  pragma weak pthread_mutex_trylock
+-#  pragma weak pthread_mutex_unlock
+-#  pragma weak pthread_mutex_destroy
+-#  if ! PTHREAD_IN_USE_DETECTION_HARD
+-#   define use_pthread_p() (!!pthread_cancel)
+-#  endif
+-# else /*!USE_POSIX_THREADS_WEAK*/
+-#  if ! PTHREAD_IN_USE_DETECTION_HARD
+-#   define use_pthread_p() (1)
+-#  endif
+-# endif /*!USE_POSIX_THREADS_WEAK*/
+-# if PTHREAD_IN_USE_DETECTION_HARD
+-/* The function to be executed by a dummy thread.  */
+-static void *
+-dummy_thread_func (void *arg)
+-{
+-  return arg;
+-}
+-
+-static int
+-use_pthread_p (void)
+-{
+-  static int tested;
+-  static int result; /* 1: linked with -lpthread, 0: only with libc */
+-
+-  if (!tested)
+-    {
+-      pthread_t thread;
+-
+-      if (pthread_create (&thread, NULL, dummy_thread_func, NULL))
+-        result = 0; /* Thread creation failed.  */
+-      else
+-        {
+-          /* Thread creation works.  */
+-          void *retval;
+-          if (pthread_join (thread, &retval) != 0)
+-            {
+-              assert (!"pthread_join");
+-              abort ();
+-            }
+-          result = 1;
+-        }
+-      tested = 1;
+-    }
+-  return result;
+-}
+-#endif /*PTHREAD_IN_USE_DETECTION_HARD*/
+-#endif /*USE_POSIX_THREADS*/
+-
+-
+ /* Helper to set the clamp functions.  This is called as a helper from
+  * _gpgrt_set_syscall_clamp to keep the function pointers local. */
+ void
+@@ -120,88 +63,26 @@ _gpgrt_lock_set_lock_clamp (void (*pre)(void), void (*post)(void))
+   post_lock_func = post;
+ }
+ 
+-
+-
+-static _gpgrt_lock_t *
+-get_lock_object (gpgrt_lock_t *lockhd)
+-{
+-  _gpgrt_lock_t *lock = (_gpgrt_lock_t*)lockhd;
+-
+-  if (lock->vers != LOCK_ABI_VERSION)
+-    {
+-      assert (!"lock ABI version");
+-      abort ();
+-    }
+-  if (sizeof (gpgrt_lock_t) < sizeof (_gpgrt_lock_t))
+-    {
+-      assert (!"sizeof lock obj");
+-      abort ();
+-    }
+-
+-  return lock;
+-}
+-
+-
+ gpg_err_code_t
+ _gpgrt_lock_init (gpgrt_lock_t *lockhd)
+ {
+-  _gpgrt_lock_t *lock = (_gpgrt_lock_t*)lockhd;
+-  int rc;
+-
+-  /* If VERS is zero we assume that no static initialization has been
+-     done, so we setup our ABI version right here.  The caller might
+-     have called us to test whether lock support is at all available. */
+-  if (!lock->vers)
+-    {
+-      if (sizeof (gpgrt_lock_t) < sizeof (_gpgrt_lock_t))
+-        {
+-          assert (!"sizeof lock obj");
+-          abort ();
+-        }
+-      lock->vers = LOCK_ABI_VERSION;
+-    }
+-  else /* Run the usual check.  */
+-    lock = get_lock_object (lockhd);
+-
+-#if USE_POSIX_THREADS
+-  if (use_pthread_p())
+-    {
+-      rc = pthread_mutex_init (&lock->u.mtx, NULL);
+-      if (rc)
++   int  rc = pthread_mutex_init (lockhd, NULL);
++   if (rc)
+         rc = gpg_err_code_from_errno (rc);
+-    }
+-  else
+-    rc = 0; /* Threads are not used.  */
+-#else /* Unknown thread system.  */
+-  rc = lock->vers == LOCK_ABI_NOT_AVAILABLE? 0 : GPG_ERR_NOT_IMPLEMENTED;
+-#endif /* Unknown thread system.  */
+-
+-  return rc;
++   return rc;
+ }
+ 
+-
+ gpg_err_code_t
+ _gpgrt_lock_lock (gpgrt_lock_t *lockhd)
+ {
+-  _gpgrt_lock_t *lock = get_lock_object (lockhd);
+-  int rc;
+-
+-#if USE_POSIX_THREADS
+-  if (use_pthread_p())
+-    {
+-      if (pre_lock_func)
+-        pre_lock_func ();
+-      rc = pthread_mutex_lock (&lock->u.mtx);
+-      if (rc)
+-        rc = gpg_err_code_from_errno (rc);
+-      if (post_lock_func)
+-        post_lock_func ();
+-    }
+-  else
+-    rc = 0; /* Threads are not used.  */
+-#else /* Unknown thread system.  */
+-  rc = lock->vers == LOCK_ABI_NOT_AVAILABLE? 0 : GPG_ERR_NOT_IMPLEMENTED;
+-#endif /* Unknown thread system.  */
++   int rc;
++   if (pre_lock_func)
++     pre_lock_func ();
++   rc = pthread_mutex_lock (lockhd);
++   if (rc)
++     rc = gpg_err_code_from_errno (rc);
++   if (post_lock_func)
++     post_lock_func ();
+ 
+   return rc;
+ }
+@@ -210,22 +91,10 @@ _gpgrt_lock_lock (gpgrt_lock_t *lockhd)
+ gpg_err_code_t
+ _gpgrt_lock_trylock (gpgrt_lock_t *lockhd)
+ {
+-  _gpgrt_lock_t *lock = get_lock_object (lockhd);
+   int rc;
+-
+-#if USE_POSIX_THREADS
+-  if (use_pthread_p())
+-    {
+-      rc = pthread_mutex_trylock (&lock->u.mtx);
++      rc = pthread_mutex_trylock (lockhd);
+       if (rc)
+         rc = gpg_err_code_from_errno (rc);
+-    }
+-  else
+-    rc = 0; /* Threads are not used.  */
+-#else /* Unknown thread system.  */
+-  rc = lock->vers == LOCK_ABI_NOT_AVAILABLE? 0 : GPG_ERR_NOT_IMPLEMENTED;
+-#endif /* Unknown thread system.  */
+-
+   return rc;
+ }
+ 
+@@ -233,21 +102,11 @@ _gpgrt_lock_trylock (gpgrt_lock_t *lockhd)
+ gpg_err_code_t
+ _gpgrt_lock_unlock (gpgrt_lock_t *lockhd)
+ {
+-  _gpgrt_lock_t *lock = get_lock_object (lockhd);
+   int rc;
+ 
+-#if USE_POSIX_THREADS
+-  if (use_pthread_p())
+-    {
+-      rc = pthread_mutex_unlock (&lock->u.mtx);
++      rc = pthread_mutex_unlock (lockhd);
+       if (rc)
+         rc = gpg_err_code_from_errno (rc);
+-    }
+-  else
+-    rc = 0; /* Threads are not used.  */
+-#else /* Unknown thread system.  */
+-  rc = lock->vers == LOCK_ABI_NOT_AVAILABLE? 0 : GPG_ERR_NOT_IMPLEMENTED;
+-#endif /* Unknown thread system.  */
+ 
+   return rc;
+ }
+@@ -258,27 +117,16 @@ _gpgrt_lock_unlock (gpgrt_lock_t *lockhd)
+ gpg_err_code_t
+ _gpgrt_lock_destroy (gpgrt_lock_t *lockhd)
+ {
+-  _gpgrt_lock_t *lock = get_lock_object (lockhd);
+   int rc;
+-
+-#if USE_POSIX_THREADS
+-  if (use_pthread_p())
+-    {
+-      rc = pthread_mutex_destroy (&lock->u.mtx);
++      rc = pthread_mutex_destroy (lockhd);
+       if (rc)
+         rc = gpg_err_code_from_errno (rc);
+       else
+         {
+           /* Re-init the mutex so that it can be re-used.  */
++/* XXX UB ? */
+           gpgrt_lock_t tmp = GPGRT_LOCK_INITIALIZER;
+           memcpy (lockhd, &tmp, sizeof tmp);
+         }
+-    }
+-  else
+-    rc = 0; /* Threads are not used.  */
+-#else /* Unknown thread system.  */
+-  rc = lock->vers == LOCK_ABI_NOT_AVAILABLE? 0 : GPG_ERR_NOT_IMPLEMENTED;
+-#endif /* Unknown thread system.  */
+-
+   return rc;
+ }
+-- 
+2.10.2
+
