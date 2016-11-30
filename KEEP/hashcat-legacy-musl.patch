@@ -1,0 +1,128 @@
+From a03cc0799ec8674cd11830b966860384eff0622c Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Fri, 25 Nov 2016 22:56:06 +0000
+Subject: [PATCH] hashcat-cli.c: fix build against musl libc
+
+GLIBC's termio.h is just an empty file with 2 include directives:
+
+ #include <termios.h>
+ #include <sys/ioctl.h>
+
+and a comment that says that it is obsolete and you should use termios.h
+and struct termios instead - exactly what musl libc does.
+
+since the obsolete interface was replaced with termios by POSIX, musl
+only implements the standardized interface.
+
+also, instead of doing raw ioctl syscalls, we now use POSIX' tcgetattr()
+and tcsetattr(), which are the high-level API to deal with struct termios.
+---
+ src/hashcat-cli.c | 63 +++++--------------------------------------------------
+ 1 file changed, 5 insertions(+), 58 deletions(-)
+
+diff --git a/src/hashcat-cli.c b/src/hashcat-cli.c
+index e0c2927..1d2f19b 100644
+--- a/src/hashcat-cli.c
++++ b/src/hashcat-cli.c
+@@ -22,15 +22,11 @@
+ #include "engine.h"
+ 
+ // for interactive status prompt
+-#if defined OSX || defined FREEBSD
++#if defined OSX || defined FREEBSD || defined LINUX
+ #include <termios.h>
+ #include <sys/ioctl.h>
+ #endif
+ 
+-#if defined LINUX
+-#include <termio.h>
+-#endif
+-
+ #define USAGE_VIEW      0
+ #define VERSION_VIEW    0
+ #define QUIET           0
+@@ -2888,7 +2884,7 @@ void save_hash ()
+   unlink (old_input_file);
+ }
+ 
+-#if defined OSX  || defined FREEBSD
++#if defined OSX  || defined FREEBSD || defined LINUX
+ 
+ static struct termios savemodes;
+ static int havemodes = 0;
+@@ -2897,56 +2893,7 @@ int tty_break ()
+ {
+   struct termios modmodes;
+ 
+-  if (ioctl (fileno (stdin), TIOCGETA, &savemodes) < 0) return -1;
+-
+-  havemodes = 1;
+-
+-  modmodes = savemodes;
+-  modmodes.c_lflag &= ~ICANON;
+-  modmodes.c_cc[VMIN] = 1;
+-  modmodes.c_cc[VTIME] = 0;
+-
+-  return ioctl (fileno (stdin), TIOCSETAW, &modmodes);
+-}
+-
+-int tty_getchar ()
+-{
+-  fd_set rfds;
+-
+-  FD_ZERO (&rfds);
+-
+-  FD_SET (fileno (stdin), &rfds);
+-
+-  struct timeval tv;
+-
+-  tv.tv_sec  = 1;
+-  tv.tv_usec = 0;
+-
+-  int retval = select (1, &rfds, NULL, NULL, &tv);
+-
+-  if (retval ==  0) return  0;
+-  if (retval == -1) return -1;
+-
+-  return getchar ();
+-}
+-
+-int tty_fix ()
+-{
+-  if (!havemodes) return 0;
+-
+-  return ioctl (fileno (stdin), TIOCSETAW, &savemodes);
+-}
+-#endif
+-
+-#if defined LINUX
+-static struct termio savemodes;
+-static int havemodes = 0;
+-
+-int tty_break ()
+-{
+-  struct termio modmodes;
+-
+-  if (ioctl (fileno (stdin), TCGETA, &savemodes) < 0) return -1;
++  if (tcgetattr (fileno (stdin), &savemodes) < 0) return -1;
+ 
+   havemodes = 1;
+ 
+@@ -2955,7 +2902,7 @@ int tty_break ()
+   modmodes.c_cc[VMIN] = 1;
+   modmodes.c_cc[VTIME] = 0;
+ 
+-  return ioctl (fileno (stdin), TCSETAW, &modmodes);
++  return tcsetattr (fileno (stdin), TCSANOW, &modmodes);
+ }
+ 
+ int tty_getchar ()
+@@ -2983,7 +2930,7 @@ int tty_fix ()
+ {
+   if (!havemodes) return 0;
+ 
+-  return ioctl (fileno (stdin), TCSETAW, &savemodes);
++  return tcsetattr (fileno (stdin), TCSANOW, &savemodes);
+ }
+ #endif
+ 

@@ -1,0 +1,35 @@
+[mirrors]
+https://github.com/hashcat/hashcat-legacy/archive/2f300e0.tar.gz
+
+[vars]
+filesize=3468659
+sha512=b04d4adcd43d4e46e62bc276d3c914bfe03ecf9687c205bbfc96d6b83d8287c7b0e95b7aeae78beb7cbcfb8afcd398b1afe93f6fae896ce623cf872d48fb9f31
+tarball=hashcat-legacy-2.0-git-2f300e0.tar.gz
+tardir=hashcat-legacy-2f300e0fb10abfb5c05a7e0d58f99bd9d64441a7
+pkgver=1
+
+[deps]
+gmp
+
+[build]
+patch -p1 < "$K"/hashcat-legacy-musl.patch
+buildstyle=linux32
+case $A in
+	x86_64) buildstyle=linux64;;
+	i[3-6]86) ;;
+	*) sed -i -e 's/-D__HC_x86_32__//' -e 's/-m32 -msse2//' src/Makefile
+	   echo "WARNING: untested" ;;
+esac
+make CC_LINUX64="$CC" CC_LINUX32="$CC" -j$MAKE_THREADS $buildstyle
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/bin "$dest"/share/hashcat-legacy/
+for i in charsets docs rules tables salts examples ; do
+cp -a $i "$dest"/share/hashcat-legacy/
+done
+cp hashcat-cli*bin "$dest"/share/hashcat-legacy/
+cat << EOF > "$dest"/bin/hashcat-legacy
+#!/bin/sh
+echo "to run hashcat legacy, cd into /share/hashcat-legacy and run the tools from there
+exit 1
+EOF
+chmod +x "$dest"/bin/hashcat-legacy
