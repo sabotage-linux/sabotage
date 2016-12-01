@@ -23,7 +23,9 @@ patch -p1 < "$K"/nodejs-prefix.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" --without-snapshot
+LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" \
+  --without-snapshot \
+  --shared-openssl
 
 # the python configure script does not care about C(XX)FLAGS being passed
 sed -i "s@cflags': \[\]@cflags': ['-D_GNU_SOURCE -D_BSD_SOURCE']@" config.gypi
