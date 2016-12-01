@@ -1,10 +1,10 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.10-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.10a-source.tar.gz
 
 [vars]
-filesize=42265171
-sha512=91dc77f1f785c960a4f70ee3f617b1ddda32c85015eb053c004ab3a90b899634c7e08e7eaa617a6b7b41910bb5e7e9e725fe636890e94098db1d5b61ed2b3c43
-pkgver=2
+filesize=42264707
+sha512=8c735963364985e74ceb38242afae555a3d2ee7c69abe3fe5c485e8613a83d996a58f231cb689a156019d431fa67d565503247d010b0a404054850483aed9fec
+pkgver=3
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
