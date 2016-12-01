@@ -18,7 +18,7 @@ if [ -n "$CROSS_COMPILE" ] ; then
 fi
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
 CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
-LDFLAGS="$optldflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
  ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
