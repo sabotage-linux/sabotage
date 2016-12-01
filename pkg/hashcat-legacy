@@ -29,7 +29,7 @@ done
 cp hashcat-cli*bin "$dest"/share/hashcat-legacy/
 cat << EOF > "$dest"/bin/hashcat-legacy
 #!/bin/sh
-echo "to run hashcat legacy, cd into /share/hashcat-legacy and run the tools from there
+echo "to run hashcat legacy, cd into /share/hashcat-legacy and run the tools from there"
 exit 1
 EOF
 chmod +x "$dest"/bin/hashcat-legacy
