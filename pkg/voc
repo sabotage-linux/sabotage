@@ -1,50 +1,14 @@
 [mirrors]
-https://github.com/norayr/voc/archive/7f6c73341414af134c2ae23cd5dab5629d0d5fe5.tar.gz
+https://github.com/vishaps/voc/archive/v2.00.tar.gz
 
 [vars]
-filesize=4601447
-sha512=c02261b9adebd6444d45b8a3c4171469a2ca99a8b1d57c5297a362088a7e1ebb929e4cfa74e265bae100976d19f8862246584d215d0e5b32c8ab075d79e985ee
-tardir=voc-7f6c73341414af134c2ae23cd5dab5629d0d5fe5
-tarball=voc-7f6c73341414af134c2ae23cd5dab5629d0d5fe5.tar.gz
+filesize=1156246
+sha512=3a1be79a0e06258063babb7f022af54e3ba9707f77d437067a8b30712c5a8f06ff60e66e98f4af8418955d37de70ad306c8af6188d7f87f787b5d35e28c6fae9
+pkgver=1
+tarball=voc-2.00.tar.gz
 
 [deps.host]
 sed
 
 [build]
-patch() {
-   sed -i "s@PRF = \"/opt\"@PRF = \"$butch_root_dir$butch_prefix/opt\"@" $1
-   sed -i 's@PREFIX = $(PRF)/voc-$(RELEASE)@PREFIX = $(PRF)/voc@' $1
-   sed -i 's@PREFIXLN = $(PRF)/voc@@' $1
-}
-compile() {
-   patch $1
-   make -f $1
-}
-
-patch makefile
-sed -i 's@ln -s $(PREFIX) $(PREFIXLN)@@' makefile
-sed -i 's@rm -rf $(PREFIXLN)@@' makefile
-sed -i 's@echo "$(PREFIX)/lib" > 05vishap.conf@@' makefile
-sed -i 's@cp 05vishap.conf /etc/ld.so.conf.d/@@' makefile
-sed -i 's@ldconfig@@' makefile
-
-sed -i 's@("/voc-", prefix)@("/voc", prefix)@' src/voc/version.Mod
-sed -i 's@Strings.Append(version, prefix).*@@' src/voc/version.Mod
-
-if [ "$CC" = "gcc" ] ; then
-   case "$A" in
-      arm) compile makefile.linux.gcc.armv6j_hardfp ;;
-      powerpc) compile  makefile.linux.gcc.powerpc ;;
-      i386) compile  makefile.linux.gcc.x86 ;;
-      x86_64) compile makefile.linux.gcc.x86_64 ;;
-      *) echo "error: Not a supported arch!" && exit 1 ;;
-   esac
-elif [ "$CC" = "clang" ] ; then
-   case "$A" in
-      powerpc) compile makefile.linux.clang.powerpc ;;
-      x86_64) compile makefile.linux.clang.x86_64 ;;
-      *) echo "error: Not a supported arch!" && exit 1 ;;
-   esac
-fi 
-
-make install
+make full
