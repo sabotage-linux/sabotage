@@ -15,7 +15,6 @@ re2c
 curl
 db
 libressl
-openssh
 libjpeg
 libpng
 zlib
