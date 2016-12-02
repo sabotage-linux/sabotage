@@ -17,13 +17,27 @@ python
 # - v4 (LTS)
 # - v0.12 (Maintenance, does not require GCC 4.8, support end: 2017)
 
+target_arch=
+case $A in
+	i?86) target_arch="--dest-cpu=ia32" ;;
+	x86_64) target_arch="--dest-cpu=x64" ;;
+	mips) target_arch="--dest-cpu=mips" ;;
+	arm) target_arch="--dest-cpu=arm"
+	$CC -dumpmachine 2>&1 | grep eabihf >/dev/null 2>&1 &&
+	target_arch="$target_arch --with-arm-float-abi=hard" ||
+	target_arch="$target_arch --with-arm-float-abi=softfp" ;;
+#	*) echo "ERROR: nodejs supports only compilation for x86,x86_64,and ARM"
+	*) target_arch="--dest-cpu=$A" ;;
+esac
+[ -z "$CROSS_COMPILE" ] && target_arch=
+
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
 patch -p1 < "$K"/nodejs-prefix.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" \
+LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" $target_arch \
   --without-snapshot \
   --shared-openssl
 
