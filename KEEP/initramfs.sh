@@ -1,6 +1,10 @@
 #!/bin/busybox sh
 
 rescue() {
+	# If panic parameter is set, just exit. This will
+	# exit PID 1 and cause a kernel panic
+	[ -n "$panic" ] && exit 1
+
 	# Silence the kernel
 	echo 0 > /proc/sys/kernel/printk
 	echo "$@"
