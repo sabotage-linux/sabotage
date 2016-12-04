@@ -5,6 +5,7 @@ pkgver=2
 busybox
 lvm
 cryptsetup
+kbd
 
 [build]
 mkdir -p ramfs
