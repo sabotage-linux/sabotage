@@ -1,19 +1,18 @@
-[vars]
-filesize=1239648
-sha512=0c33b05e8232084999812cbaa467dc7d37b80cafc1001b82e89c702b4303d8db9a27b948fe653e7090404eb1c66f5492f02f3524bc39efabade4be8bdb476671
-desc='IRC bouncer'
-
 [mirrors]
-http://znc.in/releases/archive/znc-1.4.tar.gz
+http://znc.in/releases/archive/znc-1.6.4-rc3.tar.gz
+
+[vars]
+filesize=1467851
+sha512=bff071144900845688abc8b03ef21ca9e95664d927887f85861a11ac8541146ba16f12a06f64a83f3be1e8b7dd728e65b4f1129eac7700de2febcbcbcb6ec434
+pkgver=2
+desc='IRC bouncer'
 
 [deps]
 libressl
 
 [build]
-patch -p1 < "$K"/znc.patch
-patch -p1 < "$K"/znc-comp.patch
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS="-D_GNU_SOURCE" \
 CXXFLAGS="$optcflags" \
