@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20161102.tar.xz
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20161130.tar.xz
 
 [vars]
-filesize=298544
-sha512=8630cbc15d311b71936901bfa4c1a61d78d4468a7d8d0c492d72afc579679402b99e563cc6f88b0377eb7ebee8dcbad1b090fb0831d610a5b8e5bbdb3d8ce284
-pkgver=2
+filesize=298656
+sha512=8395f27d2369d694b069e1bb250b06df05f732bd9f4a4dc8652091e9c96ad1a84003e28f59cb9e13fdfd22ca5818f495d80149692e74b2d63e34db4f6a95ee9f
+pkgver=3
 tardir=ca-certificates
 
 [deps]
