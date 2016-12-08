@@ -1,10 +1,11 @@
 [mirrors]
-http://cairographics.org/releases/cairo-1.14.6.tar.xz
-http://distfiles.lesslinux.org/cairo-1.14.6.tar.xz
+http://cairographics.org/releases/cairo-1.14.8.tar.xz
+http://distfiles.lesslinux.org/cairo-1.14.8.tar.xz
 
 [vars]
-filesize=36040596
-sha512=e2aa17a33b95b68d407b53ac321cca15b0c148eb49b8639c75b2af1e75e7b417a2168ea978dabb8581b341f0f45dc042d3b1a56b01ab525b1984015f0865316b
+filesize=35392464
+sha512=dfe77a01ca72e21e11610243a5f6e92e6b0821c4ace11686fb0bac8f0bf9217a79974ff46bdf3d19fd85173f5f24f2c3f6d4e00cf729a55a6492e6798d6c4ec2
+pkgver=2
 
 [deps]
 fontconfig
