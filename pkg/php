@@ -1,10 +1,10 @@
 [mirrors]
-http://www.php.net/distributions/php-7.1.0.tar.xz
+http://www.php.net/distributions/php-7.0.14.tar.xz
 
 [vars]
-filesize=12793836
-sha512=bb031fa008cb90475e71df5d48abb4f73660dbd94cb3fa6c768ceb1d3c51ae34a5a1f901758825877ea7e61aa9983bdcb05ad5ad51087a1f17f65cac0bb4d229
-pkgver=4
+filesize=12534712
+sha512=321d07c89873fadcf5a4edf38323cd9e350fb06f9954a16ea2e1b9341590f1047b78d69818d80b376cd8e9f92ed9c3132b79bd5832a3ded99b78d87c291fb9a5
+pkgver=5
 desc='heavily broken scripting language for web development'
 
 [deps]
