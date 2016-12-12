@@ -1,5 +1,5 @@
 # sabotage config.cache template. this should give predefined answers
-# to about 50% of each configure run, thus speeding up the build 
+# to about 50% of each configure run, thus speeding up the build
 # quite a bit.
 
 ac_cv_sizeof__Bool=${ac_cv_sizeof__Bool='1'}
