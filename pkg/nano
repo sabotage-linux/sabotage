@@ -1,10 +1,10 @@
 [mirrors]
-http://www.nano-editor.org/dist/v2.7/nano-2.7.1.tar.xz
+http://www.nano-editor.org/dist/v2.7/nano-2.7.2.tar.xz
 
 [vars]
-filesize=1005504
-sha512=6e8f88e32e19e98307d266b32afaa7131e5402066717fbf54f4e112d23fc5d105c1daeb4e9a4884e7bd38677f1c2e289c32e8c8f7910993d96a701f08bb322ae
-pkgver=3
+filesize=1016660
+sha512=fd729111f35707d095e7403528c505ace1a76fb47559353d207dbacb31194ed33ff7003146a71549c806cc26fadc4b9fd893aab104bc5c3099e1fc120a5d09bf
+pkgver=4
 desc='a terminal-based, easy-to-use text editor'
 uchkurl=https://nano-editor.org/download.php
 
@@ -12,6 +12,7 @@ uchkurl=https://nano-editor.org/download.php
 curses
 
 [build]
+patch -p1 < "$K"/nano-2.7.2-wrapping.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 printf '#!/bin/sh\necho -lncursesw -lterminfo\n' > ncursesw5-config
 chmod +x ncursesw5-config
