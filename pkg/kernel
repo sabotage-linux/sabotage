@@ -8,7 +8,7 @@ gcc4
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=19
+pkgver=20
 no_unlink=1
 
 [build]
