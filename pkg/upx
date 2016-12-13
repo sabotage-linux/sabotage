@@ -1,15 +1,18 @@
 [mirrors]
-http://upx.sourceforge.net/download/upx-3.91-src.tar.bz2
+https://github.com/upx/upx/releases/download/v3.92/upx-3.92-src.tar.xz
 
 [vars]
-filesize=904747
-sha512=7e9a392fe11daf7baf9632f2c448ef9936da7dfab215f86ba417e9f097770949acb653aaabe6cc5ed812efc486cb35e0c1e128c80026b02825713d8b12251cf5
+filesize=742144
+sha512=e82f9ec724bcb0c9fdae61ce40d795c3d2aeccbc99efd545f00d61ee92032d2e201ce7eb00d3a6737bc91ac4cfc810fa84ab0ee5f5d64e934f42f46f94287b67
+pkgver=2
+uchkurl=https://github.com/upx/upx/releases
 
 [deps]
 ucl
 zlib
 
 [build]
+printf '#!/bin/sh\ntrue' > src/stub/scripts/check_whitespace.sh
 cd src
 
 make V=1 -j$MAKE_THREADS exeext= CXXFLAGS_WERROR="$optcflags"
