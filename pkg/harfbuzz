@@ -8,6 +8,7 @@ pkgver=5
 desc='library for text shaping (unicode -> glyph indices and positions)'
 
 [deps]
+glib
 freetype
 
 [build]
