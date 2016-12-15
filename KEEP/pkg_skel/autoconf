@@ -10,9 +10,11 @@ pkgver=1
 [build]
 #patch -p1 < "$K"/some.patch
 #cp -f "$K"/config.sub .
-[ -n "$CROSS_COMPILE" ] && \
+[ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+  sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
+}
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
