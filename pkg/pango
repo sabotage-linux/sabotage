@@ -17,8 +17,10 @@ harfbuzz
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 cp "$K"/pango-querymodules.c pango/querymodules.c
-[ -n "$CROSS_COMPILE" ] && \
+[ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+  sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
+}
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
 CXXFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
