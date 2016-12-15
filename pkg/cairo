@@ -16,6 +16,7 @@ libx11
 libxext
 
 [build]
+cp -f "$K"/config.sub build/
 cat << EOF > test/Makefile.in
 all:
 	true
