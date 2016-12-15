@@ -15,6 +15,7 @@ cairo
 glib
 gtk+2
 libidl
+pangox-compat
 
 [build]
 patch -p1 < "$K"/thunderbird1-getprotobyname_r.patch
