@@ -20,6 +20,14 @@ ln -sf memory.h secmem/mymemory.h
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+printf '#!/bin/sh\ntest "$1" = --version && echo 2.4.3 || printf %s -lassuan' > libassuan-config
+chmod +x libassuan-config
+
+printf '#!/bin/sh\ntest "$1" = --version && echo 1.24 || printf %s -lgpg-error' > gpg-error-config
+chmod +x gpg-error-config
+
+GPG_ERROR_CONFIG="$PWD/gpg-error-config" \
+LIBASSUAN_CONFIG="$PWD/libassuan-config" \
 CPPFLAGS="-D_GNU_SOURCE -I$PWD/secmem -include mymemory.h" \
 CFLAGS="$optcflags" \
 CXXFLAGS="$optcflags" \
