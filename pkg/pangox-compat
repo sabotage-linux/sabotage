@@ -1,24 +1,17 @@
 [mirrors]
-https://github.com/behdad/pangox-compat/archive/edb9e09.tar.gz
+http://ftp.gnome.org/pub/GNOME/sources/pangox-compat/0.0/pangox-compat-0.0.2.tar.xz
 
 [vars]
-filesize=77529
-sha512=d5e9fb1ded284bbf43c499151b8b88613c911d60e1ac5fb7720d5ff407ecec0c7a6bad3aec8ddb658e17b2867c0f657ee84c5a79f1ae560647fa7a7d47bcbd8e
+filesize=267396
+sha512=fd3e257157d78c3d86c948e7909226fdebe52408d02a52432de8a295443b64b80b37cb795fe646d581515e6072bd278f2dcab0e43cf27b63b03a82c01eb6b9b3
 pkgver=1
-tardir=pangox-compat-edb9e0904d04d1da02bba7b78601a2aba05aaa47
 
 [deps]
 pango
 
-[deps.host]
-autoconf
-automake
-libtool
-
 [build]
-autoreconf -i
-#patch -p1 < "$K"/some.patch
-#cp -f "$K"/config.sub .
+patch -p1 < "$K"/pangox-compat-edb9e090.patch
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
