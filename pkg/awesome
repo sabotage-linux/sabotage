@@ -1,9 +1,11 @@
 [mirrors]
-http://awesome.naquadah.org/download/awesome-3.5.6.tar.xz
+https://github.com/awesomeWM/awesome-releases/raw/master/awesome-3.5.9.tar.xz
 
 [vars]
-filesize=720112
-sha512=8d89bf46956276a8bcf106bb255c051e8382b08617e17691134a8f3e5db3ec9f7773581c02ce62d23e72499f7b1e60fe4322c211e41219b5bffd1897a96f6cf6
+filesize=723084
+sha512=6a4c679b293e8cd85d1f7e13f6dea704cbb267e42b9260496a54b657a66d6148aae51521d802d61baaeb23df0d4a8ad0b28d9dc922ea5da2a347b4251cce5e25
+pkgver=2
+uchkurl=http://awesome.naquadah.org/download/
 
 [deps]
 glib
