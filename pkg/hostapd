@@ -23,5 +23,8 @@ CFLAGS="-D_GNU_SOURCE -I$butch_prefix/include/libnl-tiny \
   -D__uint32_t=uint32_t -D__uint16_t=uint16_t \
   -include stdint.h $optcflags" \
   LDFLAGS="-lz $optldflags" make -j$MAKE_THREADS CONFIG_LIBNL_TINY=y
-make BINDIR=/bin DESTDIR="$butch_install_dir" install
-
+make BINDIR="$butch_prefix"/bin DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 hostapd.8 "$dest"/share/man/man8/hostapd.8
+install -Dm 644 hostapd_cli.1 "$dest"/share/man/man1/hostapd_cli.1
+install -Dm 640 hostapd.conf "$dest"/share/doc/hostapd.conf
