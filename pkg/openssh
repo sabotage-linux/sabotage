@@ -17,9 +17,11 @@ patch -p1 < "$K"/openssh-sys_param.patch
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in
 
-[ -n "$CROSS_COMPILE" ] && \
+[ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+  sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
+}
 
 CC="$CC -D_BSD_SOURCE -DMISSING_FD_MASK -DMISSING_NFDBITS" CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
