@@ -1,10 +1,11 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.4p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.4p1.tar.gz
 
 [vars]
-filesize=1522617
-sha512=7ba2d6140f38bd359ebf32ef17626e0ae1c00c3a38c01877b7c6b0317d030f10a8f82a0a51fc3b6273619de9ed73e24b8cf107b1e968f927053a3bedf97ff801
+filesize=1511780
+sha512=4f3256f461f01366c5d5e0e45285eec65016e2643b3284b407f48f53d81087bf2c1caf7d5f7530d307a15c91c64de91446e1cba948e8fc68f82098290fe3b292
+pkgver=2
 service=openssh
 serviceflags="--down --log"
 
