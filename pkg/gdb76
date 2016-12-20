@@ -41,7 +41,7 @@ cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
 
 mkdir build
 cd build
-mv ../config.cache .
+cp -f "$K"/config.cache .
 # fixing implicit declaration in recursively called (by make) configure tests...
 cat << EOF >> config.cache
 bash_cv_must_reinstall_sighandlers=yes

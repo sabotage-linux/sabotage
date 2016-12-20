@@ -19,7 +19,7 @@ for dir in libdwarf dwarfdump ; do
 echo XXX entering dir $dir
 [ -n "$CROSS_COMPILE" ] && [ $dir = dwarfdump ] && continue
 cd $dir
-cp ../config.cache .
+cp -f "$K"/config.cache .
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \

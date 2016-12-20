@@ -13,7 +13,7 @@ pkgver=2
 [build]
 patch -p1 < "$K"/bdb-configure.patch
 cd build_unix
-mv ../config.cache .
+cp -f "$K"/config.cache .
 
 if [ -n "$CROSS_COMPILE" ] ; then
   host=$($CC -dumpmachine)
