@@ -10,8 +10,9 @@ http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.xz
 
 [build]
 "$K"/gnulibfix lib > /dev/null
+cp -f "$K"/config.sub build-aux/
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags -static" \
 CPPFLAGS="-Drpl_strstr=strstr -Drpl_mkstemp=mkstemp -Drpl_readlink=readlink" \
 CFLAGS="$optcflags" \
