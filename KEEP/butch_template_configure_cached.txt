@@ -180,10 +180,13 @@ if $BUTCH_HAVE_TARBALL ; then
 	printf "%s: untar done\n" "`timestamp`"
 	cd "$butch_build_dir"
 
-	# this copies a config.cache template (gets installed by pkg/config-cache)
-	# into the actual builddir, so configure skips some timewasting tests
-	if $butch_do_config_cache && [ -e configure ] ; then
-		cp -f "$butch_config_cache" . || true
+	if [ -e configure ] ; then
+		# fix misdetection of cross-compiles when only --host was given
+		sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
+
+		# this copies a config.cache template into the actual builddir,
+		# so configure skips some timewasting tests
+		$butch_do_config_cache && cp -f "$butch_config_cache" .
 	fi
 fi
 
