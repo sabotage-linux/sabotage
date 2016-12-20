@@ -17,7 +17,7 @@ export HOSTCC=gcc
 # the build template used.
 # the default one creates packages in $R/opt/$package_name, uses a config.cache
 # and symlinks packages into the rootdir.
-export BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
+export BUTCH_BUILD_TEMPLATE="$K"/butch_build_template.txt
 # download template. the default one uses wget.
 export BUTCH_DOWNLOAD_TEMPLATE="$K"/butch_download_template.txt
 # export so stage0 specific code paths are not taken in build scripts

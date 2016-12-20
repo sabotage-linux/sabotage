@@ -57,7 +57,7 @@ export R="$SABOTAGE_BUILDDIR"
 export S="$R"/src
 export LOGPATH="$S"/logs
 
-export BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
+export BUTCH_BUILD_TEMPLATE="$K"/butch_build_template.txt
 export BUTCH_DOWNLOAD_TEMPLATE="$K"/butch_download_template.txt
 
 # this is needed so packages can detect from which stage they're called
