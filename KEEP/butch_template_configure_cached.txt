@@ -120,7 +120,7 @@ butch_build_root="$B/$butch_package_name"
 butch_build_dir="$butch_build_root/$BUTCH_TARDIR"
 
 #this is the location of our optimized config.cache
-butch_configure_cache="$K/config.cache"
+butch_config_cache="$K/config.cache"
 
 [ -z "$CC" ]  && CC=cc
 [ -z "$CXX" ]  && CXX=c++
@@ -182,8 +182,8 @@ if $BUTCH_HAVE_TARBALL ; then
 
 	# this copies a config.cache template (gets installed by pkg/config-cache)
 	# into the actual builddir, so configure skips some timewasting tests
-	if $butch_do_config_cache ; then
-		[ -e "$butch_configure_cache" ] && cp -f "$butch_configure_cache" . || true
+	if $butch_do_config_cache && [ -e configure ] ; then
+		cp -f "$butch_config_cache" . || true
 	fi
 fi
 
