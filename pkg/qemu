@@ -1,10 +1,10 @@
 [mirrors]
-http://wiki.qemu-project.org/download/qemu-2.6.2.tar.bz2
+http://wiki.qemu-project.org/download/qemu-2.8.0.tar.bz2
 
 [vars]
-filesize=25763594
-sha512=7a68b4bf7a3d04a1c4402b09e0b81e37d2431b5dd8a10b07d0e11b28bdf92e6e19800859feee50d54c62dae58bbd85dfd208e9cab4eb0310b4749e6911fcc49f
-pkgver=2
+filesize=28368517
+sha512=50f2988d822388ba9fd1bf5dbe68359033ed7432d7f0f9790299f32f63faa6dc72979256b5632ba572d47ee3e74ed40e3e8e331dc6303ec1599f1b4367cb78c2
+pkgver=3
 
 [deps]
 glib
@@ -25,7 +25,7 @@ patch -p1 < "$K"/qemu-262-powerpc.patch
 
 CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 # F_EXLCK is 4; F_SHLCK 8 on all archs except alpha
-CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8"
+CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8 -DXATTR_SIZE_MAX=65536"
 CFLAGS="$CFLAGS $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure --prefix="$butch_prefix" \
