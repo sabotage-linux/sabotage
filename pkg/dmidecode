@@ -4,12 +4,12 @@ http://download.savannah.gnu.org/releases/dmidecode/dmidecode-3.0.tar.xz
 [vars]
 filesize=58704
 sha512=fa31190e43ae7a0b61f6313b45f5eba3ab66390accd587129419e48fca931b631cbb331d6893cf0c1bfca94c86ff8c557215166e0881dee93b3af10a86878eb1
-desc="DMI table decoder"
+desc='reports information from the BIOS DMI hardware information tables'
 pkgver=1
 
 [build]
 sed -i 's,/sbin,/bin,' Makefile
 
-make CC="$CC" CFLAGS="$optcflags" LDLAGS="$optldflags" -j$MAKE_THREADS
+make CC="$CC" CFLAGS="$optcflags" LDFLAGS="$optldflags" -j$MAKE_THREADS
 
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
