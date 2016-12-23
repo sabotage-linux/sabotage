@@ -1,0 +1,25 @@
+[mirrors]
+https://www.nlnetlabs.nl/downloads/ldns/ldns-1.7.0.tar.gz
+
+[vars]
+filesize=1304424
+sha512=8a4e48bcc2a244b92447a9830b60efbb656fb7955f3559ef2eb6f8e724c4c0208776350c44ccf7dcf1ffe0b7b9d9ccc4cbddc5bc16e8888db494ab4d0bce3bd8
+pkgver=1
+desc='ldns dnssec library, featuring `drill`, the modern `dig` replacement'
+
+[deps]
+libressl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-drill \
+  --disable-dane-ta-usage
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
