@@ -44,5 +44,3 @@ cp -r "$K"/etc/* "$R"/etc/
 cp -r "$K"/boot/* "$R"/boot/
 chmod 0600 "$R"/etc/shadow
 
-echo nameserver 8.8.8.8 > "$R"/etc/resolv.conf
-
