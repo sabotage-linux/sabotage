@@ -13,6 +13,8 @@ serviceflags="--down --log"
 libressl
 
 [build]
+patch -p1 < "$K"/dovecot-libressl.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
