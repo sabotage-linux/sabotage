@@ -25,19 +25,19 @@ sh postfix-install -non-interactive \
    manpage_directory="$butch_prefix"/share/man
 
 dest="$butch_install_dir""$butch_prefix"
+
 mv "$dest"/usr/* "$dest"/
 rm "$dest"/bin/*
 mv "$dest"/sbin/* "$dest"/bin/
 rm -rf "$dest"/usr "$dest"/sbin
-
 mv "$dest"/etc/postfix "$dest"/share/doc
-if [ ! -f  "$dest"/etc/postfix/main.cf ] ; then
-	install -D -m 644 "$K"/postfix-main.cf "$dest"/etc/postfix/main.cf
-	install -D -m 644 "$K"/postfix-master.cf "$dest"/etc/postfix/master.cf
-	install -D -m 644 "$K"/postfix-virtual "$dest"/etc/postfix/virtual
-	cat <<- EOF > "$dest"/etc/postfix/README
-	Edit 'virtual' to route mail to users, then reload with 'postmap /etc/postfix/virtual'.
-	See /share/doc/postfix for further information.
-	EOF
-fi
+
+install -D -m 644 "$K"/postfix-main.cf "$dest"/etc/postfix/main.cf
+install -D -m 644 "$K"/postfix-master.cf "$dest"/etc/postfix/master.cf
+install -D -m 644 "$K"/postfix-virtual "$dest"/etc/postfix/virtual
+
+cat << EOF > "$dest"/etc/postfix/README
+Edit 'virtual' to route mail to users, then reload with 'postmap /etc/postfix/virtual'.
+See /share/doc/postfix for further information.
+EOF
 
