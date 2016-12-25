@@ -10,6 +10,7 @@ desc='client and server to route traffic over DNS'
 [deps]
 
 [build]
+sed -i 's@sbin@bin@g' Makefile
 sed -i 's/@$(CC)/$(CC)/g' src/Makefile
 sed -i 's@static int daemon@static int daemon_unused@' src/common.c
 
