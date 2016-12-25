@@ -8,7 +8,7 @@ gcc4
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=21
+pkgver=22
 no_unlink=1
 
 [build]
@@ -42,10 +42,9 @@ done
 dopatch "$K"/linux-virtio9p.patch
 
 # patches to support busybox trap and sed with strict musl BRE engine
-dopatch "$K"/linux-3.18-posix_sed.patch
-# linux 4.3 broke monitor mode on ralink wireless chips
-# https://bugs.kali.org/view.php?id=3028
-dopatch "$K"/linux-4.3-ralink-monitor.patch
+dopatch "$K"/linux-3.8-trap.patch
+dopatch "$K"/linux-3.8-posix_sed.patch
+
 
 export ARCH=$A
 linux_config="$K"/linux.config

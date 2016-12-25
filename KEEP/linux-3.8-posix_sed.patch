@@ -1,0 +1,27 @@
+--- linux-3.8.org/arch/x86/boot/Makefile
++++ linux-3.8/arch/x86/boot/Makefile
+@@ -86,7 +86,8 @@
+ 
+ SETUP_OBJS = $(addprefix $(obj)/,$(setup-y))
+ 
+-sed-voffset := -e 's/^\([0-9a-fA-F]*\) . \(_text\|_end\)$$/\#define VO_\2 0x\1/p'
++sed-voffset := -e 's/^\([0-9a-fA-F]*\) . \(_text\)$$/\#define VO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(_end\)$$/\#define VO_\2 0x\1/p'
+ 
+ quiet_cmd_voffset = VOFFSET $@
+       cmd_voffset = $(NM) $< | sed -n $(sed-voffset) > $@
+@@ -95,7 +96,13 @@
+ $(obj)/voffset.h: vmlinux FORCE
+ 	$(call if_changed,voffset)
+ 
+-sed-zoffset := -e 's/^\([0-9a-fA-F]*\) . \(startup_32\|startup_64\|efi_pe_entry\|efi_stub_entry\|input_data\|_end\|z_.*\)$$/\#define ZO_\2 0x\1/p'
++sed-zoffset := -e 's/^\([0-9a-fA-F]*\) . \(startup_32\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(startup_64\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(efi_pe_entry\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(efi_stub_entry\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(input_data\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(_end\)$$/\#define ZO_\2 0x\1/p' \
++		-e 's/^\([0-9a-fA-F]*\) . \(z_.*\)$$/\#define ZO_\2 0x\1/p' 
+ 
+ quiet_cmd_zoffset = ZOFFSET $@
+       cmd_zoffset = $(NM) $< | sed -n $(sed-zoffset) > $@
