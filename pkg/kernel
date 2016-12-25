@@ -37,6 +37,12 @@ for p in $(cat "$K"/kernel.patches) ; do
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
 done
 
+#noperl and qemu patches from landley.net/aboriginal
+dopatch "$K"/linux-noperl-timeconst.patch
+
+# fix the broken "ncurses detector" which fails, and even worse removes our HOSTLDFLAGS
+dopatch "$K"/linux-menuconfig.patch
+
 # work around mismatch between devicename and channel name in 9p virtfs code
 # p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
 dopatch "$K"/linux-virtio9p.patch

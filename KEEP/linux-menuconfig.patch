@@ -1,0 +1,40 @@
+--- linux-3.10.5/scripts/kconfig/lxdialog/check-lxdialog.sh.org	2013-08-06 04:30:10.369000004 +0000
++++ linux-3.10.5/scripts/kconfig/lxdialog/check-lxdialog.sh	2013-08-06 04:32:20.840000004 +0000
+@@ -4,35 +4,13 @@
+ # What library to link
+ ldflags()
+ {
+-	pkg-config --libs ncursesw 2>/dev/null && exit
+-	pkg-config --libs ncurses 2>/dev/null && exit
+-	for ext in so a dll.a dylib ; do
+-		for lib in ncursesw ncurses curses ; do
+-			$cc -print-file-name=lib${lib}.${ext} | grep -q /
+-			if [ $? -eq 0 ]; then
+-				echo "-l${lib}"
+-				exit
+-			fi
+-		done
+-	done
+-	exit 1
++echo -lncurses
+ }
+ 
+ # Where is ncurses.h?
+ ccflags()
+ {
+-	if [ -f /usr/include/ncursesw/curses.h ]; then
+-		echo '-I/usr/include/ncursesw -DCURSES_LOC="<curses.h>"'
+-		echo ' -DNCURSES_WIDECHAR=1'
+-	elif [ -f /usr/include/ncurses/ncurses.h ]; then
+-		echo '-I/usr/include/ncurses -DCURSES_LOC="<ncurses.h>"'
+-	elif [ -f /usr/include/ncurses/curses.h ]; then
+-		echo '-I/usr/include/ncurses -DCURSES_LOC="<curses.h>"'
+-	elif [ -f /usr/include/ncurses.h ]; then
+-		echo '-DCURSES_LOC="<ncurses.h>"'
+-	else
+-		echo '-DCURSES_LOC="<curses.h>"'
+-	fi
++echo '-DCURSES_LOC="<ncurses.h>"'
+ }
+ 
+ # Temp file, try to clean up after us
