@@ -6,13 +6,15 @@ filesize=1360996
 sha512=758229637e3703215adf66c5df04126ae594424abaf2cad8f1fa482bd9759e90838c943ef56e0129beb1396f5932ed9337c8396679da3de32e49bb43d423fd6b
 
 [build]
-printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > gnulib-tests/Makefile.in
+for i in tests gnulib-tests doc ; do
+	printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > "$i"/Makefile.in
+done
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
 rm -rf "$dest"/share/info
+rm -rf "$dest"/lib
