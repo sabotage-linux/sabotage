@@ -1,9 +1,10 @@
 [mirrors]
-http://leptonica.com/source/leptonica-1.73.tar.gz
+http://leptonica.com/source/leptonica-1.74.tar.gz
 
 [vars]
-filesize=10894175
-sha512=4808474d5941a91fbf542a22fed26ddc33f9c4baf2699096acf5e894b7e4e84889d165373b7d1df391a68cda8176113cf122f15203a9e38d3059e17140efc575
+filesize=11624575
+sha512=6c563a8f30faf7dc0ad321aa58a012a0d03fc3fba7eb3c3e7b69be8bf2e71cc5f13420ded9cc08b232a780b78234e10bbdbe6a77ef26c5af330c6c6eac477f77
+pkgver=2
 uchkurl=http://leptonica.com/download.html
 
 [deps]
@@ -14,23 +15,26 @@ libtiff
 giflib
 
 [build]
-patch -p1 < "$K"/liblepton_pngio.patch
-patch -p1 < "$K"/liblepton-endianness.patch
-#CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 cd src
 
 sed -i 's/HAVE_LIBGIF/1/' gifio.c
 
-make -j$MAKE_THREADS -f makefile.static CC="$CC -ansi -D_BSD_SOURCE -DANSI"
+make -j$MAKE_THREADS -f makefile.static CC="$CC -D_BSD_SOURCE -DANSI" \
+CFLAGS="$optcflags"
 
-# installing headers
-dest="$butch_install_dir/include/leptonica"
-mkdir -p "$dest"
-cp *.h "$dest"/
+dest="$butch_install_dir""$butch_prefix"
+for i in *.h ; do
+	install -Dm 644 "$i" "$dest"/include/leptonica/"$i"
+done
+install -Dm 644 ../lib/nodebug/liblept.a "$dest"/lib/liblept.a
+cat << EOF > lept.pc
+prefix=$butch_prefix
+includedir=\${prefix}/include/leptonica
 
-#installing lib
-dest="$butch_install_dir/lib"
-mkdir -p "$dest"
-cp ../lib/nodebug/liblept.a "$dest"/
-
-#make DESTDIR="$butch_install_dir" -f makefile.static install
+Name: leptonica
+Description: C lib for efficient image processing and image analysis operations
+Version: 1.74
+Libs: -llept -lz -lgif -lpng -ltiff -ljpeg
+Cflags: -I\${includedir}
+EOF
+install -Dm 644 lept.pc "$dest"/lib/pkgconfig/lept.pc
