@@ -5,6 +5,9 @@ http://geoff.greer.fm/ag/releases/the_silver_searcher-0.29.1.tar.gz
 filesize=174309
 sha512=54be3afd2eaa11b31029c58350601918ac8ec35b90af1a2beedf94f259cdeb15c893e9f099821e2cb96a8ff28edc03934496d994dab5a0a751e25d38c84a6d2e
 
+[deps]
+lzo
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
