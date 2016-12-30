@@ -1,9 +1,11 @@
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/libpng/libpng-1.5.27.tar.xz
+http://downloads.sourceforge.net/project/libpng/libpng15/1.5.28/libpng-1.5.28.tar.xz
+ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng15/libpng-1.5.28.tar.xz
 
 [vars]
-filesize=752532
-sha512=5f31191417c11e165be7133b3b95a23207890180f0c0efe5d0982d70583144aca6734da6a116dbd96675739cf1685de87cbb61d18e7c602364871e6df2c7f804
+filesize=755724
+sha512=25adcff4429e7c691a6336a70f3c3d212aa27da6c9d6393325d9866b4c7e1f5fd40b9fe23b1efbe5629753a6051ab52365688ac14913584faf40e84e0b9f514c
+pkgver=2
 desc="library to handle png files with a history of sec. vulns and API breakage"
 uchkurl=ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng15/
 
