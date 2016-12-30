@@ -1,9 +1,10 @@
 [mirrors]
-http://tukaani.org/xz/xz-5.2.2.tar.xz
+http://tukaani.org/xz/xz-5.2.3.tar.xz
 
 [vars]
-filesize=1016404
-sha512=949ef90669a31b9855c5328d7f9d7e2e537c8072b700b1d2f5d69c307eb7f7635a2a4b1b5bb1bb300fba9429355a6d8935b803c505be5c0104bda9e81d0cf477
+filesize=1032248
+sha512=a5b8f3c402ec3df5c1875a32081136606dd7701190d8b8091bae1bac36553ebe3480985c8069bf5d9e24f374ea64b1fe22614d3eebac1c10e5d609701bceca95
+pkgver=2
 
 [deps.host]
 dynamic-toolchain
