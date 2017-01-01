@@ -1,9 +1,10 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.15.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.16.tar.gz
 
 [vars]
-filesize=911600
-sha512=9e923572c0d6bad3dc2d2646d4b0699c10b477ce6300ac6c6224895192a90667f581ddf6eda2ab8c4c16f47bde4bccb03bb90478638d136d9df721430f4d0163
+filesize=927178
+sha512=47c00e50b7605102fb4aebe1f9ba9db94d26fac64805f6d744c9c557a05b8a58dff7f9558ff7c8d66b5d7c43740cdc2dd79448bacac47f1414e6ada99c210140
+pkgver=2
 
 [deps.stage0]
 stage0-gcc
