@@ -1,0 +1,50 @@
+#!/bin/sh
+#set -x
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+if type awk >/dev/null 2>&1 ; then
+[ 1 = $(printf "%s" "$butch_staging_dir" | awk '{n=split($0,a,"/"); print n-1;}') ] || {
+	echo "error: butch_staging_dir may contain only one slash"
+	echo "good: /opt /pkgs /app"
+	echo "bad: /opt/ /var/pkgs /my/apps/"
+	exit 1
+}
+else
+	echo "error: no awk installed">&2
+	exit 1
+fi
+if [ -z "$2" ] ; then
+	echo "tool to manually relink a single file of a package into the rootfs"
+	echo "(i.e. from $butch_staging_dir/packagename) into /"
+	echo "error: need to pass packagename and filename to relocate!" >&2
+	echo "example: $0 busybox /bin/awk"
+	echo "will link /bin/awk from busybox over the current /bin/awk symlink"
+	exit 1
+fi
+get_path_components() {
+	echo "$1" | awk '{n=split($1,a,"/");c=0;for(i=1;i<=n;i++)if(length(a[i]))c++;print c;}'
+}
+get_backlinks() {
+	n=$(($(get_path_components "$1") - 1))
+	s=
+	c=0
+	for i in `seq 1 $n` ; do s=${s}../ ; c=$(($c + 3)) ; done
+	# cut last slash away
+	echo "$s" | cut -b -$(($c - 1))
+}
+pkg="$1"
+fil="$2"
+
+[ "$R" = "/" ] && R=
+butch_root=$R
+butch_install_dir="$butch_staging_dir"/"$pkg"
+[ -d "$R""$butch_install_dir" ] || {
+	echo "warning: package $pkg does not seem to be installed" >&2
+	exit 1
+}
+f="$R""$butch_install_dir""$fil"
+[ -e "$f" ] || {
+	echo "can not find $f" >&2
+	exit 1
+}
+lt=$(get_backlinks "$fil")"$butch_install_dir""$fil"
+ln -sf "$lt" "$R""$fil"
