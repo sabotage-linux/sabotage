@@ -3,14 +3,26 @@ if [ -z "$S" ] ; then
 	echo 'S not set, did you source config ?'
 	exit 1
 fi
-pkg=$1
-if [ -z "$pkg" ] ; then
-	echo 'need package name as argv!'
+usage() {
+	echo "$0 - creates a checksum over all of the files of one package" >&2
+	echo "this serves as a unique fingerprint of a package and is used to" >&2
+	echo "implement reproducible builds." >&2
+	echo >&2
+	echo "usage: $0 [-d/-o] packagename" >&2
+	echo "-d (details) is optional and prints the checksum of every single file" >&2
+	echo "-o (only details) is optional and activates details, but leaves away">&2
+	echo "the final checksum." >&2
 	exit 1
-fi
+}
+details=false
+xorsum=true
+[ "$1" = "-d" ] && { details=true ; shift ; }
+[ "$1" = "-o" ] && { details=true ; xorsum=false ; shift ; }
+[ -z "$1" ] && usage
+
+pkg=$1
 
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-
 [ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 
 fl="$butch_filelists"/"$pkg".txt
@@ -24,15 +36,85 @@ getsha() {
 	[ "$?" != 0 ] && return 1
 	printf "%s" "$foo" | cut -d " " -f 1
 }
+prepare_xor_func() {
+	make_xor_c && return 2
+	AWK=awk
+	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
+	AWK=gawk -n
+	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
+	AWK=busybox awk
+	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
+	#it's probably mawk then...
+	return 0
+}
+make_xor_c(){
+umask 077
+cat << EOF > /tmp/xor.$$.c || return 1
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+static unsigned hex2num(int c){const char h[]="0123456789ABCDEF";
+return strchr(h, toupper(c))-h;}
+int main(int a, char**b) {if(a!=3) return 1;
+unsigned l=strlen(b[1]),i=0;
+while(i<l){printf("%x", hex2num(b[1][i])^hex2num(b[2][i]));i++;}
+printf("\n");return 0;
+}
+EOF
+test -z "$CC" && CC=cc
+ret=0
+if ! $CC /tmp/xor.$$.c -O1 -o /tmp/xor.$$.elf && ! gcc /tmp/xor.$$.c -o /tmp/xor.$$.elf ; then
+	ret=1
+fi
+rm /tmp/xor.$$.c
+return $ret
+}
+xor_awk() {
+echo $1 $2 | $AWK '{n=split($1,a,"");split($2,b,"");for(i=1;i<=n;i++){x1="0x" a[i];x2="0x" b[i];x=xor(x1,x2);printf("%x", x);}printf("\n");}'
+}
+hex_to_dec() {
+printf "%d" 0x$1
+}
+xor_shell() {
+l=$(printf "%s" "$1"|wc -c)
+for i in `seq 1 $l` ; do
+a=$(hex_to_dec $(echo $1 | cut -b $i))
+b=$(hex_to_dec $(echo $2 | cut -b $i))
+printf "%x" $(($a ^ $b))
+done
+printf "\n"
+}
+xor() {
+	if test $awk_works = 1 ; then
+		xor_awk $1 $2
+	elif test $awk_works = 2 ; then
+		/tmp/xor.$$.elf $1 $2
+	else
+		# that's gonna be real slow :-)
+		xor_shell $1 $2
+	fi
+}
+res=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+cnt=0
+$xorsum && {
+	prepare_xor_func
+	awk_works=$?
+}
+
+[ "$R" = "/" ] && R=
 for f in `cat "$fl" | sort` ; do
 	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
-	[ "$R" = "/" ] || fs="$R""$fs"
 	butch_install_dir="$butch_staging_dir"/"$pkg"
-	sha=$(getsha "$butch_install_dir""$fs") || {
-		rm "$tmpf"
-		exit 1
-	}
+	sha=$(getsha "$R""$butch_install_dir""$fs") || continue
+	test -z "$sha" && continue
 	printf "%s %s\n" "$sha" "$fs" >> "$tmpf"
+	$xorsum && {
+		res=$(xor $res $sha)
+		cnt=$(($cnt + 1))
+	}
 done
-getsha "$tmpf"
+$xorsum && test "$awk_works" = 2 && rm /tmp/xor.$$.elf
+$details && cat "$tmpf"
+$xorsum && echo ${cnt}-${res}
+
 rm "$tmpf"
