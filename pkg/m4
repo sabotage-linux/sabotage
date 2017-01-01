@@ -1,12 +1,11 @@
-[deps]
+[mirrors]
+http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.xz
 
 [vars]
-filesize=1005264
-sha512=1123671ab3e0b1b13a4a08035e792a93af0d7d0a5b9027982fe7b5104488a0746906068a0f4774c1f1bc2648ba1bc74d690836e90ff9391464278e4ccbc7edf0
+filesize=1207688
+sha512=06f583efc3855cd8477d8347544f4ae5153a3e50aea74d21968afa7214784ea3ddfc02d0a2b11324120d76a19f2e804d20de11a456b5da929eb6ae469519b174
+pkgver=2
 desc='the GNU m4 shellscript macro preprocessor. used heavily by autoconf/make'
-
-[mirrors]
-http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.xz
 
 [build]
 "$K"/gnulibfix lib > /dev/null
@@ -14,9 +13,10 @@ cp -f "$K"/config.sub build-aux/
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags -static" \
-CPPFLAGS="-Drpl_strstr=strstr -Drpl_mkstemp=mkstemp -Drpl_readlink=readlink" \
+CPPFLAGS="-Drpl_strstr=strstr -Drpl_mkstemp=mkstemp -Drpl_readlink=readlink \
+-Drpl_mbrtowc=mbrtowc" \
 CFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" \
   gl_cv_func_strtod_works=yes $xconfflags
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
