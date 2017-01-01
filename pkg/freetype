@@ -1,10 +1,10 @@
 [mirrors]
-http://download.savannah.gnu.org/releases/freetype/freetype-2.7.tar.bz2
+http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
 
 [vars]
-filesize=1789896
-sha512=cd5bcde276d6d59379d9c60a90095be59b0692ec8fd2817aa44ff80ebb84840e8a72be2cfbbbcf7e13258026fa691f28c2673f03c3a3961a859900e61a62d761
-pkgver=2
+filesize=1825107
+sha512=df39e2ef55f9090a66fecb6b5e9a5d296a043ddfd919d0ce3d7ea5132aa388bfbbeeaa6d6df6513956134b987e1c3a5eac6975c0c9631213af77457a623b49da
+pkgver=3
 
 [deps]
 zlib
