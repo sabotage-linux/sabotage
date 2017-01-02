@@ -1,5 +1,4 @@
 [build]
 $CC -std=gnu99 -fstack-protector-all -Wa,--noexecstack -s -Os -o host \
   $optcflags $optldflags "$K"/host.c
-
-mv host "$butch_root_dir""$butch_prefix"/bin
+install -Dm 755 host "$butch_install_dir""$butch_prefix"/bin/host
