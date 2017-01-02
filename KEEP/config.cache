@@ -1545,6 +1545,9 @@ gl_cv_func_perror_works=yes
 gl_cv_func_mbrtowc_empty_input=yes
 gl_cv_func_strerror_r_works=yes
 gl_cv_func_strerror_r_posix_signature=yes
+gl_cv_func_posix_spawn_file_actions_addclose_works=yes
+gl_cv_func_posix_spawn_file_actions_adddup2_works=yes
+gl_cv_func_posix_spawn_file_actions_addopen_works=yes
 
 gt_cv_inttypes_pri_broken=no
 gt_cv_c_wint_t=yes
