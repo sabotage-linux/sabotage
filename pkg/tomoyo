@@ -1,13 +1,20 @@
 [mirrors]
-http://jaist.dl.sourceforge.jp/tomoyo/53357/tomoyo-tools-2.5.0-20140601.tar.gz
+http://jaist.dl.sourceforge.jp/tomoyo/53357/tomoyo-tools-2.5.0-20170102.tar.gz
 
 [vars]
-filesize=211411
-sha512=c89e5257e8158e31e17c0d62735a1f8b7728c4c7e05d9e0e860ff637a575071b4b0ce7fca8162cde4659fecc2b047d0b79a45291df3612878dba48aaafa6b2d5
+filesize=207960
+sha512=8b3bcaeb33297880b575e70ab4679b4568cdddc7ba279830d18142535c42f0682974d97762df828d4bd0dbf14a00dce63c4c369d1819278b968b0af782a558b2
+pkgver=2
 tardir=tomoyo-tools
 
+[deps]
+curses
+
 [build]
-make -j$MAKE_THREADS CFLAGS="-D_GNU_SOURCE -D__WALL=0x40000000 -D_LARGEFILE64_SOURCE"
-make USRSBINDIR="$butch_prefix"/sbin USRLIBDIR="$butch_prefix"/lib MAN8="$butch_prefix"/share/man/man8 \
-  INSTALLDIR="$butch_install_dir" install
+sed -i 's,/sbin,$(PREFIX)/bin,g' Include.make
+sed -i 's,/usr,$(PREFIX),g' Include.make
+echo "PREFIX=$butch_prefix" >> Include.make
+make -j$MAKE_THREADS LDFLAGS="$optldflags -lncurses -lterminfo" \
+CFLAGS="$optcflags"
+make INSTALLDIR="$butch_install_dir" install
 
