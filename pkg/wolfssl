@@ -1,3 +1,46 @@
+[mirrors]
+https://www.wolfssl.com/altpkg/wolfssl-3.10.0.tar.xz
+
+[vars]
+filesize=1422496
+sha512=cef72450a0c6af56fbfa1bd23f93bc19a3e209d9cf7ff4df85f41e0632d8bf0a392a6637dd0680f3cf586b77a42a6a9f9db2ceb481abd6dde97771d02fa1bfea
+pkgver=2
+desc='lightweight SSL/TLS library with partial openssl compatibility layer'
+
 [deps]
-cyassl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+debug_flags=
+[ "$DEBUGBUILD" = 1 ] && debug_flags=--enable-debug
+
+C_EXTRA_FLAGS="-D_GNU_SOURCE $optcflags" \
+./configure --prefix="$butch_prefix" $xconfflags \
+  --enable-dtls --enable-opensslExtra \
+  --enable-static $debug_flags \
+  --disable-silent-rules \
+  --enable-ipv6 --enable-ripemd --enable-sha512 \
+  --enable-sessioncerts --enable-certgen
+# aesni is only for cpus with aes extension, amd bulldozer+ or corei7ish
+# sniffer depends on pcap
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+if false ; then
+	# this was an attempt to use cyassl's openssl compatibility layer
+	# however it is not fit for this yet.
+	ln -sf cyassl/openssl/ "$butch_install_dir/include/"
+
+	ln -sf libcyassl.a "$butch_install_dir/lib/libssl.a"
+	ln -sf libcyassl.a "$butch_install_dir/lib/libcrypto.a"
+
+	ln -sf libcyassl.so "$butch_install_dir/lib/libssl.so"
+	ln -sf libcyassl.so "$butch_install_dir/lib/libssl.so.1.0.0"
+
+	ln -sf libcyassl.so "$butch_install_dir/lib/libcrypto.so"
+	ln -sf libcyassl.so "$butch_install_dir/lib/libcrypto.so.1.0.0"
+fi
 
