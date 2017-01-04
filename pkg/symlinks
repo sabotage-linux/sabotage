@@ -1,0 +1,13 @@
+[mirrors]
+https://github.com/brandt/symlinks/archive/v1.4.3.tar.gz
+
+[main]
+filesize=5888
+sha512=90437e9114ad18b4137a490111be672d613c141ea8ee43cbf3c3a4ee3f80c620150926a91ec3f52467ed8efce989b1035f72d02a013d335cca5a052b6c0733f8
+tardir=symlinks-1.4.3
+tarball=symlinks-1.4.3.tar.gz
+
+[build]
+make
+install -Dm644 symlinks.8 "$butch_install_dir""$butch_prefix"/share/man/man8/
+install -Dm755 symlinks "$butch_install_dir""$butch_prefix"/bin/
