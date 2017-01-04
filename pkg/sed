@@ -1,11 +1,12 @@
+[mirrors]
+http://ftp.gnu.org/pub/gnu/sed/sed-4.3.tar.xz
+
 [vars]
-filesize=899091
-sha512=273d4d0b3dd41a3966260fbe261a20110a2a4c0749e11a080f4fc8694e47b605cb977f2535b20b92d57b1b74129df092ba47f4184951dbc3f0f14fd9b91b7bfd
+filesize=1167168
+sha512=4d76a099cf7115763b79b45be5c96338750baa47e34c36075f714e022614397aa9240099d6d009e69aa4d06b6cfc14dcc0f8313442a1465f448b36fb6874a26d
+pkgver=2
 desc='GNU stream editor with more features than busybox sed'
 no_unlink=1
-
-[mirrors]
-http://ftp.gnu.org/pub/gnu/sed/sed-4.2.1.tar.bz2
 
 [deps]
 musl
