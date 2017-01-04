@@ -1,17 +1,20 @@
 [mirrors]
-http://downloads.xiph.org/releases/flac/flac-1.3.1.tar.xz
+http://downloads.xiph.org/releases/flac/flac-1.3.2.tar.xz
 
 [vars]
-filesize=941848
-sha512=923cd0ffe2155636febf2b4633791bc83370d57080461b97ebb69ea21a4b1be7c0ff376c7fc8ca3979af4714e761112114a24b49ff6c80228b58b929db6e96d5
+filesize=776192
+sha512=63910e8ebbe508316d446ffc9eb6d02efbd5f47d29d2ea7864da9371843c8e671854db6e89ba043fe08aef1845b8ece70db80f1cce853f591ca30d56ef7c3a15
+pkgver=2
 
 [deps]
 
 [build]
 # apply patch to prevent CFLAGS manipulation in ./configure
 patch -p1 -l < "$K"/libflac-prevent-cflag-manipulation.patch
+sed -i 's,-fno-inline-small-functions,-Wall,g' configure
+
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 testlib() {
 	printf "int main() {}\n" > test_lib.c
 	$CC test_lib.c -l$1 >/dev/null 2>&1
@@ -22,11 +25,13 @@ testlib ogg && \
 
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags $oggflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags $oggflags \
+  --disable-sse --disable-altivec --disable-avx --disable-asm-optimizations \
+  --disable-thorough-tests --disable-doxygen-docs --disable-oggtest
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 # build only libFLAC and not all the C++ crap
-make -j$MAKE_THREADS -C src/libFLAC
+make -j$MAKE_THREADS V=1 -C src/libFLAC
 make DESTDIR="$butch_install_dir" -C src/libFLAC install
 
 echo installing headers
