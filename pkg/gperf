@@ -1,16 +1,18 @@
+[mirrors]
+http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
+
 [vars]
-filesize=983500
-sha512=24a65ac93c9d640670b015a76378eb7e0f167bec685d03f7dc68005d5a6d693d98b2189f7a0ab5bb9e5dc700de7d417c215230f9dbe062ba119240a8da535dad
+filesize=1215925
+sha512=855ebce5ff36753238a44f14c95be7afdc3990b085960345ca2caf1a2db884f7db74d406ce9eec2f4a52abb8a063d4ed000a36b317c9a353ef4e25e2cca9a3f4
+pkgver=2
 desc='source code generator for fast string comparisons via hashes'
 
-[mirrors]
-http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz
-
 [deps]
+musl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
