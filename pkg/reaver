@@ -1,11 +1,9 @@
 [mirrors]
-https://github.com/t6x/reaver-wps-fork-t6x/archive/4032b98.tar.gz
+http://reaver-wps.googlecode.com/files/reaver-1.4.tar.gz
 
 [vars]
-filesize=710570
-sha512=f80ba153a38d66f769901a59bb148b9dc9595e6936d9d228886e6e0aca8df1ed2963fedb47c9c8d75564efc09ef4e715fd6df2e2c2eb72c570e81d5d9ef49f7e
-tarball=reaver_t6x-1.52.4032b98.tar.gz
-tardir=reaver-wps-fork-t6x-4032b98216446fcd1c94a2f46d96d15b234baddf
+filesize=766603
+sha512=59f2d6f8aa6228988ce5d1c102d9a48b2a23e582ff3d9afe39d7c9717b7e4be059362fdd21a3e5f5d59948df1a7616acdaa6df20f139e9c5aa9bd673f764dfbc
 desc='cracking tool for WIFI routers with WPS feature'
 
 [deps]
