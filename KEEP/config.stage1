@@ -6,8 +6,8 @@ export LOGPATH=/src/logs
 #MAKE_THREADS is passed via -j to make and can lead to enormous speed gains
 #set this to the number of availables cores + 1, e.g. 3 for a dualcore
 export MAKE_THREADS=1
-export CC=gcc
-export HOSTCC=gcc
+[ -z "$CC" ] && export CC=gcc
+export HOSTCC="$CC"
 
 # set this if you don't want to build the kernel, only the headers
 # if you don't need the kernel anyway, this can save lots of time
