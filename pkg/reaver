@@ -5,6 +5,7 @@ http://reaver-wps.googlecode.com/files/reaver-1.4.tar.gz
 filesize=766603
 sha512=59f2d6f8aa6228988ce5d1c102d9a48b2a23e582ff3d9afe39d7c9717b7e4be059362fdd21a3e5f5d59948df1a7616acdaa6df20f139e9c5aa9bd673f764dfbc
 desc='cracking tool for WIFI routers with WPS feature'
+pkgver=3
 
 [deps]
 libpcap
@@ -13,6 +14,7 @@ sqlite
 [build]
 patch -p1 < "$K"/reaver_u_char.patch
 patch -p1 < "$K"/reaver_DESTDIR.patch
+patch -p1 < "$K"/reaver_segfault.patch
 
 cd src
 [ -n "$CROSS_COMPILE" ] && \
