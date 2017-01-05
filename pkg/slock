@@ -5,6 +5,7 @@ http://dl.suckless.org/tools/slock-1.1.tar.gz
 filesize=4604
 sha512=67cd9a62edde6ca0f9f7c09989ab8fa02a11a6ec82cc52b228c0b4fd509c5605668954630b0d2727aeb3c7283580665e4b5e5c0a37f3094a6f5b2a540e45f6b5
 desc='locks your X11 session with your password'
+pkgver=3
 
 [deps]
 libx11
