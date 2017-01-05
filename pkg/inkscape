@@ -28,25 +28,44 @@ intltool
 
 [build]
 sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine) \
-  --with-sysroot=$butch_root_dir"
 
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
 chmod +x freetype-config
 export PATH="$PWD:$PATH"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags -O0 -g0" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --disable-nls \
-  --disable-silent-rules \
-  --enable-poppler-cairo \
-  --without-inkjar
+mkdir -p build && cd build
+ln -sf setup/gui/inkscape.desktop inkscape.desktop
 
-for i in po ; do
-	printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
 done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
 
-make -j$MAKE_THREADS V=1
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DENABLE_POPPLER_CAIRO=ON \
+  -DWITH_NLS=OFF \
+  -DWITH_DBUS=OFF \
+  -DWITH_LIBCDR=OFF \
+  -DWITH_LIBVISIO=OFF \
+  -DWITH_LIBWPG=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
+
