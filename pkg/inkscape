@@ -24,6 +24,7 @@ liblcms
 freetype
 
 [deps.host]
+cmake
 intltool
 
 [build]
