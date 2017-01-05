@@ -1,17 +1,19 @@
-[vars]
-filesize=1770684
-sha512=88ae8ba640f1d7b5237fc39e1f6b24c9502ac310001636cd4e6626061ba77fec5ea6303ce5f47056a5feb86713bdde59039293534880d223b17c382bf34465f9
-
 [mirrors]
-http://ftpmirror.gnu.org/libtool/libtool-2.4.4.tar.gz
+http://ftpmirror.gnu.org/libtool/libtool-2.4.6.tar.gz
+
+[vars]
+filesize=1806697
+sha512=3233d81cb2739a54b840a0a82064eebbfaa4fb442fb993a35d6bd41d8395c51f038c90ae048b9252f172d0a5bbfb4b36e2b13d4477001f9ff7d4124237819a18
+pkgver=2
 
 [deps]
+musl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
-make -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
