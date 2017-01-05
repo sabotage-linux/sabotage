@@ -1,6 +1,3 @@
-[deps]
-perl
-
 [mirrors]
 http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz
 
@@ -9,8 +6,20 @@ filesize=1214744
 sha512=995d3e5a8eb1eb37e2b7fae53c6ec7a9b4df997286b7d643344818f94636756b1bf5ff5ea9155e755cb9461149a853dfbf2886fc6bd7132e5afa9c168e306e9b
 desc="tool for producing configure scripts"
 
+[deps.host]
+perl
+
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-./configure -C --prefix="$butch_prefix"
-make
+cp -f "$K"/config.sub build-aux/
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
