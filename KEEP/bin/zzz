@@ -18,7 +18,7 @@ case "$0" in
   *ZZZ) ZZZ_MODE=hibernate;;
 esac
 
-while getopts hnSzHRZ: opt; do
+while getopts hnSzHRZ opt; do
   case "$opt" in
     n) ZZZ_MODE=noop;;
     S) ZZZ_MODE=standby;;
