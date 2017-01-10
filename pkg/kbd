@@ -47,7 +47,6 @@ qwerty/nl2.map
 qwerty/no-latin1.map
 qwerty/pl2.map
 qwerty/pt-latin1.map
-qwerty/ru.map
 qwerty/ru1.map
 qwerty/se-lat6.map
 qwerty/tr_q-latin5.map
@@ -76,7 +75,7 @@ mkdir -p "$dest"/share/kmap
 for i in $slitaz_set ; do
 	k=$(basename $i)
 	k=${k%.map} # strips off .map from $k
-	./loadkeys -b data/keymaps/i386/$i > "$dest"/share/kmap/$k.kmap || echo "ERROR: loadkeys...$i"
+	./loadkeys -b -q data/keymaps/i386/$i > "$dest"/share/kmap/$k.kmap || echo "ERROR: loadkeys...$i"
 done
 
 # slitaz comes with a user friendly keyboard switched script: http://trixarian.net/paste/9abcb
