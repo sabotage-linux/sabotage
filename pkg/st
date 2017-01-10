@@ -14,10 +14,24 @@ libxext
 libxft
 
 [build]
+patch -p1 < "$K"/st-delete-key-works-always.patch
+patch -p1 < "$K"/st-no_bold_colors-20160727-308bfbf.patch
+patch -p1 < "$K"/st-scrollback-20160924-f739843.patch
+patch -p1 < "$K"/st-solarized-both-20160727-308bfbf.patch
+
+sed -i s/fdf6e3/ffeccf/g config.def.h #brwhite
+sed -i -e '1s/eee8d5/666666/;t' -e '1,/eee8d5/s//666666/' config.def.h #white in dark theme
+sed -i s/eee8d5/333333/ config.def.h #white in light theme
+sed -i s/859900/048103/g config.def.h #green
+sed -i s/657b83/000000/g config.def.h #bryellow
+sed -i s/2aa198/034b81/g config.def.h #cyan
+sed -i s/b58900/ff8b03/g config.def.h #yellow
+
+
 make \
  PREFIX="$butch_prefix" \
  CFLAGS="$optcflags -D_GNU_SOURCE -std=c99 -I$butch_root_dir$butch_prefix/include/freetype2 \
-   -DVERSION=\\\"0.4.1\\\" -D_BSD_SOURCE -D_XOPEN_SOURCE=600" \
+   -DVERSION=\\\"0.7.0\\\" -D_BSD_SOURCE -D_XOPEN_SOURCE=600" \
  LDFLAGS="$optldflags -lX11 -lXext -lXft -lfontconfig -lfreetype \
   -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
