@@ -1,9 +1,10 @@
 [mirrors]
-http://nodejs.org/dist/v4.2.3/node-v4.2.3.tar.xz
+http://nodejs.org/dist/v4.7.2/node-v4.7.2.tar.xz
 
 [vars]
-filesize=12768804
-sha512=4b6196ee7a430a7834d30424728ddeea7e0fa44d3776f53072931337a8396f8ea3620880f5962eec469f585723d9036b1a1768f859b080f973c5568fc0c060db
+filesize=13297240
+sha512=68c692db5eb7dbf0c7fdbe3e0eebb1b78fabf615096a0276ef62d9546aff1ab1b9f08341bde59fa0ccc2a19b0807d283284989ced54bb8f4a4b643a7e417d369
+pkgver=2
 
 
 [deps.host]
