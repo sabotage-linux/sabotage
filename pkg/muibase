@@ -1,0 +1,29 @@
+[mirrors]
+http://downloads.sourceforge.net/project/muibase/muibase-src/MUIbaseSource-3.3.tgz
+
+[vars]
+filesize=8591360
+sha512=a1708278205f6cd4a13e8e111389100fcbfd222f6bada46c728597befda6df655646afdc69bf81883aa822d68638fbe5d7ab3491dbd89d022e1c75ad2c996138
+pkgver=1
+tardir=MUIbase-3.3
+desc='non-bloated desktop database with limited SQL support'
+
+[deps]
+gtk+2
+
+[deps.host]
+flex
+bison
+
+[build]
+for i in README LIESMICH LISEZMOI ; do touch install/linux/$i ; done
+
+cd build/linux/potool
+make LD="g++" CPP="g++" CC="$HOSTCC"
+cd ../gtk2base
+sed -i 's,/usr,'"$butch_prefix"',g' makefile
+#cd build/linux/gtk2base
+make -j$MAKE_THREADS LD="$CXX" CPP="$CXX" CC="$CC" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+
+make DESTDIR="$butch_install_dir" install
