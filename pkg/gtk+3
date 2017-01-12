@@ -11,6 +11,7 @@ glib
 pango
 cairo
 atk-bridge-fake
+atk
 libxi
 
 [build]
