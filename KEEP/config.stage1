@@ -8,6 +8,8 @@ export LOGPATH=/src/logs
 export MAKE_THREADS=1
 [ -z "$CC" ] && export CC=gcc
 export HOSTCC="$CC"
+[ -z "$CXX" ] && export CXX=g++
+export HOSTCXX="$CXX"
 
 # set this if you don't want to build the kernel, only the headers
 # if you don't need the kernel anyway, this can save lots of time

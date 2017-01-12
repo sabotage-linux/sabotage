@@ -53,6 +53,7 @@ export CC="$A-linux-musl$eabi-gcc -L$R/lib -isystem $R/include"
 export CXX="$A-linux-musl$eabi-g++ -L$R/lib -isystem $R/include"
 export CROSS_COMPILE=$A-linux-musl$eabi-
 export HOSTCC=gcc
+export HOSTCXX=g++
 
 export STAGE=1
 export PKG_CONFIG_SYSROOT_DIR=$R
