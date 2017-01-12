@@ -1,0 +1,15 @@
+[mirrors]
+http://git.ghostscript.com/?p=mujs.git;a=snapshot;h=fd003eced;sf=tgz
+
+[vars]
+filesize=105413
+sha512=90dd1bce44740715a6f642bdb376be230c4a03c7970c2026479cf014a080b98b56a2131ca7ef8bf9c05b91285fe7dcc21dd4ca83879750351d57088408a62cbc
+tarball=mujs-fd003ec.tar.gz
+pkgver=1
+
+[deps]
+musl
+
+[build]
+make -j$MAKE_THREADS CC="$CC" CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
