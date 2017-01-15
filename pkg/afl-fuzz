@@ -6,7 +6,6 @@ filesize=830689
 sha512=3b9f94be9ceb2df10417e480953c4c9878d8a667cf3a1dd45da8aeca43abcfc401b3e44af7c9045f5fcddbf772cd640c090db404e0d685d7b3cea06fc111932d
 pkgver=5
 desc='powerful instrumented binary fuzzer'
-pkgver=4
 
 [deps]
 musl
