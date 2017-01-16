@@ -17,6 +17,7 @@ libarchive
 dynamic-toolchain
 
 [build]
+patch -p1 < "$K"/cmake-isystem.patch
 if [ -z "$CROSS_COMPILE" ] ; then
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
