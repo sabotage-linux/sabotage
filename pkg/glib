@@ -16,7 +16,7 @@ perl
 pkgconf
 
 [build]
-for p in glib-gtimer-varargs glib-no_python ; do
+for p in glib-gtimer-varargs glib-no_python glib-gunicollate-segfault ; do
 	echo $p
 	patch -p1 < "$K"/$p.patch
 done
@@ -28,6 +28,8 @@ this_dir="$PWD"
 for culprit in tests gio/tests ; do
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > $culprit/Makefile.in
 done
+
+sed -i 's;-Werror=;-W;g' configure
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -Dloff_t=off_t $optcflags" \
 LDFLAGS="$optldflags" ./configure -C $xconfflags \

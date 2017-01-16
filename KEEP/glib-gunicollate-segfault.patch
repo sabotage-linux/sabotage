@@ -1,0 +1,64 @@
+fixes segfault when inkscape 0.92 passes "`\203F\002".
+g_utf8_normalize returns NULL, strcoll subsequently crashes.
+
+#0  g_utf8_collate (str1=0x7fffffffde90 "`\203E\002", str2=0x7ffff779ba8a "sans-serif") at gunicollate.c:130
+#1  0x00007ffff762be18 in font_factory::GetUIStyles(_PangoFontFamily*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#2  0x00007ffff76360af in Inkscape::FontLister::update_font_list(SPDocument*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#3  0x00007ffff740fd88 in sp_text_toolbox_prep(SPDesktop*, _GtkActionGroup*, _GObject*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#4  0x00007ffff746bcd0 in ?? () from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#5  0x00007ffff746a7be in Inkscape::UI::ToolboxFactory::setToolboxDesktop(_GtkWidget*, SPDesktop*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#6  0x00007ffff712fd02 in Inkscape::UI::UXManagerImpl::connectToDesktop(std::vector<_GtkWidget*, std::allocator<_GtkWidget*> > const&, SPDesktop*) () from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#7  0x00007ffff741ca20 in SPDesktopWidget::createInstance(SPNamedView*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#8  0x00007ffff741cb36 in sp_desktop_widget_new(SPNamedView*) ()
+   from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#9  0x00007ffff74cc422 in sp_file_new(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) () from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#10 0x00007ffff74cc7bf in sp_file_new_default() () from /opt/inkscape/bin/../lib/inkscape/libinkscape_base.so
+#11 0x000000000040a861 in sp_main_gui(int, char const**) ()
+#12 0x00007ffff7d940d5 in __libc_start_main () from /lib/ld-musl-x86_64.so.1
+#13 0x0000000000405d07 in main ()
+
+
+Breakpoint 3, g_utf8_collate (str1=0x7fffffffde90 "`\203F\002", str2=0x7ffff779ba8a "sans-serif")
+130       str1_norm = g_utf8_normalize (str1, -1, G_NORMALIZE_ALL_COMPOSE);
+(gdb) n
+131       str2_norm = g_utf8_normalize (str2, -1, G_NORMALIZE_ALL_COMPOSE);
+(gdb) n
+133       if (g_get_charset (&charset))
+(gdb) p str1_norm 
+$8 = (gchar *) 0x0
+(gdb) n
+135           result = strcoll (str1_norm, str2_norm);
+(gdb) si
+0x00007ffff4c678b1      135           result = strcoll (str1_norm, str2_norm);
+(gdb) 
+0x00007ffff4c678b4      135           result = strcoll (str1_norm, str2_norm);
+(gdb) 
+0x00007ffff4c22a20 in strcoll@plt () from /lib/libglib-2.0.so.0
+(gdb) 
+0x00007ffff7d98086 in strcoll () from /lib/ld-musl-x86_64.so.1
+(gdb) 
+0x00007ffff7d9808f in strcoll () from /lib/ld-musl-x86_64.so.1
+(gdb) 
+0x00007ffff7d8abe0 in strcmp () from /lib/ld-musl-x86_64.so.1
+(gdb) 
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff7d8abe0 in strcmp () from /lib/ld-musl-x86_64.so.1
+
+--- glib-2.45.2.org/glib/gunicollate.c	2017-01-16 20:54:28.740070782 +0000
++++ glib-2.45.2/glib/gunicollate.c	2017-01-16 21:03:30.565297035 +0000
+@@ -130,6 +130,9 @@
+   str1_norm = g_utf8_normalize (str1, -1, G_NORMALIZE_ALL_COMPOSE);
+   str2_norm = g_utf8_normalize (str2, -1, G_NORMALIZE_ALL_COMPOSE);
+ 
++  g_return_val_if_fail (str1_norm != NULL, 0);
++  g_return_val_if_fail (str2_norm != NULL, 0);
++
+   if (g_get_charset (&charset))
+     {
+       result = strcoll (str1_norm, str2_norm);
