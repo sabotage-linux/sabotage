@@ -49,7 +49,7 @@ ac_cv_c_volatile=${ac_cv_c_volatile='yes'}
 ac_cv_cc_implements___FUNCTION__=${ac_cv_cc_implements___FUNCTION__='yes'}
 ac_cv_cc_implements___func__=${ac_cv_cc_implements___func__='yes'}
 ac_cv_cc_timezone=${ac_cv_cc_timezone='yes'}
-ac_cv_cc_werror=${ac_cv_cc_werror='yes'}
+ac_cv_cc_werror=${ac_cv_cc_werror='no'}
 ac_cv_cc_wextra=${ac_cv_cc_wextra='yes'}
 ac_cv_cpp_func=${ac_cv_cpp_func='yes'}
 ac_cv_crypt_blowfish=${ac_cv_crypt_blowfish='yes'}
