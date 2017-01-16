@@ -1,10 +1,10 @@
 [mirrors]
-http://www.weechat.org/files/src/weechat-1.6.tar.bz2
+http://www.weechat.org/files/src/weechat-1.7.tar.xz
 
 [vars]
-filesize=2558398
-sha512=ff0666904eae180f7091f475fade089128999ab1736e0e4a64ff79139eecb14f091d830be3110b75ec50ce85472bbf49343606ec827959d7711a19a33bfd4059
-pkgver=2
+filesize=1837004
+sha512=1de4af1e6b8189a96d830480f062bb1a92626f3ccf4ef0d73d081d72472e9a0840a4776403846032582e0387b6df8b8d7dbbce2ca309263554facd3bc6a5b050
+pkgver=3
 
 [deps]
 libgcrypt
