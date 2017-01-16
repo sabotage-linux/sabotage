@@ -1,10 +1,11 @@
 [mirrors]
-http://sourceforge.net/projects/pcre/files/pcre/8.38/pcre-8.38.tar.bz2
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.bz2
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.bz2
+http://sourceforge.net/projects/pcre/files/pcre/8.40/pcre-8.40.tar.bz2
 
 [vars]
-filesize=1562265
-sha512=ad3412ceee8f992787a3e7cbe0155ffba67affd4b2dfece6c4501dc8d2012f52dcc1ee1f56759362e04bbbd10ea9370b3e46f238e2f75005cb69f6c8439e52c0
+filesize=1560119
+sha512=b4c27eafbdf33bd7a1384655b1936f4be3bc6745c072347eb26e988896c52664bd85ac42444da1be78b6e20f45b6c7e5921f5f20f5b0741b5bd3d9844e5bd4e2
+pkgver=2
 
 [deps]
 zlib
@@ -12,10 +13,10 @@ zlib
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
-CXXFLAGS=${CFLAGS} \
+CXXFLAGS="$CFLAGS" \
 LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-utf8 --enable-unicode-properties \
   --enable-pcregrep-libz --disable-cpp
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
