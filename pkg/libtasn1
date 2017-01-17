@@ -1,16 +1,17 @@
 [mirrors]
-http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.9.tar.gz
+http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.10.tar.gz
 
 [vars]
-filesize=1864709
-sha512=1fb2c5eb89f3e9abd8f7433342619e3d89576ed15a783b8152ed9da0383342f80e750c570733ac266bc8a3c4b23e5e2a57e3735b2341d507e7d88ac366a8d6e7
+filesize=1887057
+sha512=614e93128e6be8f46a2ad46e2a515e2edfb1f5a2e90c9e5da02d3afc0a882dc956632dd2b1eddd6b0e258e7b58a82d5d745d8ccd23120d94bb0af48132ed1a18
+pkgver=2
 desc='ASN.1 library used by GnuTLS and others'
 
 [deps]
+musl
 
 [build]
-#patch -p1 < "$K"/some.patch
-
+"$K"/gnulibfix gl
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -18,8 +19,6 @@ desc='ASN.1 library used by GnuTLS and others'
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
-
-#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS WERROR_CFLAGS=
 make DESTDIR="$butch_install_dir" install
