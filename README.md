@@ -26,22 +26,8 @@ Native builds are well tested and considered stable.
   build script.
 * Lots of time and a fair bit of Linux knowledge.
 
-
-## Cross-Compile Requirements:
-
-* `musl-cross` for your target arch.
-* `butch` installed for the build host in $PATH
-   (since it lives in KEEP/bin, adding that to $PATH will also do).
-* `pkgconf` symlinked as pkg-config in $PATH, before other pkg-config versions.
-  a standard `pkg-config` installed on the host may also work, but is untested.
-* Packages may have a `deps.host` section listing further packages required on
-  the host.
-
-The only tested cross-compile setup is a Sabotage host that has the same
-packages installed as the ones you wish to compile.
-
 This system has built *natively* on Debian 6 & 7, Fedora 18 & 21, Ubuntu 14.04,
-openSUSE 13.2, Alpine 3.1.2 and Void Linux.
+Ubuntu 16.04, openSUSE 13.2, Alpine 3.1.2 and Void Linux.
 
 ## Obtaining Sabotage
 
@@ -55,7 +41,7 @@ the rootfs from:
 * DE : http://ftp.barfooze.de/pub/sabotage/
 * GR : http://foss.aueb.gr/mirrors/linux/sabotage/
 * UK : http://dl.2f30.org/mirrors/sabotage/
-* FR : http://mirrors.2f30.org/sabotage/ 
+* FR : http://mirrors.2f30.org/sabotage/
 
 The DE mirror is the master from which the other mirrors are periodically
 synced.
@@ -84,7 +70,7 @@ NOTE: It is possible to build an i386 Sabotage from within an existing 32-bit
 chroot on a 64-bit system.
 The `enter-chroot` script automatically handles this scenario.
 
-	$ ./build-stage0        # ~2min on an AMD FX 8core, 75min on ARM Cortex A8 800Mhz
+	$ ./build-stage0        # ~2min on 3GHz 8core, 75min on ARM A8 800Mhz
 	$ ./enter-chroot
 
 Once inside the chroot, you may decide between installing `stage1` or `stage2`:
@@ -101,9 +87,8 @@ Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
 
 Once completed, you may install optional packages:
 
-	$ butch install core    # installs a sane subset for a developer base system
-	$ butch install xorg    # install everything needed for xfbdev
-	$ butch install pkg     # things such as file, git, gdb ...
+	$ butch install core    # base developer system
+	$ butch install xorg    # install everything needed for X11
 	$ butch install world   # almost everything
 
 You may list available packages by using `ls /src/pkg`.
@@ -115,22 +100,9 @@ If you wish to build the default kernel:
 Run `butch` and look at the usage information for further options.
 
 `butch` uses build templates that allow for a high level of customization.
-`KEEP/butch_template_configure_cached.txt` is the base template used by Sabotage.
+`KEEP/butch_build_template.txt` is the base template used by Sabotage.
 It provides a tuned `config.cache` for faster configure runs.
 It also installs packages into `/opt`, creates file lists, etc.
-
-
-## Cross-Compile Instructions:
-
-	$ cp KEEP/config.cross .
-	$ vi config.cross # set your vars
-	$ A=microblaze CONFIG=./config.cross utils/setup-rootfs.sh # initialize rootfs
-	$ A=microblaze CONFIG=./config.cross butch install nano # start building stuff
-
-Much like a native build, a config file is copied and edited.
-`utils/setup-rootfs.sh` is run instead of `./build-stage0` to construct the
-new root.
-Finally, we use `butch` to start cross-compiling and installing packages into it.
 
 ## After Compiling
 
@@ -158,6 +130,46 @@ configuration, DHCP, console keymapping...
 If you have X installed, edit the example `/bin/X` for the correct evdev
 settings, then run `startx`.
 Check `/etc/xinitrc` for X11 keyboard configuration.
+
+## Cross-Compile Requirements:
+
+* [musl-cross][0] or [musl-cross-make][1] for your target arch.
+* `butch` installed for the build host in $PATH
+   (since it lives in KEEP/bin, adding that to $PATH will also do).
+* `pkgconf` symlinked as pkg-config in $PATH, before other pkg-config versions.
+  a standard `pkg-config` installed on the host may also work, but is untested.
+* Packages may have a `deps.host` section listing further packages required on
+  the host.
+
+The only tested cross-compile setup is a Sabotage host that has the same
+packages installed as the ones you wish to compile.
+
+If you intend to cross-compile only packages written in C, the choice of the
+version of your cross-compiler is not important. If you however intend to
+compile also C++ packages, you should use either GCC 4.7.4 from `musl-cross`
+and install `gcc474` into the rootfs, or use `musl-cross-make` with GCC 6.3.0,
+and install `gcc630` into the rootfs. that is necessary so the applications
+are built against the same libstdc++ they'll be bundled together with
+
+
+## Cross-Compile Instructions:
+
+	$ mkdir x-prefix/powerpc
+	$ cd x-prefix/powerpc
+	$ cp SABOTAGEDIR/KEEP/config.cross config
+	$ vi config # set your vars
+	$ CONFIG=./config SABOTAGEDIR/utils/setup-rootfs.sh # initialize rootfs
+	$ CONFIG=./config butch install nano # start building stuff
+
+Much like a native build, a config file is copied and edited.
+`utils/setup-rootfs.sh` is run instead of `./build-stage0` to construct the
+new root.
+Finally, we use `butch` to start cross-compiling and installing packages into
+it.
+Unlike native compilation, you don't have to build any stages, you can
+immediately start compiling the packages you're interested in. If you intend
+to use the resulting rootfs to boot into, you should however start with building
+`stage1` or `stage2`.
 
 
 ## NOTES TO CONTRIBUTORS
@@ -260,3 +272,6 @@ You may also /join #sabotage or #musl on irc.freenode.net for real time help.
 Bitcoins are welcome:
 
 1HXhSKSyBUGAAga29WbpTkKGpruQq9J8Bb
+
+[0]:https://github.com/GregorR/musl-cross
+[1]:https://github.com/richfelker/musl-cross-make
