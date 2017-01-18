@@ -1,17 +1,16 @@
 [mirrors]
-http://ftp.gnu.org/gnu/screen/screen-4.2.1.tar.gz
+http://ftp.gnu.org/gnu/screen/screen-4.5.0.tar.gz
 
 [vars]
-filesize=1062485
-sha512=30826b2a2fc436483276b90cc4c6679470f7ccb7098c9bb8457d0e534998cd12da02882cf80678465f6540cade170c3fdc6bdfa31b07359ff0d3ffe2d6063710
+filesize=963233
+sha512=b2705ed9604355d4153d7902f820af6131a1f2387650f5c6efeda7acf543aad48e8603c26d7c6e74213c8eece994d5d9bb0d114bc19c8d8f3d8e99c00ea4a484
+pkgver=2
 desc='terminal multiplexer'
 
 [deps]
 
 [build]
-patch -p1 < "$K"/screen-root.patch
 patch -p1 < "$K"/screen-configure.patch
-patch -p1 < "$K"/screen-chmod.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
