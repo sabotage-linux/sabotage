@@ -1,9 +1,10 @@
 [mirrors]
-http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.4.0.tar.bz2
+http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.5.0.tar.bz2
 
 [vars]
-filesize=259433
-sha512=cf232b8333509012415fe9afbd1becbf54bbf7ebbb6cd450d16546840afc2dbdbc253f8ae6ae294c1e3a490d935e675b984a02ddbe243b57d80443f5d265117c
+filesize=260225
+sha512=df8e7174cdc072d9280cfeecf74ca482b6523636b6d2e2834016c1aa972f71d63fba4bd33f0d58bca22a27f73cb7f028cb0d080760d88983ca40f328b2e35314
+pkgver=2
 desc='tool to switch 3G USB modems from storage to modem mode'
 
 [deps]
