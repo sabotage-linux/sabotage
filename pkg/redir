@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/troglobit/redir/releases/download/v3.0/redir-3.0.tar.xz
+https://github.com/troglobit/redir/releases/download/v3.1/redir-3.1.tar.xz
 
 [vars]
-filesize=79344
-sha512=e8dd43894e6d552ae5597fbb45e1864b5d3eb42469c35f89b8a937d92826e0a10fa20a94342a44b52ca2631eb0998cd98d3df4e8e596e846182e33b6222f1b09
-pkgver=1
+filesize=80068
+sha512=ac0d4cb09becc3ed40df74d338e7b48da3283618d52f4717f4e82496ff530b7df3a939f969715b87646d799369b36a77a4618ca2380b671959a6864c277149aa
+pkgver=2
 desc='port redirection/forwarding utility'
 uchkurl=https://github.com/troglobit/redir/releases
 
