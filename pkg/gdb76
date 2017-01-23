@@ -74,8 +74,11 @@ gdbserverflags="--enable-gdbserver=no"
 
 static_ldflags=-static
 pythonflags=
-[ "$WANT_PYTHON" = 1 ] && { pythonflags="--with-python" ; static_ldflags= ; }
-[ "$GDB_DYNAMIC" = 1 ] && static_ldflags=
+[ "$WANT_PYTHON" = 1 ] && { pythonflags="--with-python" ; GDB_DYNAMIC=1 ; }
+[ "$GDB_DYNAMIC" = 1 ] && static_ldflags= ||  { \
+	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/configure
+	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/gdbserver/configure
+}
 tuiflags=
 [ "$WANT_TUI" = 1 ] || tuiflags=--disable-tui
 
