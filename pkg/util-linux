@@ -10,9 +10,11 @@ patch -p1 < "$K"/util-linux.patch
 patch -p1 < "$K"/util-linux-hexdump.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="-Wl,-static $optldflags -lcurses -lterminfo" \
+LDFLAGS="--static $optldflags -lcurses -lterminfo" \
 ./configure -C \
-  --prefix="$butch_prefix" --with-ncurses --disable-shared  \
+  --prefix="$butch_prefix" \
+  --sbindir="$butch_prefix"/bin \
+  --with-ncurses --disable-shared  \
   --disable-silent-rules \
   --disable-nls --disable-libuuid --disable-mount           \
   --disable-fsck --disable-uuidd --disable-libblkid         \
@@ -22,5 +24,6 @@ LDFLAGS="-Wl,-static $optldflags -lcurses -lterminfo" \
   --disable-pg \
   --disable-wall --disable-use-tty-group \
 
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
