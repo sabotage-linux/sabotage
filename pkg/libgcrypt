@@ -1,13 +1,13 @@
 [mirrors]
-ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2
-http://dbg.download.sourcemage.org/mirror/libgcrypt-1.7.5.tar.bz2
+ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.6.tar.bz2
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.7.6.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/libgcrypt/libgcrypt-1.7.6.tar.bz2
+http://dbg.download.sourcemage.org/mirror/libgcrypt-1.7.6.tar.bz2
 
 [vars]
-filesize=2883968
-sha512=575cc6cda3a7c3770e62089d5de1d26de3136a1360b9913814727fdef1c803890d77c57f61621687419d7e572ffd3bc11090cc8899cc4b6af2908ed38324405c
-pkgver=4
+filesize=2897695
+sha512=fb7e20c50280f2ca715c3fc9a457f1cc22224797812f8dfa3ec756471bd0049c2cf75ffe12daa543aefe6cdcd1b90b4b9f943f148c073ad99d3a7dee42a8173f
+pkgver=5
 desc='general purpose crypto library based on the code from GnuPG'
 
 [deps]
