@@ -98,7 +98,8 @@ contents="$2"
 if ! isemptydir "$contents/proc" || ! isemptydir "$contents/sys" || ! isemptydir "$contents/dev" ; then
 	die "$contents was not properly unmounted! (check sys/ dev/ proc/)"
 fi
-[ ! -f "$contents"/boot/vmlinuz ] && die "$contents does not have a kernel image"
+[ ! -f "$contents"/boot/vmlinuz ] && \
+	echo "warning: $contents does not seem to have a kernel image"
 
 imagesize="$3"
 [ -z "$imagesize" ] && usage
