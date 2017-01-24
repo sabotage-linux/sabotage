@@ -1,12 +1,12 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.6.0esr/source/firefox-45.6.0esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.6.0esr/source/firefox-45.6.0esr.source.tar.xz
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.7.0esr/source/firefox-45.7.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.7.0esr/source/firefox-45.7.0esr.source.tar.xz
 
 [vars]
-filesize=183076768
-sha512=b96c71aeed8a1185a085512f33d454a1735237cd9ddf37c8caa9cc91892eafab0615fc0ca6035f282ca8101489fa84c0de1087d1963c05b64df32b0c86446610
-pkgver=4
-tardir=firefox-45.6.0esr
+filesize=184131284
+sha512=6424101b6958191ce654d0619950dfbf98d4aa6bdd979306a2df8d6d30d3fecf1ab44638061a2b4fb1af85fe972f5ff49400e8eeda30cdcb9087c4b110b97a7d
+pkgver=5
+tardir=firefox-45.7.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 
 [deps]
@@ -31,7 +31,7 @@ perl
 python
 
 [build]
-FF_VERSION=45.6.0esr
+FF_VERSION=45.7.0esr
 export SHELL=/bin/sh
 
 PATCH() {
@@ -51,6 +51,8 @@ PATCH firefox45-tools.patch
 PATCH firefox45-libavutil.patch
 PATCH firefox45-seccomp-bpf.patch
 PATCH firefox45-youtube-embed.patch
+PATCH firefox45-gcc6.patch
+PATCH firefox45-7-psutil.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"

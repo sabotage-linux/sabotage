@@ -1,0 +1,10 @@
+--- firefox-45.7.0esr.org/python/psutil/psutil/_psutil_linux.c	2017-01-24 02:20:48.295723045 +0000
++++ firefox-45.7.0esr/python/psutil/psutil/_psutil_linux.c	2017-01-24 02:24:41.324809780 +0000
+@@ -9,6 +9,7 @@
+ #ifndef _GNU_SOURCE
+     #define _GNU_SOURCE 1
+ #endif
++#include <sys/types.h>
+ #include <Python.h>
+ #include <errno.h>
+ #include <stdlib.h>
