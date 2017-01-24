@@ -1,0 +1,26 @@
+[mirrors]
+https://github.com/hugsy/gef/archive/add1c36.tar.gz
+
+[vars]
+filesize=86360
+sha512=9377544d14bc2c3b94cc9ccbe68667b3bfa77662b0948523c8ecf9f437176cb6dbdd0fd91333871a51d9040ba37cdb8b239157db63db8ec99c1bce6ef7a8412c
+tardir=gef-add1c366fa2c5a21c5393dbabd55625137915185
+pkgver=1
+desc='multi-arch gdb enhanced features for exploiters and reversers'
+
+[deps]
+python
+gdb
+
+[build]
+cat << EOF > gef
+#!/bin/sh
+echo "to install gef support into gdb for your user, do:"
+echo "echo source $butch_prefix/share/gef/gef.py >> ~/.gdbinit"
+EOF
+chmod +x gef
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 gef "$dest"/bin/gef
+install -Dm 755 gef.py "$dest"/share/gef/gef.py
+cp -a docs "$dest"/share/gef/
+
