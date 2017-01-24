@@ -8,10 +8,14 @@ if [ -z "$1" ] ; then
 	exit 1
 fi
 
-if [ ! -e "$1"/src/config ] ; then
+if [ ! -e "$1"/bin ] ; then
 	echo "error: $1 doesn't look like a sabotage rootfs"
 	exit 1
-fi	
+fi
+if [ ! -e "$1"/src/config ] ; then
+echo "warning: /src/config missing. rootfs user may not be able to build things"
+fi
+
 
 for dir in / etc bin boot home include lib libexec mnt root sbin share src srv sys tmp usr var ; do
         chown -R root:root "$1"/$dir
