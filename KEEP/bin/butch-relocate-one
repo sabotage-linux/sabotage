@@ -1,8 +1,13 @@
 #!/bin/sh
 #set -x
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-if type awk >/dev/null 2>&1 ; then
-[ 1 = $(printf "%s" "$butch_staging_dir" | awk '{n=split($0,a,"/"); print n-1;}') ] || {
+AWK=
+for i in awk gawk mawk busybox ; do
+	type $i >/dev/null 2>&1 && AWK=$i && break
+done
+test "$AWK" = busybox && AWK="busybox awk"
+if test -n "$AWK" ; then
+[ 1 = $(printf "%s" "$butch_staging_dir" | $AWK '{n=split($0,a,"/"); print n-1;}') ] || {
 	echo "error: butch_staging_dir may contain only one slash"
 	echo "good: /opt /pkgs /app"
 	echo "bad: /opt/ /var/pkgs /my/apps/"
@@ -21,7 +26,7 @@ if [ -z "$2" ] ; then
 	exit 1
 fi
 get_path_components() {
-	echo "$1" | awk '{n=split($1,a,"/");c=0;for(i=1;i<=n;i++)if(length(a[i]))c++;print c;}'
+	echo "$1" | $AWK '{n=split($1,a,"/");c=0;for(i=1;i<=n;i++)if(length(a[i]))c++;print c;}'
 }
 get_backlinks() {
 	n=$(($(get_path_components "$1") - 1))
