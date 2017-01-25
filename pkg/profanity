@@ -1,0 +1,32 @@
+[mirrors]
+http://www.profanity.im/profanity-0.5.0.tar.gz
+
+[vars]
+filesize=687169
+sha512=65625f0ed0b1e87c6cd4ec9dc85076a971b899b9b39d5707d32d1977a450b910ff760e339bfacd0d0906740bd299c018877b6720071d92c805fca095631e7163
+pkgver=1
+desc='terminal instant messager for xmpp protocol'
+
+[deps]
+gnu-readline
+libmesode
+curses
+python
+glib
+curl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+PYTHON_CPPFLAGS=-I$butch_root_dir$butch_prefix/include/python2.7 \
+PYTHON_LDFLAGS=-lpython2.7 \
+PYTHON_SITE_PKG=$butch_prefix/lib/python2.7/site-packages \
+CPPFLAGS="-D_GNU_SOURCE -DNCURSES_COLOR_T=short" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
