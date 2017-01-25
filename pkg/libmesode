@@ -1,0 +1,35 @@
+[mirrors]
+https://github.com/boothj5/libmesode/archive/0.9.1.tar.gz
+
+[vars]
+filesize=142880
+sha512=b549c17e61aa3e1d80a93783ac47d5a9e87767876173500c30613e9326d10ed413f284c7435b4f24c028a51f8a8d9be913cd7de9baaa5b358cac5951496d9076
+tarball=libmesode-0.9.1.tar.gz
+pkgver=1
+desc='fork of libstrophe for profanity IM client'
+
+[deps.host]
+autoconf
+automake
+
+[deps]
+libressl
+expat
+
+[build]
+mkdir -p m4
+autoreconf -i
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
