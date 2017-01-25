@@ -74,7 +74,13 @@ gdbserverflags="--enable-gdbserver=no"
 
 static_ldflags=-static
 pythonflags=
-[ "$WANT_PYTHON" = 1 ] && { pythonflags="--with-python" ; GDB_DYNAMIC=1 ; }
+[ "$WANT_PYTHON" = 1 ] && {
+	pythonflags="--with-python"
+	GDB_DYNAMIC=1
+	[ -d "$butch_root_dir""$butch_prefix"/include/python2.7 ] && \
+	CPPFLAGS="-I ""$butch_root_dir""$butch_prefix"/include/python2.7
+	export CPPFLAGS
+}
 [ "$GDB_DYNAMIC" = 1 ] && static_ldflags= ||  { \
 	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/configure
 	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/gdbserver/configure
@@ -99,7 +105,6 @@ CFLAGS="-Dgnu_fnmatch=fnmatch \
   $pythonflags \
   --disable-sim \
   $tuiflags
-
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install-gdb
