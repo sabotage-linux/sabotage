@@ -1,0 +1,34 @@
+[mirrors]
+https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.8.0.tar.bz2
+
+[vars]
+filesize=1298407
+sha512=9f214a44ddc4d602c2a0befc66aa6be9f2c90a24e153b873475867e30eec30e074826b98c11d20b0a2e4cd04e2625ce2545220481225fceb6ca9c51d3208e3de
+pkgver=1
+
+[deps]
+libassuan
+libgpg-error
+
+[build]
+cat << EOF > libassuan-config
+#!/bin/sh
+[ "\$1" = --version ] && echo 2.4.1 || echo -lassuan
+EOF
+chmod +x libassuan-config
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+PATH="$PWD":"$PATH" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lgpg-error" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
