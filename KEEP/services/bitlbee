@@ -1,0 +1,14 @@
+#!/bin/sh
+
+id bitlbee 2>&1 > /dev/null
+[ $? -eq 0 ] || (echo "Creating user/group bitlbee" && addgroup -S bitlbee && adduser -G bitlbee -S bitlbee)
+
+
+[ ! -d /var/lib/bitlbee ] && (mkdir -p /var/lib/bitlbee && chown bitlbee:bitlbee /var/lib/bitlbee && chmod 750 /var/lib/bitlbee)
+
+#for i in $(find /var/lib/bitlbee); do 
+#	[ $(stat -c %U:%G:%a $i) != "bitlbee:bitlbee:750" ] && (chown bitlbee:bitlbee $i; chmod 750 $i); 
+#done
+
+[ "$1" = "--prereqs" ] && exit 0
+exec /usr/bin/bitlbee -u bitlbee -D 2>&1
