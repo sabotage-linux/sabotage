@@ -1,10 +1,10 @@
 [mirrors]
-http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.1.tar.bz2
+http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.2.tar.bz2
 
 [vars]
-filesize=1434585
-sha512=f6cafe060e6dad6878b98472be79036ddda86c5ed8e13470f7d53429e584c9e74fe69c46ed5ea2a3f5315dec2fc7669b5437a02a884e8e766cee57fe26a4608b
-pkgver=7
+filesize=1446752
+sha512=80c06e17f7e2ca4ac847c77489f02b3b6f7bf6fde54194c5d4a47e893db7d1e75bfb0350ce50829c6ae0520202e35ad1711110c09c8d2a9497c0622f000f3357
+pkgver=8
 desc='library for text shaping (unicode -> glyph indices and positions)'
 
 [deps]
