@@ -1,0 +1,21 @@
+[mirrors]
+https://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz
+
+[vars]
+filesize=2910016
+sha512=18243189d39bf0d4c8a76cddcce75243c1bae8824c686e9b6ba352667607e5b10c5feb79372a1093c1c388d821841670702e940df12eae94bcebdeed90047870
+pkgver=1
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
