@@ -1,10 +1,11 @@
 [mirrors]
-https://dist.torproject.org/tor-0.2.9.8.tar.gz
-http://mirror.hackthissite.org/tor/tor-0.2.9.8.tar.gz
+https://dist.torproject.org/tor-0.2.9.9.tar.gz
+http://mirror.hackthissite.org/tor/tor-0.2.9.9.tar.gz
 
 [vars]
-filesize=5522235
-sha512=6a43a56ebed7b24ccdd2474406f25347819d4efec4916bdb2e725177b34e233632cc17e68c823efa3d0aad4a5bd13e00a5077cdfeb8830a612253a03ab91b622
+filesize=5534005
+sha512=cbe7e1f3e503b945f150916b7147cf23d1c32c3660e15aecfe5e2f2baac3a241de665e6ce4e81b81229933eba7f02d4a86e8deeabf2378d40fa83a7036928c9b
+pkgver=9
 pkgver=8
 desc='onion router for anonymization of internet traffic'
 service=tor
@@ -24,6 +25,7 @@ CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-tool-name-check \
   tor_cv_cflags__fPIE=no \
   tor_cv_ldflags__pie=no \
   --disable-seccomp
