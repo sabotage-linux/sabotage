@@ -12,10 +12,11 @@ no_unlink=1
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
-  --with-sysroot=$butch_root_dir"
+  --with-sysroot=$butch_root_dir" \
+  --without-readline --without-mpfr
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -static" \
 ./configure -C --prefix="$butch_prefix" --libexecdir="$butch_prefix"/lib \
   --disable-nls ac_cv_header_dlfcn_h=no $xconfflags
 make -j$MAKE_THREADS
