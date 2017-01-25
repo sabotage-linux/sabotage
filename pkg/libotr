@@ -1,0 +1,27 @@
+[mirrors]
+https://otr.cypherpunks.ca/libotr-4.1.1.tar.gz
+
+[vars]
+filesize=655791
+sha512=c957206235b9f627542f23a645c822ea1b318d83fa655f41ed8d9a3c0dddf30b88f0ca82060026af155e48ecb13969dc9270831f20304669794151f666ae5cb0
+pkgver=1
+
+[deps]
+libgcrypt
+
+[build]
+#patch -p1 < "$K"/some.patch
+sed -i 's/fstack-protector-all/foobar/g' configure
+cp -f "$K"/config.sub config/
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
