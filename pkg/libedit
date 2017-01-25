@@ -11,6 +11,7 @@ curses
 
 [build]
 patch -p1 < "$K"/libedit_readlineh.patch
+patch -p1 < "$K"/libedit-export-event-hook.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
