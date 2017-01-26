@@ -1,0 +1,22 @@
+[mirrors]
+https://www.samba.org/ftp/ccache/ccache-3.3.3.tar.bz2
+
+[vars]
+filesize=346056
+sha512=b10a1a1e700a96e1c55a95031013896ae4f442d7038f4d57307ba33fa6930a25ac5dea9bee7854bdf0902df37b5d1d58b147123568f1bc13ed5d7dca3ad2cfe5
+pkgver=1
+
+[deps]
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
