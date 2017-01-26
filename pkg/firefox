@@ -8,6 +8,7 @@ sha512=6424101b6958191ce654d0619950dfbf98d4aa6bdd979306a2df8d6d30d3fecf1ab446380
 pkgver=5
 tardir=firefox-45.7.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
+no_unlink=1
 
 [deps]
 libevent
