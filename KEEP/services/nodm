@@ -1,0 +1,5 @@
+#!/bin/sh
+[ "$1" = "--prereqs" ] && exit 0
+[ -r /etc/nodmrc ] && . /etc/nodmrc
+export NODM_USER NODM_X_OPTIONS NODM_MIN_SESSION_TIME NODM_XSESSION
+exec nodm 2>&1

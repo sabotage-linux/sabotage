@@ -1,0 +1,40 @@
+[mirrors]
+https://github.com/spanezz/nodm/archive/0.13.tar.gz
+
+[vars]
+filesize=47011
+sha512=0ccbe529c6c94e3518f4bd904147841e9929578004a87ece85cc0f8695f6a15d36cefa1ccae13aae677c93f686116e45f1387c523709d7b7bb7d12831abd4bde
+tarball=nodm-0.13.tar.gz
+pkgver=1
+service=nodm
+serviceflags="--down --log"
+
+[deps]
+libx11
+
+[deps.host]
+autoconf
+automake
+
+[build]
+patch -p1 < "$K"/nodm-nopam.patch
+sed -i 's/ -Werror//g' Makefile.am
+sed -i Makefile.am -e 's;man_MANS = nodm.8;;g' #stolen from void
+sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g' configure.ac
+autoreconf -i
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -include unistd.h -include stdlib.h" \
+CFLAGS="$optcflags" \
+CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

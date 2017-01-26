@@ -1,0 +1,118 @@
+--- nodm-0.13.org/xsession.c	2017-01-26 01:11:34.544733833 +0000
++++ nodm-0.13/xsession.c	2017-01-26 01:14:57.231199904 +0000
+@@ -36,7 +36,11 @@
+ int nodm_xsession_init(struct nodm_xsession* s)
+ {
+     s->child_body = NULL;
++#ifdef HAVE_PAM
+     s->conf_use_pam = true;
++#else
++    s->conf_use_pam = true;
++#endif
+     s->conf_cleanup_xse = true;
+ 
+     if (sigemptyset(&s->orig_signal_mask) == -1)
+@@ -125,8 +129,14 @@
+         // child shell */
+         if (s->child_body)
+             exit(s->child_body(&child));
+-        else if (s->conf_use_pam)
++        else if (s->conf_use_pam) {
++#ifdef HAVE_PAM
+             exit(nodm_xsession_child_pam(&child));
++#else
++            log_err("cannot use pam mode: not compiled in.");
++            return E_OS_ERROR;
++#endif
++	}
+         else
+             exit(nodm_xsession_child(&child));
+     } else if (s->pid == -1) {
+--- nodm-0.13.org/xsession-child.c	2017-01-26 01:11:34.547733796 +0000
++++ nodm-0.13/xsession-child.c	2017-01-26 01:16:53.007752498 +0000
+@@ -69,8 +69,10 @@
+ #include "xserver.h"
+ #include "common.h"
+ #include "log.h"
++#ifdef HAVE_PAM
+ #include <security/pam_appl.h>
+ #include <security/pam_misc.h>
++#endif
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/wait.h>
+@@ -176,6 +178,7 @@
+     return E_SUCCESS;
+ }
+ 
++#ifdef HAVE_PAM
+ static int setup_pam(struct nodm_xsession_child* s)
+ {
+     static struct pam_conv conv = {
+@@ -300,6 +303,7 @@
+     pam_end(s->pamh, s->pam_status);
+     s->pamh = 0;
+ }
++#endif
+ 
+ int nodm_xsession_child_common_env(struct nodm_xsession_child* s)
+ {
+@@ -377,6 +381,7 @@
+     ++caught;
+ }
+ 
++#ifdef HAVE_PAM
+ /* This I ripped out of su.c from sh-utils after the Mandrake pam patch
+  * have been applied.  Some work was needed to get it integrated into
+  * su.c from shadow.
+@@ -498,3 +503,4 @@
+ 
+     return E_SESSION_DIED;
+ }
++#endif
+--- nodm-0.13.org/configure.ac	2017-01-26 00:52:51.734770890 +0000
++++ nodm-0.13/configure.ac	2017-01-26 01:19:44.575607604 +0000
+@@ -22,17 +22,6 @@
+ dnl Checks for libraries.
+ PKG_CHECK_MODULES(X11, x11)
+ 
+-AC_CHECK_LIB(pam, pam_start,
+-	[ PAM_LIBS="-lpam" ],
+-	AC_MSG_ERROR(libpam is missing)
+-)
+-
+-AC_CHECK_LIB(pam_misc, main,
+-	[ PAM_LIBS="$PAM_LIBS -lpam_misc" ],
+-	AC_MSG_ERROR(libpam_misc is missing)
+-)
+-AC_SUBST(PAM_LIBS)
+-
+ AC_CONFIG_FILES([
+ 	Makefile
+ ])
+--- nodm-0.13.org/xsession-child.h	2017-01-26 01:11:34.544733833 +0000
++++ nodm-0.13/xsession-child.h	2017-01-26 01:24:03.871365961 +0000
+@@ -23,7 +23,9 @@
+ 
+ #include <stdbool.h>
+ #include <pwd.h>
++#ifdef HAVE_PAM
+ #include <security/pam_appl.h>
++#endif
+ 
+ struct nodm_xserver;
+ 
+@@ -38,11 +40,13 @@
+     /// Information about the user we run the session for
+     struct passwd pwent;
+ 
++#ifdef HAVE_PAM
+     /// PAM session handle (or NULL if not used)
+     pam_handle_t *pamh;
+ 
+     /// Return code of the last PAM function called
+     int pam_status;
++#endif
+ 
+     /// Command line to run
+     const char** argv;
