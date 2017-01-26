@@ -144,6 +144,9 @@ ac_add_options --with-system-bz2
 #ac_add_options --with-system-png
 ac_add_options --with-system-zlib
 
+CXX="$CXX"
+CC="$CC"
+
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 [ -n "$CROSS_COMPILE" ] && \
