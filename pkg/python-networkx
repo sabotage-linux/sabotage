@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/c2/93/dbb41b03cf7c878a7409c8e92226531f840a423c9309ea534873a83c9192/networkx-1.11.tar.gz
+
+[vars]
+filesize=1315737
+sha512=622c93330bb5ba93a2be087f7f19963a1bb9a50dc72b6500ea8321c36aa9da19af379c5cd4bbee8bba3cb6e68a28f11ee24bbe333047f5c7d0ce0b755fd57253
+pkgver=1
+
+[deps.run]
+python
+python-decorator
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/55/db/97c1ca37edab586a1ae03d6892b6633d8eaa23b23ac40c7e5bbc55423c78/futures-3.0.5.tar.gz
+
+[vars]
+filesize=25153
+sha512=29f366a273600924acba4b78d53e2f911379da04a7067c3bc2911c20c0fe880300fc2b8c91d8f1b6689e5732b79eeb4198fde56854ab2b7caf47382ad5942435
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

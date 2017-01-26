@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/7b/77/7e13390e242c72a460cdf4a4f878d3605d7490cea156e5991156458d2ffb/bintrees-2.0.4.tar.gz
+
+[vars]
+filesize=72088
+sha512=c4db9b287a1eabd4359c58bf64c996dcfe4bff8527172457ee2c9115c7373b55f3ef194c180fdd5d5e6e5fd7d12a21b8b442bd65cec68b6686698d70cb9b42d0
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/0f/e1/f30b72ecabba259c7c38dd0eb944a173effced3fd7de2c9c2902bd6f649a/progressbar-2.3.tar.gz
+
+[vars]
+filesize=9420
+sha512=06fdc8b6664642bd864be8023355316fba23bcc4deb0c5877c5dfa91da5d233301a8f39342f133cbb63f37a20de7b8b24910ac8073127fcbdf43b5200d60ed5f
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,22 @@
+[mirrors]
+https://pypi.python.org/packages/43/69/ce8d14b4cc5b8e6079a7eebad5a7fbf0aec482a8ad4408c1ce1cbcb4ae13/cle-6.7.1.13.post2.tar.gz
+
+[vars]
+filesize=42650
+sha512=d8a6324dab064e00f0998653990257901c6a9ba91e871a2f495ad99ccc0ba6328d32cab79e1774d9fbe33bb4783a4f88fb48c5d78d4e42e891faf6f4beed80d1
+pkgver=1
+
+[deps.run]
+python
+python-elftools
+python-cffi
+python-archinfo
+python-pyvex
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

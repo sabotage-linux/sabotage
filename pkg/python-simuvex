@@ -1,0 +1,26 @@
+[mirrors]
+https://pypi.python.org/packages/e8/4f/4eb27ff978e9b86e4dfc0ff18f929395b070a3fdc5fbc0bfd984158d5c46/simuvex-6.7.1.13.post2.tar.gz
+
+[vars]
+filesize=186732
+sha512=88001478b3be28abcfd19119a0355b07c002fe2a067a6da38cd265ddef092f2707b5e083f8359475c746cd1a97e41cd9ecfcda2371cb3758bd4d3ec7f77563d0
+pkgver=1
+
+[deps.run]
+python
+python-claripy
+python-bintrees
+python-cooldict
+python-cachetools
+python-dpkt
+
+[deps.host]
+python
+
+[deps]
+python-unicorn
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/dc/64/16cbf95e0ac473503c5dcd61aefbbab9f12e1875f40a0aaff566a1236ac4/cachetools-2.0.0.tar.gz
+
+[vars]
+filesize=18592
+sha512=b1e7a6ed87a82a981f6c9b27bc96f26fdae241a12db85ff890538935e957d7ea88688e20a000691466bdb7db053f8c2145385dfcec6f5f4d84dd812ca419752d
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

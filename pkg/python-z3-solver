@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/3f/b0/d385c4dd6cf08903ca861347b190ae7fd8555f60b737a124384c5b22b2f5/z3-solver-4.5.1.0.tar.gz
+
+[vars]
+filesize=3700014
+sha512=591b0299ce22d3c9a5bd012d67ad9d71e54ea49764a4f6f81f4c50e3ab3bb91af64f150c60c98731cffaaf75b5f2684f4bf14b0c9a7dfa1fa8a2f24a599ae27e
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

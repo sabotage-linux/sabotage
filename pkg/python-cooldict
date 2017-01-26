@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/9e/81/c82755762a5c17f0011e96f9d2e79dbcb6423cac184b1c49847db7fd2584/cooldict-1.02.tar.gz
+
+[vars]
+filesize=4745
+sha512=d5d3ed177be24ba4381f09e2a10bc7a6101d3a59f0f521d2dc081d3f676b518b4edc0ceb13e779d9936d490085ceb358a2529f766e020bd447857c459e52ebe1
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

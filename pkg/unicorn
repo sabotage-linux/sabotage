@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/unicorn-engine/unicorn/archive/1.0-rc2.tar.gz
+
+[vars]
+filesize=3343881
+sha512=9d2a8762be27ff15b7c176e3947c6de458cdf619914f8ad53eb6d6399bea44bd44576455aa9bae518c8489fd7b04e87e566f478aa26737200f38ffcb8ed8e4a2
+tarball=unicorn-1.0-rc2.tar.gz
+pkgver=1
+
+[deps]
+
+[build]
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" -j$MAKE_THREADS \
+UNICORN_SHARED=yes  V=1 libunicorn.so.1
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 libunicorn.so.1 "$dest"/lib/libunicorn.so.1
+install -Dm 644 libunicorn.so "$dest"/lib/libunicorn.so

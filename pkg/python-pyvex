@@ -1,0 +1,26 @@
+[mirrors]
+https://pypi.python.org/packages/01/a1/c7741acbc1aacff8ca99368f0eb037721b7f1afaa71e2cd06c65a4917af5/pyvex-6.7.1.13.post2.tar.gz
+
+[vars]
+filesize=49747
+sha512=27cf926a211035e2d89124dea12da4810f8af44fdb52a89d3ab655538af0776a55f373237471af7cb470f767e34b8b9b7210ecd6a8e2afc5cacf49d180eb5d3b
+pkgver=1
+
+[deps]
+vex-tarball
+
+[deps.run]
+python
+python-pycparser
+
+[deps.host]
+python
+
+[build]
+sed -i 's,VEX_PATH = os,VEX_PATH = "vex" #,' setup.py
+tar xf "$C"/vex-3666b75.tar.gz
+mv vex-3666b758f857d94a5fe0a578d4cfdc1b8f6f1193 vex
+sed -i 's,-D LINUX_BACKTRACES,-U LINUX_BACKTRACES,g' vex/Makefile
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

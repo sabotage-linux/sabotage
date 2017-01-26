@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/af/35/5d17a778c8f96f38af3ad1926ab296b4e61c05154b1af6c58c7b20697890/unicorn-1.0.0rc2.tar.gz
+
+[vars]
+filesize=1723565
+sha512=4a13e6aa42c54cb49f458e25f8d30e8b83f2987a9a3b1287178e57f40f55c12ac7246124c17e323d1e23a7f977a234d6cbd7c502ce1629f47c0bbcc52b213e9a
+pkgver=1
+
+[deps.run]
+python
+unicorn
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

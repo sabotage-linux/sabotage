@@ -1,0 +1,20 @@
+[mirrors]
+https://pypi.python.org/packages/68/4c/c6bb50db47ff1217313251244ff9478f03a4ac4083d4f9ee517de18fee9c/claripy-6.7.1.13.post2.tar.gz
+
+[vars]
+filesize=94776
+sha512=cb5714919ee231aec8fe5dbe7f4aacd89a3993966d7cf642f81e3470ff8b693d9838b80596cdfb2e8b74437cd8c09762a8a27fb8f5bfa31954a641c1102a3a55
+pkgver=1
+
+[deps.run]
+python
+python-ana
+python-z3-solver
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

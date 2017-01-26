@@ -1,0 +1,9 @@
+[mirrors]
+https://github.com/angr/vex/archive/3666b75.tar.gz
+
+[vars]
+filesize=3478777
+sha512=8624db2f0893713170b9428bdaf1165bf52f03b9f7b2222f0effc49a28ab7844bd8e3e337dd4701afdf0451e126fcdcae037e7bd47a1856c0d3608293811e256
+pkgver=1
+tarball=vex-3666b75.tar.gz
+

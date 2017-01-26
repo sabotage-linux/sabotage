@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/e7/29/e9ad2a12c38f19e9ca8aff05122e5b9e271da6ecbfb6c4e20aee381b49ff/capstone-3.0.4.tar.gz
+
+[vars]
+filesize=3175587
+sha512=4546264fe8eff04a37f636c0ad2eaa2a57c1c8ff695a9ceee25ee72541fc56cad74ec1769e82a548e2475ab92a600d522b7c5ab50a4c4656068939107b4ac5fb
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

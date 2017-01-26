@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/61/39/aa14adf07b60c342e4c9476cc233b3bf5796e0188035d8d4af91d905d7a4/angr-only-z3-custom-9002.tar.gz
+
+[vars]
+filesize=851
+sha512=88e7f53b028b6594dab607710479737065f5730bda4d683be3eb0d405f57ea445871ec793835bfdab403b8a4091e2b1cd4d0fe6d8003f76733f75824e9a7ca8a
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
