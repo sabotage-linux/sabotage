@@ -7,7 +7,7 @@
 +#ifdef HAVE_PAM
      s->conf_use_pam = true;
 +#else
-+    s->conf_use_pam = true;
++    s->conf_use_pam = false;
 +#endif
      s->conf_cleanup_xse = true;
  
