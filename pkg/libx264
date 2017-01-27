@@ -1,0 +1,24 @@
+[mirrors]
+ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20170126-2245-stable.tar.bz2
+
+[vars]
+filesize=734068
+sha512=ed57527ffbca26f2b665c75095f8da67acb45b8b66f6cfa8c06320c3bc831b9c51557ac1b841becd7ff2254c8a2c619e2c786737808324861ef99dd136c59934
+pkgver=1
+desc='video encoder library for H.264/MPEG-4 AVC codec'
+
+[deps.host]
+yasm
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-shared --enable-static
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
