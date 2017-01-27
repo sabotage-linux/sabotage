@@ -32,11 +32,14 @@ libv4l2=
 testlib v4l2 && libv4l2=--enable-libv4l2
 libx11=
 testlib X11 && libx11=--enable-x11grab
+libx264=
+testlib x264 && libx264=--enable-libx264
 
 CFLAGS="-D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure --prefix="$butch_prefix" --disable-debug --disable-yasm \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
-  --enable-shared --enable-postproc --enable-gpl $libvpx $libv4l2 $libx11 \
+  --enable-shared --enable-postproc --enable-gpl \
+  $libvpx $libv4l2 $libx11 $libx264 \
   --enable-libvorbis \
   --enable-openssl --enable-nonfree \
   --disable-stripping
