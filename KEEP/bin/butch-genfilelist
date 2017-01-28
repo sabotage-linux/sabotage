@@ -1,23 +1,35 @@
 #!/bin/sh
+pkg=$1
+if [ -z "$pkg" ] ; then
+	echo 'this script creates a filelist for a package.'
+	echo "usage $0 packagename [output-filename]"
+	echo 'if output-filename (optional) is - output goes to stdout.'
+	exit 1
+fi
 if [ -z "$S" ] ; then
 	echo 'S not set, did you source config ?'
 	exit 1
 fi
-pkg=$1
-if [ -z "$pkg" ] ; then
-	echo 'this script creates a filelist for a package.'
-	echo 'need package name as argv!'
-	exit 1
+if [ -n "$2" ] ; then
+	fl="$2"
+	set -e
+else
+	[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+	fl="$butch_filelists"/"$pkg".txt
+	set -e
+	mkdir -p "$butch_filelists"
 fi
-
-[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
-fl="$butch_filelists"/"$pkg".txt
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
 test "$R" = / && R=
 butch_install_dir=$R$butch_staging_dir/$pkg
-set -e
-mkdir -p "$butch_filelists"
-echo "creating filelist $fl"
+
+if [ "$fl" = - ] ; then
+	exec 3>&1
+else
+	echo "creating filelist $fl"
+	exec 3>"$fl"
+fi
 cd "$butch_install_dir"
-find . -type f -or -type l > "$fl"
+find . -type f -or -type l >&3
+
 
