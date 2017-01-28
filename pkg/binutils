@@ -42,6 +42,7 @@ CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --disable-werror \
   --enable-initfini-array \
+  --enable-deterministic-archives \
   --disable-install-libbfd $config_arch_flags $config_lto_flags
 
 make -j$MAKE_THREADS
