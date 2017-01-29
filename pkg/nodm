@@ -6,6 +6,7 @@ filesize=47011
 sha512=0ccbe529c6c94e3518f4bd904147841e9929578004a87ece85cc0f8695f6a15d36cefa1ccae13aae677c93f686116e45f1387c523709d7b7bb7d12831abd4bde
 tarball=nodm-0.13.tar.gz
 pkgver=1
+desc='insecure service booting directly into X. useful for kiosks.'
 service=nodm
 serviceflags="--down --log"
 
