@@ -1,10 +1,10 @@
 [mirrors]
-https://www.hiawatha-webserver.org/files/hiawatha-10.4.tar.gz
+https://www.hiawatha-webserver.org/files/hiawatha-10.5.tar.gz
 
 [vars]
-filesize=909924
-sha512=d11272a44530d0656c2df95a30b801e5533a78c99d872eeea35f933e6114b7518f915566d0a548958859d5c4dfd2d107e886f4b67fb9bccc44e70a9bede72752
-pkgver=2
+filesize=929167
+sha512=556a2509cafcfe37b930cc517ecf708e5ed047784add83b600e17f7be85069504218844d416ec3d932fe35cd9ed2780192c8318d6da5e808b72a9ec1f017c8e1
+pkgver=3
 service=hiawatha
 serviceflags="--down --log"
 
