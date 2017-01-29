@@ -52,6 +52,7 @@ users <package>           # print packages with <package> for dependency
 deps [<package> ... ]     # print deps of <packages>
 
 checksum <package>        # print checksums of files for a <package>
+reproduce <package>       # builds a package twice and compares the differences
 checkdownloads            # verify all package download links
 checktarballs             # verify the downloaded package tarballs
 
@@ -89,6 +90,7 @@ case $1 in
 	users) shift; prog=butch-users;;
 	deps) shift; prog=butch-deps;;
 	checksum) shift; prog=butch-checksum;;
+	reproduce) shift; prog=butch-reproduce;;
 	checkdownloads) shift; prog=butch-checkdownloads;;
 	checktarballs) shift; prog=butch-checktarballs;;
 	dlinfo) shift; prog=butch-dlinfo;;

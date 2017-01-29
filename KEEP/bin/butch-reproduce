@@ -1,0 +1,53 @@
+#!/bin/sh
+pkg=$1
+if [ -z "$pkg" ] ; then
+	echo 'this script builds a package twice, and checks if the two builds'
+	echo 'are identical. if yes, the second build will be removed.'
+	echo 'if not, the files that differ will be highlighted.'
+	echo "in that case it's your job to clean up the second build's dir."
+	echo "usage $0 packagename [-1]"
+	echo "if the optional argument -1 is passed, the first build will"
+	echo "be omitted and the existing built package will be used instead."
+	exit 1
+fi
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config ?'
+	exit 1
+fi
+skip_first_build=false
+[ "$2" = "-1" ] && skip_first_build=true
+
+BINDIR=$(dirname $(readlink -f "$0"))
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+test "$R" = / && R=
+butch_install_dir=$R$butch_staging_dir/$pkg
+
+set -e
+if ! $skip_first_build ; then
+	echo "<<<<< starting build 1 >>>>>"
+	$BINDIR/butch rebuild "$pkg"
+fi
+$BINDIR/butch checksum -d "$pkg" >/tmp/butch-reproduce.$$.build1
+rm -rf "$butch_install_dir".build1
+mv "$butch_install_dir" "$butch_install_dir".build1
+fingerprint1=$(tail -n 1 < /tmp/butch-reproduce.$$.build1)
+grep -x -v "$fingerprint1" /tmp/butch-reproduce.$$.build1 > /tmp/butch-reproduce.$$.build1b
+echo "<<<<< starting build 2 >>>>>"
+$BINDIR/butch rebuild "$pkg"
+$BINDIR/butch checksum -d "$pkg" >/tmp/butch-reproduce.$$.build2
+fingerprint2=$(tail -n 1 < /tmp/butch-reproduce.$$.build2)
+grep -x -v "$fingerprint2" /tmp/butch-reproduce.$$.build2 > /tmp/butch-reproduce.$$.build2b
+if [ "$fingerprint1" = "$fingerprint2" ] ; then
+	echo "SUCCESS. the fingerprints match."
+	rm /tmp/butch-reproduce.$$.*
+	rm -rf "$butch_install_dir".build1
+	exit 0
+else
+	echo "NON-REPRODUCIBLE BUILD."
+	diff -U 0 /tmp/butch-reproduce.$$.build1b /tmp/butch-reproduce.$$.build2b | cat
+	echo "the first build has been kept in $butch_install_dir.build1."
+	echo "the second build is in $butch_install_dir."
+	echo "fix the differences, and try again."
+	rm /tmp/butch-reproduce.$$.*
+	exit 1
+fi
