@@ -1,10 +1,10 @@
 [mirrors]
-https://www.bearssl.org/bearssl-0.2.tar.gz
+https://www.bearssl.org/bearssl-0.3.tar.gz
 
 [vars]
-filesize=531000
-sha512=937ac7b16f6800f0c259b4d2edf61fb566e53cd7ac24570b877609781a529ad363a931d5ed1afa453abaca8973d7846f2bc639917fdff4bfc4e76c0d3d2f6592
-pkgver=1
+filesize=612642
+sha512=137540dfed9a281e8599c9c74951662733e7e53c7b8556e4b940dea556299ef008ac49c8c499d8439884842d9a07f95de01a323229f882748c64ee9e10ebc691
+pkgver=2
 
 [deps]
 
@@ -14,9 +14,9 @@ cat << EOF >> src/config.h
 #define BR_USE_UNIX_TIME 1
 EOF
 make V=1 -j$MAKE_THREADS CC="$CC" CFLAGS="$optcflags -I src -I inc" \
-LDFLAGS="$optldflags" AR="${CROSS_COMPILE}ar rcs" libbearssl.a
+LDFLAGS="$optldflags" AR="${CROSS_COMPILE}ar" lib
 dest="$butch_install_dir""$butch_prefix"
-install -Dm 644 libbearssl.a "$dest"/lib/libbearssl.a
+install -Dm 644 build/libbearssl.a "$dest"/lib/libbearssl.a
 install -Dm 644 inc/bearssl.h "$dest"/include/bearssl.h
 for i in inc/bearssl_*.h ; do
 	install -Dm 644 $i "$dest"/include/$(basename $i)
