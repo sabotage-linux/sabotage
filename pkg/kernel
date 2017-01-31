@@ -65,7 +65,12 @@ make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
 
 make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
-  HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
+  HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y \
+  KBUILD_BUILD_USER=user \
+  KBUILD_BUILD_HOST=sabotage \
+  KBUILD_BUILD_TIMESTAMP="2017-00-00" \
+  KBUILD_BUILD_VERSION=0
+
 
 mkdir -p $butch_install_dir/boot $butch_install_dir/lib/modules/$LINUX_VER \
          $butch_install_dir/lib/firmware
