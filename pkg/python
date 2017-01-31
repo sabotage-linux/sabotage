@@ -35,7 +35,7 @@ sed -i 's@return readline@return feedline@' configure
   xconfflags="--host=$($CC -dumpmachine) --build=$($HOSTCC -dumpmachine)"
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC $optcflags" \
-LDFLAGS="$optldflags -L $butch_root_dir$butch_prefix/lib" \
+LDFLAGS="$optldflags -L $butch_root_dir$butch_prefix/lib -lncursesw -lterminfo" \
 ./configure -C --prefix="$butch_prefix" \
   --with-system-expat --with-system-ffi $xconfflags \
   --with-threads \

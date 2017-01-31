@@ -1,5 +1,5 @@
---- Python-2.7.10.org/Modules/_cursesmodule.c
-+++ Python-2.7.10/Modules/_cursesmodule.c
+--- Python-2.7.10/Modules/_cursesmodule.c	2015-05-23 17:09:18.000000000 +0000
++++ Python-2.7.10.patched/Modules/_cursesmodule.c	2017-01-31 03:27:29.173934193 +0000
 @@ -113,11 +113,13 @@
  #define CURSES_MODULE
  #include "py_curses.h"
@@ -145,6 +145,26 @@
  /* No has_key! */
  static PyObject * PyCurses_has_key(PyObject *self, PyObject *args)
  {
+@@ -2091,15 +2111,15 @@
+ static PyObject *
+ PyCurses_Is_Term_Resized(PyObject *self, PyObject *args)
+ {
+-    int lines;
+-    int columns;
++    int Lines;
++    int Columns;
+     int result;
+ 
+     PyCursesInitialised;
+ 
+-    if (!PyArg_ParseTuple(args,"ii:is_term_resized", &lines, &columns))
++    if (!PyArg_ParseTuple(args,"ii:is_term_resized", &Lines, &Columns))
+         return NULL;
+-    result = is_term_resized(lines, columns);
++    result = is_term_resized(Lines, Columns);
+     if (result == TRUE) {
+         Py_INCREF(Py_True);
+         return Py_True;
 @@ -2383,16 +2403,16 @@
  static PyObject *
  PyCurses_ResizeTerm(PyObject *self, PyObject *args)
@@ -163,6 +183,28 @@
  
 -    result = PyCursesCheckERR(resizeterm(lines, columns), "resizeterm");
 +    result = PyCursesCheckERR(resizeterm(linez, columnz), "resizeterm");
+     if (!result)
+         return NULL;
+     if (!update_lines_cols())
+@@ -2406,17 +2426,17 @@
+ static PyObject *
+ PyCurses_Resize_Term(PyObject *self, PyObject *args)
+ {
+-    int lines;
+-    int columns;
++    int Lines;
++    int Columns;
+ 
+     PyObject *result;
+ 
+     PyCursesInitialised;
+ 
+-    if (!PyArg_ParseTuple(args,"ii:resize_term", &lines, &columns))
++    if (!PyArg_ParseTuple(args,"ii:resize_term", &Lines, &Columns))
+         return NULL;
+ 
+-    result = PyCursesCheckERR(resize_term(lines, columns), "resize_term");
++    result = PyCursesCheckERR(resize_term(Lines, Columns), "resize_term");
      if (!result)
          return NULL;
      if (!update_lines_cols())
