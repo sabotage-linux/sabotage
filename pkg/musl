@@ -12,6 +12,7 @@ no_unlink=1
 gcc4
 
 [build]
+CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 if [ "$A" = "powerpc" ] ; then
 cat << EOF >> config.mak
