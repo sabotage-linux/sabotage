@@ -56,6 +56,7 @@ dopatch "$K"/busybox-cve-2014-4607.patch
 dopatch "$K"/busybox-cve-2016-2147.patch
 dopatch "$K"/busybox-msghdr.patch
 dopatch "$K"/busybox-reproducible.patch
+dopatch "$K"/busybox-top-gratuitous-space.patch
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped

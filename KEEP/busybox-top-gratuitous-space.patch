@@ -1,0 +1,27 @@
+https://bugs.busybox.net/show_bug.cgi?id=9631
+
+--- busybox-1.20.2.org/libbb/procps.c
++++ busybox-1.20.2/libbb/procps.c
+@@ -475,11 +475,17 @@
+ 				sp->state[1] = 'W';
+ 			else
+ 				sp->state[1] = ' ';
+-			if (tasknice < 0)
+-				sp->state[2] = '<';
+-			else if (tasknice) /* > 0 */
+-				sp->state[2] = 'N';
+-			else
++			if (tasknice < 0) {
++				if(sp->state[1] == ' ') {
++					sp->state[1] = '<';
++					sp->state[2] = ' ';
++				} else sp->state[2] = '<';
++			} else if (tasknice) /* > 0 */ {
++				if(sp->state[1] == ' ') {
++					sp->state[1] = 'N';
++					sp->state[2] = ' ';
++				} else 	sp->state[2] = 'N';
++			} else
+ 				sp->state[2] = ' ';
+ 		}
+ 
