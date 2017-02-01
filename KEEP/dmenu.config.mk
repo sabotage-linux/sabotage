@@ -20,7 +20,7 @@ LIBS = -L${X11LIB} -lfontconfig -lXft -lX11 -lxcb -lXau -lXdmcp ${XINERAMALIBS}
 CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
 #CFLAGS   = -g -std=c99 -pedantic -Wall -O0 ${INCS} ${CPPFLAGS}
 CFLAGS   = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
-LDFLAGS  = -s ${LIBS}
+LDFLAGS  = ${LIBS}
 
 # compiler and linker
 CC = cc
