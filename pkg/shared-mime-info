@@ -10,6 +10,9 @@ pkgver=2
 glib
 libxml2
 
+[deps.host]
+intltool
+
 [build]
 
 mkdir .deps
