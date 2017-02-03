@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/fd/70/ba9982cedc9b3ed3c06934f1f46a609e0f23c7bfdf567c52a09f1296b8cb/PySocks-1.6.6.tar.gz
+
+[vars]
+filesize=282014
+sha512=f2989cb006cf804b713b29b7a317c54fff3ee4ed4b3dec81630f10e7bd26d41b2fe10058f3fcbf2ffff9888a3f7c0bd718e268dfd79e096c93a3bae355649f79
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

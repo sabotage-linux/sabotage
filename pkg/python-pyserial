@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/1f/3b/ee6f354bcb1e28a7cd735be98f39ecf80554948284b41e9f7965951befa6/pyserial-3.2.1.tar.gz
+
+[vars]
+filesize=147338
+sha512=8d3e580cc7781fc6549ab6e408642f4321eb90aafbe593f5dcf953001730f89ee32ce6592728764027a7944bfe4a0ebe2cfac1fce071777aac7c4f27ac94ab7f
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

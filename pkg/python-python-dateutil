@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/51/fc/39a3fbde6864942e8bb24c93663734b74e281b984d1b8c4f95d64b0c21f6/python-dateutil-2.6.0.tar.gz
+
+[vars]
+filesize=258060
+sha512=1fec6dd6fc00650821fd826405414bcde79e1542a53608ebd837e924b4abc147a369214ec064adbff682fc5ff67440086f3000eaa77b274c7463c3f58686ced9
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

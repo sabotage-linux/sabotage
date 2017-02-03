@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/Gallopsled/pwntools/archive/3.3.4.tar.gz
+
+[vars]
+filesize=1110677
+sha512=20c6a7012db7873b55c5f603253bb8720c42acc6e9515089b3e627f225f6728f343082bbee2f059e60420df7927819c79383bdeab75ffb5e76c599cea5bdc271
+tarball=pwntools-3.3.4.tar.gz
+pkgver=1
+
+[deps.run]
+python
+python-pysocks
+python-pyserial
+python-python-dateutil
+python-six
+python-packaging
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
