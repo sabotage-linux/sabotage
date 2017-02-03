@@ -22,7 +22,7 @@ gtkflags=--without-gtk
 # we're assuming a user that has gtk+-3.0 installed wants the gtk gui
 $PKG_CONFIG --exists 'gtk+-3.0' && gtkflags="--with-gtk --enable-nls"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -DNO_SYS_QUEUE_H" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   --enable-daemon --enable-cli --enable-utp --without-systemd-daemon $gtkflags
