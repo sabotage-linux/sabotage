@@ -36,3 +36,18 @@ sed -i 's@-lnl-genl@-lnl-tiny@' Makefile
 make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib
 make DESTDIR="$butch_install_dir" AR="$CROSS_COMPILE"ar \
      RANLIB="$CROSS_COMPILE"ranlib install
+
+dest="$butch_install_dir""$butch_prefix"
+( cd "$dest"/share/man/man3
+for i in *.3pcap ; do
+nn=$(printf %s "$i"|sed 's,3pcap$,3,')
+if test -L "$i" ; then
+	t=$(readlink "$i")
+	nt=$(printf %s "$t"|sed 's,3pcap$,3,')
+	rm -f "$i"
+	ln -sf "$nt" "$nn"
+else
+	mv "$i" "$nn"
+fi
+done
+)
