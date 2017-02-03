@@ -18,11 +18,19 @@ lua
 python
 
 [build]
+testlib() {
+	printf "int main() {}\n" > test_lib.c
+	$CC test_lib.c -l$1 >/dev/null 2>&1
+}
+
+libgl=--disable-gl
+testlib GL && libgl=
+
 ./bootstrap.py
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./waf configure --prefix="$butch_prefix"
+  ./waf configure --prefix="$butch_prefix" $libgl
 
 ./waf -v build -j$MAKE_THREADS
 ./waf install --destdir="$butch_install_dir"
