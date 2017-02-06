@@ -84,9 +84,11 @@ if [ "$GCC_DYNAMIC" = 1 ] ; then
 fi
 export CC="$CC $static_ccflags -D_GNU_SOURCE"
 
-CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" \
-CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
-LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
+CFLAGS="-Os -g0" \
+CXXFLAGS="-Os -g0" \
+LDFLAGS="-s -Wl,--no-keep-memory" \
+CFLAGS_FOR_TARGET="-Os -g0 $config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
 ./configure -C --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib \
   --with-multilib-list= \
