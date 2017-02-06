@@ -18,6 +18,7 @@ patch -p1 < "$K"/abiword-png15.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 cp -f "$K"/config.sub .
 CFLAGS="-D_GNU_SOURCE $optcflags" \
+CXXFLAGS="$optcflags -std=gnu++03" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
    --disable-default-plugins
