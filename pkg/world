@@ -1,6 +1,6 @@
 [deps]
 stage1
-pkg
+core
 xorg
 gui
 irssi
