@@ -17,3 +17,6 @@ install -Dm 644 libbcl.a "$dest"/lib/libbcl.a
 for i in bfc.exe bcltest.exe ; do
 install -Dm 755 "$i" "$dest"/bin/"$i"
 done
+for i in *.h ; do
+install -Dm 644 "$i" "$dest"/include/bcl/"$i"
+done
