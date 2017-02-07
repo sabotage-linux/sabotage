@@ -1,26 +1,31 @@
 [mirrors]
-http://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_2.22.orig.tar.gz
+https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.25.tar.xz
 
 [vars]
-filesize=67432
-sha512=b66cd3e233cab9c35334c3ed824f2b6207a46b7320be0a29f5290a32cbf4ea7c4fbf22125541cfa25fdd7466d9c14373ff5f68b53fe44036af6763d3ff1cb398
-tardir=libcap-2.22
+filesize=63672
+sha512=c3ab491885292adc171cde542b96f1295e84132febb50112a46575c3bde3a3eb6fcf733f7a756b4b656e013c0abb5ed6571db24799f8c0b23d8f759f992864f9
+pkgver=2
 
 [deps]
 attr
 
-[deps.host]
-perl
-
 [build]
+sed -i 's,BUILD_GPERF := ,BUILD_GPERF := no #,' Make.Rules
 sed -i 's@/bin/bash@/bin/sh@g' progs/capsh.c
+
+cp "$K"/libcap2-cap_names.h libcap/cap_names.h
+touch libcap/cap_names.list.h libcap/_makenames libcap/cap_names.h
+
 make -j$MAKE_THREADS prefix="$butch_prefix" lib=lib \
   CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   BUILD_CC="$HOSTCC" CC="$CC"
 
-make RAISE_SETFCAP=no FAKEROOT="$butch_install_dir" prefix="$butch_prefix" lib=lib install
-LIBDIR=$butch_install_dir$butch_prefix/lib
-SBINDIR=$butch_install_dir$butch_prefix/sbin
+make RAISE_SETFCAP=no FAKEROOT="$butch_install_dir" prefix="$butch_prefix" \
+SBINDIR="$butch_prefix"/bin lib=lib install
+
+dest="$butch_install_dir""$butch_prefix"
+LIBDIR="$dest"/lib
+SBINDIR="$dest"/bin
 
 LD_LIBRARY_PATH=${LIBDIR} ${SBINDIR}/setcap cap_setfcap=i ${SBINDIR}/setcap || echo \
   "there was an error setting caps, you may want to investigate this"
