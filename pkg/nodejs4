@@ -1,11 +1,10 @@
 [mirrors]
-http://nodejs.org/dist/v4.7.2/node-v4.7.2.tar.xz
+http://nodejs.org/dist/v4.7.3/node-v4.7.3.tar.xz
 
 [vars]
-filesize=13297240
-sha512=68c692db5eb7dbf0c7fdbe3e0eebb1b78fabf615096a0276ef62d9546aff1ab1b9f08341bde59fa0ccc2a19b0807d283284989ced54bb8f4a4b643a7e417d369
-pkgver=2
-
+filesize=13293560
+sha512=5532b1b4fcabe3907e6b1fcd4600bca9739bd40d9bc020677c520023d9f4a04508d08359c1a0c2ab7122670f710e2863c03869b3552ae0a6d555ee9b740781b3
+pkgver=3
 
 [deps.host]
 dynamic-toolchain
