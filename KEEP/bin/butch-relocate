@@ -33,10 +33,10 @@ relocate() {
 				fi
 			else
 				echo "ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" $target"
-				ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target" >/dev/null 2>&1 || {
-					[ -d "$target" ] && rm -rf "$target"
-					ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target"
+				test -d "$target" && {
+					test -L "$target" && rm -f "$target" || rm -rf "$target"
 				}
+				ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target"
 			fi
 		else
 			[ -n "$V" ] && echo "UNKNOWN object $i"
