@@ -1,9 +1,10 @@
 [mirrors]
-http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20160803.tar.bz2
+http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20170205.tar.bz2
 
 [vars]
-filesize=31943
-sha512=53c9ce700af986463e211fb918a06732df610403c149565c69e2d29ee5b248def7d607b2d10ba46da2b2d0be93803c1279e739b33eb14049520df6d556335608
+filesize=32423
+sha512=75ef0d0cc1975291be2198fa4ad8b1af37a0e43324d9648fc1629f7cb6780288e2dd3b2b6bd2d9fb71d7ea9c63dd08a6f870cd140c299cdc2efd22b3a77057c6
+pkgver=2
 
 [deps]
 
