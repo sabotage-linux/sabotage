@@ -1,25 +1,28 @@
 [mirrors]
-http://www.milkytracker.org/files/milkytracker-0.90.85.tar.bz2
+http://milkytracker.titandemo.org/files/milkytracker-0.90.86.tar.bz2
 
 [vars]
-filesize=2509060
-sha512=b7129f537d8ee5ec35b77fe287d3ebc693a2cf5b679ccde672fa66e6a5cf1b003594e4128c6db6c037f13b54264064e1a8283339367fdf327e87c23784bb00c7
+filesize=2202256
+sha512=8142f0b438e478571db25960d1b31f1d8c7e68feea96bdd238d1b1c1744105d929f18c990a301af6bebfc2d517bad687232410477ced6d8c4bfec8053cfcad8e
+pkgver=2
 
 [deps]
+alsa-lib
 sdl
 zlib
 zziplib
 
 [build]
-patch -p1 < "$K"/milkytracker-64bit.patch
-patch -p1 < "$K"/milkytracker-gzip.patch
+printf "#!/bin/sh\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
+chmod +x sdl-config
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+PATH="$PWD:$PATH" \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags" \
+LDFLAGS="$optldflags -lasound -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
