@@ -7,8 +7,10 @@ sha512=4d99476bee88cedcc4238a0eee64a4089016933cbfc1cfb1cca023ad4ebcfe46375c9e765
 pkgver=2
 
 [deps]
+curl
 musl
 libressl
+libevent
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
