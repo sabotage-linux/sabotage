@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.18.tar.xz
+http://ftp.gnu.org/gnu/wget/wget-1.19.tar.xz
 
 [vars]
-filesize=1922376
-sha512=a3f6fe2f44a8d797659d55cffaf81eb82b770c96222a0ee29bc4931b13846f8d8b9a07806f2197723c873a1248922d59cca5a81869661d9c6c3107447c184338
+filesize=2075916
+sha512=2dd49d063dc3a210c4959b70ec301bb3ea5c6ba00c9a6407d0b79f8ab5a14534a2a1108b2013ff959e8089f706006d103c8794c6d638b954996873ca3ef481fc
+pkgver=2
 
 [deps]
 libressl
@@ -12,9 +13,11 @@ libressl
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
-CFLAGS="-D_GNU_SOURCE $optcflags -std=gnu89" LDFLAGS="$optldflags" \
+CPPFLAGS="$("$K"/gnulibfix lib) -Dgnu_getpass=getpass" \
+CFLAGS="-D_GNU_SOURCE $optcflags -std=gnu89" \
+LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
   --disable-nls \
   --with-ssl=openssl $xconfflags
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
