@@ -1,5 +1,5 @@
 [vars]
-pkgver=9
+pkgver=10
 no_unlink=1
 
 [build]
@@ -8,3 +8,9 @@ for i in "$K"/bin/*; do
 	install -Dm 755 "$i" "$dest"/bin/$(basename "$i")
 done
 cp -rf "$K"/share "$dest"
+
+for i in unlink ; do
+$CC $optcflags -Wall -std=gnu99 -o $i "$K"/$i.c -static $optldflags
+install -D -m 755 $i "$butch_install_dir""$butch_prefix"/bin/$i
+done
+
