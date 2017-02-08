@@ -66,6 +66,8 @@ if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
 	fi
 fi
 
+export gcc_cv_ld_hidden=yes 
+export gcc_cv_as_hidden=yes
 ./configure --prefix="$butch_prefix" \
   --mandir="$butch_prefix"/share/man \
   --infodir="$butch_prefix"/infoXXX \
