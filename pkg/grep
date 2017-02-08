@@ -1,11 +1,11 @@
 [mirrors]
-ftp://mirrors.kernel.org/gnu/grep/grep-2.27.tar.xz
-http://mirrors.kernel.org/gnu/grep/grep-2.27.tar.xz
+ftp://mirrors.kernel.org/gnu/grep/grep-2.28.tar.xz
+http://mirrors.kernel.org/gnu/grep/grep-2.28.tar.xz
 
 [vars]
-filesize=1360388
-sha512=d67f16cc5f931a455d5287badbaf080967da573d290430f440e578a563cff4f4c0c2668f60dbb8bc71eaed289f075957006c10c6827f0da1a49df49efd3f0781
-pkgver=3
+filesize=1374532
+sha512=7c1f054cf6a483fc43df51597b0b54df692169dbb6ff1f34918cc418786a8987e1dbeed00a5c08cc849fb74ae1c65b8e4dd9663ff1425dfb36bc636c312ad189
+pkgver=4
 desc='GNU grep with more features than busybox grep'
 no_unlink=1
 
