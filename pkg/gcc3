@@ -6,11 +6,35 @@ filesize=13366790
 sha512=06645865a851bfdeca399ed1266f99e072a9bb1d8c6f0d3d6d0f809080ce1e60f45d9e4b52c93cf89f2062a4db0a69f519f23ac5de918bc89bdd794ebd2b96b4
 tardir=gcc-3.4.6
 
+[deps]
+g++346
+
 [build]
 VERSION=3.4.6
+
+(
+cd ..
+tar xf $C/gcc-g++-$VERSION.tar.bz2
+)
+
 patch -p1 < "$K"/gcc-346-unwind2.patch
 patch -p1 < "$K"/gcc-346-unlink.patch
 patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
+patch -p1 < "$K"/gcc-346-gperf.patch
+patch -p1 < "$K"/gcc-346-no-target-libs.patch
+
+"$K"/libibertyfix libiberty
+
+#more g++ hackery
+#sed -i 's,# include <syscall.h>,#include <sys/syscall.h>,' ./libstdc++-v3/libsupc++/guard.cc
+
+#todo check if this isnt to intrusive
+sed -i 's,gcc_no_link=yes,gcc_no_link=no,' ./libstdc++-v3/configure
+
+#and even more g++ hackery
+mv ./libstdc\+\+-v3/config/os/gnu-linux ./libstdc\+\+-v3/config/os/gnu-linux.org
+cp -r ./libstdc\+\+-v3/config/os/generic ./libstdc\+\+-v3/config/os/gnu-linux
+#g++ hackery done
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \;
 
@@ -37,9 +61,6 @@ sed -i 's@/lib32/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/sysv4.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
-
-
-"$K"/libibertyfix libiberty
 
 case "$A" in
   arm) echo "error: gcc 3.4.6 does not support EABI!" ; exit 1 ;;
@@ -71,12 +92,16 @@ export gcc_cv_as_hidden=yes
 ./configure --prefix="$butch_prefix" \
   --mandir="$butch_prefix"/share/man \
   --infodir="$butch_prefix"/infoXXX \
-  --disable-bootstrap --disable-shared --disable-nls $archflags
+  --disable-bootstrap --disable-shared --disable-nls $archflags \
+  --enable-languages=c,c++ --with-target-libiberty=no --with-target-zlib=no \
+  --enable-clocale=generic
+
 make \
   CFLAGS="-DSTDC_HEADERS -Werror-implicit-function-declaration" \
   LDFLAGS="-static" \
+  LDFLAGS_FOR_TARGET="-static" \
   -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install-gcc
+make DESTDIR="$butch_install_dir" install-gcc install-target-libstdc++-v3
 
 dest="$butch_install_dir""$butch_prefix"
 
@@ -90,6 +115,11 @@ ln -sf ar "$dest"/bin/gcc-ar
 ln -sf ranlib "$dest"/bin/gcc-ranlib
 ln -sf nm "$dest"/bin/gcc-nm
 
-[ "$A" = "x86_64" ] && mv "$dest"/lib64/* "$dest"lib/ || true
+if [ "$A" = x86_64 ] ; then
+        mv "$dest"/lib64/* "$dest"/lib/ || true
+        sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
+        sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
+fi
 
 ln -sf rawcc "$dest"/bin/gcc-$VERSION
+ln -sf g++ "$dest"/bin/g++-$VERSION

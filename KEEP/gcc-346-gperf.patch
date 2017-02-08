@@ -1,0 +1,22 @@
+--- a/gcc/cp/cfns.h
++++ b/gcc/cp/cfns.h
+@@ -34,9 +34,6 @@
+ __inline
+ #endif
+ static unsigned int hash (const char *, unsigned int);
+-#ifdef __GNUC__
+-__inline
+-#endif
+ const char * libc_name_p (const char *, unsigned int);
+ /* maximum key range = 391, duplicates = 0 */
+ 
+@@ -105,9 +102,6 @@
+   return hval + asso_values[(unsigned char)str[len - 1]];
+ }
+ 
+-#ifdef __GNUC__
+-__inline
+-#endif
+ const char *
+ libc_name_p (register const char *str, register unsigned int len)
+ {

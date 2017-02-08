@@ -1,0 +1,7 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-g++-3.4.6.tar.bz2
+
+[vars]
+filesize=2511332
+sha512=cb21aabd6a14618b36c2427cd9c27d57a8db8fe780fb3e8d1f66ffa36c2ee01d4bbdd0856d4959c2a38e319a59364c78badc175296c99b32e0ed51320e5314d3
+pkgver=1
