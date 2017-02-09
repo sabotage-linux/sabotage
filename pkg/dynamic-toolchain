@@ -1,4 +1,4 @@
 [deps]
-gcc4
+gcc6
 musl
 

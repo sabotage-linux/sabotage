@@ -5,7 +5,7 @@ kbd
 9base
 busybox
 e2fsprogs
-gcc4
+gcc6
 gmp
 mpc
 mpfr

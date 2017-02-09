@@ -9,7 +9,7 @@ desc='the musl C standard library (libc)'
 no_unlink=1
 
 [deps.host]
-gcc4
+gcc6
 
 [build]
 CFLAGS="$optcflags" \

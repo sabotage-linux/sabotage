@@ -9,8 +9,6 @@ desc="the GNU compiler collection, v6.3.0"
 no_unlink=1
 
 [deps]
-musl
-binutils
 gmp
 mpfr
 mpc
