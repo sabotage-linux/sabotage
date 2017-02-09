@@ -18,11 +18,10 @@ patch
 
 [build]
 if [ -d "$butch_root_dir""$butch_staging_dir"/stage0-musl ] ; then
-	rm -rf "$butch_root_dir""$butch_staging_dir"/gcc3
-	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0-musl
-
-	butch unlink gcc3
-	butch relink $(ls -d "$butch_root_dir""$butch_staging_dir"/gcc4* |awk -F/ '{print $NF}' |tail -n1)
+	"$K"/bin/butch-rm gcc3
+	"$K"/bin/butch-rm stage0-musl
+	"$K"/bin/butch-relocate musl
+	"$K"/bin/butch-relocate $("$K"/bin/butch-list | grep '^gcc[4-6][0-9][0-9]$' |tail -n1)
 fi
 
 rm -rf "$butch_root_dir""$butch_staging_dir"/stage1
