@@ -85,6 +85,7 @@ if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
 			ln -sf /usr/include/"$A"-linux-gnu/"$i" include/
 		done
 	fi
+	[ -d /usr/lib/"$A"-linux-gnu ] && ubuntulibdir="-B /usr/lib/$A-linux-gnu"
 fi
 
 export gcc_cv_ld_hidden=yes 
@@ -96,10 +97,11 @@ export gcc_cv_as_hidden=yes
   --enable-languages=c,c++ --with-target-libiberty=no --with-target-zlib=no \
   --enable-clocale=generic
 
+
 make \
   CFLAGS="-DSTDC_HEADERS -Werror-implicit-function-declaration" \
   LDFLAGS="-static" \
-  LDFLAGS_FOR_TARGET="-static" \
+  LDFLAGS_FOR_TARGET="-static $ubuntulibdir" \
   -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install-gcc install-target-libstdc++-v3
 
