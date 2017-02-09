@@ -33,10 +33,16 @@ relocate() {
 				fi
 			else
 				echo "ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" $target"
-				ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target" >/dev/null 2>&1 || {
-					[ -d "$target" ] && rm -rf "$target"
-					ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target"
-				}
+				if [ -d "$target" ] ; then
+					echo "WARNING_LN_OVER_DIR $target"
+					if [ -L "$target" ] ; then
+						unlink "$target" || rm -f "$target"
+					else
+						echo "WARNING_SUPRESSED_RM_RF"
+						exit 1
+					fi
+				fi
+				ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target"
 			fi
 		else
 			[ -n "$V" ] && echo "UNKNOWN object $i"
