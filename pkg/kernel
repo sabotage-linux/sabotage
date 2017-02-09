@@ -8,7 +8,7 @@ gcc6
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=29
+pkgver=30
 no_unlink=1
 
 [build]
