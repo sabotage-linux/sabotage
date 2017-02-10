@@ -1,0 +1,20 @@
+[mirrors]
+https://github.com/devttys0/binwalk/archive/eeaf9ce.tar.gz
+
+[vars]
+filesize=271668
+sha512=a91c3e180ce929fb0f8eb848e16621f889e72cb250d93fd661452e880725d469d1e7190fea523cb8e86b4254a23df9743f16c550c181a87743f21efd671ca645
+pkgver=1
+tarball=binwalk-eeaf9ce.tar.gz
+tardir=binwalk-eeaf9ce5a5222255762ec89dcac47cc36b0655b4
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
