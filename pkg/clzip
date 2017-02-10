@@ -1,0 +1,18 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/lzip/clzip/clzip-1.8.tar.gz
+
+[vars]
+filesize=71434
+sha512=b6ec55635d346199710fb09684f05e0361c1b74c218b87096593b98a23a9629d14f0a6c9c82e0d983b11c2ebe39713d42ea94bdc89714246a8c07eacceb71eb3
+pkgver=1
+desc='lzip compressor/decompressor written in C'
+
+[deps]
+
+[build]
+./configure --prefix="$butch_prefix" CC="$CC" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
