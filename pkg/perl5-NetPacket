@@ -1,0 +1,22 @@
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/C/CG/CGANESAN/NetPacket-0.04.tar.gz
+
+[vars]
+filesize=19386
+sha512=0dcb1b3895c6c5eaf5788e6ce7a5834475ddd6d1710eb3a44ec9015cfad51378b567dcca8de30c12e4a0a088801d85be2a5047b744187fa813729ff894c99ddb
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+

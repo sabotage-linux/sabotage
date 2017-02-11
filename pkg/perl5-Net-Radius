@@ -1,0 +1,23 @@
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/L/LU/LUISMUNOZ/Net-Radius-2.103.tar.gz
+
+[vars]
+filesize=240551
+sha512=df0f714d2fc9b1a48f1a9af95f3c8769aa3e924be48b3153bf865a616e92270beb42eba6c30c4b52d3ab09773b841df953b927bf1ed791d8392c66d2fcaee4c0
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+perl5-Digest-MD5
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+#[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+
