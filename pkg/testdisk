@@ -1,0 +1,24 @@
+[mirrors]
+https://www.cgsecurity.org/testdisk-7.1-WIP.tar.bz2
+
+[vars]
+filesize=707602
+sha512=e1399994c1a7fd77d7fdf48a34bb5a33cb1cc6ab968fdd17e6ba21e99950ed7a7b5b727916dcfa61162f2fc700e6922ae6d78d33e61e95238c9bedf6963e1562
+pkgver=1
+desc='testdisk partition recovery and photorec file recovery tools'
+
+[deps]
+curses
+libuuid
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
