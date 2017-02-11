@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/99/df/71c7260003f5c469cec3db4c547115df39e9ce6c719a99e067ba0e78fd8a/cryptography-1.7.2.tar.gz
+
+[vars]
+filesize=420867
+sha512=8ddd119385064e1f8288ff318ec16f500b5c125a3811ccb306aeb2664fac495fcdd3cb5a7cbacd10156505c9526b9cdbd66860b35bbcd2f9a6bb285dd6cba8c5
+pkgver=1
+
+[deps.run]
+python
+python-enum
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

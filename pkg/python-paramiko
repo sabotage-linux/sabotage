@@ -1,0 +1,20 @@
+[mirrors]
+https://pypi.python.org/packages/d1/5a/ebd00d884f30baf208359a027eb7b38372d81d0c004724bb1aa71ae43b37/paramiko-2.1.1.tar.gz
+
+[vars]
+filesize=1196454
+sha512=8352688eff78aa6e15ee12572851462aea538d2d00cbc392d5cd7e4eda9536e95d3e3dfca6c85b5e5ea18262e9796a323224da4ced0474692996d8b45558f128
+pkgver=1
+
+[deps.run]
+python
+python-cryptography
+python-pyasn1
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

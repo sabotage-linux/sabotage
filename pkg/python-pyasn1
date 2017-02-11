@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/57/f7/c18a86169bb9995a69195177b23e736776b347fd92592da0c3cac9f1a724/pyasn1-0.2.2.tar.gz
+
+[vars]
+filesize=90946
+sha512=c26d84cfea8e99daebbec3f1843615609f102b14345905b4e34ddfd91feae8c8741bc26a35efb08f4c766f02db5225e77c7b82b22df888f237bba31529553a60
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
