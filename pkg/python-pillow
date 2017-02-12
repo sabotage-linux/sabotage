@@ -1,9 +1,10 @@
 [mirrors]
-https://pypi.python.org/packages/source/P/Pillow/Pillow-3.2.0.tar.gz
+https://pypi.python.org/packages/8d/80/eca7a2d1a3c2dafb960f32f844d570de988e609f5fd17de92e1cf6a01b0a/Pillow-4.0.0.tar.gz
 
 [vars]
-filesize=10306543
-sha512=3ce55370a63fa2edd8b471f81aa7696f39d02a4a171d5f1f44cc19a31eb670e311e7f7aee166604958ed8817a890115bf6c783099747cabc311cac8ac7e03f79
+filesize=11077480
+sha512=61d4f5d0264289074b073ba2f531a9d94d5de4cbec1bfe12606454076dacd50c926934d364d6fb2336ab74d59a09a37b88a47620d7b76db565b3637db09a5b04
+pkgver=2
 
 [deps.run]
 python
