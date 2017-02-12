@@ -1,0 +1,32 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/a/arj/arj_3.10.22.orig.tar.gz
+
+[vars]
+filesize=431467
+sha512=4730dfdbab4f8095396c337578ed69bdaae52955ad468db50b52af8ad2846ecd6cfc05eb3ac0d03838c1c32ea60126f14a22b93e8181c06b9546456f3937ff76
+pkgver=1
+tardir=arj-3.10.22
+
+[deps.host]
+autoconf
+automake
+
+[build]
+patch -p1 < "$K"/arj.patch
+
+cd gnu
+autoconf -f -i
+
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+cd ..
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

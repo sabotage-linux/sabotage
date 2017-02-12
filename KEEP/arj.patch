@@ -1,0 +1,1443 @@
+Description: Correct build failure on ia64 due to unaligned memory access.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2008-06-16
+
+Index: b/arj_proc.c
+===================================================================
+--- a/arj_proc.c	2005-06-21 22:53:12.000000000 +0300
++++ b/arj_proc.c	2008-06-16 08:25:28.000000000 +0300
+@@ -2898,7 +2898,7 @@ char *ltrim(char *str)
+ }
+ #endif
+ 
+-#if defined(WORDS_BIGENDIAN)&&!defined(ARJDISP)&&!defined(REGISTER)
++#if (defined(WORDS_BIGENDIAN) || defined(ALIGN_POINTERS)) && !defined(ARJDISP) && !defined(REGISTER)
+ /* Model-independent routine to get 2 bytes from far RAM */
+ 
+ unsigned int mget_word(char FAR *p)
+Index: b/arj_proc.h
+===================================================================
+--- a/arj_proc.h	2004-01-25 12:39:30.000000000 +0200
++++ b/arj_proc.h	2008-06-16 08:25:28.000000000 +0300
+@@ -12,7 +12,7 @@
+ 
+ #define mget_byte(p) (*(unsigned char FAR *)(p)&0xFF)
+ #define mput_byte(c, p) *(unsigned char FAR *)(p)=(unsigned char)(c)
+-#ifndef WORDS_BIGENDIAN
++#if !defined(ALIGN_POINTERS) && !defined(WORDS_BIGENDIAN)
+ #define mget_word(p) (*(unsigned short *)(p)&0xFFFF)
+ #define mput_word(w,p) (*(unsigned short *)(p)=(unsigned short)(w))
+ #define mget_dword(p) (*(unsigned long *)(p))
+@@ -60,7 +60,7 @@ void pack_mem(struct mempack *mempack);
+ void unpack_mem(struct mempack *mempack);
+ void strip_lf(char *str);
+ char *ltrim(char *str);
+-#ifdef WORDS_BIGENDIAN
++#if defined(ALIGN_POINTERS) || defined(WORDS_BIGENDIAN)
+ unsigned int mget_word(char FAR *p);
+ unsigned long mget_dword(char FAR *p);
+ void mput_word(unsigned int w, char FAR *p);
+Description: Set the static const intergrity_identifier variable as volatile
+ instead of building the file with -O0 to avoid the compiler optimizing it
+ away, so that we can use standard flags everywhere.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2013-05-10
+
+---
+ integr.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/integr.c
++++ b/integr.c
+@@ -5,7 +5,7 @@
+  *
+  */
+ 
+-static const char intergrity_identifier[] = {
++static volatile const char intergrity_identifier[] = {
+ 	0xB0, 0x03, 0xB0, 0x02, 0xB0, 0x03,
+ 	0xB0, 0x04, 0xB0, 0x05,
+ 	0x90, 0x90, 0x90, 0x90,
+Description: Make code 64-bit clean.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/339815
+Forwarded: no
+Last-Update: 2005-11-24
+
+Index: b/arj_arcv.c
+===================================================================
+--- a/arj_arcv.c	2005-06-21 22:53:12.000000000 +0300
++++ b/arj_arcv.c	2008-06-16 08:25:43.000000000 +0300
+@@ -59,27 +59,27 @@ static char idxid_fault[]="?";
+ #define setup_hput(ptr) (tmp_hptr=(ptr))
+ 
+ #define hget_byte() (*(tmp_hptr++)&0xFF)
+-#define hput_byte(c) (*(tmp_hptr++)=(char) (c))
++#define hput_byte(c) (*(tmp_hptr++)=(uint8_t) (c))
+ 
+ /* Reads two bytes from the header, incrementing the pointer */
+ 
+-static unsigned int hget_word()
++static uint16_t hget_word()
+ {
+- unsigned int result;
++ uint16_t result;
+ 
+  result=mget_word(tmp_hptr);
+- tmp_hptr+=sizeof(short);
++ tmp_hptr+=sizeof(uint16_t);
+  return result;
+ }
+ 
+ /* Reads four bytes from the header, incrementing the pointer */
+ 
+-static unsigned long hget_longword()
++static uint32_t hget_longword()
+ {
+- unsigned long result;
++ uint32_t result;
+ 
+  result=mget_dword(tmp_hptr);
+- tmp_hptr+=sizeof(unsigned long);
++ tmp_hptr+=sizeof(uint32_t);
+  return result;
+ }
+ 
+@@ -87,18 +87,18 @@ static unsigned long hget_longword()
+ 
+ /* Writes two bytes to the header, incrementing the pointer */
+ 
+-static void hput_word(unsigned int w)
++static void hput_word(uint16_t w)
+ {
+  mput_word(w,tmp_hptr); 
+- tmp_hptr+=sizeof(unsigned short);
++ tmp_hptr+=sizeof(uint16_t);
+ }
+ 
+ /* Writes four bytes to the header, incrementing the pointer */
+ 
+-static void hput_longword(unsigned long l)
++static void hput_longword(uint32_t l)
+ {
+  mput_dword(l,tmp_hptr);
+- tmp_hptr+=sizeof(unsigned long);
++ tmp_hptr+=sizeof(uint32_t);
+ }
+ 
+ /* Calculates and stores the basic header size */
+Index: b/arj_proc.c
+===================================================================
+--- a/arj_proc.c	2008-06-16 08:25:28.000000000 +0300
++++ b/arj_proc.c	2008-06-16 08:25:43.000000000 +0300
+@@ -585,7 +585,7 @@ int search_for_extension(char *name, cha
+ /* Returns the exact amount of data that could be safely written to the
+    destination volume */
+ 
+-unsigned long get_volfree(unsigned int increment)
++unsigned long get_volfree(unsigned long increment)
+ {
+  unsigned long pvol;
+  unsigned int arjsec_overhead;
+@@ -605,7 +605,7 @@ unsigned long get_volfree(unsigned int i
+  remain=volume_limit-ftell(aostream)-pvol-(long)arjsec_overhead-
+         (long)out_bytes-(long)cpos-(long)ext_voldata-
+         MULTIVOLUME_RESERVE-t_volume_offset;
+- return((unsigned long)min(remain, (unsigned long)increment));
++ return((unsigned long)min(remain, increment));
+ }
+ 
+ /* Performs various checks when multivolume data is packed to predict an
+@@ -2466,14 +2466,14 @@ static int get_str_from_jq()
+     *tsptr='\0';
+   endptr=tsptr;
+   tsptr=sptr;
+-  while((unsigned int)tsptr<(unsigned int)endptr&&patterns<SEARCH_STR_MAX)
++  while((intptr_t)tsptr<(intptr_t)endptr&&patterns<SEARCH_STR_MAX)
+   {
+    while(*tsptr=='\0')
+     tsptr++;
+-   if((unsigned int)tsptr<(unsigned int)endptr)
++   if((intptr_t)tsptr<(intptr_t)endptr)
+    {
+     search_str[patterns++]=tsptr;
+-    while(*tsptr!='\0'&&(unsigned int)tsptr<(unsigned int)endptr)
++    while(*tsptr!='\0'&&(intptr_t)tsptr<(intptr_t)endptr)
+      tsptr++;
+    }
+   }
+@@ -2901,9 +2901,9 @@ char *ltrim(char *str)
+ #if (defined(WORDS_BIGENDIAN) || defined(ALIGN_POINTERS)) && !defined(ARJDISP) && !defined(REGISTER)
+ /* Model-independent routine to get 2 bytes from far RAM */
+ 
+-unsigned int mget_word(char FAR *p)
++uint16_t mget_word(char FAR *p)
+ {
+- unsigned int b0, b1;
++ uint16_t b0, b1;
+ 
+  b0=mget_byte(p);
+  b1=mget_byte(p+1);
+@@ -2912,9 +2912,9 @@ unsigned int mget_word(char FAR *p)
+ 
+ /* Model-independent routine to get 4 bytes from far RAM */
+ 
+-unsigned long mget_dword(char FAR *p)
++uint32_t mget_dword(char FAR *p)
+ {
+- unsigned long w0, w1;
++ uint32_t w0, w1;
+ 
+  w0=mget_word(p);
+  w1=mget_word(p+2);
+@@ -2923,7 +2923,7 @@ unsigned long mget_dword(char FAR *p)
+ 
+ /* Model-independent routine to store 2 bytes in far RAM */
+ 
+-void mput_word(unsigned int w, char FAR *p)
++void mput_word(uint16_t w, char FAR *p)
+ {
+  mput_byte(w&0xFF, p);
+  mput_byte(w>>8  , p+1);
+@@ -2931,7 +2931,7 @@ void mput_word(unsigned int w, char FAR 
+ 
+ /* Model-independent routine to store 4 bytes in far RAM */
+ 
+-void mput_dword(unsigned long d, char FAR *p)
++void mput_dword(uint32_t d, char FAR *p)
+ {
+  mput_word(d&0xFFFF, p);
+  mput_word(d>>16   , p+2);
+Index: b/arj_proc.h
+===================================================================
+--- a/arj_proc.h	2008-06-16 08:25:28.000000000 +0300
++++ b/arj_proc.h	2008-06-16 08:25:43.000000000 +0300
+@@ -8,15 +8,17 @@
+ #ifndef ARJ_PROC_INCLUDED
+ #define ARJ_PROC_INCLUDED
+ 
++#include <stdint.h>
++
+ /* Helper macros */
+ 
+-#define mget_byte(p) (*(unsigned char FAR *)(p)&0xFF)
+-#define mput_byte(c, p) *(unsigned char FAR *)(p)=(unsigned char)(c)
++#define mget_byte(p) (*(uint8_t FAR *)(p)&0xFF)
++#define mput_byte(c, p) *(uint8_t FAR *)(p)=(uint8_t)(c)
+ #if !defined(ALIGN_POINTERS) && !defined(WORDS_BIGENDIAN)
+-#define mget_word(p) (*(unsigned short *)(p)&0xFFFF)
+-#define mput_word(w,p) (*(unsigned short *)(p)=(unsigned short)(w))
+-#define mget_dword(p) (*(unsigned long *)(p))
+-#define mput_dword(w,p) (*(unsigned long *)(p)=(unsigned long)(w))
++#define mget_word(p) (*(uint16_t *)(p)&0xFFFF)
++#define mput_word(w,p) (*(uint16_t *)(p)=(uint16_t)(w))
++#define mget_dword(p) (*(uint32_t *)(p))
++#define mput_dword(w,p) (*(uint32_t *)(p)=(uint32_t)(w))
+ #endif
+ 
+ /* Prototypes */
+@@ -31,7 +33,7 @@ void copy_bytes(unsigned long nbytes);
+ int translate_path(char *name);
+ void restart_proc(char *dest);
+ int search_for_extension(char *name, char *ext_list);
+-unsigned long get_volfree(unsigned int increment);
++unsigned long get_volfree(unsigned long increment);
+ unsigned int check_multivolume(unsigned int increment);
+ void store();
+ void hollow_encode();
+@@ -61,10 +63,10 @@ void unpack_mem(struct mempack *mempack)
+ void strip_lf(char *str);
+ char *ltrim(char *str);
+ #if defined(ALIGN_POINTERS) || defined(WORDS_BIGENDIAN)
+-unsigned int mget_word(char FAR *p);
+-unsigned long mget_dword(char FAR *p);
+-void mput_word(unsigned int w, char FAR *p);
+-void mput_dword(unsigned long d, char FAR *p);
++uint16_t mget_word(char FAR *p);
++uint32_t mget_dword(char FAR *p);
++void mput_word(uint16_t w, char FAR *p);
++void mput_dword(uint32_t d, char FAR *p);
+ #endif
+ 
+ #endif
+Description: Fix upstream build sysstem to support parallel builds.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2007-12-05
+
+---
+ gnu/makefile.in |   74 +++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 44 insertions(+), 30 deletions(-)
+
+--- a/gnu/makefile.in
++++ b/gnu/makefile.in
+@@ -159,13 +159,15 @@ $(SFXSTUB_DIR)/%.o: $(SRC_DIR)/%.c
+ # Main dependency tree
+ #
+ 
+-.PHONY: timestamp prepare cleanup package help
++.PHONY: timestamp msg-headers depends prepare clean package help
+ 
+ ifdef COMMERCIAL
+ MAKE_KEY=$(TOOLS_DIR)/make_key$x
+ endif
+ 
+ all:	prepare timestamp
++	$(MAKE) msg-headers
++	$(MAKE) depends
+ 	$(MAKE) do-all
+ 
+ do-all:	\
+@@ -175,8 +177,28 @@ do-all:	\
+ 	$(REGISTER_DIR)/$(REGISTER)$x \
+ 	$(ARJDISP_DIR)/arjdisp$x \
+ 	$(TOOLS_DIR)/packager$x \
+-        $(MAKE_KEY) \
+-	dispose
++	$(MAKE_KEY)
++
++MSG_ID := \
++	msg_crp msg_stb msg_sfv msg_sfx msg_sfj msg_arj msg_rej msg_reg msg_adi
++MSG_HEADERS := $(patsubst %,$(BASEDIR)/%.h,$(MSG_ID))
++
++msg-headers: $(MSG_HEADERS)
++
++.deps:
++	mkdir -p $@
++
++.deps/%.d: %.c .deps
++	$(CC) $(CPPFLAGS) $(COPT) $< -MM > $@
++
++SOURCES = $(wildcard *.c)
++DEPS = $(addprefix .deps/,$(SOURCES:.c=.d))
++
++ifeq ($(sort $(DEPS)),$(sort $(wildcard .deps/*.d)))
++include $(DEPS)
++endif
++
++depends: $(DEPS)
+ 
+ #
+ # Update timestamp file
+@@ -186,12 +208,6 @@ timestamp: $(TOOLS_DIR)/today$x
+ 	$(TOOLS_DIR)/today$x $(LOCALE) $(BASEDIR)
+ 
+ #
+-# Final cleanup
+-#
+-
+-dispose:
+-
+-#
+ # The tools
+ #
+ 
+@@ -255,7 +271,7 @@ $(ARJCRYPT_DIR)/arjcrypt$d: $(ARJCRYPT_O
+ 	$(CC) $(ALL_CFLAGS) $(DLL_FLAGS) -o $@ $(ARJCRYPT_OBJS) $(ARJCRYPT_DEF) $(LIBS)
+ 	$(TOOLS_DIR)/postproc $@
+ 
+-$(BASEDIR)/nmsg_crp.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/nmsg_crp.c $(BASEDIR)/msg_crp.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_crp $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -269,7 +285,7 @@ $(SFXSTUB_DIR)/sfxstub$x: $(SFXSTUB_OBJS
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(SFXSTUB_OBJS) $(LIBS)
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+-$(BASEDIR)/nmsg_stb.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/nmsg_stb.c $(BASEDIR)/msg_stb.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_stb $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -287,7 +303,8 @@ $(ARJSFXV_DIR)/arjsfxv$x: $(ARJSFXV_OBJS
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFXV_OBJS) $(LIBS) $(DYN_LIBS)
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+-$(BASEDIR)/fmsg_sfv.c $(BASEDIR)/imsg_sfv.c $(BASEDIR)/nmsg_sfv.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_sfv.c $(BASEDIR)/imsg_sfv.c $(BASEDIR)/nmsg_sfv.c \
++$(BASEDIR)/msg_sfv.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_sfv $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -304,7 +321,8 @@ $(ARJSFX_DIR)/arjsfx$x: $(ARJSFX_OBJS) $
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFX_OBJS) $(LIBS)
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+-$(BASEDIR)/fmsg_sfx.c $(BASEDIR)/imsg_sfx.c $(BASEDIR)/nmsg_sfx.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_sfx.c $(BASEDIR)/imsg_sfx.c $(BASEDIR)/nmsg_sfx.c \
++$(BASEDIR)/msg_sfx.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_sfx $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -319,7 +337,8 @@ $(ARJSFXJR_DIR)/arjsfxjr$x: $(ARJSFXJR_O
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFXJR_OBJS) $(LIBS)
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+-$(BASEDIR)/fmsg_sfj.c $(BASEDIR)/imsg_sfj.c $(BASEDIR)/nmsg_sfj.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_sfj.c $(BASEDIR)/imsg_sfj.c $(BASEDIR)/nmsg_sfj.c \
++$(BASEDIR)/msg_sfj.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_sfj $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -354,7 +373,8 @@ $(ARJ_DIR)/arj$x: $(ARJ_OBJS) \
+ 	$(TOOLS_DIR)/join $(ARJ_DIR)/arj$x $(BASEDIR)/help.arj
+ 	$(TOOLS_DIR)/postproc $@
+ 
+-$(BASEDIR)/fmsg_arj.c $(BASEDIR)/imsg_arj.c $(BASEDIR)/nmsg_arj.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_arj.c $(BASEDIR)/imsg_arj.c $(BASEDIR)/nmsg_arj.c \
++$(BASEDIR)/msg_arj.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_arj $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -372,7 +392,8 @@ $(REARJ_DIR)/rearj$x: $(REARJ_OBJS) \
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(REARJ_OBJS) $(LIBS)
+ 	$(TOOLS_DIR)/postproc $@
+ 
+-$(BASEDIR)/fmsg_rej.c $(BASEDIR)/imsg_rej.c $(BASEDIR)/nmsg_rej.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_rej.c $(BASEDIR)/imsg_rej.c $(BASEDIR)/nmsg_rej.c \
++$(BASEDIR)/msg_rej.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_rej $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -388,7 +409,8 @@ $(REGISTER_DIR)/$(REGISTER)$x: $(REGISTE
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(REGISTER_OBJS) $(LIBS)
+ 	$(TOOLS_DIR)/postproc $@ -sfx
+ 
+-$(BASEDIR)/fmsg_reg.c $(BASEDIR)/imsg_reg.c $(BASEDIR)/nmsg_reg.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_reg.c $(BASEDIR)/imsg_reg.c $(BASEDIR)/nmsg_reg.c \
++$(BASEDIR)/msg_reg.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_reg $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -402,7 +424,8 @@ ARJDISP_OBJS = $(patsubst %,$(ARJDISP_DI
+ $(ARJDISP_DIR)/arjdisp$x: $(ARJDISP_OBJS)
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJDISP_OBJS) $(LIBS)
+ 
+-$(BASEDIR)/fmsg_adi.c $(BASEDIR)/imsg_adi.c $(BASEDIR)/nmsg_adi.c: $(TOOLS_DIR)/msgbind$x $(RESFILE)
++$(BASEDIR)/fmsg_adi.c $(BASEDIR)/imsg_adi.c $(BASEDIR)/nmsg_adi.c \
++$(BASEDIR)/msg_adi.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_adi $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
+ 
+ #
+@@ -427,18 +450,9 @@ prepare:
+ #
+ 
+ clean:
+-	-rm -f $(BASEDIR)/*
+-	-rm -f $(TOOLS_DIR)/*
+-	-rm -f $(ARJCRYPT_DIR)/*
+-	-rm -f $(SFXSTUB_DIR)/*
+-	-rm -f $(ARJSFXV_DIR)/*
+-	-rm -f $(ARJSFX_DIR)/*
+-	-rm -f $(ARJSFXJR_DIR)/*
+-	-rm -f $(ARJ_DIR)/*
+-	-rm -f $(REARJ_DIR)/*
+-	-rm -f $(REGISTER_DIR)/*
+-	-rm -f $(ARJDISP_DIR)/*
+-	-rm -f arj.core
++	rm -rf .deps
++	rm -rf $(BASEDIR)
++	rm -f arj.core
+ 
+ #
+ # Local installation
+Description: Detect and conditionally use system strnlen function.
+ This fixes build failures when the system has eglibc 2.10.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/546475
+Forwarded: no
+Last-Update: 2009-09-13
+
+---
+ fardata.c        |    2 ++
+ gnu/config.h.in  |    1 +
+ gnu/configure.in |    4 +++-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
+
+--- a/fardata.c
++++ b/fardata.c
+@@ -190,6 +190,7 @@ int msg_sprintf(char *str, FMSG *fmt, ..
+ 
+ /* Length-limited strlen() */
+ 
++#ifndef HAVE_STRNLEN
+ static int strnlen(const char FAR *s, int count)
+ {
+  const char FAR *sc;
+@@ -198,6 +199,7 @@ static int strnlen(const char FAR *s, in
+   ;
+  return(sc-s);
+ }
++#endif
+ 
+ /* Hex representation of digits */
+ 
+--- a/gnu/config.h.in
++++ b/gnu/config.h.in
+@@ -8,6 +8,7 @@
+ #undef HAVE_FCLOSEALL
+ #undef HAVE_SETPRIORITY
+ #undef HAVE_STRCASECMP
++#undef HAVE_STRNLEN
+ #undef HAVE_STRUPR
+ #undef HAVE_STRLWR
+ #undef USE_COLORS
+--- a/gnu/configure.in
++++ b/gnu/configure.in
+@@ -35,7 +35,9 @@ AC_FUNC_MEMCMP
+ AC_FUNC_SETVBUF_REVERSED
+ AC_TYPE_SIGNAL
+ AC_FUNC_VPRINTF
+-AC_CHECK_FUNCS([getcwd min max mkdir mkdtemp rmdir fcloseall strcasecmp setpriority strdup strerror strstr strupr strlwr strtol strtoul])
++AC_CHECK_FUNCS([getcwd min max mkdir mkdtemp rmdir fcloseall \
++                strcasecmp setpriority strdup strerror strstr strnlen \
++                strupr strlwr strtol strtoul])
+ 
+ dnl Platform-specific tuning
+ PROG_EXT=
+Description: Use a safe strcpy for overlapping strings, among others
+ fixes a build problem with a mangled generated .c file by msgbind
+ (thus FTBFS), and CRC errors at run-time.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/590354
+Forwarded: no
+Last-Update: 2010-07-26
+
+---
+ arj.c      |    2 +-
+ arjdata.c  |    9 +--------
+ ea_mgr.c   |    2 +-
+ misc.h     |    4 ++++
+ msgbind.c  |    2 +-
+ packager.c |    2 +-
+ 6 files changed, 9 insertions(+), 12 deletions(-)
+
+--- a/arjdata.c
++++ b/arjdata.c
+@@ -204,13 +204,6 @@ void date_fmt(char *dest)
+  #endif
+ }
+ 
+-/* A safe strcpy() */
+-
+-static void safe_strcpy(char *dest, char *src)
+-{
+- memmove(dest, src, strlen(src)+1);
+-}
+-
+ /* Context substitution routine */
+ 
+ char *expand_tags(char *str, int limit)
+@@ -232,7 +225,7 @@ char *expand_tags(char *str, int limit)
+   {
+    if(*(p+1)==TAG_CHAR)
+    {
+-    strcpy(p, p+1);
++    safe_strcpy(p, p+1);
+     p++;
+    }
+    else if(*(p+1)==TAG_SPECIAL_BEGIN&&(et=strchr(p+3, TAG_SPECIAL_END))!=NULL)
+--- a/arj.c
++++ b/arj.c
+@@ -1169,7 +1169,7 @@ int main(int argc, char *argv[])
+      if(strlen(tmp_ptr)<=121)
+       tmp_ptr[0]='\0';
+      else if(tmp_ptr[120]==' ')
+-      strcpy(tmp_ptr, tmp_ptr+121);
++      safe_strcpy(tmp_ptr, tmp_ptr+121);
+     }
+     if(cmd==ARJ_CMD_ORDER&&strpbrk(tmp_ptr, wildcard_pattern)!=NULL)
+      error(M_ORDER_WILDCARD);
+--- a/ea_mgr.c
++++ b/ea_mgr.c
+@@ -696,7 +696,7 @@ int resolve_longname(char *dest, char *n
+     tmp_name[st_len]='\0';
+     if(tmp_name[0]==0xFD&&tmp_name[1]==0xFF)
+     {
+-     strcpy(tmp_name, (char *)tmp_name+4);
++     safe_strcpy(tmp_name, (char *)tmp_name+4);
+      st_len-=4;
+     }
+     if(st_len==0||st_len+entry>=FILENAME_MAX)
+--- a/msgbind.c
++++ b/msgbind.c
+@@ -578,7 +578,7 @@ int main(int argc, char **argv)
+    }
+    strcat(pool[tpool].data, msgname);
+    strcat(pool[tpool].data, ", ");
+-   strcpy(msg_buffer, msg_buffer+1);
++   safe_strcpy(msg_buffer, msg_buffer+1);
+    buf_len=strlen(msg_buffer);
+    msg_buffer[--buf_len]='\0';
+    patch_string(msg_buffer);
+--- a/packager.c
++++ b/packager.c
+@@ -347,7 +347,7 @@ int main(int argc, char **argv)
+  expand_tags(buf, sizeof(buf)-1);
+  if((p=strchr(buf, '.'))!=NULL)
+  {
+-  strcpy(p, p+1);
++  safe_strcpy(p, p+1);
+   if((p=strchr(buf, '.'))!=NULL)
+    *p='\0';
+  }
+--- a/misc.h
++++ b/misc.h
+@@ -11,6 +11,10 @@
+ #include "arjtypes.h"
+ #include "filelist.h"
+ 
++/* A safe strcpy() */
++
++#define safe_strcpy(dest, src) memmove(dest, src, strlen(src)+1);
++
+ /* ASCIIZ string copy macro */
+ 
+ #define strcpyn(dest, src, n)      \
+Description: Fix build failure on GNU/Hurd, by handling unimplemented
+ fcntl(F_GETLK). The Hurd does not implement yet fcntl(F_GETLK) and
+ returns ENOSYS, handle this as a non-fatal error.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2013-05-10
+
+---
+ environ.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- a/environ.c
++++ b/environ.c
+@@ -1775,7 +1775,8 @@ int file_test_access(char *name)
+   memset(&flk, 0, sizeof(flk));
+   rc=fcntl(handle, F_GETLK, &flk);
+   close(handle);
+-  return(((rc==-1&&errno!=EINVAL)||(rc!=1&&flk.l_type==F_RDLCK))?-1:0);
++  return(((rc==-1&&errno!=EINVAL&&errno!=ENOSYS)||
++          (rc!=1&&flk.l_type==F_RDLCK))?-1:0);
+  #endif
+ }
+ #endif
+Description: Fix format security errors.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2013-05-09
+
+---
+ arj_arcv.c |   12 ++++++------
+ arj_user.c |    8 ++++----
+ arjdisp.c  |   58 ++++++++++++++++++++++++++++------------------------------
+ arjsfx.c   |    2 +-
+ fardata.c  |   10 +++++-----
+ rearj.c    |    2 +-
+ register.c |    2 +-
+ 7 files changed, 46 insertions(+), 48 deletions(-)
+
+--- a/fardata.c
++++ b/fardata.c
+@@ -52,7 +52,7 @@ int error_proc(FMSG *errmsg, ...)
+   /* Check if the message could have a standard error code */
+   if(errno!=0&&is_std_error(errmsg))
+   {
+-   msg_cprintf(0, lf);
++   msg_cprintf(0, "\n");
+    error_report();
+   }
+  #endif
+@@ -379,10 +379,10 @@ static void flush_cbuf(int ccode, char *
+     {
+      #if SFX_LEVEL>=ARJSFXV
+       fprintf(new_stdout, strform, n_text);
+-      fprintf(new_stdout, lf);
++      fprintf(new_stdout, "\n");
+      #else
+       printf(strform, n_text);
+-      printf(lf);
++      printf("\n");
+      #endif
+     }
+     else
+@@ -393,13 +393,13 @@ static void flush_cbuf(int ccode, char *
+      #ifdef NEED_CRLF
+       scr_out("\r");
+      #endif
+-     scr_out(lf);
++     scr_out("\n");
+     }
+     if(!no_colors)
+      textcolor(color_table[ccode&H_COLORMASK].color);
+    #else
+     printf(strform, n_text);
+-    printf(lf);
++    printf("\n");
+    #endif
+    n_text=t_text+1;
+    #if SFX_LEVEL>=ARJ
+--- a/arj_user.c
++++ b/arj_user.c
+@@ -1059,7 +1059,7 @@ static void finish_processing(int cmd)
+      if(recover_file(tmp_archive_name, nullstr, tmp_tmp_filename, protected, eof_pos))
+      {
+       msg_cprintf(H_HL, M_CANT_FIND_DAMAGE, archive_name);
+-      printf(lf);
++      printf("\n");
+      }
+      else
+      {
+@@ -1294,7 +1294,7 @@ static void finish_processing(int cmd)
+    if(recover_file(archive_name, nullstr, nullstr, protected, eof_pos))
+    {
+     msg_cprintf(H_HL, M_CANT_FIND_DAMAGE, archive_name);
+-    printf(lf);
++    printf("\n");
+    }
+    else
+    {
+@@ -1327,7 +1327,7 @@ static void finish_processing(int cmd)
+     msg_cprintf(0, M_CHAPTERS_ON);
+    else if(chapter_mode==CHAP_REMOVE)
+     msg_cprintf(0, M_CHAPTERS_OFF);
+-   msg_cprintf(0, strform, lf);
++   msg_cprintf(0, strform, "\n");
+   }
+   if(cmd==ARJ_CMD_COPY&&protfile_option&&!arjprot_tail)
+    msg_cprintf(0, M_ARJPROT_DISABLED);
+@@ -2303,7 +2303,7 @@ void process_archive()
+   timestamp_to_str(timetext, &ftime_stamp);
+   msg_cprintf(H_HL|H_NFMT, M_ARCHIVE_CREATED, timetext);
+   if(show_ansi_comments)
+-   printf(cmt_ptr);
++   fputs(cmt_ptr, stdout);
+   else
+    display_comment(cmt_ptr);
+   /* The sfx_setup() occurs here */
+--- a/arj_arcv.c
++++ b/arj_arcv.c
+@@ -913,13 +913,13 @@ int supply_comment(char *cmtname, char *
+     else
+     {
+      strcat(tmp_comment, tmp_cmtline);
+-     strcat(tmp_comment, lf);
++     strcat(tmp_comment, "\n");
+     }
+    }
+    else
+    {
+     strcat(tmp_comment, tmp_cmtline);
+-    strcat(tmp_comment, lf);
++    strcat(tmp_comment, "\n");
+    }
+   }
+  }
+@@ -1846,7 +1846,7 @@ int pack_file(int is_update, int is_repl
+    raw_eh=eh_lookup(eh, UXSPECIAL_ID)->raw;
+    uxspecial_stats(raw_eh, UXSTATS_SHORT);
+   }
+-  msg_cprintf(0, lf);
++  msg_cprintf(0, "\n");
+  }
+  if(err_id==0&&user_wants_fail)
+  {
+@@ -2523,9 +2523,9 @@ int unpack_validation()
+    {
+     msg_cprintf(0, (FMSG *)strform, misc_buf);
+     if(search_mode==SEARCH_DEFAULT)
+-     msg_cprintf(0, (FMSG *)lf);
++     msg_cprintf(0, "\n");
+     if(search_mode==SEARCH_BRIEF)
+-     msg_cprintf(0, (FMSG *)cr);
++     msg_cprintf(0, "\r");
+    }
+    for(pattern=0; pattern<SEARCH_STR_MAX; search_occurences[pattern++]=0);
+    reserve_size=0;
+@@ -3652,7 +3652,7 @@ void archive_cleanup()
+  {
+   if(msg_fprintf(idxstream, M_TESTING, archive_name)<0)
+    error(M_DISK_FULL);
+-  if(fprintf(idxstream, lf)<0)
++  if(fprintf(idxstream, "\n")<0)
+    error(M_DISK_FULL);
+  }
+  cmd_verb=ARJ_CMD_TEST;
+--- a/arjsfx.c
++++ b/arjsfx.c
+@@ -214,7 +214,7 @@ static void final_cleanup(void)
+   freopen(dev_con, m_w, stdout);
+  #if SFX_LEVEL>=ARJSFXV
+   if(ferror(stdout))
+-   msg_fprintf(stderr, M_DISK_FULL);
++   msg_fprintf(stderr, "Can't write file. Disk full?");
+   if(debug_enabled&&strchr(debug_opt, 't')!=NULL)
+   {
+    ticks=get_ticks()-ticks;
+--- a/rearj.c
++++ b/rearj.c
+@@ -935,7 +935,7 @@ static int convert_archive(char *name)
+  msg_cprintf(H_HL|H_NFMT, M_OLD_SIZE, old_fsize);
+  msg_cprintf(H_HL|H_NFMT, M_NEW_SIZE, new_fsize);
+  msg_cprintf(H_HL|H_NFMT, M_SAVINGS_SIZE, gain);
+- printf(lf);
++ printf("\n");
+  total_old_fsize+=old_fsize;
+  total_new_fsize+=new_fsize;
+  total_files++;
+--- a/register.c
++++ b/register.c
+@@ -205,7 +205,7 @@ int main(int argc, char **argv)
+  char reg_source[200];
+  int i;
+ 
+- printf(M_REGISTER_BANNER);
++ fputs(M_REGISTER_BANNER, stdout);
+  integrity_pattern[0]--;
+  build_crc32_table();
+  if(argc!=2)
+--- a/arjdisp.c
++++ b/arjdisp.c
+@@ -20,8 +20,6 @@ static long bytes;
+ static long compsize;
+ static char cmd_verb;
+ static char msg_lf[]="\n";
+-char strform[]="%s";                    /* Export it for scrnio.c, too
+-                                           (a byte saved is a byte gained) */
+ 
+ /* Pseudographical controls */
+ 
+@@ -54,19 +52,19 @@ static void show_init_scrn()
+  textcolor(7);
+  clrscr();
+  gotoxy(2, 2);
+- scrprintf(win_top);
++ fputs(win_top, stdout);
+  for(i=3; i<24; i++)
+  {
+-  gotoxy(2, i); scrprintf(win_border);
+-  gotoxy(79, i); scrprintf(win_border);
++  gotoxy(2, i); fputs(win_border, stdout);
++  gotoxy(79, i); fputs(win_border, stdout);
+  }
+- gotoxy(2, 24); scrprintf(win_bottom);
++ gotoxy(2, 24); fputs(win_bottom, stdout);
+  gotoxy(10, 5);
+- scrprintf(M_ARJDISP_COPYRIGHT);
++ fputs(M_ARJDISP_COPYRIGHT, stdout);
+  gotoxy(10, 6);
+- scrprintf(M_ARJDISP_DISTRIBUTION);
++ fputs(M_ARJDISP_DISTRIBUTION, stdout);
+  gotoxy(10, 7);
+- scrprintf(M_ARJDISP_LICENSE);
++ fputs(M_ARJDISP_LICENSE, stdout);
+  gotoxy(16, 10);
+  scrprintf(M_PROCESSING_ARCHIVE, archive_name);
+  t=strtok(M_ARJDISP_INFO, msg_lf);
+@@ -74,11 +72,11 @@ static void show_init_scrn()
+  while(t!=NULL&&i<=23)
+  {
+   gotoxy(10, i++);
+-  scrprintf(strform, t);
++  scrprintf("%s", t);
+   t=strtok(NULL, msg_lf);
+  }
+  gotoxy(16, 20);
+- scrprintf(M_PRESS_ANY_KEY);
++ fputs(M_PRESS_ANY_KEY, stdout);
+  uni_getch();
+  gotoxy(1, 24);
+ }
+@@ -96,19 +94,19 @@ static void show_proc_scrn()
+  {
+   clrscr();
+   gotoxy(2, 2);
+-  scrprintf(win_top);
++  fputs(win_top, stdout);
+   for(i=3; i<24; i++)
+   {
+-   gotoxy(2, i); scrprintf(win_border);
+-   gotoxy(79, i); scrprintf(win_border);
++   gotoxy(2, i); fputs(win_border, stdout);
++   gotoxy(79, i); fputs(win_border, stdout);
+   }
+-  gotoxy(2, 24); scrprintf(win_bottom);
++  gotoxy(2, 24); fputs(win_bottom, stdout);
+   gotoxy(10, 5);
+-  scrprintf(M_ARJDISP_COPYRIGHT);
++  fputs(M_ARJDISP_COPYRIGHT, stdout);
+   gotoxy(10, 6);
+-  scrprintf(M_ARJDISP_DISTRIBUTION);
++  fputs(M_ARJDISP_DISTRIBUTION, stdout);
+   gotoxy(10, 7);
+-  scrprintf(M_ARJDISP_LICENSE);
++  fputs(M_ARJDISP_LICENSE, stdout);
+   gotoxy(16, 10);
+   scrprintf(M_PROCESSING_ARCHIVE, archive_name);
+   gotoxy(16, 12);
+@@ -132,13 +130,13 @@ static void show_proc_scrn()
+     break;
+   }
+   gotoxy(15, 14);
+-  scrprintf(ind_top);
++  fputs(ind_top, stdout);
+   gotoxy(15, 15);
+-  scrprintf(ind_middle);
++  fputs(ind_middle, stdout);
+   gotoxy(15, 16);
+-  scrprintf(ind_bottom);
++  fputs(ind_bottom, stdout);
+   gotoxy(16, 18);
+-  scrprintf(M_ARJDISP_CTR_START);
++  fputs(M_ARJDISP_CTR_START, stdout);
+  }
+  else
+  {
+@@ -146,7 +144,7 @@ static void show_proc_scrn()
+   gotoxy(16, 15);
+   memset(progress, indo, i);
+   progress[i]='\0';
+-  scrprintf(progress);
++  fputs(progress, stdout);
+   gotoxy(16, 18);
+   scrprintf(M_ARJDISP_CTR, calc_percentage(bytes, uncompsize)/10);
+  }
+@@ -165,19 +163,19 @@ static void show_ending_scrn()
+  textcolor(7);
+  clrscr();
+  gotoxy(2, 2);
+- scrprintf(win_top);
++ fputs(win_top, stdout);
+  for(i=3; i<24; i++)
+  {
+-  gotoxy(2, i); scrprintf(win_border);
+-  gotoxy(79, i); scrprintf(win_border);
++  gotoxy(2, i); fputs(win_border, stdout);
++  gotoxy(79, i); fputs(win_border, stdout);
+  }
+- gotoxy(2, 24); scrprintf(win_bottom);
++ gotoxy(2, 24); fputs(win_bottom, stdout);
+  gotoxy(10, 5);
+- scrprintf(M_ARJDISP_COPYRIGHT);
++ fputs(M_ARJDISP_COPYRIGHT, stdout);
+  gotoxy(10, 6);
+- scrprintf(M_ARJDISP_DISTRIBUTION);
++ fputs(M_ARJDISP_DISTRIBUTION, stdout);
+  gotoxy(10, 7);
+- scrprintf(M_ARJDISP_LICENSE);
++ fputs(M_ARJDISP_LICENSE, stdout);
+  gotoxy(16, 10);
+  scrprintf(M_FINISHED_PROCESSING, archive_name);
+  gotoxy(1, 24);
+Description: Refer to original author Robert K. Jung in the manual page.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/456275
+Forwarded: no
+Last-Update: 2008-06-16
+
+Index: b/resource/en/arj.1
+===================================================================
+--- a/resource/en/arj.1	2005-06-21 21:27:20.000000000 +0300
++++ b/resource/en/arj.1	2008-06-16 08:25:47.000000000 +0300
+@@ -21,6 +21,9 @@ arj \- Archiver for .arj files
+ .IR archive [ .arj ]
+ .RI [ "base directory" ]
+ .RI [ "!list name" | "path name" | "wildcard name" ]
++.SH DESCRIPTION
++\fIarj\fP is a compression and file archiving utility. It was invented by
++Robert K. Jung. \fIARJ\fP stands for \fIA\fPrchived by \fIR\fPobert \fIJ\fPung.
+ .SH COMMANDS
+ .TP
+ .B ac
+Description: Fix build failure on GNU/Hurd due to missing -ldl, by
+ adding “gnu*” to the configure case handling libdl linking.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2011-02-28
+
+---
+ gnu/configure.in |    7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+--- a/gnu/configure.in
++++ b/gnu/configure.in
+@@ -49,16 +49,11 @@ OS_DEF="-D_UNIX"
+ DLL_CFLAGS="-fPIC"
+ 
+ case $host_os in
+-linux*)
++gnu*|linux*|k*bsd*)
+ 	AC_DEFINE(ELF_EXECUTABLES, 1, [Define if executables use ELF format])
+         DYN_LIBS="-ldl"
+         LD_STRIP="gnu/stripgcc.lnk"
+ 	;;
+-k*bsd*)
+-	AC_DEFINE(ELF_EXECUTABLES)
+-	DYN_LIBS="-ldl"
+-	LD_STRIP="gnu/stripgcc.lnk"
+-	;;
+ *bsd*)
+ 	AC_DEFINE(ELF_EXECUTABLES)
+         DLL_FLAGS="-shared -export-dynamic"
+Description: Fix upstream build system to honour CPPFLAGS and LDFLAGS.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2013-05-09
+
+---
+ gnu/makefile.in |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+--- a/gnu/makefile.in
++++ b/gnu/makefile.in
+@@ -56,7 +56,7 @@ DEBUG_SM = r
+ ADD_LDFLAGS = -s @LD_STRIP@
+ endif
+ 
+-ALL_CFLAGS += $(CFLAGS)
++ALL_CFLAGS += @CPPFLAGS@ $(CPPFLAGS) @CFLAGS@ $(CFLAGS)
+ 
+ # Build Installation paths
+ 
+@@ -80,11 +80,11 @@ SFXSTUB_DIR = $(BASEDIR)/sfxstub
+ # Definitions for compiling submodules
+ 
+ LDFLAGS = @LDFLAGS@ $(ADD_LDFLAGS)
+-DLL_FLAGS = @DLL_FLAGS@ $(ADD_LDFLAGS)
++DLL_FLAGS = @DLL_FLAGS@ $(LDFLAGS)
+ DLL_CFLAGS = @DLL_CFLAGS@
+ REQUIRES_DEF = @REQUIRES_DEF@
+ 
+-COPT = -c -I@OUT_DIR@ -I$(BASEDIR) -I$(SRC_DIR) @CFLAGS@ $(ALL_CFLAGS)
++COPT = -c -I@OUT_DIR@ -I$(BASEDIR) -I$(SRC_DIR) $(ALL_CFLAGS)
+ STD_COPT = -DARJUTIL $(COPT)
+ ARJ_COPT = -DSFL=4 $(COPT)
+ ARJSFXV_COPT = -DSFL=3 $(COPT)
+@@ -189,7 +190,7 @@ msg-headers: $(MSG_HEADERS)
+ 	mkdir -p $@
+ 
+ .deps/%.d: %.c .deps
+-	$(CC) $(CPPFLAGS) $(COPT) $< -MM > $@
++	$(CC) $(COPT) $< -MM > $@
+ 
+ SOURCES = $(wildcard *.c)
+ DEPS = $(addprefix .deps/,$(SOURCES:.c=.d))
+Description: Support nostrip build option.
+ By changing the upstrem build system to optionally strip the binaries
+ after the linking stage and before their preprocessing.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/436473
+Forwarded: no
+Last-Update: 2013-05-10
+
+---
+ gnu/makefile.in |   18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+--- a/gnu/makefile.in
++++ b/gnu/makefile.in
+@@ -50,10 +50,15 @@ endif
+ 
+ ifdef DEBUG
+ DEBUG_SM = d
+-ALL_CFLAGS += -g -DDEBUG
++ALL_CFLAGS += -DDEBUG
+ else
+ DEBUG_SM = r
+-ADD_LDFLAGS = -s @LD_STRIP@
++endif
++
++ifdef BUILD_STRIP
++STRIP = strip --strip-unneeded --remove-section=.comment --remove-section=.note
++else
++STRIP = :
+ endif
+ 
+ ALL_CFLAGS += @CPPFLAGS@ $(CPPFLAGS) @CFLAGS@ $(CFLAGS)
+@@ -269,6 +274,7 @@ ARJCRYPT_OBJS = $(patsubst %,$(ARJCRYPT_
+ 
+ $(ARJCRYPT_DIR)/arjcrypt$d: $(ARJCRYPT_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(DLL_FLAGS) -o $@ $(ARJCRYPT_OBJS) $(ARJCRYPT_DEF) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc $@
+ 
+ $(BASEDIR)/nmsg_crp.c $(BASEDIR)/msg_crp.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+@@ -283,6 +289,7 @@ SFXSTUB_OBJS = $(patsubst %,$(SFXSTUB_DI
+ 
+ $(SFXSTUB_DIR)/sfxstub$x: $(SFXSTUB_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(SFXSTUB_OBJS) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+ $(BASEDIR)/nmsg_stb.c $(BASEDIR)/msg_stb.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+@@ -301,6 +308,7 @@ ARJSFXV_OBJS = $(patsubst %,$(ARJSFXV_DI
+ 
+ $(ARJSFXV_DIR)/arjsfxv$x: $(ARJSFXV_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFXV_OBJS) $(LIBS) $(DYN_LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+ $(BASEDIR)/fmsg_sfv.c $(BASEDIR)/imsg_sfv.c $(BASEDIR)/nmsg_sfv.c \
+@@ -319,6 +327,7 @@ ARJSFX_OBJS = $(patsubst %,$(ARJSFX_DIR)
+ 
+ $(ARJSFX_DIR)/arjsfx$x: $(ARJSFX_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFX_OBJS) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+ $(BASEDIR)/fmsg_sfx.c $(BASEDIR)/imsg_sfx.c $(BASEDIR)/nmsg_sfx.c \
+@@ -335,6 +344,7 @@ ARJSFXJR_OBJS = $(patsubst %,$(ARJSFXJR_
+ 
+ $(ARJSFXJR_DIR)/arjsfxjr$x: $(ARJSFXJR_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJSFXJR_OBJS) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc$x $@ -sfx
+ 
+ $(BASEDIR)/fmsg_sfj.c $(BASEDIR)/imsg_sfj.c $(BASEDIR)/nmsg_sfj.c \
+@@ -364,6 +374,7 @@ $(ARJ_DIR)/arj$x: $(ARJ_OBJS) \
+ 		  $(ARJSFX_DIR)/arjsfx$x \
+ 		  $(ARJSFXJR_DIR)/arjsfxjr$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJ_OBJS) $(LIBS) $(DYN_LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/join $(ARJ_DIR)/arj$x $(ARJSFXJR_DIR)/arjsfxjr$x
+ 	$(TOOLS_DIR)/join $(ARJ_DIR)/arj$x $(ARJSFX_DIR)/arjsfx$x
+ 	$(TOOLS_DIR)/join $(ARJ_DIR)/arj$x $(ARJSFXV_DIR)/arjsfxv$x
+@@ -390,6 +401,7 @@ REARJ_OBJS = $(patsubst %,$(REARJ_DIR)/%
+ $(REARJ_DIR)/rearj$x: $(REARJ_OBJS) \
+ 		      $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(REARJ_OBJS) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc $@
+ 
+ $(BASEDIR)/fmsg_rej.c $(BASEDIR)/imsg_rej.c $(BASEDIR)/nmsg_rej.c \
+@@ -407,6 +419,7 @@ REGISTER_OBJS = $(patsubst %,$(REGISTER_
+ $(REGISTER_DIR)/$(REGISTER)$x: $(REGISTER_OBJS) \
+ 		            $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(REGISTER_OBJS) $(LIBS)
++	$(STRIP) $@
+ 	$(TOOLS_DIR)/postproc $@ -sfx
+ 
+ $(BASEDIR)/fmsg_reg.c $(BASEDIR)/imsg_reg.c $(BASEDIR)/nmsg_reg.c \
+@@ -423,6 +436,7 @@ ARJDISP_OBJS = $(patsubst %,$(ARJDISP_DI
+ 
+ $(ARJDISP_DIR)/arjdisp$x: $(ARJDISP_OBJS)
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(ARJDISP_OBJS) $(LIBS)
++	$(STRIP) $@
+ 
+ $(BASEDIR)/fmsg_adi.c $(BASEDIR)/imsg_adi.c $(BASEDIR)/nmsg_adi.c \
+ $(BASEDIR)/msg_adi.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+Description: Support PIE build option.
+ We always pass -shared and -fPIC after all user defined flags, so that these
+ will override any possibly passed -fPIE option.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2016-06-03
+
+---
+ gnu/configure.in |    2 ++
+ gnu/makefile.in  |    4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+--- a/gnu/makefile.in
++++ b/gnu/makefile.in
+@@ -85,7 +85,7 @@ SFXSTUB_DIR = $(BASEDIR)/sfxstub
+ # Definitions for compiling submodules
+ 
+ LDFLAGS = @LDFLAGS@ $(ADD_LDFLAGS)
+-DLL_FLAGS = @DLL_FLAGS@ $(LDFLAGS)
++DLL_FLAGS = $(LDFLAGS) @DLL_FLAGS@
+ DLL_CFLAGS = @DLL_CFLAGS@
+ REQUIRES_DEF = @REQUIRES_DEF@
+ 
+@@ -98,7 +98,7 @@ ARJSFXJR_COPT = -DSFL=1 $(COPT)
+ REARJ_COPT = -DREARJ $(COPT)
+ REGISTER_COPT = -DREGISTER $(COPT)
+ ARJDISP_COPT = -DARJDISP $(COPT)
+-ARJCRYPT_COPT = $(DLL_CFLAGS) $(COPT)
++ARJCRYPT_COPT = $(COPT) $(DLL_CFLAGS)
+ SFXSTUB_COPT = -DSFXSTUB $(COPT)
+ 
+ # Linkage
+--- a/gnu/configure.in
++++ b/gnu/configure.in
+@@ -52,6 +52,8 @@ case $host_os in
+ gnu*|linux*|k*bsd*)
+ 	AC_DEFINE(ELF_EXECUTABLES, 1, [Define if executables use ELF format])
+         DYN_LIBS="-ldl"
++	DLL_FLAGS="-shared -fPIC"
++	DLL_CFLAGS="-fPIC"
+         LD_STRIP="gnu/stripgcc.lnk"
+ 	;;
+ *bsd*)
+Description: Fix arj self-integrity check on 64-bit systems
+Author: B Watson <yalhcru@gmail.com>
+Origin: other, http://slackbuilds.org/cgit/slackbuilds/tree/system/arj/patches/SBo_integrity_64bit.patch
+Forwarded: no
+Reviewed-By: Guillem Jover <guillem@debian.org>
+Last-Update: 2014-08-06
+
+diff -Naur arj-3.10.22/arj_proc.c arj-3.10.22.patched/arj_proc.c
+--- arj-3.10.22/arj_proc.c	2005-06-21 15:53:12.000000000 -0400
++++ arj-3.10.22.patched/arj_proc.c	2014-08-06 04:11:35.000000000 -0400
+@@ -7,6 +7,7 @@
+  *
+  */
+ 
++#include <stdint.h>
+ #include "arj.h"
+ 
+ DEBUGHDR(__FILE__)                      /* Debug information block */
+@@ -929,9 +930,9 @@
+  #endif
+  fclose(stream);
+  #if SFX_LEVEL>=ARJSFXV
+-  return(crc32term==st_crc&&fsize==st_fsize);
++  return((uint32_t)crc32term==(uint32_t)st_crc&&(uint32_t)fsize==(uint32_t)st_fsize);
+  #else
+-  if(crc32term==st_crc&&fsize==st_fsize)
++  if((uint32_t)crc32term==(uint32_t)st_crc&&(uint32_t)fsize==(uint32_t)st_fsize)
+    msg_cprintf(0, M_INTEGRITY_OK);
+   else
+    pause_error(M_INTEGRITY_VIOLATED);
+diff -Naur arj-3.10.22/postproc.c arj-3.10.22.patched/postproc.c
+--- arj-3.10.22/postproc.c	2003-06-22 07:12:28.000000000 -0400
++++ arj-3.10.22.patched/postproc.c	2014-08-06 03:22:16.000000000 -0400
+@@ -6,6 +6,7 @@
+  *
+  */
+ 
++#include <stdint.h>
+ #include "arj.h"
+ 
+ /* Operations */
+@@ -37,8 +38,9 @@
+ 
+ static char buf[PROC_BLOCK_SIZE];
+ 
+-static void _fput_dword(const unsigned long l, FILE *stream)
++static void _fput_dword(const unsigned long w, FILE *stream)
+ {
++ uint32_t l = (uint32_t)w;
+ #ifdef WORDS_BIGENDIAN
+  fputc(l    ,stream);
+  fputc(l>>8 ,stream);
+Description: Fix buffer overflow causing an invalid pointer free().
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/774015
+Forwarded: no
+Last-Update: 2015-02-26
+
+---
+ decode.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+--- a/decode.c
++++ b/decode.c
+@@ -255,7 +255,7 @@ void read_pt_len(int nn, int nbit, int i
+    if(i==i_special)
+    {
+     c=getbits(2);
+-    while(--c>=0)
++    while(--c>=0&&i<nn)
+      pt_len[i++]=0;
+    }
+   }
+@@ -314,10 +314,10 @@ void read_c_len()
+      c=getbits(CBIT);
+      c+=20;
+     }
+-    while(--c>=0)
++    while(--c>=0&&i<NC)
+      c_len[i++]=0;
+    }
+-   else
++   else if (i<NC)
+     c_len[i++]=(unsigned char)(c-2);
+   }
+   while(i<NC)
+Description: Fix absolute path traversals.
+ Catch multiple leading slashes when checking for absolute path traversals.
+ .
+ Fixes CVE-2015-0557.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/774435
+Forwarded: no
+Last-Update: 2015-02-26
+
+---
+ environ.c |    3 +++
+ 1 file changed, 3 insertions(+)
+
+--- a/environ.c
++++ b/environ.c
+@@ -1087,6 +1087,8 @@ static char *validate_path(char *name)
+   if(action!=VALIDATE_DRIVESPEC)
+   {
+ #endif
++   while (name[0]!='\0'&&
++          (name[0]=='.'||name[0]==PATHSEP_DEFAULT||name[0]==PATHSEP_UNIX)) {
+    if(name[0]=='.')
+    {
+     if(name[1]=='.'&&(name[2]==PATHSEP_DEFAULT||name[2]==PATHSEP_UNIX))
+@@ -1096,6 +1098,7 @@ static char *validate_path(char *name)
+    }
+    if(name[0]==PATHSEP_DEFAULT||name[0]==PATHSEP_UNIX)
+     name++;                             /* "\\" - revert to root */
++   }
+ #if SFX_LEVEL>=ARJSFXV
+   }
+  }
+Description: Fix symlink directory traversal.
+ Do not allow symlinks that traverse the current directoru, nor absolute
+ symlinks.
+ .
+ Fixes CVE-2015-0556.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/774434
+Forwarded: no
+Last-Update: 2015-03-28
+
+---
+ uxspec.c |   54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+--- a/uxspec.c
++++ b/uxspec.c
+@@ -120,6 +120,58 @@ int query_uxspecial(char FAR **dest, cha
+ }
+ #endif
+ 
++#if TARGET==UNIX
++static int is_link_traversal(const char *name)
++{
++  enum {
++    STATE_NONE,
++    STATE_DOTS,
++    STATE_NAME,
++  } state = STATE_NONE;
++  int ndir = 0;
++  int dots = 0;
++
++  while(*name) {
++    int c = *name++;
++
++    if (c == '/')
++    {
++      if ((state == STATE_DOTS) && (dots == 2))
++        ndir--;
++      if (ndir < 0)
++        return 1;
++      if ((state == STATE_DOTS && dots == 1) && ndir == 0)
++        return 1;
++      if (state == STATE_NONE && ndir == 0)
++        return 1;
++      if ((state == STATE_DOTS) && (dots > 2))
++        ndir++;
++      state = STATE_NONE;
++      dots = 0;
++    }
++    else if (c == '.')
++    {
++      if (state == STATE_NONE)
++        state = STATE_DOTS;
++      dots++;
++    }
++    else
++    {
++      if (state == STATE_NONE)
++        ndir++;
++      state = STATE_NAME;
++    }
++  }
++
++  if ((state == STATE_DOTS) && (dots == 2))
++    ndir--;
++  if ((state == STATE_DOTS) && (dots > 2))
++    ndir++;
++
++  return ndir < 0;
++}
++#endif
++
+ /* Restores the UNIX special file data */
+ 
+ int set_uxspecial(char FAR *storage, char *name)
+@@ -156,6 +208,8 @@ int set_uxspecial(char FAR *storage, cha
+      l=sizeof(tmp_name)-1;
+     far_memmove((char FAR *)tmp_name, dptr, l);
+     tmp_name[l]='\0';
++    if (is_link_traversal(tmp_name))
++      return(UXSPEC_RC_ERROR);
+     rc=(id==UXSB_HLNK)?link(tmp_name, name):symlink(tmp_name, name);
+     if(!rc)
+      return(0);
+Description: Fix out-of-bounds read
+ We need to handle possible overflows, by using an int instead of a short,
+ and terminating if after computing the index it is out-of-bounds.
+Author: Guillem Jover <guillem@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/783948
+Forwarded: no
+Last-Update: 2015-07-01
+
+---
+
+--- arj-3.10.22.orig/decode.c
++++ arj-3.10.22/decode.c
+@@ -416,10 +416,10 @@ static void NEAR decode_end()
+ 
+ void decode(int action)
+ {
+- short i;
+- short r;
+- short c;
+- static short j;
++ int i;
++ int r;
++ int c;
++ static int j;
+ 
+  #if SFX_LEVEL>=ARJSFXV
+  if(!setjmp(decode_proc))
+@@ -450,9 +450,12 @@ void decode(int action)
+    {
+     j=c-(UCHAR_MAX+1-THRESHOLD);
+     count-=(unsigned long)j;
+-    i=r-decode_p()-1;
++    int P = decode_p();
++    i=r-P-1;
+     if(i<0)
+      i+=DICSIZ;
++    if(i<0)
++      goto termination;
+     if(r>i&&r<DICSIZ-MAXMATCH-1)
+     {
+      while(--j>=0)
+--- a/gnu/makefile.in
++++ b/gnu/makefile.in
+@@ -243,8 +243,9 @@
+ $(TOOLS_DIR)/make_key$x: $(MAKE_KEY_OBJS)
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(MAKE_KEY_OBJS) $(LIBS)
+ 
+-$(TOOLS_DIR)/postproc$x: $(POSTPROC_OBJS)
+-	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(POSTPROC_OBJS) $(LIBS)
++$(TOOLS_DIR)/postproc$x:
++	printf '#!/bin/sh\ntrue\n' > $@
++	chmod +x $@
+ 
+ $(TOOLS_DIR)/join$x: $(JOIN_OBJS)
+ 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ $(JOIN_OBJS) $(LIBS)
