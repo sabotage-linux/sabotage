@@ -1,0 +1,21 @@
+[mirrors]
+https://www.infradead.org/~tgr/libnl/files/libnl-3.2.25.tar.gz
+
+[vars]
+filesize=832513
+sha512=3f9649577e9282cf41d2d4894aaecb2d53b4a1c51f9e674a6fb73393e9482f9f45e6f0ffa5815e606f972916e369774bfd85141a96c0e3d9d4ead3adea796286
+pkgver=1
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

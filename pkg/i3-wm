@@ -7,15 +7,29 @@ sha512=1bb1044e8d86e78d3ccb79d49f0eb26665dcd05a348058a5e57138151d74f57d77830efc3
 pkgver=2
 
 [deps]
+dmenu
+i3status
 libev
 libyajl
 libxcb
 xcb-util-keysyms
 xcb-util-cursor
 xcb-util-wm
+xcb-util-xrm
+xkbcommon
 pcre
 libstartup-notification
 
 [build]
-CPPFLAGS="-DGLOB_TILDE=0" make -j $MAKE_THREADS
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -DGLOB_TILDE=0" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+cd "$A"-pc-linux-gnu
+CPPFLAGS="-DGLOB_TILDE=0" make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
