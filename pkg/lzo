@@ -1,11 +1,10 @@
-[vars]
-filesize=583045
-sha512=2369b87627c6f075b58b88189344989969050289185596db1174e6d918baa2b86e6076c8ec9cc68953df10c13bd1145d841603f26bde8a80111fb0d7091bf1c7
-
 [mirrors]
-http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz
+http://www.oberhumer.com/opensource/lzo/download/lzo-2.09.tar.gz
 
-[deps]
+[vars]
+filesize=594855
+sha512=7c64e5e7d2050d75ac8c59d613f6f7230b74746b1d207666755b07450053c8b73980f12f8a1ec59d2af0bada02beec126aaacb675b8088b5fe65e97ff7e6bfc7
+pkgver=1
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
