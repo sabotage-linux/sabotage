@@ -1,10 +1,11 @@
 [mirrors]
-http://downloads.sourceforge.net/project/p7zip/p7zip/9.38.1/p7zip_9.38.1_src_all.tar.bz2
+http://downloads.sourceforge.net/project/p7zip/p7zip/16.02/p7zip_16.02_src_all.tar.bz2
 
 [vars]
-filesize=3917925
-sha512=f524ffae54e0d9563a509cc4b243e830d882a925e682eb2e15e2d19cb72c947fddecd72c8507d6c1538b997b240b0827046fc2fb4f5e3f7d49840257c92b9c04
-tardir=p7zip_9.38.1
+filesize=4239909
+sha512=d2c4d53817f96bb4c7683f42045198d4cd509cfc9c3e2cb85c8d9dc4ab6dfa7496449edeac4e300ecf986a9cbbc90bd8f8feef8156895d94617c04e507add55f
+pkgver=2
+tardir=p7zip_16.02
 desc='extractor for 7zip compression format'
 
 [deps]
