@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/howl-editor/howl/releases/download/0.4.1/howl-0.4.1.tgz
+
+[vars]
+filesize=2766078
+sha512=a5b42b7a81af36a9555eb6482f4e59933ae21b416eabe9d7bc404e416554d83db954021f0e3d8bbdc454a4e2a03a3d1ccd018c73e5d2b36c065e01ef03186442
+pkgver=1
+desc='luajit based lightweight editor'
+
+[deps]
+gtk+3
+
+[build]
+cd src
+dest="$butch_install_dir""$butch_prefix"
+make PREFIX="$dest" -j$MAKE_THREADS
+make PREFIX="$dest" install
