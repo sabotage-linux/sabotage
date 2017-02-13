@@ -1,0 +1,27 @@
+[mirrors]
+http://ftp.gnome.org/pub/gnome/sources/libgnome-keyring/3.8/libgnome-keyring-3.8.0.tar.xz
+
+[vars]
+filesize=426056
+sha512=9c2991ee7066e206b095ba82bc576d386b854d26637c1b6a9ae30ed9200bbb34a9c06c488624edcd6b607ad3b58b7954e6a3f1ee79fc9f595b7c517f23c06de7
+pkgver=1
+
+[deps]
+glib
+libgcrypt
+dbus
+dbus-glib
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags --disable-doc
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
