@@ -1,0 +1,37 @@
+[mirrors]
+https://github.com/EionRobb/skype4pidgin/archive/e77440568a353190a6a6edba73ea989c2260d871.tar.gz
+
+[vars]
+filesize=411640
+sha512=9f70cfa9af45a860968879fccac53c63c4af29bc132f110e6c8435c036ee924c398f2f84c971875057296f75b1ef052a1c1f96cb24ffe0dc4da06aeef02463ee
+pkgver=1
+tarball=skype4pidgin-e77440568a353190a6a6edba73ea989c2260d871.tar.gz
+tardir=skype4pidgin-e77440568a353190a6a6edba73ea989c2260d871
+
+[deps]
+pidgin
+json-glib
+
+[deps.host]
+cmake
+
+[build]
+mkdir -p skypeweb/build
+cd skypeweb/build
+cmake ..
+cpack
+
+dest="$butch_install_dir$butch_prefix"
+
+mkdir -p $dest/lib/purple-2/
+install -m644 libskypeweb.so $dest/lib/purple-2/
+
+mkdir -p $dest/share/pixmaps/pidgin/protocols/16
+install -m644 ../icons/16/skype.png $dest/share/pixmaps/pidgin/protocols/16/skype.png
+install -m644 ../icons/16/skypeout.png $dest/share/pixmaps/pidgin/protocols/16/skypeout.png
+mkdir -p $dest/share/pixmaps/pidgin/protocols/22
+install -m644 ../icons/22/skype.png $dest/share/pixmaps/pidgin/protocols/22/skype.png
+install -m644 ../icons/22/skypeout.png $dest/share/pixmaps/pidgin/protocols/22/skypeout.png
+mkdir -p $dest/share/pixmaps/pidgin/protocols/48
+install -m644 ../icons/16/skype.png $dest/share/pixmaps/pidgin/protocols/48/skype.png
+install -m644 ../icons/16/skypeout.png $dest/share/pixmaps/pidgin/protocols/48/skypeout.png

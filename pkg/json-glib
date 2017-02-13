@@ -1,0 +1,25 @@
+[mirrors]
+https://download.gnome.org/sources/json-glib/1.2/json-glib-1.2.2.tar.xz
+
+[vars]
+filesize=590376
+sha512=04cbb303c4c6fc6e8af8bc25353b7aff7454250e317f29e4544e850c251aa8c6c88f81cbada8aafd42db637f5521814a86720b0784bc6f202cb222140e993bcf
+pkgver=1
+
+[deps]
+glib
+pkg-config
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
