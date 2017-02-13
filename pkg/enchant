@@ -1,0 +1,21 @@
+[mirrors]
+http://www.abisource.com/downloads/enchant/1.6.0/enchant-1.6.0.tar.gz
+
+[vars]
+filesize=607018
+sha512=0ca1634bb783df51512df4abecc89abdadee6baf7330d6e5f90cc15d10779896a3521a1c079ecc07e4df4f7a018ce398cca9d0125a7845a314a059840ebc9137
+pkgver=1
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

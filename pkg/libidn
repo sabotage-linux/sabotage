@@ -1,0 +1,24 @@
+[mirrors]
+http://ftp.gnu.org/gnu/libidn/libidn-1.33.tar.gz
+
+[vars]
+filesize=3501056
+sha512=38dd459eaeda0c9e3cc2d24d967113515a499747550a2a9157f32357def90d71a3a3b52398e96a44a28cd5948dc353b0473c4ff0453a69720191c4cb49cac2c6
+pkgver=1
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+    --disable-gtk-doc-html
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+sed -i -e 's@src doc gltests@src gltests@g' Makefile
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,25 @@
+[mirrors]
+https://downloads.sourceforge.net/project/gtkspell/2.0.16/gtkspell-2.0.16.tar.gz
+
+[vars]
+filesize=351277
+sha512=7d3afb327c2e15608194e6ee6110107a0ce082e483788d831d636b2e579472304137373c09a966d8e5c0cd2f830bf2e0ee477c9b5fca7da6ee27fd1498915b9d
+pkgver=1
+
+[deps]
+enchant
+intltool
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

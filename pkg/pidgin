@@ -1,0 +1,33 @@
+[mirrors]
+https://downloads.sourceforge.net/project/pidgin/Pidgin/2.11.0/pidgin-2.11.0.tar.bz2
+
+[vars]
+filesize=10037480
+sha512=d6a9bb8075b475e5204d730075b432ca0f1cb91b6337f98e506587132581e6928a826b47e0b94fb9eaedc79c5be0a8237c4671fc26dba97dedad1adb74c9abfa
+pkgver=1
+
+[deps]
+gtk+2
+gtkspell2
+libidn
+libsm
+gnutls
+tcl
+tk
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+    --disable-gevolution --disable-gstreamer --disable-vv --disable-meanwhile \
+    --disable-avahi --disable-dbus --disable-screensaver
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
