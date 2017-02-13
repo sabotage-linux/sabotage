@@ -1,0 +1,8 @@
+[mirrors]
+https://github.com/vysheng/tl-parser/archive/36bf1902ff3476c75d0b1f42b34a91e944123b3c.tar.gz
+
+[vars]
+filesize=66966
+sha512=b59175ce26cda58b5810df6373e077543ac36ee72668d7939764f7a692eb937e93352e1e76ad0aba1347c5ea12d36496e3e4687d179ec935f3b87829fc2d30fe
+pkgver=1
+tarball=tl-parser-36bf1902ff3476c75d0b1f42b34a91e944123b3c.tar.gz
