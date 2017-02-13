@@ -1,0 +1,43 @@
+[mirrors]
+https://github.com/majn/telegram-purple/archive/766335c34d7bc68cde2a51e45a10f4f02ac3bc2e.tar.gz
+
+[vars]
+filesize=190371
+sha512=52c6ae9f5439d86846995d9a6b8a7540368bd4af0dc0ba0fcc43e2efc1e3ffb270eb37d583508d2a4af1a77e02378bd5825e909822dc3b8831f8e96478c3b70f
+pkgver=1
+tarball=pidgin-telegram-purple-766335c34d7bc68cde2a51e45a10f4f02ac3bc2e.tar.gz
+tardir=telegram-purple-766335c34d7bc68cde2a51e45a10f4f02ac3bc2e
+
+[deps]
+pidgin
+libgcrypt
+libwebp
+gettext
+zlib
+tgl-tarball
+tl-parser-tarball
+
+[build]
+tar -xzvf "$C"/tgl-624cf5ac27433b9716c224ecaa8f1deee0616f99.tar.gz
+rm -r tgl
+mv tgl-* tgl
+tar -xzvf "$C"/tl-parser-36bf1902ff3476c75d0b1f42b34a91e944123b3c.tar.gz
+rm -r tgl/tl-parser
+mv tl-parser-* tgl/tl-parser
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+echo "#ifndef GIT_COMMIT" > commit.h
+echo "#  define GIT_COMMIT \"766335c34d7bc68cde2a51e45a10f4f02ac3bc2e\"" >> commit.h
+echo "#endif" >> commit.h
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

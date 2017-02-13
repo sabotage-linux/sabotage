@@ -1,0 +1,8 @@
+[mirrors]
+https://github.com/majn/tgl/archive/624cf5ac27433b9716c224ecaa8f1deee0616f99.tar.gz
+
+[vars]
+filesize=242665
+sha512=0adf34ed6d3f066cd14e58d4a8b9e62fc8c1ff81e0d0f137b1660b5dd2707bfa7cc97b610ff6c6b1ccb3398f9cbedf441eed6deb3ccba702a3fbb4a0f57aaec1
+pkgver=1
+tarball=tgl-624cf5ac27433b9716c224ecaa8f1deee0616f99.tar.gz
