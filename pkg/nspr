@@ -1,0 +1,24 @@
+[mirrors]
+https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v4.13.1/src/nspr-4.13.1.tar.gz
+
+[vars]
+filesize=1136646
+sha512=4755dce1a0fddbf4991f46328bdd15b6b07162792370953e16481be56952d4c02d11a83001b3600c80a919b1c45e99d6150ef2c24d407c86f430f9376fe6a694
+pkgver=1
+
+[build]
+cd nspr
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+[ $A = "x86_64" ] && en64="--enable-64bit"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags $en64
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

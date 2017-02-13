@@ -1,0 +1,33 @@
+[mirrors]
+https://github.com/EionRobb/pidgin-opensteamworks/archive/151047b06da36c2c3ee36052a04ce0b41b673d4d.tar.gz
+
+[vars]
+filesize=147974
+sha512=007c7f21f45a5028b90dd5597d1c650b15918a84420807aabe59813c253d9f6fed2cea6836ed4374e1fd06b87eefa37a71cc1ab94f6dc7f453b68b00a26e9b10
+pkgver=1
+tarball=pidgin-opensteamworks-151047b06da36c2c3ee36052a04ce0b41b673d4d.tar.gz
+tardir=pidgin-opensteamworks-151047b06da36c2c3ee36052a04ce0b41b673d4d
+
+[deps]
+pidgin
+json-glib
+libgnome-keyring
+nss
+
+[build]
+export PKG_CONFIG_PATH=/lib/PKG_CONFIG_PATH
+
+cd steam-mobile
+make -j$MAKE_THREADS
+
+dest="$butch_install_dir$butch_prefix"
+
+mkdir -p $dest/lib/purple-2
+install -m644 libsteam.so $dest/lib/purple-2
+
+mkdir -p $dest/share/pixmaps/pidgin/protocols/16
+install -m644 steam16.png $dest/share/pixmaps/pidgin/protocols/16/steam.png
+mkdir -p $dest/share/pixmaps/pidgin/protocols/22
+install -m644 steam22.png $dest/share/pixmaps/pidgin/protocols/22/steam.png
+mkdir -p $dest/share/pixmaps/pidgin/protocols/48
+install -m644 steam48.png $dest/share/pixmaps/pidgin/protocols/48/steam.png

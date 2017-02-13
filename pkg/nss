@@ -1,0 +1,43 @@
+[mirrors]
+https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_29_RTM/src/nss-3.29.tar.gz
+
+[vars]
+filesize=7477439
+sha512=0f4dd026b6b32122d8cafa92fa37199b0678f8fef75e375446eddd0cc6ddda1a796e3222caa8bb01b3633911899394d0cb1e4d392880438f68c8ef7290dcb4fa
+pkgver=1
+
+[deps]
+nspr
+zlib
+sqlite
+
+[build]
+patch -p1 < "$K"/nss-3.29-standalone-1.patch
+
+cd nss
+
+make -j1 BUILD_OPT=1 \
+  NSPR_INCLUDE_DIR=/include/nspr \
+  USE_SYSTEM_ZLIB=1 \
+  ZLIB_LIBS=-lz \
+  NSS_USE_SYSTEM_SQLITE=1 \
+  $([ "$A" = x86_64 ] && echo USE_64=1)
+
+cd ../dist
+dest="$butch_install_dir$butch_prefix"
+
+mkdir -p $dest/lib/pkgconfig/
+install -m644 Linux*/lib/pkgconfig/nss.pc  $dest/lib/pkgconfig
+for i in Linux*/lib/*.so; do install -m644 $i $dest/lib; done
+for i in Linux*/lib/*.chk; do install -m644 $i $dest/lib; done
+install -m644 Linux*/lib/libcrmf.a $dest/lib/
+
+mkdir -p $dest/include/nss
+cp -RL public/nss/* $dest/include/nss/
+cp -RL private/nss/* $dest/include/nss/
+chmod 644 $dest/include/nss/*
+
+mkdir -p $dest/bin
+install -m755 Linux*/bin/certutil $dest/bin/
+install -m755 Linux*/bin/pk12util $dest/bin/
+install -m755 Linux*/bin/nss-config $dest/bin/
