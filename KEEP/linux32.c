@@ -33,8 +33,7 @@ static _Noreturn void usage(void) {
 int main(int argc, char** argv) {
 	if(argc == 1) usage();
 	if(personality(PER_LINUX32) == -1) die("could not set 32bit persona");
-	extern char ** environ;
-	if(execve(argv[1], &argv[1], environ) == -1) perror("execve");
+	if(execvp(argv[1], &argv[1]) == -1) perror("execvp");
 	return 1;
 }
 
