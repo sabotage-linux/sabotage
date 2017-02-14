@@ -1,10 +1,10 @@
-[vars]
-tardir=libepoxy-1.2
-filesize=267110
-sha512=1104fc7e6cbb4bb95e422e7801491067806df6849690be4068b5eec33a5fc84672a5bb4666357e9a46d2fae436f83b37402b6cc0c4ee69627e48d48a4d32a2ed
-
 [mirrors]
-http://ftp.cc.uoc.gr/mirrors/linux/lfs/LFS/conglomeration/libepoxy/libepoxy-1.2.tar.gz
+http://ftp.cc.uoc.gr/mirrors/linux/lfs/LFS/conglomeration/libepoxy/libepoxy-1.4.0.tar.xz
+
+[vars]
+filesize=767536
+sha512=1bdd1bccf825ce9e250ad9403774c456ed98ad3e5d9b4dcbbc6e691052cd1d488ac45d02c2e3a985794e0fa4a563de11cee15b246befd198d8aacdc0111b6b44
+pkgver=2
 
 [deps]
 libx11
