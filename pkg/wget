@@ -1,10 +1,11 @@
 [mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.19.tar.xz
+http://ftp.gnu.org/gnu/wget/wget-1.19.1.tar.xz
 
 [vars]
-filesize=2075916
-sha512=2dd49d063dc3a210c4959b70ec301bb3ea5c6ba00c9a6407d0b79f8ab5a14534a2a1108b2013ff959e8089f706006d103c8794c6d638b954996873ca3ef481fc
-pkgver=2
+filesize=2111756
+sha512=00864d225439bcb7c5af01d7ef19efa615427812d3320ab3f4c8f62c38191e837b1392397843f935d7dc5860a4d0ce89ee31f2730c4a729402f1f2bf3e5f64e5
+pkgver=3
+desc='command line program for file downloads supporting various protocols'
 
 [deps]
 libressl
