@@ -1,12 +1,12 @@
 [mirrors]
-http://distfiles.macports.org/file/file-5.29.tar.gz
-ftp://ftp.astron.com/pub/file/file-5.29.tar.gz
-http://dbg.download.sourcemage.org/fallback/file-5.29.tar.gz
+http://distfiles.macports.org/file/file-5.30.tar.gz
+ftp://ftp.astron.com/pub/file/file-5.30.tar.gz
+http://dbg.download.sourcemage.org/fallback/file-5.30.tar.gz
 
 [vars]
-filesize=783919
-sha512=58db17a6bea5d71723f3f7d25300985b3aa78f27fdb1e8b9bb41e61dc325236acaca7c1475cc2725ed672151e1764892dff83d37c24313fe26f45ee3388d4462
-pkgver=2
+filesize=789345
+sha512=473ee57517b449bae0832c17c9db914162c2404f0c669951f13a53f44ae288e6075907bac44fcfa8915f3d9313981a8bc15ea7e9851f584f95988bc76b2f20fc
+pkgver=3
 desc='analyzes files and often outputs helpful information'
 
 [build]
@@ -19,5 +19,5 @@ CFLAGS="$optcflags" \
 ./configure -C --prefix="$butch_prefix" \
   --disable-shared $xconfflags
 sed -i 's/memory.h/string.h/' src/encoding.c src/ascmagic.c
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
