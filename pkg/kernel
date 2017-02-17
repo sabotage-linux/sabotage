@@ -2,9 +2,6 @@
 kernel-tarball
 kernel-patches
 
-[deps.host]
-gcc6
-
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
