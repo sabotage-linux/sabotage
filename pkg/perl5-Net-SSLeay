@@ -1,12 +1,13 @@
-[deps]
-perl
-
 [mirrors]
-http://search.cpan.org/CPAN/authors/id/M/MI/MIKEM/Net-SSLeay-1.55.tar.gz
+http://search.cpan.org/CPAN/authors/id/M/MI/MIKEM/Net-SSLeay-1.80.tar.gz
 
 [vars]
-filesize=394657
-sha512=204928a95937b31216008986692ef96370ab6623c9238b69a10452db40ce0b1d50d97813c53eca6debb5f605afa946fd4a468fd32fa63572c275ce0ad33ab855
+filesize=395820
+sha512=03b5f2ba86d20f31ef50029af94b1bcf513c7b99d9666a04e83aba4f7c8cce3e30daf6df85932619949f059177660f49a928488e61b967a12dd4aec41eafad95
+pkgver=2
+
+[deps]
+perl
 
 [build]
 perl Makefile.PL
