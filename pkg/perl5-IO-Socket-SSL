@@ -1,13 +1,14 @@
+[mirrors]
+http://search.cpan.org/CPAN/authors/id/S/SU/SULLR/IO-Socket-SSL-2.047.tar.gz
+
+[vars]
+filesize=215199
+sha512=402d08d0c3fc9fb34ca83f371c1368cced68636198b0cb807562d480335784183850d1f1f9deb82b2ede312e86116624ed09439915c81cbbed3412e8e5697a72
+pkgver=2
+
 [deps]
 perl
 perl5-Net-SSLeay
-
-[mirrors]
-http://search.cpan.org/CPAN/authors/id/S/SU/SULLR/IO-Socket-SSL-1.955.tar.gz
-
-[vars]
-filesize=90057
-sha512=dd54ee9aec107cdbcde5906581685344d72334cc6b621e70663f5488a8418d8e621e1ef23b92602f223984648491d5b9c8860277a1d45142d9a53e6b63bc3aa8
 
 [build]
 perl Makefile.PL
