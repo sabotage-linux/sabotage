@@ -1,12 +1,13 @@
 [mirrors]
-https://inkscape.org/gallery/item/10552/inkscape-0.92.0.tar.bz2
+https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
 
 [vars]
-filesize=30827883
-sha512=1d1cfa878af8a3d804a075e6cf120af1dd21541fcc2763c37b8e6f1b359cf6b31a7ed13ee5d1b1147d3732899ef485dbe2ce638654b4272fb0972556a0360594
+filesize=31222684
+sha512=f8f3bfb812a214216c3ffac7064a4619f847cf9810417c782481dba12e6c6a44123c8b8a9289fbf5287f2e6b6df39a641d94a000d842faee5ff808eec86187a0
+tarball=inkscape-0.92.1.tar.bz2
+pkgver=8
 desc='vector graphic manipulation program'
 uchkurl=https://inkscape.org/en/download/source/
-pkgver=7
 
 [deps]
 poppler
