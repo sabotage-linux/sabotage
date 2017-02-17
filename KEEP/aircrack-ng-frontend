@@ -13,7 +13,7 @@ monitor=${wlanif}mon
 [ -e ./aircrack-vars.sh ] && . ./aircrack-vars.sh
 
 [ x$1 = x ] && {
-	echo "usage: $0 [mon|monz|test|dump|assoc|arp(r)|crack(k)|deauth|stopmon|stopmonz|powerup]"
+	echo "usage: $0 [mon|monz|scan|test|dump|assoc|arp(r)|crack(k)|deauth|stopmon|stopmonz|powerup]"
 	echo "run each of the commands in the above order"
 	echo "and all of them except the first 2 in an own term"
 	echo "deauth requires as additional parameter the mac of the client"
@@ -52,6 +52,9 @@ monitor=${wlanif}mon
 
 # capture traffic - you need to capture at least 20-40K IVs
 [ x$1 = xdump ] && airodump-ng -c $channel --bssid $ap_mac -w output $monitor
+
+# capture traffic and look around who's there
+[ x$1 = xscan ] && airodump-ng -w output $monitor
 
 # associate with ap - you eventually want to call this in a loop with sleep 60
 [ x$1 = xassoc ] && {
