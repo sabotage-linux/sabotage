@@ -8,6 +8,7 @@ BEGIN {
 	if (ARGC<2) {
 		error("please provide one or more packages to print the build order for.")
 	}
+	if(norecurse!=1) dorecurse=1
 	debugmode=ENVIRON["DEBUG"]
 	if(!ENVIRON["DEPS"]) ENVIRON["DEPS"]="all"
 	split(ENVIRON["DEPS"],x,":")
@@ -65,7 +66,7 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 		if (/^\s*$/ || !inDepsSection) {
 			continue
 		}
-		print_build_order(dep)
+		if(recursion == 1 || dorecurse) print_build_order(dep)
 	}
 	if (r == -1) {
 		error("unable to read from " pkgFile)
