@@ -299,8 +299,11 @@ if test $mode = outdated || test $mode = update ; then
 	force=true
 fi
 
+[ -z "$DEPS" ] && DEPS=build:host:run
+
 for x_ in $args ; do
 	test -r "$S"/pkg/"$x_" || die "$S/pkg/$x_ does not exist or no read permission!"
+	case "$x_" in stage[0-9]) DEPS="$DEPS":"$x_" ;; esac
 done
 
 deps=$($AWKPROG -f $BINDIR/butch-deps $args)
