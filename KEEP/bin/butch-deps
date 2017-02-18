@@ -24,7 +24,8 @@ BEGIN {
 	}
 	recursion=0
 	for(a=1; a<ARGC; a++) {
-		print_build_order(ARGV[a])
+		n=split(ARGV[a],b_a,"/")
+		print_build_order(b_a[n])
 	}
 }
 
