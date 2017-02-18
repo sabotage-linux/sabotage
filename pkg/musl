@@ -8,7 +8,7 @@ pkgver=3
 desc='the musl C standard library (libc)'
 no_unlink=1
 
-[deps.host]
+[deps.stage1]
 gcc6
 
 [build]
