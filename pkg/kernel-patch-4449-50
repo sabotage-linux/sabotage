@@ -4,4 +4,4 @@ http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.49-50.xz
 [vars]
 filesize=7576
 sha512=f4366b71ad1936251d725c8d3af549a7f52318faa62cf626fd60045ae0454f4f5c415d14486317ae7d9db7b2e045f585b5c866f60481d191ba1760ffd10d7769
-
+tarball=kernel-patch-4.4.49-50.xz
