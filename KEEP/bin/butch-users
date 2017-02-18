@@ -17,22 +17,13 @@ test "$search_pkg" = "--help" && {
 	echo "Usage: $0 PKGNAME - print packages that depend on PKGNAME"
 	exit 1
 }
-get_section() { #section, filename
-  awk -v s="$1" '{if($1~/^\[/){if($1=="[" s "]")i=1;else if(i==1)exit;}else{if(i==1)print $0}}' "$2"
-}
+BINDIR=$(dirname $(readlink -f "$0"))
 
 [ -z "$DEPS" ] && DEPS=build:host:run
 for fn in `find "$pkgdir"/` ; do
 	[ -d "$fn" ] && continue
-	pkg=$(basename "$fn")
-	for i in 1 2 3 ; do
-		sec=deps.$(printf "%s" "$DEPS" | cut -d : -f $i)
-		[ "$sec" = "deps." ] && continue
-		[ "$sec" = "deps.build" ] && sec=deps
-		get_section "$sec" "$fn" | grep -x "$search_pkg">/dev/null && {
-#		butch printsec "$pkg" "$sec" | grep "$search_pkg">/dev/null && {
-			printf "%s\n" "$pkg"
-			break
-		}
-	done
+	if "$BINDIR"/butch-deps -v norecurse=1 "$fn" | grep -x "$search_pkg">/dev/null ;
+	then
+		printf "%s\n" $(basename "$fn")
+	fi
 done
