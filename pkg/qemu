@@ -23,6 +23,14 @@ python
 patch -p1 < "$K"/qemu22-fix-sigevent-and-sigval_t.patch
 patch -p1 < "$K"/qemu-262-powerpc.patch
 
+testlib() {
+	printf "int main() {}\n" > test_lib.c
+	$CC test_lib.c -l$1 >/dev/null 2>&1
+}
+
+alsalib=
+testlib asound && alsalib=--audio-drv-list=alsa
+
 CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 # F_EXLCK is 4; F_SHLCK 8 on all archs except alpha
 CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8 -DXATTR_SIZE_MAX=65536"
@@ -36,7 +44,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --disable-werror \
   --disable-vnc \
   --disable-bluez \
-  --enable-sdl
+  --enable-sdl \
+  $alsalib
 
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
