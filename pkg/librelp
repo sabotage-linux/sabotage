@@ -1,9 +1,10 @@
 [mirrors]
-http://download.rsyslog.com/librelp/librelp-1.2.12.tar.gz
+http://download.rsyslog.com/librelp/librelp-1.2.13.tar.gz
 
 [vars]
-filesize=437945
-sha512=bfc38882404e06c047bdabd203d71beba67bc5a717d2d6733863f15f0a3a09b4a792a628a1653c102c828fde7ff67cc8ade637de785399ab48a68605b23a72ed
+filesize=437877
+sha512=62d22998711ed82f30a1fce7c6b25dca514717c513d5833ce9ea6951d20f6922787213285be710c30fd28fd80d07ee9313f92cc7e09531ca8ac5e12627dbc868
+pkgver=2
 desc='reliable logging library'
 
 [deps]
