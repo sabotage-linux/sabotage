@@ -1,0 +1,200 @@
+From: rofl0r
+
+lxpanel's cpufreq was completely crippled, turned into a read-only zombie.
+it only displayed the current governor and CPU speed, and all the code to
+switch speeds and governors was commented out and bitrotted since years.
+
+there was a comment saying something that the code works only as root, but
+that can easily be changed by setting group permissions and 644 on the
+responsible files:
+/sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor
+/sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_setspeed
+
+commit bed635b7456302033d47d491f786c7def441a113
+( https://git.lxde.org/gitweb/?p=lxde/lxpanel.git;a=blobdiff;f=src/plugins/cpufreq/cpufreq.c;h=f9d2b9a44af171814d4a41a60503a3eb37d7959d;hp=dd68ddbe5170ae0884271de59a720468439e5a02;hb=fbe0300a4b71c75867fbe1fead7e236d82d1aa3a;hpb=bed635b7456302033d47d491f786c7def441a113 )
+says it was done to silence warnings...
+
+i re-enabled the commented out code, fixed the build errors due to changes
+to the surrounding code, and finally changed the 2 routines responsible for
+changing cpu speed and governor to apply the changes to *all* cpus,
+while the existing code worked only on the first cpu. probably nobody noticed
+because when the code was last used it was still single-core era.
+in some circumstances it might make sense to change settings differently
+per-cpu, however supporting that would require one plugin open per core
+(currently possible), with each one having its own configuration for
+which cpu to work on. that's probably not so straightforward, and currently
+out of scope.
+
+
+--- lxpanel-0.8.2/plugins/cpufreq/cpufreq.c
++++ lxpanel-0.8.2.patched/plugins/cpufreq/cpufreq.c
+@@ -52,7 +52,7 @@
+     char* cur_governor;
+     int   cur_freq;
+     unsigned int timer;
+-    //gboolean remember;
++    gboolean remember;
+ } cpufreq;
+ 
+ typedef struct {
+@@ -99,7 +99,7 @@
+     }
+ }
+ 
+-/*static void
++static void
+ get_governors(cpufreq *cf){
+     FILE *fp;
+     GList *l;
+@@ -137,18 +137,38 @@
+     fclose(fp);
+ }
+ 
+-static void
+-cpufreq_set_freq(GtkWidget *widget, Param* p){
++static void set_file(const char* cpu, const char* val, const char* file) {
+     FILE *fp;
+-    char buf[ 100 ], sstmp [ 256 ];
++    char path [ 256 ];
++    sprintf(path, "%s/%s", cpu, file);
++    if ((fp = fopen( path, "w")) != NULL) {
++        fprintf(fp,"%s",val);
++        fclose(fp);
++    }
++}
+ 
++static void set_freq(const char* cpu, const char* val) {
++    set_file(cpu, val, SCALING_SETFREQ);
++}
++
++static void set_gov(const char* cpu, const char* val) {
++    set_file(cpu, val, SCALING_GOV);
++}
++
++
++static void
++cpufreq_set_freq(GtkWidget *widget, Param* p){
+     if(strcmp(p->cf->cur_governor, "userspace")) return;
++    GList *curr;
++    for(curr = p->cf->cpus; curr; curr = curr->next)
++        set_freq(curr->data, p->data);
++}
+ 
+-    sprintf(sstmp,"%s/%s",p->cf->cpus->data, SCALING_SETFREQ);
+-    if ((fp = fopen( sstmp, "w")) != NULL) {
+-        fprintf(fp,"%s",p->data);
+-        fclose(fp);
+-    }
++static void
++cpufreq_set_governor(GtkWidget *widget, Param* p) {
++    GList *curr;
++    for(curr = p->cf->cpus; curr; curr = curr->next)
++        set_gov(curr->data, p->data);
+ }
+ 
+ static GtkWidget *
+@@ -189,7 +209,7 @@
+ 
+     fclose(fp);
+     return GTK_WIDGET(menu);
+-}*/
++}
+ 
+ static void
+ get_cpus(cpufreq *cf)
+@@ -228,18 +248,6 @@
+     g_dir_close(cpuDirectory);
+ }
+ 
+-/*static void
+-cpufreq_set_governor(GtkWidget *widget, Param* p){
+-    FILE *fp;
+-    char buf[ 100 ], sstmp [ 256 ];
+-
+-    sprintf(sstmp, "%s/%s", p->cf->cpus->data, SCALING_GOV);
+-    if ((fp = fopen( sstmp, "w")) != NULL) {
+-        fprintf(fp,"%s",p->data);
+-        fclose(fp);
+-    }
+-}
+-
+ static GtkWidget *
+ cpufreq_menu(cpufreq *cf){
+     GList *l;
+@@ -291,7 +299,7 @@
+     }
+ 
+     return GTK_WIDGET (menu);
+-}*/
++}
+ 
+ 
+ 
+@@ -299,13 +307,14 @@
+ clicked(GtkWidget *widget, GdkEventButton *evt, LXPanel *panel)
+ {
+     ENTER;
++    cpufreq *plugin = lxpanel_plugin_get_data(widget);
+ 
+     /* Standard right-click handling. */
+     if( evt->button == 1 )
+     {
+ // Setting governor can't work without root privilege
+-//      gtk_menu_popup( cpufreq_menu((cpufreq*)plugin->priv), NULL, NULL, NULL, NULL,
+-//                      evt->button, evt->time );
++      gtk_menu_popup( GTK_MENU(cpufreq_menu(plugin)), NULL, NULL, NULL, NULL,
++                      evt->button, evt->time );
+       return TRUE;
+     }
+ 
+@@ -355,17 +364,20 @@
+ 
+     get_cpus(cf);
+ 
+-    //if (config_setting_lookup_int(settings, "Remember", &tmp_int)) cf->remember = tmp_int != 0;
+-    //if (config_setting_lookup_int(settings, "Governor", &tmp_str)) cf->cur_governor = g_strdup(tmp_str);
+-    //config_setting_lookup_int(settings, "Frequency", &cf->cur_freq);
++    int tmp_int;
++    const char *tmp_str;
+ 
++    if (config_setting_lookup_int(settings, "Remember", &tmp_int)) cf->remember = tmp_int != 0;
++    if (config_setting_lookup_string(settings, "Governor", &tmp_str)) cf->cur_governor = g_strdup(tmp_str);
++    config_setting_lookup_int(settings, "Frequency", &cf->cur_freq);
++
+     _update_tooltip(cf);
+     cf->timer = g_timeout_add_seconds(2, update_tooltip, (gpointer)cf);
+ 
+     RET(cf->main);
+ }
+ 
+-/*
++
+ static gboolean applyConfig(gpointer user_data)
+ {
+     cpufreq *cf = lxpanel_plugin_get_data(user_data);
+@@ -374,15 +386,15 @@
+     return FALSE;
+ }
+ 
+-static GtkWidget *config(LXPanel *panel, GtkWidget *p, GtkWindow *parent)
++static GtkWidget *config(LXPanel *panel, GtkWidget *p)
+ {
+     cpufreq *cf = lxpanel_plugin_get_data(p);
+     return lxpanel_generic_config_dlg(_("CPUFreq frontend"), panel, applyConfig, p,
+             _("Remember governor and frequency"), &cf->remember, CONF_TYPE_BOOL,
+             NULL);
+ }
+-*/
+ 
++
+ static void
+ cpufreq_destructor(gpointer user_data)
+ {
+@@ -402,6 +414,6 @@
+     .description = N_("Display CPU frequency and allow to change governors and frequency"),
+ 
+     .new_instance = cpufreq_constructor,
+-    //.config      = config,
++    .config      = config,
+     .button_press_event = clicked
+ };
