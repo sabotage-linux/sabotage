@@ -1,13 +1,14 @@
-[deps]
-gmp
+[mirrors]
+http://www.mpfr.org/mpfr-current/mpfr-3.1.5.tar.xz
+http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.5.tar.xz
 
 [vars]
-filesize=1016096
-sha512=a025e70bff2f0b8e2d5c93f147a04c66ae40fa6595613671495eeb2a93ad720098826a634fa2255432de3e98ef8d3c0a7ef2ee461b006bf0ab0c0d39858b7a85
+filesize=1126668
+sha512=3643469b9099b31e41d6ec9158196cd1c30894030c8864ee5b1b1e91b488bccbf7c263c951b03fe9f4ae6f9d29279e157a7dfed0885467d875f107a3d964f032
+pkgver=1
 
-[mirrors]
-http://www.mpfr.org/mpfr-3.0.1/mpfr-3.0.1.tar.xz
-http://ftp.gnu.org/gnu/mpfr/mpfr-3.0.1.tar.xz
+[deps]
+gmp
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
