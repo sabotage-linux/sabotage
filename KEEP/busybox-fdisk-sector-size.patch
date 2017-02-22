@@ -1,6 +1,6 @@
---- busybox-1.20.2.org/util-linux/fdisk.c
-+++ busybox-1.20.2/util-linux/fdisk.c
-@@ -85,17 +85,8 @@
+--- a/util-linux/fdisk.c
++++ b/util-linux/fdisk.c
+@@ -166,17 +166,8 @@
  
  
  typedef unsigned long long ullong;

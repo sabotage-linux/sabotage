@@ -1,8 +1,6 @@
-https://bugs.busybox.net/show_bug.cgi?id=9631
-
---- busybox-1.20.2.org/libbb/procps.c
-+++ busybox-1.20.2/libbb/procps.c
-@@ -475,11 +475,17 @@
+--- a/libbb/procps.c
++++ b/libbb/procps.c
+@@ -473,11 +473,17 @@
  				sp->state[1] = 'W';
  			else
  				sp->state[1] = ' ';

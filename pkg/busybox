@@ -1,11 +1,11 @@
 [mirrors]
-http://www.busybox.net/downloads/busybox-1.20.2.tar.bz2
+http://busybox.net/downloads/busybox-1.26.2.tar.bz2
 
 [vars]
-filesize=2186738
-sha512=089b67cd920f332daf910711739b1e55ba4c76cfa2122dfe5464432e0d76d3af8327837ebc3cc9954deef3e8f766d16a1928aecb2c169fe3de5a722eea7ea3dd
+filesize=2120931
+sha512=9926d211d0b4f34b513d934d7b111ebbf933c2dc31206bdd80426a62d47d5b1475b70bec5aaa14a26b94a202ab1465d994062a002750a312dcb8167096eb3719
 no_unlink=1
-pkgver=2
+pkgver=3
 
 [deps]
 kernel-headers
@@ -31,36 +31,12 @@ dopatch() {
 cp "$K"/busybox.stage1.config .config
 dopatch "$K"/busybox.patch
 dopatch "$K"/busybox-blowfish.patch
-dopatch "$K"/busybox-unzip.patch
-dopatch "$K"/busybox-xz-bugfix1.patch
-dopatch "$K"/busybox-xz-bugfix2.patch
-dopatch "$K"/busybox-xz-bugfix3.patch
-dopatch "$K"/busybox-man.patch
-dopatch "$K"/busybox-sed.patch
-dopatch "$K"/busybox-awk-emptyfun.patch
-dopatch "$K"/busybox-awk-int-overflow.patch
-dopatch "$K"/busybox-tar-norecurse.patch
-dopatch "$K"/busybox-tar-xz.patch
-dopatch "$K"/busybox-tar-xz2.patch
-dopatch "$K"/busybox-bzip2bug.patch
-dopatch "$K"/busybox-fdisk-gpt-size.patch
 dopatch "$K"/busybox-fdisk-sector-size.patch
-dopatch "$K"/busybox-ping.patch
 dopatch "$K"/busybox-ping2.patch
-dopatch "$K"/busybox-grep-x.patch
-dopatch "$K"/busybox-sort.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
-dopatch "$K"/busybox-wget-https.patch
-dopatch "$K"/busybox-cve-2013-1813.patch
-dopatch "$K"/busybox-cve-2014-4607.patch
-dopatch "$K"/busybox-cve-2016-2147.patch
-dopatch "$K"/busybox-msghdr.patch
 dopatch "$K"/busybox-reproducible.patch
 dopatch "$K"/busybox-top-gratuitous-space.patch
 dopatch "$K"/busybox-gzip-deterministic.patch
-
-#__inline seems to get activated when -std=gnu99 is used, causing havoc
-sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
 
 if [ ! -z "$DEBUGBUILD" ] ; then
 	debugcflags="-O0 -g"

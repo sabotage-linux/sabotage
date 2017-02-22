@@ -1,38 +1,38 @@
 --- a/networking/ping.c
 +++ b/networking/ping.c
-@@ -469,6 +1053,7 @@
+@@ -155,6 +155,7 @@
  	pingsock = 0,
  };
- 
+
 +static int using_dgram;
  static void
  #if ENABLE_PING6
  create_icmp_socket(len_and_sockaddr *lsa)
-@@ -501,6 +1086,7 @@
- 		if (sock < 0)
- #endif
- 		bb_error_msg_and_die(bb_msg_perm_denied_are_you_root);
-+		using_dgram = 1;
+@@ -173,6 +174,7 @@
+ 	if (sock < 0) {
+ 		if (errno == EPERM)
+ 			bb_error_msg_and_die(bb_msg_perm_denied_are_you_root);
++			using_dgram = 1;
+ 		bb_perror_msg_and_die(bb_msg_can_not_create_raw_socket);
  	}
- 
- 	xmove_fd(sock, pingsock);
-@@ -551,10 +1137,12 @@
+
+@@ -226,10 +228,11 @@
  				bb_perror_msg("recvfrom");
  			continue;
  		}
 -		if (c >= 76) {			/* ip + icmp */
 -			struct iphdr *iphdr = (struct iphdr *) G.packet;
+-
+-			pkt = (struct icmp *) (G.packet + (iphdr->ihl << 2));	/* skip ip hdr */
 +		if (c >= 76 || using_dgram && (c == 64)) {			/* ip + icmp */
 +			if(!using_dgram) {
 +				struct iphdr *iphdr = (struct iphdr *) G.packet;
- 
--			pkt = (struct icmp *) (G.packet + (iphdr->ihl << 2));	/* skip ip hdr */
 +				pkt = (struct icmp *) (G.packet + (iphdr->ihl << 2));	/* skip ip hdr */
 +			} else pkt = (struct icmp *) G.packet;
+ 			if (pkt->icmp_id != G.myid)
+ 				continue; /* not our ping */
  			if (pkt->icmp_type == ICMP_ECHOREPLY)
- 				break;
- 		}
-@@ -946,19 +1533,21 @@
+@@ -627,19 +630,21 @@
  }
  static void unpack4(char *buf, int sz, struct sockaddr_in *from)
  {
@@ -40,7 +40,7 @@
  	struct iphdr *iphdr;
 +	struct icmp *icmppkt;
  	int hlen;
- 
+
  	/* discard if too short */
  	if (sz < (datalen + ICMP_MINLEN))
  		return;
@@ -51,7 +51,7 @@
 +		sz -= hlen;
 +		icmppkt = (struct icmp *) (buf + hlen);
 +	} else icmppkt = (struct icmp *) buf;
- 
+
 -	/* check IP header */
 -	iphdr = (struct iphdr *) buf;
 -	hlen = iphdr->ihl << 2;
@@ -59,8 +59,8 @@
 -	icmppkt = (struct icmp *) (buf + hlen);
  	if (icmppkt->icmp_id != myid)
  		return;				/* not our ping */
- 
-@@ -970,7 +1559,7 @@
+
+@@ -651,7 +656,7 @@
  			tp = (uint32_t *) icmppkt->icmp_data;
  		unpack_tail(sz, tp,
  			inet_ntoa(*(struct in_addr *) &from->sin_addr.s_addr),
@@ -69,9 +69,9 @@
  	} else if (icmppkt->icmp_type != ICMP_ECHO) {
  		bb_error_msg("warning: got ICMP %d (%s)",
  				icmppkt->icmp_type,
-@@ -1014,11 +1603,31 @@
+@@ -695,11 +700,31 @@
  	int sockopt;
- 
+
  	pingaddr.sin = lsa->u.sin;
 -	if (source_lsa) {
 +	if (source_lsa && !using_dgram) {
@@ -100,12 +100,12 @@
 +		}
 +		myid = sa.sin_port;
  	}
- 
+
  	/* enable broadcast pings */
-@@ -1035,6 +1644,15 @@
- 		setsockopt(pingsock, IPPROTO_IP, IP_MULTICAST_TTL, &opt_ttl, sizeof(opt_ttl));
+@@ -716,6 +741,15 @@
+ 		setsockopt_int(pingsock, IPPROTO_IP, IP_MULTICAST_TTL, opt_ttl);
  	}
- 
+
 +	if(using_dgram) {
 +		int hold = 65536;
 +		if (setsockopt(pingsock, SOL_IP, IP_RECVTTL, (char *)&hold, sizeof(hold)))
@@ -116,36 +116,36 @@
 +	}
 +
  	signal(SIGINT, print_stats_and_exit);
- 
+
  	/* start the ping's going ... */
-@@ -1069,10 +1687,33 @@
+@@ -749,10 +783,33 @@
  	char control_buf[CMSG_SPACE(36)];
- 
+
  	pingaddr.sin6 = lsa->u.sin6;
 -	if (source_lsa)
 +	if (source_lsa && !using_dgram)
  		xbind(pingsock, &source_lsa->u.sa, source_lsa->len);
 +	else if(using_dgram) {
-+                struct sockaddr_in6 sa = {0};
-+                socklen_t sl;
- 
-+                sa.sin6_family = AF_INET6;
-+                sa.sin6_port = 0;
++		struct sockaddr_in6 sa = {0};
++		socklen_t sl;
+
++		sa.sin6_family = AF_INET6;
++		sa.sin6_port = 0;
 +		if(source_lsa) {
 +			memcpy(&sa.sin6_addr, &source_lsa->u.sin6.sin6_addr, sizeof(struct in6_addr));
 +		}
-+                sl = sizeof(sa);
++		sl = sizeof(sa);
 +
-+                if (bind(pingsock, (struct sockaddr *) &sa, sl) == -1) {
-+                        perror("bind");
-+                        exit(2);
-+                }
++		if (bind(pingsock, (struct sockaddr *) &sa, sl) == -1) {
++			perror("bind");
++			exit(2);
++		}
 +
-+                if (getsockname(pingsock, (struct sockaddr *) &sa, &sl) == -1) {
-+                        perror("getsockname");
-+                        exit(2);
-+                }
-+                myid = sa.sin6_port;
++		if (getsockname(pingsock, (struct sockaddr *) &sa, &sl) == -1) {
++			perror("getsockname");
++			exit(2);
++		}
++		myid = sa.sin6_port;
 +	}
 +
  #ifdef ICMP6_FILTER
@@ -153,10 +153,10 @@
  	{
  		struct icmp6_filter filt;
  		if (!(option_mask32 & OPT_VERBOSE)) {
-@@ -1198,7 +1839,7 @@
- 			str_I = NULL; /* don't try to bind to device later */
- 		}
- 	}
+@@ -880,7 +937,7 @@
+ 	if (opt & OPT_p)
+ 		G.pattern = xstrtou_range(str_p, 16, 0, 255);
+
 -	myid = (uint16_t) getpid();
 +	if(!using_dgram) myid = (uint16_t) getpid();
  	hostname = argv[optind];
