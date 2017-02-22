@@ -18,6 +18,7 @@ do_allow_user_ping=true
 do_disable_ipv6=false
 do_disable_ipv6_accept_ra=true
 do_cleanup_x11=true
+do_user_cpufreq=false
 
 if $do_allow_user_ping ; then
 	# give groups 1000 - MAX access.
@@ -136,4 +137,14 @@ fi
 if $do_cleanup_x11 ; then
 	# auto-cleanup stale X11 lock
 	rm -f /tmp/.X0-lock
+fi
+if $do_user_cpufreq ; then
+	# add your user to group cpufreq
+	if ! cat /etc/group | cut -d ':' -f 1 | grep -x cpufreq >/dev/null ; then
+		addgroup -S cpufreq
+	fi
+	for i in /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_setspeed ; do
+		chown root:cpufreq "$i"
+		chmod 664 "$i"
+	done
 fi
