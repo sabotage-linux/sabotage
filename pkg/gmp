@@ -1,13 +1,14 @@
-[deps.host]
-m4
+[mirrors]
+http://ftpmirror.gnu.org/gmp/gmp-6.1.2.tar.xz
+ftp://ftp.gmplib.org/pub/gmp-6.1.2/gmp-6.1.2.tar.xz
 
 [vars]
-filesize=2024576
-sha512=b53cc482e73aa91ae4f83301d9ef83a98cd85cfe53347e102a059fa477edceebded466223b436bc250314eb6ec2e53ecc4fa1528341435f09e232f0c4e305bad
+filesize=1946336
+sha512=9f098281c0593b76ee174b722936952671fab1dae353ce3ed436a31fe2bc9d542eca752353f6645b7077c1f395ab4fdd355c58e08e2a801368f1375690eee2c6
+pkgver=1
 
-[mirrors]
-http://ftpmirror.gnu.org/gmp/gmp-5.0.2.tar.bz2
-ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2
+[deps.host]
+m4
 
 [build]
 # force correct ABI detection on x86 (could fail if a 64bit kernel is used)
