@@ -12,6 +12,11 @@ printf "%s: start\n" "`timestamp`"
 # that butch uses (R,S,C...).
 %BUTCH_CONFIG
 
+test -z "$K" -o -z "$S" && {
+	echo "ERROR: K not passed in BUTCH_CONFIG">&2
+	exit 1
+}
+
 # early exit when producing a build script for a package without build
 # section.
 test "$skip_build" = true && exit 0
@@ -75,6 +80,10 @@ fi
 [ -z "$butch_pack_dest" ] && butch_pack_dest="$S/dist/"
 
 butch_package_name=%BUTCH_PACKAGE_NAME
+[ -z "$butch_package_name" ] && {
+	echo "ERROR: butch_package_name missing">&2
+	exit 1
+}
 butch_prefix=/
 
 filelist="$butch_filelists/$butch_package_name.txt"
@@ -103,6 +112,11 @@ butch_package_version=0.0.0
 if $butch_do_custom_destdir ; then
 	butch_install_dir="$butch_custom_destdir"
 	if $butch_do_cleanup_custom_destdir ; then
+		case "$butch_custom_destdir" in
+		/|//|///|$butch_staging_dir|$butch_staging_dir/|$butch_staging_dir//)
+		echo "ERROR: prevented removal of $butch_custom_destdir">&2
+		exit 1 ;;
+		esac
 		rm -rf "$butch_custom_destdir"
 		if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
 			"$K"/bin/butch-unlink "$butch_package_name"
