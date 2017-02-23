@@ -134,6 +134,10 @@ dl_one() {
 	logname=$LOGPATH/dl_$1.log
 	info "downloading $1 ($scrname) -> $logname"
 	$BINDIR/butch-merge $1 $BUTCH_DOWNLOAD_TEMPLATE > $scrname
+	test $? = 0 || {
+		echo "FAIL $1"
+		return 1
+	}
 	chmod +x $scrname
 	$scrname > $logname 2>&1 && echo "OK $1" || echo "FAIL $1"
 }
@@ -216,6 +220,10 @@ start_build() {
 	logname=$LOGPATH/build_$1.log
 	info "building $1 ($scrname) -> $logname"
 	$BINDIR/butch-merge $1 $BUTCH_BUILD_TEMPLATE > $scrname
+	test $? = 0 || {
+		echo "error: butch-merge failed"
+		exit 1
+	}
         chmod +x $scrname
 	success=false
         $scrname </dev/null > $logname 2>&1 && success=true

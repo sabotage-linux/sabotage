@@ -11,6 +11,18 @@ merges pkg with template and writes the result to stdout.
 EOF
 }
 [ -z "$2" ] && usage
+echo ABC | grep ABC >/dev/null || {
+	echo "error: grep not working!">&2
+	exit 1
+}
+test $(echo ABC | sed 's/ABC/abc/') = abc || {
+	echo "error: sed not working!">&2
+	exit 1
+}
+test $(echo "ABC abc" | $AWK '{print $2}') = abc || {
+	echo "error: awk not working!">&2
+	exit 1
+}
 pkg="$(basename "$1")"
 template="$2"
 [ -r "$S/pkg/$pkg" ] && [ -r "$2" ] || { echo "error could not read $S/pkg/$pkg and $2"; exit 1; }
