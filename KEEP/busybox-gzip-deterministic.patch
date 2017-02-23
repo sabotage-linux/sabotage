@@ -1,0 +1,42 @@
+do not write unix timestamp in gzip header, since it breaks reproducibility.
+upstream already has this patch as 7f7ade1964f61172125d9f4fe92f0b07ce8bc7a4
+--- a/archival/gzip.c
++++ b/archival/gzip.c
+@@ -1980,7 +1980,7 @@
+  * IN assertions: the input and output buffers are cleared.
+  */
+ 
+-static void zip(ulg time_stamp)
++static void zip(void)
+ {
+ 	ush deflate_flags = 0;  /* pkzip -es, -en or -ex equivalent */
+ 
+@@ -1991,7 +1991,7 @@
+ 	/* compression method: 8 (DEFLATED) */
+ 	/* general flags: 0 */
+ 	put_32bit(0x00088b1f);
+-	put_32bit(time_stamp);
++	put_32bit(0);
+ 
+ 	/* Write deflated file to zip file */
+ 	G1.crc = ~0;
+@@ -2017,8 +2017,6 @@
+ static
+ IF_DESKTOP(long long) int FAST_FUNC pack_gzip(transformer_aux_data_t *aux UNUSED_PARAM)
+ {
+-	struct stat s;
+-
+ 	/* Clear input and output buffers */
+ 	G1.outcnt = 0;
+ #ifdef DEBUG
+@@ -2050,9 +2048,7 @@
+ 	G2.bl_desc.max_length  = MAX_BL_BITS;
+ 	//G2.bl_desc.max_code    = 0;
+ 
+-	s.st_ctime = 0;
+-	fstat(STDIN_FILENO, &s);
+-	zip(s.st_ctime);
++	zip();
+ 	return 0;
+ }
+ 
