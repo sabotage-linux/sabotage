@@ -29,7 +29,7 @@ if ! $skip_first_build ; then
 fi
 $BINDIR/butch checksum -d "$pkg" >/tmp/butch-reproduce.$$.build1
 rm -rf "$butch_install_dir".build1
-mv "$butch_install_dir" "$butch_install_dir".build1
+cp -a "$butch_install_dir" "$butch_install_dir".build1
 fingerprint1=$(tail -n 1 < /tmp/butch-reproduce.$$.build1)
 grep -x -v "$fingerprint1" /tmp/butch-reproduce.$$.build1 > /tmp/butch-reproduce.$$.build1b
 echo "<<<<< starting build 2 >>>>>"
