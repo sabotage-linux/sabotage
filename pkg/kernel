@@ -44,6 +44,22 @@ dopatch "$K"/linux-3.18-posix_sed.patch
 # https://bugs.kali.org/view.php?id=3028
 dopatch "$K"/linux-4.3-ralink-monitor.patch
 
+# force reproducible build
+sed -i Makefile -e 's/--build-id/--build-id=none/g'
+sed -i usr/gen_init_cpio.c -e 's/time(NULL)/0/' \
+    -e 's,default_mtime = strtol,break;//,'
+
+gzip_timestamp=$(echo test | gzip -c | dd bs=1 count=4 skip=4 2>/dev/null | od -t x4 | head -n1 | cut -d " " -f 2)
+test "$gzip_timestamp" = 00000000 || cat << EOF
+WARNING: your build will be non-reproducible, because your gzip doesn't default
+to creating zero timestamps. there are numerous places where the kernel embeds
+gzipped files (for example the future /proc/config.gz). it would need some eff-
+ort to patch all gzip callsites to use gzip -n. sabotage's busybox is patched
+to do the right thing, and upstream busybox does the same. in case you can't
+easily use busybox' gzip command, you could install pikhq's mini gzip
+https://github.com/pikhq/gzip somewhere into your PATH so it's picked up first.
+EOF
+
 export ARCH=$A
 linux_config="$K"/linux.config
 
