@@ -1,0 +1,18 @@
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/microsocks-0.0.1.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/microsocks-0.0.1.tar.xz
+
+[vars]
+filesize=7624
+sha512=2765e5edbc833d022af164b0f42469ab81348c7caaa1d49cfd96ae1721e0bcb9668c7a4427ee56fe6c10234f22f78bd27279086f62013bc37d15af8e437cdef4
+pkgver=1
+desc='tiny socks5 server'
+
+[build]
+printf "LDFLAGS += -static %s\n" "$optldflags" > config.mak
+printf "CFLAGS += %s\n" "$optcflags" >> config.mak
+
+make -j$MAKETHREADS
+make DESTDIR="$butch_install_dir" prefix="$butch_prefix" install
+
+
