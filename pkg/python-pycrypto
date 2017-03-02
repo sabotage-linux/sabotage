@@ -1,11 +1,10 @@
 [mirrors]
-https://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/pycrypto-2.6.tar.gz
-https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.tar.gz
-http://sources.openelec.tv/devel/pycrypto-2.6.tar.gz
+https://pypi.python.org/packages/60/db/645aa9af249f059cc3a368b118de33889219e0362141e75d4eaf6f80f163/pycrypto-2.6.1.tar.gz
 
 [vars]
-filesize=443445
-sha512=7dc82f258e87aad458e88626c5167c17ef9f967aadfc62c41592e14476acf247dd41468bc7351ebb15a6e26f106e5f62bb3a00686b18522b1607e3c7e36b53a8
+filesize=446240
+sha512=20a4aed4dac4e9e61d773ebc1d48ea577e9870c33f396be53d075a9bf8487d93e75e200179882d81e452efd0f6751789bac434f6f431b3e7c1c8ef9dba392847
+pkgver=2
 
 [deps]
 python
