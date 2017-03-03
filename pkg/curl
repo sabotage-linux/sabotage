@@ -1,10 +1,10 @@
 [mirrors]
-https://curl.haxx.se/download/curl-7.52.1.tar.lzma
+https://curl.haxx.se/download/curl-7.53.1.tar.lzma
 
 [vars]
-filesize=2068290
-sha512=721d98cffd5089044bd32e6450df45ca5bd0df8f58d23fe3716285cffdfff5b64adb0b9971d73d3740d0cdba16c3029730416c53071cb18248da7749f075c03e
-pkgver=6
+filesize=2076935
+sha512=1a04904a32b3c8767bcdc629c08446495ed40b7ed20e96d74101a0539bc88eba9a2350712afda94d886520f480172f532f020f0c730deb2bbec0bdc2eb5371ea
+pkgver=7
 desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
 
 [deps]
