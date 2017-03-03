@@ -1,9 +1,9 @@
 [deps]
-kernel-tarball
-kernel-patches
+kernel44-tarball
+kernel44-patches
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel.version)
+LINUX_VER=$(cat "$K"/kernel44.version)
 tarball=linux-"$LINUX_VER".tar.xz
 pkgver=32
 no_unlink=1
@@ -25,7 +25,7 @@ dopatch() {
 	fi
 }
 
-for p in $(cat "$K"/kernel.patches) ; do
+for p in $(cat "$K"/kernel44.patches) ; do
 	kpatch="$C"/kernel-patch-"$p".xz
 	[ -e "$kpatch" ] || {
 		echo "error: kernel patch $kpatch not found"
