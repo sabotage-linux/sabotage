@@ -1,10 +1,10 @@
 [mirrors]
-https://www.mercurial-scm.org/release/mercurial-4.1.tar.gz
+https://www.mercurial-scm.org/release/mercurial-4.1.1.tar.gz
 
 [vars]
-filesize=5125009
-sha512=02e4aabe47473194961870909d4512a4be6814cccb51b727dfa9a34dd0aa5f92bfad7b03e6b58ce6c7e2531df52dac530f02264df28dcfc801036fe103cd4471
-pkgver=5
+filesize=5132169
+sha512=b076336a10d524e85a7eb46e0da7b1b5adb34ca377ec162ebf0b3fc1f3749db10bd9144ce046dda63aa0e6ad65d10e288919d65a88d5a9346b26a47d4b21bd49
+pkgver=6
 desc='distributed version control system written in python'
 
 [deps.run]
