@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/adventuregamestudio/ags/releases/download/v.3.4.0.14/ags_linux_v.3.4.0.14.tar.xz
+https://github.com/adventuregamestudio/ags/releases/download/v.3.4.0.15/ags_linux_v.3.4.0.15.tar.xz
 
 [vars]
-filesize=858764
-sha512=ee8a38119925189b8208b90519681ae8418f493f13c5c84aad1a6a6727d86fae14293abe0b4a533cf6709aa4a0dfa88ba5602dab5220979f20e1b95cf8cc9dc3
-pkgver=5
+filesize=858580
+sha512=405e9d501c64c8c9688754f64a597a8d69d5eba1f8712df0431104d44ae7320434e50f51071b9ab18e7d6bdd2665833b34eb475ef8df451d0b3c96d7c99b01b3
+pkgver=6
 desc='adventure game studio engine to play several hundreds of free ags games'
 
 [mirrors]
