@@ -1,10 +1,10 @@
 [mirrors]
-http://dovecot.org/releases/2.2/dovecot-2.2.27.tar.gz
+http://dovecot.org/releases/2.2/dovecot-2.2.28.tar.gz
 
 [vars]
-filesize=5794668
-sha512=faab441bb2afa1e6de3e6ec6207c92a333773941bbc10c4761483ef6ccc193d3a4983de1acc73325122c22b197ea25c1e54886cccfb6b060ede90936a69b71f2
-pkgver=3
+filesize=5921992
+sha512=3f40eb52413130dd47da98470d797ede63db3296923c2888b48f1a021e473cfcad064671ad804037d101990457ee57def30f2c27010ede2d758f3d3cfd8ef741
+pkgver=4
 desc='security-focused IMAP and POP3 server'
 service=dovecot
 serviceflags="--down --log"
@@ -13,8 +13,6 @@ serviceflags="--down --log"
 libressl
 
 [build]
-patch -p1 < "$K"/dovecot-libressl.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
