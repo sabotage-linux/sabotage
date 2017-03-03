@@ -12,7 +12,7 @@ flex
 bison
 
 [build]
-patch -p1 < "$K"/perf-4.4.2-debuglink.patch
+patch -p1 < "$K"/perf-4.10-debuglink.patch
 patch -p1 < "$K"/linux-4.10-perf-sysconf.patch
 cd tools/perf
 cat << EOF > hack.h
