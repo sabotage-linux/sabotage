@@ -5,7 +5,7 @@ http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.3.tar.xz
 [vars]
 filesize=320208
 sha512=1f0f6228a13df992dea4c5ff1d76add88369ae68cb28369549b34a0ec447b4443976b7c62e443e80682e42b513d1bc26a9fe5150cc69e274803dd76b340040f6
-pkgver=3
+pkgver=4
 
 [deps]
 musl
@@ -25,4 +25,8 @@ make CFLAGS="-D_GNU_SOURCE -DHAVE_PREAD $optcflags" LDFLAGS="$optldflags -llzma"
   DESTDIR="$butch_install_dir" CC="$CC" STRIP= \
   HOST=$($CC -dumpmachine) \
   -j$MAKE_THREADS install-lib
+
+dest="$butch_install_dir""$butch_prefix"
+sed -i '/^Libs:/d' "$dest"/lib/pkgconfig/libpci.pc
+sed -i 's/^Libs.private:/Libs: -lpci /' "$dest"/lib/pkgconfig/libpci.pc
 
