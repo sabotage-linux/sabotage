@@ -1,0 +1,29 @@
+[mirrors]
+https://01.org/sites/default/files/downloads/powertop/powertop-2.8.tar.gz
+
+[vars]
+filesize=670000
+sha512=253d0e15f0972cf8639735c510f4884d49a0da76c31dd2f39603e2297e6c6f0b9fa283c7b3cb04a431c91f8296275c0adaecc4c3e9ea132c0c31064f7f432c80
+pkgver=1
+
+[deps]
+pciutils
+libnl-tiny
+curses
+
+[build]
+patch -p1 < "$K"/powertop-strerror_r.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+LIBNL_CFLAGS=-I"$butch_root_dir""$butch_prefix"/include/libnl-tiny \
+LIBNL_LIBS=-lnl-tiny \
+CPPFLAGS="-D_GNU_SOURCE -Dresetterm=reset_shell_mode" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lz" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,21 @@
+--- powertop-2.8.org/traceevent/event-parse.c
++++ powertop-2.8/traceevent/event-parse.c
+@@ -5121,6 +5121,7 @@
+ 	const char *msg;
+ 
+ 	if (errnum >= 0) {
++#ifdef __GLIBC__
+ 		msg = strerror_r(errnum, buf, buflen);
+ 		if (msg != buf) {
+ 			size_t len = strlen(msg);
+@@ -5128,6 +5129,10 @@
+ 			*(buf + min(buflen - 1, len)) = '\0';
+ 		}
+ 		return 0;
++#else
++		if(!strerror_r(errnum, buf, buflen)) return 0;
++		return -1;
++#endif
+ 	}
+ 
+ 	if (errnum <= __PEVENT_ERRNO__START ||
