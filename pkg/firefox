@@ -152,6 +152,9 @@ EOF
 [ -n "$CROSS_COMPILE" ] && \
   printf "ac_add_options %s\n" "--target=$($CC -dumpmachine)" >> mozconfig
 
+# prevent non-reproducible BuildID timestamps everywhere
+export MOZ_BUILD_DATE=20170301000000
+
 mkdir -p include/sys
 cat << EOF > include/sys/cdefs.h
 #ifndef __P
@@ -166,6 +169,8 @@ sed -i 's@MOZ_OPTIMIZE_FLAGS=@MOZ_OPTIMIZE_FLAGS= #@g' configure
 sed -i 's@MOZ_PGO_OPTIMIZE_FLAGS=@MOZ_PGO_OPTIMIZE_FLAGS= #@g' configure
 sed -i 's@MOZ_DEBUG_FLAGS=@MOZ_DEBUG_FLAGS= #@g' configure
 sed -i 's@HOST_OPTIMIZE_FLAGS=@HOST_OPTIMIZE_FLAGS= #@g' configure
+
+sed -i 's@-Wl,--build-id@@' configure
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
@@ -213,3 +218,5 @@ StartupNotify=true
 EOF
 ln -sf ../../lib/firefox-"$FF_VERSION"/browser/icons/mozicon128.png \
 "$dest"/share/pixmaps/firefox.png
+
+rm -f "$dest"/lib/firefox-"$FF_VERSION"/lib*.chk
