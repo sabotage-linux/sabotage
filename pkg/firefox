@@ -1,12 +1,12 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.7.0esr/source/firefox-45.7.0esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.7.0esr/source/firefox-45.7.0esr.source.tar.xz
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.8.0esr/source/firefox-45.8.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.8.0esr/source/firefox-45.8.0esr.source.tar.xz
 
 [vars]
-filesize=184131284
-sha512=6424101b6958191ce654d0619950dfbf98d4aa6bdd979306a2df8d6d30d3fecf1ab44638061a2b4fb1af85fe972f5ff49400e8eeda30cdcb9087c4b110b97a7d
-pkgver=5
-tardir=firefox-45.7.0esr
+filesize=185229628
+sha512=f7b5e0c659b2e824cee7f3784e2d72c562915af91c7e316ec1519305755d2126d91b74c47f96c8b4fc7377710f295545c58b2f989c65c268fc23677ef8cf5c85
+pkgver=6
+tardir=firefox-45.8.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 no_unlink=1
 
@@ -32,7 +32,7 @@ perl
 python
 
 [build]
-FF_VERSION=45.7.0esr
+FF_VERSION=45.8.0esr
 export SHELL=/bin/sh
 
 PATCH() {
