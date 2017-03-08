@@ -1,10 +1,10 @@
 [mirrors]
-http://download.geany.org/geany-1.29.tar.bz2
+http://download.geany.org/geany-1.30.tar.bz2
 
 [vars]
-filesize=4364252
-sha512=b09bc347a0a0c6ab960790d6485808b54d12d0db97b48388fce4998cb30620186f0dec0f24e55884fcc5772ed533581b583f47bd767508aab0e176f09220bc11
-pkgver=2
+filesize=4381257
+sha512=86a18ea79a6da69f01035fa57dd6dbc0706d0445fb7d4dac7e895f60f06e9de4df22fe3e3ecbc70d487c95c2fca9e269916ebd9fd944b4fdc5bfedce80bccb4a
+pkgver=3
 desc='GTK+ text editor with basic IDE features'
 
 [deps]
@@ -14,8 +14,6 @@ gtk+2
 perl
 
 [build]
-#https://github.com/geany/geany/issues/829
-sed -i 's@which \$CXX@true@' configure
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
