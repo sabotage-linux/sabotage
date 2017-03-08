@@ -30,4 +30,10 @@ while test -n "$1" ; do
 done
 test -z "$sarg" && die "$0: need at least 2 args"
 test -r "$sarg" || die "$0: no read perms for $sarg"
-sed 's/^_//' < "$sarg" > "$larg"
+if printf "%s" "$sarg"|grep "\.xml\.in$" >/dev/null 2>&1 ; then
+	sed -e 's,<_\([-A-Za-z0-9_]*\)>,<\1>,g' \
+	    -e 's,</_\([-A-Za-z0-9_]*\)>,</\1>,g' \
+	< "$sarg" > "$larg"
+else
+	sed 's/^_//' < "$sarg" > "$larg"
+fi
