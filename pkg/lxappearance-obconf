@@ -10,6 +10,8 @@ lxappearance
 openbox
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

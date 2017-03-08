@@ -9,6 +9,8 @@ sha512=d6a50481aaa8946cca3779e0b328fef551be534d70366a75385d1f8ead3fcddec57bed85c
 gtk+2
 
 [build]
+. "$K"/intltool-fix
+
 cp -f "$K"/config.sub .
 
 [ -n "$CROSS_COMPILE" ] && \

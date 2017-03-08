@@ -19,6 +19,8 @@ libsm
 glib
 
 [build]
+. "$K"/intltool-fix
+
 # https://bugzilla.gnome.org/show_bug.cgi?id=637055
 patch -p1 < "$K"/evince-scroll.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=638312

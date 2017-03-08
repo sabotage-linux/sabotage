@@ -10,6 +10,8 @@ desc='minimalistic GTK+ text editor. useful to copy text terminal <-> GUI apps'
 gtk+2
 
 [build]
+. "$K"/intltool-fix
+
 patch -p1 < "$K"/leafpad-savebug.patch
 patch -p1 < "$K"/leafpad-taskbar-icon.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"

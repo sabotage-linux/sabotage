@@ -8,6 +8,8 @@ sha512=f5a14c44d827ba2355efd10c78732157f5645392ebbeb8e2a8126340a36eeba2842eff0c5
 [deps]
 
 [build]
+. "$K"/intltool-fix
+
 patch -p1 < "$K"/openbox-config.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

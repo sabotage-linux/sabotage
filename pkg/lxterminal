@@ -10,7 +10,7 @@ desc='GTK+ terminal emulator'
 vte2
 
 [build]
-#patch -p1 < "$K"/some.patch
+. "$K"/intltool-fix
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
