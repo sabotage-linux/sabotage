@@ -20,6 +20,10 @@ esac
 larg=
 sarg=
 while test -n "$1" ; do
+	case "$1" in
+		-x|-u|-d) shift ; continue ;;
+		-c) shift ; shift ; continue ;;
+	esac
 	sarg="$larg"
 	larg="$1"
 	shift
