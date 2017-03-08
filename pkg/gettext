@@ -1,12 +1,12 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/gettext-tiny-0.0.5.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/gettext-tiny-0.0.5.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/gettext-tiny-0.0.5.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
 
 [vars]
-filesize=8112
-sha512=db5f4540bdc09da4e01af299743b00a3120e6fffe4191c0ecd46d321fc4ce95bda26e5dd30fcba755121bc1dba47326ea907d8b6250cebee9e0887981a5cc7f7
-pkgver=2
+filesize=38912
+sha512=432c97800b682dea616af2437007fc131782b676da18fd6f13205b3021e962b969845110afc52ee74447dc4ebf54be0607eed2b7670d5c0545798b8aee89bf29
+pkgver=3
 
 [deps]
 musl
