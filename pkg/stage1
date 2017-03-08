@@ -15,6 +15,7 @@ man
 zlib
 binutils
 patch
+sbase-join
 
 [build]
 if [ -d "$butch_root_dir""$butch_staging_dir"/stage0-musl ] ; then
