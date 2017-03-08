@@ -1,0 +1,6 @@
+mkdir intltool-fake
+for i in merge update extract perl ; do
+ln -sf "$K"/intltool intltool-fake/intltool-"$i"
+done
+export INTLTOOL_PERL="$PWD"/intltool-fake/intltool-perl
+export PATH="$PATH:$PWD/intltool-fake"

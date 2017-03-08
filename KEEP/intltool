@@ -1,0 +1,28 @@
+#!/bin/sh
+die() { echo "$1" >&2 ; exit 1 ; }
+respond() { echo "$1" >&1 ; exit 0 ; }
+
+tool=$(basename $0)
+test "$1" = --version && respond "$tool (intltool 9.99.9)"
+
+case "$tool" in
+intltool-merge*) ;;
+intltool-perl*)
+test "$1" = -e || die "$0: unsupported usage"
+test "$2" = "printf '%vd', $^V" && respond "5.99.9"
+test "$2" = "require XML::Parser" && exit 0
+printf "%s" "$2" | grep '^use [0-9].[0-9].[0-9];$'>/dev/null 2>&1 && exit 0
+die "$0: unsupported usage" ;;
+*) die "$0: requested functionality not implemented" ;;
+esac
+
+larg=
+sarg=
+while test -n "$1" ; do
+	sarg="$larg"
+	larg="$1"
+	shift
+done
+test -z "$sarg" && die "$0: need at least 2 args"
+test -r "$sarg" || die "$0: no read perms for $sarg"
+sed 's/^_//' < "$sarg" > "$larg"
