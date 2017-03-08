@@ -10,10 +10,8 @@ pkgver=2
 glib
 libxml2
 
-[deps.host]
-intltool
-
 [build]
+. "$K"/intltool-fix
 
 mkdir .deps
 touch .deps/update_mime_database-update-mime-database.Tpo
@@ -21,7 +19,7 @@ touch .deps/update_mime_database-update-mime-database.Tpo
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
 
 sed -i 's@$(AM_V_at)$(am__mv) $(DEPDIR)/update_mime_database-update-mime-database.Tpo@#@' Makefile
 
@@ -30,7 +28,7 @@ for i in po ; do
 done
 
 # FIXME makefile is buggy and breaks randomly with multiple processes
-make -j1
+make -j1 V=1
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/pkgconfig

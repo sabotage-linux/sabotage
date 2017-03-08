@@ -10,10 +10,9 @@ libstartup-notification
 libxt
 gtk+2
 
-[deps.host]
-perl5-XML-Parser
-
 [build]
+. "$K"/intltool-fix
+
 cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"

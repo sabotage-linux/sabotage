@@ -9,13 +9,11 @@ desc='simple GTK+ picture viewer program'
 [deps]
 gtk+2
 libjpeg
-intltool
 shared-mime-info
 
-[deps.host]
-perl5-XML-Parser
-
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" \

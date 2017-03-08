@@ -10,10 +10,8 @@ gtk+2
 goffice
 gettext
 
-[deps.host]
-perl5-XML-Parser
-
 [build]
+. "$K"/intltool-fix
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

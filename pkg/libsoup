@@ -9,10 +9,11 @@ sha512=07120996737d86f45acb80b05147e9af0e3e183bec9a97727881b8dc05cb154c679a785f4
 libxml2
 sqlite
 gnutls
-intltool
 glib-networking
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

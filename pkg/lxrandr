@@ -10,9 +10,10 @@ xrandr
 
 [deps]
 gtk+2
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

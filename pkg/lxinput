@@ -7,9 +7,10 @@ sha512=d5233f03c4314ac16fb548db56ae2d17651b29d8a59bfef3e6e6805f6b9bc8100b0711bbc
 
 [deps]
 gtk+2
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \

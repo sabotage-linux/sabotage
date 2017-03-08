@@ -10,10 +10,11 @@ desc='library for r/w of structured files (filesystem-in-a-file)'
 [deps]
 libxml2
 glib
-intltool
 gdk-pixbuf
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 cp -f "$K"/config.sub .
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \

@@ -7,9 +7,10 @@ sha512=ddfd63045cae61f60e2745e7fbdafcf68cdc0443a7ff271ff11a40f39b2e08de902a980f6
 
 [deps]
 gtk+2
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

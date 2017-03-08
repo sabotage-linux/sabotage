@@ -7,12 +7,13 @@ sha512=f4d0ed9d5dcc1b01643715fd54b94ff46967801f0c6d1dde6d196fadbedb5551cfda536d5
 desc='GTK+ filemanager, major component of the LXDE desktop'
 
 [deps]
-intltool
 libfm
 libx11
 gtk+2
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

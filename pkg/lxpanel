@@ -11,11 +11,12 @@ glib
 menu-cache
 libwnck
 wireless-tools
-intltool
 keybinder
 libfm
 
 [build]
+. "$K"/intltool-fix
+
 patch -p1 < "$K"/lxpanel-linux.patch
 patch -p1 < "$K"/lxpanel-cpufreq.patch
 [ -n "$CROSS_COMPILE" ] && \

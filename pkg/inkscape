@@ -26,9 +26,10 @@ freetype
 
 [deps.host]
 cmake
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 sed -i 's@sys/fcntl.h@fcntl.h@' src/color-profile.cpp
 
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config

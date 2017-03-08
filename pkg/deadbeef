@@ -8,7 +8,6 @@ pkgver=1
 
 [deps]
 gettext
-intltool
 jansson
 alsa-lib
 gtk+2
@@ -17,6 +16,8 @@ imlib2
 ffmpeg
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

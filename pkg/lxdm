@@ -9,9 +9,10 @@ sha512=0e3539c595a71cb850c1756dd075b8d477a4e111a4167714057cac06650e9587f338f797f
 glib
 gdk-pixbuf
 gtk+2
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 patch -p1 < "$K"/lxdm-backtrace.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"

@@ -6,11 +6,10 @@ libfm-tarball
 
 [deps.host]
 pkgconf
-perl
-perl5-XML-Parser
-intltool
 
 [build]
+. "$K"/intltool-fix
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)  --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
