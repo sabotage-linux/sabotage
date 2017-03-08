@@ -1,0 +1,7 @@
+[mirrors]
+http://git.suckless.org/sbase/snapshot/sbase-30fd43d7f.tar.bz2
+
+[vars]
+filesize=126655
+sha512=6b69253e9c441d1b6fb503ff52afff502026808acd1ad24f121a6ba8d6e2cdfdc931cf45991c8ab05482c5cd637404fb44ea4757fea0a86511fcf3c7ec039ff8
+

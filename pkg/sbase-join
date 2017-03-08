@@ -1,0 +1,17 @@
+[vars]
+tarball=sbase-30fd43d7f.tar.bz2
+desc='POSIX join utility from sbase'
+pkgver=1
+
+[deps]
+sbase-tarball
+
+[build]
+tool=join
+make -j$MAKE_THREADS \
+ PREFIX="$butch_prefix" \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags -static" \
+ $tool
+install -Dm 755 $tool "$butch_install_dir""$butch_prefix"/bin/$tool
+
