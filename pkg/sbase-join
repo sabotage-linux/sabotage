@@ -5,6 +5,7 @@ pkgver=1
 
 [deps]
 sbase-tarball
+musl
 
 [build]
 tool=join
