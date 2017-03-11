@@ -1,0 +1,5 @@
+[build]
+$CC $optcflags -o join "$K"/join.c $optldflags
+
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 join "$dest"/bin/join
