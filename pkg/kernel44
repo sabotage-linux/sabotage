@@ -5,7 +5,7 @@ kernel44-patches
 [vars]
 LINUX_VER=$(cat "$K"/kernel44.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=34
+pkgver=35
 no_unlink=1
 
 [build]
