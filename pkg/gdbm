@@ -1,16 +1,17 @@
 [mirrors]
-http://mirror.switch.ch/ftp/mirror/gnu/gdbm/gdbm-1.11.tar.gz
+http://mirror.switch.ch/ftp/mirror/gnu/gdbm/gdbm-1.13.tar.gz
 
 [vars]
-filesize=811662
-sha512=272fb65ab9ca0a21e9f0dcfb2c638457e87cbb938c65ee850123474d11f2858496f84d3fa9edca27cd91c7220160cfdb59f90bd46ddc45395514addc9fd4151c
+filesize=891987
+sha512=fdb777f5b415b0578ea46b4a6fc70151a04a3568e2f2c8c0219ccad8c0d34abb773d80d5d7a06462ad1a3d6c1f3b5b7ab25f9de4f43ccf05c58db05f9a2906ad
+pkgver=2
 desc='gnu dbm key/value database library'
 
 [deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 CPPFLAGS=-D_GNU_SOURCE \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
