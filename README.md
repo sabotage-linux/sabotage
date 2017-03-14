@@ -81,6 +81,10 @@ Once inside the chroot, you may decide between installing `stage1` or `stage2`:
 If `libressl` is present, `wget` will be HTTPS-enabled.
 This will allow butch to download packages via HTTPS protocol.
 
+ATTENTION: if you're using void or arch linux, building gcc630 in stage1 might
+fail due to a buggy ld. there's a workaround though:
+https://github.com/sabotage-linux/sabotage/issues/505
+
 Older pre-3.8 Linux systems will not support the rootless chroot approach used
 by `./enter-chroot`.
 Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
