@@ -14,6 +14,7 @@ python-pyserial
 python-python-dateutil
 python-six
 python-packaging
+python-elftools
 
 [deps.host]
 python
