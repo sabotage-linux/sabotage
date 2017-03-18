@@ -5,7 +5,7 @@ ftp://ftp.gmplib.org/pub/gmp-6.1.2/gmp-6.1.2.tar.xz
 [vars]
 filesize=1946336
 sha512=9f098281c0593b76ee174b722936952671fab1dae353ce3ed436a31fe2bc9d542eca752353f6645b7077c1f395ab4fdd355c58e08e2a801368f1375690eee2c6
-pkgver=1
+pkgver=2
 
 [deps.host]
 m4
