@@ -10,6 +10,7 @@ pkgver=1
 python
 
 [deps.host]
+python-setuptools
 python
 
 [build]
