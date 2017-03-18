@@ -1,0 +1,23 @@
+[mirrors]
+https://pypi.python.org/packages/90/f4/9a2e384b325b69bc5827b9a6510a8fb4a51698c915c06a3f25a86458892a/gmpy2-2.0.8.zip
+
+[vars]
+filesize=280551
+sha512=090f449641f378c73eb166831b1d956c6cee3da83e42fde8741f18aa0fa687e37927fc3b045d4b35e3a3b75570e6b1074150d8bc29d16119ab5c717bcfcf9fb4
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[deps]
+gmp
+mpc
+mpfr
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
