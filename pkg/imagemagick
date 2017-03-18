@@ -1,0 +1,25 @@
+[mirrors]
+ftp://ftp.nluug.nl/pub/ImageMagick/ImageMagick-7.0.5-2.tar.xz
+
+[vars]
+filesize=8306480
+sha512=e42dbae5167f8944a5c87bf401d497d6b503f2af2fb7f8f30d537732cbb80ed57a4b8f4dec992462bf52605badaa5f4e8838fb31d2398382d32c6b06d0ef6237
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
