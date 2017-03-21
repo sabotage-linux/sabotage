@@ -1,0 +1,25 @@
+[mirrors]
+https://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.bz2
+
+[vars]
+filesize=875425
+sha512=6c05c42767401d66af67b0922b207d17cdb1c3efdbfdfb5b0c2e651821c48a8a6c6749debfa0206091b8a801f538fabe9f7d95ebc86d82c6b84c8001031d50fe
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

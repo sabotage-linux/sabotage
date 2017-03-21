@@ -1,0 +1,32 @@
+[mirrors]
+http://downloads.sourceforge.net/steghide/steghide-0.5.1.tar.bz2
+
+[vars]
+filesize=392761
+sha512=66271e820d7de6de5fe485ae92d1cc1360ad336138d4a5220cfda205cfa465e1ace74e1c832d9a43a71bbbca12426d20baf6433145470f9f32880ca5bf0fea5b
+pkgver=1
+pkgver=1
+
+[deps]
+libmcrypt
+mhash
+libjpeg
+
+[build]
+patch -p1 < "$K"/steghide-gcc.patch
+cp -f "$K"/config.sub .
+sed -i 's,--mode=link,--mode=link --tag=CXX,' src/Makefile.in
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  ac_cv_file__dev_urandom=yes ac_cv_file__dev_random=yes
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

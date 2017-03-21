@@ -1,0 +1,25 @@
+[mirrors]
+https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.bz2
+
+[vars]
+filesize=655906
+sha512=3b063d258cb0e7c2fa21ed30abae97bd6f3630ecd1cb4698afb826aa747555f3cf884828f24ac5e2b203730d0c7c0ecc9ef1e724ad9d85769a2f66128f3072eb
+pkgver=1
+
+[deps]
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+sed -i 's,HAVE__BOOL,NO_HAVE__BOOL,' "$dest"/include/mutils/mhash_config.h
