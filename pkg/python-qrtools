@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/c3/f8/0e6da677d31f55100bba8301f07aca2adea6d8b7b3d8e2286604c1a59b5c/qrtools-0.0.2.tar.gz
+
+[vars]
+filesize=10179
+sha512=b22dce470feacbf265e2dbd3df23c41eded0b3890f5ce25e10c5455f88736b276e8cff0d09bf34f323e7f5ca79cd05fd31a38dc517fb620cfe15ae299f456eab
+pkgver=1
+
+[deps.run]
+python
+python-zbar
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
