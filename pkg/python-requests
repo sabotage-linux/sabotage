@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/16/09/37b69de7c924d318e51ece1c4ceb679bf93be9d05973bb30c35babd596e2/requests-2.13.0.tar.gz
+
+[vars]
+filesize=557508
+sha512=d3e9c25d1ce7ecf51bd4b137645d06c07170542a78fc847b1c30cad6efa9bcbf36d4b0c809389cbf260dc7d73128ab6bbed1e197cba9497b6ad791b48014ae14
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
