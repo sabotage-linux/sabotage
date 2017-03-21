@@ -1,0 +1,29 @@
+[mirrors]
+http://sourceforge.net/projects/zbar/files/zbar/0.10/zbar-0.10.tar.bz2
+
+[vars]
+filesize=592602
+sha512=76cb8a469e3ac9ea7932a95c500cf933501249cdb8dce4df558bf5681bd44c62111327b494e6e887079a5fd30b32154887dcc12962e6d27b1453f55457483db4
+pkgver=1
+
+[deps]
+imagemagick
+
+[build]
+#patch -p1 < "$K"/some.patch
+cp -f "$K"/config.sub config/
+sed -i 's,wand/MagickWand.h,MagickWand/MagickWand.h,g' configure
+sed -i 's,wand/MagickWand.h,MagickWand/MagickWand.h,g' zbarimg/zbarimg.c
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-video --without-gtk --without-qt
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
