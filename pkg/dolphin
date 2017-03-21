@@ -1,0 +1,46 @@
+[mirrors]
+https://github.com/dolphin-emu/dolphin/archive/5.0.tar.gz
+
+[vars]
+filesize=38246344
+sha512=8de76f811abfb82e19502336734e86ba600c11d9fa95bcf7f70a2a525165d07ead826854c39377602aab7856a057af9ba91bff458cf2dd008712527290489d3a
+tarball=dolphin-5.0.tar.gz
+pkgver=1
+
+[deps.host]
+cmake
+
+[build]
+patch -p1 < "$K"/dolphin-memset.patch
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DENABLE_EVDEV=OFF \
+  -DENABLE_SDL=ON \
+  -DDISABLE_WX=ON \
+  -DENABLE_PCH=OFF \
+  -DUSE_UPNP=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
