@@ -1,9 +1,10 @@
 [mirrors]
-http://dri.freedesktop.org/libdrm/libdrm-2.4.60.tar.bz2
+http://dri.freedesktop.org/libdrm/libdrm-2.4.75.tar.bz2
 
 [vars]
-filesize=581786
-sha512=d0cee293c222e9b45cb12999b45bec1d94f7faf662f011f70252df7efdda95706fb2da6805e0957f4e4c12c79974cf21233f1109a607c67cd27aab5fde27e801
+filesize=774589
+sha512=7d30029dfc384024eb6a82a04122064366572f5888ac4594fd9e02bc0a22ed2d154bef1840bd24f0543b77460d6359d7e424d424e10f4256ee3c898041be2292
+pkgver=2
 
 [deps]
 libpciaccess
