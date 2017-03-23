@@ -1,13 +1,15 @@
 [mirrors]
-https://download.gnome.org/sources/json-glib/1.2/json-glib-1.2.2.tar.xz
+https://download.gnome.org/sources/json-glib/1.2/json-glib-1.2.8.tar.xz
 
 [vars]
-filesize=590376
-sha512=04cbb303c4c6fc6e8af8bc25353b7aff7454250e317f29e4544e850c251aa8c6c88f81cbada8aafd42db637f5521814a86720b0784bc6f202cb222140e993bcf
-pkgver=1
+filesize=604336
+sha512=85d8ad431363b8698d71684927b8aa38749d99ea7236334ec09fd81482489f1ab9cb12dabcbe13f6b6ffd7e5d70ade47a36b511e275915d4aa858af647db90ba
+pkgver=2
 
 [deps]
 glib
+
+[deps.host]
 pkg-config
 
 [build]
