@@ -1,10 +1,10 @@
 [mirrors]
-http://download.geany.org/geany-1.30.tar.bz2
+http://download.geany.org/geany-1.30.1.tar.bz2
 
 [vars]
-filesize=4381257
-sha512=86a18ea79a6da69f01035fa57dd6dbc0706d0445fb7d4dac7e895f60f06e9de4df22fe3e3ecbc70d487c95c2fca9e269916ebd9fd944b4fdc5bfedce80bccb4a
-pkgver=3
+filesize=4352154
+sha512=55fb446b0c517ccee4d2f3023334b96a336788422a4dc41207a4f290c5d4b88df1eefa4b7f6fddf0567224f890ae7bea396306a935512f17e01682034f7200e3
+pkgver=4
 desc='GTK+ text editor with basic IDE features'
 
 [deps]
