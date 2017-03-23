@@ -1,10 +1,10 @@
 [mirrors]
-http://znc.in/releases/archive/znc-1.6.4.tar.gz
+http://znc.in/releases/archive/znc-1.6.5.tar.gz
 
 [vars]
-filesize=1468049
-sha512=d66069a7db4d85f8f132aed1ee4b0da8a04c61ab0e2df36426eb326e713401e824c9653b7edd0f7b317779b95b56965bc987c7099eb83b4950386462fd96cd8f
-pkgver=3
+filesize=1470681
+sha512=d78603ac86d1fb92cdf591b1eb6d32fa19b0e39414bd69e1300c537051612ae590c43d3b8e4dd598cdff605bf3aa1d3d5d806edd428d15d50f733e1670f3e626
+pkgver=4
 desc='IRC bouncer'
 
 [deps]
