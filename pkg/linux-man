@@ -1,10 +1,10 @@
 [mirrors]
-https://www.kernel.org/pub/linux/docs/man-pages/man-pages-4.09.tar.xz
+https://www.kernel.org/pub/linux/docs/man-pages/man-pages-4.10.tar.xz
 
 [vars]
-filesize=1521560
-sha512=695f90b9f4721d041de0441e240afce88e49f4ea5ffea855262da3cdd0f3f2b6401f2728786da3afa2245aef84d41c0c449415e7e78e408b69c9214ddb4c74ad
-pkgver=2
+filesize=1556948
+sha512=6c5b8e1339a02054a5346ca3ff665c414ef178e69fe0d064d4ad7dc372ba364df2753bf605a682cc366c12661c42b9fd17567c72a0f24173f9b086d79cf354d4
+pkgver=3
 
 [build]
 rm -rf man1 man2 man3
