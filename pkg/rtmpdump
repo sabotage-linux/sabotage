@@ -1,0 +1,16 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/r/rtmpdump/rtmpdump_2.4+20151223.gitfa8646d.1.orig.tar.gz
+
+[vars]
+filesize=142213
+sha512=bdfcbab73179d614a295a7b136ea4c9d0ce4620883b493f298362784d245608cd6ad4b0ad30f94ed73a086b4555399521ae9e95b6375fce75e455ae68c055e7b
+pkgver=1
+tardir=rtmpdump-20151223
+
+[deps]
+libressl
+
+[build]
+make V=1 -j$MAKE_THREADS CC="$CC" XCFLAGS="$opcflags" XLDFLAGS="$optldflags" \
+prefix="$butch_prefix" all
+make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
