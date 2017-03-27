@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/fb/64/ad3dbcc052d92fedd535a80b9866a9334afaf136cb5d89a673ac36d16b5a/polib-1.0.8.tar.gz
+
+[vars]
+filesize=160670
+sha512=6bcb8404a06e4e41e827ff947d13ea3165b7dbf0cd3f3f58c74ac1b49718a5d81f1a0ca0e59180928610b5eaefcc248aad9b8ca033978f580c141cd52405dc3f
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
