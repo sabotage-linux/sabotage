@@ -41,7 +41,7 @@ config_arch_target_ldflags=
 
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
-	if $CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}' -lt 6 ; then
+	if test 0$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}' -lt 6) ; then
 		cat << EOF >&2
 sorry: there's no way you can crosscompile gcc6's libgcc or c++14 libstdc++ with
 a gcc4- or gcc5-based crosscompiler. that only works in a native build because
