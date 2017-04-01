@@ -13,6 +13,7 @@ stage0-musl
 
 [build]
 patch -p1 < "$K"/binutils-arm.patch
+patch -p1 < "$K"/binutils-reproducible.patch
 
 "$K"/libibertyfix libiberty
 
