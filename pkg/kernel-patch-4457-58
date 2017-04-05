@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.57-58.xz
+
+[vars]
+filesize=22740
+sha512=6e463c50cb5fc45ab6d044fcd1bffc8d8d2e2c3b6e6039b64c8ca1c7014dcf6c9fe4350a4a0c549fe480e828b83d2d3f1ec660a73f245985e271f374b1a1c0c1
+tarball=kernel-patch-4.4.57-58.xz
+
