@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/f3/ae/585ca7545c7e8d3a8130cc3d0cf53cfa489c137f8257e743fd3e18d7c401/sympy-1.0.tar.gz
+
+[vars]
+filesize=4281528
+sha512=977db6e9bc6a5918cceb255981a57e85e7060c0922aefd2968b004d25d704e25a5cb5bbe09eb387e8695581e23e2825d9c40310068fe25ece7e9c23037a21f39
+pkgver=1
+
+[deps.run]
+python
+python-mpmath
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

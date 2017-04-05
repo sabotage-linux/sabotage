@@ -1,0 +1,18 @@
+[mirrors]
+http://mpmath.org/files/mpmath-0.19.tar.gz
+
+[vars]
+filesize=498564
+sha512=aeaef19f28b0c8a72d5bb093e23a8b1a8d6843f9087711e646b857c8a7722b11611fda76d3fe03c7fee042d0b69fc8f8bbbbb13a97c116a147346f36cdb4f8bf
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
