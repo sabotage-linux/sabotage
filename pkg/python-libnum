@@ -1,0 +1,20 @@
+[mirrors]
+https://github.com/hellman/libnum/archive/8339bd2.tar.gz
+
+[vars]
+filesize=15770
+sha512=d303e00b6fdb17596ea0cc88540478020b48c21f6e04a9de32f46470ae6e6115ce9eafe24a8e63cb5180dcb2a6b2b87bb4877de3496ec83803d74ac956b0cc2a
+tarball=libnum-1.4-git-8339bd2.tar.gz
+pkgver=1
+tardir=libnum-8339bd24c010f06df9ade8de6110b11f3eea1a87
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
