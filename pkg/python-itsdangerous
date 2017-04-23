@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/dc/b4/a60bcdba945c00f6d608d8975131ab3f25b22f2bcfe1dab221165194b2d4/itsdangerous-0.24.tar.gz
+
+[vars]
+filesize=46541
+sha512=2863b6e5fda178db59bd214c6d24d04422c1021bb41bf11598aba1cbc43053aff3bb1e0539940b5769de04b68c03e8bd01d728dcbfc4bd0ba05867688574a297
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
