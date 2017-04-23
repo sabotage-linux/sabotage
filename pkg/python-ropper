@@ -1,0 +1,20 @@
+[mirrors]
+https://pypi.python.org/packages/58/dd/408dfce597432dc7953321a996f804bb7e1cc76947260e35d5c9fabaa56e/ropper-1.10.10.tar.gz
+
+[vars]
+filesize=1452232
+sha512=41a4caa4010b322a9e2c2dc41f99c3240a83806522447aaed3d3364ddcb91c5c8e13dd7a4bf675d6a947734fe6577d1cc745020a52ec3bb9015db8db7849c8a4
+pkgver=1
+
+[deps.run]
+python
+python-capstone
+python-filebytes
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
