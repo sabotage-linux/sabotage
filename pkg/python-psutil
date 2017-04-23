@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/b8/47/c85fbcd23f40892db6ecc88782beb6ee66d22008c2f9821d777cb1984240/psutil-5.2.1.tar.gz
+
+[vars]
+filesize=347241
+sha512=7fda5646e82cc9b13f279e318507024c68daa74b806fdc411763ae34935f2e8b44e3f3217639d85c6d43a6b862113de3694ec911773170235e21ad580ca0807a
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
