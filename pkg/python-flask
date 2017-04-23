@@ -1,0 +1,22 @@
+[mirrors]
+https://pypi.python.org/packages/4b/3a/4c20183df155dd2e39168e35d53a388efb384a512ca6c73001d8292c094a/Flask-0.12.tar.gz
+
+[vars]
+filesize=531923
+sha512=b8e9e005a850fcba413ad151998768ea0facb68f05855a1934cc6e4de1438cb59a4dd1bc74d2b04d52b3e837afa0a7785e98ae6c5af363a894c2be64773113f0
+pkgver=1
+
+[deps.run]
+python
+python-werkzeug
+python-jinja2
+python-itsdangerous
+python-click
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
