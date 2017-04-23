@@ -9,6 +9,8 @@ pkgver=1
 [deps.run]
 python
 python-enum
+python-ipaddress
+python-idna
 
 [deps.host]
 python
