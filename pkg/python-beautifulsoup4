@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/9b/a5/c6fa2d08e6c671103f9508816588e0fb9cec40444e8e72993f3d4c325936/beautifulsoup4-4.5.3.tar.gz
+
+[vars]
+filesize=159185
+sha512=d31db0e3bb778a78c37882fcd55dc580eb5eeadfd48744eae6e2e0d0ef5983b216a4682af84a4971611b05fb99c45012ce094475f2d7c39a5b90dad99906ec84
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
