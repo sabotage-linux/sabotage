@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/56/4b/cb75836863a6382199aefb3d3809937e21fa4cb0db15a4f4ba0ecc2e7e8e/Mako-1.0.6.tar.gz
+
+[vars]
+filesize=575112
+sha512=15608f2487783ea3a48faf743ee1b8e811adc34281c613e56f1a4548f3c614d1d5dbc943911943a7f8f6d34a962a27387d8fc17862038c1abee2e6c3328a79cf
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
