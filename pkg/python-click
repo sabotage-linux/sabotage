@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/95/d9/c3336b6b5711c3ab9d1d3a80f1a3e2afeb9d8c02a7166462f6cc96570897/click-6.7.tar.gz
+
+[vars]
+filesize=279019
+sha512=d454369fe1acb01c2210a61e15f45ac9cc77102c93345257f4ef3090bd8f31f1ccc49d9fd6ea670cddca9f715ad5db29368b4eecd95abff50d1033c4f7a967d6
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
