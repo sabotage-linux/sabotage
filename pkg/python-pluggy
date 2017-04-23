@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/38/e2/b23434f4030bbb1af3bcdbb2ecff6b11cf2e467622446ce66a08e99f2ea9/pluggy-0.4.0.zip
+
+[vars]
+filesize=19054
+sha512=1a6e28df05751767df1ac3dfac4c29ba0367f05ae9c8c6a7f5163bb53de36f90226ed18baedeb41bc8ca23504ca61a9b32ef907d3ec3fee7512bcdf45a56d19c
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
