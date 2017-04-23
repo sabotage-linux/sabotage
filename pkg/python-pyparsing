@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/3c/ec/a94f8cf7274ea60b5413df054f82a8980523efd712ec55a59e7c3357cf7c/pyparsing-2.2.0.tar.gz
+
+[vars]
+filesize=1232522
+sha512=6a409f429d40a5ac202d144e4150de2c80d7c7120147f603f72a4a99797d48c50822a6437f590ec5ae4418d51aa1f6b1d4e5d95a57e19bec0a127b04e4937008
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
