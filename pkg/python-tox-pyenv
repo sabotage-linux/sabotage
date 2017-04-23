@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/5e/b7/ffbe551cec03004c4dc7e388b3b79f26e5f2d15723830dfa587246014e9f/tox-pyenv-1.0.3.tar.gz
+
+[vars]
+filesize=4259
+sha512=d7279baf3a160d9d462b2ff67b14b0fcb32c4b34355fc042a727e4e37b613e334ac4b316f9cfbc47c5d3d7defb5f7447b9936eb4b8c4fb1e3e481560509df27d
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

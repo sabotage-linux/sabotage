@@ -1,0 +1,21 @@
+[mirrors]
+https://pypi.python.org/packages/8a/fa/f54d9623b623168fb2a0ae301f27a0bdd3f4a3b74e7232d3e537d84e3191/tox-2.6.0.tar.gz
+
+[vars]
+filesize=114616
+sha512=ed45e54e9ccca7d85e8c8d95b9a906104e1b3c92e73a68d84f4c2fc684ce80fbb6d3b8b2e054e2b183b71cfea68cc10bd985b08373d78d23de00d8a75dae9175
+pkgver=1
+
+[deps.run]
+python
+python-pluggy
+python-py
+python-tox-pyenv
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
