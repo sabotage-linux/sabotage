@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/02/69/9473d60abef55445f8e967cfae215da5de29ca21b865c99d2bf02a45ee01/SQLAlchemy-1.1.9.tar.gz
+
+[vars]
+filesize=5164787
+sha512=95df08e6bca0013ddc7e61aa82d7d51eb133a9b34aa430a785bd8cec8eb79a2b6e1503c1757a71487b09e2f292b5916e6797efb2026d43175e34a52b68cf81c6
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
