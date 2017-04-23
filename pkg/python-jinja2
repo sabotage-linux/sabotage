@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/90/61/f820ff0076a2599dd39406dcb858ecb239438c02ce706c8e91131ab9c7f1/Jinja2-2.9.6.tar.gz
+
+[vars]
+filesize=437659
+sha512=b41b4e83bfe1ed2c5170e78bc6fb1ac3abb73df1b360c28e8011d430c3369efb49b923ede1f32c84c47c4bfa8a030ed24fc86700f2a8f777d54ee09c0fdee3c2
+pkgver=1
+
+[deps.run]
+python
+python-markupsafe
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
