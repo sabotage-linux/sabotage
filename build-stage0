@@ -2,12 +2,11 @@
 set -e
 
 ### test and create prerequisites
-export H="$PWD"
-. ./config
-if [ ! -r "$H"/config ] ; then
-	printf -- "error: missing config! copy %s to %s and edit appropriately\n" "$K"/config.stage0 "$H"/config
+if [ ! -r config ] ; then
+	echo "error: config missing. please read README."
 	exit 1
 fi
+. ./config
 for i in sed wget patch bzip2 tar wc xz make ; do
 	if ! type "$i" >/dev/null 2>&1 ; then
 		echo "error: prerequisite $i not found in PATH" >&2
