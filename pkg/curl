@@ -1,10 +1,10 @@
 [mirrors]
-https://curl.haxx.se/download/curl-7.53.1.tar.lzma
+https://curl.haxx.se/download/curl-7.54.0.tar.lzma
 
 [vars]
-filesize=2076935
-sha512=1a04904a32b3c8767bcdc629c08446495ed40b7ed20e96d74101a0539bc88eba9a2350712afda94d886520f480172f532f020f0c730deb2bbec0bdc2eb5371ea
-pkgver=7
+filesize=2084912
+sha512=b3dc867cef20254d80989e4890f0bc2eee5b973b223570bd9a197bcd416a1631cfb3e7dbeee180366f5fafa2cfccd30cc8fc23904c07c55c3207b601035f8bd4
+pkgver=8
 desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
 
 [deps]
@@ -24,6 +24,7 @@ LIBS="-lssl -lcrypto -lz" \
   --prefix="$butch_prefix" \
   --with-ssl \
   --enable-ipv6 \
+  --without-librtmp \
   --with-ca-path="$butch_prefix"/etc/ssl/certs \
   --with-random=/dev/urandom $xconfflags
 
