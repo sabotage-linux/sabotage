@@ -1,10 +1,10 @@
 [mirrors]
-http://youtube-dl.org/downloads/2017.03.24/youtube-dl-2017.03.24.tar.gz
+http://youtube-dl.org/downloads/2017.04.28/youtube-dl-2017.04.28.tar.gz
 
 [vars]
-filesize=2643234
-sha512=8eb7002dc1d38945373910ef2697bb691f43827237621495ba5501c1a2efd63055b022aaeac403183af58fac8990c733655c28559edf77069a849a1d58b438d0
-pkgver=11
+filesize=2692493
+sha512=c628eeffbd708012faadfcd4207dd34c31df14fc102875bdaa29374ec4543f0b2b6532a796b5bce6037e8b2a6223573687ce0770f5920447a70aaae31dadf693
+pkgver=12
 tardir=youtube-dl
 uchkurl=http://youtube-dl.org/downloads/
 desc='command line tool to download videos from youtube, vimeo, twitter etc'
