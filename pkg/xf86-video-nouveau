@@ -1,10 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.14.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.15.tar.bz2
 
 [vars]
-filesize=584586
-sha512=f07d49d736f87d4f42781c3cf3b5d07e7c57ca864973a917f6a7933082be1663214e9174f1434ddded094fac74f2087c63bb5ae528e21baf99dcd3385b219e66
-pkgver=3
+filesize=584998
+sha512=69a8f8e7920d893f17d14fd9f05e35de246d980a243f3b3b00c05deae7f6bd97e0f51e6ddfa322b4d0815233fe5f656d4e55f54461249f3f24c3bc025a682285
+pkgver=4
 
 [deps]
 xproto
