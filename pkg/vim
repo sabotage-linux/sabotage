@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.vim.org/pub/vim/unix/vim-8.0.069.tar.bz2
+ftp://ftp.vim.org/pub/vim/unix/vim-8.0.586.tar.bz2
 
 [vars]
-filesize=10637407
-sha512=5d4aea40a0cbe76ad112c869a6e802b51acc7b889e2b95db1f9440c1f92e34197aadbb1f2aa4a4c0204210623b5acfcf250ff1f392070cae3e65e0165cac3215
-pkgver=3
+filesize=10866752
+sha512=f8f7f9babf7bca50bb5e80b85ca3d74172c3da783b3a2b13f67cce802f01974fe74042b67dda4de727bf2cf2c1399e3443428b14fd6b90f79be98a88ea03d621
+pkgver=4
 tardir=vim80
 desc='a terminal-based text editor with a gazillion of features'
 
