@@ -1,10 +1,10 @@
 [mirrors]
-http://wiki.qemu-project.org/download/qemu-2.8.1.tar.bz2
+http://wiki.qemu-project.org/download/qemu-2.8.1.1.tar.xz
 
 [vars]
-filesize=28366270
-sha512=0397b4029cdcb77ed053c44b3579a3f34894038e6fc6b4aa88de14515f5a78bf2f41c5e865f37111529f567c85d2f1c4deefae47dde54f76eac79410e5b2bdda
-pkgver=4
+filesize=22532960
+sha512=10e3fcd515b746be2af55636a6dd9334706cc21ab2bb8b2ba38fe342ca51b072890fd1ae2cd8777006036b0a08122a621769cb5903ab16cfbdcc47c9444aa208
+pkgver=5
 
 [deps]
 glib
