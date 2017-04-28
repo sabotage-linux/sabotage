@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/libcroco/0.6/libcroco-0.6.11.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/libcroco/0.6/libcroco-0.6.12.tar.xz
 
 [vars]
-filesize=477312
-sha512=441b9c6d9b6acd4ff908100573c6f24bcf46a20ec94360bdcf4765e37a7d45dc59e6a0889917f3486503b274d05cd79a63178e74d029209c16b8e3351a1160da
+filesize=482028
+sha512=af9a171d5ccded255b57f170576e67155f12fa0f61ab3e379e907975f77afc37e82e22772c6019b2897cffc15b2425faf3ccfda92b1a45b23eda2519debabeb6
+pkgver=2
 
 [deps]
 glib
