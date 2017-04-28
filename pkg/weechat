@@ -1,10 +1,11 @@
 [mirrors]
-http://www.weechat.org/files/src/weechat-1.7.tar.xz
+http://www.weechat.org/files/src/weechat-1.7.1.tar.xz
 
 [vars]
-filesize=1837004
-sha512=1de4af1e6b8189a96d830480f062bb1a92626f3ccf4ef0d73d081d72472e9a0840a4776403846032582e0387b6df8b8d7dbbce2ca309263554facd3bc6a5b050
-pkgver=3
+filesize=1836844
+sha512=4aba380704ab5f611d923a461aa17cac076a18f92a6bb8129daf5f212536672267cadcc679befbcadb48d5044e4bf973f93982d9d3c500cd9d9e12dba4dbfbba
+pkgver=4
+desc='IRC client for the terminal'
 
 [deps]
 libgcrypt
