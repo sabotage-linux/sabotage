@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz
-http://distfiles.macports.org/tmux/tmux-2.3.tar.gz
+https://github.com/tmux/tmux/releases/download/2.4/tmux-2.4.tar.gz
+http://distfiles.macports.org/tmux/tmux-2.4.tar.gz
 
 [vars]
-filesize=473944
-sha512=521e3734104be43837cba95d8b3d050d033708fa7469f7e7db66ae6993b002c4d9f6bafec41f3c9446eda91a4499e571019534dfa2e5a0563085b2d16e1b94af
-pkgver=2
+filesize=470549
+sha512=e9d93f6b8b68dddf05046ef1e1bc8c55a1f2c4bb96f4e12c25c202358b3280b3e14df8818ed449aadc783306b0869e5e7418192f60bb16afebc6b396cb50999c
+pkgver=3
 uchkurl=https://github.com/tmux/tmux/releases/
 desc='terminal multiplexer, similar to GNU screen but with more features'
 
@@ -14,7 +14,6 @@ libevent
 curses
 
 [build]
-patch -p1 < "$K"/tmux-imsg.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
