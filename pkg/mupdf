@@ -1,10 +1,10 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.10a-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.11-source.tar.gz
 
 [vars]
-filesize=42264707
-sha512=8c735963364985e74ceb38242afae555a3d2ee7c69abe3fe5c485e8613a83d996a58f231cb689a156019d431fa67d565503247d010b0a404054850483aed9fec
-pkgver=3
+filesize=40156070
+sha512=501670f540e298a8126806ebbd9db8b29866f663b7bbf26c9ade1933e42f0c00ad410b9d93f3ddbfb3e45c38722869095de28d832fe3fb3703c55cc9a01dbf63
+pkgver=4
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
@@ -31,13 +31,14 @@ PCS_SAVE="$PKG_CONFIG_SYSROOT_DIR"
 PCL_SAVE="$PKG_CONFIG_LIBDIR"
 PKG_CONFIG_SYSROOT_DIR=
 PKG_CONFIG_LIBDIR=
-for i in fontdump cmapdump bin2hex cquote ; do
+# fontdump bin2hex cquote namedump
+for i in cmapdump hexdump; do
 	make verbose=yes CC=cc \
 	FREETYPE_CFLAGS=-I/usr/include/freetype2 \
 	FREETYPE_LIBS=-lfreetype \
 	OPENSSL_CFLAGS="-DHAVE_OPENSSL" \
 	OPENSSL_LIBS="-lssl -lcrypto" \
-	build=release build/release/"$i"
+	build=release build/release/scripts/"$i".exe
 done
 PKG_CONFIG_SYSROOT_DIR="$PCS_SAVE"
 PKG_CONFIG_LIBDIR="$PCL_SAVE"
@@ -45,4 +46,5 @@ PKG_CONFIG_LIBDIR="$PCL_SAVE"
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   make verbose=yes -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
+  HAVE_GLFW=no \
   prefix="$butch_prefix" build=release install
