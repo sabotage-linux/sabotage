@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.24-25.xz
+
+[vars]
+filesize=8472
+sha512=e522db93ec0af911275ae5538156a2d69b3722ddd90413f60e04bf2a3a9ee6a399411b031fba01d5d7e00223f4e9e2060486d7c6a5f7a1528e3cb04470ec4b8a
+tarball=kernel-patch-4.9.24-25.xz
+

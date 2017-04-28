@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.20-21.xz
+
+[vars]
+filesize=38876
+sha512=8a32162dde474792ca2b584e438f83d8c15920c6d5fa9017861d84a1fbe5165d164fa11c7efccb42093efb4a2d0535e4c09c5606eb1547d01ba12f40be0cbad5
+tarball=kernel-patch-4.9.20-21.xz
+
