@@ -1,9 +1,11 @@
-[vars]
-filesize=4940459
-sha512=e39f3bd07d254c471cc0ae2f021cbbb96f21fad482dada399a00e3e323688a349b3a93842fb532660f35f666df350e26b591068263ebd860b62ae7d426e7021d
-
 [mirrors]
-http://sylpheed.sraoss.jp/sylpheed/v3.3/sylpheed-3.3.0.tar.gz
+http://sylpheed.sraoss.jp/sylpheed/v3.5/sylpheed-3.5.1.tar.bz2
+
+[vars]
+filesize=3561816
+sha512=264aafb40eaa163405074480b2deb7eefe0d2158a107d9b26bc35d5506dcf5a52cf5712b81bd4c06b4c76e48c6e372c74473e5371bbdc80f230267f3b211c7f5
+pkgver=2
+uchkurl='http://sylpheed.sraoss.jp/en/'
 
 [deps]
 gtk+2
