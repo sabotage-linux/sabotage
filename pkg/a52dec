@@ -1,0 +1,19 @@
+[mirrors]
+http://distro.ibiblio.org/quirky/quirky6/sources/t2/april/a52dec-0.7.4.tar.bz2
+
+[deps]
+
+
+[vars]
+filesize=186097
+sha512=95770bd7c63d2196c026ab5a96e68fc1041ab2be8f851da66367d7a0da14c80431b3f5c1570a274a0e5b1cc528104829532c74fac1811abf849f959441aea897
+desc="liba52 is a free library for decoding ATSC A/52 audio streams."
+
+[build]
+#wants -fPIC to build a shared lib...
+CFLAGS="$optcflags -fPIC" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

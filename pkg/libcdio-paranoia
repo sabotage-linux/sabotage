@@ -1,0 +1,20 @@
+[mirrors]
+http://ftp.gnu.org/gnu/libcdio/libcdio-paranoia-10.2+0.93+1.tar.bz2
+
+[vars]
+filesize=557271
+sha512=b21b71243b1afe9ac9c31ea7f1acb3f61e9069bb640f0052e39f3774886d0be2fa3844abe92cccc519a9e3e14d3df76a3326f5a5e9ecb5e96462edfee01b55e8
+desc="CD-ripper library, replacement for cdparanoia package."
+
+[deps]
+libcdio
+
+[build]
+CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+[ -f $butch_install_dir/bin/cd-paranoia ] && ln -s cd-paranoia $butch_install_dir/bin/cdparanoia
