@@ -1,0 +1,21 @@
+[mirrors]
+https://download.videolan.org/x264/snapshots/x264-snapshot-20160430-2245-stable.tar.bz2
+
+[vars]
+desc="X264 is a free and open source H.264 codec implementation."
+filesize=727710
+sha512=901e3b7db6f50d99ab3ecec619fd997953e18a08bd8504b02148198588be14589a640ab6a78a3ddc74d0847925d8eb45bff5e9a0015eb61f6575f4827f43d9cd
+
+
+[build]
+#--disable-asm for platform independence. otherwise, need yasm.
+
+sed -i 's%^#!/bin/bash$%#!/bin/ash%' configure
+
+CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --disable-asm --disable-cli --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+

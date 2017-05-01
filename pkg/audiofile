@@ -1,0 +1,19 @@
+[mirrors]
+http://audiofile.68k.org/audiofile-0.3.6.tar.gz
+
+[vars]
+filesize=811733
+sha512=
+desc="A library for accessing various audio file formats"
+
+[deps]
+alsa-lib
+flac
+
+[build]
+CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

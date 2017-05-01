@@ -1,0 +1,30 @@
+[deps]
+patch
+busybox
+binutils
+butch
+man
+m4
+bison
+gmp
+mpfr
+mpc
+zlib
+libelf
+gcc4
+kbd
+musl
+9base
+dynamic-toolchain
+
+[build]
+if [ -d "$butch_root_dir""$butch_staging_dir"/stage0 ] ; then
+	rm -rf "$butch_root_dir""$butch_staging_dir"/gcc3
+	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0-musl
+	rm -rf "$butch_root_dir""$butch_staging_dir"/stage0
+
+	butch unlink gcc3
+	butch relink $(ls -d "$butch_root_dir""$butch_staging_dir"/gcc4* |awk -F/ '{print $NF}' |tail -n1)
+fi
+
+rm -rf "$butch_root_dir""$butch_staging_dir"/stage1

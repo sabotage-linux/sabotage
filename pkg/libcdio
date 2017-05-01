@@ -1,0 +1,19 @@
+[mirrors]
+http://ftp.gnu.org/gnu/libcdio/libcdio-0.93.tar.bz2
+
+[vars]
+filesize=1871349
+sha512=c28feba1d2489dd4a3e5985d3edb064e4d94ccca09c96279086b172ece0ab649cbce06304c65f37b30efbdcdf6cb5616efa48a937d8d9a371c79b1731a142b45
+desc="A CD-ROM reading and control library"
+
+[deps]
+libcddb
+
+[build]
+CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags" \
+    ./configure --prefix="$butch_prefix" $xconfflags \
+      --enable-shared --disable-static
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+

@@ -1,0 +1,47 @@
+[mirrors]
+https://download.videolan.org/pub/videolan/x265/x265_1.9.tar.gz
+
+[vars]
+filesize=956101
+sha512=1c399101374da58d0661786a6144dd25a2028e25bcb99b3084d8839b0bd9c20bccf5c0e4413882f16b3b1c49f96710746a16cb690f3811dffb08c3befdc8e5f1
+desc="X265 is a free and open source H.265 codec implementation."
+
+[deps]
+cmake
+
+[build]
+#note, yasm optional dep for x86-specific build.
+#patch -p1 < "$K"/x265-copying.patch
+#patch from: http://www.linuxfromscratch.org/blfs/view/svn/multimedia/x265.html
+patch -p1 < "$K"/x265-1.9-enable_static-1.patch
+
+#got this lot from KEEP/pkg_skel/cmake, changed "build" to "bld"...
+mkdir -p bld && cd bld
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+#change path from ".." to "../source", add "-DENABLE_STATIC=OFF"
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_STATIC=OFF \
+  ../source
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+

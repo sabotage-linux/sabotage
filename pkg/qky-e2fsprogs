@@ -1,0 +1,36 @@
+[mirrors]
+http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+[vars]
+filesize=6069173
+sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
+
+[deps.host]
+pkgconf
+
+[deps]
+kernel-headers
+
+[build]
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+
+CFLAGS="-D_GNU_SOURCE $optcflags -D__uint64_t=u_int64_t -fPIC" \
+LDFLAGS="$optldflags -static" \
+  ./configure -C --prefix="$butch_prefix" --with-root-prefix="$butch_prefix" \
+  --sbindir="$butch_prefix"/bin $xconfflags --disable-nls \
+  --disable-fsck --disable-uuidd
+  
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+#some of these should be replaced by symlinks...
+ln -snf tune2fs $butch_install_dir/bin/e2label
+ln -snf tune2fs $butch_install_dir/bin/findfs
+ln -snf e2fsck $butch_install_dir/bin/fsck.ext2
+ln -snf e2fsck $butch_install_dir/bin/fsck.ext3
+ln -snf e2fsck $butch_install_dir/bin/fsck.ext4
+rm -f $butch_install_dir/bin/fsck.ext4dev
+ln -snf mke2fs $butch_install_dir/bin/mkfs.ext2
+ln -snf mke2fs $butch_install_dir/bin/mkfs.ext3
+ln -snf mke2fs $butch_install_dir/bin/mkfs.ext4
+rm -f $butch_install_dir/bin/mkfs.ext4dev
+

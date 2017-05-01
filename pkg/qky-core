@@ -1,0 +1,10 @@
+[deps]
+stage1
+qky-customize
+pkgconf
+curses
+qky-coreutils
+qky-util-linux
+qky-e2fsprogs
+libressl
+ca-certificates
