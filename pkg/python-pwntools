@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/Gallopsled/pwntools/archive/3.3.4.tar.gz
+https://github.com/Gallopsled/pwntools/archive/3.5.1.tar.gz
 
 [vars]
-filesize=1110677
-sha512=20c6a7012db7873b55c5f603253bb8720c42acc6e9515089b3e627f225f6728f343082bbee2f059e60420df7927819c79383bdeab75ffb5e76c599cea5bdc271
-tarball=pwntools-3.3.4.tar.gz
-pkgver=1
+filesize=1071160
+sha512=68474bb874854a64ec5b2257852179e48d101a6152d101a37c06e716cfd9dbc9af2bc44aa882b180912ee01621315b27dec5c5101d744e9b3be398fcbf7338a7
+tarball=pwntools-3.5.1.tar.gz
+pgkver=2
 
 [deps.run]
 python
