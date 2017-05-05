@@ -1,0 +1,19 @@
+[mirrors]
+https://pypi.python.org/packages/ca/c1/450d109b70fa58ca9d77972b02f69222412f9175ccf99fdeaf167be9583c/intervaltree-2.1.0.tar.gz
+
+[vars]
+filesize=38404
+sha512=983318e23c681ae53371125700bf6f2494467f719e5ffce661564e117d2a7c711da17e74a5793ce2688d8389b3373f17fbb384ac0b37d2be10d6c0a6ec5ecd29
+pkgver=1
+
+[deps.run]
+python
+python-sortedcontainers
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
