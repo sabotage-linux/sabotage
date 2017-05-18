@@ -1,10 +1,10 @@
 [mirrors]
-https://mesa.freedesktop.org/archive/13.0.4/mesa-13.0.4.tar.xz
+https://mesa.freedesktop.org/archive/13.0.6/mesa-13.0.6.tar.xz
 
 [vars]
-filesize=9164612
-sha512=5f4d8ad12389a32c028cf3c5289fe285892e2b241220c5c6d04cda5748240e8b13289c4537ac7a6b58d87d6ca4111031e15ad37c9b008777be71918e42e88817
-pkgver=2
+filesize=9179236
+sha512=2455e044647f674c2f1dd524143b61b8630713fa929bbf6fe1c981436a9c08dc933553d638a22b32d2799afb77be746355b48b1b20af172141c5b63891e94441
+pkgver=3
 
 [deps]
 dri2proto
