@@ -1,0 +1,24 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXfont2-2.0.1.tar.bz2
+
+[vars]
+filesize=472822
+sha512=5e4dcb587b4d25dd41124bb50d71c30b5e29663ce675b0830def82fb6e00b64ba34e1b1ed7fad947fd0da95007aa55d14f587383e4cff08c3e0a0241c8879d16
+pkgver=2
+
+[deps]
+util-macros
+freetype
+libfontenc
+xproto
+fontsproto
+xtrans
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -D_GNU_SOURCE -DNOFILES_MAX=256 -Dfd_mask=long" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
+
