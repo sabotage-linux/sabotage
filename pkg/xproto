@@ -1,11 +1,13 @@
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/xproto-7.0.26.tar.bz2
+ftp://ftp.x.org/pub/individual/proto/xproto-7.0.31.tar.bz2
 
 [vars]
-filesize=305321
-sha512=b39edcb7f8a6898e78dae62b80cfb1db3175272dbfb7a3929f51c2fd829b648d80a9654246e4294a708f0e23cfe1bf84934cde25e193916d99630d8f157a04ea
+filesize=300356
+sha512=bba6141525c21fd9a3cf210853658cc7af69f82e1ac15bacfffb9280efc3fe3c6fa708095b541b6f33f114c11e808bde8c8839ae63ff88e30963abdfac12702b
+pkgver=2
 
 [build]
+export MKDIRPROG="mkdir -p"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 ./configure -C --prefix="$butch_prefix" $xconfflags
