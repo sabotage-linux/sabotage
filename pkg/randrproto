@@ -1,12 +1,13 @@
-[deps]
-util-macros
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/randrproto-1.5.0.tar.bz2
 
 [vars]
-filesize=133300
-sha512=7880360e0f63a9bf88bc4ea76160311ba1d64af30414068df90d6b613b5cc24c2cc7986f2e68ee9a2fcde1359108da25017dd32885b09e878406e66aefe06f0d
+filesize=142168
+sha512=5c56f6acfe3a9da5ffda45e4af2da5081a5116d53f4d2dafe399eae168656727927ca0fb4c29fc6583e87709ac83b025ae206fba9356ebf9e26d3ff545da57f4
+pkgver=2
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/randrproto-1.4.0.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
