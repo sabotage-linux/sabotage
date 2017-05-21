@@ -1,12 +1,13 @@
-[deps]
-util-macros
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/xf86bigfontproto-1.2.0.tar.bz2
+http://ftp.x.org/pub/individual/proto/xf86bigfontproto-1.2.0.tar.bz2
 
 [vars]
 filesize=49191
 sha512=35b53ee1f428fee6777733264a7534a28ec6ffb29fc0ad9ab02337101d651ec94007bf840d0b591ee36a063280d4a4c71ff08f37100a63bb27581b5a9f69a710
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/xf86bigfontproto-1.2.0.tar.bz2
+[deps]
+util-macros
 
 [build]
 ./configure -C --prefix="$butch_prefix"

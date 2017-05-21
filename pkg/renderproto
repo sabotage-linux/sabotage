@@ -1,12 +1,13 @@
-[deps]
-util-macros
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/renderproto-0.11.1.tar.bz2
+http://ftp.x.org/pub/individual/proto/renderproto-0.11.1.tar.bz2
 
 [vars]
 filesize=105741
 sha512=c38bc7247fd7b89732c892ee41c061b20397f4e79195601b7015dd55054b966f0797ac3990b147f80234596ba2c201ce90e292ecefed2e133167955bca70acc5
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/renderproto-0.11.1.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

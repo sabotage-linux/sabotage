@@ -1,12 +1,13 @@
-[deps]
-util-macros
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/dmxproto-2.3.1.tar.bz2
+http://ftp.x.org/pub/individual/proto/dmxproto-2.3.1.tar.bz2
 
 [vars]
 filesize=96467
 sha512=bbce91c35413a39ff8b70e5fddccea0e47af3e8f1cfc562b8acc2785ea350a04166799b29a31fd38f4a2c8d82c8d370d7a40fc24ec2c686f2244b59dce0ba4b5
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/dmxproto-2.3.1.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

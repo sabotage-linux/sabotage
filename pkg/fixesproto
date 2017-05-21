@@ -1,9 +1,10 @@
+[mirrors]
+ftp://ftp.x.org/pub/individual/proto/fixesproto-5.0.tar.bz2
+http://ftp.x.org/pub/individual/proto/fixesproto-5.0.tar.bz2
+
 [vars]
 filesize=100886
 sha512=93c6a8b6e4345c3049c08f2f3960f5eb5f92c487f26d227430964361bf82041b49e61f873fbbb8ee0e111556f90532b852c20e6082ee8008be641373251fa78c
-
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/fixesproto-5.0.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"

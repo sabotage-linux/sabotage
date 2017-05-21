@@ -1,5 +1,6 @@
 [mirrors]
 ftp://ftp.x.org/pub/individual/proto/xproto-7.0.31.tar.bz2
+http://ftp.x.org/pub/individual/proto/xproto-7.0.31.tar.bz2
 
 [vars]
 filesize=300356

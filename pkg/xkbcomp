@@ -1,16 +1,17 @@
+[mirrors]
+ftp://ftp.x.org/pub/individual/app/xkbcomp-1.2.1.tar.bz2
+http://ftp.x.org/pub/individual/app/xkbcomp-1.2.1.tar.bz2
+
+[vars]
+filesize=217437
+sha512=cdb6c643b4f1eac828e8da8be5e8293deab883de0318e337d356af14bbc6240c86359dc7982d2e1c4394f2919b253ebabf16a7b5d67187619c696ecdb8bcad27
+
 [deps]
 libx11
 libxkbfile
 libxdmcp
 libxau
 libxcb
-
-[vars]
-filesize=217437
-sha512=cdb6c643b4f1eac828e8da8be5e8293deab883de0318e337d356af14bbc6240c86359dc7982d2e1c4394f2919b253ebabf16a7b5d67187619c696ecdb8bcad27
-
-[mirrors]
-ftp://ftp.x.org/pub/individual/app/xkbcomp-1.2.1.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

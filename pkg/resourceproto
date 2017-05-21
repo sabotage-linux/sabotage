@@ -1,12 +1,12 @@
-[deps]
-util-macros
+[mirrors]
+http://ftp.x.org/pub/individual/proto/resourceproto-1.2.0.tar.bz2
 
 [vars]
 filesize=102992
 sha512=ce8c8fda178ac7fb22b192d4a0f707a96f42ecd550ae8e6ddd7e1ed0067951ef955f7bee60f63a2b2422176e5f093c38e3903f7c4e5e3bea230b934b7abcc4ca
 
-[mirrors]
-ftp://ftp.x.org/pub/individual/proto/resourceproto-1.2.0.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
