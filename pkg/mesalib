@@ -56,7 +56,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   --disable-xa                    \
   --enable-gbm                  \
   --disable-asm			\
-  --enable-glx-tls               \
+  --disable-glx-tls               \
   --enable-sysfs \
   --with-egl-platforms="drm,x11" $archflags \
 
