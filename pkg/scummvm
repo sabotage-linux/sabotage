@@ -1,0 +1,25 @@
+[mirrors]
+http://www.scummvm.org/frs/scummvm/1.9.0/scummvm-1.9.0.tar.xz
+
+[vars]
+filesize=22020384
+sha512=c81248e8474ad5b354a46741ab2e40b8ddfb99e196b0c837424e9ccced285d03d5f12fc41be57034be53bdb8254a61ca0c9d9cd9a2340875d32e1bffa31699c2
+pkgver=1
+
+[deps]
+sdl
+alsa-lib
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine)"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix" $xconfflags \
+  --disable-debug \
+
+#  --opengl-mode=none
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
