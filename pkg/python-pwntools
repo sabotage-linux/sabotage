@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/Gallopsled/pwntools/archive/3.5.1.tar.gz
+https://github.com/Gallopsled/pwntools/archive/3.6.1.tar.gz
 
 [vars]
-filesize=1071160
-sha512=68474bb874854a64ec5b2257852179e48d101a6152d101a37c06e716cfd9dbc9af2bc44aa882b180912ee01621315b27dec5c5101d744e9b3be398fcbf7338a7
-tarball=pwntools-3.5.1.tar.gz
-pgkver=2
+filesize=1118230
+sha512=0588c108950fbef6910050f2ace1cc29c8663e050f385fa793dd445cf221315aaf82d094934f9090555a1774beb525951ea30237ea0e294dc4c27d06d9d7c15b
+pkgver=3
+tarball=pwntools-3.6.1.tar.gz
 
 [deps.run]
 python
@@ -22,7 +22,15 @@ python-intervaltree
 python
 
 [build]
-patch -p1 < "$K"/pwntools-numpad.patch
+
+cat << EOF > pandoc
+#!/bin/sh
+echo pandoc v 1.18
+EOF
+chmod +x pandoc
+export PATH="$PATH:."
+
+patch -p1 < "$K"/pwntools-ldd.patch
 python setup.py build
 python setup.py install --prefix="$butch_prefix" \
        --root="$butch_install_dir"
