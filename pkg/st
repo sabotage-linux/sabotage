@@ -15,7 +15,7 @@ libxft
 
 [build]
 patch -p1 < "$K"/st-delete-key-works-always.patch
-patch -p1 < "$K"/st-no_bold_colors-20160727-308bfbf.patch
+patch -p1 < "$K"/st-no-bold-colors-20160727-308bfbf.patch
 patch -p1 < "$K"/st-scrollback-20160924-f739843.patch
 patch -p1 < "$K"/st-solarized-both-20160727-308bfbf.patch
 
