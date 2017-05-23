@@ -1,10 +1,10 @@
 [mirrors]
-https://poppler.freedesktop.org/poppler-0.54.0.tar.xz
+https://poppler.freedesktop.org/poppler-0.55.0.tar.xz
 
 [vars]
-filesize=1698392
-sha512=1967cebdcc24c6a4ffc2ebea6940fafe315040afe5c8d797521897fe6ba851704af0e90122d3213d10d1dede7594b14198e6592c0666f4091e866c10cd104b43
-pkgver=8
+filesize=1700440
+sha512=ea3008f2945da862236fcc64d320367e04e3c71d4cc5e996e0c50ac49457e5e42eb06af92486fe7f15c04f07a88367f5344f8dc76549c57c4a19e2fbb60f55d6
+pkgver=9
 desc='PDF rendering library and some utilities'
 
 [deps.host]
@@ -37,7 +37,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --disable-poppler-qt4 \
   --disable-poppler-qt5 \
   --disable-splash-output \
-  --disable-libopenjpeg \
+  --enable-libopenjpeg=none \
   --enable-xpdf-headers \
   --enable-zlib
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
