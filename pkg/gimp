@@ -1,10 +1,10 @@
 [mirrors]
-http://download.gimp.org/pub/gimp/v2.8/gimp-2.8.20.tar.bz2
+http://download.gimp.org/pub/gimp/v2.8/gimp-2.8.22.tar.bz2
 
 [vars]
-filesize=20853324
-sha512=5cd02854e21098c0d9d929e9131ede628ed520b6c76190eb9f6db38f057cff956e35b0a891d04c3a2e9c9e85c77f82d7ff5e63404187a8df921553763f649fd7
-pkgver=2
+filesize=20873278
+sha512=84a78d428282538b606b3cd1ff571e52c3d828fceade171b2012bc1cdcb85919fc7734e7e6c45ed3a8683657fa580412b32c1b511b8a512172a8c1df930493e6
+pkgver=3
 desc='GNOME image manipulation program'
 
 [deps]
