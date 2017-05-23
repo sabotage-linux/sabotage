@@ -1,10 +1,10 @@
 [mirrors]
-http://www.weechat.org/files/src/weechat-1.7.1.tar.xz
+http://www.weechat.org/files/src/weechat-1.8.tar.xz
 
 [vars]
-filesize=1836844
-sha512=4aba380704ab5f611d923a461aa17cac076a18f92a6bb8129daf5f212536672267cadcc679befbcadb48d5044e4bf973f93982d9d3c500cd9d9e12dba4dbfbba
-pkgver=4
+filesize=1871964
+sha512=34d5aa05e7a9df459c7ade7f654f56561838d59c2d553432697213a5d90614f55204364c4711e28aadd3dbae2cea733dfc6cafeffa9fca87a33eef0e2647a18f
+pkgver=5
 desc='IRC client for the terminal'
 
 [deps]
