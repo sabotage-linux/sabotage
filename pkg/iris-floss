@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/danielng01/iris-floss/archive/4e9e71a.tar.gz
+
+[vars]
+filesize=15574
+sha512=45a5755cf3777fe806ef0351ca63af8e556fa129c391b5996e19af3f05cc7ea1948b3b9b37fd8f34da777aa50eebba8bcb697b0c95949cfd6fd2f9f4ecf206b5
+pkgver=1
+tarball=iris-floss-4e9e71a.tar.gz
+tardir=iris-floss-4e9e71ae97eb30858c940c1e05441064fb93b987
+desc='eye-friendly blue light reduction software'
+
+[deps]
+libx11
+libxrandr
+
+[build]
+$CC $optcflags $optldflags -Wall -std=c99 \
+  -o iris-floss iris-floss.c -lX11 -lXrandr
+
+dest="$butch_prefix""$butch_install_dir"
+install -Dm 755 iris-floss "$dest"/bin/iris-floss
