@@ -1,11 +1,11 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-manpages-2.10.0.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-manpages-2.13.0.tar.xz
 
 [vars]
-filesize=394924
-sha512=76529a4e14d92f3e80072af38335d7304a57ae42367bd99dc807231538ea67cef242546025176b3174e5b6a5e29a0da6fd598e6ec0f1c35a52b44ef0f296045e
+filesize=407460
+sha512=175ec2cd9293eedfbdb70445e19966f1dabdbf86beb220b3ed74862a36036101497bf9f322c3635e57bfcb7d2ce9d5efe8bdd6bb3ad73563dfa283c48da6bd1c
+pkgver=3
 desc='manpages for git'
-pkgver=2
 
 [deps]
 man
