@@ -1,0 +1,24 @@
+[mirrors]
+https://www.freedesktop.org/software/libinput/libinput-1.7.2.tar.xz
+
+[vars]
+filesize=923720
+sha512=cdbd2994e954aac9538fe907c275e6e23e2bed0e9c4c65f19591bdcdbf5074131c72b92e87de87c03f75a991fcdb7f568b491a12f00031c4eba11082ca44d69f
+pkgver=1
+
+[deps]
+mtdev
+libevdev
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-libwacom
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
