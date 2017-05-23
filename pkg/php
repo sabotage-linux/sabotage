@@ -1,10 +1,10 @@
 [mirrors]
-http://www.php.net/distributions/php-7.0.18.tar.xz
+http://www.php.net/distributions/php-7.0.19.tar.xz
 
 [vars]
-filesize=12593408
-sha512=7188679dbbae27ab319d036bbee7d80f412cbb61ae83e38d6f1aa8e3f003a502c966adbc3a64481b0c94fd509ea991caae24517aed524a2b32cc91efffc01a36
-pkgver=8
+filesize=12595396
+sha512=7e926ef791cc511b28a92fc6ad9e66cc5abbee0506f1318f55b18134834212f6af7ff38df3cbaf25c36b0f5c5dabf8c00a55cf2aedf48c76952b687be114720e
+pkgver=9
 desc='heavily broken scripting language for web development'
 
 [deps]
