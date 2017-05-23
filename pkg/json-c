@@ -6,6 +6,7 @@ filesize=390179
 sha512=44c6ed9df44e5cf92d008491f07e22de51024b4ac09c50b17389d87da1ee9dc1b4506a8c11f8e427521a843e4864128fafb493d659a34cfc60a95aaaa82e6ea5
 uchkurl=http://s3.amazonaws.com/json-c_releases
 tardir=json-c-0.12
+pkgver=2
 
 [deps]
 
