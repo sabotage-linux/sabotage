@@ -1,14 +1,14 @@
 [mirrors]
-ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.1.3.tar.bz2
-http://gentoo.netnitco.net/distfiles/alsa-utils-1.1.3.tar.bz2
-http://alsa.cybermirror.org/utils/alsa-utils-1.1.3.tar.bz2
-http://distfiles.lesslinux.org/alsa-utils-1.1.3.tar.bz2
-http://distfiles.exherbo.org/distfiles/alsa-utils-1.1.3.tar.bz2
+ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.1.4.tar.bz2
+http://gentoo.netnitco.net/distfiles/alsa-utils-1.1.4.tar.bz2
+http://alsa.cybermirror.org/utils/alsa-utils-1.1.4.tar.bz2
+http://distfiles.lesslinux.org/alsa-utils-1.1.4.tar.bz2
+http://distfiles.exherbo.org/distfiles/alsa-utils-1.1.4.tar.bz2
 
 [vars]
-filesize=1201424
-sha512=a0a00578e7f7ed8441628757048412813a0345f0a3f2e085cda7a881ae3c6e22f7cf1e5119f8200e2e4340e42152b91aa5bdc20646b8422adc74ba00e4c59363
-pkgver=2
+filesize=1202047
+sha512=96852b3f5b57d7d9078a20881f28311543d446b69c80450179823a225089df7306456991890a7ef37672c1f55e9c386a7731c94e125504dcda2c88a674c8b4c7
+pkgver=3
 
 [deps]
 alsa-lib
