@@ -1,5 +1,5 @@
 [mirrors]
-http://download-origin.transmissionbt.com/files/transmission-2.60.tar.xz
+https://github.com/transmission/transmission-releases/raw/master/transmission-2.60.tar.xz
 
 [vars]
 filesize=2905156
