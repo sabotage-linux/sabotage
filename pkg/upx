@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/upx/upx/releases/download/v3.93/upx-3.93-src.tar.xz
+https://github.com/upx/upx/releases/download/v3.94/upx-3.94-src.tar.xz
 
 [vars]
-filesize=729264
-sha512=41c18c11601c78043a9ae22d87e73c173971b19b62207e7bf058e29a452456d802bf89931324afd3a9848018d1ef2007e0915b41cfb8a97a44d3cebb559cefad
-pkgver=3
+filesize=747776
+sha512=b9e8e6e13b2a267a30a9c4e572243c4ebeff9600044193de38c84e8943e3cd30c9cdd7b270cc0bdf14c1078ac15250906238f8272cd97a7eb40f2588965c6151
+pkgver=4
 uchkurl=https://github.com/upx/upx/releases
 
 [deps]
@@ -15,6 +15,8 @@ zlib
 printf '#!/bin/sh\ntrue' > src/stub/scripts/check_whitespace.sh
 cd src
 
-make V=1 -j$MAKE_THREADS exeext= CXXFLAGS_WERROR="$optcflags"
+make V=1 -j$MAKE_THREADS exeext= CXXFLAGS_WERROR="$optcflags" \
+  UPX_UCLDIR="$butch_root_dir""$butch_prefix" \
+  BUILD_USE_DEPEND=0
 dest="$butch_install_dir""$butch_prefix"
 install -Dm 755 upx "$dest"/bin/upx
