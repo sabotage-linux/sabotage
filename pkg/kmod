@@ -1,5 +1,4 @@
 [mirrors]
-ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 http://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 
 [vars]

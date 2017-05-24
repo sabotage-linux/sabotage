@@ -1,5 +1,5 @@
 [mirrors]
-http://ftp.kernel.org/pub/linux/utils/kbd/kbd-2.0.4.tar.xz
+http://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.0.4.tar.xz
 http://ftp.cc.uoc.gr/mirrors/ftp.kernel.org/pub/linux/utils/kbd/kbd-2.0.4.tar.xz
 
 [vars]

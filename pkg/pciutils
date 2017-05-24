@@ -1,6 +1,5 @@
 [mirrors]
-ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.3.tar.xz
-http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-3.5.3.tar.xz
+http://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.5.3.tar.xz
 
 [vars]
 filesize=320208
