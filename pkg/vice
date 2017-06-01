@@ -1,0 +1,33 @@
+[mirrors]
+https://downloads.sourceforge.net/project/vice-emu/releases/vice-3.1.tar.gz
+
+[vars]
+filesize=30714226
+sha512=bc02a3597a17dadb37c487e6942192c0e9dc1a7d4e440fbf0dc8a165dbb2dee60ddf157697a020d2780ddef56a0a67802768d5c6d117b9cf5cdc124de45bc579
+pkgver=1
+desc='C64 emulator'
+
+[deps]
+sdl
+sdl-sound
+
+[build]
+patch -p1 < "$K"/vice-uchar.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+sed -i 's,lib64/vice,lib/vice,g' configure
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-sdlui \
+  --with-sdlsound \
+  ac_cv_path_FCCACHE=no \
+  ac_cv_lib_pciutils_pci_fill_info=no \
+  ac_cv_lib_pci_pci_fill_info=no
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,25 @@
+--- vice-3.1.org/src/opencbm.h
++++ vice-3.1/src/opencbm.h
+@@ -112,22 +112,7 @@
+ #define UNREFERENCED_PARAMETER(x)
+ #endif
+ 
+-/* On Macs and *BSD we need to define the __u_char */
+-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined (__DragonflyBSD__) || defined (__DragonFly__)
+ typedef unsigned char __u_char;
+-#endif
+-
+-#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(__INTERIX) || defined(SKYOS) || defined(__svr4__) || defined(__sortix__)
+-typedef unsigned char __u_char;
+-#endif
+-
+-#if defined(__minix) || defined(OPENSERVER5_COMPILE) || defined(__QNXNTO__)
+-typedef unsigned char __u_char;
+-#endif
+-
+-#if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
+-typedef unsigned char __u_char;
+-#endif
+ 
+ #endif
+ 
