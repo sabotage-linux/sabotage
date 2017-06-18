@@ -1,0 +1,20 @@
+[mirrors]
+https://pypi.python.org/packages/2a/33/59ad785fbfa4f54580d5c3b3222cd7956172974e9c25de1f6016900e5250/uncompyle6-2.11.0.tar.gz
+
+[vars]
+filesize=1457964
+sha512=82b29622d742ed0a3430116d82ec6005bbe24dec6aec0e6c9acd05dd0a01fe02ff6a544dcf022a95ba4394030b641ac459300850c538f121a416c5db9caffe7e
+pkgver=1
+
+[deps.run]
+python
+python-xdis
+python-spark-parser
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

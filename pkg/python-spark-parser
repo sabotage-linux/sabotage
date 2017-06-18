@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/df/97/e6c38e1a567748fadae9afede3e249b4e4e9cc94934e5e10a032f2db385f/spark_parser-1.6.1.tar.gz
+
+[vars]
+filesize=134114
+sha512=290069ebe37aa4d5dddacefe3a4d48607076990fe1f27f914d154fa48a5249cddd0c9d238b7e4c7a9a52ddfc054a3cd5639e52b618b5f4bc5b833c4e38b21c2b
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

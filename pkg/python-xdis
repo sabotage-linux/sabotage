@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/f1/68/982e12c6f1ea460273dad56f703d88fd208732afb1ae2fbf23eb4cfcef70/xdis-3.3.1.tar.gz
+
+[vars]
+filesize=154152
+sha512=93b1a092ae7790e84dfd8dc4128659d48be85c4e00d9914bbd748fad5ec4246bbfc6c19a5c5de366f4bd6d91847dad4ce3c1c3affe8f7608652f2f6e343650e1
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
