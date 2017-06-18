@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.30-31.xz
+
+[vars]
+filesize=35948
+sha512=79e60965ceb5cb3b7221dcc71e54f47c715b13abf0e566acdd362ab4100346d87ecd55f03ad35e7b5a59033bfeea2600cc1220ca30de83ca1c7af37c837a5efa
+tarball=kernel-patch-4.9.30-31.xz
+
