@@ -1,0 +1,6 @@
+[mirrors]
+http://archive.ubuntu.com/ubuntu/pool/universe/s/scrot/scrot_0.8-18.debian.tar.xz
+
+[vars]
+filesize=9164
+sha512=225a857c2586a0eaaa17e8f3dacdb01c395cefac99be80665c3a26be25b6cc9785a26f16de464829eb26e0e51d7d5420fe7ed79c1bbbd6931043d01a72d9d832

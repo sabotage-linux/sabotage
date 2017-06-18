@@ -10,8 +10,13 @@ http://fossies.org/unix/privat/scrot-0.8.tar.gz
 [deps]
 imlib2
 giblib
+scrot-debian-patches
 
 [build]
+tar xf "$C"/scrot_0.8-18.debian.tar.xz
+patch -p1 < debian/patches/04-focused.patch
+patch -p1 < debian/patches/05-addfocusedmanpage.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
