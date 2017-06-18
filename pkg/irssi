@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/irssi/irssi/releases/download/1.0.2/irssi-1.0.2.tar.xz
+https://github.com/irssi/irssi/releases/download/1.0.3/irssi-1.0.3.tar.xz
 
 [vars]
-filesize=1027912
-sha512=0b5048b1babecaafcd6f2be59523635a3f028c17ceb751776099d74c50fc3daf8fdf52ef5c37f9b765f7a1e5e82f5e41230d14f05530de54386f7190c610d458
-pkgver=6
+filesize=1029980
+sha512=3a369d9bad4e2016a6a0395b35e3db1f1a6ff7ff6b8361fe5d828c29dd6f81c4b8d1bdfe0304cb05402eecddde97f6d369a5e98f215bfd177287f303d3d714eb
+pkgver=7
 desc='console IRC client'
 uchkurl=https://github.com/irssi/irssi/releases/
 
