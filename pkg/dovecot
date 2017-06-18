@@ -1,10 +1,10 @@
 [mirrors]
-http://dovecot.org/releases/2.2/dovecot-2.2.29.tar.gz
+http://dovecot.org/releases/2.2/dovecot-2.2.30.2.tar.gz
 
 [vars]
-filesize=5971883
-sha512=75d3160d7ad5c4c753639bc0dc2eab4e91592e865081b94a71354a16a6ce3bb7a94dbb10191b9e4d18159eee95889fd4c07df2362637faa1357a5f5328ff002f
-pkgver=5
+filesize=6008134
+sha512=740118e3081864234168593bd83f2f5e7b9f5c7cefff3a3a7795369cf791f300c0881fbfacae2c76c0bb42e366ad26e7613c487708d113b19887ebe869d711ea
+pkgver=6
 desc='security-focused IMAP and POP3 server'
 service=dovecot
 serviceflags="--down --log"
