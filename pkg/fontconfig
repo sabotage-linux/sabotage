@@ -1,9 +1,10 @@
 [mirrors]
-http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.1.tar.bz2
+http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.3.tar.bz2
 
 [vars]
-filesize=1608901
-sha512=a5ba2c1a52272b39aad20394dcc85c202159af0d3d2c1b34b24cbdbc8babb3157005a79d25c21a9bf6ec0459681b1ab05af102b2c0594f485c49e3b3b531067e
+filesize=1600509
+sha512=311a3c98a05afbe35c1215b41edb2bbcfe3069f85814c882ef0e40f0404cca4bb59a544b14eee9430ea902fd8bc3bfeccb37e42b9fe3bb3a6c71bb0c5332f2c7
+pkgver=2
 
 [deps]
 freetype
