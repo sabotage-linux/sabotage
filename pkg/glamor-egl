@@ -11,9 +11,9 @@ sha512=aa3a88e85ae069e487c88a1839c21b0404c5a2a343a63f2c1d71ffb8d86288eb42dfcb30c
   --with-sysroot=$butch_root_dir"
 
 # if we let it install the glamor.conf file, there's no guarantee that xorg
-# will be configured to load glamor before its dependencies.
+# will be configured to load glamor after its dependencies.
 # to work around this, we pass an empty string (which the makefile will handle
-# by not installing it at all and install $K/20-glamor.conf instead
+# by not installing it) at all and install $K/20-glamor.conf instead
 
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-glamor \
