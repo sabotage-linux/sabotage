@@ -75,7 +75,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   --disable-xa \
   --enable-gbm \
   --disable-asm \
-  --enable-glx-tls \
+  --disable-glx-tls \
   --with-egl-platforms="drm,x11" $archflags
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
