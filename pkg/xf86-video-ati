@@ -4,19 +4,23 @@ http://xorg.freedesktop.org/releases/individual/driver/xf86-video-ati-7.9.0.tar.
 [vars]
 filesize=848502
 sha512=125e035da6581520d677c56474653ed75aa6d168bf5450cc973248416b5ada3114ea14d0615b44c58029bb1702609453ab532a506273df2a5dd99dd2af4a9d43
-pkgver=2
+pkgver=3
 
 [deps]
 xproto
 libx11
 xorg-server
+glamor-egl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-./configure -C --prefix="$butch_prefix" $xconfflags \
-  --disable-glamor
+./configure -C \
+  --prefix="$butch_prefix" \
+  $xconfflags \
+  --enable-glamor
+
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
