@@ -1,0 +1,35 @@
+[mirrors]
+http://llvm.org/releases/3.6.0/llvm-3.6.0.src.tar.xz
+
+[vars]
+filesize=12750908
+sha512=ca492b7d86333f05930dc849c7a8beff981da51ca174cd844650b516d0a592a2c3837d5a8a9b62713c0f29292b845f27ef0ec361809e325c6b60cbbcd3f20357
+
+[deps.host]
+cmake
+
+[deps]
+libffi
+clang36
+compiler-rt36
+
+[build]
+tar xf "$C"/cfe-3.6.0.src.tar.xz
+mv ./cfe-3.6.0.src ./tools/clang
+tar xf "$C"/compiler-rt-3.6.0.src.tar.xz
+mv ./compiler-rt-3.6.0.src ./projects/compiler-rt
+
+patch -p1 < "$K"/llvm36.patch
+patch -p1 < "$K"/llvm36-dynlinker.patch
+
+conflags='--enable-libffi --enable-optimized --enable-shared
+	--disable-docs --enable-targets=all --prefix='"$butch_prefix"
+if [ ! -z "$DEBUGBUILD" ] ; then
+	conflags='--enable-debug-runtime --enable-debug-symbols
+	--enable-keep-symbols --enable-libffi --enable-optimized
+	--enable-shared --disable-docs --enable-targets=all --prefix='"$butch_prefix"
+fi
+./configure $conflags
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

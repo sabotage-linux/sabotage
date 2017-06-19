@@ -1,0 +1,5 @@
+[mirrors]
+http://llvm.org/releases/3.6.0/compiler-rt-3.6.0.src.tar.xz
+[vars]
+filesize=1140616
+sha512=2758bc2b78dcfb9b6509b83ebc4ebc86907ca3dc2a5f151f580771c674b934432cae055e342ed73096a08331b2f7b129ff65629b27932458b1877aeb554b6328

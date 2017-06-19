@@ -1,0 +1,292 @@
+diff --git a/include/llvm/Target/TargetLibraryInfo.h b/include/llvm/Target/TargetLibraryInfo.h
+index 46f87b9..95783a5 100644
+--- a/include/llvm/Target/TargetLibraryInfo.h
++++ b/include/llvm/Target/TargetLibraryInfo.h
+@@ -294,8 +294,6 @@ namespace llvm {
+       fmodl,
+       /// FILE *fopen(const char *filename, const char *mode);
+       fopen,
+-      /// FILE *fopen64(const char *filename, const char *opentype)
+-      fopen64,
+       /// int fprintf(FILE *stream, const char *format, ...);
+       fprintf,
+       /// int fputc(int c, FILE *stream);
+@@ -318,14 +316,10 @@ namespace llvm {
+       fseek,
+       /// int fseeko(FILE *stream, off_t offset, int whence);
+       fseeko,
+-      /// int fseeko64(FILE *stream, off64_t offset, int whence)
+-      fseeko64,
+       /// int fsetpos(FILE *stream, const fpos_t *pos);
+       fsetpos,
+       /// int fstat(int fildes, struct stat *buf);
+       fstat,
+-      /// int fstat64(int filedes, struct stat64 *buf)
+-      fstat64,
+       /// int fstatvfs(int fildes, struct statvfs *buf);
+       fstatvfs,
+       /// int fstatvfs64(int fildes, struct statvfs64 *buf);
+@@ -334,8 +328,6 @@ namespace llvm {
+       ftell,
+       /// off_t ftello(FILE *stream);
+       ftello,
+-      /// off64_t ftello64(FILE *stream)
+-      ftello64,
+       /// int ftrylockfile(FILE *file);
+       ftrylockfile,
+       /// void funlockfile(FILE *file);
+@@ -416,8 +408,6 @@ namespace llvm {
+       /// int lstat(const char *path, struct stat *buf);
+       lstat,
+       /// int lstat64(const char *path, struct stat64 *buf);
+-      lstat64,
+-      /// void *malloc(size_t size);
+       malloc,
+       /// void *memalign(size_t boundary, size_t size);
+       memalign,
+@@ -560,8 +550,6 @@ namespace llvm {
+       sscanf,
+       /// int stat(const char *path, struct stat *buf);
+       stat,
+-      /// int stat64(const char *path, struct stat64 *buf);
+-      stat64,
+       /// int statvfs(const char *path, struct statvfs *buf);
+       statvfs,
+       /// int statvfs64(const char *path, struct statvfs64 *buf)
+@@ -647,8 +635,6 @@ namespace llvm {
+       times,
+       /// FILE *tmpfile(void);
+       tmpfile,
+-      /// FILE *tmpfile64(void)
+-      tmpfile64,
+       /// int toascii(int c);
+       toascii,
+       /// double trunc(double x);
+diff --git a/lib/ExecutionEngine/RuntimeDyld/RTDyldMemoryManager.cpp b/lib/ExecutionEngine/RuntimeDyld/RTDyldMemoryManager.cpp
+index 2a5e4f8..091a0bb 100644
+--- a/lib/ExecutionEngine/RuntimeDyld/RTDyldMemoryManager.cpp
++++ b/lib/ExecutionEngine/RuntimeDyld/RTDyldMemoryManager.cpp
+@@ -33,7 +33,7 @@ namespace llvm {
+ RTDyldMemoryManager::~RTDyldMemoryManager() {}
+ 
+ // Determine whether we can register EH tables.
+-#if (defined(__GNUC__) && !defined(__ARM_EABI__) && !defined(__ia64__) && \
++#if (defined(__GLIBC__) && !defined(__ARM_EABI__) && !defined(__ia64__) && \
+      !defined(__SEH__) && !defined(__USING_SJLJ_EXCEPTIONS__))
+ #define HAVE_EHTABLE_SUPPORT 1
+ #else
+diff --git a/lib/Support/DynamicLibrary.cpp b/lib/Support/DynamicLibrary.cpp
+index d2b551e..c97e4e1 100644
+--- a/lib/Support/DynamicLibrary.cpp
++++ b/lib/Support/DynamicLibrary.cpp
+@@ -143,7 +143,7 @@ void* DynamicLibrary::SearchForAddressOfSymbol(const char *symbolName) {
+ // On linux we have a weird situation. The stderr/out/in symbols are both
+ // macros and global variables because of standards requirements. So, we
+ // boldly use the EXPLICIT_SYMBOL macro without checking for a #define first.
+-#if defined(__linux__) and !defined(__ANDROID__)
++#if defined(__GLIBC__)
+   {
+     EXPLICIT_SYMBOL(stderr);
+     EXPLICIT_SYMBOL(stdout);
+diff --git a/lib/Support/Unix/Signals.inc b/lib/Support/Unix/Signals.inc
+index e8f4643..8a320ef 100644
+--- a/lib/Support/Unix/Signals.inc
++++ b/lib/Support/Unix/Signals.inc
+@@ -416,7 +416,7 @@ static bool printSymbolizedStackTrace(void **StackTrace, int Depth, FILE *FD) {
+ // On glibc systems we have the 'backtrace' function, which works nicely, but
+ // doesn't demangle symbols.
+ void llvm::sys::PrintStackTrace(FILE *FD) {
+-#if defined(HAVE_BACKTRACE) && defined(ENABLE_BACKTRACES)
++#if defined(__GLIBC__) && defined(HAVE_BACKTRACE) && defined(ENABLE_BACKTRACES)
+   static void* StackTrace[256];
+   // Use backtrace() to output a backtrace on Linux systems with glibc.
+   int depth = backtrace(StackTrace,
+diff --git a/lib/Target/TargetLibraryInfo.cpp b/lib/Target/TargetLibraryInfo.cpp
+index c0abdbd..27a51bd 100644
+--- a/lib/Target/TargetLibraryInfo.cpp
++++ b/lib/Target/TargetLibraryInfo.cpp
+@@ -160,7 +160,6 @@ const char* TargetLibraryInfo::StandardNames[LibFunc::NumLibFuncs] =
+     "fmodf",
+     "fmodl",
+     "fopen",
+-    "fopen64",
+     "fprintf",
+     "fputc",
+     "fputs",
+@@ -172,15 +171,12 @@ const char* TargetLibraryInfo::StandardNames[LibFunc::NumLibFuncs] =
+     "fscanf",
+     "fseek",
+     "fseeko",
+-    "fseeko64",
+     "fsetpos",
+     "fstat",
+-    "fstat64",
+     "fstatvfs",
+     "fstatvfs64",
+     "ftell",
+     "ftello",
+-    "ftello64",
+     "ftrylockfile",
+     "funlockfile",
+     "fwrite",
+@@ -220,7 +216,6 @@ const char* TargetLibraryInfo::StandardNames[LibFunc::NumLibFuncs] =
+     "logf",
+     "logl",
+     "lstat",
+-    "lstat64",
+     "malloc",
+     "memalign",
+     "memccpy",
+@@ -291,7 +286,6 @@ const char* TargetLibraryInfo::StandardNames[LibFunc::NumLibFuncs] =
+     "sqrtl",
+     "sscanf",
+     "stat",
+-    "stat64",
+     "statvfs",
+     "statvfs64",
+     "stpcpy",
+@@ -334,7 +328,6 @@ const char* TargetLibraryInfo::StandardNames[LibFunc::NumLibFuncs] =
+     "tanl",
+     "times",
+     "tmpfile",
+-    "tmpfile64",
+     "toascii",
+     "trunc",
+     "truncf",
+@@ -672,16 +665,9 @@ static void initialize(TargetLibraryInfo &TLI, const Triple &T,
+     TLI.setUnavailable(LibFunc::under_IO_getc);
+     TLI.setUnavailable(LibFunc::under_IO_putc);
+     TLI.setUnavailable(LibFunc::memalign);
+-    TLI.setUnavailable(LibFunc::fopen64);
+-    TLI.setUnavailable(LibFunc::fseeko64);
+-    TLI.setUnavailable(LibFunc::fstat64);
+     TLI.setUnavailable(LibFunc::fstatvfs64);
+-    TLI.setUnavailable(LibFunc::ftello64);
+-    TLI.setUnavailable(LibFunc::lstat64);
+     TLI.setUnavailable(LibFunc::open64);
+-    TLI.setUnavailable(LibFunc::stat64);
+     TLI.setUnavailable(LibFunc::statvfs64);
+-    TLI.setUnavailable(LibFunc::tmpfile64);
+   }
+ }
+ 
+diff --git a/lib/Transforms/IPO/FunctionAttrs.cpp b/lib/Transforms/IPO/FunctionAttrs.cpp
+index 823ae53..14d9e31 100644
+--- a/lib/Transforms/IPO/FunctionAttrs.cpp
++++ b/lib/Transforms/IPO/FunctionAttrs.cpp
+@@ -1601,8 +1601,6 @@ bool FunctionAttrs::inferPrototypeAttributes(Function &F) {
+     setDoesNotCapture(F, 1);
+     setOnlyReadsMemory(F, 1);
+     break;
+-  case LibFunc::stat64:
+-  case LibFunc::lstat64:
+   case LibFunc::statvfs64:
+     if (FTy->getNumParams() < 1 ||
+         !FTy->getParamType(0)->isPointerTy() ||
+@@ -1624,33 +1622,6 @@ bool FunctionAttrs::inferPrototypeAttributes(Function &F) {
+     setOnlyReadsMemory(F, 1);
+     setOnlyReadsMemory(F, 2);
+     break;
+-  case LibFunc::fopen64:
+-    if (FTy->getNumParams() != 2 ||
+-        !FTy->getReturnType()->isPointerTy() ||
+-        !FTy->getParamType(0)->isPointerTy() ||
+-        !FTy->getParamType(1)->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotAlias(F, 0);
+-    setDoesNotCapture(F, 1);
+-    setDoesNotCapture(F, 2);
+-    setOnlyReadsMemory(F, 1);
+-    setOnlyReadsMemory(F, 2);
+-    break;
+-  case LibFunc::fseeko64:
+-  case LibFunc::ftello64:
+-    if (FTy->getNumParams() == 0 || !FTy->getParamType(0)->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotCapture(F, 1);
+-    break;
+-  case LibFunc::tmpfile64:
+-    if (!FTy->getReturnType()->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotAlias(F, 0);
+-    break;
+-  case LibFunc::fstat64:
+   case LibFunc::fstatvfs64:
+     if (FTy->getNumParams() != 2 || !FTy->getParamType(1)->isPointerTy())
+       return false;
+diff --git a/projects/compiler-rt/lib/Makefile.mk b/projects/compiler-rt/lib/Makefile.mk
+index ed9690d..9fe35a6 100644
+--- a/projects/compiler-rt/lib/Makefile.mk
++++ b/projects/compiler-rt/lib/Makefile.mk
+@@ -10,13 +10,13 @@
+ SubDirs :=
+ 
+ # Add submodules.
+-SubDirs += asan
++#SubDirs += asan
+ SubDirs += builtins
+-SubDirs += dfsan
++#SubDirs += dfsan
+ SubDirs += interception
+-SubDirs += lsan
+-SubDirs += msan
++#SubDirs += lsan
++#SubDirs += msan
+ SubDirs += profile
+-SubDirs += sanitizer_common
+-SubDirs += tsan
+-SubDirs += ubsan
++#SubDirs += sanitizer_common
++#SubDirs += tsan
++#SubDirs += ubsan
+diff --git a/projects/compiler-rt/lib/interception/interception_linux.cc b/projects/compiler-rt/lib/interception/interception_linux.cc
+index 6e908ac..91f28c3 100644
+--- a/projects/compiler-rt/lib/interception/interception_linux.cc
++++ b/projects/compiler-rt/lib/interception/interception_linux.cc
+@@ -24,12 +24,6 @@ bool GetRealFunctionAddress(const char *func_name, uptr *func_addr,
+   return real == wrapper;
+ }
+ 
+-#if !defined(__ANDROID__)  // android does not have dlvsym
+-void *GetFuncAddrVer(const char *func_name, const char *ver) {
+-  return dlvsym(RTLD_NEXT, func_name, ver);
+-}
+-#endif  // !defined(__ANDROID__)
+-
+ }  // namespace __interception
+ 
+ 
+diff --git a/projects/compiler-rt/lib/interception/interception_linux.h b/projects/compiler-rt/lib/interception/interception_linux.h
+index d3f774b..4bb5f46 100644
+--- a/projects/compiler-rt/lib/interception/interception_linux.h
++++ b/projects/compiler-rt/lib/interception/interception_linux.h
+@@ -34,14 +34,8 @@ void *GetFuncAddrVer(const char *func_name, const char *ver);
+       (::__interception::uptr) & (func),                                   \
+       (::__interception::uptr) & WRAP(func))
+ 
+-#if !defined(__ANDROID__)  // android does not have dlvsym
+-# define INTERCEPT_FUNCTION_VER_LINUX_OR_FREEBSD(func, symver) \
+-     ::__interception::real_##func = (func##_f)(unsigned long) \
+-         ::__interception::GetFuncAddrVer(#func, symver)
+-#else
+ # define INTERCEPT_FUNCTION_VER_LINUX_OR_FREEBSD(func, symver) \
+      INTERCEPT_FUNCTION_LINUX_OR_FREEBSD(func)
+-#endif  // !defined(__ANDROID__)
+ 
+ #endif  // INTERCEPTION_LINUX_H
+ #endif  // __linux__ || __FreeBSD__
+diff --git a/utils/unittest/googletest/src/gtest.cc b/utils/unittest/googletest/src/gtest.cc
+index bf850c6..e0ca633 100644
+--- a/utils/unittest/googletest/src/gtest.cc
++++ b/utils/unittest/googletest/src/gtest.cc
+@@ -120,6 +120,7 @@
+ 
+ #if GTEST_CAN_STREAM_RESULTS_
+ # include <arpa/inet.h>  // NOLINT
++# include <sys/socket.h>
+ # include <netdb.h>  // NOLINT
+ #endif
+ 
