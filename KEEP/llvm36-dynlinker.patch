@@ -1,0 +1,60 @@
+diff --git a/tools/clang/lib/Driver/Tools.cpp b/tools/clang/lib/Driver/Tools.cpp
+index 75eef9e..1995c53 100644
+--- a/tools/clang/lib/Driver/Tools.cpp
++++ b/tools/clang/lib/Driver/Tools.cpp
+@@ -7284,26 +7284,28 @@ static std::string getLinuxDynamicLinker(const ArgList &Args,
+       return "/system/bin/linker";
+   } else if (ToolChain.getArch() == llvm::Triple::x86 ||
+              ToolChain.getArch() == llvm::Triple::sparc)
+-    return "/lib/ld-linux.so.2";
++    return "/lib/ld-musl-i386.so.1";
+   else if (ToolChain.getArch() == llvm::Triple::aarch64)
+-    return "/lib/ld-linux-aarch64.so.1";
++    return "/lib/ld-musl-aarch64.so.1";
+   else if (ToolChain.getArch() == llvm::Triple::aarch64_be)
+     return "/lib/ld-linux-aarch64_be.so.1";
+   else if (ToolChain.getArch() == llvm::Triple::arm ||
+            ToolChain.getArch() == llvm::Triple::thumb) {
+     if (ToolChain.getTriple().getEnvironment() == llvm::Triple::GNUEABIHF)
+-      return "/lib/ld-linux-armhf.so.3";
++      return "/lib/ld-musl-armhf.so.1";
+     else
+-      return "/lib/ld-linux.so.3";
++      return "/lib/ld-musl-arm.so.1";
+   } else if (ToolChain.getArch() == llvm::Triple::armeb ||
+              ToolChain.getArch() == llvm::Triple::thumbeb) {
+     if (ToolChain.getTriple().getEnvironment() == llvm::Triple::GNUEABIHF)
+-      return "/lib/ld-linux-armhf.so.3";        /* TODO: check which dynamic linker name.  */
++      return "/lib/ld-musl-armhf.so.1";        /* TODO: check which dynamic linker name.  */
+     else
+-      return "/lib/ld-linux.so.3";              /* TODO: check which dynamic linker name.  */
+-  } else if (ToolChain.getArch() == llvm::Triple::mips ||
+-             ToolChain.getArch() == llvm::Triple::mipsel ||
+-             ToolChain.getArch() == llvm::Triple::mips64 ||
++      return "/lib/ld-musl-arm.so.1";
++  } else if (ToolChain.getArch() == llvm::Triple::mips)
++      return "/lib/ld-musl-mips.so.1";
++  else if (ToolChain.getArch() == llvm::Triple::mipsel)
++      return "/lib/ld-musl-mipsel.so.1";
++  else if (ToolChain.getArch() == llvm::Triple::mips64 ||
+              ToolChain.getArch() == llvm::Triple::mips64el) {
+     StringRef CPUName;
+     StringRef ABIName;
+@@ -7323,7 +7325,7 @@ static std::string getLinuxDynamicLinker(const ArgList &Args,
+ 
+     return (LibDir + "/" + LibName).str();
+   } else if (ToolChain.getArch() == llvm::Triple::ppc)
+-    return "/lib/ld.so.1";
++    return "/lib/ld-musl-powerpc.so.1";
+   else if (ToolChain.getArch() == llvm::Triple::ppc64) {
+     if (ppc::hasPPCAbiArg(Args, "elfv2"))
+       return "/lib64/ld64.so.2";
+@@ -7340,7 +7342,7 @@ static std::string getLinuxDynamicLinker(const ArgList &Args,
+            ToolChain.getTriple().getEnvironment() == llvm::Triple::GNUX32)
+     return "/libx32/ld-linux-x32.so.2";
+   else
+-    return "/lib64/ld-linux-x86-64.so.2";
++    return "/lib64/ld-musl-x86_64.so.1";
+ }
+ 
+ static void AddRunTimeLibs(const ToolChain &TC, const Driver &D,
