@@ -36,6 +36,17 @@ if false ; then
   mv Mesa-7.9.2/include/GL/* include/GL/
 fi
 
+# Remember to manually edit CONFIG_EXTRA_FIRMWARE with the correct
+# firmware blobs for your card to /src/KEEP/linux.config
+# (see https://wiki.gentoo.org/wiki/Radeon#Firmware)
+#
+# Check that the blobs you have specified exist in /lib/firmware
+# if they don't, update/install linux-firmware-git
+#
+# Once you have the firmware in place, add
+# CONFIG_EXTRA_FIRMWARE_DIR=/lib/firmware
+# and rebuild the kernel
+
 archflags=
 [ "$A" = arm ] || [ "$A" = mips ] && archflags=--with-dri-drivers=swrast
 [ -n "$CROSS_COMPILE" ] && \
