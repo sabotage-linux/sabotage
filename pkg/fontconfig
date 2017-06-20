@@ -9,6 +9,7 @@ pkgver=2
 [deps]
 freetype
 expat
+gperf
 
 [deps.host]
 pkgconf
