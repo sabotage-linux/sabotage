@@ -7,6 +7,7 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/libelf-compat-0.152c001.tar.bz2
 [vars]
 filesize=122231
 sha512=442ec322d3751f1e755a18c852ca5ade745387fb6b8526f40c451a8459eb31ac3bec091aceae5feddf91ded9deda5c359d83e92122bde6789b5324bdc47f6deb
+pkgver=2
 
 [deps]
 
@@ -15,7 +16,7 @@ sha512=442ec322d3751f1e755a18c852ca5ade745387fb6b8526f40c451a8459eb31ac3bec091ac
 # ^ tls is not crucial for libelf, as gcc is single threaded and the only user of it
 # having it there makes the build fail with gcc 3.4.6 mips
 
-echo "CFLAGS += $optcflags" > config.mak
+echo "CFLAGS += $optcflags -fPIC" > config.mak
 sed -i 's@HEADERS = src/libelf.h@HEADERS = src/libelf.h src/gelf.h@' Makefile
 make -j$MAKE_THREADS
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
