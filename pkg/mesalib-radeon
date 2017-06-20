@@ -53,9 +53,9 @@ archflags=
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
 # workaround for missing endian-ness defines taken from alpine linux
-endian="LITTLEENDIAN"
-[ $("$K"/endiancheck.sh) = "big" ] && endian="BIGENDIAN"
-echo "#define $endian_CPU" > tmp.h
+endian="LITTLEENDIAN_CPU"
+[ $("$K"/endiancheck.sh) = "big" ] && endian="BIGENDIAN_CPU"
+echo "#define $endian" > tmp.h
 
 r800_hdr=src/amd/addrlib/inc/chip/r800/si_gb_reg.h
 cat $r800_hdr >> tmp.h
