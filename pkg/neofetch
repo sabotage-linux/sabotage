@@ -1,0 +1,14 @@
+[mirrors]
+https://github.com/dylanaraps/neofetch/archive/3.1.0.tar.gz
+
+[vars]
+filesize=68930
+sha512=0a13acadf1841c1e714c07f9643028446a1f4df6a79e7c3189c4c11d8854813dfbb983784d62dc59a9209893ee2339ca5642fe413d1066a5cb6e9e167ae74975
+tardir=neofetch-3.1.0
+
+[build]
+make \
+    PREFIX="$butch_prefix" \
+    DESTDIR="$butch_install_dir" \
+    -j$MAKE_THREADS \
+    install
