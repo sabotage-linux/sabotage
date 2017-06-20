@@ -17,7 +17,6 @@ pkgver=3
 # by not installing it) at all and install $K/30-glamor.conf instead
 
 ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --enable-glamor \
   --with-xorg-conf-dir="" \
   --disable-glx-tls
 
