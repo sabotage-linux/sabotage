@@ -12,6 +12,7 @@ expat
 
 [deps.host]
 pkgconf
+gperf
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
