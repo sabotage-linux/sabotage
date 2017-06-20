@@ -4,7 +4,7 @@ http://www.x.org/releases/individual/driver/glamor-egl-0.6.0.tar.bz2
 [vars]
 filesize=428912
 sha512=aa3a88e85ae069e487c88a1839c21b0404c5a2a343a63f2c1d71ffb8d86288eb42dfcb30c8cce4c417b361417e9fae7c1cdabadc07ad40bb97c995c410dc0c1b
-pkgver=2
+pkgver=3
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
@@ -18,7 +18,8 @@ pkgver=2
 
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-glamor \
-  --with-xorg-conf-dir=""
+  --with-xorg-conf-dir="" \
+  --disable-glx-tls
 
 xmoddest="${butch_prefix}${butch_install_dir}"/share/X11/xorg.conf.d
 mkdir -p "$xmoddest"
