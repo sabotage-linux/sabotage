@@ -36,6 +36,7 @@ patch -p1 < "$K"/gcc473-arm-hwcap.patch
 patch -p1 < "$K"/gcc473-config-sub.patch
 patch -p1 < "$K"/gcc473-powerpc-libc-stack-end.patch
 patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
+patch -p1 < "$K"/gcc-474-gperf.patch
 patch -p1 < "$K"/gcc474-libssp_nonshared.patch
 patch -p1 < "$K"/gcc474-libgcc_fixver.patch
 patch -p1 < "$K"/gcc4-boehm-gc.patch
