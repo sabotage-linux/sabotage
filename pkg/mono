@@ -1,0 +1,51 @@
+[mirrors]
+http://download.mono-project.com/sources/mono/mono-5.0.1.1.tar.bz2
+
+[vars]
+filesize=154477308
+sha512=de2a8a3580b8236bafdc7e6967d68da08bf2dc775bce5166aba6134c1b986ae7fc56b97743d5122de14bf8fe074d3508c07324735616439dea0913633ee817da
+pkgver=1
+desc='open-source implementation of the .NET Framework runtime and compiler'
+
+[deps]
+libgdiplus
+zlib
+
+[deps.host]
+python
+kernel-headers
+libtool
+automake
+autoconf
+bash
+cmake
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+# mono website recommends static libmono for performance and
+# reliability
+# for some reason --disable-shared and –with-static_mono=no give
+# various undefined symbols when linking, TODO investigate this
+# so we can maybe shrink the build
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./autogen.sh \
+    -C --prefix="$butch_prefix" \
+    --disable-nls \
+    --enable-minimal=aot,profiler \
+    --disable-system-aot \
+    --disable-sigaltstack \
+    --disable-boehm \
+    --enable-parallel-mark \
+    --mandir="$butch_prefix"/share/man \
+    --docdir="$butch_prefix"/share/doc/mono \
+    $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
