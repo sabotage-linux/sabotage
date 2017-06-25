@@ -1,0 +1,34 @@
+[mirrors]
+http://download.mono-project.com/sources/libgdiplus/libgdiplus-4.2.tar.gz
+
+[vars]
+filesize=687398
+sha512=102d1e07a106fa32640a20c4843bf82b3f628c5b7a3813d39c7712f2cd09d80dc5adb337a8d5bdbae065f876a0c433a5d8fcb7d761dff5ee08c48cac2cd2344e
+pkgver=1
+desc='open-source implementation of the GDI+ API'
+
+[deps]
+libtiff
+cairo
+libexif
+glib
+libpng
+libxrender
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure \
+    -C --prefix="$butch_prefix" \
+    --disable-nls \
+    --localstatedir="$butch_prefix"/var \
+    $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
