@@ -35,7 +35,7 @@ mount -t devtmpfs devtmpfs /dev
 init=/bin/init root=/dev/sda1
 
 # Import kernel options as local variables
-eval `cat /proc/cmdline|grep -o -E '[^=" ]+(|=[^ "]*|=\S*"[^"]*"\S*)' \
+eval `cat /proc/cmdline|grep -o -E '[a-zA-Z_]+[a-zA-Z0-9_]*(|=[^ "]*|=\S*"[^"]*"\S*)' \
 	|awk '/=/{print $0;next;}{print $0 "=default"}'`
 
 # Mount boot partition (required for CD boot)
