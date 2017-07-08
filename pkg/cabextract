@@ -1,0 +1,19 @@
+[mirrors]
+http://www.cabextract.org.uk/cabextract-1.6.tar.gz
+
+[vars]
+filesize=241731
+sha512=d1c71c0292e3d73d8edbff5f5230b3127c63028f5aba1d0cad968bc945202fb9c0773327affce3d28466068377f029c80735adbabe0929d29b2204dea73738f8
+pkgver=1
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
