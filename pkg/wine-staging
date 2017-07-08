@@ -1,0 +1,109 @@
+[mirrors]
+http://dl.winehq.org/wine/source/2.x/wine-2.11.tar.xz
+
+[vars]
+filesize=19251116
+sha512=691f329c47af5e51498287029988b8ca0777bfc3902ed80fd315004aba2337a938e79177e752efe86423c9b34544df3952b8c443bf43149356575fac75a779ac
+pkgver=4
+desc='windows API emulator to execute win32 binaries. requires x86 32bit TC'
+
+[deps.host]
+flex
+bison
+freetype
+bash
+autoconf
+
+[deps]
+openal
+alsa-lib
+curses
+libjpeg
+libpng
+libx11
+freetype
+kernel-headers
+mesalib
+glu
+wine-staging-patches
+
+[build]
+# NOTE: staging is enabled by default and requires bash and autoconf
+#       if you want, you can compile with enable_staging=0 and remove
+#       the deps
+
+enable_staging="${option_staging:-1}"
+
+case "$A" in
+  x86_64)
+	printf "warning: building wine 64 bit (not compatible to win32)\n"
+	configflags=--enable-win64
+  ;;
+  i[3-6]86)
+	configflags=
+  ;;
+  *)
+	printf "error: wine can only be compiled on x86 platforms\n"
+	exit 1
+  ;;
+esac
+
+patch -p1 < "$K"/wine-file_h.patch
+patch -p1 < "$K"/wine-iphlpapi.patch
+patch -p1 < "$K"/wine-staging-dlclose.patch
+
+cp -f "$K"/config.sub tools/
+
+[ -n "$CROSS_COMPILE" ] && {
+  PKGCSR_SAVE="$PKG_CONFIG_SYSROOT_DIR"
+  PKGCLD_SAVE="$PKG_CONFIG_LIBDIR"
+  unset PKG_CONFIG_SYSROOT_DIR
+  unset PKG_CONFIG_LIBDIR
+  bit64=
+  "$HOSTCC" -dM -E - </dev/null | grep __x86_64 >/dev/null && bit64=--enable-win64
+  mkdir host
+  cd host
+  CPPFLAGS="-DHAVE_LINK_H -DNETDB_INTERNAL=-1" \
+  CC="$HOSTCC" CFLAGS="-O0 -g0" LDFLAGS= \
+  ../configure --disable-win16 --disable-tests $bit64 \
+  --without-alsa --without-capi --without-cms --without-coreaudio --without-cups \
+  --without-curses --without-dbus --without-fontconfig \
+  --without-gettext --without-gphoto --without-glu --without-gnutls \
+  --without-gsm --without-gstreamer --without-hal --without-jpeg --without-ldap \
+  --without-mpg123 --without-openal --without-opencl --without-opengl --without-openssl \
+  --without-osmesa --without-oss --without-png --without-sane --without-tiff \
+  --without-v4l --without-xcomposite --without-xcursor --without-xinerama \
+  --without-xinput --without-xinput2 --without-xml --without-xrandr \
+  --without-xrender --without-xshape --without-xshm --without-xslt \
+  --without-xxf86vm
+  make CC="$HOSTCC" -j$MAKE_THREADS tools/Makefile __tooldeps__
+  make CC="$HOSTCC" -j$MAKE_THREADS -C tools
+
+  cd ..
+  export PKG_CONFIG_SYSROOT_DIR="$PKGCSR_SAVE"
+  export PKG_CONFIG_LIBDIR="$PKGCLD_SAVE"
+  export FREETYPE_CFLAGS=-I"$butch_root_dir""$butch_prefix"/include/freetype2
+
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir --with-wine-tools=host"
+}
+
+if [ "$enable_staging" = 1 ]
+then
+    tar xf "$C"/wine-staging-2.11.tar.gz
+    wine-staging-2.11/patches/patchinstall.sh DESTDIR=. --all
+fi
+
+sed -i 's@EXTRALIBS =.*$@EXTRALIBS =$(LDFLAGS) -lz@' dlls/cabinet/Makefile.in
+
+CPPFLAGS="-DHAVE_LINK_H -DNETDB_INTERNAL=-1 -DNO_UNLOAD_AFTER_DLCLOSE" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -L$butch_root_dir$butch_prefix/lib -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C $xconfflags \
+  --prefix="$butch_prefix" \
+  --disable-win16 $configflags --disable-tests \
+  --libdir="$butch_prefix"/lib --mandir="$butch_prefix"/share/man \
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+

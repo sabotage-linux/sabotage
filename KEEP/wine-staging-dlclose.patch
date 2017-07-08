@@ -1,0 +1,162 @@
+From 1e52ad38ded52a9f8259b7a3435aa38b44f6cc11 Mon Sep 17 00:00:00 2001
+From: xhe <xw897002528@gmail.com>
+Date: Sat, 19 Nov 2016 14:36:54 +0800
+Subject: [PATCH] ntdll: Hacks for libc do not unload after dlclose
+
+---
+ configure.ac        |   6 ++
+ dlls/ntdll/loader.c | 185 ++++++++++++++++++++++++++++++++--------------------
+ 2 files changed, 119 insertions(+), 72 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 06ab763..cb4d45a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1153,6 +1153,12 @@ then
+ 
+     dnl *** End of X11/Xlib.h check
+ 
++    dnl Check for the unload_after_dlclose libc
++    AC_RUN_IFELSE(
++	      [AC_LANG_PROGRAM([[#include <dlfcn.h>]], [[dlclose(dlopen("./conftest", 0)); return 0;]])],
++	      ac_save_CPPFLAGS="$ac_save_CPPFLAGS -DNO_UNLOAD_AFTER_DLCLOSE",
++	      [])
++
+     dnl Check for the presence of OpenGL
+     opengl_msg=""
+     if test "x$with_opengl" != "xno"
+diff --git a/dlls/ntdll/loader.c b/dlls/ntdll/loader.c
+index 518a99f..0364fc6 100644
+--- a/dlls/ntdll/loader.c
++++ b/dlls/ntdll/loader.c
+@@ -2781,53 +2781,6 @@ void WINAPI RtlExitUserProcess( DWORD status )
+     exit( status );
+ }
+ 
+-/******************************************************************
+- *		LdrShutdownThread (NTDLL.@)
+- *
+- */
+-void WINAPI LdrShutdownThread(void)
+-{
+-    PLIST_ENTRY mark, entry;
+-    PLDR_MODULE mod;
+-    UINT i;
+-    void **pointers;
+-
+-    TRACE("()\n");
+-
+-    /* don't do any detach calls if process is exiting */
+-    if (process_detaching) return;
+-
+-    RtlEnterCriticalSection( &loader_section );
+-
+-    mark = &NtCurrentTeb()->Peb->LdrData->InInitializationOrderModuleList;
+-    for (entry = mark->Blink; entry != mark; entry = entry->Blink)
+-    {
+-        mod = CONTAINING_RECORD(entry, LDR_MODULE, 
+-                                InInitializationOrderModuleList);
+-        if ( !(mod->Flags & LDR_PROCESS_ATTACHED) )
+-            continue;
+-        if ( mod->Flags & LDR_NO_DLL_CALLS )
+-            continue;
+-
+-        MODULE_InitDLL( CONTAINING_RECORD(mod, WINE_MODREF, ldr), 
+-                        DLL_THREAD_DETACH, NULL );
+-    }
+-
+-    RtlAcquirePebLock();
+-    RemoveEntryList( &NtCurrentTeb()->TlsLinks );
+-    RtlReleasePebLock();
+-
+-    if ((pointers = NtCurrentTeb()->ThreadLocalStoragePointer))
+-    {
+-        for (i = 0; i < tls_module_count; i++) RtlFreeHeap( GetProcessHeap(), 0, pointers[i] );
+-        RtlFreeHeap( GetProcessHeap(), 0, pointers );
+-    }
+-    RtlFreeHeap( GetProcessHeap(), 0, NtCurrentTeb()->FlsSlots );
+-    RtlFreeHeap( GetProcessHeap(), 0, NtCurrentTeb()->TlsExpansionSlots );
+-    RtlLeaveCriticalSection( &loader_section );
+-}
+-
+-
+ /***********************************************************************
+  *           free_modref
+  *
+@@ -2927,6 +2880,57 @@ static void MODULE_DecRefCount( WINE_MODREF *wm )
+ }
+ 
+ /******************************************************************
++ *		LdrShutdownThread (NTDLL.@)
++ *
++ */
++void WINAPI LdrShutdownThread(void)
++{
++    PLIST_ENTRY mark, entry;
++    PLDR_MODULE mod;
++    UINT i;
++    void **pointers;
++
++    TRACE("()\n");
++
++    /* don't do any detach calls if process is exiting */
++    if (process_detaching) return;
++
++    RtlEnterCriticalSection( &loader_section );
++
++#ifdef NO_UNLOAD_AFTER_DLCLOSE
++    MODULE_FlushModrefs();
++#endif
++
++    mark = &NtCurrentTeb()->Peb->LdrData->InInitializationOrderModuleList;
++    for (entry = mark->Blink; entry != mark; entry = entry->Blink)
++    {
++        mod = CONTAINING_RECORD(entry, LDR_MODULE, 
++                                InInitializationOrderModuleList);
++        if ( !(mod->Flags & LDR_PROCESS_ATTACHED) )
++            continue;
++        if ( mod->Flags & LDR_NO_DLL_CALLS )
++            continue;
++
++        MODULE_InitDLL( CONTAINING_RECORD(mod, WINE_MODREF, ldr), 
++                        DLL_THREAD_DETACH, NULL );
++    }
++
++    RtlAcquirePebLock();
++    RemoveEntryList( &NtCurrentTeb()->TlsLinks );
++    RtlReleasePebLock();
++
++    if ((pointers = NtCurrentTeb()->ThreadLocalStoragePointer))
++    {
++        for (i = 0; i < tls_module_count; i++) RtlFreeHeap( GetProcessHeap(), 0, pointers[i] );
++        RtlFreeHeap( GetProcessHeap(), 0, pointers );
++    }
++    RtlFreeHeap( GetProcessHeap(), 0, NtCurrentTeb()->FlsSlots );
++    RtlFreeHeap( GetProcessHeap(), 0, NtCurrentTeb()->TlsExpansionSlots );
++    RtlLeaveCriticalSection( &loader_section );
++}
++
++
++/******************************************************************
+  *		LdrUnloadDll (NTDLL.@)
+  *
+  *
+@@ -2945,6 +2949,7 @@ NTSTATUS WINAPI LdrUnloadDll( HMODULE hModule )
+     free_lib_count++;
+     if ((wm = get_modref( hModule )) != NULL)
+     {
++#ifndef NO_UNLOAD_AFTER_DLCLOSE
+         TRACE("(%s) - START\n", debugstr_w(wm->ldr.BaseDllName.Buffer));
+ 
+         /* Recursively decrement reference counts */
+@@ -2958,6 +2963,10 @@ NTSTATUS WINAPI LdrUnloadDll( HMODULE hModule )
+         }
+ 
+         TRACE("END\n");
++#else
++	TRACE("apply hacks on this platform\n");
++	MODULE_DecRefCount(wm);
++#endif
+     }
+     else
+         retv = STATUS_DLL_NOT_FOUND;
