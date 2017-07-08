@@ -14,6 +14,7 @@ pkgver=3
 kernel-headers
 
 [build]
+patch -p1 < "$K"/alsa-lib-1.1.2-avoid_forking.patch
 cp -f "$K"/config.sub .
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 

@@ -1,0 +1,23 @@
+diff --git alsa-lib-1.1.2/src/userfile.c
+index 72779da..3d515ab 100644
+--- alsa-lib-1.1.2/src/userfile.c.orig
++++ alsa-lib-1.1.2/src/userfile.c
+@@ -41,6 +41,10 @@ int snd_user_file(const char *file, char **result)
+ 	int err;
+ 	
+ 	assert(file && result);
++	if (*file == '/') {
++		*result = strdup(file);
++		goto end;
++	}
+ 	err = wordexp(file, &we, WRDE_NOCMD);
+ 	switch (err) {
+ 	case WRDE_NOSPACE:
+@@ -56,6 +60,7 @@ int snd_user_file(const char *file, char **result)
+ 	}
+ 	*result = strdup(we.we_wordv[0]);
+ 	wordfree(&we);
++end:
+ 	if (*result == NULL)
+ 		return -ENOMEM;
+ 	return 0;
