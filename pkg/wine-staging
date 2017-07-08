@@ -90,7 +90,7 @@ cp -f "$K"/config.sub tools/
 
 if [ "$enable_staging" = 1 ]
 then
-    tar xf "$C"/v2.11.tar.gz
+    tar xf "$C"/wine-staging-2.11.tar.gz
     wine-staging-2.11/patches/patchinstall.sh DESTDIR=. --all
 fi
 
