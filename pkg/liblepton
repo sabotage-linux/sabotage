@@ -20,7 +20,7 @@ cd src
 sed -i 's/HAVE_LIBGIF/1/' gifio.c
 
 make -j$MAKE_THREADS -f makefile.static CC="$CC -D_BSD_SOURCE -DANSI" \
-CFLAGS="$optcflags"
+CFLAGS="$optcflags -fPIC"
 
 dest="$butch_install_dir""$butch_prefix"
 for i in *.h ; do
