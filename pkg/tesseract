@@ -1,0 +1,51 @@
+[mirrors]
+https://github.com/tesseract-ocr/tesseract/archive/3.05.01.tar.gz
+
+[vars]
+filesize=3574810
+sha512=a49c20c98386684cd89582e57b772811204fad8e5ff18214fb0da109f73629c70845054985e31e8deeb49107fbcf56e546aff661f08eb5dd60fbf83dbe976e81
+tarball=tesseract-3.05.01.tar.gz
+pkgver=1
+
+[deps]
+liblepton
+
+[deps.host]
+cmake
+
+[build]
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+cd "$dest"/lib
+mv liblibtesseract.so.3.0.5 libtesseract.so.3.0.5
+ln -sf libtesseract.so.3.0.5 libtesseract.so
+ln -sf libtesseract.so.3.0.5 liblibtesseract.so.3.0.5
+ln -sf libtesseract.so.3.0.5 liblibtesseract.so
+
