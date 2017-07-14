@@ -1,0 +1,19 @@
+[mirrors]
+https://github.com/secdev/scapy/archive/v2.3.3.tar.gz
+
+[vars]
+filesize=1459132
+sha512=47ca2eceafe7b693c569a92c106782037d869c323aaaec41cace07dfdeb3c6a7e9f7bc8ca1150b3c0daea54e6665f93eb1dfc3c511419cfa28eb2e0753bf9ba4
+tarball=scapy-2.3.3.tar.gz
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
