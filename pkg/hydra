@@ -1,0 +1,37 @@
+[mirrors]
+https://github.com/vanhauser-thc/thc-hydra/archive/v8.5.tar.gz
+
+[vars]
+filesize=1193694
+sha512=67fd92bd5983a94314334471c526b71ca77dec6e359e55f4fb2fc78160e2065957b6c9af1ff694bcc5334893a8b5e0fe1b39d984248bde4e55dc2a9f9a8b1271
+tarball=hydra-8.5.tar.gz
+tardir=thc-hydra-8.5
+pkgver=1
+
+[deps]
+curses
+libz
+libressl
+pcre
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --nostrip \
+  --disable-xhydra
+
+sed -i 's/PREFIX=.*/PREFIX='"$butch_prefix"'/' Makefile
+sed -i 's@SEC=.*@SEC='"$optcflags"'@' Makefile
+sed -i 's@XLIBS=.*@XLIBS=-lz -lcurses -lterminfo -lssl -lcrypto -lpcre@' Makefile
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
