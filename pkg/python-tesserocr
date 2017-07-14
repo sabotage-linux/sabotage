@@ -1,0 +1,23 @@
+[mirrors]
+https://pypi.python.org/packages/c9/bc/f10f88a2d8a421ff565624a2759de16078980b9384da59198ebf4b0444ac/tesserocr-2.2.1.tar.gz
+
+[vars]
+filesize=52923
+sha512=222d6ad6c7f59349b477ffe9b1728c9b7eb198face9f0ccce5291959925ff926fcd1c3549fd40de92e6cc8bbe44fb220ac958ffbf54102905f6c9d2cde44c16b
+pkgver=1
+
+[deps]
+tesseract
+python-cython
+
+[deps.run]
+python
+
+[deps.host]
+python
+python-pillow
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
