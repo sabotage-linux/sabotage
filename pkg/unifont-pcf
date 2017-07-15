@@ -1,0 +1,7 @@
+[mirrors]
+http://unifoundry.com/pub/unifont-10.0.05/font-builds/unifont-10.0.05.pcf.gz
+
+[vars]
+filesize=1360625
+sha512=c87bf0ec04b43296cd2774900efc111878254052447665213a71f8a3ff0cd195b99dc3901368eab46d1c7b306bb49b51264cd0c051d0f27367d7cf2ec9f61b4f
+pkgver=1
