@@ -2,12 +2,13 @@
 xz
 zlib
 
-[vars]
-filesize=1502828
-sha512=f4248f7b8d93e25e3223afe0c3b19467ab9071f9fd0a341dae0b6da028c13af46b768b95c2a86fba92dda93df5d1b410996978ea9e74f32d6d18a0afb68faa7f
-
 [mirrors]
-http://libarchive.googlecode.com/files/libarchive-2.8.4.tar.gz
+http://www.libarchive.org/downloads/libarchive-3.3.1.tar.gz
+
+[vars]
+filesize=6219943
+sha512=90702b393b6f0943f42438e277b257af45eee4fa82420431f6a4f5f48bb846f2a72c8ff084dc3ee9c87bdf8b57f4d8dddf7814870fe2604fe86c55d8d744c164
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
