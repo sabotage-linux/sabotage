@@ -6,6 +6,7 @@ filesize=352284
 sha512=077c8d821ff3942b7ddad51b4045a6a9aa05b50da58f5446ee2e536dbdffa81018141feea9e793da7b031a2991c6e4ccc66e524d288ab9e85603daa895283536
 
 [deps]
+glib
 gnutls
 ca-certificates
 
