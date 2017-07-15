@@ -1,0 +1,43 @@
+[mirrors]
+https://github.com/ostreedev/ostree/releases/download/v2017.7/libostree-2017.7.tar.xz
+
+[vars]
+filesize=751572
+sha512=afd93e81abe020268d9f147293f2f6921e7f5750e21a391d8de388ac04689e78b9898517fc2a9715b9b50f6e9e59347f1eefaecb991e7f8c516818f7f9733388
+pkgver=1
+desc='git-like model for committing and downloading bootable filesystem trees'
+
+[deps.host]
+libsoup
+libgpgme
+fuse
+kernel-headers
+xz
+glib
+libarchive
+e2fsprogs
+bison
+
+[build]
+# before installing,
+# rebuild libarchive to make sure you have version 3.3.x
+
+patch -p1 < "$K"/ostree-musl.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags" \
+CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C \
+    --prefix="$butch_prefix" \
+	--disable-nls \
+	--disable-glibtest \
+	$xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
