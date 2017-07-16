@@ -1,11 +1,12 @@
 [mirrors]
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.bz2
-http://sourceforge.net/projects/pcre/files/pcre/8.40/pcre-8.40.tar.bz2
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.41.tar.bz2
+http://sourceforge.net/projects/pcre/files/pcre/8.41/pcre-8.41.tar.bz2
 
 [vars]
-filesize=1560119
-sha512=b4c27eafbdf33bd7a1384655b1936f4be3bc6745c072347eb26e988896c52664bd85ac42444da1be78b6e20f45b6c7e5921f5f20f5b0741b5bd3d9844e5bd4e2
-pkgver=2
+filesize=1561874
+sha512=cc9cdbeb98c010fe4f093a019bebfb91965dae4c6a48f8e49c38ec8df7d9da7f0d32c12fc58f22c51f1c2f010e72b65bcbf8bbf180060e93edf464fa9a7c3551
+pkgver=3
+desc='library for perl compatible regular expressions'
 
 [deps]
 zlib
