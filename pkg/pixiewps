@@ -1,11 +1,12 @@
 [mirrors]
-https://github.com/wiire/pixiewps/archive/d5a7111.tar.gz
+https://github.com/wiire-a/pixiewps/archive/f723d5017f304b727981560396044d7d11ec1080.tar.gz
 
 [vars]
-filesize=38745
-sha512=821910db45d33bbd72b220b64b0f96cb8e9f7d18dc279c704c02c3f3cbc709b5dc974ead3348d3110f04d179fc9a4e38daff24a5a781dd59423b56e94f256c73
-tarball=pixiewps-1.2.2-d5a7111.tar.gz
-tardir=pixiewps-d5a7111097c32cb34f54ed64e3d6884b31a53761
+filesize=39751
+sha512=857c43232aa3b1efa3cc5c3af47fe06353022f42ef392885064a39442ecd1facb18d20aaa11e560e34508126fddad02e6d069f2e3194795fe303dd5e22908106
+tarball=pixiewps-f723d50.tar.gz
+tardir=pixiewps-f723d5017f304b727981560396044d7d11ec1080
+pkgver=2
 desc='pixiedust offline wps attack tool'
 
 [deps]
