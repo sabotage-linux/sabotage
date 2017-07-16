@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/troglobit/uredir/releases/download/v2.0/uredir-2.0.tar.gz
+https://github.com/troglobit/uredir/releases/download/v3.0/uredir-3.0.tar.gz
 
 [vars]
-filesize=84753
-sha512=a6df950bb0f970bde6efe40c8ea16a44ebf549cd19c32340aff285d61da383af9fe9f12bf6fe8e9f9e612dfd58ab943ae4b862321dd83d120a30ab308ed67d49
-pkgver=1
+filesize=92028
+sha512=e9b322a021072d6394a03c5b5758ba4eb9e7dba0fbb47a8ddea110b819e0a55b6a4dafa9f77840e1db99d7b99ede683fa0395b75e896792d740cc73c4d9375c0
+pkgver=2
 desc='udp redirection/forwarding utility'
 uchkurl=https://github.com/troglobit/uredir/releases
 
