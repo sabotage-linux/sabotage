@@ -1,21 +1,21 @@
 [mirrors]
-http://reaver-wps.googlecode.com/files/reaver-1.4.tar.gz
+https://github.com/t6x/reaver-wps-fork-t6x/archive/88264ee.tar.gz
 
 [vars]
-filesize=766603
-sha512=59f2d6f8aa6228988ce5d1c102d9a48b2a23e582ff3d9afe39d7c9717b7e4be059362fdd21a3e5f5d59948df1a7616acdaa6df20f139e9c5aa9bd673f764dfbc
+filesize=494822
+sha512=23713f6c759bff22daab8dcf5378679f895bab7d1834821ff75bac3c3b85dd5ed5bed8dd59e6fb1ad3fbc4defddce375e445cd15f2864a8288f3cdb29960f83a
+tarball=reaver-1.6.1-88264ee.tar.gz
+tardir=reaver-wps-fork-t6x-88264ee547985840b1b842db41526962981ddfd9
+pkgver=4
 desc='cracking tool for WIFI routers with WPS feature'
-pkgver=3
 
 [deps]
 libpcap
-sqlite
+
+[deps.run]
+pixiewps
 
 [build]
-patch -p1 < "$K"/reaver_u_char.patch
-patch -p1 < "$K"/reaver_DESTDIR.patch
-patch -p1 < "$K"/reaver_segfault.patch
-
 cd src
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
@@ -23,8 +23,9 @@ cd src
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-savetocurrent
 
-make V=1 CC="$CC" -j$MAKE_THREADS CONFDIR="$butch_prefix"/var/lib
-make DESTDIR="$butch_install_dir" CONFDIR="$butch_prefix"/var/lib install \
+make V=1 CC="$CC" -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
 
