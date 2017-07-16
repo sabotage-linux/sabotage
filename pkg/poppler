@@ -1,10 +1,10 @@
 [mirrors]
-https://poppler.freedesktop.org/poppler-0.55.0.tar.xz
+https://poppler.freedesktop.org/poppler-0.56.0.tar.xz
 
 [vars]
-filesize=1700440
-sha512=ea3008f2945da862236fcc64d320367e04e3c71d4cc5e996e0c50ac49457e5e42eb06af92486fe7f15c04f07a88367f5344f8dc76549c57c4a19e2fbb60f55d6
-pkgver=9
+filesize=1701488
+sha512=74d2ca63afcb7e155c153b4ddc71621b7f4f2c60d4fcafd873176d5ac59fafedc35b200a22c7af2013d7f75e670a1cc23d6ba878167a02209917f8d30002d528
+pkgver=10
 desc='PDF rendering library and some utilities'
 
 [deps.host]
