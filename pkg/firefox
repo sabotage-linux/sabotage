@@ -240,7 +240,7 @@ cat << EOF > "$dest"/bin/firefox
 #!/bin/sh
 FFDIR="$dest/lib/firefox-${FF_VERSION}"
 LD_LIBRARY_PATH="\$FFDIR" \
-"\$FFDIR"/firefox-bin
+"\$FFDIR"/firefox-bin "\$@"
 EOF
 chmod +x "$dest"/bin/firefox
 
