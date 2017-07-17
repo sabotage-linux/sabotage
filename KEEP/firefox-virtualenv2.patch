@@ -1,0 +1,11 @@
+--- firefox-52.2.1esr/build/moz.configure/init.configure
++++ firefox-52.2.1esr.p2/build/moz.configure/init.configure
+@@ -185,7 +185,7 @@
+ 
+     python = normsep(manager.python_path)
+ 
+-    if python != normsep(sys.executable):
++    if not '_virtualenv' in distutils.sysconfig.get_python_lib():
+         log.info('Reexecuting in the virtualenv')
+         if env_python:
+             del os.environ['PYTHON']

@@ -1,0 +1,50 @@
+diff --git a/tools/profiler/core/platform-linux.cc b/tools/profiler/core/platform-linux.cc
+index 0df1e8f..d868895 100644
+--- a/tools/profiler/core/platform-linux.cc
++++ b/tools/profiler/core/platform-linux.cc
+@@ -711,11 +711,13 @@ void OS::Startup() {
+ void TickSample::PopulateContext(void* aContext)
+ {
+   MOZ_ASSERT(aContext);
++#if defined(__GLIBC__)
+   ucontext_t* pContext = reinterpret_cast<ucontext_t*>(aContext);
+   if (!getcontext(pContext)) {
+     context = pContext;
+     SetSampleContext(this, aContext);
+   }
++#endif
+ }
+ 
+ void OS::SleepMicro(int microseconds)
+diff --git a/tools/profiler/core/platform.h b/tools/profiler/core/platform.h
+index a38b3b5..170bd75 100644
+--- a/tools/profiler/core/platform.h
++++ b/tools/profiler/core/platform.h
+@@ -34,6 +34,8 @@
+ #define MOZ_COUNT_DTOR(name)
+ #endif
+ 
++#include <sys/types.h>
++
+ #ifdef ANDROID
+ #include <android/log.h>
+ #else
+diff --git a/tools/profiler/lul/LulElf.cpp b/tools/profiler/lul/LulElf.cpp
+index a922137..d01dde1 100644
+--- a/tools/profiler/lul/LulElf.cpp
++++ b/tools/profiler/lul/LulElf.cpp
+@@ -483,10 +483,10 @@ string FormatIdentifier(unsigned char identifier[16]) {
+ // Return the non-directory portion of FILENAME: the portion after the
+ // last slash, or the whole filename if there are no slashes.
+ string BaseFileName(const string &filename) {
+-  // Lots of copies!  basename's behavior is less than ideal.
+-  char *c_filename = strdup(filename.c_str());
+-  string base = basename(c_filename);
+-  free(c_filename);
++  // basename's behavior is less than ideal so avoid it
++  const char *c_filename = filename.c_str();
++  const char *p = strrchr(c_filename, '/');
++  string base = p ? p+1 : c_filename;
+   return base;
+ }
+ 

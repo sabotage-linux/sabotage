@@ -1,16 +1,17 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/45.8.0esr/source/firefox-45.8.0esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/45.8.0esr/source/firefox-45.8.0esr.source.tar.xz
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/52.2.1esr/source/firefox-52.2.1esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/52.2.1esr/source/firefox-52.2.1esr.source.tar.xz
 
 [vars]
-filesize=185229628
-sha512=f7b5e0c659b2e824cee7f3784e2d72c562915af91c7e316ec1519305755d2126d91b74c47f96c8b4fc7377710f295545c58b2f989c65c268fc23677ef8cf5c85
-pkgver=6
-tardir=firefox-45.8.0esr
+filesize=212033732
+sha512=1d79e6e4625cf7994f6d6bbdf227e483fc407bcdb20e0296ea604969e701f551b5df32f578d4669cf654b65927328c8eb0f717c7a12399bf1b02a6ac7a0cd1d3
+pkgver=7
+tardir=firefox-52.2.1esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 no_unlink=1
 
 [deps]
+autoconf213-tarball
 libevent
 gtk+2
 alsa-lib
@@ -32,8 +33,21 @@ perl
 python
 
 [build]
-FF_VERSION=45.8.0esr
+FF_VERSION=52.2.1
 export SHELL=/bin/sh
+
+# install ancient autoconf version firefox wants into src tree
+mkdir AC213
+tar xf "$C"/autoconf-2.13.tar.gz
+cd autoconf-2.13
+./configure --prefix="$PWD"/../AC213  --program-suffix=-2.13
+make && make install
+cd ..
+export PATH="$PATH":"$PWD"/AC213/bin
+
+
+# fix usage of inflateValidate in libpng code which is only in latest zlib
+sed -i 's@0x1281@0x1290@' media/libpng/pngrutil.c
 
 PATCH() {
 	echo "***** $1 *****"
@@ -41,32 +55,33 @@ PATCH() {
 }
 
 PATCH firefox-virtualenv.patch
+PATCH firefox-virtualenv2.patch
 PATCH firefox-getprotobyname_r.patch
 PATCH firefox-finite.patch
-PATCH firefox-gregor.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox38-xul-order.patch
 PATCH firefox45-mallinfo.patch
-PATCH firefox45-tools.patch
 PATCH firefox45-libavutil.patch
 PATCH firefox45-seccomp-bpf.patch
-PATCH firefox45-youtube-embed.patch
-PATCH firefox45-gcc6.patch
 PATCH firefox45-7-psutil.patch
+PATCH firefox-disable-moz-stackwalk.patch
+PATCH firefox-fix-toolkit.patch
+PATCH firefox-fix-tools.patch
+PATCH firefox-disable-hunspell_hooks.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
 mk_add_options MOZ_GL_DEFAULT_PROVIDER=NONE
 ac_add_options --disable-dbus
 ac_add_options --disable-necko-wifi
-ac_add_options --disable-libnotify
+#ac_add_options --disable-libnotify
 ac_add_options --disable-jemalloc
 ac_add_options --disable-replace-malloc
-ac_add_options --disable-wrap-malloc
+#ac_add_options --disable-wrap-malloc
 
 ac_add_options --disable-profiling
-ac_add_options --disable-shark
+#ac_add_options --disable-shark
 ac_add_options --disable-callgrind
 ac_add_options --disable-vtune
 
@@ -77,14 +92,14 @@ ac_add_options --disable-elf-hack
 # disabling ogg as the makefile forgets to add -logg -lvorbis
 #ac_add_options --disable-ogg
 #ac_add_options --disable-opus
-ac_add_options --disable-webgl
+#ac_add_options --disable-webgl
 ac_add_options --disable-gconf
 
 
 # GStreamer is necessary for H.264 video playback in HTML5 Video Player;
 # to be enabled, also remember to set "media.gstreamer.enabled" to "true"
 # in about:config. If you have installed GStreamer comment out this line:
-ac_add_options --disable-gstreamer
+#ac_add_options --disable-gstreamer
 
 # Uncomment these lines if you have installed optional dependencies:
 ac_add_options --enable-system-hunspell
@@ -121,7 +136,7 @@ ac_add_options --prefix=/$butch_prefix
 ac_add_options --enable-application=browser
 
 ac_add_options --disable-crashreporter
-ac_add_options --disable-installer
+#ac_add_options --disable-installer
 ac_add_options --disable-updater
 ac_add_options --disable-debug
 ac_add_options --disable-tests
@@ -143,6 +158,8 @@ ac_add_options --with-system-bz2
 #ac_add_options --with-system-jpeg
 #ac_add_options --with-system-png
 ac_add_options --with-system-zlib
+#mk_add_options AUTOCONF=autoconf
+ac_add_options --enable-default-toolkit=cairo-gtk2
 
 CXX="$CXX"
 CC="$CC"
@@ -155,6 +172,32 @@ EOF
 # prevent non-reproducible BuildID timestamps everywhere
 export MOZ_BUILD_DATE=20170301000000
 
+cat << 'EOF' > convertmozconfig.py
+import fileinput
+s = ''
+m = ''
+for line in fileinput.input():
+        line = line.strip()
+        if line == '': continue
+        if line.startswith('#'): continue
+        if line.startswith('ac_add_options'):
+                a = line[len('ac_add_options')+1:]
+                s += a + ' \\\n'
+        elif line.startswith('mk_add_options'):
+                a = line[len('mk_add_options')+1:]
+                m += 'export ' + a + '\n'
+        else:
+                m += 'export ' + line + '\n'
+
+with open('myconfigure', 'w') as h:
+        h.write('#!/bin/sh\n')
+        h.write(m + '\n')
+        h.write('exec ../configure \\\n')
+        h.write(s + '\n"@"\n')
+
+EOF
+python convertmozconfig.py < mozconfig
+
 mkdir -p include/sys
 cat << EOF > include/sys/cdefs.h
 #ifndef __P
@@ -164,13 +207,7 @@ EOF
 
 find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@g'
 
-# prevent overriding our own CFLAGS with built-in -O3 -g by appending
-sed -i 's@MOZ_OPTIMIZE_FLAGS=@MOZ_OPTIMIZE_FLAGS= #@g' configure
-sed -i 's@MOZ_PGO_OPTIMIZE_FLAGS=@MOZ_PGO_OPTIMIZE_FLAGS= #@g' configure
-sed -i 's@MOZ_DEBUG_FLAGS=@MOZ_DEBUG_FLAGS= #@g' configure
-sed -i 's@HOST_OPTIMIZE_FLAGS=@HOST_OPTIMIZE_FLAGS= #@g' configure
-
-sed -i 's@-Wl,--build-id@@' configure
+sed -i 's@-Wl,--build-id@@' old-configure
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
@@ -179,26 +216,31 @@ allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 [ "$A" = arm ] && \
 allflags="-D_GNU_SOURCE -I$PWD/include -Os -g0 -fno-unwind-tables \
 -fno-asynchronous-unwind-tables -Wa,--noexecstack $reqldf"
-CFLAGS="$allflags" \
-CXXFLAGS="$allflags" \
-make -f client.mk
 
-# TODO: check whether this step is actually necessary
-CFLAGS="$allflags" \
+#export PYTHONHOME="$PWD"/firefox-build-dir/_virtualenv/
+mkdir -p objdir && cd objdir
+LDFLAGS=-lz \
+CFLAGS="$allflags -lz" \
 CXXFLAGS="$allflags" \
-make -C firefox-build-dir/browser/installer
+sh ../myconfigure
+#make -f client.mk
+
+make -j$MAKE_THREADS
+
+rm -rf "$butch_install_dir"/*
+make install DESTDIR="$butch_install_dir"
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/firefox-"$FF_VERSION" "$dest"/bin \
   "$dest"/share/applications "$dest"/share/pixmaps
-cp -r firefox-build-dir/dist/firefox/* "$dest"/lib/firefox-"$FF_VERSION"/ \
 
-ln -sf ../lib/firefox-"$FF_VERSION"/firefox-bin "$dest"/bin/
-
+rm -rf "$dest"/include "$dest"/lib/firefox-devel-"$FF_VERSION"
+rm -f "$dest"/bin/firefox 
 cat << EOF > "$dest"/bin/firefox
 #!/bin/sh
-LD_LIBRARY_PATH="$dest"/lib/firefox-"$FF_VERSION" \
-firefox-bin
+FFDIR="$dest/lib/firefox-${FF_VERSION}"
+LD_LIBRARY_PATH="\$FFDIR" \
+"\$FFIDR"/firefox-bin
 EOF
 chmod +x "$dest"/bin/firefox
 
