@@ -1,14 +1,26 @@
 [mirrors]
-http://download.icu-project.org/files/icu4c/55.1/icu4c-55_1-src.tgz
+http://download.icu-project.org/files/icu4c/59.1/icu4c-59_1-src.tgz
 
 [vars]
-filesize=25600847
-sha512=21a3eb2c3678cd27b659eed073f8f1bd99c9751291d077820e9a370fd90b7d9b3bf414cc03dec4acb7fa61087e02d04f9f40e91a32c5180c718e2102fbd0cd35
+filesize=22706578
+sha512=9348aa68d72a74cd1f26588c30c80eee1b48800a26930d7eb0749390fd65f7930ee8843058b6a6dd5f265e79054fef661e807ded16a1ad691cbc5ebc5ab944c4
+pkgver=2
 tardir=icu
 
 [deps]
 
 [build]
+cd source
+# https://git.alpinelinux.org/cgit/aports/tree/main/icu/APKBUILD#n37
+sed -i -e 's,DU_HAVE_STRTOD_L=1,DU_HAVE_STRTOD_L=0,' configure
+# https://bugs.icu-project.org/trac/ticket/6102
+for x in ARFLAGS CFLAGS CPPFLAGS CXXFLAGS FFLAGS LDFLAGS; do
+	sed -i -e "/^${x} =.*/s:@${x}@::" "config/Makefile.inc.in" \
+		|| return 1
+done
+cd ..
+
+
 cp -f "$K"/config.sub source/
 if [ -n "$CROSS_COMPILE" ] ; then
   echo '**** building for host ****'
