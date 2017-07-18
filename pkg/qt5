@@ -30,6 +30,11 @@ harfbuzz
 xkeyboard-config
 
 [build]
+# fix compile errors with the newest icu
+cd qtwebkit
+patch -p1 < "$K"/qtwebkit-5.9.0-icu_59-1.patch
+cd ..
+
 for i in stdin execinfo libressl musl-iconv-no-bom musl-mallinfo musl-pthread_getattr_np musl-resolve musl-siginfo_t musl-socklen musl-sys_errno_h pic ; do
   p=qt-$i.patch
   echo applying patch  $p

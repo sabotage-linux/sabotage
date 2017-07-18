@@ -1,0 +1,80 @@
+Submitted by:            DJ Lucas (dj_AT_linuxfromscratch_DOT_org)
+Date:                    2017-04-29
+Initial Package Version: 5.8.0
+Upstream Status:         Unknown
+Origin:                  https://bugreports.qt.io/browse/QTBUG-35971
+Description:             Fixes build with icu-59.
+
+diff -Naurp qtwebkit-opensource-src-5.8.0-orig/Source/JavaScriptCore/API/JSStringRef.h qtwebkit-opensource-src-5.8.0/Source/JavaScriptCore/API/JSStringRef.h
+--- qtwebkit-opensource-src-5.8.0-orig/Source/JavaScriptCore/API/JSStringRef.h	2016-12-10 10:32:34.000000000 -0600
++++ qtwebkit-opensource-src-5.8.0/Source/JavaScriptCore/API/JSStringRef.h	2017-04-29 17:03:35.280465079 -0500
+@@ -32,6 +32,7 @@
+ #include <stdbool.h>
+ #endif
+ #include <stddef.h> /* for size_t */
++#include <uchar.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -43,7 +44,7 @@ extern "C" {
+ @typedef JSChar
+ @abstract A Unicode character.
+ */
+-    typedef unsigned short JSChar;
++    typedef char16_t JSChar;
+ #else
+     typedef wchar_t JSChar;
+ #endif
+diff -Naurp qtwebkit-opensource-src-5.8.0-orig/Source/WTF/wtf/Compiler.h qtwebkit-opensource-src-5.8.0/Source/WTF/wtf/Compiler.h
+--- qtwebkit-opensource-src-5.8.0-orig/Source/WTF/wtf/Compiler.h	2016-12-10 10:32:34.000000000 -0600
++++ qtwebkit-opensource-src-5.8.0/Source/WTF/wtf/Compiler.h	2017-04-29 17:03:35.280465079 -0500
+@@ -61,6 +61,7 @@
+ #define WTF_COMPILER_SUPPORTS_HAS_TRIVIAL_DESTRUCTOR __has_feature(has_trivial_destructor)
+ #define WTF_COMPILER_SUPPORTS_CXX_STRONG_ENUMS __has_feature(cxx_strong_enums)
+ #define WTF_COMPILER_SUPPORTS_CXX_REFERENCE_QUALIFIED_FUNCTIONS __has_feature(cxx_reference_qualified_functions)
++#define WTF_COMPILER_SUPPORTS_CXX_NEW_CHAR_TYPES !defined(_LIBCPP_HAS_NO_UNICODE_CHARS)
+ 
+ #endif
+ 
+@@ -142,6 +143,7 @@
+ #define WTF_COMPILER_SUPPORTS_CXX_DELETED_FUNCTIONS 1
+ #endif
+ #if GCC_VERSION_AT_LEAST(4, 5, 0)
++#define WTF_COMPILER_SUPPORTS_CXX_NEW_CHAR_TYPES 1
+ #define WTF_COMPILER_SUPPORTS_CXX_EXPLICIT_CONVERSIONS 1
+ #endif
+ #if GCC_VERSION_AT_LEAST(4, 6, 0)
+diff -Naurp qtwebkit-opensource-src-5.8.0-orig/Source/WTF/wtf/TypeTraits.h qtwebkit-opensource-src-5.8.0/Source/WTF/wtf/TypeTraits.h
+--- qtwebkit-opensource-src-5.8.0-orig/Source/WTF/wtf/TypeTraits.h	2016-12-10 10:32:34.000000000 -0600
++++ qtwebkit-opensource-src-5.8.0/Source/WTF/wtf/TypeTraits.h	2017-04-29 17:03:35.280465079 -0500
+@@ -75,6 +75,10 @@ namespace WTF {
+ #if !COMPILER(MSVC) || defined(_NATIVE_WCHAR_T_DEFINED)
+     template<> struct IsInteger<wchar_t>            { static const bool value = true; };
+ #endif
++#if COMPILER_SUPPORTS(CXX_NEW_CHAR_TYPES)
++    template<> struct IsInteger<char16_t>           { static const bool value = true; };
++    template<> struct IsInteger<char32_t>           { static const bool value = true; };
++#endif
+ 
+     template<typename T> struct IsFloatingPoint     { static const bool value = false; };
+     template<> struct IsFloatingPoint<float>        { static const bool value = true; };
+diff -Naurp qtwebkit-opensource-src-5.8.0-orig/Source/WebKit2/Shared/API/c/WKString.h qtwebkit-opensource-src-5.8.0/Source/WebKit2/Shared/API/c/WKString.h
+--- qtwebkit-opensource-src-5.8.0-orig/Source/WebKit2/Shared/API/c/WKString.h	2016-12-10 10:32:34.000000000 -0600
++++ qtwebkit-opensource-src-5.8.0/Source/WebKit2/Shared/API/c/WKString.h	2017-04-29 17:03:35.280465079 -0500
+@@ -31,6 +31,7 @@
+ #ifndef __cplusplus
+ #include <stdbool.h>
+ #endif
++#include <uchar.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -38,7 +39,7 @@ extern "C" {
+ 
+ #if !defined(WIN32) && !defined(_WIN32) \
+     && !((defined(__CC_ARM) || defined(__ARMCC__)) && !defined(__linux__)) /* RVCT */
+-    typedef unsigned short WKChar;
++    typedef char16_t WKChar;
+ #else
+     typedef wchar_t WKChar;
+ #endif
