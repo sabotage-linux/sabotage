@@ -1,0 +1,55 @@
+[mirrors]
+https://github.com/jp9000/obs-studio/archive/19.0.3.tar.gz
+
+[vars]
+filesize=5510739
+sha512=02b91eb8089183f4b2502d3e0b8c01c1f4a224026a37856a0348e79b100077ac0bff69dd38f249a08313d7c7a5ed2275659b7ff5993c90a705b9475fa2b17cd0
+pkgver=1
+tarball=obs-studio-19.0.3.tar.gz
+
+[deps]
+fontconfig
+freetype
+curl
+ffmpeg
+jansson
+qt5
+eudev
+libv4l2
+libxcomposite
+libxinerama
+xrandr
+
+[deps.host]
+cmake
+
+[build]
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DUNIX_STRUCTURE=1 \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix/" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+
