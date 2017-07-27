@@ -1,10 +1,10 @@
 [mirrors]
-http://dl.winehq.org/wine/source/2.x/wine-2.11.tar.xz
+http://dl.winehq.org/wine/source/2.x/wine-2.13.tar.xz
 
 [vars]
-filesize=19251116
-sha512=691f329c47af5e51498287029988b8ca0777bfc3902ed80fd315004aba2337a938e79177e752efe86423c9b34544df3952b8c443bf43149356575fac75a779ac
-pkgver=4
+filesize=19439328
+sha512=71873b9ec1605dd5f7502b87b0f3429c3d14a4196543d7304df455854b58ef82b8fafdcea91450cbfc01434a44886a0e0c4c4cf289ffb53167dde0f969cddc48
+pkgver=5
 desc='windows API emulator to execute win32 binaries. requires x86 32bit TC'
 
 [deps.host]
@@ -90,8 +90,8 @@ cp -f "$K"/config.sub tools/
 
 if [ "$enable_staging" = 1 ]
 then
-    tar xf "$C"/wine-staging-2.11.tar.gz
-    wine-staging-2.11/patches/patchinstall.sh DESTDIR=. --all
+    tar xf "$C"/wine-staging-2.13.tar.gz
+    wine-staging-2.13/patches/patchinstall.sh DESTDIR=. --all
 fi
 
 sed -i 's@EXTRALIBS =.*$@EXTRALIBS =$(LDFLAGS) -lz@' dlls/cabinet/Makefile.in

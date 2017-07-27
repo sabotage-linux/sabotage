@@ -1,8 +1,8 @@
 [mirrors]
-https://github.com/wine-compholio/wine-staging/archive/v2.11.tar.gz
+https://github.com/wine-compholio/wine-staging/archive/v2.13.tar.gz
 
 [vars]
-filesize=10083147
-sha512=e2d05ee88e1cc932c2890f1db867a9382f2c62a00ea7d63fc6bd7b3fab57ea2f0e4908313cbed08b92e48d5bc17753b0b78f6cdf2cb64e81aa5725fd86cbc695
-pkgver=1
-tarball=wine-staging-2.11.tar.gz
+filesize=10137549
+sha512=86077747d8a4f6e56dc1b0dda1688810defa9bcebaaadbf2419ce56e4590d4249881105e1dda24236f861baf0b1cc42019b2538de5d24a6d3c4f27c7a8248086
+pkgver=2
+tarball=wine-staging-2.13.tar.gz
