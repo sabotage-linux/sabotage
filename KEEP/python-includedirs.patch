@@ -1,8 +1,6 @@
-patch taken from openADK
-
---- Python-2.7.7/setup.py	2014-05-31 20:58:40.000000000 +0200
-+++ Python-2.7.7.patched/setup.py	2014-12-05 18:36:23.166398725 +0100
-@@ -74,7 +74,7 @@
+--- Python-2.7.13.orig/setup.py	2016-12-17 21:05:07.000000000 +0100
++++ Python-2.7.13/setup.py	2017-03-16 19:45:12.000000000 +0100
+@@ -74,7 +74,7 @@ def find_file(filename, std_dirs, paths)
      'paths' is a list of additional locations to check; if the file is
          found in one of them, the resulting list will contain the directory.
      """
@@ -11,7 +9,7 @@ patch taken from openADK
          # Honor the MacOSX SDK setting when one was specified.
          # An SDK is a directory with the same structure as a real
          # system, but with only header files and libraries.
-@@ -84,7 +84,7 @@
+@@ -84,7 +84,7 @@ def find_file(filename, std_dirs, paths)
      for dir in std_dirs:
          f = os.path.join(dir, filename)
  
@@ -20,7 +18,7 @@ patch taken from openADK
              f = os.path.join(sysroot, dir[1:], filename)
  
          if os.path.exists(f): return []
-@@ -93,7 +93,7 @@
+@@ -93,7 +93,7 @@ def find_file(filename, std_dirs, paths)
      for dir in paths:
          f = os.path.join(dir, filename)
  
@@ -29,7 +27,7 @@ patch taken from openADK
              f = os.path.join(sysroot, dir[1:], filename)
  
          if os.path.exists(f):
-@@ -107,7 +107,7 @@
+@@ -107,7 +107,7 @@ def find_library_file(compiler, libname,
      if result is None:
          return None
  
@@ -38,16 +36,16 @@ patch taken from openADK
          sysroot = macosx_sdk_root()
  
      # Check whether the found file is in one of the standard directories
-@@ -116,7 +116,7 @@
+@@ -116,7 +116,7 @@ def find_library_file(compiler, libname,
          # Ensure path doesn't end with path separator
          p = p.rstrip(os.sep)
  
 -        if host_platform == 'darwin' and is_macosx_sdk_path(p):
 +        if host_platform == 'darwin' and is_macosx_sdk_path(p) and not cross_compiling:
-             if os.path.join(sysroot, p[1:]) == dirname:
-                 return [ ]
- 
-@@ -129,7 +129,7 @@
+             # Note that, as of Xcode 7, Apple SDKs may contain textual stub
+             # libraries with .tbd extensions rather than the normal .dylib
+             # shared libraries installed in /.  The Apple compiler tool
+@@ -145,7 +145,7 @@ def find_library_file(compiler, libname,
          # Ensure path doesn't end with path separator
          p = p.rstrip(os.sep)
  
@@ -56,7 +54,7 @@ patch taken from openADK
              if os.path.join(sysroot, p[1:]) == dirname:
                  return [ p ]
  
-@@ -162,6 +162,7 @@
+@@ -178,6 +178,7 @@ class PyBuildExt(build_ext):
  
      def build_extensions(self):
  
@@ -64,7 +62,7 @@ patch taken from openADK
          # Detect which modules should be compiled
          missing = self.detect_modules()
  
-@@ -281,6 +282,7 @@
+@@ -299,6 +300,7 @@ class PyBuildExt(build_ext):
  
      def build_extension(self, ext):
  
@@ -72,7 +70,7 @@ patch taken from openADK
          if ext.name == '_ctypes':
              if not self.configure_ctypes(ext):
                  return
-@@ -442,7 +444,8 @@
+@@ -460,7 +462,8 @@ class PyBuildExt(build_ext):
              add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
          if cross_compiling:
              self.add_gcc_paths()
@@ -82,7 +80,7 @@ patch taken from openADK
  
          # Add paths specified in the environment variables LDFLAGS and
          # CPPFLAGS for header and library files.
-@@ -479,7 +482,8 @@
+@@ -497,7 +500,8 @@ class PyBuildExt(build_ext):
                          add_dir_to_list(dir_list, directory)
  
          if os.path.normpath(sys.prefix) != '/usr' \
@@ -92,7 +90,7 @@ patch taken from openADK
              # OSX note: Don't add LIBDIR and INCLUDEDIR to building a framework
              # (PYTHONFRAMEWORK is set) to avoid # linking problems when
              # building a framework with different architectures than
-@@ -497,8 +501,13 @@
+@@ -515,8 +519,13 @@ class PyBuildExt(build_ext):
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
          # be assumed that no additional -I,-L directives are needed.
@@ -106,7 +104,7 @@ patch taken from openADK
          if not cross_compiling:
              for d in (
                  '/usr/include',
-@@ -532,7 +541,7 @@
+@@ -550,7 +559,7 @@ class PyBuildExt(build_ext):
          if host_platform == 'hp-ux11':
              lib_dirs += ['/usr/lib/hpux64', '/usr/lib/hpux32']
  

@@ -1,10 +1,11 @@
 [mirrors]
-https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tar.xz
-http://sources.buildroot.net/Python-2.7.10.tar.xz
+https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
+http://sources.buildroot.net/Python-2.7.13.tar.xz
 
 [vars]
-filesize=12250696
-sha512=67615a6defbcda062f15a09f9dd3b9441afd01a8cc3255e5bc45b925378a0ddc38d468b7701176f6cc153ec52a4f21671b433780d9bde343aa9b9c1b2ae29feb
+filesize=12495628
+sha512=f37c9a28ce129d01e63c84d7db627a06402854578f62d17927334ea21ede318e04bbf66e890e3f47c85333e6b19f6e5581fb3f3e27efd24be27017d1b6529c4b
+pkgver=2
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
