@@ -1,0 +1,34 @@
+according to Rich Felker `generally any program that needs to work with text
+should call setlocale(LC_CTYPE, "") near the top of main`, however python
+saves the current locale and sets it again, after it has finished setting
+its internal routines.
+
+this causes a bug with libedit, which checks nl_langinfo(CODESET) on startup
+and determines that UTF-8 is off, so any UTF-8 character entered by the user
+causes libedit's el_wgets/el_wgetc/read_char to return NULL, which
+python's readline_until_enter_or_signal/call_readline interpretes as EOF.
+the effect is that python's REPL shuts down as soon as you touch any key
+that returns an UTF-8 character.
+
+--- Python-2.7.13/Python/pythonrun.c
++++ Python-2.7.13.p/Python/pythonrun.c
+@@ -302,7 +302,7 @@
+        stdin and stdout if these are terminals, unless overridden.  */
+ 
+     if (!overridden || !Py_FileSystemDefaultEncoding) {
+-        saved_locale = strdup(setlocale(LC_CTYPE, NULL));
++        // saved_locale = strdup(setlocale(LC_CTYPE, NULL));
+         setlocale(LC_CTYPE, "");
+         loc_codeset = nl_langinfo(CODESET);
+         if (loc_codeset && *loc_codeset) {
+@@ -321,8 +321,8 @@
+             }
+         } else
+             loc_codeset = NULL;
+-        setlocale(LC_CTYPE, saved_locale);
+-        free(saved_locale);
++        //setlocale(LC_CTYPE, saved_locale);
++        //free(saved_locale);
+ 
+         if (!overridden) {
+             codeset = icodeset = loc_codeset;

@@ -5,7 +5,7 @@ http://sources.buildroot.net/Python-2.7.13.tar.xz
 [vars]
 filesize=12495628
 sha512=f37c9a28ce129d01e63c84d7db627a06402854578f62d17927334ea21ede318e04bbf66e890e3f47c85333e6b19f6e5581fb3f3e27efd24be27017d1b6529c4b
-pkgver=2
+pkgver=3
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
@@ -15,6 +15,7 @@ libressl
 bzip2
 expat
 libffi
+libedit
 
 [build]
 # work around buggy installer which puts stuff into prefix directly (omitting destdir) when
@@ -29,6 +30,17 @@ patch -p1 < "$K"/python273-pathsearch.patch
 patch -p1 < "$K"/python-xcompile.patch
 patch -p1 < "$K"/python-includedirs.patch
 patch -p1 < "$K"/python2710-curses.patch
+patch -p1 < "$K"/python-UTF-8.patch
+
+# below lines are commented out, because even though they should improve libedit support,
+# the resulting readline module doesn't deal correctly with tab completion.
+# for example "completing text" code from https://pymotw.com/2/readline/
+# in order to use it, one has to uncomment and add -DLIBEDIT_SUPPORT to EXTRA_CFLAGS
+
+# official libedit support is mistakenly only added for __APPLE__
+#sed -i 's/__APPLE__/LIBEDIT_SUPPORT/g' Modules/readline.c
+# patch out unnecessary strdup/setlocale calls, which workaround a GNU readline bug
+#sed -i 's/HAVE_SETLOCALE/HAVE_SETLOCALE) \&\& !defined(LIBEDIT_SUPPORT/g' Modules/readline.c
 
 sed -i 's@return readline@return feedline@' configure
 
