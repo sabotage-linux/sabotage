@@ -1,11 +1,11 @@
 [mirrors]
-http://busybox.net/downloads/busybox-1.26.2.tar.bz2
+http://www.busybox.net/downloads/busybox-1.27.1.tar.bz2
 
 [vars]
-filesize=2120931
-sha512=9926d211d0b4f34b513d934d7b111ebbf933c2dc31206bdd80426a62d47d5b1475b70bec5aaa14a26b94a202ab1465d994062a002750a312dcb8167096eb3719
+filesize=2216948
+sha512=f5ae32bc2dff535bb6ad17dc3a56f576e9078cd574a8fcff58ba601c36e668f26b66db8b361201441b72215bda79750a03353b0fff7bddb472d8e9a8b855236f
+pkgver=4
 no_unlink=1
-pkgver=3
 
 [deps]
 kernel-headers
@@ -28,15 +28,14 @@ dopatch() {
 	"$PATCH" -p1 < "$1"
 }
 
-cp "$K"/busybox.stage1.config .config
-dopatch "$K"/busybox.patch
 dopatch "$K"/busybox-blowfish.patch
 dopatch "$K"/busybox-fdisk-sector-size.patch
-dopatch "$K"/busybox-ping2.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
-dopatch "$K"/busybox-reproducible.patch
-dopatch "$K"/busybox-top-gratuitous-space.patch
-dopatch "$K"/busybox-gzip-deterministic.patch
+
+#__inline seems to get activated when -std=gnu99 is used, causing havoc
+sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
+
+make KCONFIG_ALLCONFIG="$K/"busybox.stage1.config allnoconfig
 
 if [ ! -z "$DEBUGBUILD" ] ; then
 	debugcflags="-O0 -g"
