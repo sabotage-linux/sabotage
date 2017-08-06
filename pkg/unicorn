@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/unicorn-engine/unicorn/archive/1.0-rc2.tar.gz
+https://github.com/unicorn-engine/unicorn/archive/1.0.1.tar.gz
 
 [vars]
-filesize=3343881
-sha512=9d2a8762be27ff15b7c176e3947c6de458cdf619914f8ad53eb6d6399bea44bd44576455aa9bae518c8489fd7b04e87e566f478aa26737200f38ffcb8ed8e4a2
-tarball=unicorn-1.0-rc2.tar.gz
-pkgver=1
+filesize=3241225
+sha512=edfe1f7bfbc1d20f5b62232057e194a937bc09db686ef2efadb33a54605029a53426432cdb2a29511385aacdb9343b3b3091af50a1909098d7cf6db3429eb966
+pkgver=2
+tarball=unicorn-1.0.1.tar.gz
 
 [deps]
 

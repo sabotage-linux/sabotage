@@ -1,10 +1,10 @@
 [mirrors]
-https://pypi.python.org/packages/e8/4f/4eb27ff978e9b86e4dfc0ff18f929395b070a3fdc5fbc0bfd984158d5c46/simuvex-6.7.1.13.post2.tar.gz
+https://pypi.python.org/packages/66/13/79574b34c86cb2f7826558b35e2cbe11ac223f8524ed649244b7a3906a6d/simuvex-6.7.7.27.tar.gz
 
 [vars]
-filesize=186732
-sha512=88001478b3be28abcfd19119a0355b07c002fe2a067a6da38cd265ddef092f2707b5e083f8359475c746cd1a97e41cd9ecfcda2371cb3758bd4d3ec7f77563d0
-pkgver=1
+filesize=202696
+sha512=6d73107f0225009497a0dec09dd80e212577ef22b32901979f0efdc2bdd4e83e9fc1de2cd720e36fb747d5fd822d46454b274b0dd781185997b16b91ae52b571
+pkgver=2
 
 [deps.run]
 python

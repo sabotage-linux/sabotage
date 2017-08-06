@@ -1,10 +1,10 @@
 [mirrors]
-https://pypi.python.org/packages/68/4c/c6bb50db47ff1217313251244ff9478f03a4ac4083d4f9ee517de18fee9c/claripy-6.7.1.13.post2.tar.gz
+https://pypi.python.org/packages/3d/90/9b0e6d0236fa8bfed4f1adbe9f6fa2d723932806c023b7a8c26456f81b8e/claripy-6.7.7.27.tar.gz
 
 [vars]
-filesize=94776
-sha512=cb5714919ee231aec8fe5dbe7f4aacd89a3993966d7cf642f81e3470ff8b693d9838b80596cdfb2e8b74437cd8c09762a8a27fb8f5bfa31954a641c1102a3a55
-pkgver=1
+filesize=96630
+sha512=9a298abb2d1b99bd89dfb2a6e0cfb8017bd5ecfae40e53b4ea49ad2f1021fc53e94cc21b87d811ac38178f1ca1cb108b302ef483f7fa592493ddace03c92e0d1
+pkgver=2
 
 [deps.run]
 python
