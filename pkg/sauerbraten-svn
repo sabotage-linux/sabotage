@@ -1,0 +1,43 @@
+[vars]
+desc='multiplayer & single-player FPS and game engine'
+
+[deps.host]
+svn
+
+[deps]
+sdl2
+sdl2-mixer
+sdl-image
+zlib
+
+[build]
+builddir="$S/build"
+rev=5353
+clonedir=${butch_package_name}-clone
+repo=https://svn.code.sf.net/p/sauerbraten/code/
+
+cd "$builddir"
+svn co -r $rev $repo $clonedir
+cd $clonedir/src
+
+make clean
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+
+cd ..
+
+install -Dm 755 sauerbraten_unix \
+                "$butch_install_dir"/bin/sauerbraten_unix
+
+sed "s:SAUER_DATA=\.:SAUER_DATA=$butch_install_dir:g" \
+  -i "$butch_install_dir"/bin/sauerbraten_unix
+
+find data packages -type f | while read file; do
+	install -Dm 644 "$file" "$butch_install_dir/$file"
+done
+
+for file in bin_unix/native_*; do
+	install -Dm 755 "$file" "$butch_install_dir"/"$file"
+done
+
