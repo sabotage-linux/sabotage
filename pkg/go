@@ -1,9 +1,9 @@
 [mirrors]
-https://storage.googleapis.com/golang/go1.6.src.tar.gz
+https://storage.googleapis.com/golang/go1.8.1.src.tar.gz
 
 [vars]
-filesize=12613308
-sha512=59e9d72a80558fd5e3f176e068897a45333b36e35f6c00393647941a70e741168e65941b6059397378020c3b78ec3471a48809682f7efd97cf33eec6325fc3e8
+filesize=15331455
+sha512=f01fe7b35ac23101610f6fc169b88dafe2edc49b3b044d5d0aff771b05dcb2c8d2e7a5090ed6dbe67f861e78e792ace32e209ed464399ca02dcd186b13ec8037
 tardir=go
 
 [deps.host]
