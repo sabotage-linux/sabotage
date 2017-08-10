@@ -10,7 +10,7 @@ nasm
 [vars]
 filesize=9772883
 sha512=ca3da9d7f5f1c4ccc2eaa1cc33f5d2bb4afe2518dadeb863169ba2cce023c62112e5312181b047ce868a217e36f9b103622cf2e0e8559c3b7de35ad191388450
-pkgver=2
+pkgver=3
 
 [mirrors]
 ftp://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
@@ -32,17 +32,46 @@ esac
     echo "ERROR: syslinux6 only supports the intel architecture"
     exit 0
 }
-sed -i 's,codepage com32 lzo core memdisk mbr memdump gpxe sample,codepage com32 core mbr,g' Makefile
-sed -i 's,diag libinstaller dos win32 win64 dosutil txt,libinstaller txt,g' Makefile
-sed -i 's,win32/syslinux.exe win64/syslinux64.exe,,g' Makefile
-sed -i 's,dosutil/*.com dosutil/*.sys,,g' Makefile
-sed -i 's,gpxe/gpxelinux.0 dos/syslinux.com,,g' Makefile
-sed -i 's,core/isolinux-debug.bin,,g' Makefile
-sed -i 's,core/pxelinux.0 core/lpxelinux.0,,g' Makefile
-sed -i 's,codepage com32 lzo core mbr sample efi txt,codepage com32 core mbr efi txt,g' Makefile
-sed -i 's,com32 utils dosutil,com32 utils,g' Makefile
-sed -i 's,libupload tools lib elflink/ldlinux gpllib libutil modules mboot,lib libutil,' com32/Makefile
-sed -i 's,menu samples elflink rosh cmenu hdt gfxboot sysdump lua/src chain,menu,' com32/Makefile
+
+# We dont use sbin
+sed -i 's,/sbin,/bin,' syslinux.spec mk/syslinux.mk
+
+# Exclude windows stuff and mtools and others
+sed 's|INSTALLSUBDIRS = com32 utils dosutil|INSTALLSUBDIRS = com32 utils|g' -i Makefile
+sed '/DIAGDIR/d' -i Makefile
+
+# Throw Windooze stuff out
+sed 's|diag libinstaller dos win32 win64 dosutil txt|libinstaller txt|g' -i Makefile
+sed 's|win32/syslinux.exe win64/syslinux64.exe||g' -i Makefile
+sed 's|dosutil/\*.com dosutil/\*.sys||g' -i Makefile
+sed 's|dos/syslinux.com||g' -i Makefile
+sed 's|gpxe/gpxelinuxk*\.0||g' -i Makefile
+
+# We dont want the perl-based utils
+# They also pull in the isohybrid mbrs
+sed "s|utils/[a-z]*||g" -i Makefile
+
+# Skip parts of isolinux that we dont need
+sed "s,core/isolinux-debug.bin,," -i Makefile
+sed "s,mbr/\*.bin,mbr/\*mbr.bin mbr/isohdpfx.bin," -i Makefile
+
+# We dont need Memdisk
+sed "s,memdisk/memdisk,," -i Makefile
+sed "s,memdump/memdump.com,," -i Makefile
+
+# rarely used COM32 Modules
+sed "s,com32/modules/\*.c32,," -i Makefile
+sed "s,com32/hdt/\*.c32,," -i Makefile
+sed "s,com32/rosh/\*.c32,," -i Makefile
+sed "s,com32/gfxboot/\*.c32,," -i Makefile
+sed "s,com32/sysdump/\*.c32,," -i Makefile
+sed "s,com32/lua/src/\*.c32,," -i Makefile
+sed "s,com32/gpllib/\*.c32,," -i Makefile
+sed "s,com32/cmenu/libmenu/\*.c32,," -i Makefile
+
+# Exclude perl utils from being installed
+sed '/DIRS/ s/utils//' -i Makefile
+
 sed -i 's,#include <getkey.h>,#include "include/getkey.h",' com32/libutil/keyname.c
 sed -i 's,#include <libutil.h>,#include "include/libutil.h",' com32/libutil/keyname.c
 sed -i 's,#include "sha1.h",#include "include/sha1.h",' com32/libutil/sha1hash.c
