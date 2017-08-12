@@ -1,5 +1,5 @@
 [mirrors]
-http://www.busybox.net/downloads/busybox-1.27.21.tar.bz2
+http://www.busybox.net/downloads/busybox-1.27.1.tar.bz2
 
 [vars]
 filesize=2186738
