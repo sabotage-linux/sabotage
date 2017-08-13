@@ -4,7 +4,7 @@ http://www.busybox.net/downloads/busybox-1.27.1.tar.bz2
 [vars]
 filesize=2216948
 sha512=f5ae32bc2dff535bb6ad17dc3a56f576e9078cd574a8fcff58ba601c36e668f26b66db8b361201441b72215bda79750a03353b0fff7bddb472d8e9a8b855236f
-pkgver=4
+pkgver=5
 no_unlink=1
 
 [deps]
@@ -31,6 +31,7 @@ dopatch() {
 dopatch "$K"/busybox-blowfish.patch
 dopatch "$K"/busybox-fdisk-sector-size.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
+dopatch "$K"/busybox-ping.patch
 
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
