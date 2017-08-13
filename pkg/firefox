@@ -1,12 +1,10 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/52.2.1esr/source/firefox-52.2.1esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/52.2.1esr/source/firefox-52.2.1esr.source.tar.xz
+http://releases.mozilla.org/pub/firefox/releases/52.3.0esr/source/firefox-52.3.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/firefox/releases/52.3.0esr/source/firefox-52.3.0esr.source.tar.xz
 
 [vars]
-filesize=212033732
-sha512=1d79e6e4625cf7994f6d6bbdf227e483fc407bcdb20e0296ea604969e701f551b5df32f578d4669cf654b65927328c8eb0f717c7a12399bf1b02a6ac7a0cd1d3
 pkgver=7
-tardir=firefox-52.2.1esr
+tardir=firefox-52.3.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 no_unlink=1
 
