@@ -74,8 +74,9 @@ esac
 # sysdir in /usr/include, so the bootstrap compiler (xgcc), which
 # uses the host headers, will use a broken set of headers.
 is_ubuntu_or_debian() {
-	uname -v | grep Ubuntu >/dev/null 2>&1  || \
-	uname -v | grep Debian >/dev/null 2>&1
+	grep Ubuntu /etc/lsb-release >/dev/null 2>&1  || \
+	grep Debian /etc/lsb-release >/dev/null 2>&1  || \
+	test -f /etc/debian_version
 }
 
 if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
