@@ -2,6 +2,12 @@
 http://releases.mozilla.org/pub/firefox/releases/52.3.0esr/source/firefox-52.3.0esr.source.tar.xz
 ftp://ftp.mozilla.org/pub/firefox/releases/52.3.0esr/source/firefox-52.3.0esr.source.tar.xz
 
+[vars]
+pkgver=7
+tardir=firefox-52.3.0esr
+uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
+no_unlink=1
+
 [deps]
 autoconf213-tarball
 libevent
