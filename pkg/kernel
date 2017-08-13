@@ -19,7 +19,7 @@ cp -f "$K"/linux-regdb.txt net/wireless/db.txt
 
 dopatch() {
 	echo "applying patch $1"
-	if ! patch -p1 < "$1" ; then
+	if ! patch -p1 < "$K"/"$1" ; then
 		echo "patch failed!"
 		exit 1
 	fi
@@ -33,6 +33,8 @@ for p in $(cat "$K"/kernel.patches) ; do
 	}
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
 done
+
+dopatch linux-timeconst-nobc.patch
 
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
