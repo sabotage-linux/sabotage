@@ -1,0 +1,13 @@
+[mirrors]
+http://contest-2010.korelogic.com/wordlists/Feb-10-2011/final-en-wikipedia.dic.gz
+
+[vars]
+filesize=63788536
+sha512=6412dfa75b90689a424de221b57e1c42d0609aeb8d76c970265387582e9b3b996ba76eb9db6d15f981cd634b572a35bc84ad5d5d58617090264fc2ec7d19c439
+tarball=wordlist-korelogic-wp-en-final.gz
+pkgver=1
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/wordlist-korelogic-wp-en-final.txt

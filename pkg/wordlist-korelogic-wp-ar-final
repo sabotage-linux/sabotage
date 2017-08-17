@@ -1,0 +1,14 @@
+[mirrors]
+http://contest-2010.korelogic.com/wordlists/Feb-10-2011/final-ar-wikipedia.dic.gz
+
+[vars]
+filesize=983379
+sha512=d32f55b1c1a4dc9428d18412c7a0a26a80dc0fa0cb782c88d9b464c7cdece4355b659e814b3d71de1906a4b8d413ccbaac705893d1f350c94044f213bcca6726
+tarball=wordlist-korelogic-wp-ar-final.gz
+pkgver=1
+desc='arabic wikipedia wordlist from korelogic (2010)'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/wordlist-korelogic-wp-ar-final.txt
