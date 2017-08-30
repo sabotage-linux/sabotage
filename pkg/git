@@ -1,10 +1,10 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.13.3.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.14.1.tar.xz
 
 [vars]
-filesize=4754532
-sha512=8a8db4d675c9d8d0e834620c5c7ce7937edd7f4bf1d8a176e1218e5773960e2635c48cb931dfe206b237e2da8371e521acf9c2776847605bea13f8a7304c9f9b
-pkgver=12
+filesize=4791876
+sha512=bee35ad9c6a0d0588045ec2fe5f6987cb1eeb3961cdf33cd9b51ae52017969131ea4ec09908f9b30944f85b0daa99614fb42c248c9c8dac5f21a90e2866c33b4
+pkgver=13
 desc='tools to work with the git distributed version control system'
 
 [deps]
