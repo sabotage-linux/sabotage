@@ -5,7 +5,7 @@ http://anduin.linuxfromscratch.org/sources/BLFS/conglomeration/epdfview/epdfview
 [vars]
 filesize=466270
 sha512=e81ca39158ed77040a00b69cdbbea4726a1bbf4885a096aaa3dfc4c64d0cbcadabdc69c559bb14d23c2bf7fc8244799176d2c2d5689ab670c13237edc10e8e40
-pkgver=6
+pkgver=7
 
 [deps]
 gtk+2
