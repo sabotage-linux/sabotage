@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.postgresql.org/pub/source/v9.4.12/postgresql-9.4.12.tar.bz2
+http://ftp.postgresql.org/pub/source/v9.4.13/postgresql-9.4.13.tar.bz2
 
 [vars]
-filesize=17833119
-sha512=69951f9e66069aad1049a0ea9fdcd7bf2f84b42e7c6e0f761d78ab22131a39cf56448ef0ddc28170b66970bf53edf2d2355530fcfc0a2dca92b66d69686b7ecb
-pkgver=4
+filesize=17867502
+sha512=98e5721ab1ebc88070a5c2c9ef10e4fc21825de495db71f011577aa15fdd31c2dc0429d48e1624f7161c9d31dd75de4d8cf4ed2e34006ed6d1852f04a948e932
+pkgver=5
 desc="professional SQL database server and interface libraries"
 uchkurl=http://ftp.postgresql.org/pub/source/
 service=postgresql
