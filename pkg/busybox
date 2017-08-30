@@ -1,10 +1,10 @@
 [mirrors]
-http://www.busybox.net/downloads/busybox-1.27.1.tar.bz2
+http://www.busybox.net/downloads/busybox-1.27.2.tar.bz2
 
 [vars]
-filesize=2216948
-sha512=f5ae32bc2dff535bb6ad17dc3a56f576e9078cd574a8fcff58ba601c36e668f26b66db8b361201441b72215bda79750a03353b0fff7bddb472d8e9a8b855236f
-pkgver=5
+filesize=2216527
+sha512=d99e86b652562ebe1a5d50e1ba3877a1d1612997c17cb8d8e4212da181211a9b741a881cb051f14cb3ee8aea40226cf2cde80a076baed265d3bc0a4e96a5031c
+pkgver=6
 no_unlink=1
 
 [deps]
