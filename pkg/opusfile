@@ -1,9 +1,9 @@
 [mirrors]
-https://ftp.mozilla.org/pub/mozilla.org/opus/opusfile-0.8.tar.gz
+https://ftp.mozilla.org/pub/mozilla.org/opus/opusfile-0.9.tar.gz
 
 [vars]
-filesize=464600
-sha512=4db553211ac52b9cd9c03449e602fb720d757df385b74e076ce3552a17ecf0e80c861c326fd2570b26f5ffc1c42dff781eef61c25d7a016116a021c9d2176bbb
+filesize=467683
+sha512=9167b100ad4ea79af8bbe60ce710409b0cfd41b09d640a203a83a751c30eed0bd91b28cbf4d5fe3fcf41269881eb579300c5568fdd6f30208c6b84b429ad6632
 desc='library for decoding and seeking in .opus files'
 
 [deps]
