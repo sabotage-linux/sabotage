@@ -1,5 +1,5 @@
 [mirrors]
-ftp://invisible-island.net/xterm/xterm-330.tgz
+ftp://ftp.invisible-island.net/xterm/xterm-330.tgz
 
 [vars]
 filesize=1273183
