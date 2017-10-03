@@ -1,11 +1,11 @@
 [mirrors]
-https://dist.torproject.org/tor-0.3.0.10.tar.gz
-http://mirror.hackthissite.org/tor/tor-0.3.0.10.tar.gz
+https://dist.torproject.org/tor-0.3.1.7.tar.gz
+http://mirror.hackthissite.org/tor/tor-0.3.1.7.tar.gz
 
 [vars]
-filesize=5845205
-sha512=e39d56afb6a10194303483552f28f07e5d7b7c5d470de554d92723c8d3c0d5d5a98fc44d23aa9d51bfda51e7d7cbb48fc4d1e3ac82150aeb4ce3e1616695225a
-pkgver=12
+filesize=6058284
+sha512=a835526984187fad88cffc39ea8f6a4b61d5f8d2579b5a66425612607a22ff82e0f9da96e029e134e04d25ae0f59a1b4f771e9e8c19ebb563e1a0f5b3a3849e4
+pkgver=13
 desc='onion router for anonymization of internet traffic'
 service=tor
 serviceflags="--down --log"
