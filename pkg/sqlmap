@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/sqlmapproject/sqlmap/archive/1.1.10.tar.gz
+
+[vars]
+filesize=7408226
+sha512=d320e349b56011d2728a76c9a45a4bfbdc09249a7e9e61013aeda1c253aff7ab50ec75dc7d9f8ced44283de0730c551e952d33152d9d12d55ab7a7c33f07d86f
+tarball=sqlmap-1.1.10.tar.gz
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+
+dest="$butch_install_dir""$butch_prefix"
+dd="$dest"/share/sqlmap
+mkdir -p "$dd" "$dest"/bin
+cp -a * "$dd"/
+cat << EOF > "$dest"/bin/sqlmap
+#!/bin/sh
+DIR=$butch_prefix/share/sqlmap
+exec python2.7 \$DIR/sqlmap.py "\$@"
+EOF
+chmod +x "$dest"/bin/sqlmap
+
