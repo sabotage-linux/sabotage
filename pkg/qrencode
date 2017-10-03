@@ -1,9 +1,10 @@
 [mirrors]
-https://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
+https://fukuchi.org/works/qrencode/qrencode-4.0.0.tar.bz2
 
 [vars]
-filesize=468788
-sha512=2c7a5bb6a51993a4d44a8e4ef30a3d3e43c55dc726fb7d702cde306a5bfcea1faa5a1bd851aa57c7550c81dadb4cc1cf6ea8afa7b5fa4e9b9c5ed7d9bb6b68cc
+filesize=429244
+sha512=d4140d77fce3a1c39735cc3e98e3a19018daaa08c870644f71727d27ffb17711e76b4ed4e51718d90d812e78df75fe575617580ea9b1bf210438f8fd1734204e
+pkgver=2
 
 [deps]
 libpng
