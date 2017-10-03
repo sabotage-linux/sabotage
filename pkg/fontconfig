@@ -1,10 +1,10 @@
 [mirrors]
-http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.4.tar.bz2
+http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.6.tar.bz2
 
 [vars]
-filesize=1613580
-sha512=f336e9220afe738e0bf7186d87a5eb09842342ad99ca2102c69820a1f0b232e15c61ef72ae3f5d56503f5be32557d09180a80e05690e85b4eb13ed88f5cece81
-pkgver=3
+filesize=1624683
+sha512=2a1d3e62cae2bfcae2e67e9cb75ab6534a35bda4215f1ad4b8bf757e77e7d9d609c016562f5288fd10046a0e94655a807f6dd044d7868ed81a146c4275c4dd06
+pkgver=4
 
 [deps]
 freetype
@@ -18,10 +18,6 @@ gperf
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
-
-# https://bugs.freedesktop.org/show_bug.cgi?id=101280
-rm src/fcobjshash.h
-rm src/fcobjshash.gperf
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags" \
