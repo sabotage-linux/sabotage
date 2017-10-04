@@ -1,12 +1,12 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/gettext-tiny-0.2.0.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/gettext-tiny-0.2.0.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/gettext-tiny-0.2.0.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/gettext-tiny-0.1.0.tar.xz
 
 [vars]
-filesize=45340
-sha512=4d8d9d02042adf023bfd2502fa7598f9b16ef2e03dd3d39fd3ba36f1be1d884d1b891600d9263e11948e3979909ea810a1d1b8cefc7e522feda8b422a1107a2e
-pkgver=4
+filesize=38912
+sha512=432c97800b682dea616af2437007fc131782b676da18fd6f13205b3021e962b969845110afc52ee74447dc4ebf54be0607eed2b7670d5c0545798b8aee89bf29
+pkgver=3
 
 [deps]
 musl
@@ -17,6 +17,5 @@ prefix=$butch_prefix
 DESTDIR=$butch_install_dir
 CFLAGS=$optcflags -fPIC
 LDFLAGS=$optldflags
-LIBINTL=MUSL
 EOF
 make -j$MAKE_THREADS all install
