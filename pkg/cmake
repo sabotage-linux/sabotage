@@ -68,14 +68,6 @@ cmake $xconfflags \
   ..
 make -j$MAKE_THREADS VERBOSE=1
 
-for i in 1 txt html docbook ; do
-touch Docs/cmake.$i Docs/cmakecommands.$i Docs/cmakecompat.$i \
-  Docs/cmakeprops.$i Docs/cmakepolicies.$i Docs/cmakevars.$i \
-  Docs/cmakemodules.$i Docs/cmake-policies.$i Docs/cmake-properties.$i \
-  Docs/cmake-variables.$i Docs/cmake-modules.$i Docs/cmake-commands.$i \
-  Docs/cmake-compatcommands.$i
-done
-
 sed -i 's@^[\t ]*bin/cmake@\tcmake@g' Makefile
 make DESTDIR="$butch_install_dir" install
 
