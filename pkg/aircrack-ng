@@ -1,9 +1,10 @@
 [mirrors]
-http://download.aircrack-ng.org/aircrack-ng-1.2-rc1.tar.gz
+http://download.aircrack-ng.org/aircrack-ng-1.2-rc4.tar.gz
 
 [vars]
-filesize=2046476
-sha512=897427c535846c0ede58b2f99ed469bc01f50f9b38fc70d5711261fca7342339192cc0c71a724fc04c99114db7534d825a44f09e7bc5754286ec44933a33e40d
+filesize=4379880
+sha512=f1e1d465813a5f00fd8f8b287353033ea30b657a4c3a9fe81281ab2546d3238690f0659076bff53703fbc796ba40efb16115804d21f8516adca2c774fefea20c
+pkgver=2
 desc='cracking/monitoring/security assessment tool for wireless networks'
 
 [deps]
@@ -19,6 +20,8 @@ ethtool
 
 [build]
 patch -p1 < "$K"/aircrack-ng-wep-ska.patch
+patch -p1 < "$K"/aircrack-ng-grep.patch
+patch -p1 < "$K"/aircrack-ng-modinfo.patch
 [ -n "$CROSS_COMPILE" ] && export CC="$CC -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 make -j$MAKE_THREADS
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
