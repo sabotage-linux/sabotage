@@ -23,6 +23,8 @@ patch -p0 < "$K"/wpa_supplicant25-eloop.patch
 cd wpa_supplicant
 cp defconfig .config
 
+sed -i 's,#CONFIG_WPS=y,CONFIG_WPS=y,' .config
+
 CFLAGS="-D_GNU_SOURCE -I$butch_prefix/include/libnl-tiny \
   -DLIBNL1_COMPAT \
   -DCONFIG_LIBNL20 \
