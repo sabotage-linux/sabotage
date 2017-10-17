@@ -1,0 +1,12 @@
+[mirrors]
+https://download.g0tmi1k.com/wordlists/large/crackstation-human-only.txt.gz
+
+[vars]
+filesize=257973006
+sha512=af7f1f1d7dc0fa433d5e713acb85d886258d36e65b16e822395076c17f55d53c2436a1e41e247d375f244e481c4e743d9969b9b8365d9d1c5f6dc09fa4d10691
+pkgver=1
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/crackstation-human-only.txt
