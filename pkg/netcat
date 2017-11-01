@@ -1,0 +1,16 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/n/netcat/netcat_1.10.orig.tar.bz2
+
+[vars]
+filesize=64363
+sha512=44367f8ab090ce4e0c52ef024fa85feea3056a893a7bdc4a1cab3aadef05d12307583fe242bab2781f654066004ee00ff2e338bd1ae3aa3d00ea34d43df65c3e
+tardir=netcat-1.10.orig
+pkgver=1
+desc='traditional netcat tool by hobbit'
+
+[deps]
+
+[build]
+$CC -D_GNU_SOURCE -include unistd.h -include time.h -DLINUX \
+  $optcflags -static $optldflags netcat.c -o nc
+install -Dm 755 nc "$butch_install_dir""$butch_prefix"/bin/netcat
