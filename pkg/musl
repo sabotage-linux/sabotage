@@ -15,6 +15,8 @@ gcc6
 gcc6
 
 [build]
+patch -p1 < "$K"/musl-1.1.18-armasm.patch
+
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 if [ "$A" = "powerpc" ] ; then

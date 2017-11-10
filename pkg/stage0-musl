@@ -12,6 +12,9 @@ stage0-gcc
 [build]
 # do not rebuild stage0 packages once we're past that stage
 test "$STAGE" = "0" || exit 0
+
+patch -p1 < "$K"/musl-1.1.18-armasm.patch
+
 CC=$R/bin/gcc ./configure --enable-gcc-wrapper \
   --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
 
