@@ -1,12 +1,13 @@
 [mirrors]
-http://downloads.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
-http://heanet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
-http://surfnet.dl.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.tar.gz
+http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2
+http://heanet.dl.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.gz
+http://surfnet.dl.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.gz
 
 [vars]
-filesize=64724106
-sha512=8de651beb9a48f91f8a797f44966b8f25c3351d6893c1d79969aeb2ded3adeaf8fc14aa9b8a4410081dde9ef155330b41a4982a62b55adde40bb73f0066c74a2
 desc="monstruous collection of C++ libraries"
+filesize=76553944
+sha512=7c851b3fc2b322ff05d642d9cf03e7c30c5f04d5cf0579c99046b1ec708901c58a3d349031dfe24591f5b88c1e664b6a0d40abea6cce89abb52080c02eb725df
+pkgver=1
 
 [deps]
 bzip2
@@ -17,18 +18,10 @@ dynamic-toolchain
 [build]
 # https://svn.boost.org/trac/boost/ticket/7847
 patch -p1 < "$K"/boost-execinfo.patch
-patch -p1 < "$K"/boost-endian.patch
 
 # FIXME there's no DESTDIR support, thus internal hardcoded paths will be all wrong
 # https://svn.boost.org/trac/boost/ticket/7846
 CC=gcc CFLAGS=-D_GNU_SOURCE ./bootstrap.sh --prefix="$butch_install_dir""$butch_prefix"
-
-cat << EOF > tools/build/v2/user-config.jam
-using gcc : foo : $CXX ;
-EOF
-
-sed -i 's@tm_gmtoff@__tm_gmtoff@g' libs/locale/src/std/../util/numeric.hpp
-sed -i 's@tm_zone@__tm_zone@g' libs/locale/src/std/../util/numeric.hpp
 
 # boost wants to build some asm stuff which fails on mips, but the rest is properly
 # built/installed, so we must catch the error return code
