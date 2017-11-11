@@ -1,7 +1,5 @@
 [mirrors]
 http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2
-http://heanet.dl.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.gz
-http://surfnet.dl.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.gz
 
 [vars]
 desc="monstruous collection of C++ libraries"
