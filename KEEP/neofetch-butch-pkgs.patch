@@ -1,0 +1,14 @@
+--- neofetch-3.3.0/neofetch
++++ neofetch
+@@ -542,6 +552,11 @@
+                 packages="$((packages+=$(ls -d -1 "${package_dir[@]}" | wc -l)))"
+             fi
+ 
++            if type -p butch >/dev/null; then
++                package_dir=(/var/lib/butch.db)
++                packages="$((packages+=$(butch list | wc -l)))"
++            fi
++
+             if type -p pkg >/dev/null; then
+                 case "$kernel_name" in
+                     "FreeBSD") packages="$((packages+=$(pkg info | wc -l)))" ;;

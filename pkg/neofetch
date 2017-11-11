@@ -1,19 +1,20 @@
 [mirrors]
-https://github.com/dylanaraps/neofetch/archive/3.1.0.tar.gz
+https://github.com/dylanaraps/neofetch/archive/3.3.0.tar.gz
 
 [vars]
-filesize=68930
-sha512=0a13acadf1841c1e714c07f9643028446a1f4df6a79e7c3189c4c11d8854813dfbb983784d62dc59a9209893ee2339ca5642fe413d1066a5cb6e9e167ae74975
-tardir=neofetch-3.1.0
+filesize=76325
+sha512=aa220f3d177a3f58e7cb665209e6bd70334eb3d2daccf7ec9cb32353b8c23f53e000f7d412422c8d5fcf1132b39f4a9dc51141ed7359f45c1f0f7a189853baf0
+pkgver=1
 
 [deps.run]
 bash
 
 [build]
-patch -p1 < "$K"/neofetch-sabotage.patch
+cd neofetch-3.3.0
 
-make \
-    PREFIX="$butch_prefix" \
-    DESTDIR="$butch_install_dir" \
-    -j$MAKE_THREADS \
-    install
+# This patch adds pkg displaying support
+patch -p1 < /src/KEEP/neofetch-butch-pkgs.patch
+
+make PREFIX="$butch_prefix" \
+     DESTDIR="$butch_install_dir" \
+     install
