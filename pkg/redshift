@@ -1,0 +1,17 @@
+[mirrors]
+http://github.com/jonls/redshift/releases/download/v1.11/redshift-1.11.tar.xz
+
+[vars]
+pkgver=1
+filesize=377372
+sha512=88d7a4aabfaf3073f88673bc77df19d7bd79cb19aa8e647670cc52c02443475a4602f109fc4a06bf1639d1829d16a2644854039f90a614fc1a51c9cb4c81de16
+
+[build]
+
+. "$K"/intltool-fix
+./configure -C --prefix="$butch_prefix"
+
+make clean
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
