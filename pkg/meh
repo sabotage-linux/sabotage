@@ -1,0 +1,22 @@
+[mirrors]
+http://web.uvic.ca/%7Ejhawthor/meh-0.3.tar.gz
+
+[vars]
+filesize=12856
+sha512=9b874612195238a92e690c459d7b292f120bf855a541cdbc8d8cc886eb7f8120e359ca4a2c4ee247d5058557fd2d8c7d9b25b181c878cd540a9c19ea019e3ef6
+pkgver=1
+desc="An ultra minimalist image viewer based on feh using giflib and imagemagick."
+
+[deps]
+giflib
+imagemagick
+
+[build]
+patch -p1 < /src/KEEP/meh-patches.patch
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags"
+
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
