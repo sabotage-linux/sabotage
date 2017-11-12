@@ -1,0 +1,17 @@
+[mirrors]
+http://github.com/Gottox/bgs/archive/958acea074e5d8f3566289db37a9db236c05d7df.tar.gz
+
+[vars]
+filesize=4996
+sha512=917b1268693f2b908134280f9f7cd73ef5832a6e3a77c30ecde2b1ec18b243addc248da6848a40031c93e34e5706d321a0836f45e042f2b82e8777e22c4c895a
+pkgver=1
+tarball=bgs-958acea074e5d8f3566289db37a9db236c05d7df.tar.gz
+tardir=bgs-958acea074e5d8f3566289db37a9db236c05d7df
+
+[deps]
+imlib2
+
+[build]
+
+make V=1 -j$MAKE_THREADS
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
