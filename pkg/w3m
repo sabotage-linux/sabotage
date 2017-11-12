@@ -1,0 +1,27 @@
+[mirrors]
+http://downloads.sourceforge.net/project/w3m/w3m/w3m-0.5.3/w3m-0.5.3.tar.gz
+
+[vars]
+filesize=2202328
+sha512=43508c76d07b4d8f19c19f975c0b870aeb94abf0744b6128ee01c759d4e409a8b57bc866baeaf990f309ff73e9a7b02ca455d272b1dd0a93fafb8c72b1fe6d14
+pkgver=1
+
+[deps]
+libgc
+gdk-pixbuf
+
+[build]
+patch -p1 < "$K"/w3m-patch.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --with-imagelib="gdk-pixbuf" --enable-image="x11,fb,fb+s" \
+  -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
