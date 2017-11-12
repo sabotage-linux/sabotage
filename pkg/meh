@@ -17,4 +17,5 @@ imagemagick
 patch -p1 < /src/KEEP/meh-patches.patch
 
 make V=1 -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+install -Dm 755 meh "$butch_install_dir""$butch_prefix"/bin/meh
+
