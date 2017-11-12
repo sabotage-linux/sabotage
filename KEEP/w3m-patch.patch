@@ -1,0 +1,23 @@
+--- w3m-0.5.3/main.c
++++ w3m-pathced/main.c
+@@ -833,7 +833,6 @@
+     mySignal(SIGPIPE, SigPipe);
+ #endif
+ 
+-    orig_GC_warn_proc = GC_set_warn_proc(wrap_GC_warn_proc);
+     err_msg = Strnew();
+     if (load_argc == 0) {
+ 	/* no URL specified */
+--- w3m-0.5.3/url.c
++++ w3m-pathced/url.c
+@@ -268,10 +268,6 @@
+     if (RAND_status())
+ 	return;
+     if ((file = RAND_file_name(buffer, sizeof(buffer)))) {
+-#ifdef USE_EGD
+-	if (RAND_egd(file) > 0)
+-	    return;
+-#endif
+ 	RAND_load_file(file, -1);
+     }
+     if (RAND_status())
