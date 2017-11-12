@@ -1,0 +1,24 @@
+[mirrors]
+http://downloads.sourceforge.net/project/libconfig/libconfig/0.2/libconfig-0.2.tgz
+
+[vars]
+filesize=254936
+sha512=e6c09c74623254682c8b348d669532c92d37bf23e09623e802a376706ac4d25f079a05d8121fadd63d296ac57328509241c211c6ca69bd2a44e806f514000019
+pkgver=1
+
+[deps]
+
+[build]
+patch -p1 < "$K"/libconfig-patch.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+
+make V=1 -i -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
