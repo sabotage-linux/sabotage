@@ -1,0 +1,23 @@
+[mirrors]
+http://github.com/neovim/neovim/archive/b6a603fe515ee1cd554a8c4151286b26209a467b.tar.gz
+
+[vars]
+filesize=8333652
+sha512=318aaa9e2054d9bfce75d63f3a2454ae6500ffb6bb2382a55b407ce1a9ee6ccb719a865a9837dd922219b37adaa52f5ba332d9d99c08df473cc44bbd85450307
+pkgver=1
+tarball=neovim-b6a603fe515ee1cd554a8c4151286b26209a467b.tar.gz
+tardir=neovim-b6a603fe515ee1cd554a8c4151286b26209a467b
+
+[deps.host]
+cmake
+libtool
+
+[build]
+patch -p1 < "$K"/neovim-disable-jemalloc.patch
+
+# cmake bugs out if its not installing from 100% clean
+make clean
+make V=1 -j$MAKE_THREADS CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$butch_prefix"
+
+make DESTDIR=$butch_install_dir CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$butch_prefix" install
+
