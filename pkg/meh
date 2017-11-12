@@ -9,12 +9,12 @@ desc="An ultra minimalist image viewer based on feh using giflib and imagemagick
 
 [deps]
 giflib
+
+[deps.run]
 imagemagick
 
 [build]
 patch -p1 < /src/KEEP/meh-patches.patch
-
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 
 make V=1 -j$MAKE_THREADS
 install -Dm 755 meh "$butch_install_dir""$butch_prefix"/bin/meh
