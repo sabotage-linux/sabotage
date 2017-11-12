@@ -4,14 +4,13 @@ https://github.com/dylanaraps/neofetch/archive/3.3.0.tar.gz
 [vars]
 filesize=76325
 sha512=aa220f3d177a3f58e7cb665209e6bd70334eb3d2daccf7ec9cb32353b8c23f53e000f7d412422c8d5fcf1132b39f4a9dc51141ed7359f45c1f0f7a189853baf0
-pkgver=1
+pkgver=2
+tardir=neofetch-3.3.0
 
 [deps.run]
 bash
 
 [build]
-cd neofetch-3.3.0
-
 # This patch adds pkg displaying support
 patch -p1 < /src/KEEP/neofetch-butch-pkgs.patch
 
