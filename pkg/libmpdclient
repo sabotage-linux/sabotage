@@ -1,0 +1,25 @@
+[mirrors]
+https://musicpd.org/download/libmpdclient/2/libmpdclient-2.9.tar.xz
+
+[vars]
+filesize=253992
+sha512=7e6af51e31a3319e6681dfe5199fda1b2c1482f6aa6854af7c7f02c999fbbeae4f369c9b157abf95402c7f022d155109454b243549185ba791df5b2457baaba4
+pkgver=1
+
+[deps]
+
+[build]
+patch -p1 < "$K"/libmpdclient-patch.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+    --with-sysroot=$butch_root_dir"
+
+    CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+    LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+    ./configure --disable-documentation -C --prefix="$butch_prefix" \
+         --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+        

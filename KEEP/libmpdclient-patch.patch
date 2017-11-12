@@ -1,0 +1,22 @@
+--- libmpdclient-2.9/src/socket.c
++++ libmpdclient-2.9/src/socket.c
+@@ -37,6 +37,8 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ 
++#include <sys/select.h>
++
+ #ifdef WIN32
+ #  include <winsock2.h>
+ #  include <ws2tcpip.h>
+--- libmpdclient-2.9/src/sync.c
++++ libmpdclient-2.9/src/sync.c
+@@ -30,6 +30,8 @@
+ #include "socket.h"
+ #include <mpd/async.h>
+ 
++#include <sys/select.h>
++
+ #include <assert.h>
+ #include <stdlib.h>
+ #include <stdio.h>
