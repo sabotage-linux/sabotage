@@ -1,0 +1,55 @@
+--- neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/CMakeLists.txt
++++ neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/CMakeLists.txt
+@@ -387,23 +387,7 @@
+   message(FATAL_ERROR "Sanitizers are only supported for Clang.")
+ endif()
+ 
+-if(CMAKE_SYSTEM_NAME MATCHES "OpenBSD|FreeBSD")
+-  message(STATUS "detected OpenBSD/FreeBSD; disabled jemalloc. #5318")
+-  option(ENABLE_JEMALLOC "enable jemalloc" OFF)
+-else()
+-  option(ENABLE_JEMALLOC "enable jemalloc" ON)
+-endif()
+-
+-if (ENABLE_JEMALLOC)
+-  if(CLANG_ASAN_UBSAN OR CLANG_MSAN OR CLANG_TSAN)
+-    message(STATUS "Sanitizers have been enabled; don't use jemalloc.")
+-  else()
+-    find_package(JeMalloc)
+-    if(JEMALLOC_FOUND)
+-      include_directories(SYSTEM ${JEMALLOC_INCLUDE_DIRS})
+-    endif()
+-  endif()
+-endif()
++option(ENABLE_JEMALLOC "enable jemalloc" OFF)
+ 
+ find_package(LibIntl)
+ if(LibIntl_FOUND)
+
+--- neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/config/CMakeLists.txt
++++ neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/config/CMakeLists.txt
+@@ -42,10 +42,6 @@
+   set(HAVE_ICONV 1)
+ endif()
+ 
+-if(JEMALLOC_FOUND)
+-  set(HAVE_JEMALLOC 1)
+-endif()
+-
+ check_function_exists(_putenv_s HAVE_PUTENV_S)
+ if(WIN32 AND NOT HAVE_PUTENV_S)
+   message(SEND_ERROR "_putenv_s() function not found on your system.")
+
+--- neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/config/config.h.in
++++ neovim-b6a603fe515ee1cd554a8c4151286b26209a467b/config/config.h.in
+@@ -60,10 +60,6 @@
+ 
+ #cmakedefine FEAT_TUI
+ 
+-#ifndef UNIT_TESTING
+-#cmakedefine HAVE_JEMALLOC
+-#endif
+-
+ #cmakedefine HAVE_BE64TOH
+ #cmakedefine ORDER_BIG_ENDIAN
+ #define ENDIAN_INCLUDE_FILE <@ENDIAN_INCLUDE_FILE@>
