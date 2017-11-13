@@ -1,0 +1,47 @@
+--- meh-0.3/src/gif.c
++++ meh-0.3/src/gif.c
+@@ -32,7 +31,7 @@
+ 	/* HACK HACK HACK */
+ 	rewind(f);
+ 	lseek(fileno(f), 0L, SEEK_SET);
+-	if(!(gif = DGifOpenFileHandle(fileno(f)))){
++	if(!(gif = DGifOpenFileHandle(fileno(f), NULL))){
+ 		/* HACK AND HOPE */
+ 		rewind(f);
+ 		lseek(fileno(f), 0L, SEEK_SET);
+@@ -57,7 +56,6 @@
+ 	SavedImage *s;
+ 
+ 	if(DGifSlurp(g->gif) == GIF_ERROR){
+-		PrintGifError();
+ 		return 1;
+ 	}
+ 
+@@ -68,7 +66,6 @@
+ 	else if(g->gif->SColorMap)
+ 		colormap = g->gif->SColorMap->Colors;
+ 	else{
+-		PrintGifError();
+ 		return 1;
+ 	}
+ 
+@@ -86,7 +83,7 @@
+ 
+ void gif_close(struct image *img){
+ 	struct gif_t *g = (struct gif_t *)img;
+-	DGifCloseFile(g->gif);
++	DGifCloseFile(g->gif, NULL);
+ 	fclose(g->f);
+ }
+ 
+--- meh-0.3/src/meh.h
++++ meh-0.3/src/meh.h
+@@ -46,6 +46,8 @@
+ void key_quit();
+ void key_action();
+ 
++#include <sys/select.h>
++
+ /* callbacks from backend */
+ int setup_fds(fd_set *fds);
+ int process_fds(fd_set *fds);

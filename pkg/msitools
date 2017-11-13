@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/GNOME/sources/msitools/0.96/msitools-0.96.tar.xz
+http://ftp.gnome.org/pub/GNOME/sources/msitools/0.97/msitools-0.97.tar.xz
 
 [vars]
-filesize=908628
-sha512=f0a8f4d7c1e8b29329c1531814544a51f869fb6f2dfd107f4840ae9deefc2fb4fb9a86388d009f3e32e2e6caf4b84edbc157fa9737a1bf6a9fea3503bce76e9f
-pkgver=2
+filesize=943284
+sha512=bc4cefa7dacc69d10d8a29a0779966c70be97cbeb3a7651cc4292759f56ed2766345596df85a195f54fb4007221f4433ad9f32ed9b39e5b765a565a88ed399dc
+pkgver=3
 uchkurl=http://ftp.gnome.org/pub/GNOME/sources/msitools/
 
 [deps]
@@ -15,8 +15,6 @@ libuuid
 libgcab
 
 [build]
-patch -p1 < "$K"/msitools-bug773935.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

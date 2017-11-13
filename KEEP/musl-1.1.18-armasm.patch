@@ -1,0 +1,29 @@
+fix a build failure due to asm constraints with GCC < 4.3.
+
+diff --git a/src/math/arm/fabsf.c b/src/math/arm/fabsf.c
+index 4a217c98..6eb28e65 100644
+--- a/src/math/arm/fabsf.c
++++ b/src/math/arm/fabsf.c
+@@ -4,7 +4,7 @@
+ 
+ float fabsf(float x)
+ {
+-	__asm__ ("vabs.f32 %0, %1" : "=t"(x) : "t"(x));
++	__asm__ ("vabs.f32 %0, %1" : "=w"(x) : "w"(x));
+ 	return x;
+ }
+ 
+diff --git a/src/math/arm/sqrtf.c b/src/math/arm/sqrtf.c
+index 32693293..4e2e8d92 100644
+--- a/src/math/arm/sqrtf.c
++++ b/src/math/arm/sqrtf.c
+@@ -4,7 +4,7 @@
+ 
+ float sqrtf(float x)
+ {
+-	__asm__ ("vsqrt.f32 %0, %1" : "=t"(x) : "t"(x));
++	__asm__ ("vsqrt.f32 %0, %1" : "=w"(x) : "w"(x));
+ 	return x;
+ }
+ 
+

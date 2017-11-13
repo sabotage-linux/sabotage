@@ -1,20 +1,9 @@
-From 2227a5969bbf83d05cc6b738670e38d0b56cd437 Mon Sep 17 00:00:00 2001
-From: rofl0r <retnyg@gmx.net>
-Date: Mon, 27 Aug 2012 21:34:55 +0200
-Subject: [PATCH] add blowfish support to bb
-
----
- libbb/pw_encrypt.c |   23 ++++++++++++++++++++---
- 1 files changed, 20 insertions(+), 3 deletions(-)
-
-diff --git a/libbb/pw_encrypt.c b/libbb/pw_encrypt.c
-index 39ffa08..d2fb2b9 100644
 --- a/libbb/pw_encrypt.c
 +++ b/libbb/pw_encrypt.c
-@@ -53,9 +53,20 @@ char* FAST_FUNC crypt_make_pw_salt(char salt[MAX_PW_SALT_LEN], const char *algo)
- 	int len = 2/2;
- 	char *salt_ptr = salt;
- 	if (algo[0] != 'd') { /* not des */
+@@ -57,9 +57,20 @@
+ 	 * Need to be case-insensitive in the code below.
+ 	 */
+ 	if ((algo[0]|0x20) != 'd') { /* not des */
 -		len = 8/2; /* so far assuming md5 */
  		*salt_ptr++ = '$';
 -		*salt_ptr++ = '1';
@@ -33,8 +22,8 @@ index 39ffa08..d2fb2b9 100644
 +		}
  		*salt_ptr++ = '$';
  #if !ENABLE_USE_BB_CRYPT || ENABLE_USE_BB_CRYPT_SHA
- 		if (algo[0] == 's') { /* sha */
-@@ -95,6 +106,11 @@ to64(char *s, unsigned v, int n)
+ 		if ((algo[0]|0x20) == 's') { /* sha */
+@@ -99,6 +110,11 @@
  /* Other advanced crypt ids (TODO?): */
  /* $2$ or $2a$: Blowfish */
  
@@ -46,7 +35,7 @@ index 39ffa08..d2fb2b9 100644
  static struct const_des_ctx *des_cctx;
  static struct des_ctx *des_ctx;
  
-@@ -109,7 +125,8 @@ static char *my_crypt(const char *key, const char *salt)
+@@ -113,7 +129,8 @@
  		if (salt[1] == '5' || salt[1] == '6')
  			return sha_crypt((char*)key, (char*)salt);
  #endif
@@ -56,6 +45,3 @@ index 39ffa08..d2fb2b9 100644
  
  	if (!des_cctx)
  		des_cctx = const_des_init();
--- 
-1.7.3.4
-

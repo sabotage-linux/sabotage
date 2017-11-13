@@ -1,9 +1,10 @@
 [mirrors]
-http://www.cmake.org/files/v2.8/cmake-2.8.12.2.tar.gz
+https://cmake.org/files/v3.9/cmake-3.9.3.tar.gz
 
 [vars]
-filesize=6068231
-sha512=a0fe8f6305052ba7894a7d58aa30f97b4be1f52eb7de650273a704929a6fbe81c7cebfa6e68a18c9e7d62f7ed02c944f74c2974da9aacc70e2cb186e0a1be44d
+filesize=7705238
+sha512=30058cf4c154221846d1cd22eaf44a297d2a2d020a443f3e6f40384dfb86ee9a639a1299aa9f187f230505b2a6ee0fe69fbf5e80410711a6ac3d7a07b37f8dfc
+pkgver=2
 desc='immensely bloated build tool mostly used by windows and C++ folks'
 
 [deps]
@@ -17,11 +18,18 @@ libarchive
 dynamic-toolchain
 
 [build]
-patch -p1 < "$K"/cmake-isystem.patch
+sed -i 's,defined(HAVE_LIBCRYPTO),0,' Utilities/cmlibarchive/libarchive/archive_hmac.c
+
 if [ -z "$CROSS_COMPILE" ] ; then
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure --prefix="$butch_prefix"
+  ./configure --prefix="$butch_prefix" \
+     --system-curl \
+     --system-zlib \
+     --system-bzip2 \
+     --system-expat \
+     --system-libarchive
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 else
@@ -59,14 +67,6 @@ cmake $xconfflags \
   -DCTEST_TEST_CPACK=OFF \
   ..
 make -j$MAKE_THREADS VERBOSE=1
-
-for i in 1 txt html docbook ; do
-touch Docs/cmake.$i Docs/cmakecommands.$i Docs/cmakecompat.$i \
-  Docs/cmakeprops.$i Docs/cmakepolicies.$i Docs/cmakevars.$i \
-  Docs/cmakemodules.$i Docs/cmake-policies.$i Docs/cmake-properties.$i \
-  Docs/cmake-variables.$i Docs/cmake-modules.$i Docs/cmake-commands.$i \
-  Docs/cmake-compatcommands.$i
-done
 
 sed -i 's@^[\t ]*bin/cmake@\tcmake@g' Makefile
 make DESTDIR="$butch_install_dir" install

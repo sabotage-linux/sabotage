@@ -1,15 +1,16 @@
 [mirrors]
-http://ffmpeg.org/releases/ffmpeg-3.3.2.tar.xz
+http://ffmpeg.org/releases/ffmpeg-3.3.4.tar.xz
 
 [vars]
-filesize=8279740
-sha512=e92969c41c4c5732e327c617806bedec80ee4032dd4f3459154529e3c400af6396f56608f979fe60bc8a92e05f72023743a763cd8bad088d1081a702328c86ba
-pkgver=12
+filesize=8282960
+sha512=ddeab4ab3d149a1b560c8ad2242f8ea5fb37a57a06a5af1adf6d5afde9975aa4b2d72f7c5106f20d2194b546164f55f93f6b3d1bb784501b842b0eae89a6a691
+pkgver=15
 
 [deps]
 alsa-lib
 libvorbis
 libflac
+libopus
 libressl
 
 [deps.host]
@@ -41,6 +42,7 @@ CFLAGS="-D_BSD_SOURCE $optcflags" LDFLAGS="$optldflags" \
   --enable-shared --enable-postproc --enable-gpl \
   $libvpx $libv4l2 $libx264 $yasm \
   --enable-libvorbis \
+  --enable-libopus \
   --enable-openssl --enable-nonfree \
   --disable-stripping
 

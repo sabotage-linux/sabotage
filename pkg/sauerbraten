@@ -1,0 +1,39 @@
+[mirrors]
+https://netix.dl.sourceforge.net/project/sauerbraten/sauerbraten/2013_01_04/sauerbraten_2013_02_03_collect_edition_linux.tar.bz2
+https://netcologne.dl.sourceforge.net/project/sauerbraten/sauerbraten/2013_01_04/sauerbraten_2013_02_03_collect_edition_linux.tar.bz2
+https://kent.dl.sourceforge.net/project/sauerbraten/sauerbraten/2013_01_04/sauerbraten_2013_02_03_collect_edition_linux.tar.bz2
+
+[vars]
+filesize=589941180
+sha512=7864e346cc2bc86d78973db1b341fd8256cc2e1953be51263ef91a5374f9ec00276ba2940850e6d5bba7a57c71190b670dc7ba97021be2935c31f8694fed4897
+pkgver=1
+desc='multiplayer & single-player FPS and game engine'
+tardir=sauerbraten
+
+[deps]
+sdl
+sdl-mixer
+sdl-image
+zlib
+
+[build]
+cd src
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+cd ..
+
+install -Dm 755 sauerbraten_unix \
+                "$butch_install_dir"/bin/sauerbraten_unix
+
+sed "s:SAUER_DATA=\.:SAUER_DATA=$butch_install_dir:g" \
+  -i "$butch_install_dir"/bin/sauerbraten_unix
+
+find data packages -type f | while read file; do
+	install -Dm 644 "$file" "$butch_install_dir/$file"
+done
+
+for file in bin_unix/native_*; do
+	install -Dm 755 "$file" "$butch_install_dir"/"$file"
+done
+

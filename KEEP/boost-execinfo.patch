@@ -1,10 +1,10 @@
---- boost_1_52_0.org/tools/build/v2/engine/execunix.c	2013-01-04 09:45:43.165000002 +0000
-+++ boost_1_52_0/tools/build/v2/engine/execunix.c	2013-01-04 09:46:20.095000004 +0000
+--- boost_1_60_0.org/tools/build/src/engine/execunix.c	2013-01-04 09:45:43.165000002 +0000
++++ boost_1_60_0/tools/build/src/engine/execunix.c	2013-01-04 09:46:20.095000004 +0000
 @@ -18,7 +18,7 @@
  #include <sys/times.h>
  #include <sys/wait.h>
  
--#if defined(sun) || defined(__sun) || defined(linux)
+-#if defined(sun) || defined(__sun)
 +#if defined(sun) || defined(__sun) || defined(__GLIBC__)
      #include <wait.h>
  #endif

@@ -1,10 +1,10 @@
 [mirrors]
-http://download.tuxfamily.org/chrony/chrony-3.1.tar.gz
+http://download.tuxfamily.org/chrony/chrony-3.2.tar.gz
 
 [vars]
-filesize=424109
-sha512=4ba3a75c3634050bb63ba9ee80d9be7a295f44ce4d195a050e4be4738bd7dd807fe37f2289d7ead4a75272bd5ebadbd03c233c67f859e9b68871fca5a6671427
-pkgver=4
+filesize=433882
+sha512=496af5bed91600f268c1a0fa577bb8c7785e485f78598b666829c674e94770c16548cec4289a2ae9d0a51191d2705eda00886cb6cccae3828aa201a49d4783a4
+pkgver=5
 desc='versatile NTP implementation. comes with server and client'
 service=chrony
 serviceflags="--down --log"

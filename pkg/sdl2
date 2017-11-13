@@ -1,10 +1,10 @@
 [mirrors]
-https://www.libsdl.org/release/SDL2-2.0.5.tar.gz
+https://www.libsdl.org/release/SDL2-2.0.6.tar.gz
 
 [vars]
-filesize=4209352
-sha512=6401f5df08c08316c09bc6ac5b28345c5184bb25770baa5c94c0a582ae130ddf73bb736e44bb31f4e427c1ddbbeec4755a6a5f530b6b4c3d0f13ebc78ddc1750
-pkgver=2
+filesize=4420311
+sha512=ad4dad5663834ee0ffbdca1b531d753449b260c9256df2c48da7261aacd9795d91eef1286525cf914f6b92ba5985de7798f041557574b5d978b8224f10041830
+pkgver=3
 
 [deps]
 

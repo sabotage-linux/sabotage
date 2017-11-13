@@ -1,0 +1,166 @@
+diff --git a/gcc/config.gcc b/gcc/config.gcc
+--- a/gcc/config.gcc
++++ b/gcc/config.gcc
+@@ -469,10 +469,13 @@
+   tmake_file="t-slibgcc-elf-ver t-linux"
+   case ${target} in
+     *-*-*uclibc*)
+-      tm_defines="${tm_defines} UCLIBC_DEFAULT=1"
++      tm_defines="${tm_defines} UCLIBC_DEFAULT=1 MUSL_DEFAULT=0"
++      ;;
++    *-*-*musl*)
++      tm_defines="$tm_defines UCLIBC_DEFAULT=0 MUSL_DEFAULT=1"
+       ;;
+     *)
+-      tm_defines="${tm_defines} UCLIBC_DEFAULT=0"
++      tm_defines="${tm_defines} UCLIBC_DEFAULT=0 MUSL_DEFAULT=1"
+       ;;
+   esac
+   # Assume that glibc or uClibc are being used and so __cxa_atexit is provided.
+diff --git a/gcc/config/arm/linux-eabi.h b/gcc/config/arm/linux-eabi.h
+--- a/gcc/config/arm/linux-eabi.h
++++ b/gcc/config/arm/linux-eabi.h
+@@ -55,6 +55,10 @@
+ #undef GLIBC_DYNAMIC_LINKER
+ #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.3"
+ 
++/* musl has no "classic" (i.e. broken) mode */
++#undef  MUSL_DYNAMIC_LINKER
++#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-arm.so.1"
++
+ /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+    use the GNU/Linux version, not the generic BPABI version.  */
+ #undef LINK_SPEC
+diff --git a/gcc/config/i386/linux.h b/gcc/config/i386/linux.h
+--- a/gcc/config/i386/linux.h
++++ b/gcc/config/i386/linux.h
+@@ -102,6 +102,7 @@
+ /* These macros may be overridden in k*bsd-gnu.h and i386/k*bsd-gnu.h. */
+ #define LINK_EMULATION "elf_i386"
+ #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
+ 
+ #undef  SUBTARGET_EXTRA_SPECS
+ #define SUBTARGET_EXTRA_SPECS \
+diff --git a/gcc/config/i386/linux64.h b/gcc/config/i386/linux64.h
+--- a/gcc/config/i386/linux64.h
++++ b/gcc/config/i386/linux64.h
+@@ -52,6 +52,9 @@
+ #define GLIBC_DYNAMIC_LINKER32 "/lib/ld-linux.so.2"
+ #define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+ 
++#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
++#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
++
+ #undef	LINK_SPEC
+ #define LINK_SPEC "%{!m32:-m elf_x86_64} %{m32:-m elf_i386} \
+   %{shared:-shared} \
+diff --git a/gcc/config/linux.h b/gcc/config/linux.h
+--- a/gcc/config/linux.h
++++ b/gcc/config/linux.h
+@@ -103,9 +103,11 @@
+    uClibc is the default C library and whether -muclibc or -mglibc has
+    been passed to change the default.  */
+ #if UCLIBC_DEFAULT
+-#define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:%{muclibc:%e-mglibc and -muclibc used together}" G ";:" U "}"
++#define CHOOSE_DYNAMIC_LINKER(G, U, M) "%{mmusl:" M ";:%{mglibc:%{muclibc:%e-mglibc and -muclibc used together}" G ";:" U "}}"
++#elif defined(MUSL_DEFAULT)
++#define CHOOSE_DYNAMIC_LINKER(G, U, M) "%{mglibc:" G ";:%{muclibc:" U ";:" M "}}"
+ #else
+-#define CHOOSE_DYNAMIC_LINKER(G, U) "%{muclibc:%{mglibc:%e-mglibc and -muclibc used together}" U ";:" G "}"
++#define CHOOSE_DYNAMIC_LINKER(G, U, M) "%{mmusl:" M ";:%{muclibc:%{mglibc:%e-mglibc and -muclibc used together}" U ";:" G "}}"
+ #endif
+ 
+ /* For most targets the following definitions suffice;
+@@ -116,11 +118,11 @@
+ #define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.0"
+ #define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
+ #define LINUX_DYNAMIC_LINKER \
+-  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER)
++  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER, MUSL_DYNAMIC_LINKER)
+ #define LINUX_DYNAMIC_LINKER32 \
+-  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER32, UCLIBC_DYNAMIC_LINKER32)
++  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER32, UCLIBC_DYNAMIC_LINKER32, MUSL_DYNAMIC_LINKER32)
+ #define LINUX_DYNAMIC_LINKER64 \
+-  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER64, UCLIBC_DYNAMIC_LINKER64)
++  CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER64, UCLIBC_DYNAMIC_LINKER64, MUSL_DYNAMIC_LINKER64)
+ 
+ /* Determine whether the entire c99 runtime
+    is present in the runtime library.  */
+diff --git a/gcc/config/linux.opt b/gcc/config/linux.opt
+--- a/gcc/config/linux.opt
++++ b/gcc/config/linux.opt
+@@ -25,5 +25,9 @@
+ Use uClibc instead of GNU libc
+ 
+ mglibc
+-Target RejectNegative Report InverseMask(UCLIBC, GLIBC) Var(linux_uclibc) VarExists
++Target RejectNegative Report InverseMask(UCLIBC, GLIBC) Var(linux_uclibc) VarExists InverseMask(MUSL, GLIBC) Var(linux_musl) VarExists
+ Use GNU libc instead of uClibc
++
++mmusl
++Target RejectNegative Report Mask(MUSL) Var(linux_musl) Init(MUSL_DEFAULT ? OPTION_MASK_MUSL : 0)
++Use musl C library
+diff --git a/gcc/config/mips/linux.h b/gcc/config/mips/linux.h
+--- a/gcc/config/mips/linux.h
++++ b/gcc/config/mips/linux.h
+@@ -106,6 +106,8 @@
+ 
+ #define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
+ 
++#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-mips.so.1"
++
+ /* Borrowed from sparc/linux.h */
+ #undef LINK_SPEC
+ #define LINK_SPEC \
+diff --git a/gcc/ginclude/stddef.h b/gcc/ginclude/stddef.h
+--- a/gcc/ginclude/stddef.h
++++ b/gcc/ginclude/stddef.h
+@@ -186,6 +186,7 @@
+ #ifndef _GCC_SIZE_T
+ #ifndef _SIZET_
+ #ifndef __size_t
++#ifndef __DEFINED_size_t /* musl */
+ #define __size_t__	/* BeOS */
+ #define __SIZE_T__	/* Cray Unicos/Mk */
+ #define _SIZE_T
+@@ -202,6 +203,7 @@
+ #define ___int_size_t_h
+ #define _GCC_SIZE_T
+ #define _SIZET_
++#define __DEFINED_size_t /* musl */
+ #if defined (__FreeBSD__) && (__FreeBSD__ >= 5)
+ /* __size_t is a typedef on FreeBSD 5!, must not trash it. */
+ #else
+@@ -216,6 +218,7 @@
+ typedef long ssize_t;
+ #endif /* __BEOS__ */
+ #endif /* !(defined (__GNUG__) && defined (size_t)) */
++#endif /* __DEFINED_size_t */
+ #endif /* __size_t */
+ #endif /* _SIZET_ */
+ #endif /* _GCC_SIZE_T */
+diff --git a/libgomp/config/posix/time.c b/libgomp/config/posix/time.c
+--- a/libgomp/config/posix/time.c
++++ b/libgomp/config/posix/time.c
+@@ -31,6 +31,8 @@
+    The following implementation uses the most simple POSIX routines.
+    If present, POSIX 4 clocks should be used instead.  */
+ 
++#define _POSIX_C_SOURCE 199309L /* for clocks */
++
+ #include "libgomp.h"
+ #include <unistd.h>
+ #if TIME_WITH_SYS_TIME
+diff --git a/libgomp/env.c b/libgomp/env.c
+--- a/libgomp/env.c
++++ b/libgomp/env.c
+@@ -28,6 +28,8 @@
+ /* This file defines the OpenMP internal control variables, and arranges
+    for them to be initialized from environment variables at startup.  */
+ 
++#define _GNU_SOURCE
++
+ #include "libgomp.h"
+ #include "libgomp_f.h"
+ #include <ctype.h>

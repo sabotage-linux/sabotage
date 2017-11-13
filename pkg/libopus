@@ -1,10 +1,10 @@
 [mirrors]
-http://downloads.xiph.org/releases/opus/opus-1.1.4.tar.gz
+http://downloads.xiph.org/releases/opus/opus-1.2.1.tar.gz
 
 [vars]
-filesize=978830
-sha512=57f14b9e8037eaa02a4d86535d3bbcceca249310fbc9ef1a452cc19dd442d4cf338d5db241d20605c236e22549df2c8266b7486c5f1666b80c532afd52cb3585
-pkgver=2
+filesize=1011070
+sha512=4a98d0a7dbd1a313e89407576805fd733c1192e8ef7e1137e3260025478a1cf1c5a8b71b48c372a0cffe6340524137fe47f181651888284f8221fb4d673f7cd5
+pkgver=3
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

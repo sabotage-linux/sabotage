@@ -1,10 +1,10 @@
 [mirrors]
-http://mdocml.bsd.lv/snapshots/mdocml-1.14.1.tar.gz
+http://mdocml.bsd.lv/snapshots/mandoc-1.14.3.tar.gz
 
 [vars]
-filesize=549302
-sha512=90f00297d162faa404fe4e530f95422c210b8d23a0be5a115c2c8c17255d366e224444901842affb06ed8aaf8febd3e5c79966ff713fa7daf00e8c48b7a857c6
-pkgver=2
+filesize=617202
+sha512=cd638fbacb068fcd6191f2a4e941effc010e3ebf06a3e32847b892c2e561771d03d5bca8fbdf8434d6491f4b68df3f443e2568b79193b7342044fba476fcd30b
+pkgver=3
 desc="manpage viewer. recommended to use instead of sabotage's minimal man prog"
 
 [deps]

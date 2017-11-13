@@ -1,10 +1,10 @@
 [mirrors]
-http://poppler.freedesktop.org/poppler-data-0.4.7.tar.gz
+http://poppler.freedesktop.org/poppler-data-0.4.8.tar.gz
 
 [vars]
-filesize=4182339
-sha512=9a865f077f8760a106c6b28302357253c6d63a8f4f10a9506724d1f0ba42e3481bd790ca07e7ee245c63de3650a33c12e80e20e94415a0e37b05225cfe0efce2
-pkgver=3
+filesize=4209901
+sha512=c9435f557ca696fb1e94b6a0b42d401cc911a08f995e3494a7352b47bde5091226f2bb99792ff2b1ee02dfebee66f50f736daca72020a19217ce1c27bde92d54
+pkgver=4
 
 [deps]
 poppler

@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.17.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.18.tar.xz
 
 [vars]
-filesize=573244
-sha512=296e623adbf1e833a9b1f11257a911671d6c01568719ff48f8e2a9e0bf8166eae242d0ae23243a9ac335540fff6b6cdd4760ca2f37f8afe188783fd9b1099ef5
-pkgver=2
+filesize=574384
+sha512=faf503d0d881801ce129715e7ae979ee1675bd32beac9170b1889c94aac64caf486968bc86f3480463b84e94f28c1d805551ffdcb7068ecadd0688146e0fb182
+pkgver=3
 desc='library to render and convert SVG files'
 
 [deps]

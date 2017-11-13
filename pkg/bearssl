@@ -1,10 +1,10 @@
 [mirrors]
-https://www.bearssl.org/bearssl-0.4.tar.gz
+https://www.bearssl.org/bearssl-0.5.tar.gz
 
 [vars]
-filesize=633401
-sha512=ff197c36a9e1a3e6b2e5b29c880f408518600ddc2a106522d097d6f4c824f3c5206c320194d8cfcc658eebb9a14e8175387e71d8a1d428562e028caa38c717ef
-pkgver=3
+filesize=666905
+sha512=1bd510f62f36620cda5317509e72bd0c6f3538c30aca2695e80c26d1ea7270d174ed3fbb6d690b3ced5d51ce3f6bfc776d78a196492900296a452bc4c8185e45
+pkgver=4
 
 [deps]
 
@@ -13,6 +13,7 @@ cat << EOF >> src/config.h
 #define BR_USE_URANDOM 1
 #define BR_USE_UNIX_TIME 1
 EOF
+case "$A" in i[3-5]86) echo "#define BR_SSE2   0" >> src/config.h ;; esac
 make V=1 -j$MAKE_THREADS CC="$CC" CFLAGS="$optcflags -I src -I inc" \
 LDFLAGS="$optldflags" AR="${CROSS_COMPILE}ar" lib
 dest="$butch_install_dir""$butch_prefix"

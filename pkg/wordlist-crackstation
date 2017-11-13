@@ -1,0 +1,12 @@
+[mirrors]
+https://download.g0tmi1k.com/wordlists/large/crackstation.txt.gz
+
+[vars]
+filesize=4500756826
+sha512=45b73e4d25c9017c4697fe93ef1d8a1b97056e1dbc66ad51f453d7f4624077704c961bf0821f26d7affc0e129ed54654e6cc0932f748ade4284b12184a951361
+pkgver=1
+
+[build]
+dest="$butch_install_dir""$butch_prefix"/share/wordlists
+mkdir -p "$dest"
+zcat "$C"/"$BUTCH_TARBALL" > "$dest"/crackstation.txt

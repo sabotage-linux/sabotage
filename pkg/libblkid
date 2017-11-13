@@ -6,7 +6,11 @@ util-linux-tarball
 
 [build]
 patch -p1 < "$K"/util-linux.patch
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+
+cp -f "$K"/config.sub config/
+
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
                  --disable-nls --disable-rpath --disable-tls --disable-libuuid \

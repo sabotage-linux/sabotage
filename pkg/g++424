@@ -1,0 +1,9 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-g++-4.2.4.tar.bz2
+
+[vars]
+filesize=4823317
+sha512=916966ecaf5e7554b682b230d9969e3caed1c8e83c42f3f26d407470c8def6d9dbdedb05b5dd786c1c328f5cffa77102a38dda591a24ccb726d624fb76401527
+pkgver=1
+
+

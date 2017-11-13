@@ -4,7 +4,8 @@ sha512=3b29aba3d90525d6cc4fcc2e0b99ac9f65a5cda488937346c2c742647b8b2f3b93644bfef
 tardir=gcc-4.2.4
 no_unlink=1
 
-[deps]
+[deps.cplusplus]
+g++424
 
 [mirrors]
 http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
@@ -12,49 +13,157 @@ http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 [build]
 VERSION=4.2.4
 
+cp -f "$K"/config.sub .
+
+if test "$option_cplusplus" = 1 ; then
+(
+cd ..
+tar xf $C/gcc-g++-$VERSION.tar.bz2
+)
+patch -p1 < "$K"/gcc-346-gperf.patch
+patch -p1 < "$K"/gcc-4.2.1-musl-c++.patch
+fi
+
 patch -p1 < "$K"/gcc-424-libgcc-visibility.patch
+patch -p1 < "$K"/gcc424-toplev.patch
+patch -p1 < "$K"/gcc-346-no-target-libs.patch
+patch -p1 < "$K"/gcc-4.2.1-musl.patch
 
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux.h
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib64/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib32/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/sysv4.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
-sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-eabi.h
-sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-arm.so.1@' gcc/config/arm/linux-elf.h
+if [ "$A" = arm ] ; then
+dlarch=arm
+$CC -dM -E - < /dev/null | grep __ARMEB__ > /dev/null && dlarch=${dlarch}eb
+$CC -dM -E - < /dev/null | grep __ARM_PCS_VFP > /dev/null && dlarch=${dlarch}hf
+sed -i 's@/lib/ld-linux.so.3@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-eabi.h
+sed -i 's@/lib/ld-linux.so.2@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/arm/linux-elf.h
+elif [ "$A" = mips ] ; then
+dlarch=mips
+$CC -dM -E - < /dev/null | grep _MIPSEL > /dev/null && dlarch=${dlarch}el
+$CC -dM -E - < /dev/null | grep __mips_soft_float > /dev/null && dlarch=${dlarch}-sf
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux.h
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib64/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib32/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+fi
 
 "$K"/libibertyfix libiberty
 
-archflags=
+
+cplusplus_confflags=
+cplusplus_targets=
+if test "$option_cplusplus" = 1 ; then
+	sed -i 's,gcc_no_link=yes,gcc_no_link=no,' ./libstdc++-v3/configure
+
+	mv ./libstdc\+\+-v3/config/os/gnu-linux ./libstdc\+\+-v3/config/os/gnu-linux.org
+	cp -r ./libstdc\+\+-v3/config/os/generic ./libstdc\+\+-v3/config/os/gnu-linux
+
+	cplusplus_confflags="--enable-languages=c,c++ --enable-clocale=generic --disable-libstdcxx-pch"
+	cplusplus_targets=install-target-libstdc++-v3
+fi
+
+config_arch_flags=
+config_arch_target_cflags=
+config_arch_target_ldflags=
 [ -n "$GCC_ARCH_CONFIG_FLAGS" ] && archflags="$GCC_ARCH_CONFIG_FLAGS"
 #gcc424 doesn't support hardfloat so we can assume arm-linux-gnueabi
-[ "$A" = "arm" ] && archflags="$archflags --target=arm-linux-gnueabi --host=arm-linux-gnueabi --build=arm-linux-gnueabi"
+[ "$A" = "arm" ] && config_arch_flags="$archflags --target=arm-linux-gnueabi --host=arm-linux-gnueabi --build=arm-linux-gnueabi"
+if [ "$A" = "powerpc" ] ; then
+	config_arch_flags="--enable-secureplt --with-long-double-64"
+	config_arch_target_cflags="-Wl,--secure-plt"
+	config_arch_target_ldflags="-Wl,--secure-plt"
+fi
+if test "$STAGE" = 0 && test "$option_cplusplus" = 1 ; then
+	# we can't build dynamic target libs like libstdc++ during stage0
+	config_arch_target_ldflags="-static $config_arch_target_ldflags"
+fi
+
+machine=
+if [ -n "$CROSS_COMPILE" ] ; then
+	if [ -z "$GCC_ARCH_CONFIG_FLAGS" ] ; then
+		#autodetect arch specifics if not passed via config
+		gccv=$($CC -v 2>&1|grep "^Configured with: ")
+		for flag in --with-arch --with-float --with-fpu ; do
+			for arg in $gccv ; do
+				if printf "%s" "$arg" | grep "^$flag=" >/dev/null ; then
+					# GCC 4.2.4 doesnt know armv7,armv7-a, and FPUs > vfp
+					arg=$(printf "%s" "$arg"|sed 's/armv7-a/armv7/')
+					arg=$(printf "%s" "$arg"|sed 's/armv7/armv6/')
+					arg=$(printf "%s" "$arg"|sed 's/vfp.*/vfp/')
+
+					GCC_ARCH_CONFIG_FLAGS="$arg $GCC_ARCH_CONFIG_FLAGS"
+					break
+				fi
+			done
+		done
+	fi
+	machine=$($CC -dumpmachine)
+	xconfflags="--host=$machine --target=$machine --build=$(gcc -dumpmachine) $GCC_ARCH_CONFIG_FLAGS"
+
+fi
+
+config_stage0_flags=--enable-shared
+test "$STAGE" = 0 && config_stage0_flags=--disable-shared
+
+# FIXME: find out why libtool thinks it cannot build shared libs
+# maybe one -static too much ?
+# below hacks cause libtool to misbehave when making .la files
+#sed -i 's@linux-gnu\*)@linux-gnu*|*musl*)@' libstdc++-v3/configure
+#sed -i 's@can_build_shared="@can_build_shared="yes" #@' ltconfig
+#sed -i 's@can_build_shared=no@can_build_shared=yes@' ltconfig
+
 
 echo ac_cv_func_strsignal=yes > config.site
+
+CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 ./configure --prefix="$butch_prefix" \
 --mandir="$butch_prefix"/share/man \
 --infodir="$butch_prefix"/infoXXX \
---with-newlib --with-headers=no \
---disable-bootstrap \
---disable-shared \
+--with-headers=no \
 --disable-multilib \
+--disable-bootstrap \
 --disable-nls \
---disable-mudflap --disable-libmudflap --disable-libssp \
+--disable-mudflap --disable-libmudflap --enable-libssp \
 --disable-libgomp \
-$archflags
+--with-target-libiberty=no --with-target-zlib=no \
+$config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
+
+gcc_cv_libc_provides_ssp=yes \
 make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
- -DHAVE_GETRLIMIT -O0 -g0" LDFLAGS="-static" -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install-gcc
+ -DHAVE_GETRLIMIT -O0 -g0" LDFLAGS="-static" BOOT_LDFLAGS="-static" \
+ -j$MAKE_THREADS
+
+make DESTDIR="$butch_install_dir" install-gcc  \
+ install-target-libssp $cplusplus_targets
 
 dest="$butch_install_dir""$butch_prefix"
 rm -rf "$dest"/infoXXX
 
-[ "$A" = x86_64 ] && mv "$dest"/lib64/* "$dest"/lib/ || true
+#create a host_tuple dummy entry, so binutils stuff will get into /bin, etc
+[ -z $machine ] && machine=$($dest/bin/gcc -dumpmachine|sed 's/musl/gnu/')
+
+[ ! -e ${dest}/${machine} ] && ( cd $dest ; ln -sf . ${machine} )
+
+#remove gcc's stddef.h which is not compatible
+rm $dest/lib/gcc/$machine/$VERSION/include/stddef.h
+
+#remove gcc's libssp.* (we only need libssp_nonshared.a)
+rm -f "$dest"/lib/libssp.*
+
+
+if [ "$A" = x86_64 ] ; then
+  mv "$dest"/lib64/* "$dest"/lib/ || true
+  if test "$option_cplusplus" = 1 ; then
+    sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
+    sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
+  fi
+fi
 
 # rename gcc to rawcc so musl-gcc can call the *right* gcc
 mv "$dest"/bin/gcc "$dest"/bin/rawcc
@@ -65,3 +174,5 @@ ln -sf ranlib "$dest"/bin/gcc-ranlib
 ln -sf nm "$dest"/bin/gcc-nm
 
 ln -sf rawcc "$dest"/bin/gcc-$VERSION
+test "$option_cplusplus" = 1 && ln -sf g++ "$dest"/bin/g++-$VERSION
+
