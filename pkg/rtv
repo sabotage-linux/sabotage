@@ -1,0 +1,25 @@
+[mirrors]
+http://github.com/michael-lazar/rtv/archive/1cb2ee16eca1a7a2594544d3eb6919a6ef396d1d.tar.gz
+
+[vars]
+filesize=13557955
+sha512=ae676a9c692307aa58c0dcf4243a335bfe546d0735c8e1aae070496deac8262f96100873a8ec69f694cf28e64015577a949d64ddce9cbe23cb75adc9aae6244c
+pkgver=1
+tardir=rtv-1cb2ee16eca1a7a2594544d3eb6919a6ef396d1d
+
+[deps.run]
+python
+python-setuptools
+python-beautifulsoup4
+python-requests
+python-six
+python-decorator
+
+[deps.host]
+python
+python-setuptools
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
