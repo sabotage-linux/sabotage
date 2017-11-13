@@ -1,0 +1,26 @@
+[mirrors]
+https://musicpd.org/download/mpd/0.20/mpd-0.20.11.tar.xz
+
+[vars]
+filesize=780064
+sha512=1dd1c366f7ed43a497a6f2622b7ea01e822b582efd7868498ae73f1617c0abadac1a8aae5bf8b7f9aa561d247dc5d0f2c9c3903d8ddf2da28e6c124a378050f0
+pkgver=1
+
+[deps]
+curl
+ffmpeg
+sqlite
+boost
+
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
