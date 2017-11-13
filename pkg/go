@@ -1,9 +1,9 @@
 [mirrors]
-https://storage.googleapis.com/golang/go1.8.1.src.tar.gz
+https://redirector.gvt1.com/edgedl/go/go1.9.2.src.tar.gz
 
 [vars]
-filesize=15331455
-sha512=f01fe7b35ac23101610f6fc169b88dafe2edc49b3b044d5d0aff771b05dcb2c8d2e7a5090ed6dbe67f861e78e792ace32e209ed464399ca02dcd186b13ec8037
+filesize=16383591
+sha512=1034098575c317eeaf648629690a4dea0c479a69c3b80d9917f6b96c8781ce79c0f29859f667dc4e07d47a44972aa09bd0163a458f897cf45f9d09eb03e4abb5
 tardir=go
 
 [deps.host]
