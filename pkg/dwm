@@ -13,6 +13,9 @@ libxdmcp
 libxinerama
 
 [build]
+# use windows (meta) key instead of Alt, which is used by many progs
+sed -i 's/define MODKEY Mod1Mask/define MODKEY Mod4Mask/' config.def.h
+
 make \
   PREFIX="$butch_prefix" \
   CFLAGS="$optcflags -D_GNU_SOURCE -DVERSION=\\\"6.0\\\" -DXINERAMA" \
