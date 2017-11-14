@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/p11-glue/p11-kit/releases/download/0.23.8/p11-kit-0.23.8.tar.gz
+
+[vars]
+filesize=1090814
+sha512=cf3b28e4bed8cc18ef49fa7af1e4ad04f1b97dbd08f1e0bab07c280f0aa35306c01e35896bc990c9ed7bdecd6c5ce697ccb95288ef04dd3740db384343ea2f24
+pkgver=1
+
+[deps]
+libtasn1
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
