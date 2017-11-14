@@ -1,11 +1,14 @@
-[vars]
-filesize=20810
-sha512=895d1d363b3756c9ba19dbf06af34be753c1ae5971d540113d7f8901ad174c2e5944ef769b43e65f7b700f34832bb24082bc91d999b287610c9925182ce70c00
-
 [mirrors]
-http://dl.suckless.org/dwm/dwm-6.0.tar.gz
+http://dl.suckless.org/dwm/dwm-6.1.tar.gz
+
+[vars]
+filesize=25887
+sha512=875644bbc246088f2c87e50debbadd4bc179444b396b1b327149087e8bc5303325ebc9103a7e3c864266ee1ac683ea3cd8f0a08285c8e46fc4389d5b83a555f1
+pkgver=2
 
 [deps]
+fontconfig
+libxft
 libx11
 libxcb
 libxau
@@ -18,8 +21,10 @@ sed -i 's/define MODKEY Mod1Mask/define MODKEY Mod4Mask/' config.def.h
 
 make \
   PREFIX="$butch_prefix" \
-  CFLAGS="$optcflags -D_GNU_SOURCE -DVERSION=\\\"6.0\\\" -DXINERAMA" \
-  LDFLAGS="$optldflags -lX11 -lXinerama -lXau -lXdmcp -lxcb -lX11-xcb" \
+  CFLAGS="-I$butch_root_dir$butch_prefix/include/freetype2  \
+          $optcflags -D_GNU_SOURCE -DVERSION=\\\"6.1\\\" -DXINERAMA" \
+  LDFLAGS="$optldflags -lX11 -lXinerama -lXau -lXdmcp -lxcb -lX11-xcb \
+           -lXft -lfontconfig" \
   -j$MAKE_THREADS
 
 make PREFIX="$butch_prefix" MANPREFIX="$butch_prefix/share/man" \
