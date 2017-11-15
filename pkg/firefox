@@ -15,7 +15,6 @@ autoconf213-tarball
 libevent
 gtk+2
 alsa-lib
-zip
 zlib
 libpng
 bzip2
@@ -31,6 +30,7 @@ hunspell
 yasm
 perl
 python
+zip
 
 [build]
 FF_VERSION=52.4.0
