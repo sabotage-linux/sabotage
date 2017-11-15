@@ -7,7 +7,8 @@ filesize=96239
 sha512=ec2194c9bcad3f0f3eb3e9298792272213aa032ae9d6c00dcad567f31d7278a8c676fc67f47aae1a6deef5bade0b204346ed16da4a4c4d5a507c04d109d3dbb3
 
 [build]
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" install
