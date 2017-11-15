@@ -12,9 +12,10 @@ filesize=799461
 sha512=a86f4b7cbd8440d28a47773edf1a2055898b2d65501cba42b22f70af377ffa5beff1a2f695009e708640e6c98cf54f069560dcaa98ce308157baa6d139e57d56
 
 [build]
+cp -f "$K"/config.sub .
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --disable-sse2 --disable-mmx --disable-arm-neon --disable-arm-simd --disable-arm-iwmmxt"
 
 CFLAGS="-DPIXMAN_NO_TLS $optcflags" ./configure -C --prefix="$butch_prefix" \
