@@ -6,7 +6,8 @@ sha512=3cef1df57138264dac9802cc4074bc58f82609c6ef859e238108d9ad1ac3a720b991d91f6
 http://xorg.freedesktop.org/releases/individual/proto/kbproto-1.0.6.tar.bz2
 
 [build]
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
