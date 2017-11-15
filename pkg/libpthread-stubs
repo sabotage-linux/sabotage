@@ -6,8 +6,9 @@ sha512=c7cf63fa82ce9e8c37c6dc3b8cc30f8883655f95683c4466c54b617b086dd26a43bfa3636
 http://xcb.freedesktop.org/dist/libpthread-stubs-0.3.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
