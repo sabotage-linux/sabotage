@@ -8,9 +8,10 @@ sha512=d2925bc2e2bfb3f30c4dc3082d84dc6a2e7d8ea02021ea02d681cbf92e6b256e9e4e0f5ab
 [deps]
 
 [build]
+cp -f "$K"/config.sub .
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
