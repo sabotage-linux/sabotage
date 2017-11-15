@@ -38,10 +38,19 @@ if [ ! -d "$R"/bin ] ; then
 	"$H"/utils/update-chroot.sh
 		
 	# on ARM, gcc 3.4.6 is not sufficient to build for EABI
-	[ "$A" = "arm" ] && cat <<- EOF > "$S"/pkg/stage0-gcc
-		[deps]
-		gcc424
+	if [ "$A" = "arm" ] ; then
+		cat <<- EOF > "$S"/pkg/stage0-gcc
+		[deps.stage0]
+		stage0-gcc424
 		EOF
+		cat <<- EOF > "$S"/pkg/stage1-g++
+		[deps.stage1]
+		stage1-gcc424
+
+		[deps.stage2]
+		stage1-gcc424
+		EOF
+	fi
 fi
 
 ### install stage0, if missing. note the space in "stage0 "

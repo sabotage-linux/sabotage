@@ -6,21 +6,30 @@ filesize=13366790
 sha512=06645865a851bfdeca399ed1266f99e072a9bb1d8c6f0d3d6d0f809080ce1e60f45d9e4b52c93cf89f2062a4db0a69f519f23ac5de918bc89bdd794ebd2b96b4
 tardir=gcc-3.4.6
 
-[deps]
+[deps.cplusplus]
+g++346
+
+[deps.stage1]
+g++346
+
+[deps.stage2]
 g++346
 
 [build]
 VERSION=3.4.6
 
+test "$STAGE" = 0 || option_cplusplus=1
+if test "$option_cplusplus" = 1 ; then
 (
 cd ..
 tar xf $C/gcc-g++-$VERSION.tar.bz2
 )
+patch -p1 < "$K"/gcc-346-gperf.patch
+fi
 
 patch -p1 < "$K"/gcc-346-unwind2.patch
 patch -p1 < "$K"/gcc-346-unlink.patch
 patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
-patch -p1 < "$K"/gcc-346-gperf.patch
 patch -p1 < "$K"/gcc-346-no-target-libs.patch
 
 # fix for latest GLIBC
@@ -29,16 +38,14 @@ sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux64.h
 
 "$K"/libibertyfix libiberty
 
-#more g++ hackery
-#sed -i 's,# include <syscall.h>,#include <sys/syscall.h>,' ./libstdc++-v3/libsupc++/guard.cc
+if test "$option_cplusplus" = 1 ; then
+	sed -i 's,gcc_no_link=yes,gcc_no_link=no,' ./libstdc++-v3/configure
+	mv ./libstdc\+\+-v3/config/os/gnu-linux ./libstdc\+\+-v3/config/os/gnu-linux.org
+	cp -r ./libstdc\+\+-v3/config/os/generic ./libstdc\+\+-v3/config/os/gnu-linux
 
-#todo check if this isnt to intrusive
-sed -i 's,gcc_no_link=yes,gcc_no_link=no,' ./libstdc++-v3/configure
-
-#and even more g++ hackery
-mv ./libstdc\+\+-v3/config/os/gnu-linux ./libstdc\+\+-v3/config/os/gnu-linux.org
-cp -r ./libstdc\+\+-v3/config/os/generic ./libstdc\+\+-v3/config/os/gnu-linux
-#g++ hackery done
+	cplusplus_confflags="--enable-languages=c,c++ --enable-clocale=generic --disable-libstdcxx-pch"
+	cplusplus_targets=install-target-libstdc++-v3
+fi
 
 find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \;
 
@@ -58,13 +65,18 @@ sed -i 's@O_CREAT@O_CREAT, 0770@' gcc/collect2.c
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux.h
-sed -i 's@/lib/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib64/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
-sed -i 's@/lib32/ld.so.1@/lib/ld-musl-mips.so.1@' gcc/config/mips/linux64.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/sysv4.h
 sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
+if [ "$A" = mips ] ; then
+dlarch=mips
+$CC -dM -E - < /dev/null | grep _MIPSEL > /dev/null && dlarch=${dlarch}el
+$CC -dM -E - < /dev/null | grep __mips_soft_float > /dev/null && dlarch=${dlarch}-sf
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux.h
+sed -i 's@/lib/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib64/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+sed -i 's@/lib32/ld.so.1@/lib/ld-musl-'$dlarch'.so.1@' gcc/config/mips/linux64.h
+fi
 
 case "$A" in
   arm) echo "error: gcc 3.4.6 does not support EABI!" ; exit 1 ;;
@@ -73,6 +85,27 @@ case "$A" in
   *) archflags= ;;
 esac
 [ -n "$GCC_ARCH_CONFIG_FLAGS" ] && archflags="$archflags $GCC_ARCH_CONFIG_FLAGS"
+config_arch_flags=$archflags
+config_arch_target_cflags=
+config_arch_target_ldflags=
+if [ "$A" = "powerpc" ] ; then
+	config_arch_flags="--enable-secureplt --with-long-double-64"
+	config_arch_target_cflags="-Wl,--secure-plt"
+	config_arch_target_ldflags="-Wl,--secure-plt"
+fi
+if test "$STAGE" = 0 && test "$option_cplusplus" = 1 ; then
+	# we can't build dynamic target libs like libstdc++ during stage0
+	config_arch_target_ldflags="-static $config_arch_target_ldflags"
+fi
+
+machine=
+if [ -n "$CROSS_COMPILE" ] ; then
+	machine=$($CC -dumpmachine)
+	xconfflags="--host=$machine --target=$machine --build=$(gcc -dumpmachine) $GCC_ARCH_CONFIG_FLAGS"
+fi
+
+config_stage0_flags=--enable-shared
+test "$STAGE" = 0 && config_stage0_flags=--disable-shared
 
 # workaround for debian idiocy: they put bits/ into an arch-specific
 # sysdir in /usr/include, so the bootstrap compiler (xgcc), which
@@ -95,12 +128,15 @@ fi
 
 export gcc_cv_ld_hidden=yes 
 export gcc_cv_as_hidden=yes
+
+CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 ./configure --prefix="$butch_prefix" \
   --mandir="$butch_prefix"/share/man \
   --infodir="$butch_prefix"/infoXXX \
-  --disable-bootstrap --disable-shared --disable-nls $archflags \
-  --enable-languages=c,c++ --with-target-libiberty=no --with-target-zlib=no \
-  --enable-clocale=generic
+  --disable-bootstrap --disable-nls $archflags \
+  --with-target-libiberty=no --with-target-zlib=no \
+  $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
 
 
 make \
@@ -108,11 +144,16 @@ make \
   LDFLAGS="-static" \
   LDFLAGS_FOR_TARGET="-static $ubuntulibdir" \
   -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install-gcc install-target-libstdc++-v3
+make DESTDIR="$butch_install_dir" install-gcc $cplusplus_targets
 
 dest="$butch_install_dir""$butch_prefix"
 
 rm -rf "$dest"/infoXXX
+
+#create a host_tuple dummy entry, so binutils stuff will get into /bin, etc
+[ -z $machine ] && machine=$($dest/bin/gcc -dumpmachine|sed 's/musl/gnu/')
+
+[ ! -e ${dest}/${machine} ] && ( cd $dest ; ln -sf . ${machine} )
 
 # rename gcc to rawcc so musl-gcc can call the *right* gcc
 mv "$dest"/bin/gcc "$dest"/bin/rawcc
@@ -123,10 +164,12 @@ ln -sf ranlib "$dest"/bin/gcc-ranlib
 ln -sf nm "$dest"/bin/gcc-nm
 
 if [ "$A" = x86_64 ] ; then
-        mv "$dest"/lib64/* "$dest"/lib/ || true
-        sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
-        sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
+	mv "$dest"/lib64/* "$dest"/lib/ || true
+	if test "$option_cplusplus" = 1 ; then
+		sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
+		sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
+	fi
 fi
 
 ln -sf rawcc "$dest"/bin/gcc-$VERSION
-ln -sf g++ "$dest"/bin/g++-$VERSION
+test "$option_cplusplus" = 1 && ln -sf g++ "$dest"/bin/g++-$VERSION

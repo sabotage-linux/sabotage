@@ -7,6 +7,12 @@ no_unlink=1
 [deps.cplusplus]
 g++424
 
+[deps.stage1]
+g++424
+
+[deps.stage2]
+g++424
+
 [mirrors]
 http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 
@@ -14,6 +20,8 @@ http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 VERSION=4.2.4
 
 cp -f "$K"/config.sub .
+
+test "$STAGE" = 0 || option_cplusplus=1
 
 if test "$option_cplusplus" = 1 ; then
 (

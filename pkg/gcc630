@@ -8,6 +8,12 @@ pkgver=1
 desc="the GNU compiler collection, v6.3.0"
 no_unlink=1
 
+[deps.stage1]
+stage1-g++
+
+[deps.stage2]
+stage1-g++
+
 [deps]
 gmp
 mpfr
