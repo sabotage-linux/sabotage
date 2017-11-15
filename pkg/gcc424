@@ -29,6 +29,9 @@ patch -p1 < "$K"/gcc424-toplev.patch
 patch -p1 < "$K"/gcc-346-no-target-libs.patch
 patch -p1 < "$K"/gcc-4.2.1-musl.patch
 
+# fix for latest GLIBC
+sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux-unwind.h
+
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
