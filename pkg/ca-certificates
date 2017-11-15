@@ -57,6 +57,7 @@ DESTDIR="$butch_install_dir" sh ./update-ca-certificates --fresh
 (
 cd "$butch_install_dir"
 for i in  etc/ssl/certs/* ; do
+	test ! -L "$i" && continue
 	s=$(readlink "$i")
 	p=$(printf "%s" "$s" | awk '{n=split($0, a, "/share"); if(n>1)print a[n];}')
 	if test -n "$p" ; then
