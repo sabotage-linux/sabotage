@@ -22,7 +22,10 @@ patch -p1 < "$K"/gcc-346-unlink.patch
 patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
 patch -p1 < "$K"/gcc-346-gperf.patch
 patch -p1 < "$K"/gcc-346-no-target-libs.patch
-patch -p1 < "$K"/gcc-346-ucontext.patch
+
+# fix for latest GLIBC
+sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux.h
+sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux64.h
 
 "$K"/libibertyfix libiberty
 
