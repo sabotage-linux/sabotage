@@ -9,6 +9,7 @@ http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 libxext
 
 [build]
+cp -f "$K"/config.sub build-scripts/
 patch -p1 < "$K"/sdl-stacksize.patch
 patch -p1 < "$K"/sdl-grsec.patch
 
@@ -20,7 +21,7 @@ cd ../../..
 sed -i '/_XData32/s:register long:register _Xconst long:' src/video/x11/SDL_x11sym.h
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
 CPPFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_XFUNCS_H_" \
