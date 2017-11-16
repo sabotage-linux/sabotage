@@ -6,6 +6,10 @@ filesize=832513
 sha512=3f9649577e9282cf41d2d4894aaecb2d53b4a1c51f9e674a6fb73393e9482f9f45e6f0ffa5815e606f972916e369774bfd85141a96c0e3d9d4ead3adea796286
 pkgver=1
 
+[deps.host]
+bison
+flex
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
