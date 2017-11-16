@@ -12,8 +12,9 @@ sha512=973aed3ad296c7160b66fccd4fff7375afc4332239acbe0ae1644fed9c453de69040f8174
 http://xorg.freedesktop.org/releases/individual/lib/libXScrnSaver-1.2.2.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-static
