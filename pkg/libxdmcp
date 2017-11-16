@@ -12,8 +12,9 @@ sha512=b17ad4bf01443cb78b440a33a89f2b98babf02402d7bdf68161a08429fd1964ac8112b0bb
 http://xorg.freedesktop.org/releases/individual/lib/libXdmcp-1.1.1.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
