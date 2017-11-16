@@ -19,6 +19,7 @@ xcb-util-xrm
 xkbcommon
 pcre
 libstartup-notification
+pango
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
