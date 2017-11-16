@@ -9,8 +9,9 @@ sha512=ab82d966ffacb46c001df15b272ca58f996826dc6f6835d3dc4d385b31c682acacb073a38
 http://xorg.freedesktop.org/releases/individual/proto/recordproto-1.14.2.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" install
