@@ -10,8 +10,9 @@ sha512=dce0d4da1dd703a6cdfe7676537034d43c9e84d70f20afdfe59be7929a97fbd077fa7026e
 util-macros
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
