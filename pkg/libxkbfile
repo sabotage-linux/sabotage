@@ -9,8 +9,9 @@ sha512=1d8766db2a15fe0a1f3775d38422eabd572ec8ba8417cde9f1ec95b0065e1acb6036fcf9a
 http://xorg.freedesktop.org/releases/individual/lib/libxkbfile-1.0.8.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-sysroot=$butch_root_dir"
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 patch -p1 < "$K"/libtool-sysroot.patch
