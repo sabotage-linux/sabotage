@@ -12,6 +12,7 @@ libxcb
 libxau
 libxdmcp
 libxinerama
+libxft
 
 [build]
 cp "$K/dmenu.config.mk" config.mk
