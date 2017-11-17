@@ -1,0 +1,30 @@
+[mirrors]
+http://xorg.freedesktop.org/archive/individual/app/xedit-1.2.2.tar.bz2
+
+[vars]
+filesize=525861
+sha512=24d8e23a2ad1a2e81f6606928bb032f25b70b76da83b65341367bc4111d011abe89f9e30402d057854f2ccdaa9c1ef0d7c55bf29b81ab2d050a8f448cf3eeb5d
+pkgver=1
+desc='basic X11 editor'
+
+[deps]
+libxmu
+libx11
+libxt
+libxaw
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
