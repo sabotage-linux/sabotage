@@ -6,6 +6,7 @@ sha512=ac392d916e6953b0925a7cbb0f232affea33339ef69b47a0a7898492afb9784b93138986d
 http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 
 [deps]
+alsa-lib
 libxext
 
 [build]
@@ -26,6 +27,11 @@ CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
 CPPFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_XFUNCS_H_" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
+
+cat config.status | grep 'ALSA_LIBS.*lasound' > /dev/null || {
+	echo "ERROR: ALSA NOT FOUND"
+	exit 1
+}
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
