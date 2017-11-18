@@ -69,6 +69,8 @@ PATCH firefox-disable-moz-stackwalk.patch
 PATCH firefox-fix-toolkit.patch
 PATCH firefox-fix-tools.patch
 PATCH firefox-disable-hunspell_hooks.patch
+PATCH firefox-fix-arm-atomics-grsec.patch
+PATCH firefox-fix-arm-version-detect.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
