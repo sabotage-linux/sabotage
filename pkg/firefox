@@ -242,7 +242,7 @@ rm -rf "$dest"/include "$dest"/lib/firefox-devel-"$FF_VERSION"
 rm -f "$dest"/bin/firefox 
 cat << EOF > "$dest"/bin/firefox
 #!/bin/sh
-FFDIR="$dest/lib/firefox-${FF_VERSION}"
+FFDIR="$butch_prefix/lib/firefox-${FF_VERSION}"
 LD_LIBRARY_PATH="\$FFDIR" \
 "\$FFDIR"/firefox-bin "\$@"
 EOF
