@@ -12,13 +12,14 @@ desc='fast and powerful editor using motif/X11'
 lesstif2
 
 [build]
+sed -i 's,@source/nedit -V,@true,' Makefile
+
 make V=1 -j$MAKE_THREADS \
 CC="$CC" AR="$CROSS_COMPILE"ar \
 CPPFLAGS="-D_GNU_SOURCE" \
 CFLAGS="$optcflags -DUSE_DIRENT -DUSE_LPR_PRINT_CMD" \
 CXXFLAGS="$optcflags" \
-LIBS="-lXm -lXt -lX11 -lm" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+LIBS="-lXm -lXt -lX11 -lm $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 linux
 
 install -Dm 755 source/nedit "$butch_install_dir""$butch_prefix"/bin/nedit
