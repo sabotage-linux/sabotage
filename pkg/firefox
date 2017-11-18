@@ -234,6 +234,10 @@ dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/firefox-"$FF_VERSION" "$dest"/bin \
   "$dest"/share/applications "$dest"/share/pixmaps
 
+# for some reason libxul.so on arm isnt stripped, and > 800MB
+test "$DEBUGBUILD" = 1 ||
+  ${CROSS_COMPILE}strip "$dest"/lib/firefox-"$FF_VERSION"/libxul.so
+
 rm -rf "$dest"/include "$dest"/lib/firefox-devel-"$FF_VERSION"
 rm -f "$dest"/bin/firefox 
 cat << EOF > "$dest"/bin/firefox
