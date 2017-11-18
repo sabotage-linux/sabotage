@@ -27,5 +27,6 @@ make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $b
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/bin
 cp gitk-git/gitk "$dest"/bin/
+cp perl/private-Error.pm "$dest"/lib/perl5/site_perl/Error.pm
 ln -sf git "$dest"/bin/git-receive-pack
 ln -sf git "$dest"/bin/git-upload-archive
