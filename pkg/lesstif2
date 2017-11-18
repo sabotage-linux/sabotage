@@ -1,0 +1,27 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/l/lesstif2/lesstif2_0.95.2.orig.tar.gz
+
+[vars]
+filesize=3471705
+sha512=f0fb0377cb468ee0153c7b5d89125586ad5778306c282bf1fe075435faa6f1fe6815a16d64f358359fd3cfa2ce8cdb22dfb3d7041264666214041a628cf040ec
+pkgver=1
+tardir=lesstif-0.95.2
+desc='free openmotif replacement library'
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
