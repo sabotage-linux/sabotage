@@ -1,0 +1,24 @@
+[mirrors]
+https://downloads.sourceforge.net/project/nedit/nedit-source/nedit-5.7-src.tar.gz
+
+[vars]
+filesize=1344754
+sha512=cf242d2f8eea4c78649dbeb741f545a3dc8ffaf5bb36239794a4b2635420e5445fa1c77472add79c05ec081d71a0b9df4431f48db365a71692e43869fd4e7932
+pkgver=1
+tardir=nedit-5.7
+desc='fast and powerful editor using motif/X11'
+
+[deps]
+lesstif2
+
+[build]
+make V=1 -j$MAKE_THREADS \
+CC="$CC" AR="$CROSS_COMPILE"ar \
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags -DUSE_DIRENT -DUSE_LPR_PRINT_CMD" \
+CXXFLAGS="$optcflags" \
+LIBS="-lXm -lXt -lX11 -lm" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+linux
+
+install -Dm 755 source/nedit "$butch_install_dir""$butch_prefix"/bin/nedit
