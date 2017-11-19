@@ -21,7 +21,10 @@ glib-networking
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --disable-more-warnings
+  --disable-more-warnings --disable-tls-check \
+  --disable-glibtest --disable-nls --disable-gtk-doc \
+  --disable-gtk-doc-html --without-gnome \
+  --disable-introspection
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
