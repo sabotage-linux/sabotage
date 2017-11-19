@@ -10,8 +10,10 @@ intltool-merge*) ;;
 intltool-perl*)
 test "$1" = -v && respond "This is not perl 5, version 99, subversion 9 (v5.99.9)"
 test "$1" = -e && {
-test -n "$2" && printf "%s" "$2"|grep '^use 5\.[0-9]*\.[0-9]*;$' >/dev/null && \
-exit 0
+if test -n "$2" && test -z "$3" ; then
+  test "$2" = "require XML::Parser" && exit 0
+  printf "%s" "$2"|grep '^use 5\.[0-9]*\.[0-9]*;$' >/dev/null && exit 0
+fi
 die "$0: unsupported usage"
 }
 test "$2" = "printf '%vd', $^V" && respond "5.99.9"
