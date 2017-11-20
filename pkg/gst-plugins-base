@@ -1,0 +1,29 @@
+[mirrors]
+https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.0.tar.xz
+
+[vars]
+filesize=3114272
+sha512=c7fde1744952ae3b25a2f6fc4f7807ab0137e94a021b8a101dbcd2b612890132b69772b53bf9ae6265d3be14698b3818f2b67cf7e2cc1cc55c33b1891870965a
+pkgver=1
+
+[deps]
+libogg
+libvorbis
+libopus
+gstreamer
+pango
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls --disable-silent-rules --disable-gtk-doc-html
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
