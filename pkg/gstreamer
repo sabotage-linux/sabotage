@@ -1,0 +1,33 @@
+[mirrors]
+http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.3.tar.xz
+
+[vars]
+filesize=3175480
+sha512=fceeeca4314aead7ff358db3474bd6fe1eef70f745a6ba20505da6c0caaea6ea6317246dc66c23edab396ca811a610c52fa930f8f99c701241ae7f15857aa2b0
+pkgver=1
+
+[deps]
+libxml2
+glib
+
+[deps.host]
+flex
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  --with-sysroot=$butch_root_dir"
+CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls \
+  --disable-examples \
+  --disable-introspection \
+  --enable-gst-debug=yes \
+  --disable-gtk-doc-html \
+
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
