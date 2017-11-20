@@ -18,6 +18,8 @@ libarchive
 dynamic-toolchain
 
 [build]
+patch -p1 < "$K"/cmake-isystem.patch
+
 sed -i 's,defined(HAVE_LIBCRYPTO),0,' Utilities/cmlibarchive/libarchive/archive_hmac.c
 
 if [ -z "$CROSS_COMPILE" ] ; then

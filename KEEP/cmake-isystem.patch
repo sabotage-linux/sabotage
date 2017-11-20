@@ -1,0 +1,26 @@
+--- a/Modules/Compiler/Clang.cmake
++++ b/Modules/Compiler/Clang.cmake
+@@ -20,7 +20,8 @@
+   macro(__compiler_clang lang)
+     __compiler_gnu(${lang})
+     set(CMAKE_${lang}_COMPILE_OPTIONS_PIE "-fPIE")
+-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
++    set(CMAKE_INCLUDE_SYSTEM_FLAG_C)
++    set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX)
+     set(CMAKE_${lang}_COMPILE_OPTIONS_VISIBILITY "-fvisibility=")
+     if(CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 3.4.0)
+       set(CMAKE_${lang}_COMPILE_OPTIONS_TARGET "-target ")
+--- a/Modules/Compiler/GNU.cmake
++++ b/Modules/Compiler/GNU.cmake
+@@ -44,9 +44,8 @@
+   string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g -DNDEBUG")
+   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
+   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
+-  if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) # work around #4462
+-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+-  endif()
++  set(CMAKE_INCLUDE_SYSTEM_FLAG_C)
++  set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX)
+ 
+   set(_CMAKE_${lang}_IPO_SUPPORTED_BY_CMAKE YES)
+   set(_CMAKE_${lang}_IPO_MAY_BE_SUPPORTED_BY_COMPILER NO)
