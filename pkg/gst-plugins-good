@@ -1,0 +1,30 @@
+[mirrors]
+https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.0.tar.xz
+
+[vars]
+filesize=3481848
+sha512=e59c8d4173450c2e699b531d7e9127ec82f90bd4c1d2f66348f595aeb2f684e71bf6df1c00fc159fc2b7d081ac05289de006ee171654cace02bb5846aa175709
+pkgver=1
+
+[deps]
+gstreamer
+gst-plugins-base
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+
+# NOTE: PulseAudio is disabled by default, (--disable-pulse)
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-nls --disable-silent-rules --disable-gtk-doc-html \
+  --disable-pulse
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
