@@ -11,7 +11,7 @@ desc='free openmotif replacement library'
 [deps]
 
 [build]
-#patch -p1 < "$K"/some.patch
+patch -p1 < "$K"/lesstif2-debian.patch
 cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
