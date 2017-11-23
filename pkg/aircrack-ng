@@ -19,6 +19,13 @@ procps
 ethtool
 
 [build]
+# circumventing the utterly broken autocfg script introduced in
+# https://github.com/aircrack-ng/aircrack-ng/commit/37af2dfcccedf667e4a8747ee897ac9d9269b1e9
+cat << EOF > common.cfg
+PTHREAD=Y
+NEWSSE=false
+EOF
+
 patch -p1 < "$K"/aircrack-ng-wep-ska.patch
 patch -p1 < "$K"/aircrack-ng-grep.patch
 patch -p1 < "$K"/aircrack-ng-modinfo.patch
