@@ -24,6 +24,8 @@ ethtool
 cat << EOF > common.cfg
 PTHREAD=Y
 NEWSSE=false
+# get back besside-ng
+EXPERIMENTAL=TRUE
 EOF
 
 patch -p1 < "$K"/aircrack-ng-wep-ska.patch
