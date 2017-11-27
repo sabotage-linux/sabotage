@@ -1,0 +1,25 @@
+[mirrors]
+https://acme.com/software/mini_httpd/mini_httpd-1.27.tar.gz
+
+[vars]
+filesize=43473
+sha512=a7374374d70eb6e531225bf944d80158c7a1870f0e9d3ab720f83706f722eaeac3a891f06c3d6ac2189e1d368504db0ce512440a1d09be109f804c8a0c7901e1
+pkgver=1
+
+[deps]
+
+[build]
+# see Makefile for how to generate a certificate...
+
+make CC="$CC" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+SSL_DEFS=-DUSE_SSL SSL_LIBS="-lssl -lcrypto" V=1 -j$MAKE_THREADS
+
+dest="$butch_install_dir""$butch_prefix"
+for i in mini_httpd htpasswd ; do
+  install -Dm 755 "$i" "$dest"/bin/"$i"
+done
+
+install -Dm 644 mini_httpd.8 "$dest"/share/man/man8/mini_httpd.8
+install -Dm 644 htpasswd.1 "$dest"/share/man/man1/htpasswd.1
+
