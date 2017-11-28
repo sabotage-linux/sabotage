@@ -1,0 +1,10 @@
+--- lesstif-0.95.2.org/lib/Xm-2.1/TextF.c
++++ lesstif-0.95.2/lib/Xm-2.1/TextF.c
+@@ -725,6 +725,7 @@
+         }
+     } else {
+ 	fs = (XFontStruct *)entry->font;
++	if(!fs) return;
+     	TextF_FontAverageWidth(w) =
+ 		(fs->max_bounds.width + fs->min_bounds.width) / 2;
+     }
