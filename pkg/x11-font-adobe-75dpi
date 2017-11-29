@@ -1,0 +1,26 @@
+[mirrors]
+http://ftp.x.org/archive/individual/font/font-adobe-75dpi-1.0.3.tar.bz2
+
+[vars]
+filesize=889542
+sha512=c0d851df5732e81027e265370751a606c6e4f5eea546d802608988dde02de35fa28238f709f48567191090bf18814f671b1a7f9f0b528d54949b0aa9403f266d
+pkgver=1
+desc='raw X11 bitmap font, providing times, helvetica etc. not recommended'
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
