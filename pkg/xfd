@@ -1,0 +1,33 @@
+[mirrors]
+https://www.x.org/releases/individual/app/xfd-1.1.2.tar.gz
+
+[vars]
+filesize=171052
+sha512=ffd3fd9b03584a2f054584def94ad997ef1622803da845b37f8fe90d69b6bfc8b67599c850bd3b38648f10b202180a7ef1fb1d99270caee77e29aeff25dcdca6
+pkgver=1
+
+[deps]
+libxrender
+libxft
+libxaw
+libxmu
+libxt
+libx11
+freetype
+fontconfig
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
