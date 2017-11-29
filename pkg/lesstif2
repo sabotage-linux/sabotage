@@ -9,6 +9,7 @@ tardir=lesstif-0.95.2
 desc='free openmotif replacement library'
 
 [deps]
+libxrender
 
 [build]
 patch -p1 < "$K"/lesstif2-debian.patch
@@ -20,7 +21,9 @@ cp -f "$K"/config.sub .
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --x-libraries="$butch_root_dir$butch_prefix/lib" \
+  ac_cv_header_X11_extensions_Xrender_h=yes
 
 for i in doc/lessdox/clients doc/lessdox doc ; do
 printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
