@@ -3,6 +3,15 @@
 # if you use xfbdev, use the evdev rules/model - do not use it for Xorg.
 #setxkbmap -rules evdev -model evdev
 #setxkbmap -layout de -rules evdev -model evdev -variant nodeadkeys
+
+#if you need additional X11 bitmap fonts such as x11-font-misc, you will need
+#to add their font paths either to xorg.conf (which we generally dont use
+#anymore), or by activating them like here (need xset tool):
+#xset +fp /share/fonts/X11/misc/
+#xset +fp built-ins
+#you may use fc-list to list installed fonts, xfontsel to look at bitmap fonts,
+#xset q to show your font paths, and mkfontdir inside those paths to update em.
+
 type xrdb >/dev/null 2>&1 && test -e ~/.Xresources && xrdb -load ~/.Xresources
 # this will automatically start lxde. if you do not want this, start xterm oslt
 exec startlxde
