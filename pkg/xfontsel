@@ -1,0 +1,29 @@
+[mirrors]
+https://www.x.org/releases/individual/app/xfontsel-1.0.5.tar.bz2
+
+[vars]
+filesize=139801
+sha512=df7a49286b94f64c610ab990d66376dedc12e3e8fa1d803641f466c3f6ebfdd06e81e4c7be39f8e6234928305f397d877579c39cf24c319dd5deead56f2578a4
+pkgver=1
+
+[deps]
+libxaw
+libxmu
+libxt
+libx11
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
