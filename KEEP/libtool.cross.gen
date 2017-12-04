@@ -15,8 +15,8 @@ done
 sed -i 's,@enable-shared@,'$shared',' libtool
 sed -i 's,@enable-static@,'$static',' libtool
 sed -i 's,@sysroot@,'$sysroot',' libtool
-sed -i 's,@CC@,'"$CC"',' libtool
-sed -i 's,@CXX@,'"$CXX"',' libtool
+sed -i 's#@CC@#'"$CC"'#' libtool
+sed -i 's#@CXX@#'"$CXX"'#' libtool
 sed -i 's,@CROSS_COMPILE@,'"$CROSS_COMPILE"',' libtool
 sed -i 's,@syslibdir@,'$syslibdir',' libtool
 
