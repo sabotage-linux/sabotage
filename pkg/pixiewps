@@ -1,17 +1,17 @@
 [mirrors]
-https://github.com/wiire-a/pixiewps/archive/f723d5017f304b727981560396044d7d11ec1080.tar.gz
+https://github.com/wiire-a/pixiewps/releases/download/v1.4/pixiewps-1.4.tar.xz
 
 [vars]
-filesize=39751
-sha512=857c43232aa3b1efa3cc5c3af47fe06353022f42ef392885064a39442ecd1facb18d20aaa11e560e34508126fddad02e6d069f2e3194795fe303dd5e22908106
-tarball=pixiewps-f723d50.tar.gz
-tardir=pixiewps-f723d5017f304b727981560396044d7d11ec1080
-pkgver=2
+filesize=69480
+sha512=fb7d1a627310de504df58e5b1d310a6b5485be42bcf9f8f78a1355141c9b09c19b6b5625362563af22fdfd9c9747a12557752157e0bcb299acc0181fc394cf7a
+pkgver=3
 desc='pixiedust offline wps attack tool'
 
 [deps]
+libressl
 
 [build]
 cd src
-make V=1 -j$MAKE_THREADS CCFLAGS="-std=c99 $optcflags $optldflags"
+make V=1 -j$MAKE_THREADS OPENSSL=1 \
+CFLAGS="-std=c99 $optcflags -O3 -DUSE_OPENSSL=1 $optldflags"
 install -Dm 755 pixiewps "$butch_install_dir""$butch_prefix"/bin/pixiewps
