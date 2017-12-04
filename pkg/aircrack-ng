@@ -12,6 +12,7 @@ libpcap
 libressl
 sqlite
 libnl-tiny
+zlib
 
 [deps.run]
 iw
