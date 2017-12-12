@@ -1,10 +1,10 @@
 [mirrors]
-https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.tar.gz
+https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.2.tar.gz
 
 [vars]
-filesize=7797848
-sha512=99ed5f7b69966cea5fcf9173e7270167c24b55ab459774f10dbf90f26dcb9d5f118971ffd4e583a83148976f44ca166474669398a561169d24ffba80f852306f
-pkgver=2
+filesize=8680980
+sha512=468f1a5aaee0b6920adb80df21aaaa41bfc5c642b4a00ac60244a90c5e9f27b092b73bcdd2c5520aa1de2759e8b174686b186a51f2d07e7e188ce2cd10519724
+pkgver=3
 
 [deps]
 zlib
@@ -12,6 +12,7 @@ libpng
 sdl2
 
 [build]
+patch -p1 < "$K"/sdl2-image-png15.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

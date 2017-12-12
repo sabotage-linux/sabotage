@@ -1,0 +1,11 @@
+--- SDL2_image-2.0.2.org/IMG_png.c
++++ SDL2_image-2.0.2/IMG_png.c
+@@ -78,6 +78,8 @@
+ #if (PNG_LIBPNG_VER_MINOR < 6)
+ typedef png_structp png_const_structrp;
+ typedef png_infop png_const_inforp;
++typedef png_structp png_structrp;
++typedef png_infop png_inforp;
+ #endif
+ #endif
+ 
