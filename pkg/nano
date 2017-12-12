@@ -1,10 +1,10 @@
 [mirrors]
-http://www.nano-editor.org/dist/v2.8/nano-2.8.1.tar.xz
+http://www.nano-editor.org/dist/v2.9/nano-2.9.1.tar.xz
 
 [vars]
-filesize=1429084
-sha512=922962a63b5bb09851f6a0c89bc312b99b6026359b1a1558a408ef2a1dd9b46b45428fca2b4872d4186e934602ecc6a49d7012eb2dffcda7411007398e1adfdf
-pkgver=7
+filesize=1485072
+sha512=ce594171979a35b2db2e255af962bf91bd826afba1e986abd217138f2879a956d2f6dd882dd5071eedb75467c1d8c048ddda2bbef2cac523b1cc3b0847ed6af9
+pkgver=8
 desc='a terminal-based, easy-to-use text editor'
 uchkurl=https://nano-editor.org/download.php
 
