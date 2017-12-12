@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/tmux/tmux/releases/download/2.4/tmux-2.4.tar.gz
-http://distfiles.macports.org/tmux/tmux-2.4.tar.gz
+https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
+http://distfiles.macports.org/tmux/tmux-2.6.tar.gz
 
 [vars]
-filesize=470549
-sha512=e9d93f6b8b68dddf05046ef1e1bc8c55a1f2c4bb96f4e12c25c202358b3280b3e14df8818ed449aadc783306b0869e5e7418192f60bb16afebc6b396cb50999c
-pkgver=3
+filesize=481000
+sha512=20a1ae8b8494c5b42757902322f3877731c2cc330c9c00f097a317785d25252b7ebaa8bbab9fc17843299e80cb2914aaac0a664715a85c50f7ea489d23753832
+pkgver=4
 uchkurl=https://github.com/tmux/tmux/releases/
 desc='terminal multiplexer, similar to GNU screen but with more features'
 
