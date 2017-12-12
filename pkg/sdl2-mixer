@@ -1,10 +1,10 @@
 [mirrors]
-https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.1.tar.gz
+https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.2.tar.gz
 
 [vars]
-filesize=10213891
-sha512=bdf2b4fc302f9c3b41d40bfdd5132081439e6021e915f191e478235b7b6565e7b4c43e1172d2055066ad505e2bc70876123c58f5a67218b207c829ee66a84b9d
-pkgver=1
+filesize=9620763
+sha512=c40b5ac93933df1cc932e7afe796ad6765aafb24077601a23f98ac625a83341079ad903c164eafd022aff6011872e7a7956eebd8e3d3edad1bf5dc7eb9c306b7
+pkgver=2
 
 [deps]
 libmad
