@@ -1,10 +1,10 @@
 [mirrors]
-http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.12.2.tar.bz2
+http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.12.6.tar.bz2
 
 [vars]
-filesize=1585770
-sha512=29c58df370e68a89490d0ecad5187d8ad6c19c99cf446ea3208edb7e80888af706ec6422596602ac2c0186f461ff3d40f579c08e50c407dd7ba068cc40db9ef3
-pkgver=2
+filesize=1588726
+sha512=1f6e7ba9513ea836d6536eaf2f148588e9a2beaab62c49fb295e60aae41382781f76d536e854bbe6fc601f00034e3239b551874dc99a1f6afa788ee94976b332
+pkgver=3
 
 [deps]
 argp
