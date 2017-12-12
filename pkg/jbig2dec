@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.ghostscript.com/public/jbig2dec/jbig2dec-0.13.tar.gz
+http://downloads.ghostscript.com/public/jbig2dec/jbig2dec-0.14.tar.gz
 
 [vars]
-filesize=442571
-sha512=ef64a65c54bec65f61602de7130dc9594aae58aaea7958f7cc987f25d0794511e15a423e86501ace4f40c0364796fb97ceab72edb0b69232926767ba16c1b05d
+filesize=463572
+sha512=066bd880ac0665fc1e42b0ae0e481008b125aab6e173b7f82d61a2a30e72c90085cbded9b2a68c6836f92dea3d8d8d5c2228dba76e0d99c79c922197d215705b
+pkgver=2
 
 [deps]
 
