@@ -1,13 +1,14 @@
 [mirrors]
-http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.xz
+http://downloads.xiph.org/releases/ogg/libogg-1.3.3.tar.xz
 
 [vars]
-filesize=407324
-sha512=dc9552b15ceccd7e12bff39a6670120ae53af74ce97254d047c28f49ba6a320f55059ed509ec1d8758a972c72514f2866634d829f3cb528c2f595cb056e9bca6
+filesize=417636
+sha512=37d8e4329bf7a997a95d84a55c325a5a893ec84bb4d5b7ea638e5cb13201a0619e71ecd9710a8371def69f092c62dcc59ec0a607db246028ee8a62678386260b
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
