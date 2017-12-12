@@ -1,10 +1,10 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.5.5.tar.xz
+http://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.5.6.tar.xz
 
 [vars]
-filesize=324676
-sha512=068d2deaff96e586b8a138503ee39f41ec69ea5949cda18c4088ecf8a34fd51575da6e95774d5d7d6723841487d4c5449b1323f5445200b892b5a2f15240e1da
-pkgver=5
+filesize=328256
+sha512=e3ede8051de6911a63eb3f60d684996845d7f02e32f02f2e5c5b91f6b27f5a59b8c9662cb42e28de70517684e539f7f8a26da30a69f5be1b66fb49a17dc2b6f4
+pkgver=6
 
 [deps]
 musl
