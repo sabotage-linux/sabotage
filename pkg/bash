@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.gnu.org/gnu/bash/bash-4.4.tar.gz
+http://ftp.gnu.org/gnu/bash/bash-4.4.12.tar.gz
 
 [vars]
-filesize=9377313
-sha512=73de3b425faaac55e45456b0f6f6d8077b5dfa7bb76e0d1894a19361b4a2b6bd4fbbe182117ddbfe9b07b4d898fba03537c261badc9533dd3c0da891764c7f29
+filesize=9463431
+sha512=dee9d83319b0b8c0201c71d6b5f60c1eebfcec76d856a167a84a374d2296de7dcf4c4960515f888251bbf8feb0f8e1602f0061005346a0f48efb4297a2a87834
+pkgver=3
 desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
-pkgver=2
 
 [deps]
 
