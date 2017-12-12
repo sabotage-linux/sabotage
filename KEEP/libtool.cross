@@ -8,7 +8,7 @@
 #  linux by rofl0r.
 
 # The names of the tagged configurations supported by this script.
-available_tags="CXX"
+available_tags="CXX C"
 
 # ### BEGIN LIBTOOL CONFIG
 
@@ -1713,7 +1713,7 @@ func_infer_tag ()
 	# line option must be used.
 	if test -z "$tagname"; then
 	  func_echo "unable to infer tagged configuration"
-	  func_fatal_error "specify a tag with \`--tag'"
+#	  func_fatal_error "specify a tag with \`--tag'"
 #	else
 #	  func_verbose "using $tagname tagged configuration"
 	fi
@@ -9252,5 +9252,10 @@ build_old_libs=`case $build_libtool_libs in yes) echo no;; *) echo yes;; esac`
 # vi:sw=2
 
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
+SAVECC="$CC"
 CC="$CXX"
 # ### END LIBTOOL TAG CONFIG: CXX
+
+# ### BEGIN LIBTOOL TAG CONFIG: C
+CC="$SAVECC"
+# ### END LIBTOOL TAG CONFIG: C
