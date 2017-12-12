@@ -1,17 +1,18 @@
 [mirrors]
-ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.4.tar.bz2
+ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.5.tar.bz2
 
 [vars]
-filesize=366931
-sha512=edbc9dd762e2500ce6f820d81fcd8d2577506afcea0b33a32cece95f8d6651840f4f8a55664f274d735ab3effa13cdbfc0331690c37a64a9ad050c15dc77cac6
-pkgver=2
+filesize=366999
+sha512=50a79d9dbcca72b2133aba7dca594302dcd5816eb71afc311a4c2a96aac7632a0a034875faf3100f2c8a44f3fbbede264e5cd9beacf2a07f2fa6786f66edae39
+pkgver=3
 
 [deps]
 alsa-lib
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
