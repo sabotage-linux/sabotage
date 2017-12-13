@@ -1,24 +1,25 @@
 [mirrors]
-http://ftpmirror.gnu.org/gawk/gawk-4.1.4.tar.xz
-http://ftp.gnu.org/pub/gnu/gawk/gawk-4.1.4.tar.bz2
+http://ftpmirror.gnu.org/gawk/gawk-4.2.0.tar.xz
+http://ftp.gnu.org/pub/gnu/gawk/gawk-4.2.0.tar.bz2
 
 [vars]
-filesize=2367832
-sha512=6a0e9cf086544212f54b54261dcd517b611aaf495ef99c4b7740d07e363bb00c5632f3d7fd5e12a954d5aa9793764162a57453e0e18884b29c6c54b5f444c097
-pkgver=2
+filesize=2948108
+sha512=3076b2f42e43fff0ce63dcaa3fb749ce421473d0abc3e1e2d9dd375207d3e35c98d5bf91c3179f49156e8a4977424c16bb2d3d662846ad487153729dd4cfeb4c
+pkgver=3
 no_unlink=1
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
-  --with-sysroot=$butch_root_dir" \
-  --without-readline --without-mpfr
+  --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -static" \
 ./configure -C --prefix="$butch_prefix" --libexecdir="$butch_prefix"/lib \
-  --disable-nls ac_cv_header_dlfcn_h=no $xconfflags
+  --disable-nls ac_cv_header_dlfcn_h=no $xconfflags \
+  --without-readline --without-mpfr
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
