@@ -1,9 +1,11 @@
 [mirrors]
-http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.8.tar.xz
+http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.40.14.tar.xz
 
 [vars]
-filesize=1033528
-sha512=799fad4add3b1ff297bd151a302d6724c5fb0223c9e0f710f97192c024de0175db9a03458e0c18019bdd987b04b5f74737659e113d6b511cf1fc118b9be3c215
+filesize=858388
+sha512=35ba7bc8be3992f206ccc2cc5aca0b94e2a3832f887fc9c45b0e29fddcb9051ce05a74377de0ca4ff95a87983b15688fa5d379d592faf87aa8eaca25ac18b7ea
+pkgver=2
+uchkurl=https://github.com/GNOME/pango/releases
 
 [deps]
 glib
@@ -15,8 +17,11 @@ cairo
 harfbuzz
 
 [build]
+touch pango/s-enum-types-h
+touch pango/s-enum-types-c
+
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-cp "$K"/pango-querymodules.c pango/querymodules.c
+
 [ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
   sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
@@ -30,14 +35,3 @@ CXXFLAGS="$optcflags" \
 
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
-
-if [ -z "$CROSS_COMPILE" ] ; then
-echo query modules
-dest="$butch_install_dir""$butch_prefix"
-mkdir -p "$dest"/etc/pango
-LD_LIBRARY_PATH="$dest"/lib \
-  "$dest"/bin/pango-querymodules prefix="$butch_install_dir" > "$dest"/etc/pango/pango.modules
-else
-	echo "XXXXXXXXXXX WARNING: you must run pango-querymodules in the target rootfs! XXXXXXXXXX"
-fi
-
