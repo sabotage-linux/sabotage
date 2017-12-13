@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.18.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.19.tar.xz
 
 [vars]
-filesize=574384
-sha512=faf503d0d881801ce129715e7ae979ee1675bd32beac9170b1889c94aac64caf486968bc86f3480463b84e94f28c1d805551ffdcb7068ecadd0688146e0fb182
-pkgver=3
+filesize=1792716
+sha512=ee3921d0344f9c8503a77086e3d0411a5a638beeeefb959529fd07819e21f82504dcd3004faa93c65d77da30d0db055b7cb56ec8517c1bfae3c1ae23582dbce3
+pkgver=4
 desc='library to render and convert SVG files'
 
 [deps]
@@ -28,6 +28,9 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --disable-introspection \
   --disable-tools \
   --disable-gtk-doc-html
+
+touch s-enum-types-h
+touch s-enum-types-c
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
