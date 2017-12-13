@@ -1,10 +1,10 @@
 [mirrors]
-http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.6.tar.gz
+http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-3.7.tar.gz
 
 [vars]
-filesize=8403623
-sha512=1b7dcc80efe8e3944e5db7d74da749821adb3ae39700df3efa6ecb347a00e33350e1d56d4139654d50ac41563edf3de52f0eb25bff6490d74144a7970fb6c3b4
-pkgver=2
+filesize=8281249
+sha512=569c5a1bcce35bd69d3679ff5d7edd086238882ad24a9bcbdb51fccc2a950de45946f840aa38afb339c4c290c3070b4d6fe08eb6c912e9403489415beb3d6a91
+pkgver=3
 
 [deps]
 libpng
@@ -23,7 +23,6 @@ flex
 gperf
 
 [build]
-patch -p1 < "$K"/netsurf-gperf-warning.patch
 # FIXME: netsurfs Makefile suppresses parallel builds
 CFLAGS="-I$butch_prefix/include/cairo/" NETSURF_USE_BMP=NO \
  make Q= -j$MAKE_THREADS
