@@ -26,11 +26,13 @@ int main(int argc, char **argv)
 	write(fd, buf, snprintf(buf, sizeof buf, "0 %u 1\n", uid));
 	close(fd);
 
+	fd = open("/proc/self/setgroups", O_RDWR);
+	write(fd, buf, snprintf(buf, sizeof buf, "deny\n"));
+	close(fd);
+
 	fd = open("/proc/self/gid_map", O_RDWR);
 	write(fd, buf, snprintf(buf, sizeof buf, "0 %u 1\n", gid));
 	close(fd);
-
-	setgroups(0, 0);
 
 	chdir(argv[1]);
 	chk(mount("/dev", "./dev", 0, MS_BIND|MS_REC, 0));
