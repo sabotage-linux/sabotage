@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/hellman/xortool/archive/a0bc48b.tar.gz
+
+[vars]
+filesize=153485
+sha512=6471288489b1cee1104ec795c9c4217f961d17044ac510b7c0de8a6ab6cb39034fc838cf1c0beec8e795a7db92f220ae9884e5656a180c02835a36793fe33f93
+pkgver=1
+tarball=xortool-0.96-a0bc48b.tar.gz
+tardir=xortool-a0bc48b2f3cd8dee73f60ace62216b08add3c9fe
+
+[deps.run]
+python
+python-docopt
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
