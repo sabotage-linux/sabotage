@@ -1,0 +1,18 @@
+[mirrors]
+https://pypi.python.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b68c9da1fb1e4eed343c9/docopt-0.6.2.tar.gz
+
+[vars]
+filesize=25901
+sha512=af138feccf8c37b374ee44fcda4938a88107d434df13c173214021b1a3348b152a595095a86982b66ac03a11db8e0f1e9e6a3a65c98deea92330311daeb831a3
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
