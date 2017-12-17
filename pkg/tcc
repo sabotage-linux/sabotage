@@ -1,0 +1,31 @@
+[mirrors]
+http://repo.or.cz/tinycc.git/snapshot/release_0_9_27.tar.gz
+
+[vars]
+filesize=737827
+sha512=3a91fcb92d29225ef99df5d8610132dee18c5898927cec7c8674108d9e94cb88c2f4d642aaf007cc50ee687b023f8105efcc2fa7beb433c6f59a00024b5c4f38
+pkgver=1
+tarball=tcc-0.9.27.tar.gz
+tardir=tinycc-release_0_9_27-d348a9a
+desc='tiny C compiler - extremely fast C compiler'
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+# the handwritten configure script assumes --prefix= is equal to omitted --prefix
+test -z "$butch_prefix" && butch_prefix=/
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --config-musl \
+  --cpu=$A \
+  --cc="$CC" \
+  --ar="$CROSS_COMPILE"ar \
+  --strip-binaries=no
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
