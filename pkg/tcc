@@ -12,6 +12,8 @@ desc='tiny C compiler - extremely fast C compiler'
 [deps]
 
 [build]
+sed -i 's/TCC_MUSL/ASFSDFSDS/' tccelf.c
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
