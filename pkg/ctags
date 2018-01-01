@@ -9,7 +9,7 @@ http://sourceforge.net/projects/ctags/files/ctags/5.8/ctags-5.8.tar.gz
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 patch -p1 < "$K"/ctags-DESTDIR.patch
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
