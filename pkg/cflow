@@ -1,0 +1,25 @@
+[mirrors]
+http://ftp.gnu.org/gnu/cflow/cflow-1.5.tar.xz
+
+[vars]
+filesize=637172
+sha512=d3fd027122d9e5ec67712e2ddcea8a3480407b188bf07506b043b874ba21dedb3f1b8eb737673d211da354109869057aa6c40cd3cb66b6cbbad17f87d89cf945
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
