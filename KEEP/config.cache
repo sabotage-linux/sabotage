@@ -1112,7 +1112,6 @@ ac_cv_lib_m_ismod=${ac_cv_lib_m_ismod='no'}
 ac_cv_lib_m_log10=${ac_cv_lib_m_log10='yes'}
 ac_cv_lib_m_main=${ac_cv_lib_m_main='yes'}
 ac_cv_lib_m_sin=${ac_cv_lib_m_sin='yes'}
-ac_cv_lib_magic_magic_open=${ac_cv_lib_magic_magic_open='no'}
 ac_cv_lib_nsl_t_open=${ac_cv_lib_nsl_t_open='no'}
 ac_cv_lib_nsl_yp_match=${ac_cv_lib_nsl_yp_match='no'}
 ac_cv_lib_posix1e_acl_get_file=${ac_cv_lib_posix1e_acl_get_file='no'}
