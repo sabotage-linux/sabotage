@@ -1,0 +1,26 @@
+[mirrors]
+https://downloads.sourceforge.net/project/libmtp/libmtp/1.1.14/libmtp-1.1.14.tar.gz
+
+[vars]
+filesize=804354
+sha512=337d259462cf9700fe5a5f09b38f4652045ee71249d54562661362e6d0ec7fe087ab77ec68d443e4fb84839a8ad9dc686c207d723ab47bc1a542dd0a71b294b1
+pkgver=1
+desc='library and tools to interface with android devices'
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
