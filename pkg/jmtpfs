@@ -1,0 +1,34 @@
+[mirrors]
+http://http.debian.net/debian/pool/main/j/jmtpfs/jmtpfs_0.5.orig.tar.gz
+
+[vars]
+filesize=142914
+sha512=1997d202199af59ae2138701855864e4dab624fff4feac08ea98e3e4ed6c39e4181d8f9fec35db0e83570f48de204f3d00e1b0d2244ec677f77a99b1dc9c38b3
+pkgver=1
+tardir=jmtpfs-0.5
+desc='fuse driver to mount android mtp filesystems'
+
+[deps]
+libmtp
+fuse
+file
+zlib
+
+[build]
+# to unmount your device: $ fusermount -u <directory/>
+
+patch -p1 < "$K"/jmtpfs-mtime64.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+LIBS="-lmagic -lz" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

@@ -1,0 +1,31 @@
+prevent bogus time_t > 32bit values, which can cause busybox' ls -ls to crash
+(passing huge time_t values to asctime is UB).
+
+--- jmtpfs-0.5.org/src/MtpFolder.cpp
++++ jmtpfs-0.5/src/MtpFolder.cpp
+@@ -56,7 +56,10 @@
+ 	MtpNodeMetadata md = m_cache.getItem(m_id, *this);
+ 	info.st_mode = S_IFDIR | 0755;
+ 	info.st_nlink = 2;
+-	info.st_mtime = md.self.modificationdate;
++	memset(&info.st_atim, 0, sizeof(info.st_atim));
++	memset(&info.st_ctim, 0, sizeof(info.st_ctim));
++	memset(&info.st_mtim, 0, sizeof(info.st_mtim));
++	info.st_mtim.tv_sec = md.self.modificationdate & 0xffffffff;
+ 	for(std::vector<MtpFileInfo>::iterator i = md.children.begin(); i!=md.children.end(); i++)
+ 	{
+ 		if (i->filetype == LIBMTP_FILETYPE_FOLDER)
+--- jmtpfs-0.5.org/src/MtpFile.cpp
++++ jmtpfs-0.5/src/MtpFile.cpp
+@@ -48,7 +48,10 @@
+ 
+ 	info.st_mode = S_IFREG | 0644;
+ 	info.st_nlink = 1;
+-	info.st_mtime = md.self.modificationdate;
++	memset(&info.st_atim, 0, sizeof(info.st_atim));
++	memset(&info.st_ctim, 0, sizeof(info.st_ctim));
++	memset(&info.st_mtim, 0, sizeof(info.st_mtim));
++	info.st_mtim.tv_sec = md.self.modificationdate & 0xffffffff;
+ 	MtpLocalFileCopy* localFile = m_cache.getOpenedFile(m_id);
+ 	if (localFile)
+ 	{
