@@ -1,0 +1,23 @@
+[mirrors]
+https://github.com/gittup/tup/archive/49fc3ff5b946a6ab15802d36a9dc906bc770a572.tar.gz
+
+[vars]
+filesize=3946512
+sha512=389c41faedf3162f64fda996f59e1d9fdd0aaf9b64aec8d8c8a9ff69273bb800b1490a7e074514ee81e52a52c4cda67a6847a36a0222c40a2db6d43bbdf132cb
+pkgver=1
+tardir=tup-49fc3ff5b946a6ab15802d36a9dc906bc770a572
+tarball=tup-49fc3ff5b946a6ab15802d36a9dc906bc770a572.tar.gz
+desc='A file-based build system'
+
+[deps]
+fuse
+
+[build]
+# The bootstrap test fails due to not using a git checkout.
+./bootstrap.sh || true
+
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/bin
+mkdir -p "$dest"/share/man/tup1
+mv ./build/tup "$dest"/bin
+mv ./tup.1 "$dest"/share/man/tup1
