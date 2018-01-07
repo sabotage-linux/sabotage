@@ -1,10 +1,10 @@
 [mirrors]
-https://nodejs.org/download/release/v0.12.18/node-v0.12.18.tar.xz
+https://nodejs.org/dist/v9.3.0/node-v9.3.0.tar.gz
 
 [vars]
-filesize=12334060
-sha512=abab9a759fc0b0ffb01b74c0567bf336a1e035b0bc42cd3ab874d3b5ae795950b4fabed6640045aae9bd3a0be0a0ba984ea2fb756aaefd4de5a693d224e928f5
-pkgver=4
+filesize=31133673
+sha512=e095f04f53f8f843e922a12cbc04b84cd4ce48d7250b7b335ac8a728955ce8de2bf3546e79f12c8bc37d4c0328852966770736186dbfe41cc601efa231c8da9c
+pkgver=5
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
@@ -12,34 +12,13 @@ dynamic-toolchain
 python
 
 [build]
-# nodejs has 3 supported versions currently:
-# - v5 (stable)
-# - v4 (LTS)
-# - v0.12 (Maintenance, does not require GCC 4.8, support end: 2017)
-
-target_arch=
-case $A in
-	i?86) target_arch="--dest-cpu=ia32" ;;
-	x86_64) target_arch="--dest-cpu=x64" ;;
-	mips) target_arch="--dest-cpu=mips" ;;
-	arm) target_arch="--dest-cpu=arm"
-	$CC -dumpmachine 2>&1 | grep eabihf >/dev/null 2>&1 &&
-	target_arch="$target_arch --with-arm-float-abi=hard" ||
-	target_arch="$target_arch --with-arm-float-abi=softfp" ;;
-#	*) echo "ERROR: nodejs supports only compilation for x86,x86_64,and ARM"
-	*) target_arch="--dest-cpu=$A" ;;
-esac
-[ -z "$CROSS_COMPILE" ] && target_arch=
-
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
 patch -p1 < "$K"/nodejs-prefix.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix" $target_arch \
-  --without-snapshot \
-  --shared-openssl
+LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix"
 
 # the python configure script does not care about C(XX)FLAGS being passed
 sed -i "s@cflags': \[\]@cflags': ['-D_GNU_SOURCE -D_BSD_SOURCE']@" config.gypi
