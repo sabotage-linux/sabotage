@@ -27,4 +27,5 @@ make BINDIR="$butch_prefix"/bin DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
 install -Dm 644 hostapd.8 "$dest"/share/man/man8/hostapd.8
 install -Dm 644 hostapd_cli.1 "$dest"/share/man/man1/hostapd_cli.1
-install -Dm 640 hostapd.conf "$dest"/share/doc/hostapd.conf
+install -Dm 644 hostapd.conf "$dest"/share/doc/hostapd.conf
+install -Dm 640 "$K"/hostapd.conf "$dest"/etc/hostapd.conf
