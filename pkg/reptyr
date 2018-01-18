@@ -1,0 +1,15 @@
+[mirrors]
+https://github.com/nelhage/reptyr/archive/bbc4d47.tar.gz
+
+[vars]
+filesize=29994
+sha512=cf83e62442fb1f0934f5fd4419db0c1ca6fdb51d40f5fb6a0ec774abec02b9f0d025967cbf581e006517fe97de8c663669f621788fd03c42e6af35b0ddb4b990
+tarball=reptyr-bbc4d47de7bb9da245c82bef89f70e0208637197.tar.gz
+pkgver=1
+
+[deps]
+
+[build]
+make UNAME_S=Linux V=1 -j$MAKE_THREADS PREFIX="$butch_prefix" \
+ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+DESTDIR="$butch_install_dir" all install
