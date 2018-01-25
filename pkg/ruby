@@ -1,10 +1,10 @@
 [mirrors]
-http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.8.tar.xz
+https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.0.tar.gz
 
 [vars]
-filesize=10520648
-sha512=e21004bee537f0c706f4ac9526507b414ddb6a8d721e8fad8d7fe88992a4f048eb5eb79f8d8b8af2a8b331dcfa74b560490218a1acb3532c2cdb4fb4909da3c9
-pkgver=2
+filesize=15834941
+sha512=0712fe68611f5d0cd6dd54b814f825478e64b6a62bdf67bce431f4dca2dc00b1a33f77bebfbcd0a151118a1152554ab457decde435b424aa1f004bc0aa40580d
+pkgver=3
 desc='interpreter for the ruby scripting language'
 
 [deps]
@@ -13,12 +13,6 @@ libressl
 gdbm
 
 [build]
-# Ruby still uses RAND_egd() (it really shouldn't!).
-# Upstream report: https://bugs.ruby-lang.org/issues/10053
-# Patch similar to the wget one discussed here:
-# https://devsonacid.wordpress.com/2014/07/12/how-compatible-is-libressl/
-patch -p1 < "$K"/ruby-libressl.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir --with-baseruby=ruby"
