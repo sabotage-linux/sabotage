@@ -1,0 +1,8 @@
+[mirrors]
+https://nl.alpinelinux.org/alpine/edge/main/x86_64/alpine-keys-2.1-r1.apk
+
+[vars]
+filesize=5307
+sha512=997b8692a6ba3dff82ca4eab480bd235919af9cd8a34db30e6c00fbaa05bb1ecc9c752febf4fd47b29987ebb5449a3ca3cf0e603bc75c7e6d3b8dc710412a9c8
+pkgver=1
+

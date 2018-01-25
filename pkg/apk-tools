@@ -1,0 +1,46 @@
+[mirrors]
+https://git.alpinelinux.org/cgit/apk-tools/snapshot/apk-tools-2.9.1.tar.bz2
+
+[vars]
+filesize=129852
+sha512=28779ac68a2369cf61194f9c0c1304231019abff8187fee44a698cef27393008bb2253f846d6f300a0ddc87d42bc5d8e9c05440733e5c4396ce83bf1cd615e6d
+pkgver=1
+desc='alpine linux binary package manager'
+
+[deps]
+libressl
+alpine-keys
+
+[build]
+# -isystem is added because they override CC with $(CROSS_COMPILE)gcc if
+# CROSS_COMPILE is set
+make \
+  SBINDIR="$butch_prefix"/bin \
+  LIBDIR="$butch_prefix"/lib \
+  CONFDIR="$butch_prefix"/etc/apk \
+  MANDIR="$butch_prefix"/share/man \
+  DOCDIR="$butch_prefix"/share/doc/apk \
+  DESTDIR="$butch_install_dir" \
+  CPPFLAGS="-D_GNU_SOURCE -isystem $butch_root_dir$butch_prefix/include" \
+  CFLAGS="$optcflags" \
+  CXXFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  V=1 \
+  -j$MAKE_THREADS all  install
+
+cat << EOF > repositories
+http://dl-cdn.alpinelinux.org/alpline/edge/main
+http://dl-cdn.alpinelinux.org/alpine/edge/community
+EOF
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 repositories "$dest"/etc/apk/repositories
+install -d "$dest"/etc/apk/keys
+
+cp -f "$C"/alpine-keys-2.1-r1.apk keys.tar.gz
+tar xvf keys.tar.gz
+
+mv etc/apk/keys "$dest"/etc/apk
+mv usr/share/apk "$dest"/share/
+
+# https://github.com/lxc/lxc/blob/master/templates/lxc-alpine.in
+# apk add --root $tmprootfs --initdb --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main alpine-base --keys-dir /etc/apk/keys
