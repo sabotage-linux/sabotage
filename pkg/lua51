@@ -1,0 +1,64 @@
+[mirrors]
+https://www.lua.org/ftp/lua-5.1.5.tar.gz
+
+[vars]
+filesize=221213
+sha512=0142fefcbd13afcd9b201403592aa60620011cc8e8559d4d2db2f92739d18186860989f48caa45830ff4f99bfc7483287fd3ff3a16d4dec928e2767ce4d542a9
+pkgver=1
+
+[deps]
+readline
+
+[build]
+subver=1
+dest="$butch_install_dir""$butch_prefix"
+
+sed -i "s@#define LUA_ROOT\t"'"/usr/local/"@#define LUA_ROOT "/"@' src/luaconf.h
+sed -i 's@INSTALL_TOP= /usr/local@INSTALL_TOP='"$dest"'@' Makefile
+
+make \
+  CC="$CC" \
+  -j$MAKE_THREADS \
+  MYCFLAGS="-fPIC $optcflags" \
+  MYLDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  linux
+make INSTALL_TOP="$dest" INSTALL_MAN="$dest"/share/man/man1 install
+
+mv "$dest"/bin/lua "$dest"/bin/lua5.$subver
+mv "$dest"/bin/luac "$dest"/bin/luac5.$subver
+mv "$dest"/share/man/man1/lua.1 "$dest"/share/man/man1/lua5.$subver.1
+mv "$dest"/share/man/man1/luac.1 "$dest"/share/man/man1/luac5.$subver.1
+
+mkdir -p "$dest"/include/lua5.$subver
+mv "$dest"/include/*.h* "$dest"/include/lua5.$subver/
+
+mkdir -p "$dest"/lib/lua5.$subver
+mv "$dest"/lib/liblua.a "$dest"/lib/lua5.$subver/
+
+mkdir -p "$dest"/lib/pkgconfig
+cat << EOF > "$dest"/lib/pkgconfig/lua-5.${subver}.pc
+majver=5
+minver=$subver
+relver=0
+version=\${majver}.\${minver}.\${relver}
+abiver=5.$subver
+
+prefix=$butch_prefix
+exec_prefix=\${prefix}
+libdir=\${prefix}/lib/lua\${abiver}
+libname=lua
+includedir=\${prefix}/include/lua\${abiver}
+
+INSTALL_LMOD=\${prefix}/share/lua/\${abiver}
+INSTALL_CMOD=${prefix}/lib/lua/\${abiver}
+
+Name: lua
+Description: Lua interpreter
+URL: http://lua.org
+Version: \${version}
+Requires:
+Libs: -L\${libdir} -l\${libname}
+Libs.private: -Wl,-E -lm -ldl
+Cflags: -I\${includedir}
+
+EOF
