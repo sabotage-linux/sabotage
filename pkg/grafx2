@@ -10,7 +10,7 @@ tardir=grafx2
 sdl
 sdl-image
 sdl-ttf
-lua
+lua51
 
 [build]
 patch -p1 < "$K"/grafx2-sighandler.patch
