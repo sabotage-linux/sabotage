@@ -10,6 +10,7 @@ desc='alpine linux binary package manager'
 [deps]
 libressl
 alpine-keys
+lua52
 
 [build]
 # -isystem is added because they override CC with $(CROSS_COMPILE)gcc if
