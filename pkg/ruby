@@ -13,16 +13,32 @@ libressl
 gdbm
 
 [build]
+# thx alpine for patches
+patch -p1 < "$K"/ruby-rubygems-avoid-platform-specific-gems.patch
+patch -p1 < "$K"/ruby-test_insns-lower-recursion-depth.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir --with-baseruby=ruby"
 # ruby crosscompile requires ruby installed on the host!
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+# -fomit-frame-pointer makes ruby segfault, see gentoo bug #150413
+# In many places aliasing rules are broken; play it safe
+# as it's risky with newer compilers to leave it as it is.
+export CPPFLAGS="-D_GNU_SOURCE -fno-omit-frame-pointer -fno-strict-aliasing"
+export CFLAGS="-Os -fno-omit-frame-pointer -fno-strict-aliasing"
+#export LDFLAGS="$optldflags"
+
+# the configure script does not detect isnan/isinf as macros
+export ac_cv_func_isnan=yes
+export ac_cv_func_isinf=yes
+
 ./configure -C $xconfflags \
   stack_protector=no \
   --without-jemalloc \
+  --enable-pthread \
+  --enable-shared \
+  --disable-rpath \
+  --with-mantype=man \
   --prefix="$butch_prefix" \
   rb_cv_binary_elf=yes \
   --disable-install-doc
