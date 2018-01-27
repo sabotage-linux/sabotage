@@ -12,7 +12,7 @@ desc='media player forked from mplayer with major cleanups'
 [deps]
 ffmpeg
 libass
-lua
+lua52
 
 [deps.host]
 python

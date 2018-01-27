@@ -9,13 +9,14 @@ tarball=lgi-0.8.0.tar.gz
 
 [deps]
 gobject-introspection
-lua
+lua52
 
 [build]
 # depends on lua-5.2.
 # lua-5.3 doesn't work yet with lgi-0.8.0!
 
-make V=1 -j$MAKE_THREADS
+make V=1 -j$MAKE_THREADS \
+LUA_CFLAGS=-I"$butch_root_dir""$butch_prefix"/include/lua5.2
 
 make \
     LUA_LIBDIR="$butch_root_dir""$butch_prefix"/lib/lua/5.2 \

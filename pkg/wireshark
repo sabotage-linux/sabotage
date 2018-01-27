@@ -12,7 +12,7 @@ libpcap
 gtk+2
 libgcrypt
 gnutls
-lua
+lua52
 
 [build]
 patch -p1 < "$K"/wireshark-window-icon.patch

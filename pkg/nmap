@@ -11,7 +11,7 @@ desc='port scanner/pentest tool with a gazillion of features'
 libpcap
 pcre
 zlib
-lua
+lua52
 libressl
 
 [deps.host]
