@@ -62,3 +62,5 @@ Libs.private: -Wl,-E -lm -ldl
 Cflags: -I\${includedir}
 
 EOF
+ln -sf lua-5.${subver}.pc "$dest"/lib/pkgconfig/lua5.${subver}.pc
+
