@@ -9,8 +9,11 @@ sha512=cd77148aba4b707b6c159758b5e8444e04f968092eb98f6b4c405b2fb647e709370d5a8dc
 readline
 
 [build]
+subver=2
+dest="$butch_install_dir""$butch_prefix"
+
 sed -i "s@#define LUA_ROOT\t"'"/usr/local/"@#define LUA_ROOT "/"@' src/luaconf.h
-sed -i 's@INSTALL_TOP= /usr/local@INSTALL_TOP='"$butch_install_dir""$butch_prefix"'@' Makefile
+sed -i 's@INSTALL_TOP= /usr/local@INSTALL_TOP='"$dest"'@' Makefile
 
 make \
   CC="$CC" \
@@ -18,10 +21,20 @@ make \
   MYCFLAGS="-fPIC $optcflags" \
   MYLDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   linux
-make INSTALL_TOP="$butch_install_dir""$butch_prefix" install
-dest="$butch_install_dir""$butch_prefix"
+make INSTALL_TOP="$dest" INSTALL_MAN="$dest"/share/man/man1 install
+
+mv "$dest"/bin/lua "$dest"/bin/lua5.$subver
+mv "$dest"/bin/luac "$dest"/bin/luac5.$subver
+mv "$dest"/share/man/man1/lua.1 "$dest"/share/man/man1/lua5.$subver.1
+mv "$dest"/share/man/man1/luac.1 "$dest"/share/man/man1/luac5.$subver.1
+
+mkdir -p "$dest"/include/lua5.$subver
+mv "$dest"/include/*.h* "$dest"/include/lua5.$subver/
+
+mkdir -p "$dest"/lib/lua5.$subver
+mv "$dest"/lib/liblua.a "$dest"/lib/lua5.$subver/
+
 mkdir -p "$dest"/lib/pkgconfig
-for subver in 1 2 ; do
 cat << EOF > "$dest"/lib/pkgconfig/lua-5.${subver}.pc
 majver=5
 minver=$subver
@@ -31,16 +44,16 @@ abiver=5.$subver
 
 prefix=$butch_prefix
 exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
+libdir=\${prefix}/lib/lua\${abiver}
 libname=lua
-includedir=\${prefix}/include
+includedir=\${prefix}/include/lua\${abiver}
 
 INSTALL_LMOD=\${prefix}/share/lua/\${abiver}
-INSTALL_CMOD=${prefix}/lib/lua/${abiver}
+INSTALL_CMOD=${prefix}/lib/lua/\${abiver}
 
 Name: lua
-Description: Just-in-time compiler for Lua
-URL: http://luajit.org
+Description: Lua interpreter
+URL: http://lua.org
 Version: \${version}
 Requires:
 Libs: -L\${libdir} -l\${libname}
@@ -48,4 +61,3 @@ Libs.private: -Wl,-E -lm -ldl
 Cflags: -I\${includedir}
 
 EOF
-done
