@@ -10,6 +10,9 @@ pkgver=1
 readline
 
 [build]
+sed -i s/-lhistory// src/Makefile
+sed -i s/-lncurses// src/Makefile
+
 subver=1
 dest="$butch_install_dir""$butch_prefix"
 
