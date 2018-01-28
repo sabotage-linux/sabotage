@@ -1,12 +1,10 @@
 [mirrors]
-https://github.com/t6x/reaver-wps-fork-t6x/archive/88264ee.tar.gz
+https://github.com/t6x/reaver-wps-fork-t6x/releases/download/v1.6.4/reaver-1.6.4.tar.xz
 
 [vars]
-filesize=494822
-sha512=23713f6c759bff22daab8dcf5378679f895bab7d1834821ff75bac3c3b85dd5ed5bed8dd59e6fb1ad3fbc4defddce375e445cd15f2864a8288f3cdb29960f83a
-tarball=reaver-1.6.1-88264ee.tar.gz
-tardir=reaver-wps-fork-t6x-88264ee547985840b1b842db41526962981ddfd9
-pkgver=4
+filesize=333580
+sha512=53abba11763899fedc90cdda957b668f9e3331b4453d9f81db37eefc44f492a152dd3d94eb80430f5b081dd6370cea39a9cec70766cffeb90bb6887d9c0951fb
+pkgver=5
 desc='cracking tool for WIFI routers with WPS feature'
 
 [deps]
@@ -18,7 +16,7 @@ pixiewps
 [build]
 cd src
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
