@@ -1,19 +1,19 @@
 [mirrors]
-https://github.com/wiire-a/pixiewps/releases/download/v1.4.1/pixiewps-1.4.1.tar.xz
+https://github.com/wiire-a/pixiewps/releases/download/v1.4.2/pixiewps-1.4.2.tar.xz
 
 [vars]
-filesize=69224
-sha512=e52088ab51b65f2903a9a884a2211c343d5900484bb0ca1da4c3f5f3f21c5cc20c21e580048fb136055bcb78d6ec819128e2fdacddf116c4fb6a31adc1a2efb7
-pkgver=4
+filesize=97380
+sha512=4ae5a0490a9502afd1351d33e6ccf8946e067ea01bdfaaf92efd87467a63a299d7a0ba524603ada014f876c1593091b1756629c4e801dfe33932ef811b8808a9
+pkgver=5
 desc='pixiedust offline wps attack tool'
 
 [deps]
 libressl
 
 [build]
-cd src
-make V=1 -j$MAKE_THREADS OPENSSL=1 \
-CFLAGS="-std=c99 $optcflags -O3 -DUSE_OPENSSL=1 $optldflags"
-dest="$butch_install_dir""$butch_prefix"
-install -Dm 755 pixiewps "$dest"/bin/pixiewps
-install -Dm 644 ../pixiewps.1 "$dest"/share/man/man1/pixiewps.1
+sed -i s/asm/__asm__/g src/crypto/tfm/fp_montgomery_reduce.c
+sed -i s/asm/__asm__/g src/crypto/tfm/fp_mul_comba.c
+sed -i s/asm/__asm__/g src/crypto/tfm/fp_sqr_comba.c
+make V=1 -j$MAKE_THREADS OPENSSL=1 CC="$CC" \
+CFLAGS="-std=c99 $optcflags -O3 -DUSE_OPENSSL=1 $optldflags" \
+PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" all install
