@@ -1,0 +1,20 @@
+[mirrors]
+http://piumarta.com/software/peg/peg-0.1.18.tar.gz
+
+[vars]
+filesize=57776
+sha512=ca2fb9088bf87955adf6f883370ddb7d5f6f3cae3605a871094317205a124cce4f7b9f83cf4662cb470e2c5a6977608b456eb1fad98022d7e40fc384d1fec0f8
+pkgver=1
+desc='peg/leg recursive decent parser generators for C'
+
+[deps]
+
+[build]
+make V=1 -j$MAKE_THREADS \
+CPPFLAGS="-D_GNU_SOURCE" \
+OFLAGS="$optcflags" \
+LDFLAGS="$optldflags" \
+PREFIX="$butch_prefix" \
+ROOT="$butch_install_dir" \
+MANDIR="$butch_install_dir""$butch_prefix"/share/man/man1 \
+all install
