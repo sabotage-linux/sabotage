@@ -25,7 +25,7 @@ gperf
 [build]
 # FIXME: netsurfs Makefile suppresses parallel builds
 CFLAGS="-I$butch_prefix/include/cairo/" NETSURF_USE_BMP=NO \
- make Q= -j$MAKE_THREADS
+ make Q= CCACHE= -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
