@@ -1,0 +1,38 @@
+--- wpa_supplicant-2.3.org/wpa_supplicant/wpa_supplicant.c
++++ wpa_supplicant-2.3/wpa_supplicant/wpa_supplicant.c
+@@ -186,7 +186,7 @@
+ 		bssid = wpa_s->pending_bssid;
+ 	wpa_msg(wpa_s, MSG_INFO, "Authentication with " MACSTR " timed out.",
+ 		MAC2STR(bssid));
+-	wpa_blacklist_add(wpa_s, bssid);
++	//wpa_blacklist_add(wpa_s, bssid);
+ 	wpa_sm_notify_disassoc(wpa_s->wpa);
+ 	wpa_supplicant_deauthenticate(wpa_s, WLAN_REASON_DEAUTH_LEAVING);
+ 	wpa_s->reassociate = 1;
+@@ -4397,6 +4397,10 @@
+ 		return;
+ 	}
+ 
++	wpa_dbg(wpa_s, MSG_DEBUG, "Ignore connection failure ");
++	wpa_supplicant_req_scan(wpa_s, 0, 250000);
++	return;
++
+ 	/*
+ 	 * Add the failed BSSID into the blacklist and speed up next scan
+ 	 * attempt if there could be other APs that could accept association.
+@@ -4629,6 +4633,15 @@
+ 		return;
+ 	}
+ #endif /* CONFIG_P2P */
++
++	if(strcmp(reason, "WRONG_KEY")) {
++		/* skip disabling ssid if the auth failure was not due to wrong key */
++		wpa_msg(wpa_s, MSG_INFO, "CTRL-EVENT-AUTH-FAILURE "
++		"id=%d ssid=\"%s\" auth_failures=%u reason=%s",
++		ssid->id, wpa_ssid_txt(ssid->ssid, ssid->ssid_len),
++		ssid->auth_failures,  reason);
++		return;
++	}
+ 
+ 	if (ssid->auth_failures > 50)
+ 		dur = 300;

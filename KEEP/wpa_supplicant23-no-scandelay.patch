@@ -1,0 +1,13 @@
+--- wpa_supplicant-2.3.org/wpa_supplicant/events.c
++++ wpa_supplicant-2.3/wpa_supplicant/events.c
+@@ -1429,8 +1429,8 @@
+ 			 * own scan request and not due to a scan request on
+ 			 * another shared interface, try another scan.
+ 			 */
+-			int timeout_sec = wpa_s->scan_interval;
+-			int timeout_usec = 0;
++			int timeout_sec = 0;
++			int timeout_usec = 250000;
+ #ifdef CONFIG_P2P
+ 			if (wpas_p2p_scan_no_go_seen(wpa_s) == 1)
+ 				return 0;
