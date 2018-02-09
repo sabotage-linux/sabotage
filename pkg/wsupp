@@ -1,0 +1,33 @@
+[mirrors]
+https://github.com/arsv/wsupp-libc/archive/007ebc7f597e45ba9b05e73f0d7134954bc5d851.tar.gz
+
+[vars]
+filesize=65809
+sha512=783b7d0b4bb2aa4e680fc6f0089f7ff43b4fe92fd867b28d58fe749ec21c74dabe0e504eec073482849d274b90974dc154ea81bb764a58f5b9fb5931eae659da
+tarball=wsupp-0.0.1-89759a87.tar.gz
+tardir=wsupp-libc-89759a8704570b8bd720d2ffebfd596dc1d0c762
+desc='tiny replacement for wpa_supplicant. currently WPA2 only'
+pkgver=1
+service=wsupp
+serviceflags="--down --log"
+
+[deps]
+
+[build]
+patch -p1 < "$K"/wsupp-sabotage.patch
+cat << EOF > config.mk
+CC = $CC
+LD = \$(CC)
+STRIP =
+CFLAGS = $optcflags -std=gnu99
+LDFLAGS = $optldflags
+bindir = $butch_prefix/bin
+sbindir = $butch_prefix/bin
+man1dir = $butch_prefix/share/man/man1
+man8dir = $butch_prefix/share/man/man8
+EOF
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/var/lib/wsupp
+mkdir -p "$dest"/var/run/ctrl

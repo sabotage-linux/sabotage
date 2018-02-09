@@ -1,0 +1,57 @@
+diff --git a/control.h b/control.h
+index 0f2169d..f8e9186 100644
+--- a/control.h
++++ b/control.h
+@@ -1,9 +1,9 @@
+ #define TAGGED(a, b, c) ((a << 24) | (b << 16) | (c))
+ 
+-#define WICTL "/run/ctrl/wsupp"
+-#define WICFG "/var/wipsk"
+-#define WICAP "/var/wiap"
+-#define RESOLV_CONF "/run/resolv.conf"
++#define WICTL "/var/run/ctrl/wsupp"
++#define WICFG "/var/lib/wsupp/wipsk"
++#define WICAP "/var/lib/wsupp/wiap"
++#define RESOLV_CONF "/etc/resolv.conf"
+ 
+ #define WI(c) TAGGED('W', 'I', c)
+ 
+diff --git a/wsupp_ifmon.c b/wsupp_ifmon.c
+index 633846b..b42fe5f 100644
+--- a/wsupp_ifmon.c
++++ b/wsupp_ifmon.c
+@@ -3,6 +3,7 @@
+ #include <signal.h>
+ #include <sys/socket.h>
+ #include <sys/wait.h>
++#include <string.h>
+ 
+ #include "common.h"
+ #include "wsupp.h"
+@@ -39,6 +40,10 @@ void reap_dhcp(void)
+ void trigger_dhcp(void)
+ {
+ 	int pid;
++	uint8_t ssid[SSIDLEN+1];
++
++	memcpy(ssid, ap.ssid, ap.slen);
++	ssid[ap.slen] = 0;
+ 
+ 	kill_dhcp();
+ 
+@@ -46,7 +51,14 @@ void trigger_dhcp(void)
+ 		fail("fork: %m\n");
+ 
+ 	if(pid == 0) {
+-		char* argv[] = { "dhcp", ifname, NULL };
++		char* argv[] = {
++			"/bin/sh",
++			"/etc/wpa_connect_action.sh",
++			ifname,
++			"CONNECTED",
++			ssid,
++			(char*)0
++		};
+ 
+ 		execv(*argv, argv);
+ 
