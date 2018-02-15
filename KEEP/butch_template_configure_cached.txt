@@ -141,6 +141,11 @@ butch_config_cache="$K/config.cache"
 [ -z "$HOSTCC" ]  && HOSTCC="$CC"
 [ -z "$HOSTCXX" ]  && HOSTCXX="$CXX"
 
+test "$USE_CCACHE" = 1 && type ccache >/dev/null 2>&1 && {
+	CC="ccache $CC"
+	CXX="ccache $CXX"
+}
+
 debug_build=0
 if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
 	user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
