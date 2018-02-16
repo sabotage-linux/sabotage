@@ -1,0 +1,22 @@
+[mirrors]
+https://www.unbound.net/downloads/unbound-1.6.8.tar.gz
+
+[vars]
+filesize=5467536
+sha512=653d88d5dbc8cf25f7261e4a9869b6591843c7ff27b5d63f979a94505daafbbb61e05d46bedd2d01230355d5f08dd9fe14ed04c5c7340f3f27581b61ad6edfa3
+pkgver=1
+desc='validating, recursive, and caching DNS resolver and library'
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
