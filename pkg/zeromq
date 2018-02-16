@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/zeromq/libzmq/releases/download/v4.2.3/zeromq-4.2.3.tar.gz
+
+[vars]
+filesize=1326780
+sha512=8ac588a7a4db9d65586dd7b501999edac151e1d03056c1014d7ded6cd4bcf5bb4f81252b47d89d60c3ad7d527685218992bf5853b4656c0702e0f64c2d77712b
+pkgver=1
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
