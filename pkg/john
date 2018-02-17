@@ -1,20 +1,19 @@
 [mirrors]
-https://github.com/magnumripper/JohnTheRipper/archive/d1daf24.tar.gz
+https://github.com/magnumripper/JohnTheRipper/archive/0d089b16.tar.gz
 
 [vars]
-filesize=34719213
-sha512=6c08271a79f99819c4a1f58388c0a581ac0cab573d833fb699d5746ebc600d34b09b319e7efca0a1abbff2ab9895aa20048a7ae1385095e29c5e59ebea15400b
-pkgver=2
-tarball=JohnTheRipper-1.8.0.6-jumbo-git-d1daf24.tar.gz
-tardir=JohnTheRipper-d1daf24a41ec8a0236dc00dfecba7d57fb99a6a9
+filesize=36654435
+sha512=768eee82a5ac756fe47d5dfc285165c8ade8920569400b37572f0e313500e18b4580f97167ea30b641f8cd0a9881a950d902da74ae4909dcfb6ea2c8256d1ae5
+tarball=JohnTheRipper-1.8.0.6-jumbo-git-0d089b16.tar.gz
+tardir=JohnTheRipper-0d089b16ea1d77ec4dcebcbf2cca7e3ece9feaaa
+pkgver=3
 desc='password hash cracker'
 
 [deps]
 libressl
 
 [build]
-patch -p1 < "$K"/john-sha0.patch
-patch -p1 < "$K"/john-wpa-bug.patch
+patch -p1 < "$K"/john-gpg.patch
 
 cd src
 

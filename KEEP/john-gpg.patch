@@ -1,0 +1,20 @@
+--- JohnTheRipper-0d089b16ea1d77ec4dcebcbf2cca7e3ece9feaaa.org/src/gpg_common_plug.c
++++ JohnTheRipper-0d089b16ea1d77ec4dcebcbf2cca7e3ece9feaaa/src/gpg_common_plug.c
+@@ -1077,7 +1077,7 @@
+ 		error();
+ 	}
+ 
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000
++#if 0 && OPENSSL_VERSION_NUMBER >= 0x10100000
+ 	DSA_get0_pqg(dsa, &p, &q, &g);
+ 	DSA_get0_key(dsa, &pub_key, &priv_key);
+ 	error = BN_mod_exp(res, g, priv_key, p, ctx);
+@@ -1571,7 +1571,7 @@
+ 			OPENSSL_free(str);
+ 
+ 			if (gpg_common_cur_salt->pk_algorithm == PKA_DSA) { /* DSA check */
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000
++#if 0 && OPENSSL_VERSION_NUMBER >= 0x10100000
+ 				DSA *dsa = DSA_new();
+ 				BIGNUM *p, *q, *g, *pub_key, *priv_key;
+ 
