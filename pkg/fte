@@ -1,0 +1,26 @@
+[mirrors]
+http://prdownloads.sourceforge.net/fte/fte-20020324-src.zip
+
+[vars]
+filesize=625459
+sha512=50a653a67ad135683df25d94e6a722e2b0e8be2da81d6c59b2ac30d905130b127c53bf2c$
+tardir=fte
+pkgver=1
+desc='text editor'
+
+[deps]
+xproto
+libx11
+
+[build]
+# other targets : vfte requires curses and gpm, and sfte slang
+sed -i 's,TARGETS = xfte vfte sfte,TARGETS = xfte,' src/fte-unix.mak
+make V=1 PREFIX="$butch_prefix" -j$MAKE_THREADS \
+CC="$CXX -fno-rtti -fno-exceptions -std=gnu++03" \
+LD="$CXX -fno-rtti -fno-exceptions" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
+DESTDIR="$butch_install_dir" \
+TARGETS="xfte" all
+
+PREFIX="$butch_install_dir""$butch_prefix" sh install
+
