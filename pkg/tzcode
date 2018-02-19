@@ -1,9 +1,10 @@
 [mirrors]
-http://www.iana.org/time-zones/repository/releases/tzcode2013g.tar.gz
+http://www.iana.org/time-zones/repository/releases/tzcode2018c.tar.gz
 
 [vars]
-filesize=171550
-sha512=dd4475916fe36609155d72cfe434b387455ba860cee15fbbbb5caf37cc77757d467c4ae80e81396280e8d3fb68e131373151e8d0eee9bbf8674b96f99e0a9cbd
+filesize=223876
+sha512=21988e876479e38661d41ea4c7b5218ba14b979739d7ba8d49a2d343bb9f37c654056ab21c046a6652715f012e4ca33c4aa109b1ec3ac5d0244dd3a7ea9ed6d2
+pkgver=2
 tardir=.
 
 [deps]
@@ -12,11 +13,11 @@ tardir=.
 mv Makefile Makefile.org
 cat << EOF > Makefile
 PACKAGE=        tzcode
-VERSION=        2013g
+VERSION=        2018c
 BUGEMAIL=       tz@iana.org
-TZCOBJS=        zic.o localtime.o asctime.o scheck.o ialloc.o
-TZDOBJS=        zdump.o localtime.o ialloc.o asctime.o
-OBJS=           zic.o zdump.o localtime.o ialloc.o asctime.o
+TZCOBJS=        zic.o
+TZDOBJS=        zdump.o localtime.o asctime.o strftime.o
+OBJS=           \$(TZCOBJS) \$(TZDOBJS)
 PREFIX=/usr/local
 MANDIR=\$(PREFIX)/share/man
 BINDIR=\$(PREFIX)/bin
