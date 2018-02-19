@@ -27,7 +27,7 @@ fi
 
 CFLAGS="-D_GNU_SOURCE" ../dist/configure -C \
     --prefix="$butch_prefix" --enable-compat185 $xconfflags \
-    --enable-shared --enable-static --enable-dbm \
+    --enable-shared --enable-static --enable-dbm --enable-cxx \
     db_cv_clock_monotonic=yes db_cv_build_sequence=yes db_cv_mmap_extend=yes
 
 sed -i 's/^install_docs:/install_docs:\n\ttrue\ninstall_crap:/' Makefile
