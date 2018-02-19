@@ -14,6 +14,7 @@ m4
 # force correct ABI detection on x86 (could fail if a 64bit kernel is used)
 abihack=
 case "$A" in i[3-6]86) abihack="ABI=32" ;; esac
+[ -n "$CXX" ] && "$CXX" --version >/dev/null 2>&1 && cpp=--enable-cxx
 
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
@@ -23,10 +24,10 @@ CPPFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" \
 CFLAGS="-Wno-implicit $optcflags" \
 LDFLAGS="$optldflags" \
 ./configure -C $xconfflags \
-  --prefix="$butch_prefix" --with-pic --disable-shared $abihack
+  --prefix="$butch_prefix" --with-pic --disable-shared $abihack $cpp
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
-rm -f "$dest"/lib/libgmp.la
+rm -f "$dest"/lib/libgmp.la "$dest"/lib/libgmpxx.la
 
