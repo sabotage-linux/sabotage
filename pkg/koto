@@ -1,0 +1,44 @@
+[mirrors]
+https://github.com/koto-dev/koto/archive/6016cce.tar.gz
+
+[vars]
+filesize=5016300
+sha512=a94ea0a5aab74e7986b3794bb3a1ce89c1c1b4c15662968108cff6b14a8e5009b8122a97602f4d3c6f0eefce698689066976901c145e5528c38981bafd98ce1e
+tarball=koto-6016cce.tar.gz
+tardir=koto-6016ccee94b62a0092d6fb9f6b841d572fb5209e
+pkgver=1
+
+[deps]
+boost
+db
+gmp
+
+[deps.host]
+automake
+libtool
+
+[build]
+printf "all:\nclean:\n" > depends/Makefile
+sed -i 's,boost_system-mt,boost_system,' configure.ac
+sed -i 's,MULTICORE=1,,' src/Makefile.am
+sed -i 's,-DMULTICORE -fopenmp,,' src/Makefile.am
+autoreconf -i
+
+printf "all:\nclean:\n" > src/test/Makefile
+
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-rust --disable-libs --disable-tests
+
+for i in src/Makefile ; do
+	sed -i 's/ccache //' "$i"
+done
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
