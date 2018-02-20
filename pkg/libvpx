@@ -1,11 +1,9 @@
 [mirrors]
-https://chromium.googlesource.com/webm/libvpx/+archive/v1.7.0.tar.gz
+http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.6.0.tar.bz2
 
 [vars]
-filesize=2675072
-sha512=3e5ebc18252a00206abd747ac5ea8a3bca43f32834f1c3155ce57fd347f0409c61d7c7f0a5a8499a0e8c1510688db307fc54873b205ba17b2060d757ed28503d
-tarball=libvpx-1.7.0.tar.gz
-pkgver=2
+filesize=1943026
+sha512=dd753372a156bbf7ceb4090276e5fb32b4c8581c93925dded93efee74153b5eb24ee8c3d8ee6339a6878482f0ecf178a2befeeb36e17eada6c440b48c60e9162
 uchkurl=http://downloads.webmproject.org/releases/webm/index.html
 desc='reference implementation of the VP8/VP9 video codec used in webm/html5'
 
