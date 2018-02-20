@@ -1,13 +1,13 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/network/iw/iw-4.9.tar.xz
-ftp://www.kernel.org/pub/software/network/iw/iw-4.9.tar.xz
-https://www.kernel.org/pub/software/network/iw/iw-4.9.tar.xz
-http://ftp.free.fr/mirrors/ftp.kernel.org/software/network/iw/iw-4.9.tar.xz
+http://cdn.kernel.org/pub/software/network/iw/iw-4.14.tar.xz
+ftp://www.kernel.org/pub/software/network/iw/iw-4.14.tar.xz
+https://www.kernel.org/pub/software/network/iw/iw-4.14.tar.xz
+http://ftp.free.fr/mirrors/ftp.kernel.org/software/network/iw/iw-4.14.tar.xz
 
 [vars]
-filesize=105764
-sha512=3c99d8fc07d6d85b8304ff34b96573e22af65aea688a8cb08051ce4857d7ce9ac32a5acd3b30157c6c78e942f84a18f9229c17e353b7a6d01c80324729af18b3
-pkgver=2
+filesize=114096
+sha512=1ce6335628641eb14ed71d39b96a9907fe36e597e6413fdce7f98f7007939bbdc3fac5af69eb1c857259706937e1a7495cf8cbd4e4ba8528c2a471ef6e4bf809
+pkgver=3
 
 [deps]
 libnl-tiny
