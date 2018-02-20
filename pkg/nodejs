@@ -16,6 +16,8 @@ patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
 patch -p1 < "$K"/nodejs-prefix.patch
 
+chmod +x configure
+
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix"
