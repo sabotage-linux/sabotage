@@ -1,10 +1,10 @@
 [mirrors]
-http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz
+http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56c.tgz
 
 [vars]
-filesize=415088
-sha512=a6f9061b2bfd19e9f4fdf3212a1c5a53a53cdb52650c95287cd380530c08f4a65a1ccec4bdcbba5e7c34e4764bf04eb43abb01742bcbf83107847a6996cc77a8
-pkgver=4
+filesize=417218
+sha512=7e4cd2d24c6bca2ebad7c6b02d158188e766bd4693d93f5bed198d69238aef078d42ce911431ad4e419e4af55083047d823bfad53973db5c6d8a685482770135
+pkgver=5
 tardir=mksh
 
 [deps]
