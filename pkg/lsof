@@ -1,13 +1,14 @@
 [mirrors]
-http://ftp.u-strasbg.fr/securite/lsof/lsof_4.89.tar.bz2
+http://ftp.u-strasbg.fr/securite/lsof/lsof_4.90.tar.bz2
 
 [vars]
-filesize=784560
-sha512=cafb0209143c7863e5cebe7efc33a2520d36f9e26222350e4edfa18debbcfb5c81f42f71469e5913fb21f49a7562bbe761b72dfc8f297dadf75ac619cdcb318c
+filesize=791758
+sha512=8c1481ab72867488d800ad68c9de5c936f034f044c90eeed220fb5683f68ba8efa3dd0efe1e23b4d4968750255b475150ad08ae8627dd9aa0a5025498418351a
+pkgver=2
 desc='lists open files and sockets'
 
 [build]
-tar xf lsof_4.89_src.tar && cd lsof_4.89_src
+tar xf lsof_4.90_src.tar && cd lsof_4.90_src
 
 patch -p1 < "$K"/lsof-rpc-configure.patch
 patch -p1 < "$K"/lsof-Makefile.patch
