@@ -1,10 +1,10 @@
 [mirrors]
-http://leptonica.com/source/leptonica-1.74.4.tar.gz
+http://leptonica.com/source/leptonica-1.75.3.tar.gz
 
 [vars]
-filesize=12349877
-sha512=e74732c10218430463ca01f15e19d329dceb938e315586ed100c634c4d50809824f1d9bf7eeaf91654caf42ed78a5ae5de7c08e7a1d8884c580c536121627891
-pkgver=4
+filesize=12379109
+sha512=ba2586e76634afb9be6699e4261e55078dd176ee2d0674aedfe49f7f0736ddedadd6961bcce23391d47dc24511cf5ab4b451544f3349c2d060da5f789dc5ab3f
+pkgver=5
 desc='C library for image processing, also known as leptonica'
 uchkurl=http://leptonica.com/download.html
 
