@@ -1,0 +1,59 @@
+[mirrors]
+https://github.com/monero-project/monero/archive/4f80c50.tar.gz
+
+[vars]
+filesize=11227044
+sha512=c6a93c5e05c3c8c09f63dbc404cc8e1bea3606d656a8139637ed230f93840405b357f42c39eca33bb2cf598ea7f3af437ff419918393133e948ab16d4072ae61
+tarball=monero-4f80c50.tar.gz
+tardir=monero-4f80c50730447fa0dabb795c63b45ed27851725d
+pkgver=1
+
+[deps]
+libressl
+unbound
+cppzmq
+libsodium
+zeromq
+boost
+
+[deps.host]
+cmake
+
+[build]
+patch -p1 < "$K"/monero-libressl.patch
+patch -p1 < "$K"/monero-stacktrace.patch
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DSTACK_TRACE=OFF \
+  -DBUILD_TESTS=OFF \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DINSTALL_VENDORED_LIBUNBOUND=OFF \
+  -DUPNPC_BUILD_TESTS=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/lib "$dest"/include
