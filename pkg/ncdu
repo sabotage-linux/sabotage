@@ -1,10 +1,10 @@
 [mirrors]
-https://dev.yorhel.nl/download/ncdu-1.12.tar.gz
+https://dev.yorhel.nl/download/ncdu-1.13.tar.gz
 
 [vars]
-filesize=140596
-sha512=20620dd79d2af878442769e097f13806f64f23875dcb85ebccd573a3de43aba5663d496049b64015d13f9a79d624298032c008ef61dfb6f61d8b12902b8dca12
-pkgver=2
+filesize=143819
+sha512=f1f417caa9bd9e9d9aa6311962b461e48301cf9eab5d0f57073e25df01f96ded05dd093627b95b43afc659ad99aed869efd4a98d723f5835b100747b5525a60c
+pkgver=3
 desc='ncurses disk usage'
 
 [deps]
