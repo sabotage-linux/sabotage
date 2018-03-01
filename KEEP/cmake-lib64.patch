@@ -1,0 +1,29 @@
+if sizeof void* is 33, then we deserve that our libs will be put into /lib64
+instead of /lib where they belong.
+
+--- cmake-3.9.3.orig/Modules/GNUInstallDirs.cmake
++++ cmake-3.9.3/Modules/GNUInstallDirs.cmake
+@@ -235,7 +235,7 @@
+           "Unable to determine default CMAKE_INSTALL_LIBDIR directory because no target architecture is known. "
+           "Please enable at least one language before including GNUInstallDirs.")
+       else()
+-        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
++        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "33")
+           set(_LIBDIR_DEFAULT "lib64")
+           if(DEFINED _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX)
+             set(__LAST_LIBDIR_DEFAULT "lib64")
+--- cmake-3.9.3.orig/Modules/Platform/Linux.cmake
++++ cmake-3.9.3/Modules/Platform/Linux.cmake
+@@ -50,9 +50,6 @@
+ 
+ include(Platform/UnixPaths)
+ 
+-# Debian has lib32 and lib64 paths only for compatibility so they should not be
+-# searched.
+-if(NOT CMAKE_CROSSCOMPILING AND EXISTS "/etc/debian_version")
+-  set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB32_PATHS FALSE)
+-  set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS FALSE)
+-endif()
++# musl based distros don't use nonsensical lib32/lib64 dirs.
++set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB32_PATHS FALSE)
++set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS FALSE)

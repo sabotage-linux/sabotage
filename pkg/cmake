@@ -19,6 +19,7 @@ dynamic-toolchain
 
 [build]
 patch -p1 < "$K"/cmake-isystem.patch
+patch -p1 < "$K"/cmake-lib64.patch
 
 sed -i 's,defined(HAVE_LIBCRYPTO),0,' Utilities/cmlibarchive/libarchive/archive_hmac.c
 
