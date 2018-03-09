@@ -1,0 +1,43 @@
+[mirrors]
+https://sourceforge.net/projects/ssocks/files/ssocks-0.0.14.tar.gz
+
+[vars]
+filesize=370154
+sha512=8d9f63dfa7636db64ae456b620c34a098a99c6a1e52a8ab5ea145c57970711a9139861efa409b7471d8cc3d4b04183963991ff1225e421bb1d146ee21db8abdd
+pkgver=1
+desc='socks5 server and reverse proxy server'
+
+[deps]
+
+[build]
+touch config.h
+cat << EOF > all_includes.h
+#include "src/libsocks/client.h"
+#include "src/libsocks/socks-common.h"
+#include "src/libsocks/output-util.h"
+#include "src/libsocks/ssl-util.h"
+#include "src/libsocks/net-util.h"
+#include "src/libsocks/socks5-client.h"
+#include "src/libsocks/bor-util.h"
+#include "src/libsocks/log-util.h"
+#include "src/libsocks/socks5-server.h"
+#include "src/libsocks/socks4.h"
+#include "src/configd-util.h"
+#include "src/auth-util.h"
+EOF
+
+patch -p1 < "$K"/ssocks-ub.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -include sys/select.h -I $PWD -include all_includes.h" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

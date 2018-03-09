@@ -1,0 +1,32 @@
+TODO: not sure about the second return 0
+--- ssocks-0.0.14.org/src/libsocks/socks4.c	2018-03-08 21:22:04.626145703 +0000
++++ ssocks-0.0.14/src/libsocks/socks4.c	2018-03-08 21:22:36.432748066 +0000
+@@ -70,7 +70,7 @@
+ 			}
+ 			break;
+ 		case 0x02: /* TCP/IP port binding */
+-			bind->soc = new_listen_socket(req.dstport, 10, &bind->adrC);
++			bind->soc = new_listen_socket(NULL, req.dstport, 10, &bind->adrC);
+ 			if ( bind->soc >= 0 ){
+ 				s->connected = 0;
+ 				s->listen = 1;
+--- ssocks-0.0.14.org/src/libsocks/socks5-server.c	2018-03-08 21:22:04.626145703 +0000
++++ ssocks-0.0.14/src/libsocks/socks5-server.c	2018-03-08 21:27:50.112826525 +0000
+@@ -655,7 +655,7 @@
+ 		TRACE(L_VERBOSE, "server [%d]: server connection on %s OK",socks->id,
+ 			bor_adrtoa_in(&soc->adrS));
+ 		soc->con = 1;
+-		return;
++		return 0;
+ 	}
+ 	switch(socks->state){
+ 		case S_W_VER_ACK:
+@@ -993,7 +993,7 @@
+ 	while(cpt < ncon){
+ 		/* Open connection to the socks client */
+ 		for (nc = 0; nc < MAXCLI; nc++) if ( tc[nc].soc.soc == -1 ) break;
+-		if (nc >= MAXCLI) return;
++		if (nc >= MAXCLI) return 0;
+ 		/* Remove nonblockant for ssl */
+ 		tc[nc].soc.soc = new_client_socket(tc[nc].conf->config.cli->sockshost,
+ 				tc[nc].conf->config.cli->socksport, &tc[nc].soc.adrC,
