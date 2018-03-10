@@ -1,0 +1,17 @@
+[mirrors]
+https://pypi.python.org/packages/c9/bb/8d3dd9063cfe0cd5d03fe6a1f74ddd948f384e9c1eff0eb978f3976a7d27/websocket_client-0.47.0.tar.gz
+
+[vars]
+filesize=202611
+sha512=0d384e96be66877ba0c24e7194e2f3d554f818c2e2f107b054e07034fa7678946738c2b08c68cd71ebe0237fa507fade319273c492871fbd0ad7085b87cf0a54
+pkgver=2
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir"
