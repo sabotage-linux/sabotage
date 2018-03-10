@@ -1,0 +1,13 @@
+--- tig-2.3.3.org/include/tig/display.h	2018-03-10 03:45:51.799847941 +0000
++++ tig-2.3.3/include/tig/display.h	2018-03-10 03:50:34.699311211 +0000
+@@ -58,8 +58,8 @@
+ 
+ enum status_code open_script(const char *path);
+ 
+-#define get_cursor_pos(cursor_y, cursor_x) getyx(newscr, cursor_y, cursor_x)
+-#define set_cursor_pos(cursor_y, cursor_x) wmove(newscr, cursor_y, cursor_x)
++#define get_cursor_pos(cursor_y, cursor_x) getyx(curscr, cursor_y, cursor_x)
++#define set_cursor_pos(cursor_y, cursor_x) wmove(curscr, cursor_y, cursor_x)
+ 
+ #endif
+ /* vim: set ts=8 sw=8 noexpandtab: */
