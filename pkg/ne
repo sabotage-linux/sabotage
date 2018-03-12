@@ -1,0 +1,18 @@
+[mirrors]
+http://ne.di.unimi.it/ne-3.1.1.tar.gz
+
+[vars]
+filesize=1219488
+sha512=e572ca2a0cd39a59adaea911c80e083872103d90a586117efcabbc3881cf1a48d0c3d06f20eebcd9254177afafef15fd581778cd251b1b25b64ad68a5f8afc37
+pkgver=1
+desc="the nice editor"
+
+[deps]
+ncurses
+
+[build]
+make CC=cc \
+  PREFIX="$butch_install_dir""$butch_prefix" \
+  LIBS=-lncurses \
+  NE_POSIX=1 \
+  build install
