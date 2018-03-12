@@ -13,7 +13,9 @@ curses
 [build]
 patch -p1 < "$K"/ne-curses.patch
 make CC="$CC" \
-  PREFIX="$butch_install_dir""$butch_prefix" \
-  LIBS="-lncurses -lterminfo" \
+  OPTS="$optcflags" \
+  DESTDIR="$butch_install_dir" \
+  PREFIX="$butch_prefix" \
+  LIBS="-lncurses -lterminfo $optldflags" \
   NE_POSIX=1 \
   build install
