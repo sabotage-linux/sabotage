@@ -8,11 +8,12 @@ pkgver=1
 desc="the nice editor"
 
 [deps]
-ncurses
+curses
 
 [build]
-make CC=cc \
+patch -p1 < "$K"/ne-curses.patch
+make CC="$CC" \
   PREFIX="$butch_install_dir""$butch_prefix" \
-  LIBS=-lncurses \
+  LIBS="-lncurses -lterminfo" \
   NE_POSIX=1 \
   build install
