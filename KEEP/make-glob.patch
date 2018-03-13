@@ -1,0 +1,11 @@
+--- make-3.82.org/glob/glob.c
++++ make-3.82/glob/glob.c
+@@ -1325,7 +1325,7 @@
+ 		  /* If we shall match only directories use the information
+ 		     provided by the dirent call if possible.  */
+ 		  if ((flags & GLOB_ONLYDIR)
+-		      && d->d_type != DT_UNKNOWN && d->d_type != DT_DIR)
++		      && d->d_type != DT_UNKNOWN && d->d_type != DT_DIR && d->d_type != DT_LNK)
+ 		    continue;
+ #endif
+ 

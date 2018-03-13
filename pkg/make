@@ -17,11 +17,13 @@ http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
 patch -p1 < "$K"/make-3.82-upstream_fixes-3.patch
 patch -p1 < "$K"/make-3.82-stack_limit.patch
+patch -p1 < "$K"/make-glob.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
 ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
