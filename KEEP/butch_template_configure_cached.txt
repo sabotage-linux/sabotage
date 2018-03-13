@@ -31,7 +31,7 @@ printf "%s" "$1" | awk '{n=split($0,a,".");print a[n];}'
 }
 strip_file_ext() {
 case "$1" in
-*.tar.*) printf "%s" "$1"| sed 's/\.tar\.[0-9a-z]*$//' ;;
+*.tar.*) printf "%s\n" "$1"| sed 's/\.tar\.[0-9a-z]*$//' ;;
 *) le=$(get_file_ext "$1"| wc -c)
    ls=$(printf "%s" "$1"|wc -c)
    l=$(($ls - $le))
