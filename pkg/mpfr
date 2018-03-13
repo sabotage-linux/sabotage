@@ -1,5 +1,4 @@
 [mirrors]
-http://www.mpfr.org/mpfr-current/mpfr-3.1.6.tar.xz
 http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.6.tar.xz
 
 [vars]
