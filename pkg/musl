@@ -16,6 +16,7 @@ gcc6
 
 [build]
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
+patch -p1 < "$K"/musl-1.1.19-dirent.patch
 
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib

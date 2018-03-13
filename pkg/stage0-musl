@@ -14,6 +14,7 @@ stage0-gcc
 test "$STAGE" = "0" || exit 0
 
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
+patch -p1 < "$K"/musl-1.1.19-dirent.patch
 
 CC=$R/bin/gcc ./configure --enable-gcc-wrapper \
   --prefix=$butch_prefix --syslibdir=$butch_prefix/lib

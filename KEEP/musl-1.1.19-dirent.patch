@@ -1,0 +1,32 @@
+From 373589a317bf86dd2627455691164b0bf7954c54 Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Tue, 13 Mar 2018 06:20:50 +0000
+Subject: [PATCH] Revert "add _DIRENT_HAVE_D_* macros to dirent.h"
+
+This reverts commit 1bc10ffeaa7c7ce44b3e214e02e302642511c7c7.
+
+This commit breaks GNU make 3.82. After it is applied, GNU make fails
+to expand directoriy-symlink globs, which in turn break our kernel-headers
+package.
+---
+ include/dirent.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/include/dirent.h b/include/dirent.h
+index e0a8fe6a..88d3c3cf 100644
+--- a/include/dirent.h
++++ b/include/dirent.h
+@@ -17,10 +17,6 @@ extern "C" {
+ 
+ typedef struct __dirstream DIR;
+ 
+-#define _DIRENT_HAVE_D_RECLEN
+-#define _DIRENT_HAVE_D_OFF
+-#define _DIRENT_HAVE_D_TYPE
+-
+ struct dirent {
+ 	ino_t d_ino;
+ 	off_t d_off;
+-- 
+2.13.3
+
