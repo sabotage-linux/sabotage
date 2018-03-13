@@ -1,10 +1,10 @@
 [mirrors]
-http://dev.mujs.com/downloads/mujs-1.0.0.tar.xz
+http://dev.mujs.com/downloads/mujs-1.0.3.tar.xz
 
 [vars]
-filesize=90472
-sha512=741896648b2508c8b64af29ecc9c396c7046cf46bf597ac58acc53c4e83c627306ba8ef06d49d13d20e540c178fac8f980cf433cbe0c17abc611b59f5a54285d
-pkgver=3
+filesize=90456
+sha512=51444105193b86737773efe50a87a93213f7cafd5b68c9f324fea2ca8ff57d558cc3051468a7486ee49903649fcd3f8e743043193c937460c140d4e04f214b5d
+pkgver=4
 
 [deps]
 musl
