@@ -1,11 +1,10 @@
 [mirrors]
-http://git.ghostscript.com/?p=mujs.git;a=snapshot;h=77ab465f1;sf=tgz
+http://dev.mujs.com/downloads/mujs-1.0.0.tar.xz
 
 [vars]
-filesize=105634
-sha512=9b0992cd2a04ef19c438561055f1b9dfc337f3a28d44e2ddf696099aa382aaa9d78d3a0dbf8d3dd73ebec63d6d663e49702d98d66c4f4f2dc3a7ccf8dfde3a12
-tarball=mujs-77ab465.tar.gz
-pkgver=2
+filesize=90472
+sha512=741896648b2508c8b64af29ecc9c396c7046cf46bf597ac58acc53c4e83c627306ba8ef06d49d13d20e540c178fac8f980cf433cbe0c17abc611b59f5a54285d
+pkgver=3
 
 [deps]
 musl
