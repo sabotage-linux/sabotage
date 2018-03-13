@@ -170,13 +170,17 @@ if $BUTCH_HAVE_TARBALL ; then
 	printf "%s: starting to untar\n" "`timestamp`"
 	tarflags=
 	case $(get_file_ext "$BUTCH_TARBALL") in
-		xz) tarflags=xJf ;;
-		lzma) tarflags=xaf ;;
-		bz2) tarflags=xjf ;;
-		gz) tarflags=xzf ;;
-		tgz) tarflags=xzf ;;
+		xz) tarflags=-xJf ;;
+		lzma) tarflags=-xaf ;;
+		bz2) tarflags=-xjf ;;
+		gz) tarflags=-xzf ;;
+		tgz) tarflags=-xzf ;;
 	esac
-	if [ -z $tarflags ] || ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
+	# gnu tar has some idiotic behaviour when the user is root...
+	if [ "$STAGE" = 0 ] && tar --help 2>&1 | grep no-same-owner >/dev/null ; then
+		tarflags="--no-same-owner $tarflags"
+	fi
+	if [ -z "$tarflags" ] || ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
 		case "$BUTCH_TARBALL" in
 			*.tar.xz)
 				# old gnu tar passes .xz to lzma instead of xz
