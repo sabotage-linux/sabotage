@@ -6,11 +6,11 @@ fi
 
 usage() {
 cat << EOF
-butch pack : creates a distributable binary archive of an installed pkg in the
+butch pack : creates distributable binary archives of installed pkgs into the
 current directory.
 may require root to catch all files.
 
-butch pack [compressor] pkgname
+butch pack [compressor] pkgname...
 
 optional: compressor can be one of
   --none: no compression. plain tar archive is created.
@@ -42,13 +42,13 @@ case $1 in
 --xze) comp=xze ; ext=tar.xz ; shift ;;
 esac
 
+pack(){
 pkg=$1
-[ -z "$pkg" ] && usage
 
 fl=$S/pkg/$pkg
 if [ ! -e "$fl" ] ; then
 	echo "package $fl does not exist!"
-	exit 1
+	return 1
 fi
 
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
@@ -59,15 +59,26 @@ test $comp = gz && tarflags=czf
 test $comp = xz && tarflags=cJf
 [ "$R" = "/" ] && R=
 cd "$R"$butch_staging_dir
-[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; exit 1 ; }
+[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; cd "$me" ; return 1 ; }
 ver=$(get_pkgver $pkg)
 out=$me/${pkg}_${A}_${ver}.$ext
 tar $tarflags "$out" "$pkg"
-[ -e "$out" ] || exit 1
+[ -e "$out" ] || { cd "$me" ; return 1 ; }
 if test $comp = xze ; then
 	tr=$me/${pkg}_$A.tar
 	mv "$out" "$tr"
 	xz -z -9 -e "$tr"
-	[ -e "$out" ] || exit 1
+	[ -e "$out" ] || { cd "$me" ; return 1 ; }
 fi
 echo "$(basename $out) created."
+cd "$me"
+}
+
+[ -z "$1" ] && usage
+ret=0
+while test -n "$1" ; do
+	pack "$1"
+	test "$?" = 0 || ret=1
+	shift
+done
+exit $ret
