@@ -8,27 +8,45 @@ usage() {
 	echo "this serves as a unique fingerprint of a package and is used to" >&2
 	echo "implement reproducible builds." >&2
 	echo >&2
-	echo "usage: $0 [-d/-o] packagename" >&2
+	echo "usage: $0 [-d/-o/-D] packagename" >&2
 	echo "-d (details) is optional and prints the checksum of every single file" >&2
 	echo "-o (only details) is optional and activates details, but leaves away">&2
 	echo "the final checksum." >&2
+	echo "-D (directory) packagename is treated as a directory name">&2
 	exit 1
 }
 details=false
 xorsum=true
-[ "$1" = "-d" ] && { details=true ; shift ; }
-[ "$1" = "-o" ] && { details=true ; xorsum=false ; shift ; }
+dirmode=false
+parse_opts() {
+[ "$1" = "-d" ] && { details=true ; return 0 ; }
+[ "$1" = "-o" ] && { details=true ; xorsum=false ; return 0; }
+[ "$1" = "-D" ] && { dirmode=true ; return 0; }
+return 1;
+}
+while parse_opts "$1" ; do shift ; done
 [ -z "$1" ] && usage
 
 pkg=$1
 
-[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+if ! $dirmode ; then
+	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+	[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 
-fl="$butch_filelists"/"$pkg".txt
-if [ ! -e "$fl" ] ; then
-	echo "filelist $fl does not exist, probably the program is not installed"
-	exit 1
+	fl="$butch_filelists"/"$pkg".txt
+	if [ ! -e "$fl" ] ; then
+		echo "filelist $fl does not exist, probably the program is not installed"
+		exit 1
+	fi
+	tmpfl=
+else
+	butch_staging_dir=
+	tmpfl=$(mktemp)
+	(
+	cd "$pkg"
+	find . -type f -or -type l > "$tmpfl"
+	)
+	fl="$tmpfl"
 fi
 tmpf=$(mktemp)
 getsha() {
@@ -102,10 +120,14 @@ $xorsum && {
 }
 
 [ "$R" = "/" ] && R=
+butch_install_dir="$butch_staging_dir"/"$pkg"
+dest_dir="$R""$butch_install_dir"
+$dirmode && dest_dir="$pkg"
+IFS='
+'
 for f in `cat "$fl" | sort` ; do
 	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
-	butch_install_dir="$butch_staging_dir"/"$pkg"
-	sha=$(getsha "$R""$butch_install_dir""$fs") || continue
+	sha=$(getsha "$dest_dir""$fs") || continue
 	test -z "$sha" && continue
 	printf "%s %s\n" "$sha" "$fs" >> "$tmpf"
 	$xorsum && {
@@ -118,3 +140,4 @@ $details && cat "$tmpf"
 $xorsum && echo ${cnt}-${res}
 
 rm "$tmpf"
+[ -n "$tmpfl" ] && rm "$tmpfl"
