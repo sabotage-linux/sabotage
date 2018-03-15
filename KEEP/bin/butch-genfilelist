@@ -1,27 +1,51 @@
 #!/bin/sh
+check_config(){
+	if [ -z "$S" ] ; then
+		echo 'S not set, did you source config ?'
+		exit 1
+	fi
+}
+dirmode=false
+if [ "$1" = "-D" ] ; then
+	dirmode=true
+	shift
+fi
 pkg=$1
 if [ -z "$pkg" ] ; then
 	echo 'this script creates a filelist for a package.'
-	echo "usage $0 packagename [output-filename]"
+	echo "usage $0 [-D] packagename [output-filename]"
 	echo 'if output-filename (optional) is - output goes to stdout.'
-	exit 1
-fi
-if [ -z "$S" ] ; then
-	echo 'S not set, did you source config ?'
+	echo 'if -D (optional) is specified, packagename is treated as'
+	echo '  a raw directory name'
 	exit 1
 fi
 if [ -n "$2" ] ; then
 	fl="$2"
 	set -e
+elif $dirmode ; then
+	echo "error: dirmode can only be used with an explicit output file name">&2
+	exit 1
 else
+	check_config
+
 	[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 	fl="$butch_filelists"/"$pkg".txt
 	set -e
 	mkdir -p "$butch_filelists"
 fi
-[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-test "$R" = / && R=
-butch_install_dir=$R$butch_staging_dir/$pkg
+if ! $dirmode ; then
+	check_config
+	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+	test "$R" = / && R=
+	butch_install_dir=$R$butch_staging_dir/$pkg
+else
+	butch_install_dir="$pkg"
+fi
+
+if [ ! -d "$butch_install_dir" ] ; then
+	echo "error: directory $butch_install_dir does not exist" >&2
+	exit 1
+fi
 
 if [ "$fl" = - ] ; then
 	exec 3>&1
