@@ -21,6 +21,7 @@ patch -p1 < "$K"/eudev-Handle-1-return-from-sysconf.patch
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -lblkid" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin \
   --disable-manpages \
   --disable-keymap \
   --disable-blkid \
