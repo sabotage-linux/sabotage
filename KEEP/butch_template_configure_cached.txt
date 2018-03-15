@@ -70,8 +70,6 @@ if $butch_do_custom_destdir ; then
 	[ -z "$butch_do_create_tarball" ] && butch_do_create_tarball=false
 	[ -z "$butch_do_separate_debug_info" ] && butch_do_separate_debug_info=true
 	[ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
-else
-	butch_install_dir=
 fi
 
 
@@ -108,9 +106,11 @@ butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
 #currently passing a version from a package is not implemented.
 butch_package_version=0.0.0
 
+butch_install_dir_final=
 # butch_install_dir denotes the DESTDIR passed to make
 if $butch_do_custom_destdir ; then
 	butch_install_dir="$butch_custom_destdir"
+	if [ -d "$butch_install_dir" ] ; then
 	if $butch_do_cleanup_custom_destdir ; then
 		case "$butch_custom_destdir" in
 		/|//|///|$butch_staging_dir|$butch_staging_dir/|$butch_staging_dir//)
@@ -122,7 +122,16 @@ if $butch_do_custom_destdir ; then
 			"$K"/bin/butch-unlink "$butch_package_name"
 			rm -f "$filelist"
 		fi
+	else
+		#  no_unlink package, build into a temporary destdir which we swap out for the real one on success
+		butch_install_dir_final="$butch_install_dir"
+		butch_custom_destdir_base="$butch_staging_dir"/__tmp__"$butch_package_name"
+		butch_custom_destdir="$butch_root_dir""$butch_custom_destdir_base"
+		butch_install_dir="$butch_custom_destdir"
 	fi
+	fi
+else
+	butch_install_dir=
 fi
 [ -z "$butch_install_dir" ] || mkdir -p "$butch_install_dir"
 
@@ -222,18 +231,64 @@ set -e
 set +e
 
 printf "%s: end build\n" "`timestamp`"
+
+echo "post buildscript phase..."
+
+# install service if package has a servicescript.
+[ -n "$service" ] && "$K"/bin/butch-install-service $serviceflags $service "$K"/services/$service
+
 # if stuff was directly installed into the rootfs, i.e. without
 # butch_do_custom_destdir, any further action is unwanted/impossible
 $butch_do_custom_destdir || exit 0
-echo "post buildscript phase..."
 
 # a package that doesn't want to be handled by the code below this line
 # can just call exit 0 as the last statement
 # if it wants to get some other stuff handled it could simply override
 # butch_install_dir (e.g. for sabotages relocate_toolchain script)
 
-# install service if package has a servicescript.
-[ -n "$service" ] && "$K"/bin/butch-install-service $serviceflags $service "$K"/services/$service
+# in case of rebuild of a no_unlink package, swap out contents of the temporary
+# staging dir and the already existing permanent one.
+if test -n "$butch_install_dir_final" ; then
+	# swap out temporary builddir after the build succeeded, in case of no_unlink package.
+	flnew=$(mktemp)
+	"$K"/bin/butch-genfilelist -D "$butch_install_dir" - | sort -u > "$flnew"
+	flold=$(mktemp)
+	if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
+		sort -u < "$filelist" > "$flold"
+	else
+		"$K"/bin/butch-genfilelist -D "$butch_install_dir_final" - | sort -u > "$flold"
+	fi
+	fl=$(mktemp)
+
+	# files contained in both dirs.
+	comm -12 "$flold" "$flnew" > "$fl"
+
+	while read fn ; do
+		mv "$butch_install_dir"/"$fn" "$butch_install_dir_final"/"$fn"
+	done < "$fl"
+
+	# files contained only in new dir.
+	comm -13 "$flold" "$flnew" > "$fl"
+
+	while read fn ; do
+		mkdir -p "$(dirname "$butch_install_dir_final"/"$fn")"
+		mv "$butch_install_dir"/"$fn" "$butch_install_dir_final"/"$fn"
+	done < "$fl"
+
+	# files contained only in old dir.
+	comm -23 "$flold" "$flnew" > "$fl"
+
+	while read fn ; do
+		rm -f "$butch_install_dir_final"/"$fn"
+	done < "$fl"
+	# overwrite filelist with files only in old dir, so butch unlink can remove stale links.
+	mv "$fl" "$filelist"
+	"$K"/bin/butch-unlink "$butch_package_name"
+
+	rm -f "$flold" "$flnew" "$filelist"
+	rm -rf "$butch_install_dir"
+	butch_install_dir="$butch_install_dir_final"
+fi
 
 cd "$butch_install_dir"
 [ `ls | wc -l` = "0" ] && have_files=false || have_files=true
@@ -314,7 +369,7 @@ if $have_files ; then
 	# moves the contents to / or create some sort of package file list.
 	# e.g.
 	if $butch_do_filelists ; then
-		$K/bin/butch-genfilelist "$butch_package_name"
+		"$K"/bin/butch-genfilelist "$butch_package_name"
 	fi
 
 	if $butch_do_relocate ; then
