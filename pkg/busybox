@@ -102,10 +102,9 @@ trylink() {
 	fi
 }
 
-for f in $($HOSTCC -E -include include/autoconf.h -DMAKE_LINKS include/applets.h | sed -e 's/^LINK BB_DIR_BIN //' -e 's/^LINK BB_DIR_SBIN //' -e 's/LINK BB_DIR_ROOT //' -e '/^#/d' -e '/^}/d' -e '/^[ ]*$/d' | sort -u); do
-	#echo ln -sf busybox "$dest"/bin/"$f"
-	[ ! -f "$butch_root_dir/bin/$f" ] && \
-	  trylink "$dest"/bin/"$f"
+$HOSTCC -E -include include/autoconf.h -DMAKE_LINKS include/applets.h | sed -e 's/^LINK BB_DIR_BIN //' -e 's/^LINK BB_DIR_SBIN //' -e 's/LINK BB_DIR_ROOT //' -e '/^#/d' -e '/^}/d' -e '/^[ ]*$/d' | sort -u > applet.lst
+for f in `cat applet.lst` ; do
+	trylink "$dest"/bin/"$f"
 done
 
 ln -sf busybox "$dest"/bin/sh
