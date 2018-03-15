@@ -1,8 +1,10 @@
 #!/bin/sh
-if [ -z "$S" ] ; then
-	echo 'S not set, did you source config ?'
-	exit 1
-fi
+check_config(){
+	if [ -z "$S" ] ; then
+		echo 'S not set, did you source config ?'
+		exit 1
+	fi
+}
 BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
 	echo "$0 - creates a checksum over all of the files of one package" >&2
@@ -31,6 +33,7 @@ while parse_opts "$1" ; do shift ; done
 pkg=$1
 
 if ! $dirmode ; then
+	check_config
 	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
 	[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 
@@ -117,10 +120,13 @@ $xorsum && {
 	awk_works=$?
 }
 
-[ "$R" = "/" ] && R=
-butch_install_dir="$butch_staging_dir"/"$pkg"
-dest_dir="$R""$butch_install_dir"
-$dirmode && dest_dir="$pkg"
+if ! $dirmode ; then
+	[ "$R" = "/" ] && R=
+	butch_install_dir="$butch_staging_dir"/"$pkg"
+	dest_dir="$R""$butch_install_dir"
+else
+	dest_dir="$pkg"
+fi
 IFS='
 '
 for f in `cat "$fl" | sort` ; do
