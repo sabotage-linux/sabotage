@@ -51,7 +51,7 @@ else
 fi
 tmpf=$(mktemp)
 getsha() {
-	local foo=$(sha512sum "$1")
+	local foo=$(sha512sum "$1" 2>/dev/null)
 	[ "$?" != 0 ] && return 1
 	printf "%s" "$foo" | cut -d " " -f 1
 }
