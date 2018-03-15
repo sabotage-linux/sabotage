@@ -14,6 +14,7 @@ wv
 
 [build]
 patch -p1 < "$K"/abiword-png15.patch
+patch -p1 < "$K"/abiword-TRUE.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 cp -f "$K"/config.sub .

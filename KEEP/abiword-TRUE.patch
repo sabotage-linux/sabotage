@@ -1,0 +1,31 @@
+diff --git a/src/af/util/xp/ut_jpeg.cpp b/src/af/util/xp/ut_jpeg.cpp
+index 1276a5a..da9006c 100644
+--- a/src/af/util/xp/ut_jpeg.cpp
++++ b/src/af/util/xp/ut_jpeg.cpp
+@@ -102,7 +102,7 @@ static boolean _jpegFillInputBuffer (j_decompress_ptr cinfo)
+ 	src->pub.next_input_byte = src->sourceBuf->getPointer (src->pos);
+ 	src->pub.bytes_in_buffer = src->sourceBuf->getLength ();
+ 	
+-	return TRUE;
++	return (boolean) 1;
+ }
+ 
+ /*
+@@ -161,7 +161,7 @@ bool UT_JPEG_getDimensions(const UT_ByteBuf* pBB, UT_sint32& iImageWidth,
+ 	/* set the data source */
+ 	_JPEG_ByteBufSrc (&cinfo, pBB);
+ 
+-	jpeg_read_header(&cinfo, TRUE);
++	jpeg_read_header(&cinfo, (boolean) 1);
+ 	jpeg_start_decompress(&cinfo);
+     iImageWidth = cinfo.output_width;
+     iImageHeight = cinfo.output_height;
+@@ -189,7 +189,7 @@ bool UT_JPEG_getRGBData(const UT_ByteBuf* pBB, UT_Byte* pDest, UT_sint32 iDestRo
+ 	/* set the data source */
+ 	_JPEG_ByteBufSrc (&cinfo, pBB);
+ 
+-	jpeg_read_header(&cinfo, TRUE);
++	jpeg_read_header(&cinfo, (boolean) 1);
+ 	jpeg_start_decompress(&cinfo);
+     
+ 	int row_stride = cinfo.output_width * cinfo.output_components;
