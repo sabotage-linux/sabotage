@@ -3,6 +3,7 @@ if [ -z "$S" ] ; then
 	echo 'S not set, did you source config ?'
 	exit 1
 fi
+BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
 	echo "$0 - creates a checksum over all of the files of one package" >&2
 	echo "this serves as a unique fingerprint of a package and is used to" >&2
@@ -42,10 +43,7 @@ if ! $dirmode ; then
 else
 	butch_staging_dir=
 	tmpfl=$(mktemp)
-	(
-	cd "$pkg"
-	find . -type f -or -type l > "$tmpfl"
-	)
+	"$BINDIR"/butch-genfilelist -D "$pkg" - > "$tmpfl"
 	fl="$tmpfl"
 fi
 tmpf=$(mktemp)
