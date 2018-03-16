@@ -12,5 +12,6 @@ libressl
 
 [build]
 make V=1 -j$MAKE_THREADS CC="$CC" XCFLAGS="$opcflags" XLDFLAGS="$optldflags" \
-prefix="$butch_prefix" all
-make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
+  prefix="$butch_prefix" sbindir="$butch_prefix"/bin all
+make prefix="$butch_prefix" sbindir="$butch_prefix"/bin \
+  DESTDIR="$butch_install_dir" install
