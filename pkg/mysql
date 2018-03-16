@@ -43,7 +43,7 @@ CC="$CC -DTHD_LIB_LT=1 -Dthd_lib_detected=2" cmake \
   -DINSTALL_MYSQLSHAREDIR=share/mysql \
   -DINSTALL_MYSQLTESTDIR=share/mysql/test \
   -DINSTALL_PLUGINDIR=lib/mysql \
-  -DINSTALL_SBINDIR=sbin \
+  -DINSTALL_SBINDIR=bin \
   -DINSTALL_SCRIPTDIR=bin \
   -DINSTALL_SQLBENCHDIR=share/mysql/bench \
   -DINSTALL_SUPPORTFILESDIR=share/mysql/support \
