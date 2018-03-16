@@ -9,6 +9,7 @@ tardir=koto-6016ccee94b62a0092d6fb9f6b841d572fb5209e
 pkgver=1
 
 [deps]
+libsodium
 boost
 db
 gmp
