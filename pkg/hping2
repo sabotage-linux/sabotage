@@ -24,6 +24,6 @@ printf "#define %s\n" "$endian" > byteorder.h
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS CC="$CC"
-install -D -m 755 hping2 "$butch_install_dir""$butch_prefix"/sbin/hping2
+install -D -m 755 hping2 "$butch_install_dir""$butch_prefix"/bin/hping2
 install -D -m 644 docs/hping2.8 "$butch_install_dir""$butch_prefix"/share/man/man8/hping2.8
 
