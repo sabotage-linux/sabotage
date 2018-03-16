@@ -16,6 +16,7 @@ cat << EOF > configure.local
 PREFIX=$butch_prefix
 MANDIR="$butch_prefix"/share/man
 LIBDIR="$butch_prefix"/lib
+SBINDIR="$butch_prefix"/bin
 CFLAGS="$optcflags"
 BUILD_DB=0
 HAVE_DIRENT_NAMLEN=0
