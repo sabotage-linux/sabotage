@@ -10,6 +10,7 @@ desc='monitoring of system i/o'
 python
 
 [build]
+sed -i 's,/sbin,/bin,g' setup.py
 python setup.py build
 python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir"
 
