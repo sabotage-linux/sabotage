@@ -68,6 +68,7 @@ cmake $xconfflags \
   -DWITH_LIBCDR=OFF \
   -DWITH_LIBVISIO=OFF \
   -DWITH_LIBWPG=OFF \
+  -DWITH_IMAGE_MAGICK=OFF \
   ..
 make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
