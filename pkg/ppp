@@ -28,4 +28,5 @@ for i in pppstats pppd/plugins/rp-pppoe pppd/plugins/radius pppd chat pppdump ; 
 done
 
 make V=1 COPTS="$CPPFLAGS $CFLAGS $LDFLAGS" -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+make DESTDIR="$butch_install_dir" \
+  BINDIR="$butch_install_dir""$butch_prefix"/bin install
