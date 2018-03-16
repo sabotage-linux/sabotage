@@ -14,6 +14,7 @@ patch -p1 < "$K"/fuse-headers.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+MOUNT_FUSE_PATH="$butch_prefix"/bin \
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
