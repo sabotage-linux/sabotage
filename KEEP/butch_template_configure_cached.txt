@@ -297,6 +297,11 @@ echo "error: package installed pkgconfig files into /share"
 echo "please fix package (examples: xtrans eudev libyajl usbutils shared-mime-info)"
 exit 1
 }
+[ -d sbin ] && {
+echo "error: package installed binaries into /sbin instead of /bin"
+echo "please fix package (examples: openvpn rtmpdump iotop)"
+exit 1
+}
 add_joblist() {
         test -z "$joblist" && joblist="$1" || joblist="$joblist $1"
 }
