@@ -18,6 +18,7 @@ lzo
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin \
   --disable-plugin-auth-pam
 
 make V=1 -j$MAKE_THREADS
