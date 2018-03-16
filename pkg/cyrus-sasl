@@ -14,7 +14,8 @@ sha512=78819cb9bb38bea4537d6770d309deeeef09ff44a67526177609d3e1257ff4334d2b5e513
 CPPFLAGS="-D_GNU_SOURCE" \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin
 
 ( cd include
 make makemd5 CC="$HOSTCC"
