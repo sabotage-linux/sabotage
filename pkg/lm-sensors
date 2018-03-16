@@ -19,4 +19,5 @@ done
 make CC="$CC" CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
   LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   PREFIX="$butch_prefix" MACHINE=$A DESTDIR="$butch_install_dir" \
+  SBINDIR="$butch_prefix"/bin \
   V=1 -j$MAKE_THREADS LIBICONV=-lc all install
