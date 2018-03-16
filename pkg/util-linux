@@ -24,6 +24,9 @@ LDFLAGS="--static $optldflags -lcurses -lterminfo" \
   --disable-pg \
   --disable-wall --disable-use-tty-group \
 
+sed -i 's,/sbin,/bin,' config.status
+./config.status
+
 "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
