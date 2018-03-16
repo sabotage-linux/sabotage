@@ -17,6 +17,7 @@ patch -p1 < "$K"/parted-3.2-xfs.patch
 
 CFLAGS="-D_GNU_SOURCE -Dloff_t=off_t $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin \
   --enable-threads=posix       \
   --disable-shared --disable-nls --without-readline
 
