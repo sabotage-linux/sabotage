@@ -23,7 +23,8 @@ for i in . src nmixer mpegsound ; do
 sed -i 's,^INCLUDES = .*,INCLUDES=-I$(srcdir) -I../mpegsound -I../nmixer,' $i/Makefile.in
 done
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+CXXFLAGS="$optcflags -fpermissive -std=gnu++03" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   ac_cv_path_SDL12_CONFIG=$PWD/sdl-config
