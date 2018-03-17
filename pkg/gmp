@@ -11,6 +11,8 @@ pkgver=2
 m4
 
 [build]
+# prevent usage of build-machine specific optimizations
+cp -f configfsf.guess config.guess
 # force correct ABI detection on x86 (could fail if a 64bit kernel is used)
 abihack=
 case "$A" in i[3-6]86) abihack="ABI=32" ;; esac
