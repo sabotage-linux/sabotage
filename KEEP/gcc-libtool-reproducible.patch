@@ -1,0 +1,13 @@
+diff --git a/ltmain.sh b/ltmain.sh
+index 9503ec8..96311a1 100644
+--- a/ltmain.sh
++++ b/ltmain.sh
+@@ -2932,7 +2932,7 @@ func_extract_archives ()
+         func_extract_an_archive "$my_xdir" "$my_xabs"
+ 	;;
+       esac
+-      my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | $NL2SP`
++      my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | LC_ALL=C sort | $NL2SP`
+     done
+ 
+     func_extract_archives_result="$my_oldobjs"

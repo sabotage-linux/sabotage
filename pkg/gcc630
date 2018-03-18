@@ -38,6 +38,7 @@ if [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
 fi
 
 patch -p1 < "$K"/gcc630-mcm.patch
+patch -p1 < "$K"/gcc-libtool-reproducible.patch
 
 "$K"/libibertyfix libiberty
 
