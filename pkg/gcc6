@@ -1,2 +1,5 @@
+[vars]
+pkgver=2
+
 [deps]
-gcc630
+gcc640
