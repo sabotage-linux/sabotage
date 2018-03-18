@@ -39,6 +39,7 @@ fi
 
 patch -p1 < "$K"/gcc-630-posix_memalign.patch
 patch -p1 < "$K"/gcc630-mcm.patch
+patch -p1 < "$K"/gcc-630-ubsan-empty-string-fix.patch
 patch -p1 < "$K"/gcc-libtool-reproducible.patch
 
 "$K"/libibertyfix libiberty
