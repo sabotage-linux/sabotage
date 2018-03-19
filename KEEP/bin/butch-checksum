@@ -39,7 +39,7 @@ if ! $dirmode ; then
 
 	fl="$butch_filelists"/"$pkg".txt
 	if [ ! -e "$fl" ] ; then
-		echo "filelist $fl does not exist, probably the program is not installed"
+		echo "filelist $fl does not exist, probably the program is not installed" >&2
 		exit 1
 	fi
 	tmpfl=
@@ -144,4 +144,4 @@ $details && cat "$tmpf"
 $xorsum && echo ${cnt}-${res}
 
 rm "$tmpf"
-[ -n "$tmpfl" ] && rm "$tmpfl"
+[ -n "$tmpfl" ] && rm "$tmpfl" || true
