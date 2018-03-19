@@ -188,6 +188,13 @@ if $BUTCH_HAVE_TARBALL ; then
 	# gnu tar has some idiotic behaviour when the user is root...
 	if [ "$STAGE" = 0 ] && tar --help 2>&1 | grep no-same-owner >/dev/null ; then
 		tarflags="--no-same-owner $tarflags"
+	# busybox too, and it doesnt even document the right flag...
+	elif [ "$STAGE" = 0 ] ; then
+		tryflags=$(printf "%s" "$tarflags"|sed s,x,t,)
+		# test if -o flag works.. by listing tar contents
+		if tar -o $tryflags "$butch_cache_dir/$BUTCH_TARBALL" | head -n 1 >/dev/null 2>&1 ; then
+			tarflags="-o $tarflags"
+		fi
 	fi
 	if [ -z "$tarflags" ] || ! tar $tarflags "$butch_cache_dir/$BUTCH_TARBALL" ; then
 		case "$BUTCH_TARBALL" in
