@@ -31,8 +31,6 @@ which package is currently building and we achieve parallel CPU usage anyway
 using the `MAKE_THREADS` variable (see section `Variables` for details).
 
 By default, `butch` uses the system's `wget`.
-To enable HTTPS support install the `stage2` package, which adds `libressl`
-and `ca-certificates` to the system.
 You may also use `curl` by exporting `USE_CURL=1`. For best results, download
 all packages before the install process.
 
