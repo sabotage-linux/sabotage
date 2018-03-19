@@ -64,8 +64,8 @@ if ! $dirmode ; then
 
 	fl="$butch_filelists"/"$pkg".txt
 	if [ ! -e "$fl" ] ; then
-		echo "filelist $fl does not exist, probably the program is not installed" >&2
-		exit 1
+		echo 0-"$empty_hash"
+		exit 0
 	fi
 	tmpfl=
 else
