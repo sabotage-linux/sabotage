@@ -11,24 +11,49 @@ usage() {
 	echo "this serves as a unique fingerprint of a package and is used to" >&2
 	echo "implement reproducible builds." >&2
 	echo >&2
-	echo "usage: $0 [-d/-o/-D] packagename" >&2
+	echo "usage: $0 [-d/-o/-D/-h hashtype] packagename" >&2
 	echo "-d (details) is optional and prints the checksum of every single file" >&2
 	echo "-o (only details) is optional and activates details, but leaves away">&2
 	echo "the final checksum." >&2
 	echo "-D (directory) packagename is treated as a directory name">&2
+	echo "hashtype defaults to sha512. possible values: md5,sha1,sha256,sha512">&2
 	exit 1
 }
+
+sha512_chars=128
+sha256_chars=64
+sha1_chars=40
+md5_chars=32
+
+hash_algo=sha512
+hash_chars=$sha512_chars
+hash_command=
+
 details=false
 xorsum=true
 dirmode=false
 parse_opts() {
+[ -z "$hash_algo" ] && { hash_algo="$1" ; return 0 ; }
 [ "$1" = "-d" ] && { details=true ; return 0 ; }
 [ "$1" = "-o" ] && { details=true ; xorsum=false ; return 0; }
 [ "$1" = "-D" ] && { dirmode=true ; return 0; }
+[ "$1" = "-h" ] && { hash_algo= ; return 0; }
 return 1;
 }
 while parse_opts "$1" ; do shift ; done
 [ -z "$1" ] && usage
+case "$hash_algo" in
+	md5|sha1|sha256|sha512) eval hash_chars=\$${hash_algo}_chars ;;
+	*) usage ;;
+esac
+eval hash_command=${hash_algo}sum
+
+empty_hash=
+i=0
+while test $i -lt $hash_chars ; do
+	empty_hash=${empty_hash}0
+	i=$(($i + 1))
+done
 
 pkg=$1
 
@@ -50,8 +75,8 @@ else
 	fl="$tmpfl"
 fi
 tmpf=$(mktemp)
-getsha() {
-	local foo=$(sha512sum "$1" 2>/dev/null)
+gethash() {
+	local foo=$($hash_command "$1" 2>/dev/null)
 	[ "$?" != 0 ] && return 1
 	printf "%s" "$foo" | cut -d " " -f 1
 }
@@ -113,7 +138,7 @@ xor() {
 		xor_shell $1 $2
 	fi
 }
-res=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+res=$empty_hash
 cnt=0
 $xorsum && {
 	prepare_xor_func
@@ -131,7 +156,7 @@ IFS='
 '
 for f in `cat "$fl" | sort` ; do
 	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
-	sha=$(getsha "$dest_dir""$fs") || continue
+	sha=$(gethash "$dest_dir""$fs") || continue
 	test -z "$sha" && continue
 	printf "%s %s\n" "$sha" "$fs" >> "$tmpf"
 	$xorsum && {
