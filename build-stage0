@@ -46,9 +46,6 @@ if [ ! -d "$R"/bin ] ; then
 		cat <<- EOF > "$S"/pkg/stage1-g++
 		[deps.stage1]
 		stage1-gcc424
-
-		[deps.stage2]
-		stage1-gcc424
 		EOF
 	fi
 fi

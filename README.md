@@ -73,7 +73,7 @@ The `enter-chroot` script automatically handles this scenario.
 	$ ./build-stage0        # ~2min on 3GHz 8core, 75min on ARM A8 800Mhz
 	$ ./enter-chroot
 
-Once inside the chroot, you may decide between installing `stage1` or `stage2`:
+Once inside the chroot:
 
 	$ butch install stage1	# Installs core system + build chain
 

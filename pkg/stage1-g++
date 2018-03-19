@@ -1,6 +1,2 @@
 [deps.stage1]
 stage1-gcc3
-
-[deps.stage2]
-stage1-gcc3
-
