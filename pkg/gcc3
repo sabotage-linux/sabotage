@@ -12,9 +12,6 @@ g++346
 [deps.stage1]
 g++346
 
-[deps.stage2]
-g++346
-
 [build]
 VERSION=3.4.6
 

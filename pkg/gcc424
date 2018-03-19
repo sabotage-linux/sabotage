@@ -10,9 +10,6 @@ g++424
 [deps.stage1]
 g++424
 
-[deps.stage2]
-g++424
-
 [mirrors]
 http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
 

@@ -11,9 +11,6 @@ no_unlink=1
 [deps.stage1]
 gcc6
 
-[deps.stage2]
-gcc6
-
 [build]
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
 

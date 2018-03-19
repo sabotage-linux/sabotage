@@ -11,9 +11,6 @@ no_unlink=1
 [deps.stage1]
 gcc6
 
-[deps.stage2]
-gcc6
-
 [build]
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
