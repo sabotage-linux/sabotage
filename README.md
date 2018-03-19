@@ -76,10 +76,6 @@ The `enter-chroot` script automatically handles this scenario.
 Once inside the chroot, you may decide between installing `stage1` or `stage2`:
 
 	$ butch install stage1	# Installs core system + build chain
-	$ butch install stage2  # Installs stage1 + libressl
-
-If `libressl` is present, `wget` will be HTTPS-enabled.
-This will allow butch to download packages via HTTPS protocol.
 
 ATTENTION: if you're using void or arch linux, building gcc630 in stage1 might
 fail due to a buggy ld. there's a workaround though:
