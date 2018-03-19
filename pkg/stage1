@@ -16,6 +16,8 @@ zlib
 binutils
 patch
 join
+libressl
+ca-certificates
 
 [build]
 if [ -d "$butch_root_dir""$butch_staging_dir"/stage0-musl ] ; then
