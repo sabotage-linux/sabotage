@@ -14,6 +14,10 @@ ca-certificates
 
 [build]
 patch -p1 < "$K"/lynx-2.8.9-dev10-libressl.patch
+
+# remove timestamp
+sed -e 's;__DATE__;"01.01.18";' -e 's;__TIME__;"00:00:00";' -i src/LYMain.c
+
 # fix gnu assumptions
 patch -p1 < "$K"/lynx-gzip.patch
 sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userdefs.h
