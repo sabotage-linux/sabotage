@@ -18,6 +18,8 @@ sed '1i#define PERL_BUILD_DATE "01.01.18 00:00:00"' -i perl.c
 sed -e 's;myuname=`$u;myuname="linux host" #`$u;' \
     -e 's;cf_time=`;cf_time="01.01.18 00:00:00" #`;' \
     -e 's;cf_by=`;cf_by=user #`;' \
+    -e "s;^myhostname='';myhostname=host;" \
+    -e "s;^phostname='';phostname=host;" \
     -i Configure
 
 patch -p1 < "$K"/perl-long-double.patch
