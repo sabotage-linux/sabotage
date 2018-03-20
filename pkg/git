@@ -25,6 +25,7 @@ make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $b
   DESTDIR="$butch_install_dir" -j$MAKE_THREADS V=1 all install
 
 dest="$butch_install_dir""$butch_prefix"
+rm -f "$dest"/lib/perl5/core_perl/perllocal.pod
 mkdir -p "$dest"/bin
 cp gitk-git/gitk "$dest"/bin/
 cp perl/private-Error.pm "$dest"/lib/perl5/site_perl/Error.pm
