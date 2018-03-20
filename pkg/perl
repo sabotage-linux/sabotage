@@ -60,6 +60,11 @@ if [ -n "$butch_install_dir" ] ; then
   # as long as nobody needs them, we will remove them.
   rm -rf "$dest"/share/man
 
+  # prevent all packages using perl's installer from writing bogus install
+  # info with timestamps to global files
+  sed -i 's;$self->{NO_PERLLOCAL};1;' \
+    "$dest"/lib/perl5/core_perl/ExtUtils/MM_Unix.pm
+
 fi
 
 # replace duplicated perl binary with symlink
