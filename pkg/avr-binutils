@@ -1,0 +1,51 @@
+[mirrors]
+ftp://sourceware.org/pub/binutils/snapshots/binutils-2.24.90.tar.bz2
+http://www.mirrorservice.org/sites/sourceware.org/pub/binutils/snapshots/binutils-2.24.90.tar.bz2
+
+[vars]
+filesize=23659627
+sha512=dcd93cb314d5c275529c58d134956e48d64860bdd2e58bc94aa339aeba0ee66fbd7423ace1f71eba9905fa5b05db922c2242f585c8eef0247c4fa5fda56367af
+
+[deps]
+libelf
+
+[deps.host]
+bison
+flex
+zlib
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -static -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure -C $xconfflags \
+  --prefix="$butch_prefix" \
+  --disable-nls \
+  --disable-werror \
+  --enable-ld=default \
+  --enable-shared \
+  --enable-threads \
+  --enable-install-libbfd \
+  --target=avr
+
+make configure-host
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" prefix="$DESTDIR" tooldir="$DESTDIR" install
+
+# Void Linux also removes this
+rm -rf "$butch_install_dir"/share/info
+
+# Remove every binary without avr prefix
+rm "$butch_install_dir"/bin/ar
+rm "$butch_install_dir"/bin/as
+rm "$butch_install_dir"/bin/strip
+rm "$butch_install_dir"/bin/ranlib
+rm "$butch_install_dir"/bin/objdump
+rm "$butch_install_dir"/bin/objcopy
+rm "$butch_install_dir"/bin/nm
+
