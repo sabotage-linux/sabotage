@@ -40,7 +40,6 @@ the rootfs from:
 
 * DE : http://ftp.barfooze.de/pub/sabotage/
 * GR : http://foss.aueb.gr/mirrors/linux/sabotage/
-* UK : http://dl.2f30.org/mirrors/sabotage/
 * FR : http://mirrors.2f30.org/sabotage/
 
 The DE mirror is the master from which the other mirrors are periodically
