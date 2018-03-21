@@ -1,0 +1,9 @@
+[mirrors]
+ftp://sourceware.org/pub/java/ecj-4.9.jar
+
+[vars]
+filesize=1619429
+sha512=28f8c6fdbcb19e950b1d0bafb3bcc7a8cba87bc673aa6027cece116599cdee80f0cf5e95a1440544890239f5c754e8a93ab46d9daedd937faef445d7ea33b226
+pkgver=1
+desc='eclipse java compiler modified to be usable by gcc as gcj backend'
+

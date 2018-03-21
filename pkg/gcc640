@@ -17,6 +17,10 @@ mpfr
 mpc
 zlib
 
+[deps.java]
+gcc-ecj-49
+zip
+
 [deps.host]
 m4
 zlib
@@ -25,6 +29,7 @@ libelf
 [build]
 VERSION=6.4.0
 VERSION_REMOVE='s,6\.4\.0.*,,'
+ECJ_VERSION=4.9
 # check that libc.so is available, otherwise we'll get a libstdc++.so
 # that is statically linked against musls libc.a.
 # this will lead to random crashes in C++ apps since two concurrent
@@ -37,6 +42,10 @@ fi
 patch -p1 < "$K"/gcc-640-posix_memalign.patch
 patch -p1 < "$K"/gcc630-mcm.patch
 patch -p1 < "$K"/gcc-libtool-reproducible.patch
+patch -p1 < "$K"/gcc-gcj-stdgnu14-link.patch
+patch -p1 < "$K"/gcc4-boehm-gc.patch
+patch -p1 < "$K"/gcc4-gcj-musl.patch
+patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
 
 "$K"/libibertyfix libiberty
 
@@ -81,6 +90,12 @@ else
 	xconfflags="--host=$machine --target=$machine --build=$machine $GCC_ARCH_CONFIG_FLAGS"
 fi
 
+extralangs=
+extrainst=
+[ "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
+&& cp -f "$C"/ecj-"$ECJ_VERSION".jar ./ecj.jar
+
+
 static_ccflags=-static
 if [ "$GCC_DYNAMIC" = 1 ] ; then
 	static_ccflags=
@@ -111,7 +126,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --enable-lto \
   --with-system-zlib \
   --with-target-libiberty=no --with-target-zlib=no \
-  --enable-languages=c,c++,lto --enable-clocale=generic \
+  --enable-languages=c,c++,lto$extralangs --enable-clocale=generic \
   $config_arch_flags $xconfflags
 
 
@@ -122,7 +137,7 @@ make -j1 DESTDIR="$butch_install_dir" \
   install-lto-plugin \
   install-target-libgcc \
   install-target-libssp \
-  install-target-libstdc++-v3
+  install-target-libstdc++-v3 $extrainst
 
 dest=$butch_install_dir$butch_prefix
 
@@ -170,4 +185,13 @@ ln -sf gcc "$dest"/bin/gcc-$VERSION
 ln -sf g++ "$dest"/bin/g++-$VERSION
 
 rm "$butch_install_dir""$butch_prefix"/lib/*.la
+
+if test "$option_java" = 1 ; then
+	ln -sf gcj "$dest"/bin/gcj-$VERSION
+	GCJ=$dest/bin/gcj
+	[ -n "$CROSS_COMPILE" ] && GCJ=gcj
+	$GCJ -Wl,-Bsymbolic -findirect-dispatch -o $dest/bin/javac \
+	--main=org.eclipse.jdt.internal.compiler.batch.Main "$C"/ecj-"$ECJ_VERSION".jar \
+	-lgcj || echo "WARNING: optimized javac not created" >&2
+fi
 
