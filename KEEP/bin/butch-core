@@ -311,7 +311,9 @@ fi
 
 for x_ in $args ; do
 	test -r "$S"/pkg/"$x_" || die "$S/pkg/$x_ does not exist or no read permission!"
-	case "$x_" in stage[0-9]) DEPS="$DEPS":"$x_" ;; esac
+	if [ -z "$CROSS_COMPILE" ] ; then
+		case "$x_" in stage[0-9]) DEPS="$DEPS":"$x_" ;; esac
+	fi
 done
 
 deps=$($AWKPROG -f $BINDIR/butch-deps $args)
