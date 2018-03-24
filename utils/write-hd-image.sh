@@ -81,13 +81,6 @@ isemptydir() {
 
 mountdir=
 
-losetup --help 2>&1 | grep [-]-sizelimit > /dev/null \
-  || die "losetup does not support --sizelimit. maybe try building util-linux"
-
-which extlinux 2>&1 > /dev/null || die 'extlinux must be in PATH (try installing syslinux)'
-[ -z "$UID" ] && UID=`id -u`
-[ "$UID" = "0" ] || die "must be root"
-
 imagefile="$1"
 [ -z "$imagefile" ] && usage
 
@@ -111,6 +104,13 @@ for mbr_bin in mbr.bin /usr/lib/syslinux/mbr.bin /usr/share/syslinux/mbr.bin
 	do [ -f "$mbr_bin" ] && break ; done
 
 [ -z "$mbr_bin" ] && die 'Could not find mbr.bin'
+
+losetup --help 2>&1 | grep [-]-sizelimit > /dev/null \
+  || die "losetup does not support --sizelimit. maybe try building util-linux"
+
+which extlinux 2>&1 > /dev/null || die 'extlinux must be in PATH (try installing syslinux)'
+[ -z "$UID" ] && UID=`id -u`
+[ "$UID" = "0" ] || die "must be root"
 
 echo_bold "0) rm the image file"
 [ -f "$imagefile" ] && rm -f "$imagefile"
