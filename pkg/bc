@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/gavinhoward/bc/releases/download/0.5/bc-0.5.tar.xz
+
+[vars]
+filesize=37008
+sha512=d565a8fb87993f1a8a391d821105b4b572bcdad83b02f30c8698bc1ade658aa47f685918cf56d43713dc81606d3203ded7bd79fce8ae5ba94cf2e9e01186251f
+pkgver=1
+desc='bc calculator and programming language interpreter'
+
+[deps]
+
+[build]
+make CC="$HOSTCC" gen
+
+make V=1 -j$MAKE_THREADS \
+LDLIBS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CFLAGS="$optcflags -funsigned-char -Iinclude" bc
+
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 bc "$dest"/bin/bc
+
