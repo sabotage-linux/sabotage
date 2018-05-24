@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.101-102.xz
+
+[vars]
+filesize=29304
+sha512=d88dca7e60fc11a82646d24cab239cc150e6f6e98888aab30105eec9ebdedf787f42631064da4ef25d55b8d2e017fd33acdaaa45b458c2b038b2d02447dcd969
+tarball=kernel-patch-4.9.101-102.xz
+pkgver=1

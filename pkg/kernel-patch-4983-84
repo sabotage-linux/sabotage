@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.83-84.xz
+
+[vars]
+filesize=44828
+sha512=e3b4aebc7138f7628aad2928fc6f75b534ec65569f7bf05d6d0d624b8e416848ac722d692e12306100c84346f287761e3133810faf333d12a711a574aac8fa8a
+tarball=kernel-patch-4.9.83-84.xz
+pkgver=1
