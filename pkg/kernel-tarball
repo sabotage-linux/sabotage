@@ -1,0 +1,8 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.14.44.tar.xz
+
+[vars]
+filesize=100900856
+sha512=f98d858092d69a662c7350d8c18380df5056013e953d41af44986783cf0a3f806827f8d2c6f23e5ee4346f51ad729b4f9ca150809c385f414e1b3d3718f2e39e
+pkgver=1
+
