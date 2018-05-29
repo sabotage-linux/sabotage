@@ -1586,6 +1586,7 @@ gl_cv_func_setenv_works=yes
 gl_cv_func_symlinkat_works=yes
 gl_cv_func_tzset_clobber=no
 gl_cv_func_utimensat_works=yes
+gl_cv_func_nanosleep=yes
 
 gt_cv_inttypes_pri_broken=no
 gt_cv_c_wint_t=yes
