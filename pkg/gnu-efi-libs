@@ -1,10 +1,10 @@
 [mirrors]
-http://download.sourceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz
+https://sourceforge.net/projects/gnu-efi/files/gnu-efi-3.0.8.tar.bz2
 
 [vars]
-filesize=159662
-sha512=77224d555befb96b14c20a3a39aacb50ed2db9dfff0c112113c3fb211152106f76cf278b4d37b4251e9f83327c7fd59319e6dee802c97d3bfa7308f7c43b34e3
-tardir=gnu-efi-3.0
+filesize=154397
+sha512=57318fdf1fe4a2ae310c5e41b2bc466f0eebe21f12db1a87bf0a4ec636fcb353324444220597ee47f7404e446ac944634ca9d3d1aa8920b77434e9a7955938e6
+pkgver=2
 
 [deps]
 pciutils
