@@ -2,8 +2,8 @@
 http://www.ijg.org/files/jpegsrc.v9c.tar.gz
 
 [vars]
-filesize=1028200
-sha512=c95aacb0f1972a2271953ee17b5c6a6c3662d5f4fbc4d1e9aef59dece42a169b0f34d3fa1d385b88580ad11cefd194250094ee72843f4e0028204df6741cb611
+filesize=1028134
+sha512=2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7
 pkgver=2
 tardir=jpeg-9c
 
