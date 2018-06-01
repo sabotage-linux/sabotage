@@ -1,12 +1,12 @@
 [mirrors]
-http://releases.mozilla.org/pub/mozilla.org/firefox/releases/52.5.2esr/source/firefox-52.5.2esr.source.tar.xz
-ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/52.5.2esr/source/firefox-52.5.2esr.source.tar.xz
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/52.8.0esr/source/firefox-52.8.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/52.8.0esr/source/firefox-52.8.0esr.source.tar.xz
 
 [vars]
-filesize=214094820
-sha512=bbc7dcc4cb392f06fe2e963a3b6372efcfbbcc1ca7218a3ef05885285fe00c9e87e0f8d307bd9363668327eb43542c0600443bd9e6744de64494b96dd00efa5a
-pkgver=10
-tardir=firefox-52.5.2esr
+filesize=214054520
+sha512=4136fa582e4ffd754d46a79bdb562bd12da4d013d87dfe40fa92addf377e95f5f642993c8b783edd5290089619beeb5a907a0810b68b8808884f087986977df1
+pkgver=11
+tardir=firefox-52.8.0esr
 uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
 no_unlink=1
 
@@ -33,7 +33,7 @@ python
 zip
 
 [build]
-FF_VERSION=52.5.2
+FF_VERSION=52.8.0
 export SHELL=/bin/sh
 
 # install ancient autoconf version firefox wants into src tree
