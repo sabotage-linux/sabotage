@@ -10,6 +10,8 @@ proc                   /proc         proc      defaults            0      0
 devpts                 /dev/pts      devpts    defaults            0      0
 shm                    /dev/shm      tmpfs     nodev,nosuid        0      0
 /dev/root              /             ext4      defaults            0      1
+#/dev/sda5             swap          swap      defaults            0      0
 #example for use with squash read-only root built with squash-tool
 #/dev/sda2             /rw           btrfs     defaults            0      0
 #/rw/var               /var          none      defaults,bind       0      0
+
