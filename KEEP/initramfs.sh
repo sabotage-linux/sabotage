@@ -100,6 +100,11 @@ fi
 
 # Check for some misc. conditions
 [ -n "$rescue" ] && rescue "Rescue shell requested by kernel options"
+[ -x "/root$init" ] || {
+	echo "rootfs: $init not found... trying fallback /sbin/init..."
+	#compatibility with systemd
+	init=/sbin/init
+}
 [ -x "/root$init" ] || rescue "rootfs: $init not found"
 
 # Inherit to rootfs
