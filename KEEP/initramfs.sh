@@ -35,8 +35,16 @@ mount -t devtmpfs devtmpfs /dev
 init=/bin/init root=/dev/sda1
 
 # Import kernel options as local variables
-eval `cat /proc/cmdline|grep -o -E '[a-zA-Z_]+[a-zA-Z0-9_]*(|=[^ "]*|=\S*"[^"]*"\S*)' \
-	|awk '/=/{print $0;next;}{print $0 "=default"}'`
+# (the sed is to clean up backspaces from rEFInd)
+cmdline=$(cat /proc/cmdline | sed 's,\\,/,g')
+set -- $cmdline
+for arg ; do
+case "$arg" in [A-Za-z]*)
+        eval `printf "%s\n" "$arg" | \
+              grep -o -E '[a-zA-Z_]+[a-zA-Z0-9_]*(|=[^ "]*|=\S*"[^"]*"\S*)' | \
+              awk '/=/{print $0;next;}{print $0 "=default"}'`
+esac
+done
 
 # Mount boot partition (required for CD boot)
 if [ -n "$boot" ]; then
