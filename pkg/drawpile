@@ -1,0 +1,29 @@
+[mirrors]
+https://drawpile.net/files/src/drawpile-2.0.10.tar.gz
+
+[vars]
+filesize=1227683
+sha512=452b00f9f1088210580c67957a1cc93e7754256bcd211648b6edac593f114ff7329b3ea22c015b671f8f94389573254e05704661b099e6d4a534bbd8e604b6be
+pkgver=1
+
+[deps.host]
+cmake
+
+[deps]
+qt5
+karchive
+libsodium
+libmicrohttpd
+
+[build]
+mkdir build
+cd build
+
+dest="$butch_install_dir""$butch_prefix"
+
+cmake .. \
+      -DCMAKE_BUILD_TYPE=release \
+      -DCMAKE_INSTALL_PREFIX="$dest"
+
+make -j$MAKE_THREADS
+make install

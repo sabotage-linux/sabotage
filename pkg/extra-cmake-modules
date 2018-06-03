@@ -1,0 +1,21 @@
+[mirrors]
+https://download.kde.org/Attic/frameworks/5.29/extra-cmake-modules-5.29.0.tar.xz
+
+[vars]
+filesize=303064
+sha512=2c82252acf67f82ad4678633c4ce8167dd85ddda9420221c9c26a374b9391e2ddba2fc4e92cf502e790348405aedbda68bbb527ad5c104d35ba7a0473ad86da2
+pkgver=1
+
+[deps.host]
+cmake
+
+[build]
+mkdir build
+cd build
+
+cmake .. \
+      -DCMAKE_BUILD_TYPE=release \
+      -DCMAKE_INSTALL_PREFIX="$butch_install_dir""$butch_prefix"
+
+make -j$MAKE_THREADS
+make install

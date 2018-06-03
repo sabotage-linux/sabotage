@@ -1,0 +1,29 @@
+[mirrors]
+https://download.kde.org/Attic/frameworks/5.29/karchive-5.29.0.tar.xz
+
+[vars]
+filesize=111712
+sha512=a41347d6e05d54de5d824bc2257254e65651d8430c8f37e19b04c6c290f658853c028824b1acc67d9e0bd5979cd1bdfd89f73bbc0fbcdfcb5ea61b00bce51e69
+pkgver=1
+
+[deps.host]
+cmake
+extra-cmake-modules
+
+[deps]
+qt5
+
+[build]
+mkdir build
+cd build
+
+dest="$butch_install_dir""$butch_prefix"
+
+cmake .. \
+      -DCMAKE_BUILD_TYPE=release \
+      -DLIB_INSTALL_DIR="$dest"/lib \
+      -DCMAKE_INSTALL_PREFIX="$dest"
+
+make -j$MAKE_THREADS
+make install
+
