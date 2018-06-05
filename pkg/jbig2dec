@@ -1,4 +1,5 @@
 [mirrors]
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs922/jbig2dec-0.14.tar.gz
 http://downloads.ghostscript.com/public/jbig2dec/jbig2dec-0.14.tar.gz
 
 [vars]
