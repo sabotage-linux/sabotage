@@ -1,10 +1,10 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.11-source.tar.gz
+http://mupdf.com/downloads/archive/mupdf-1.12.0-source.tar.xz
 
 [vars]
-filesize=40156070
-sha512=501670f540e298a8126806ebbd9db8b29866f663b7bbf26c9ade1933e42f0c00ad410b9d93f3ddbfb3e45c38722869095de28d832fe3fb3703c55cc9a01dbf63
-pkgver=4
+filesize=37299040
+sha512=4c9ce81e7b0e2d77e017776fd9f700bc2f695f34b7fd97be7ba113ec1b340e7046c9db7d396abf19a98b1d0c7d72f01ecc1b44fadd250d2d6c6ffdcd9799bc16
+pkgver=5
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
@@ -46,5 +46,5 @@ PKG_CONFIG_LIBDIR="$PCL_SAVE"
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   make verbose=yes -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
-  HAVE_GLFW=no \
+  HAVE_GLFW=no HAVE_GLUT=no \
   prefix="$butch_prefix" build=release install
