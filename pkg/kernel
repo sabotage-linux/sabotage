@@ -28,6 +28,9 @@ get_stuff_before_last_dot() {
 	printf "%s\n" "$1" |  \
 	awk '{n=split($0,a,"");while(a[n]!="."){n=n-1;};x=0;while(x!=n){s=s a[x]; x=x+1;}; print s;}'
 }
+strip_junk() {
+	cat "$1" | sed '/^#.*/d' | sort -u > "$2"
+}
 
 for p in $(cat "$K"/kernel.patches) ; do
 	kpatch="$C"/kernel-patch-"$p".xz
@@ -71,8 +74,23 @@ fi
 
 cat "$linux_config" > my.config
 
+make V=1 ARCH=$A defconfig HOSTCFLAGS="-D_GNU_SOURCE" \
+  KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
+
+mv .config .defconfig
+
 make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
+
+cp .config .allnoconfig
+
+strip_junk .defconfig .defconfig.clean
+strip_junk .allnoconfig .allnoconfig.clean
+
+echo "[!] Differences between our config and the default one:"
+echo "---------------------------------------------------"
+diff -u .allnoconfig.clean .defconfig.clean || true
+echo "---------------------------------------------------"
 
 make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y \
