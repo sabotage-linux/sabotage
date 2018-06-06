@@ -24,6 +24,10 @@ dopatch() {
 		exit 1
 	fi
 }
+get_stuff_before_last_dot() {
+	printf "%s\n" "$1" |  \
+	awk '{n=split($0,a,"");while(a[n]!="."){n=n-1;};x=0;while(x!=n){s=s a[x]; x=x+1;}; print s;}'
+}
 
 for p in $(cat "$K"/kernel.patches) ; do
 	kpatch="$C"/kernel-patch-"$p".xz
@@ -32,6 +36,7 @@ for p in $(cat "$K"/kernel.patches) ; do
 		exit 1
 	}
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
+	LINUX_VER=$(get_stuff_before_last_dot "$LINUX_VER").$(printf "%s\n" "$p" | cut -d "-" -f 2)
 done
 
 dopatch linux-timeconst-nobc.patch
