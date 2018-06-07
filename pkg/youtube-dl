@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/rg3/youtube-dl/releases/download/2018.05.26/youtube-dl-2018.05.26.tar.gz
+https://github.com/rg3/youtube-dl/releases/download/2018.06.04/youtube-dl-2018.06.04.tar.gz
 
 [vars]
-filesize=2966128
-sha512=caf02a9f78021ee16775ed1868607ca127ec1a233cdb053f586aa99edc40f674450aa4758f0595c1e93f48ac6352e56dec4479b8d45de9f7a3614a2524bd131f
-pkgver=18
+filesize=2972929
+sha512=f354cfc77c6532926bf2a20a47a4b603bdf81a2a15997f493785e76eb0688f13ec3d4b3217f7d6b02d9a83366fbd31d5be6f579551bb179ab6008b85ec3675b0
+pkgver=19
 tardir=youtube-dl
 uchkurl=http://youtube-dl.org/downloads/
 desc='command line tool to download videos from youtube, vimeo, twitter etc'
