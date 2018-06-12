@@ -17,6 +17,8 @@ libressl
 bash
 
 [build]
+# note: FFPLAY tool will only be built if SDL2 is installed!
+
 [ -z "$butch_prefix" ] && butch_prefix=/
 sed -i 's@/bin/sh@/bin/bash@' configure
 sed -i 's@openssl_init;@openssl_init;\n#undef OPENSSL_VERSION_NUMBER\n#define OPENSSL_VERSION_NUMBER 1\n@' libavformat/tls_openssl.c
