@@ -1,16 +1,18 @@
 [mirrors]
-http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.12.6.tar.bz2
+http://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.14.2.tar.bz2
 
 [vars]
-filesize=1588726
-sha512=1f6e7ba9513ea836d6536eaf2f148588e9a2beaab62c49fb295e60aae41382781f76d536e854bbe6fc601f00034e3239b551874dc99a1f6afa788ee94976b332
-pkgver=3
+filesize=1672765
+sha512=5c469479deb7065768e0254d1c80d9096caf05e445ceeabc7649f7158f02fb2d11ff2ad8c82debc1dbe6bbd7776cc5aa2febb52d5da0328d2b60b54af67c7a27
+pkgver=4
 
 [deps]
 argp
 glu
 
 [build]
+patch -p1 < "$K"/v4l-utils-i2c.patch
+
 cat << EOF > gnu.h
 #ifndef TEMP_FAILURE_RETRY
  #define TEMP_FAILURE_RETRY(expression) \
@@ -37,7 +39,8 @@ EOF
 CPPFLAGS="-D_GNU_SOURCE -D__off_t=off_t -D__off64_t=off_t -include gnu.h" \
 CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -largp" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
