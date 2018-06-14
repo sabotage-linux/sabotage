@@ -15,10 +15,11 @@ echo_bold() {
 
 usage() {
 	echo_bold "Usage: $0 <img file> <directory or tarball of content> <img size> [options]"
-	echo "options: --clear-builds --copy-tarballs"
+	echo "options: --clear-builds --copy-tarballs --no-fstab"
 	echo
 	echo "--clear-builds will remove stuff in /src/build (butch 0.0.8+ build directory)"
 	echo '--copy-tarballs will copy tarballs from directory pointed to by "C" env var'
+	echo "--no-fstab will not modify the fstab for the new image"
 	echo
 	echo "<img size> will be passed directly to dd, so you can use whatever value dd supports, i.e. 8G"
 	exit 1
@@ -50,6 +51,9 @@ check_opts() {
 			--copy-tarballs)
 				echo "copy_tarballs selected"
 				copy_tarballs=1;;
+			--no-fstab)
+				echo "not modifying fstab"
+				no_fstab=1;;
 		esac
 		shift
 	done
@@ -244,7 +248,10 @@ else
 	time tar -C "$mountdir" -zxf "$contents" || die_unmount 'Failed to extract /'
 fi
 rm -f "$mountdir"/boot/*
-echo '/dev/sda1 /boot ext3 defaults 0 0' >> "$mountdir"/etc/fstab || die_unmount 'Failed to extend fstab'
+if [ -z $no_fstab ]
+then
+	echo '/dev/sda1 /boot ext3 defaults 0 0' >> "$mountdir"/etc/fstab || die_unmount 'Failed to extend fstab'
+fi
 
 echo_bold ' 6) applying root perms'
 $MYDIR/root-perms.sh "$mountdir"
