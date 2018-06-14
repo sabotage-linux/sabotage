@@ -84,7 +84,13 @@ Older pre-3.8 Linux systems will not support the rootless chroot approach used
 by `./enter-chroot`.
 Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
 
-Once completed, you may install optional packages:
+At this point, stage1 is complete and your Sabotage chroot is set up. There are
+two optional steps to consider at this time:
+
+	$ /src/utils/clean-stage1.sh     # remove unneeded bootstrap packages
+	$ /src/utils/optimize-chroot.sh  # rebuild stage1 binaries with latest gcc
+
+You may also install optional packages:
 
 	$ butch install core    # base developer system
 	$ butch install xorg    # install everything needed for X11
