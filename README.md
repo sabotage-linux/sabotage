@@ -88,7 +88,11 @@ At this point, stage1 is complete and your Sabotage chroot is set up. There are
 two optional steps to consider at this time:
 
 	$ /src/utils/clean-stage1.sh     # remove unneeded bootstrap packages
-	$ /src/utils/optimize-chroot.sh  # rebuild stage1 binaries with latest gcc
+	$ /src/utils/rebuild-stage1.sh   # rebuild core packages with the stage1 gcc
+
+Rebuilding stage1 will not only optimize the packages built with the older
+bootstrap compiler, but will also ensure that your builds are reproducible
+and will match the results of others.
 
 You may also install optional packages:
 
