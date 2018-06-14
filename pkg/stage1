@@ -20,16 +20,4 @@ libressl
 ca-certificates
 
 [build]
-if [ -d "$butch_root_dir""$butch_staging_dir"/stage0-musl ] ; then
-	"$K"/bin/butch-rm gcc3 || true
-	"$K"/bin/butch-rm gcc424 || true
-	"$K"/bin/butch-rm stage0-gcc424 || true
-	"$K"/bin/butch-rm stage1-gcc424 || true
-	"$K"/bin/butch-rm stage0-gcc3 || true
-	"$K"/bin/butch-rm stage1-gcc3 || true
-	"$K"/bin/butch-rm stage0-musl
-	"$K"/bin/butch-relocate musl
-	"$K"/bin/butch-relocate $("$K"/bin/butch-list | grep '^gcc[4-6][0-9][0-9]$' |tail -n1)
-fi
-
 rm -rf "$butch_root_dir""$butch_staging_dir"/stage1
