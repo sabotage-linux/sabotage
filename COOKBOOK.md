@@ -484,3 +484,40 @@ if your hardware clock is off, you can fix it by using
 `ntpd -dnq -p pool.ntp.org` to get the actual time, then write it to BIOS using
 `hwclock -u -w`.
 
+### encrypted partitions
+
+encrypted partitions will be mapped to `/dev/mapper` after they're opened.
+
+#### creating a new encrypted partition
+encrypted partitions require a name, in this example we will use `crypart`.
+the partition we want to encrypt will be `/dev/sdb6`.
+
+initialize the encrypted partition with a passphrase:
+
+	$ cryptsetup -y luksFormat /dev/sdb6
+
+enter a passphrase when asked 
+
+create the unencrypted mapper device
+
+    $ cryptsetup luksOpen /dev/sdb6 crypart
+
+now you can format `/dev/mapper/crypart` like an ordinary partition.
+
+    $ mkfs.ext4 /dev/mapper/crypart
+
+Finally, mount the partition
+
+    $ mount /dev/mapper/crypart /mnt
+
+you should maybe make a copy of the header so you can restore your drive
+in case of a hardware defect:
+
+    $ cryptsetup luksHeaderBackup /dev/sdb6 --header-backup-file=/boot/luks_header.bin
+
+#### automatic mounting of encrypted devices
+
+create an entry for the partition in `/etc/crypttab`. the file has information
+in the comments to assist you. after adding it, the device will be mounted on
+the next boot (the passphrase will be asked from the user during boot).
+
