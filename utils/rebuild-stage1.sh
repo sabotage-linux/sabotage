@@ -1,5 +1,5 @@
 #!/bin/sh
-# use: optimize-chroot.sh [no args]
+# use: rebuild-stage1.sh [no args]
 # Rebuilds the stage0/1 binaries with the stage 1 compiler.
 
 butch rebuild jobflow sabotage-core patch busybox binutils make \
