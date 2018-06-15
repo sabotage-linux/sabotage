@@ -4,7 +4,7 @@
 # "`--copy-tarballs" will copy tarballs from $C
 # "size" will be passed to dd, so you can use whatever value dd supports. (i.e. 8G)
 # the resulting raw image may be written to media via dd or converted to various VM drive formats
- 
+
 MYDIR=$(dirname "$(readlink -f "$0")")
 
 echo_bold() {
@@ -104,7 +104,7 @@ imagesize="$3"
 check_opts $@
 [ "$copy_tarballs" = "1" ] && [ -z "$C" ] && die "--copy_tarballs needs C to be set. consider running 'source config'"
 
-for mbr_bin in mbr.bin /usr/lib/syslinux/mbr.bin /usr/share/syslinux/mbr.bin 
+for mbr_bin in mbr.bin /usr/lib/syslinux/mbr.bin /usr/lib/syslinux/mbr/mbr.bin /usr/share/syslinux/mbr.bin
 	do [ -f "$mbr_bin" ] && break ; done
 
 [ -z "$mbr_bin" ] && die 'Could not find mbr.bin'
