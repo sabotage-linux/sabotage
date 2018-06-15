@@ -45,7 +45,7 @@ size="$2"
 
 cat <<'EOF' > "$SABOTAGE_BUILDDIR"/etc/motd
 
-^[[1mwelcome to sabotage^[[0m
+[1mwelcome to sabotage[0m
 
 please review /src/README.md and /src/COOKBOOK.md for more information
 
@@ -62,11 +62,20 @@ and install some with:
 	$ butch install core xorg  # utilties + basic desktop
 	$ butch install world      # full desktop environment
 
-^[[1mhave fun!^[[0m
+[1mhave fun![0m
 
 EOF
 
-sed -i -e's@do_dhcp=false@do_dhcp=true@g' "$SABOTAGE_BUILDDIR"/etc/rc.local
+grep "do_dhcp=false" "$SABOTAGE_BUILDDIR"/etc/rc.local >/dev/null 2>&1
+if [ "$?" = 0 ] ; then
+	sed -i -e's@do_dhcp=false@do_dhcp=true@g' "$SABOTAGE_BUILDDIR"/etc/rc.local
+	wrote_rc=1
+fi
+
+if [ -f "$name".vmdk ] ; then
+	echo "removing previous vmdk..."
+    rm "$name".vmdk
+fi
 
 echo "creating image..."
 "$S"/utils/write-hd-image.sh "$name".img "$SABOTAGE_BUILDDIR" "$size" --no-fstab >/dev/null 2>&1
@@ -83,4 +92,4 @@ fi
 rm "$SABOTAGE_BUILDDIR"/etc/motd
 touch "$SABOTAGE_BUILDDIR"/etc/motd
 
-sed -i -e's@do_dhcp=false@do_dhcp=false@g' "$SABOTAGE_BUILDDIR"/etc/rc.local
+[ ! -z "$wrote_rc" ] && sed -i -e's@do_dhcp=true@do_dhcp=false@g' "$SABOTAGE_BUILDDIR"/etc/rc.local
