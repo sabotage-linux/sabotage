@@ -8,6 +8,7 @@ pkgver=2
 
 [deps.run]
 python
+python-six
 
 [deps.host]
 python
