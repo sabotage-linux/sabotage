@@ -4,7 +4,7 @@ http://www.squid-cache.org/Versions/v4/squid-4.0.16.tar.xz
 [vars]
 filesize=2407120
 sha512=9502f2328bf0f4003fd5f148b7f1ba19290fc454b8bafe1225b12709cc0d92ed999406ed8aeadaad9133dbf5834b7f92fd44faeaba7812f4260bd52652e8c04f
-pkgver=2
+pkgver=3
 desc="HTTP proxy and cache"
 
 [deps]

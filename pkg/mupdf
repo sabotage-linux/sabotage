@@ -4,7 +4,7 @@ http://mupdf.com/downloads/archive/mupdf-1.12.0-source.tar.xz
 [vars]
 filesize=37299040
 sha512=4c9ce81e7b0e2d77e017776fd9f700bc2f695f34b7fd97be7ba113ec1b340e7046c9db7d396abf19a98b1d0c7d72f01ecc1b44fadd250d2d6c6ffdcd9799bc16
-pkgver=5
+pkgver=6
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]

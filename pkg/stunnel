@@ -4,6 +4,7 @@ ftp://ftp.stunnel.org/stunnel/archive/5.x/stunnel-5.06.tar.gz
 [vars]
 filesize=595550
 sha512=5fae9938f0f7586d13a04b20751ccffb1d0c067842f24c831dce354b075eb290491806a9d40ac36598cf05b35a1bd5be14e834aa7420b7e0fa960a9d7f7e4fd5
+pkgver=2
 
 [deps]
 libressl

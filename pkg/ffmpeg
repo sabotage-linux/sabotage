@@ -4,7 +4,7 @@ http://ffmpeg.org/releases/ffmpeg-3.4.1.tar.xz
 [vars]
 filesize=8481964
 sha512=0ead14801f5863c995a522df941fba7e90c58d1887cde8db41787a135b0ad1bee3ff72df2f8ead7fd3351d05c3189ee6a6c4154796e963609522346aea1ce6d5
-pkgver=16
+pkgver=17
 
 [deps]
 alsa-lib

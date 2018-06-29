@@ -5,7 +5,7 @@ http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-7.6p1.tar.gz
 [vars]
 filesize=1489788
 sha512=de17fdcb8239401f76740c8d689a8761802f6df94e68d953f3c70b9f4f8bdb403617c48c1d01cc8c368d88e9d50aee540bf03d5a36687dfb39dfd28d73029d72
-pkgver=4
+pkgver=5
 service=openssh
 serviceflags="--down --log"
 

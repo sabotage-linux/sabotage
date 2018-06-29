@@ -4,7 +4,7 @@ https://curl.haxx.se/download/curl-7.60.0.tar.xz
 [vars]
 filesize=2338104
 sha512=96a0c32ca846a76bba75e9e560ad4c15df79540992ed1a83713095be94ddba039f289bda9678762fd79fb9691fe810735178fb9dc970c37012dff96b8ce08abf
-pkgver=12
+pkgver=13
 desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
 
 [deps]

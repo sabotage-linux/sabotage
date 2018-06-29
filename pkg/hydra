@@ -6,7 +6,7 @@ filesize=1193694
 sha512=67fd92bd5983a94314334471c526b71ca77dec6e359e55f4fb2fc78160e2065957b6c9af1ff694bcc5334893a8b5e0fe1b39d984248bde4e55dc2a9f9a8b1271
 tarball=hydra-8.5.tar.gz
 tardir=thc-hydra-8.5
-pkgver=1
+pkgver=2
 
 [deps]
 curses

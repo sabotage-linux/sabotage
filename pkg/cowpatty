@@ -4,6 +4,7 @@ http://www.willhackforsushi.com/code/cowpatty/4.6/cowpatty-4.6.tgz
 [vars]
 filesize=104979
 sha512=87c55f3f43c0342cbcc46227a1e4cfe3f23e215adc68e376991b85344b00b56e7b57e3cf0f1e3d18378cd830a247b2e36644b41b5c0f00a2a382b410f4ab35af
+pkgver=2
 desc='wpa cracking and handshake verification tool'
 
 [deps]

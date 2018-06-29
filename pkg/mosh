@@ -4,6 +4,7 @@ http://mosh.mit.edu/mosh-1.2.5.tar.gz
 [vars]
 filesize=308857
 sha512=6a5a42e5ed3f265bc8bee045340a59f604ab8f08b041573264f5679c29678e84d101537aa2d856923eee8d0a0f9c052dc81cfbfa50ce12bd0eeddc5c8f1fc3ae
+pkgver=2
 
 [deps]
 protobuf

@@ -6,7 +6,7 @@ filesize=36654435
 sha512=768eee82a5ac756fe47d5dfc285165c8ade8920569400b37572f0e313500e18b4580f97167ea30b641f8cd0a9881a950d902da74ae4909dcfb6ea2c8256d1ae5
 tarball=JohnTheRipper-1.8.0.6-jumbo-git-0d089b16.tar.gz
 tardir=JohnTheRipper-0d089b16ea1d77ec4dcebcbf2cca7e3ece9feaaa
-pkgver=3
+pkgver=4
 desc='password hash cracker'
 
 [deps]

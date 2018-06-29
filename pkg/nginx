@@ -4,7 +4,7 @@ http://nginx.org/download/nginx-1.13.8.tar.gz
 [vars]
 filesize=992237
 sha512=f2a4d41941ec223afcb57a6deb6523e0d4f54f96c7362835d366fa04a4b4578f6c4f27aa7774c1ecd40a42087df83e5c03d024e72caba83c558ec7e580c756a1
-pkgver=14
+pkgver=15
 
 [deps]
 libressl

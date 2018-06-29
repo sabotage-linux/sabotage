@@ -4,7 +4,7 @@ http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.46.tar.xz
 [vars]
 filesize=702884
 sha512=6ab9f705a2cdc5003a14bf0bab7a91c55ba001e6f51b3d78a2e43aee2360a2328c8680c3c546411e25f5d9c05e1b798ac84ba7ccf2bb697d754509dcd2987462
-pkgver=6
+pkgver=7
 desc='http daemon which is supposedly lightweight (in comparison with apache)'
 
 [deps]

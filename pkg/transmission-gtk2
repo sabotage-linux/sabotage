@@ -4,6 +4,7 @@ https://github.com/transmission/transmission-releases/raw/master/transmission-2.
 [vars]
 filesize=2905156
 sha512=0aea93263ce0bfb11629486a6f9d0ed9a5b0ec85cc15933271c073f73bb55f31ae6a32804b528093b2e435143ce3d6a25625bfb0411c75aaaf3832a7ffa26f34
+pkgver=2
 desc='bittorrent p2p filesharing client'
 
 [deps]

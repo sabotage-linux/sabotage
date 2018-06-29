@@ -4,7 +4,7 @@ http://www.php.net/distributions/php-7.0.24.tar.xz
 [vars]
 filesize=11959232
 sha512=7ae7795ff89924adc5f989bcf438a372684c7fc041ec10db96369f12faaeb90a23e7a7b5253f2a1022059f7464e6c11ee46a164a7f873b0b44a5317c3a3a49e7
-pkgver=12
+pkgver=13
 desc='heavily broken scripting language for web development'
 
 [deps]

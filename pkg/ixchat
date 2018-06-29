@@ -6,6 +6,7 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/ixchat-3.0.4.tar.xz
 [vars]
 filesize=410676
 sha512=d8c355a81301069aae7c08e6c128e86d9ad5cb33a094ab15f579fd19c1f858020b9ed33664cb664c37746a8c7d36152b6f96fb3e94ba62ad606770d8f4ea832f
+pkgver=2
 desc='GTK+ IRC client based on latest xchat2 release + some hexchat backports'
 
 [deps]

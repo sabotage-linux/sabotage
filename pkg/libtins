@@ -4,6 +4,7 @@ https://github.com/mfontanini/libtins/archive/v3.2.tar.gz
 [vars]
 filesize=276926
 sha512=d126491c31c4f98766bdec678e2776ae264b633bc1ad811f4dd3362324bf2607f9f3d724a2a519ac9233ffca38eb2e6e855d0df7a701fd825f2822ed8309c60c
+pkgver=2
 tarball=libtins-3.2.tar.gz
 tardir=libtins-3.2
 

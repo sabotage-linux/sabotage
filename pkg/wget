@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/wget/wget-1.19.4.tar.gz
 [vars]
 filesize=4310657
 sha512=e84b0c40235b160ade69e18f2f139c782eb2387edc97a847c11dbb906c0273daf6d0ef5afe20360ba965c7da8b5e109f5a45e39ea93d20ec945575203235943a
-pkgver=5
+pkgver=6
 desc='command line program for file downloads supporting various protocols'
 
 [deps]

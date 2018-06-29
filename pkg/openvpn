@@ -4,7 +4,7 @@ https://swupdate.openvpn.org/community/releases/openvpn-2.4.3.tar.xz
 [vars]
 filesize=938440
 sha512=b92ec769f672fa7c7a70985535754c566891f94774e4bc3aeb2141b3c168783aebeb82341635d3708978dd3254708221e2ddaae9919d4cf398318fff7d01c926
-pkgver=2
+pkgver=3
 
 [deps]
 libressl

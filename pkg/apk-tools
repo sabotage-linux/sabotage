@@ -4,7 +4,7 @@ https://git.alpinelinux.org/cgit/apk-tools/snapshot/apk-tools-2.9.1.tar.bz2
 [vars]
 filesize=129852
 sha512=28779ac68a2369cf61194f9c0c1304231019abff8187fee44a698cef27393008bb2253f846d6f300a0ddc87d42bc5d8e9c05440733e5c4396ce83bf1cd615e6d
-pkgver=1
+pkgver=2
 desc='alpine linux binary package manager'
 
 [deps]
