@@ -21,6 +21,7 @@ zlib
 curses
 
 [build]
+patch -p0 < "$K"/irssi-libressl.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
