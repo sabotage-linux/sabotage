@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/ninja-build/ninja/archive/v1.8.2.tar.gz
+
+[vars]
+filesize=185226
+sha512=1650bf9e3eddeb0b0fbb415c2b8e0a7c094421e991fa8139fd77fae0f6ee7ee980b7cf5e98d883c3a884f99abcb06fa26e3980af3a3a5bb6dd655124755782c2
+pkgver=1
+tarball=ninja-1.8.2.tar.gz
+
+[deps.host]
+python
+
+[build]
+./configure.py  --bootstrap
+
+dest="$butch_install_dir""$butch_prefix"
+install -D ninja "$dest"/bin/ninja
