@@ -19,6 +19,7 @@ patch -p1 < "$K"/wpa_supplicant23-no-blacklist.patch
 patch -p1 < "$K"/wpa_supplicant23-no-scandelay.patch
 patch -p1 < "$K"/wpa_supplicant-fflush.patch
 patch -p1 < "$K"/wpa_supplicant-action_script.patch
+patch -p1 < "$K"/wpa_supplicant23-libressl.patch
 patch -p1 < "$K"/wpa_supplicant-cracker.patch
 #patch -p0 < "$K"/wpa_supplicant25-libressl.patch
 patch -p0 < "$K"/wpa_supplicant25-eloop.patch
