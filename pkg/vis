@@ -1,0 +1,16 @@
+[mirrors]
+https://github.com/martanne/vis/releases/download/v0.5/vis-v0.5.tar.gz
+
+[vars]
+filesize=390461
+sha512=fe6b0394006562177efdf06713d7b95cd12fabf90b171c262eb2620d2b0944e73d3d8bb61f4f0d43d32154f0490c338bbc161a89455b14bb8a9d22cd75097780
+pkgver=1
+
+[deps]
+libtermkey
+lua53
+lpeg
+
+[build]
+./configure --prefix="$butch_install_prefix"
+make DESTDIR="$butch_install_dir" install

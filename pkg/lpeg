@@ -1,0 +1,19 @@
+[mirrors]
+http://www.inf.puc-rio.br/~roberto/lpeg/lpeg-1.0.1.tar.gz
+
+[vars]
+filesize=71527
+sha512=7b43fbee7eff443000986684bc56bba6d2796a31cf860740746c70e155bdea1b62a46b93f97e2747e3ef0f63e965148778ac2985d0f2d83e1e37ec4ebbabf4aa
+pkgver=1
+
+[deps]
+lua53
+
+[build]
+patch -p1 < "$K"/lpeg-build-static-lib.patch
+sed -i 's/^CFLAGS =/CFLAGS +=/' makefile
+sed -i 's/^COPT =/# COPT =/' makefile
+make LUADIR=/include/lua5.3
+install -Dm 755 lpeg.so "$butch_install_dir""$butch_prefix"/lib/lua5.3/lpeg.so
+install -Dm 644 lpeg.a "$butch_install_dir""$butch_prefix"/lib/lua5.3/liblpeg.a
+install -Dm 444 re.lua "$butch_install_dir""$butch_prefix"/share/lua5.3/re.lua

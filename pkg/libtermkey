@@ -1,0 +1,19 @@
+[mirrors]
+http://www.leonerd.org.uk/code/libtermkey/libtermkey-0.20.tar.gz
+
+[vars]
+filesize=45167
+sha512=81a4bc5917c60ca692ec3065ac0252ae5dc1adccc2832be1c83c82318c97473d883900ab88a8a0ee08ab3f831ff07f3a4827ee3d8e936a3a42c4708ee58f6301
+pkgver=1
+
+[deps]
+ncurses
+
+[build]
+sed -i 's/^PREFIX=.*$/PREFIX='"$butch_prefix"'/' Makefile
+
+make \
+	CFLAGS="$optcflags" \
+	LDFLAGS="$optldflags" \
+	DESTDIR="$butch_install_dir" \
+	-j$MAKE_THREADS install
