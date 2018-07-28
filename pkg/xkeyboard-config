@@ -1,10 +1,11 @@
 [mirrors]
+http://ftp.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.22.tar.bz2
 https://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-2.22.tar.bz2
 
 [vars]
 filesize=1046333
 sha512=1697cc1a49625eb608d8ab1f54f9f37e37facc482fc8bae5ebff9e3336efdd2f57e0ed95db0a9745d49f1bc21e2cfa792d0849f4057745d8be8f7abac4893f97
-pkgver=1
+pkgver=2
 
 [deps]
 gettext
