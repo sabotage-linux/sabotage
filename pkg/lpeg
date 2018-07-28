@@ -13,7 +13,7 @@ lua53
 patch -p1 < "$K"/lpeg-build-static-lib.patch
 sed -i 's/^CFLAGS =/CFLAGS +=/' makefile
 sed -i 's/^COPT =/# COPT =/' makefile
-make LUADIR=/include/lua5.3
+make LUADIR="$butch_prefix"/include/lua5.3
 install -Dm 755 lpeg.so "$butch_install_dir""$butch_prefix"/lib/lua5.3/lpeg.so
 install -Dm 644 lpeg.a "$butch_install_dir""$butch_prefix"/lib/lua5.3/liblpeg.a
 install -Dm 444 re.lua "$butch_install_dir""$butch_prefix"/share/lua5.3/re.lua

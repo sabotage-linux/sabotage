@@ -10,10 +10,9 @@ pkgver=1
 ncurses
 
 [build]
-sed -i 's/^PREFIX=.*$/PREFIX='"$butch_prefix"'/' Makefile
-
 make \
 	CFLAGS="$optcflags" \
 	LDFLAGS="$optldflags" \
 	DESTDIR="$butch_install_dir" \
+	PREFIX="$butch_prefix" \
 	-j$MAKE_THREADS install
