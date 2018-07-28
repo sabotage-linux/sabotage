@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.52-53.xz
+
+[vars]
+filesize=55236
+sha512=2fe5f404497f47b86ceca414fb4b921418e347916609c7ec62c43c10091bd2100200923fe147ec093843a8ffce408efcc19a065e6a521f6a199809e99acd3e15
+tarball=kernel-patch-4.14.52-53.xz
+pkgver=1
