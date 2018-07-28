@@ -162,11 +162,9 @@ ln -sf nm "$dest"/bin/gcc-nm
 
 if [ "$A" = x86_64 ] ; then
 	mv "$dest"/lib64/* "$dest"/lib/ || true
-	if test "$option_cplusplus" = 1 ; then
-		sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
-		sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
-	fi
 fi
+
+rm -f "$butch_install_dir""$butch_prefix"/lib/*.la || true
 
 ln -sf rawcc "$dest"/bin/gcc-$VERSION
 test "$option_cplusplus" = 1 && ln -sf g++ "$dest"/bin/g++-$VERSION
