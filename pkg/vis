@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/martanne/vis/releases/download/v0.5/vis-v0.5.tar.gz
+
+[vars]
+filesize=390461
+sha512=fe6b0394006562177efdf06713d7b95cd12fabf90b171c262eb2620d2b0944e73d3d8bb61f4f0d43d32154f0490c338bbc161a89455b14bb8a9d22cd75097780
+pkgver=1
+
+[deps]
+libtermkey
+lua53
+lpeg
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure CC='cc --static' -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
