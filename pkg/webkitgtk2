@@ -1,0 +1,85 @@
+[mirrors]
+https://webkitgtk.org/releases/webkitgtk-2.20.3.tar.xz
+
+[vars]
+filesize=16623456
+sha512=69a7b27e294de6fd43240ce1d314cd1ccdbf29674c97967674459fd02720b31fa53e5412efbd93dc1e805d38e38feb7fe9a12cdd9c472471676b8db3c11734de
+pkgver=1
+
+[deps]
+cairo
+enchant
+gtk+3
+harfbuzz
+libsoup
+libtasn1
+libwebp
+
+[deps.host]
+cmake
+gperf
+perl
+python
+ruby
+
+[build]
+patch -p1 < "$K"/webkitgtk2-musl-fix-javascriptcore.patch
+patch -p1 < "$K"/webkitgtk2-fix-fast-memory-disabled.patch
+patch -p1 < "$K"/webkitgtk2-fix_armv6l.patch
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DENABLE_ACCELERATED_2D_CANVAS=OFF \
+  -DENABLE_GEOLOCATION=OFF \
+  -DENABLE_GLES2=OFF \
+  -DENABLE_GTKDOC=OFF \
+  -DENABLE_ICONDATABASE=OFF \
+  -DENABLE_INTROSPECTION=OFF \
+  -DENABLE_JIT=OFF \
+  -DENABLE_MINIBROWSER=OFF \
+  -DENABLE_OPENGL=OFF \
+  -DENABLE_PLUGIN_PROCESS_GTK2=OFF \
+  -DENABLE_QUARTZ_TARGET=OFF \
+  -DENABLE_SAMPLING_PROFILER=OFF \
+  -DENABLE_SPELLCHECK=OFF \
+  -DENABLE_TOUCH_EVENTS=OFF \
+  -DENABLE_VIDEO=OFF \
+  -DENABLE_WAYLAND_TARGET=OFF \
+  -DENABLE_WEBDRIVER=OFF \
+  -DENABLE_WEBGL=OFF \
+  -DENABLE_WEB_AUDIO=OFF \
+  -DENABLE_WEB_CRYPTO=OFF \
+  -DENABLE_X11_TARGET=ON \
+  -DPORT=GTK \
+  -DUSE_LIBHYPHEN=OFF \
+  -DUSE_LIBNOTIFY=OFF \
+  -DUSE_LIBSECRET=OFF \
+  -DUSE_SYSTEM_MALLOC=ON \
+  -DUSE_WOFF2=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+

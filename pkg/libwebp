@@ -1,6 +1,7 @@
 [vars]
 filesize=990904
 sha512=4975c055e94668cc3b8198443d141de91db6c9d99a79164631854b9b91eea2d9d92aefa361cb8e0fa8963a3deeb5ba6cc6ab55db1d7b038ae495b7e7cf5b2572
+pkgver=2
 
 [mirrors]
 http://downloads.webmproject.org/releases/webp/libwebp-0.4.3.tar.gz
@@ -19,7 +20,8 @@ giflib
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-libwebpmux --enable-libwebpdemux
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
