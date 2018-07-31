@@ -1,13 +1,17 @@
 [mirrors]
-http://fribidi.org/download/fribidi-0.19.7.tar.bz2
+https://github.com/fribidi/fribidi/archive/v1.0.5.tar.gz
 
 [vars]
-filesize=648299
-sha512=4bfdda43d961030a8a2ae2c98d2ca5d43c1b59633fa0987920c5537ec69f3f624204ceacc4c474d878cbb417ee2d9e708dfe169cfce6ad584d2f2d5122678b63
+filesize=2086906
+sha512=c51b67cc3e7610bef9a66f2456f7602fe010164c2c01e7d91026cefa4a08fdce5165b6eb3814e76cd89e766356fb71adc08bf75d9b2f5802f71c18b5d0476887
+tarball=fribidi-1.0.5.tar.gz
+pkgver=2
 
 [deps]
 
 [build]
+autoreconf --force --install --verbose
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -17,6 +21,8 @@ cp -f "$K"/config.sub .
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
+
+sed -i 's/SUBDIRS = gen.tab lib bin doc test/SUBDIRS = gen.tab lib/' Makefile
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
