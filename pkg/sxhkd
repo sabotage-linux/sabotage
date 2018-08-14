@@ -1,0 +1,15 @@
+[mirrors]
+https://github.com/baskerville/sxhkd/archive/0.5.9.tar.gz
+
+[vars]
+filesize=34649
+sha512=32ee7261b4fa10d5a62a7fa61e689977d12afd654e81123711bda1f006e4b6baa7524352086037594e6ef1989dd8fcb6eddc1114085ee91546a69f6d1146924e
+tarball=sxhkd-0.5.9.tar.gz
+pkgver=1
+
+[deps]
+xcb-util-keysyms
+
+[build]
+make PREFIX=$butch_install_prefix DESTDIR=$butch_install_dir all install
+
