@@ -9,11 +9,9 @@ pkgver=1
 [deps]
 
 [build]
-#patch -p1 < "$K"/some.patch
-#cp -f "$K"/config.sub .
+cp -f "$K"/config.sub .
 
 cd build/
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -25,6 +23,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS
+# make install is broken
 install -Dm755 nvi $butch_install_dir/bin/nvi
 install -Dm755 nex $butch_install_dir/bin/nex
 cd ../docs/USD.doc/vi.man
