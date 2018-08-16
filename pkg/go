@@ -1,9 +1,9 @@
 [mirrors]
-https://redirector.gvt1.com/edgedl/go/go1.9.2.src.tar.gz
+https://redirector.gvt1.com/edgedl/go/go1.10.3.src.tar.gz
 
 [vars]
-filesize=16383591
-sha512=1034098575c317eeaf648629690a4dea0c479a69c3b80d9917f6b96c8781ce79c0f29859f667dc4e07d47a44972aa09bd0163a458f897cf45f9d09eb03e4abb5
+filesize=18323736
+sha512=fd2bd5fcb5c6d0a5336c4b1d2cacb368edbb01359297a83bdedc53f6018642598232f00633fc60fde879050f5f26a810c828d46b5d6626cbcc0702d93ad33fbb
 tardir=go
 
 [deps.host]
