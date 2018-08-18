@@ -1,0 +1,31 @@
+[mirrors]
+https://github.com/alobbs/macchanger/archive/1.7.0.tar.gz
+
+[vars]
+filesize=306344
+sha512=55fbfe4f4e94f0822e7a71b8c7052ed6c3a05066859044498bd68d068c33902b5718e92c8e00b73af71b57ce825644e1f81eb4dd7ef11701f197b953d7853aff
+tarball=macchanger-1.7.0.tar.gz
+pkgver=1
+
+[deps]
+
+[build]
+# http://stackoverflow.com/questions/6381526/what-is-the-significance-of-caddr-t-and-when-is-it-used
+# https://github.com/alobbs/macchanger/issues/14
+sed -i '/#include <sys\/ioctl.h>/a#include <sys/types.h>' src/netinfo.c
+
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./autogen.sh -C --prefix="$butch_prefix" $xconfflags
+
+sed -i 's/SUBDIRS = src data doc/SUBDIRS = src data/' Makefile
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
