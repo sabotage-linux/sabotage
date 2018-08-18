@@ -1,0 +1,14 @@
+[mirrors]
+https://github.com/tianon/cgroupfs-mount/archive/1.4.tar.gz
+
+[vars]
+filesize=5820
+sha512=a805e410692178f01cbe67093ffc944c44f3ea88d5724f8613e9a131ff5e018cc94458c7f4ed1c17f3cdd12f619a6800e41fd7d3874a2df39d6227197e8cfdfb
+tarball=cgroupfs-mount-1.4.tar.gz
+
+[deps.run]
+busybox
+
+[build]
+install -Dm 755 cgroupfs-mount ${butch_install_dir}${butch_prefix}/bin/cgroupfs-mount
+install -Dm 755 cgroupfs-umount ${butch_install_dir}${butch_prefix}/bin/cgroupfs-umount
