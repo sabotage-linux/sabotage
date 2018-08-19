@@ -28,5 +28,5 @@ make V=1 -j$MAKE_THREADS
 # make install is broken
 install -Dm755 nvi ${butch_install_dir}${butch_install_prefix}/bin/nvi
 install -Dm755 nex ${butch_install_dir}${butch_install_prefix}/bin/nex
-install -Dm644 $butch_build_dir/docs/USD.doc/vi.man/vi.1 \
+install -Dm644 ../docs/USD.doc/vi.man/vi.1 \
     ${butch_install_dir}${butch_install_prefix}/share/man/man1/nvi.1
