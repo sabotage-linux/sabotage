@@ -4,7 +4,7 @@ if [ -z "$1" ] || [ "$1" = - ] ; then
 	curl -F 'f:1=<-' ix.io
 #file name argument: post to 0x0
 elif [ -e "$1" ] ; then
-	curl -F'file=@'"$1" https://0x0.st
+	curl -F"file=@\"$1\"" https://0x0.st
 else
 cat << EOF
 usage: head -n 20 foo.txt | $0
