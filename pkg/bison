@@ -13,7 +13,12 @@ m4
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+cp -f "$K"/config.sub build-aux/
+
+xconfflags="--build=$($CC -dumpmachine)"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine)"
+
 CFLAGS="$optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 make -j$MAKE_THREADS
