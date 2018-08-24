@@ -20,9 +20,9 @@ patch -p1 < "$K"/make-3.82-stack_limit.patch
 patch -p1 < "$K"/make-glob.patch
 cp -f "$K"/config.sub config/
 
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine)" || \
-  xconfflags="--build=$($CC -dumpmachine)"
+  xconfflags="--host=$($CC -dumpmachine)"
 
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
 ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
