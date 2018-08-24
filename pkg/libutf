@@ -1,0 +1,14 @@
+[mirrors]
+https://9fans.github.io/plan9port/unix/libutf.tgz
+
+[vars]
+filesize=19817
+sha512=b17059f95b5a5b24f7e69f157e818eab556752126738b50cc361f7b0186202b30ed490f22772f70b1cdcaca66b33a180857bd13388f210bd2ac90773683e4d9e
+
+[deps]
+musl
+
+[build]
+sed -i 's,/man/man7,/share/man/man7,' Makefile
+make -j$MAKE_THREADS
+make PREFIX="$butch_install_dir" install
