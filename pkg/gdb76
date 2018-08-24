@@ -89,7 +89,7 @@ tuiflags=
 [ "$WANT_TUI" = 1 ] || tuiflags=--disable-tui
 
 xconfflags=
-targets="--enable-64-bit-bfd --enable-targets=x86_64-linux,i386-linux,powerpc-linux,arm-linux,mips-linux,mipsel-linux,microblaze-linux"
+targets="--enable-64-bit-bfd --enable-targets=x86_64-linux,i386-linux,powerpc-linux,arm-linux,mips-linux,mipsel-linux,microblaze-linux,aarch64-linux"
 if [ -n "$CROSS_COMPILE" ] ; then
 	xconfflags="--host=$($CC -dumpmachine)"
 	targets=
