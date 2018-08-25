@@ -20,6 +20,7 @@ patch -p1 < "$K"/make-3.82-stack_limit.patch
 patch -p1 < "$K"/make-glob.patch
 cp -f "$K"/config.sub config/
 
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 
