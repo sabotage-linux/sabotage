@@ -1,0 +1,8 @@
+[mirrors]
+http://bundles.openttdcoop.org/openmsx/releases/0.3.1/openmsx-0.3.1.zip
+
+[vars]
+filesize=136981
+sha512=d17856fc70796eadb798b133af8a987ff9887c7f0d736e48bd27e9451eb122935271779b65e098e061c1316def455f56da6caa1d448e2bf111ecf8c189d3fbc8
+pkgver=1
+

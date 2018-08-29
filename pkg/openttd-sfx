@@ -1,0 +1,8 @@
+[mirrors]
+http://bundles.openttdcoop.org/opensfx/releases/opensfx-0.2.3.zip
+
+[vars]
+filesize=11359588
+sha512=ee4f4659201f1b6829fcea3c66416573d11e50988ef33452c2e9867bee8e68ddbf978ca805802b2b4188c624e814816300e69c8b78bb80c9604841be706c96cc
+pkgver=1
+

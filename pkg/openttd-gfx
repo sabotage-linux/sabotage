@@ -1,0 +1,8 @@
+[mirrors]
+http://bundles.openttdcoop.org/opengfx/releases/LATEST/opengfx-0.5.4.zip
+
+[vars]
+filesize=3547720
+sha512=fac7e6363caf37ae09bc12bbcf13e141486e2643ae11f115d22b95366ac7d40ed96c085846afcbafc3b91abc975cc15dbc7e1fcea0166f8b49117608c8709979
+pkgver=1
+
