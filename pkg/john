@@ -1,19 +1,18 @@
 [mirrors]
-https://github.com/magnumripper/JohnTheRipper/archive/0d089b16.tar.gz
+https://github.com/magnumripper/JohnTheRipper/archive/643d9261.tar.gz
 
 [vars]
-filesize=36654435
-sha512=768eee82a5ac756fe47d5dfc285165c8ade8920569400b37572f0e313500e18b4580f97167ea30b641f8cd0a9881a950d902da74ae4909dcfb6ea2c8256d1ae5
-tarball=JohnTheRipper-1.8.0.6-jumbo-git-0d089b16.tar.gz
-tardir=JohnTheRipper-0d089b16ea1d77ec4dcebcbf2cca7e3ece9feaaa
-pkgver=4
+filesize=38500832
+sha512=79e4f58cc056592f5ed1756a0eae2af753836ffd15221433d3b0f2fbb8ef26390cba8947208ce464fda3b5bcde1588af45f31d007e68316820cb317f686aee26
+tarball=JohnTheRipper-1.8.0.6-jumbo-git-643d9261.tar.gz
+tardir=JohnTheRipper-643d9261b9154c6bdfb55b104d1fc040fc1188a3
+pkgver=5
 desc='password hash cracker'
 
 [deps]
 libressl
 
 [build]
-patch -p1 < "$K"/john-gpg.patch
 
 cd src
 

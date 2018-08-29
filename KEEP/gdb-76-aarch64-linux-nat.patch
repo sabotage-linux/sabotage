@@ -1,0 +1,10 @@
+--- a/gdb/aarch64-linux-nat.c
++++ b/gdb/aarch64-linux-nat.c
+@@ -32,6 +32,7 @@
+ #include "elf/common.h"
+
+ #include <sys/ptrace.h>
++#include <asm/ptrace.h>
+ #include <sys/utsname.h>
+
+ #include "gregset.h"
