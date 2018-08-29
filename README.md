@@ -180,6 +180,9 @@ immediately start compiling the packages you're interested in. If you intend
 to use the resulting rootfs to boot into, you should however start with building
 `stage1`.
 
+Note that you need to build the `make` and `binutils` packages additional to
+`stage1` if you intend to use the resulting rootfs with full compiler toolchain.
+
 
 ## NOTES TO CONTRIBUTORS
 
