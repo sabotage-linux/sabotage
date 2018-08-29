@@ -267,14 +267,16 @@ dalias, niklata, garbeam, pikhq, xmw, gaf and Arch Linux.
 
 ## CONTACT
 
-There is a mailing list: sabotage@lists.openwall.com
+There <strike>is</strike> was a mailing list: sabotage@lists.openwall.com
 
-Email sabotage-subscribe@lists.openwall.com and follow its instructions to
-subscribe.
+<strike>Email sabotage-subscribe@lists.openwall.com and follow its instructions to
+subscribe.</strike>
 
 Archives available: http://openwall.com/lists/sabotage/
 
-You may also /join #sabotage or #musl on irc.freenode.net for real time help.
+**The mailing list is currently unmaintained. please use IRC.**
+
+/join #sabotage on irc.freenode.net for real time help.
 
 **READ THE COOKBOOK FIRST BEFORE POSTING**.
 
