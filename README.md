@@ -178,7 +178,7 @@ it.
 Unlike native compilation, you don't have to build any stages, you can
 immediately start compiling the packages you're interested in. If you intend
 to use the resulting rootfs to boot into, you should however start with building
-`stage1` or `stage2`.
+`stage1`.
 
 
 ## NOTES TO CONTRIBUTORS
