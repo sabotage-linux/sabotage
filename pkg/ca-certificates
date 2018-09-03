@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20170717.tar.xz
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20180409.tar.xz
 
 [vars]
-filesize=293028
-sha512=dfeb5a19bb33bcb127a159b73fcc63b41c99827d77eb4a6069def0cffc7ae8dd10dab97c1ddfdd5b70d0c93e650a51ed5dcd03908516e7ca8b3022bf46eeb7e6
-pkgver=4
+filesize=246908
+sha512=e0742da19416d367618547107cc0f1cc045d5ba62c30fb7238e0e36ec0d19ea48e2ffdee2c68a9f06954025c58db9a5376f149e221ede95a3a029cda39d86a53
+pkgver=5
 tardir=ca-certificates
 
 [deps]
@@ -48,6 +48,7 @@ cp sbin/update-ca-certificates .
 sed -e 's#=/etc/#=${DESTDIR}/etc/#' -i update-ca-certificates
 sed -e 's#=/share/#=${DESTDIR}/share/#' -i update-ca-certificates
 sed -e 's#=/local/#=${DESTDIR}/local/#' -i update-ca-certificates
+sed -e 's#openssl rehash#c_rehash#' -i update-ca-certificates
 
 DESTDIR="$butch_install_dir" sh ./update-ca-certificates --fresh
 
