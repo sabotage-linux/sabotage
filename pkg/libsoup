@@ -1,9 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/libsoup/2.44/libsoup-2.44.1.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/libsoup/2.58/libsoup-2.58.2.tar.xz
 
 [vars]
-filesize=746716
-sha512=07120996737d86f45acb80b05147e9af0e3e183bec9a97727881b8dc05cb154c679a785f4d5a3a53d0e3611ae0198df977bc9059623c9f1e8e01a03d4c7acb95
+filesize=1815256
+sha512=85af6fac87343bdd22312518402144d33916225f60d6fa158efdd84f7ee7ed1f9895989b3558f711c9aedc93cff35a4114ad79d6d2aa19c54cb326f162a4c7de
+pkgver=2
 
 [deps]
 libxml2

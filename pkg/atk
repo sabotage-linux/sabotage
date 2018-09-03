@@ -1,10 +1,11 @@
 [mirrors]
-http://download.gnome.org/sources/atk/2.15/atk-2.15.1.tar.xz
-http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.15/atk-2.15.1.tar.xz
+http://download.gnome.org/sources/atk/2.24/atk-2.24.0.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.24/atk-2.24.0.tar.xz
 
 [vars]
-filesize=695912
-sha512=03769d6bea7210c34e54e1e58ea3d2c2139eb424d6f381026335d84d223713f25a96a7a1bd583c637925ce5e2f9b76e7a72f0c0c87570efa8eedf0949b17f00f
+filesize=748972
+sha512=3ae0a4d5f28d5619d465135c685161f690732053bcb70a47669c951fbf389b5d2ccc5c7c73d4ee8c5a3b2df14e2f5b082e812a215f10a79b27b412d077f5e962
+pkgver=2
 desc="gnome accessibility toolkit"
 
 [deps]
