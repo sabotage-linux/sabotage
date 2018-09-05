@@ -1,0 +1,19 @@
+[mirrors]
+http://codemadness.org/releases/stagit/stagit-0.8.tar.gz
+
+[vars]
+filesize=17924
+sha512=76bedf4e8dcb84f4426db72154a33900f6853a31733f8b18cab7197f2acbe0497ce6a8f09c43d8d111f4c1f813549273523ea70f0baf691cd1e8a1097e231608
+desc='static git page generator'
+
+[deps]
+git
+libgit2
+
+[build]
+make \
+  GITINC="$butch_root_dir/include" \
+  GITLIB="$butch_root_dir/lib" \
+  -j$MAKE_THREADS 
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
+
