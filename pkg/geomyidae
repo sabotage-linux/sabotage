@@ -1,0 +1,14 @@
+[mirrors]
+ftp://ftp@bitreich.org/releases/geomyidae/geomyidae-v0.32.2.tgz
+
+[vars]
+filesize=20897
+sha512=3b0927a16082df862b9efacc2f29fd1b1ca76f7d465426e179d5995a416bc27b518daba422512091304ed5479ff133e3d40f7bf66aedfbd8d99d13710809d519
+desc='A small c-based gopherd'
+
+[deps]
+
+[build]
+make -j$MAKE_THREADS
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
+
