@@ -1,0 +1,20 @@
+[mirrors]
+http://codemadness.org/releases/stagit-gopher/stagit-gopher-0.8.tar.gz
+
+[vars]
+filesize=16404
+sha512=b59073a16bc90cc65881653cf385b138172218c045f57d5c5a6d4a8d32c4058f6a8c6aad6751c86b6e14b0fa57bdd3de793720aced448e5ac0f9d5323baf1698
+desc='static git page generator for gopher'
+
+[deps]
+git
+libgit2
+
+[build]
+make clean
+make \
+  GITINC="$butch_root_dir/include" \
+  GITLIB="$butch_root_dir/lib" \
+  -j$MAKE_THREADS 
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
+
