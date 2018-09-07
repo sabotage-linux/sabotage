@@ -27,6 +27,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 --disable-nls \
 --disable-silent-rules \
 --enable-imap \
+--enable-pop \
 --enable-smtp \
 --with-ssl  \
 --with-sasl  \
