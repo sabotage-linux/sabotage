@@ -1,0 +1,16 @@
+[mirrors]
+http://www.knossos.net.nz/downloads/dterm-0.5.tgz
+
+[vars]
+filesize=18876
+sha512=cc8aba472ae4e65e5749fb4a6dfb0cb81af61d9bf4ad2b2f44cd7e100671af46df11816b301814bc94859cad76082c8dedcbc7830b1387bd99cb9edc50b54f42
+pkgver=1
+desc='Small serial line console client'
+
+[deps]
+
+[build]
+sed -i 's@^#include <sys/signal.h>@#include <signal.h>@' dterm.c
+make CFLAGS="$optcflags -static" LDFLAGS="$optldflags -static"
+install -Dm755 dterm "$butch_install_dir""$butch_prefix"/bin/dterm
+install -Dm644 README.txt "$butch_install_dir""$butch_prefix"/share/doc/dterm/README
