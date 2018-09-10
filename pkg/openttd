@@ -5,7 +5,7 @@ https://binaries.openttd.org/releases/1.8.0/openttd-1.8.0-source.tar.xz
 filesize=6521016
 sha512=a2d61b3c94a550c8f3a581127df8c3459b1ddff5ba924942c468cbc70e88e0bf4405cecb68a91243b544ead64f215aa8d489a07b38dce507ae7d59e8ec155d7a
 tardir=openttd-1.8.0
-pkgver=1
+pkgver=2
 desc='open transport tycoon deluxe simulator game'
 
 [deps]
@@ -13,23 +13,30 @@ openttd-msx
 openttd-gfx
 openttd-sfx
 sdl
+lzo
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 
 test -z "$butch_prefix" && butch_prefix=/
+debug=
+test -n "$DEBUGBUILD" && debug=--enable-debug=3
 
+# lzma (xz) is disabled because the C++ wrapper crashes
+# https://github.com/OpenTTD/OpenTTD/issues/6896
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" $xconfflags \
   --binary-dir=bin \
   --data-dir=share/openttd \
   --install-dir=$butch_install_dir \
-  --without-liblzo2
+  --without-zlib \
+  --without-lzma \
+  --disable-strip $debug
 
-make V=1 -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+make VERBOSE=1 -j$MAKE_THREADS
+make VERBOSE=1 DESTDIR="$butch_install_dir" install
 
 cd $butch_install_dir$butch_prefix/share/openttd
 unzip $C/opengfx-0.5.4.zip
