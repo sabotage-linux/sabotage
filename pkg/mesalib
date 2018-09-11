@@ -36,7 +36,7 @@ if false ; then
 fi
 
 archflags=
-[ "$A" = arm ] || [ "$A" = mips ] && archflags=--with-dri-drivers=swrast
+[ "$A" = arm ] || [ "$A" = mips ] || [ "$A" = aarch64 ] && archflags=--with-dri-drivers=swrast
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11" \
