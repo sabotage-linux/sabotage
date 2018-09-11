@@ -17,6 +17,7 @@ sha512=9326ab5687734e09cf36f1993d085fb72ed24efefaa9e426f8adc10ae4bdbccc7bff74162
 http://xorg.freedesktop.org/releases/individual/app/twm-1.0.6.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
