@@ -13,6 +13,7 @@ sha512=10f91015c0c2f57dfe854906774d3ff7c015690de613c1ccefdd63e430753843dd5b5aac7
 http://xorg.freedesktop.org/releases/individual/app/xlogo-1.0.3.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
