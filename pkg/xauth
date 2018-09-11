@@ -12,6 +12,7 @@ sha512=d459dc2b8e38ed46eb45075306edbe2cb5a927823944a693e44cb7ab63ed0c10a8a04aa46
 http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.5.tar.bz2
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 LDFLAGS="$optldflags" \
