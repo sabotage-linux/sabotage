@@ -9,6 +9,7 @@ sha512=b9cdc91d6d40015076593db3e8050cbdd127834cba3f8b1703949eec259ad4ae90f517052
 libx11
 
 [build]
+cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
