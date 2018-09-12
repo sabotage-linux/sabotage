@@ -1,0 +1,11 @@
+--- a/util/memfd.c
++++ b/util/memfd.c
+@@ -34,6 +34,8 @@
+ #ifdef CONFIG_MEMFD
+ #include <sys/memfd.h>
+ #elif defined CONFIG_LINUX
++#include <sys/mman.h>
++#elif 0
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 
