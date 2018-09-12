@@ -3,7 +3,7 @@ filesize=782025
 sha512=00ace5438cfa0c577e5f578d8a808613187eff5217c35164ffe044fbafdfec9e98f4192c02a7d67e01e5a5ccced630583ad1003c37697219b0f147343a3fdd12
 
 [mirrors]
-http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+https://fossies.org/linux/misc/bzip2-1.0.6.tar.gz/
 
 [build]
 patch -p1 < "$K"/bzip2-flags.patch
