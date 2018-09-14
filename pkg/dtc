@@ -1,0 +1,16 @@
+[mirrors]
+https://git.kernel.org/pub/scm/utils/dtc/dtc.git/snapshot/dtc-1.4.7.tar.gz
+
+[vars]
+filesize=191568
+sha512=44ffd5a0ca5084906b6131dd30f3bb45462d26ea88b6a61f3d5bf5f93d8fdce90c12570e483232e8884e85f4cbb0ac8cf431bc48422850202ec72d0844487fe3
+desc='device tree compiler'
+pkgver=1
+
+[deps.host]
+flex
+bison
+
+[build]
+make
+make DESTDIR=$butch_install_dir PREFIX=$butch_prefix install
