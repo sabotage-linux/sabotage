@@ -6,7 +6,8 @@ filesize=205557
 sha512=51cdfb68bab701bce635a64ab3d5af669b2330c895180d01cca1c6f3c4005972ba4c573b693df59a2cc4fdb97d4fd11224bae500bbd4a17c3ab446de5241c9a0
 pkgver=1
 
-[deps]
+[deps.host]
+perl
 
 [build]
 #patch -p1 < "$K"/some.patch
