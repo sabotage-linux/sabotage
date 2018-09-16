@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/chneukirchen/cwm/archive/v6.3.tar.gz
+
+[vars]
+filesize=52419
+sha512=12f5c28ce2fa8e5310c49dd6d4fb58140a514943a93b8cab1c0c604bb50535a5e6b00b10f21c8d4500440f7ae7b14d2cb23c65eb201578fc01ab09f2bbc1e91f
+tardir=cwm-6.3
+tarball=cwm-6.3.tar.gz
+pkgver=1
+
+[deps]
+libxft
+libxinerama
+libxrandr
+queue-h
+
+[deps.host]
+bison
+
+[build]
+make
+make DESTDIR=$butch_install_dir PREFIX=$butch_prefix install
