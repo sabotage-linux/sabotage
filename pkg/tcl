@@ -27,4 +27,6 @@ CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   tcl_cv_strstr_unbroken=ok
 make -j$MAKE_THREADS CFLAGS_DEFAULT=
 make DESTDIR="$butch_install_dir" install
-cd ..
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/bin
+ln -sf tclsh8.6 "$dest"/bin/tclsh
