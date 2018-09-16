@@ -13,5 +13,14 @@ cairo
 pango
 
 [build]
-make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
--j$MAKE_THREADS all install
+make CC="$CC" \
+  CFLAGS="$optcflags -std=c99 -pedantic -Wall -Os \
+    `pkg-config --cflags gtk+-3.0 webkit2gtk-4.0` \
+    -DVERSION=\\\"2.0\\\" \
+    -DWEBEXTDIR=\\\"$butch_root_dir$butch_prefix/lib/surf\\\" \
+    -D_DEFAULT_SOURCE" \
+  LDFLAGS="$optldflags -s -lX11 -lgthread-2.0 \
+    `pkg-config --libs gtk+-3.0 webkit2gtk-4.0` \
+    -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  -j$MAKE_THREADS all install
