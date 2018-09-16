@@ -9,6 +9,8 @@ sha512=cf499a15adc1004354c15849bf715e6ae671b01a007fee0135642d536f35f882928ffcaa6
 libx11
 
 [build]
+cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
