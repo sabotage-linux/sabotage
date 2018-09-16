@@ -9,7 +9,8 @@ http://xorg.freedesktop.org/releases/individual/app/mkfontdir-1.0.7.tar.bz2
 mkfontscale
 
 [build]
-
+cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
