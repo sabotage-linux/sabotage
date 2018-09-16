@@ -11,9 +11,12 @@ cairo
 enchant
 gtk+3
 harfbuzz-icu
+libgcrypt
 libsoup
 libtasn1
 libwebp
+libxcomposite
+libxt
 
 [deps.host]
 cmake
