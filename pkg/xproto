@@ -10,6 +10,7 @@ pkgver=2
 [build]
 cp -f "$K"/config.sub .
 export MKDIRPROG="mkdir -p"
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 ./configure -C --prefix="$butch_prefix" $xconfflags
