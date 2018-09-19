@@ -9,6 +9,7 @@ http://xorg.freedesktop.org/releases/individual/proto/dri2proto-2.8.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
