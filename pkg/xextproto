@@ -7,6 +7,7 @@ sha512=e2695da13b80e6a182fe5451838af868c4b65f4d99df38d00f746be31865bb25188747182
 
 [build]
 cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
