@@ -1,9 +1,10 @@
-[vars]
-filesize=15057
-sha512=e54fd10c0b1274eb90173aea442f0bfc496f4dda861a36d94f939e1fd835594f9aa12f3d0f90043d64e519d919b9a5273ab65012230ac022f727ee6bb64862e3
-
 [mirrors]
-http://dl.suckless.org/tools/dmenu-4.6.tar.gz
+http://dl.suckless.org/tools/dmenu-4.8.tar.gz
+
+[vars]
+filesize=15658
+sha512=fa2700018cfb912a21f867ef3ca771a58a25c2cb8e1fb37acef046bb15d8d8b92dcc5bfce486befae0f143495d0283910988e181a9eb143be3bb1b5be9738d77
+pkgver=2
 
 [deps]
 freetype
