@@ -10,6 +10,7 @@ http://xorg.freedesktop.org/releases/individual/proto/xcmiscproto-1.2.2.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
