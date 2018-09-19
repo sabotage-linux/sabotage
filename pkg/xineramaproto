@@ -8,6 +8,7 @@ sha512=ec2194c9bcad3f0f3eb3e9298792272213aa032ae9d6c00dcad567f31d7278a8c676fc67f
 
 [build]
 cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
