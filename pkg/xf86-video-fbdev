@@ -13,6 +13,7 @@ xorg-server
 [build]
 cp -f "$K"/config.sub .
 patch -p1 < "$K"/xf86-video-fbdev_mibstore.patch
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
