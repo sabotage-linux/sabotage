@@ -6,6 +6,8 @@ sha512=75da652e720cce9efcc23c2b72a0d8050096f054eff1338e02477816e107d469a7f9c5f49
 http://bitmath.org/code/mtdev/mtdev-1.1.4.tar.bz2
 
 [build]
+cp -f "$K"/config.sub config-aux/config.sub
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
