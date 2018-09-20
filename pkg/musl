@@ -13,6 +13,7 @@ gcc6
 
 [build]
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
+patch -p1 < "$K"/musl-1.1.20-lock_race.patch
 
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
