@@ -1,9 +1,10 @@
 [mirrors]
-http://download.qt-project.org/archive/qt/4.6/qt-everywhere-opensource-src-4.6.4.tar.gz
+http://download.qt-project.org/archive/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz
 
 [vars]
-filesize=160837056
-sha512=3441b74bd7c0f981bed4886abef8934a6193ab9d0a6d31a7d850ea8ff49172295a6d9c8b26893d88748d6f8759e8e0305b8242230e5e8519ffd35b641566621f
+filesize=241075567
+sha512=f9f81a2e7205e1fd05c8d923dc73244f29aa33f951fa6b7c5c8193449328b37084796b9b71ad0c317e4e6fd00017c10ea5d67b1b2032551cde00548522218125
+pkgver=2
 
 [deps]
 libpng
@@ -11,6 +12,8 @@ libmng
 libtiff
 libjpeg
 libressl
+libx11
+libxext
 sqlite
 
 [build]
@@ -20,7 +23,8 @@ sqlite
 # http://qt.gitorious.org/qt/qt/commit/d28c9e9105f4b3f638bfa7492af10ce7d4f1c644
 # and other CA loading patches from 2010-now
 
-for p in socklen tolower libpng15 backspace None gl iconv gcc47 3rdparty linguist ; do
+for p in None iconv ; do
+	echo APPLYING "$p".patch
 	patch -p1 < "$K"/qt464-"$p".patch
 done
 
@@ -28,7 +32,7 @@ debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
 
 # Wno-parentheses has no effect...
-CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS" \
+CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS -fpermissive -std=gnu++98" \
 ./configure \
   -prefix "$butch_prefix"/ \
   -plugindir "$butch_prefix"/share/qt4/plugins \
@@ -50,6 +54,8 @@ CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS" \
   -system-libjpeg \
   -system-zlib \
   -system-sqlite \
+  -verbose \
+  -v \
   -no-separate-debug-info
 
 make -j$MAKE_THREADS
