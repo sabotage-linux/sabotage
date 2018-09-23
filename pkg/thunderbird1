@@ -5,6 +5,7 @@ http://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/1.5.0.14/source/thun
 filesize=36183747
 sha512=57af87d11109d3ba1ae0e0b06531f4254ccdf7fb27fb5eabecce0c7945d33938c3604f214d3141772a367d754987eff3171f86e3dbbf79ff57f32b46d818b320
 tardir=mozilla
+descsearch='vintage desktop email client including various security bugs'
 
 [deps.host]
 perl
