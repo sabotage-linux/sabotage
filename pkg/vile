@@ -1,0 +1,28 @@
+[mirrors]
+https://invisible-mirror.net/archives/vile/vile-9.8.tgz
+ftp://ftp.invisible-island.net/vile/vile-9.8.tgz
+
+[vars]
+filesize=2109000
+sha512=daaaa33e79b970d753c5c0c4972f4e8f91aa8a26c813dc8755bb7eff60cefaf4766b08a77e210d1c8fabd39ecf7093b5ea819f35cc1f3ea8122b48d4b5e2dfe8
+desc='vi like emacs: a vi-clone based on micro-emacs to get the best of both'
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+     --disable-filters
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
