@@ -16,7 +16,7 @@ patch -p1 < "$K"/xf86-video-fbdev_mibstore.patch
 xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags" \
+  LDFLAGS=$(printf "%s" "$optldflags" | sed 's/-z,now/-z,lazy/') \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
-
