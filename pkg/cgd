@@ -1,11 +1,23 @@
+[mirrors]
+https://api.github.com/repos/uriel/cgd/tarball/master
+
+[vars]
+filesize=1214
+sha512=98c79798b51fe80faac29dd11d4896c396d695aabbd5f39ae340bec6e97fc6bccf266e3a4507c4a410106158b9bd541a565c2abc4bf37dd713a1114203fdf9f2
+tarball=uriel-cgd-c08b219.tar.gz
+tardir=uriel-cgd-c08b219
+desc='Common Gateway Daemon: serve a cgi script over HTTP or FastCGI'
+pkgver=1
+
 [deps]
 go
-git
-[build]
-repo="github.com/uriel/cgd"
 
-dest="$butch_install_dir""$butch_prefix"
-srcdest="$S"/build/"$butch_package_name"
-GOROOT="$butch_root_dir"/opt/go GOPATH="$dest" go get "$repo"
-[ -d "$srcdest" ] && rm -rf "$srcdest"
-mv -f "$dest"/src "$srcdest"
+[build]
+baseurl=github.com/uriel
+repo=cgd
+
+mkdir -p butch_build_tmp/src/"$baseurl"
+ln -sf "$butch_build_dir" butch_build_tmp/src/"$baseurl"/"$repo"
+GOPATH="$butch_build_dir"/butch_build_tmp \
+  GOBIN="$butch_install_dir""$butch_prefix"/bin \
+  go install "$baseurl"/"$repo"
