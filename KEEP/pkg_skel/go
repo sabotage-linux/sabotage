@@ -1,12 +1,19 @@
+[mirrors]
+
+[vars]
+filesize=
+sha512=
+pkgver=1
+
 [deps]
 go
-git
 
 [build]
-repo="github.com/user/repo"
+baseurl=github.com/example
+repo=name
 
-dest="$butch_install_dir""$butch_prefix"
-srcdest="$S"/build/"$butch_package_name"
-GOROOT="$butch_root_dir"/opt/go GOPATH="$dest" go get "$repo"
-[ -d "$srcdest" ] && rm -rf "$srcdest"
-mv -f "$dest"/src "$srcdest"
+mkdir -p butch_build_tmp/src/"$baseurl"
+ln -sf "$butch_build_dir" butch_build_tmp/src/"$baseurl"/"$repo"
+GOPATH="$butch_build_dir"/butch_build_tmp \
+  GOBIN="$butch_install_dir""$butch_prefix"/bin \
+  go install "$baseurl"/"$repo"
