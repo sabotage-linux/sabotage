@@ -8,6 +8,7 @@ pkgver=1
 
 [deps.run]
 python
+python-capstone
 
 [deps.host]
 python
