@@ -17,6 +17,7 @@ python-packaging
 python-elftools
 python-psutil
 python-intervaltree
+python-mako
 
 [deps.host]
 python
