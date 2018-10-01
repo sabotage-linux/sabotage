@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/github/hub/archive/v2.5.1.tar.gz
+
+[vars]
+filesize=990972
+sha512=31a9c721dd29e9a7aee28bccb36621802c6d85dbb7277a2f55365c2fcaec4f4a587e6eb7a6fd9231c7c86acdf13ccad9c7846e12ad6f76812943e8d5eb0d9383
+tarball=hub-2.5.1.tar.gz
+tardir=hub-2.5.1
+desc='git wrapper for using github (fork, pr, etc) on the commmand line'
+pkgver=1
+
+[deps]
+go
+git
+
+[build]
+baseurl=github.com/github
+repo=hub
+
+mkdir -p butch_build_tmp/src/"$baseurl"
+ln -sf "$butch_build_dir" butch_build_tmp/src/"$baseurl"/"$repo"
+GOPATH="$butch_build_dir"/butch_build_tmp \
+  GOBIN="$butch_install_dir""$butch_prefix"/bin \
+  go install "$baseurl"/"$repo"
