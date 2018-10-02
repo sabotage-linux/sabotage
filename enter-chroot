@@ -7,6 +7,10 @@ ret=0
 if [ -z "$R" ] ; then
 	echo 'no R environment var set, your config is broken'
 	exit 1
+elif [ "$R" = / ] ; then
+	echo "error: R=/ can't be used with this script, as it would make"
+	echo "your host sys unusable after returning. (umounting /dev /proc...)"
+	exit 1
 fi
 
 mkdir -p "$R"/src/tarballs
