@@ -11,11 +11,6 @@ export HOSTCC="$CC"
 [ -z "$CXX" ] && export CXX=g++
 export HOSTCXX="$CXX"
 
-# set this if you don't want to build the kernel, only the headers
-# if you don't need the kernel anyway, this can save lots of time
-# mips and arm set this flag automatically
-#export SKIP_KERNEL_COMPILE=1
-
 # the build template used.
 # the default one creates packages in $R/opt/$package_name, uses a config.cache
 # and symlinks packages into the rootdir.
