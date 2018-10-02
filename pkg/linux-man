@@ -7,5 +7,5 @@ sha512=cc1282467255d5c078b099ab6dbc407c5f56fa66fb3f5789286bc66c98b229cae88bf8afd
 pkgver=4
 
 [build]
-rm -rf man1 man2 man3
+rm -rf man1 man3
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
