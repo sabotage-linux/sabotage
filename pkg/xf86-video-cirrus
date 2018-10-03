@@ -11,6 +11,7 @@ sha512=2af1b089527fb715b07b6d50da863972a1d063863e976c5e75576e70b502b74af43bc38ad
 http://xorg.freedesktop.org/releases/individual/driver/xf86-video-cirrus-1.5.2.tar.bz2
 
 [build]
-./configure -C --prefix="$butch_prefix"
+LDFLAGS=$(printf "%s" "$optldflags" | sed 's/-z,now/-z,lazy/') \
+  ./configure -C --prefix="$butch_prefix"
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
