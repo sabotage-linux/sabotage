@@ -22,12 +22,6 @@ export HOSTCC=gcc
 ## stage0 builds in less than 2minutes using -j9 on an AMD 8core
 export MAKE_THREADS=1
 
-# in case you have linux kernel 3.8+ with CONFIG_USER_NS enabled,
-# you can use super_chroot in place of chroot, so you don't need
-# root perms to build.
-# if SUPER is set, the enter-chroot script will use super_chroot.
-#export SUPER=1
-
 # SCP_MIRRORS is a newline-separated list where the default download template
 # tries to download source tarballs from if set (before doing regular download).
 # first %s passed is the tarball filename, second %s the local destination.

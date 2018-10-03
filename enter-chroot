@@ -26,19 +26,18 @@ case "$A" in i?86)
 esac
 fi
 
-if [ ! -z "$SUPER" ] ; then
+uid="$(id -u)"
+if [ -d /proc/self/ns ] && [ "$uid" != "0" ] ; then
 	CHROOT=./super_chroot
 	if [ ! -x "$CHROOT" ] ; then
 		if ! "$CC" "$K"/super_chroot.c -static -s -Os -o "$CHROOT" 2>/dev/null ; then
 			echo "error: failed to build super_chroot!"
 			echo "try: musl-gcc KEEP/super_chroot.c -o super_chroot"
-			echo "or: unset SUPER and re-run ./enter-chroot as root."
+			echo "or: re-run ./enter-chroot as root."
 			exit 1
 		fi
 	fi
 else
-
-	uid="$(id -u)"
 	if [ "$uid" != "0" ]; then
 	    printf -- "need to be root. please enter password.\n"
 	    su -c "$0"
@@ -93,7 +92,7 @@ tryumount() {
 	fi
 }
 
-if [ -z "$SUPER" ] && [ -d "$R"/dev/pts ] ; then
+if [ "$CHROOT" = "chroot" ] && [ -d "$R"/dev/pts ] ; then
 	tryumount "$R"/src/tarballs
 	tryumount "$R"/dev/pts
 	tryumount "$R"/dev/shm
