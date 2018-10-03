@@ -63,8 +63,6 @@ Set the `SABOTAGE_BUILDDIR`, `A`, and `MAKE_THREADS` variables.
 You may usually ignore the other values.
 Both the config file and the COOKBOOK cover the meaning of these variables.
 
-Enable `SUPER` to use the following `./enter-chroot` script without root.
-
 NOTE: It is possible to build an i386 Sabotage from within an existing 32-bit
 chroot on a 64-bit system.
 The `enter-chroot` script automatically handles this scenario.
@@ -79,10 +77,6 @@ Once inside the chroot:
 ATTENTION: if you're using void or arch linux, building gcc630 in stage1 might
 fail due to a buggy ld. there's a workaround though:
 https://github.com/sabotage-linux/sabotage/issues/505
-
-Older pre-3.8 Linux systems will not support the rootless chroot approach used
-by `./enter-chroot`.
-Disable `SUPER` and run `./enter-chroot` as root if you encounter an issue.
 
 At this point, stage1 is complete and your Sabotage chroot is set up. There are
 two optional steps to consider at this time:
