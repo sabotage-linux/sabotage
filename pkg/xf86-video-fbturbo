@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/ssvb/xf86-video-fbturbo/archive/0.4.0.tar.gz
+
+[vars]
+filesize=460519
+sha512=9675f7df7811cc4607baefeb6cfef93df618a2995675f5e1b316b4f703da758b04f909d887a6c9d0d7f274a215036864ea712fcf76d50f5084321ea3dbd3e23c
+tarball=xf86-video-fbturbo-0.4.0.tar.gz
+desc='x11 video driver based on fbdev for arm/allwinner cpus/gpus'
+pkgver=1
+
+[deps]
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="$optcflags" LDFLAGS="${optldflags//,-z,now}" \
+./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
