@@ -1,0 +1,23 @@
+From 88983b5e10e9c46051748349577e84258f7de4a4 Mon Sep 17 00:00:00 2001
+From: Sergio Queiroz <sqmedeiros@gmail.com>
+Date: Fri, 25 May 2018 18:19:18 -0300
+Subject: [PATCH] Fixing bug related to a head fail optmization that skips a
+ throw
+
+---
+ lpcode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lpcode.c b/lpcode.c
+index c5869e8..6cf2933 100644
+--- a/lpcode.c
++++ b/lpcode.c
+@@ -308,7 +308,7 @@ static int getfirst (TTree *tree, const Charset *follow, Charset *firstset) {
+       return 0;
+     }
+     case TThrow: {  /* labeled failure: must always throw the label */
+-      loopset(i, firstset->cs[i] = follow->cs[i]); /* follow = fullset(?) */
++      loopset(i, firstset->cs[i] = fullset->cs[i]);
+       return 1;
+     } 
+     case TChoice: { 

@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/sqmedeiros/lpeglabel/archive/v1.5.0-1.tar.gz
+
+[vars]
+filesize=80692
+sha512=f6dd628835922d8a02b4a7e463f2c3c1e64d80a7ab3782cb1b8a95d60097d5a7968af3649fb498050fdeb3df35fd26be10fd929395a7bec0d0650e78a293dbd9
+tarball=lpeglabel-1.5.0-1.tar.gz
+pkgver=1
+
+[deps]
+lua53
+
+[build]
+patch -p1 < "$K"/lpeglabel-1.5.0-bugfix.patch
+make -j$MAKE_THREADS CC="$CC" COPT="$optcflags" \
+LUADIR="$butch_root_dir""$butch_prefix"/include/lua5.3 \
+DLLFLAGS=-shared lpeglabel.so
+"$CROSS_COMPILE"ar rcs liblpeglabel.a lpvm.o lpcap.o lptree.o lpcode.o lpprint.o
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 liblpeglabel.a "$dest"/lib/liblpeglabel.a
+install -Dm 644 lpeglabel.so "$dest"/lib/lua/5.3/lpeglabel.so
+install -Dm 644 relabel.lua "$dest"/lib/lua/5.3/relabel.lua
