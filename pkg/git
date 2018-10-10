@@ -15,12 +15,14 @@ curl
 perl
 
 [build]
+STATIC=-static
+test "$GIT_DYNAMIC" = 1 && STATIC=
 
 make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $butch_root_dir/lib/libcrypto.a" \
   CC="$CC" HOSTCC="$HOSTCC" \
   prefix="$butch_prefix" gitexecdir="$butch_prefix"/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
-  CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
+  CFLAGS="$optcflags" LDFLAGS="$optldflags $STATIC" \
   NO_REGEX=NeedsStartEnd \
   DESTDIR="$butch_install_dir" -j$MAKE_THREADS V=1 all install
 
