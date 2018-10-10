@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/kikito/inspect.lua/archive/v3.1.1.tar.gz
+
+[vars]
+filesize=11221
+sha512=d9e6f605033b43ac07f6ab731b1c10f59ebd0a64bb3d6449cef39b2fc43d9ad0eb062a000f76bc9b25222a52a3b344ab3a8af7b6bfe3d92a52447faf5dfbcbbd
+tarball=inspect-3.1.1.tar.gz
+tardir=inspect.lua-3.1.1
+pkgver=1
+
+[deps]
+lua53
+
+[build]
+for i in *.lua ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$i"
+done
