@@ -9,7 +9,7 @@ pkgver=1
 [deps]
 libtermkey
 lua53
-lpeg
+lua-lpeg
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
