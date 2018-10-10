@@ -1,10 +1,11 @@
 [mirrors]
-http://downloads.sourceforge.net/project/timidity/TiMidity++/TiMidity++-2.14.0/TiMidity++-2.14.0.tar.bz2
+https://sourceforge.net/projects/timidity/files/TiMidity%2B%2B/TiMidity%2B%2B-2.15.0/TiMidity%2B%2B-2.15.0.tar.xz
 
 [vars]
-filesize=1611424
-sha512=274b2a700cd10c7034ffae50b989419f971c79eac71c8e20649e4138f9710be0505bd99379b23e772b5af5aa86a636e4070e522f43d06007ceacc25f61261c8a
-tardir=TiMidity++-2.14.0
+filesize=1363040
+sha512=36c3c79d941903109d5d6d529963d12e8192a857e80402ad5ab0d1e223451a7cf5dc8fdd046b22ae7da96f413d68db8587a8fce348635838eba2f30f7019192f
+tardir=TiMidity++-2.15.0
+pkgver=2
 
 [deps]
 curses
