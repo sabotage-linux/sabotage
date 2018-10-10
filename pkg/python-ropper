@@ -1,10 +1,10 @@
 [mirrors]
-https://pypi.python.org/packages/58/dd/408dfce597432dc7953321a996f804bb7e1cc76947260e35d5c9fabaa56e/ropper-1.10.10.tar.gz
+https://files.pythonhosted.org/packages/7e/5c/6419af4c83bc22829febd69f29d1bc975ce9b2904d585f3e4640e2d55c7a/ropper-1.11.6.tar.gz
 
 [vars]
-filesize=1452232
-sha512=41a4caa4010b322a9e2c2dc41f99c3240a83806522447aaed3d3364ddcb91c5c8e13dd7a4bf675d6a947734fe6577d1cc745020a52ec3bb9015db8db7849c8a4
-pkgver=1
+filesize=64364
+sha512=dfa40212a3d04d850c78649470b8879266a1a156b4c53561366e07532ff0cfb5aba54f8798b539fe24871abdeeb100b0ffae73df21be368ddb2eb3feb2235217
+pkgver=2
 
 [deps.run]
 python
