@@ -1,0 +1,16 @@
+[deps]
+lua53
+
+[build]
+make -j$MAKE_THREADS CC="$CC" COPT="$optcflags" \
+LUADIR="$butch_root_dir""$butch_prefix"/include/lua5.3 \
+DLLFLAGS=-shared all
+
+dest="$butch_install_dir""$butch_prefix"
+for i in *.so ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$i"
+done
+# you probably don't want to install tests and similar stuff
+for i in *.lua ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$i"
+done
