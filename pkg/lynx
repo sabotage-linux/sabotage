@@ -14,6 +14,7 @@ ca-certificates
 
 [build]
 patch -p1 < "$K"/lynx-2.8.9-dev10-libressl.patch
+patch -p1 < "$K"/lynx-resize.patch
 
 # remove timestamp
 sed -e 's;__DATE__;"01.01.18";' -e 's;__TIME__;"00:00:00";' -i src/LYMain.c
