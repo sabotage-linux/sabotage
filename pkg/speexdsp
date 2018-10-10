@@ -1,0 +1,25 @@
+[mirrors]
+http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz
+
+[vars]
+filesize=901771
+sha512=29dfa8345df025eeb076561648a9b5c0485692be699b6da3c2a3734b4329187a1c2eb181252f4df12b21f1309ecdf59797437dfb123d160fd723491ab216e858
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
