@@ -1,8 +1,10 @@
 #!/bin/sh
 for i in /sys/class/power_supply/* ; do
-[ -e "$i"/charge_now ] || continue
+for j in charge energy ; do
+[ -e "$i"/"$j"_now ] || continue
 b=$(basename $i)
-curr=$(cat /sys/class/power_supply/$b/charge_now)
-full=$(cat /sys/class/power_supply/$b/charge_full)
+curr=$(cat /sys/class/power_supply/$b/"$j"_now)
+full=$(cat /sys/class/power_supply/$b/"$j"_full)
 printf "%s charge: %d%% (%d/%d)\n" $b $(($curr / ($full / 100))) "$curr" "$full"
+done
 done
