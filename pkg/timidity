@@ -8,6 +8,7 @@ tardir=TiMidity++-2.15.0
 pkgver=2
 
 [deps]
+libao
 curses
 
 [build]
@@ -16,12 +17,15 @@ cp -f "$K"/config.sub autoconf/
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 sed -i 's@if test "x\$prefix" != xNONE -a@if false -a@' configure
+
+# alsa output can't be used directly because it uses the old API with symver hacks
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   lib_cv_va_copy=yes \
   lib_cv___va_copy=no \
   lib_cv_va_val_copy=no \
+  --enable-audio=ao \
   --enable-ncurses
 make CC=cc -C timidity calcnewt
 make -j$MAKE_THREADS
