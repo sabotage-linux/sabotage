@@ -1,0 +1,32 @@
+[mirrors]
+http://www.tinc-vpn.org/packages/tinc-1.0.34.tar.gz
+
+[vars]
+filesize=484174
+sha512=b711a2c532f8efc94c77e9bbe5213ae284d2a3cb598d2760df700448e495a02ac56baa0393bbc6fbc735bf97a26ca5a79133c92952d98a9086a9ffd273eef725
+desc='vpn daemon using encrypted tunnelling'
+
+[deps]
+lzo
+libressl
+libz
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/share/tinc
+cp -r doc/sample-config "$dest"/share/tinc/
