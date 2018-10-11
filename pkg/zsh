@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/project/zsh/zsh/5.0.5/zsh-5.0.5.tar.bz2
+http://downloads.sourceforge.net/project/zsh/zsh/5.6.2/zsh-5.6.2.tar.xz
 
 [vars]
-filesize=3104375
-sha512=34d69bed190cbc476bcdaa4b703fee1caaeae7e011fe7ea595b29bbd31df57bbe4d19b5940618e0c89a0a4b6c476f9ef03ce9829b4fb3735c1aedf309b0225a5
+filesize=3077368
+sha512=f0a49e41b55eb478692ab5471d7c9828956b7e96bc82944202b0ef1c49a889b21a0e7682aa5f59fd0054ebfd866c2244c8a622e7aa46c13038af5c226c48a3a2
+pkgver=2
 
 [deps]
 
