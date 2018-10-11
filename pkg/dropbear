@@ -13,6 +13,8 @@ serviceflags="--down --log"
 zlib
 
 [build]
+patch -p1 "$K"/dropbear-openssh-port-opt.patch
+
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
 CPPFLAGS="-D_BSD_SOURCE" \

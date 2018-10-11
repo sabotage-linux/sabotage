@@ -1,0 +1,22 @@
+--- a/cli-runopts.c
++++ b/cli-runopts.c
+@@ -891,6 +891,7 @@
+ #ifndef DISABLE_SYSLOG
+ 			"\tUseSyslog\n"
+ #endif
++			"\tPort\n"
+ 		);
+ 		exit(EXIT_SUCCESS);
+ 	}
+@@ -908,6 +909,11 @@
+ 		return;
+ 	}
+ #endif
++
++	if (match_extendedopt(&optstr, "Port") == DROPBEAR_SUCCESS) {
++		cli_opts.remoteport = optstr;
++		return;
++	}
+ 
+ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
+ }
