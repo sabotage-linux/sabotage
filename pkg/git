@@ -1,10 +1,11 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/scm/git/git-2.15.1.tar.xz
+http://cdn.kernel.org/pub/software/scm/git/git-2.19.1.tar.xz
+https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.19.1.tar.xz
 
 [vars]
-filesize=4894768
-sha512=dcf300b28e41f7757d866e768d641137718b43eb6d12a2cfff99fb429775e0cab87bbff48147b8588bc0f69e92eb5ca2ad1f75c8cf5205e41853d8e8652f900b
-pkgver=15
+filesize=5227908
+sha512=a1bc1032b1de9eb9ea8b7c385cd009f64247e13066e0a91e9682e35400ded05f88c23b523cca4782f57544060d6ba0f9d3bec944399cda5771a4945c38bb9b98
+pkgver=16
 desc='tools to work with the git distributed version control system'
 
 [deps]
@@ -30,6 +31,6 @@ dest="$butch_install_dir""$butch_prefix"
 rm -f "$dest"/lib/perl5/core_perl/perllocal.pod
 mkdir -p "$dest"/bin
 cp gitk-git/gitk "$dest"/bin/
-cp perl/private-Error.pm "$dest"/lib/perl5/site_perl/Error.pm
+install -Dm 664 perl/FromCPAN/Error.pm "$dest"/lib/perl5/site_perl/Error.pm
 ln -sf git "$dest"/bin/git-receive-pack
 ln -sf git "$dest"/bin/git-upload-archive
