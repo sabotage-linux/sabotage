@@ -1,0 +1,15 @@
+[mirrors]
+http://users.teilar.gr/~g1951d/Symbola.zip
+
+[vars]
+filesize=2907542
+sha512=be7b3fd8b2070a6713b189c0ee0c6d8aef481eb0c7e476dabfa3eb1a599cc7f3a00f14d7b9ca1f563722d550c098f272f62bb99fc490aba8132ed5ae7de59a7b
+desc='truetype unicode charactes'
+
+[deps]
+
+[build]
+fontsdir="$butch_install_dir""$butch_prefix"/share/fonts/symbola
+
+mkdir -p "$fontsdir"
+mv *.ttf "$fontsdir"
