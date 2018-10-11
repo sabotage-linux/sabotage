@@ -1,0 +1,26 @@
+[mirrors]
+https://people.torproject.org/~dgoulet/torsocks/torsocks-2.2.0.tar.xz
+
+[vars]
+filesize=309916
+sha512=89eb1263bfb0079ca5cb7fcc3a6fa1ecde1327df9ea98de48babfff1f8947b1e9db8407ead747fef0190671e7fff502025dcfcd9b6cba97abbaf25b5a575c62a
+pkgver=1
+
+[deps]
+tor
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
