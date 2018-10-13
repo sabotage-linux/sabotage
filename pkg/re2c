@@ -1,16 +1,14 @@
 [mirrors]
-http://downloads.sourceforge.net/re2c/re2c-0.14.3.tar.gz
+https://github.com/skvadrik/re2c/releases/download/1.1.1/re2c-1.1.1.tar.gz
 
 [vars]
-filesize=2576859
-sha512=c1fa20c9c1e69d085415dde3177cb03688f8a9314dd4854241812f479a2b1e4306c3abbb8f9f31763918afbd1f7a821e7337551a898f6ae57f814c66e59e2382
-
-[deps.host]
-dynamic-toolchain
+filesize=5907416
+sha512=a6fe73611103588043748340976f0e6d07169a6546cb80627c0ccd2ceac83f362dbbf371530361d893537fd95deb19503b2c73c41ed40efe7787210d6c757397
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="$optcflags" \
