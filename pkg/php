@@ -7,11 +7,13 @@ sha512=7ae7795ff89924adc5f989bcf438a372684c7fc041ec10db96369f12faaeb90a23e7a7b52
 pkgver=13
 desc='heavily broken scripting language for web development'
 
+[deps.host]
+re2c
+
 [deps]
 gettext
 freetype
 libedit
-re2c
 curl
 db
 libressl
