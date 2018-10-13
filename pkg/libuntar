@@ -1,0 +1,19 @@
+[mirrors]
+https://github.com/martanne/libuntar/tarball/3f5e915ad8e6c5faa8dc6b34532e32b519f278f3
+
+[vars]
+filesize=9977
+sha512=33f6c6f6b77bc7a4f265e264061afd04b986ab04b6ac0ce4f11ce2a730eb9cc5fd47b36b34e273e5a0c7d21b39c03b3d302fe7422c8ed94d6c4c40cc7f460ebf
+tarball=libuntar-3f5e915.tar.gz
+tardir=martanne-libuntar-3f5e915
+desc='C library for reading tarfiles, stripped down version of libtar'
+pkgver=1
+
+[deps]
+
+[build]
+CFLAGS=$optcflags make
+dest="$butch_install_dir""$butch_prefix"
+install -D lib/libuntar.h "$dest"/include/libuntar.h
+install -D lib/libuntar.a "$dest"/lib/libuntar.a
+
