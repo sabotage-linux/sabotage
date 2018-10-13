@@ -23,7 +23,9 @@ done
 #on a machine that has those files.
 cp "$K"/ncurses-fallback.c ncurses/fallback.c
 
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
 # that </dev/ptmx is to fix an insanely stupid test for poll which
 # needs to block on fd 1 (which they assume to be a tty).
