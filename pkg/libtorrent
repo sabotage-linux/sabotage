@@ -5,9 +5,6 @@ http://rtorrent.net/downloads/libtorrent-0.13.6.tar.gz
 filesize=781253
 sha512=b8aea4060357a8a40d15d42f1f698ef6f3ebdc885000bfbfa5bf9c81af8c88b5503a107e05c214e3e8489126928d336356c5e7e0eaf836b6b84a3cf74633b050
 
-[deps.host]
-dynamic-toolchain
-
 [deps]
 libsigc++
 libstdc++
