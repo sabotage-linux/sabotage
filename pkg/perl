@@ -7,8 +7,7 @@ sha512=139c92c0ea0ee7bd5912ad52cc275e0732ceb0865d8b67c301e1fc5a96ae126a26432b445
 pkgver=4
 desc='interpreter for the perl 5.x scripting language'
 
-[deps.host]
-dynamic-toolchain
+[deps]
 
 [build]
 VERSION=5.24.3
