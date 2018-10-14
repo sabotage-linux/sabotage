@@ -8,9 +8,6 @@ filesize=309608
 sha512=e5936a42615690c13e618655fc5eb4f414d9a84f85b860eaeb3bcf737258e05d299b09d1c5388d50c718626036ec8cac5d670ad567ceadfaab85f401f0744a8a
 pkgver=2
 
-[deps.host]
-dynamic-toolchain
-
 [deps]
 libusbx
 
