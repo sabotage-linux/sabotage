@@ -14,9 +14,6 @@ zlib
 lua52
 libressl
 
-[deps.host]
-dynamic-toolchain
-
 [build]
 patch -p1 < "$K"/nmap-configure-pcap_suitable.patch
 patch -p1 < "$K"/nmap-nbase_h.patch
