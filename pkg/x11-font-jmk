@@ -1,0 +1,18 @@
+[mirrors]
+http://nikolas.us.to/jmkfonts/jmk-x11-fonts-3.0.tar.gz
+
+[vars]
+filesize=624357
+sha512=7a99689be59eaf50742932ce27c8b41a99d10076adf9c2990e11745a873eec610257d50e844f8380658d340cf821724d459dc9b6b189666180596f2bf255957f
+pkgver=1
+
+[deps.host]
+bdftopcf
+imake
+xorg-cf-files
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+fontsdest="$dest"/share/fonts/jmk
+xmkmf
+make INSTALL_DIR="$fontsdest" install
