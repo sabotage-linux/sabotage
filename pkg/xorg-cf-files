@@ -1,0 +1,26 @@
+[mirrors]
+https://www.x.org/archive/individual/util/xorg-cf-files-1.0.6.tar.gz
+
+[vars]
+filesize=440971
+sha512=4d371e34324a4e60a53e31accd5bcf874077ff908709af864a61fe7636324c3e52948e032764c0bcea4fced71665c2d980749f5afa4aec9a9a45c8259c0f0d8b
+desc='configuration files for using with imake'
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
