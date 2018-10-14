@@ -6,9 +6,6 @@ filesize=1265711
 sha512=4a6ff4c658997a495119d200ec6ad37649da940814a4b14fca0dd29a99142026e324695b7aa9d2946efc2abf9067a819d911e43778efe905ed10ddf9b9f2dd3d
 desc='x86/DOS emulator to play the good old games'
 
-[deps.host]
-dynamic-toolchain
-
 [deps]
 sdl
 alsa-lib

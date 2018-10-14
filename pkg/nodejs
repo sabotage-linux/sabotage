@@ -8,7 +8,6 @@ pkgver=6
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
-dynamic-toolchain
 python
 
 [build]

@@ -7,8 +7,7 @@ http://downloads.sourceforge.net/project/libusbx/releases/1.0.14/source/libusbx-
 http://heanet.dl.sourceforge.net/project/libusbx/releases/1.0.14/source/libusbx-1.0.14.tar.bz2
 http://surfnet.dl.sourceforge.net/project/libusbx/releases/1.0.14/source/libusbx-1.0.14.tar.bz2
 
-[deps.host]
-dynamic-toolchain
+[deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

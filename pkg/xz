@@ -6,8 +6,7 @@ filesize=1032248
 sha512=a5b8f3c402ec3df5c1875a32081136606dd7701190d8b8091bae1bac36553ebe3480985c8069bf5d9e24f374ea64b1fe22614d3eebac1c10e5d609701bceca95
 pkgver=2
 
-[deps.host]
-dynamic-toolchain
+[deps]
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

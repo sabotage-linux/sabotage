@@ -10,7 +10,6 @@ gmp
 mpc
 mpfr
 musl
-dynamic-toolchain
 man
 zlib
 binutils

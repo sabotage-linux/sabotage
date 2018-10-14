@@ -1,6 +1,3 @@
-[deps.host]
-dynamic-toolchain
-
 [deps]
 ubase-tarball
 

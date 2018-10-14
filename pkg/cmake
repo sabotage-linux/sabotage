@@ -14,9 +14,6 @@ expat
 zlib
 libarchive
 
-[deps.host]
-dynamic-toolchain
-
 [build]
 patch -p1 < "$K"/cmake-isystem.patch
 patch -p1 < "$K"/cmake-lib64.patch
