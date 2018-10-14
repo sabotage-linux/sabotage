@@ -9,7 +9,6 @@ m4
 mpc
 mpfr
 musl
-dynamic-toolchain
 zlib
 capchroot
 bedrock-scripts
