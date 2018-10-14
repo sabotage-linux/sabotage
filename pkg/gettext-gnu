@@ -8,9 +8,6 @@ sha512=1735599307a2d12be609ecfe1141815a11af144c6b94301f6c7101242e0b628251a3613d1
 [deps]
 curses
 
-[deps.host]
-dynamic-toolchain
-
 [build]
 ./configure -C --prefix="$butch_prefix"
 make -j$MAKE_THREADS
