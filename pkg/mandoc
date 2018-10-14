@@ -1,10 +1,10 @@
 [mirrors]
-http://mdocml.bsd.lv/snapshots/mandoc-1.14.3.tar.gz
+http://mdocml.bsd.lv/snapshots/mandoc-1.14.4.tar.gz
 
 [vars]
-filesize=617202
-sha512=cd638fbacb068fcd6191f2a4e941effc010e3ebf06a3e32847b892c2e561771d03d5bca8fbdf8434d6491f4b68df3f443e2568b79193b7342044fba476fcd30b
-pkgver=3
+filesize=627229
+sha512=c68390711a739284ad9a61364f3fea76c0c48c02b4830d6326b07c4188d099e3720ae3b91fc3b083269381b417b7e3f3647d13a54ed2548f8c2f94122f8a7d97
+pkgver=4
 desc="manpage viewer. recommended to use instead of sabotage's minimal man prog"
 
 [deps]
@@ -13,32 +13,26 @@ desc="manpage viewer. recommended to use instead of sabotage's minimal man prog"
 sed -i 's@pager = "/usr/bin/more -s"@pager = "/bin/less -s"@' main.c
 
 cat << EOF > configure.local
-PREFIX=$butch_prefix
-MANDIR="$butch_prefix"/share/man
-LIBDIR="$butch_prefix"/lib
-SBINDIR="$butch_prefix"/bin
+PREFIX="$butch_prefix"
+MANDIR="${PREFIX}/share/man"
+SBINDIR="${PREFIX}/bin"
+MANPATH_DEFAULT="${PREFIX}/share/man:${PREFIX}/local/share/man"
+MANPATH_BASE="${PREFIX}/share/man"
+UTF8_LOCALE=en_US.UTF-8
+OSNAME="sabotage"
 CFLAGS="$optcflags"
-BUILD_DB=0
-HAVE_DIRENT_NAMLEN=0
-HAVE_FGETLN=1
-HAVE_FTS=0
-HAVE_GETSUBOPT=1
-HAVE_MMAP=1
-HAVE_STRCASESTR=1
-HAVE_STRLCAT=1
-HAVE_STRLCPY=1
-HAVE_STRPTIME=1
-HAVE_STRSEP=1
-HAVE_WCHAR=1
+LDFLAGS="$optldflags"
+INSTALL_PROGRAM="install -m 0755"
 EOF
 
-./configure -C --disable-nls $xconfflags
+./configure
 
-make V=1 -j$MAKE_THREADS LDFLAGS="$optldflags"
+make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
+# replace hardlinks with symlinks
 dest="$butch_install_dir""$butch_prefix"
-rm "$dest"/bin/man
-chmod 0755 "$dest"/bin/mandoc
-chmod 0755 "$dest"/bin/demandoc
-ln -sf mandoc "$dest"/bin/man
+for i in apropos makewhatis man whatis; do
+	rm "$dest"/bin/"$i"
+	ln -sf mandoc "$dest"/bin/"$i"
+done
