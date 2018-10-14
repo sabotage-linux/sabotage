@@ -5,8 +5,7 @@ http://rpm5.org/files/popt/popt-1.16.tar.gz
 filesize=702769
 sha512=bae2dd4e5d682ef023fdc77ae60c4aad01a3a576d45af9d78d22490c11e410e60edda37ede171920746d4ae0d5de3c060d15cecfd41ba75b727a811be828d694
 
-[deps.host]
-dynamic-toolchain
+[deps]
 
 [build]
 cp -f "$K"/config.sub .
