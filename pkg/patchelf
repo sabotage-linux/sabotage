@@ -4,8 +4,7 @@ http://hydra.nixos.org/build/1524660/download/3/patchelf-0.6.tar.gz
 filesize=139481
 sha512=90f4fe3184efe56bc95a8a560b74172db184443edc2b6827a78e55549fe96d539aa93bda03b07828766ee4f475d18e93c3b0caf2ee87228e9bd4d60a8152e9c4
 
-[deps.host]
-dynamic-toolchain
+[deps]
 
 [build]
 # warning C++
