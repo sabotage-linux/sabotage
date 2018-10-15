@@ -263,7 +263,7 @@ if test $mode = outdated || test $mode = update ; then
 	args=
 	for i in $($BINDIR/butch-list) ; do
 		test ! -e "$S"/pkg/"$i" && continue
-		if test $(get_pkgver "$i") != $(get_pkgver_installed "$i")
+		if test $(get_pkgver "$i") -gt $(get_pkgver_installed "$i")
 		then
 			add_list args "$i"
 		fi
