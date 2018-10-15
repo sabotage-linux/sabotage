@@ -9,6 +9,7 @@ desc='vi like emacs: a vi-clone based on micro-emacs to get the best of both'
 pkgver=1
 
 [deps]
+reflex
 
 [build]
 #patch -p1 < "$K"/some.patch
@@ -21,7 +22,7 @@ xconfflags="--build=$($CC -dumpmachine)"
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
-     --disable-filters
+    --mandir="$butch_prefix"/share/man
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
