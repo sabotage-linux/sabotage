@@ -1,0 +1,29 @@
+[mirrors]
+ftp://ftp.invisible-island.net/reflex/reflex.tar.gz
+http://invisible-island.net/datafiles/release/reflex.tar.gz
+
+[vars]
+filesize=461872
+sha512=a95458ce6ae155cbd737cbcef1572490b0e0948b0367c0d6bf82b8a5dfad2c265bb6dd643cd8b02240e6f2e99606f87ce12f6269ecf5fe7bac6fc20060b7cce1
+tarball=reflex-20171231.tar.gz
+tardir=reflex-20171231
+desc='flex, but less buggy and better posix compliance'
+pkgver=1
+
+[deps]
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
