@@ -30,15 +30,15 @@ commands: install, rebuild, prefetch
 
 pass an arbitrary number of package names as options
 
-        install: installs one or more packages when they're not yet installed
-                (list of installed packages is kept in /var/lib/butch.db unless
-                 overridden via BUTCHDB env var.)
-        rebuild: installs one or more packages even when they're already
-                installed
-        prefetch: only download the given package and all of its dependencies,
-                unless they're not already in $C
-        update: rebuild packages that changed since last build
-                interactive mode, list can be edited before build start.
+	install: installs one or more packages when they're not yet installed
+		(list of installed packages is kept in /var/lib/butch.db unless
+		overridden via BUTCHDB env var.)
+	rebuild: installs one or more packages even when they're already
+		installed
+	prefetch: only download the given package and all of its dependencies,
+		unless they're not already in $C
+	update: rebuild packages that changed since last build
+		interactive mode, list can be edited before build start.
 	outdated: display packages that have changed since they were installed
 
 EOF
@@ -224,7 +224,7 @@ start_build() {
 		echo "error: butch-merge failed"
 		exit 1
 	}
-        chmod +x $scrname
+	chmod +x $scrname
 	success=false
         $scrname </dev/null > $logname 2>&1 && success=true
 	if $success ; then
