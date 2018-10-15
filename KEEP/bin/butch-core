@@ -215,6 +215,9 @@ is_downloaded() {
 	read resss_ <&3
 	test $resss_ = 1 && return 0 || return 1
 }
+allow_network() {
+	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep -x 'need_net=1' >/dev/null 2>&1
+}
 start_build() {
 	scrname=$B/build_$1.sh
 	logname=$LOGPATH/build_$1.log
@@ -226,7 +229,15 @@ start_build() {
 	}
 	chmod +x $scrname
 	success=false
-        $scrname </dev/null > $logname 2>&1 && success=true
+	unsharecmd=
+	if ! allow_network "$1" ; then
+		if [ -x "$(command -v unshare)" ]; then
+			unsharecmd='unshare --net'
+		else
+			info "WARNING: Network access protection disabled. Is unshare installed?"
+		fi
+	fi
+	$unsharecmd $scrname </dev/null > $logname 2>&1 && success=true
 	if $success ; then
 		update_butchdb "$1" installed
 	else
