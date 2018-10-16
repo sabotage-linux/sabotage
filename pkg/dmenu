@@ -16,7 +16,6 @@ libxinerama
 libxft
 
 [build]
-cp "$K/dmenu.config.mk" config.mk
 cat << EOF >> config.mk
 CC=$CC
 CFLAGS += $optcflags -I$butch_root_dir$butch_prefix/include/freetype2
@@ -24,5 +23,5 @@ X11INC = $butch_root_dir$butch_prefix/include/X11
 X11LIB = $butch_root_dir$butch_prefix/lib
 LDFLAGS+=-Wl,-rpath-link=$butch_root_dir$butch_prefix/lib
 EOF
-make V=1 -j$MAKE_THREADS PREFIX="$butch_prefix" \
+make -j$MAKE_THREADS PREFIX="$butch_prefix" \
 DESTDIR="$butch_install_dir" all install
