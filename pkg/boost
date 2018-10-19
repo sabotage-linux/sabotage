@@ -5,7 +5,7 @@ https://dl.bintray.com/boostorg/release/1.63.0/source/boost_1_63_0.tar.bz2
 filesize=81984414
 sha512=c915c5f5778dee49b8e9d0a40f37f90f56fb1fdb1d8ce92d97bf48bc7bc462212487badfe4bbe30b06196d1149cfb221da12ac54e97499b0d4cb6466813bb4ad
 pkgver=2
-desc="monstruous collection of C++ libraries"
+desc="monstrous collection of C++ libraries"
 
 [deps]
 bzip2
