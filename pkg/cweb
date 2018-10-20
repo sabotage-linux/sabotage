@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/ascherer/cweb/archive/2017-09-17.tar.gz
+
+[vars]
+filesize=213987
+sha512=deddd76c55e549c637b68e0d5809e9ae3b84adb886a1c20a5c04a9016814fbdfec3d276590a553c9d65249ed17a0082eac901fa1c0c89bab85d082ad37e0352e
+tarball=cweb-3.64c.tar.gz
+tardir=cweb-2017-09-17
+pkgver=1
+desc="donald knuth's cweb. currently only ctangle is shipped"
+
+[deps]
+
+[build]
+for i in ctangle.c common.c ; do
+sed 's/int strlen/unsigned long strlen/' -i $i
+done
+
+$CC $optcflags ctangle.c common.c -o ctangle $optldflags
+
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 ctangle "$dest"/bin/ctangle
