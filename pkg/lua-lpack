@@ -1,0 +1,21 @@
+[mirrors]
+http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/5.2/lpack.tar.gz
+
+[vars]
+filesize=3609
+sha512=fa838b9d6574340f84bc948c70baba649c68fbc814fbbaee8df6be9eb3fd14258fe5f6721649bf09c59d9a2d6bed194b8ee845d88703a5bfc472dc4539bd410f
+pkgver=1
+tardir=pack
+
+[deps]
+lua53
+
+[build]
+make -j$MAKE_THREADS CC="$CC" \
+CFLAGS="$optcflags -fPIC -I$butch_root_dir$butch_prefix/include/lua5.3/" \
+  pack.so
+
+dest="$butch_install_dir""$butch_prefix"
+for i in *.so ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$i"
+done
