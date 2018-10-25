@@ -14,7 +14,7 @@ python-capstone
 python
 
 [build]
-chmod o+r ROPGadget.egg-info/*.txt
+chmod o+r ROPG*.egg-info/*
 python setup.py build
 python setup.py install --prefix="$butch_prefix" \
        --root="$butch_install_dir"
