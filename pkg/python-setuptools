@@ -1,12 +1,16 @@
+[mirrors]
+https://github.com/pypa/setuptools/archive/v40.4.3.tar.gz
+
 [vars]
-filesize=794335
-sha512=20f4b0f49a5cf029abb3efa8d2c95dcc5f77670fa4391cb714e835ab1d80348d2ed95759c8ed6bf9c6405ed02331288c5a6fee1303c83c2ddc9f95ae12f29e12
+filesize=766298
+sha512=750df326a149c2308971582d8a77b757c5dedb2251673826a8cb8860576700ee8d82a061c6a93075eb06307fdf324466e3b2941686059a45520951269e6e70b9
+tarball=setuptools-40.4.3.tar.gz
+tardir=setuptools-40.4.3
+pkgver=2
 
 [deps]
 python
 
-[mirrors]
-http://pypi.python.org/packages/source/s/setuptools/setuptools-3.4.4.tar.gz
-
 [build]
+python bootstrap.py
 python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" --optimize=1
