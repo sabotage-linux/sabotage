@@ -1,11 +1,9 @@
-[mirrors]
-http://mmix.cs.hm.edu/src/mmix-20160804.tgz
-
 [vars]
-filesize=308410
-sha512=35c518227a4ee40d0aa3be02eda2ab8b2a27696fa789f5007a978419d07b3deebb7f391895e63e3556aeb38dc1ded3bddf2b860125ebf8f7848375e90dc7af75
+filesize=308423
+sha512=b79ad02107c3c1d0ea27ee199ce42e2392ad72ca120d0dd195604b861a4082c8a09155debc116d4cd495d21df82bcac5052243f42d181f81d892fa7eaf90eb9b
+tarball=mmix-2017-17-09.tar.gz
 tardir=.
-pkgver=1
+pkgver=2
 desc="simulator and utils for donald knuth's MMIX architecture"
 
 [deps.host]
@@ -16,14 +14,17 @@ cweb
 # http://mmix.cs.hm.edu/doc/mmix-doc.pdf
 # http://mmix.cs.hm.edu/doc/mmix-sim.pdf
 # http://mmix.cs.hm.edu/doc/mmixal.pdf
-
-mkdir -p mmix-20160804
-mv * mmix-20160804/ 2>/dev/null || true
-cd mmix-20160804
+dir=mmix-2017
+test -d "$dir" && rm -rf "$dir"
+mkdir -p "$dir"
+mv * "$dir"/ 2>/dev/null || true
+cd "$dir"
 cp "$K"/mmix-mmoimg.ch mmoimg.ch
 ctangle mmotype.w mmoimg.ch mmoimg.c
 $CC $optcflags mmoimg.c -o mmoimg
-
+make -j$MAKE_THREADS mmix-sim.c mmix-arith.c mmixal.c mmix-io.c mmix-pipe.c mmix-config.c mmix-mem.c
+# remove references to the original .w documents, which prevents C-level debugging
+sed '/^#line.*/d' -i mmix-sim.c -i mmix-arith.c -i mmix-io.c
 make CC="$CC" CFLAGS="$optcflags" all
 
 dest="$butch_install_dir""$butch_prefix"
