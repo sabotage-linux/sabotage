@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/0e/2a/378bd072928f6d92fd8c417d66b00c757dc361c0405a46a0134de6fd323d/Flask-Compress-1.4.0.tar.gz
+
+[vars]
+filesize=6043
+sha512=f86efc13f574335ca530f091252f9ae248f66e3251a3dbcfb5888602b00e1e05d10335f88541fe4f9ab7f537fbf7bc390468a57cefe2d3a7f63a69f2cf0619db
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

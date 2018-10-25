@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/35/00/a3b8de1e5065d4d4c727e5b47881b720a036a5a9979db834573f8f41f7c8/pygdbmi-0.8.4.0.tar.gz
+
+[vars]
+filesize=21178
+sha512=e97002b07dd00f95b9cddd58d9dfd8a7bd7213bcc9c5d9e6dabd9a4f77622610c862df9785cd6811609d4de378385cde95bc3269db64c6fad8646595989d72ff
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

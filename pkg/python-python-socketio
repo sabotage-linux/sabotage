@@ -1,0 +1,19 @@
+[mirrors]
+https://files.pythonhosted.org/packages/23/28/a446c8d6a32449b933d4ec39572bc26c0f42cc955563b28a03bbb328f452/python-socketio-2.0.0.tar.gz
+
+[vars]
+filesize=24180
+sha512=285d6235aaa5914f21a883976ecf31e15947d28e396c859080cf418094e21b5f3a9c4de01361a2c3219edf43c3c587bca24c9f10ebb97be23bc12c59af79ee2b
+pkgver=1
+
+[deps.run]
+python
+python-python-engineio
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

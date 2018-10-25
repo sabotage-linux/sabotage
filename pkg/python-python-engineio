@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/66/18/09516793c68e0f7fb759d54c109a09a86e31c3e685eb77884613a1c1a7b3/python-engineio-2.3.2.tar.gz
+
+[vars]
+filesize=24614
+sha512=af8a033728f2c9c2051d1d7a4098959b9d5f382abce6d19b41f6e0c0867105f8c14821b64e5c2a7341bb333a70efbc551bc17f4e6bfaa3745a31de9dc3e9c8a3
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

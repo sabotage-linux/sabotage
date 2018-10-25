@@ -1,0 +1,22 @@
+[mirrors]
+https://files.pythonhosted.org/packages/10/c1/9499b146bfa43aa4f1e0ed1bab1bd3209a4861d25650c11725036c731cf5/gevent-1.3.7.tar.gz
+
+[vars]
+filesize=4614437
+sha512=6dba487a9527eb352dc6a5f57120bf7973da655b3a331cad6637271b626c6e9e5439b20ee8abd9035ecb36e5259c99c69dea5ecdb8fa7ad0dbe28876c4d746d8
+pkgver=1
+
+[deps]
+libevent
+
+[deps.run]
+python
+python-greenlet
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

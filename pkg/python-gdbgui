@@ -1,0 +1,24 @@
+[mirrors]
+https://files.pythonhosted.org/packages/c5/72/b3eee453f660ae98533eb7aa0b67e5dbb7ad00f0c2a871eb5e8983be5ed7/gdbgui-0.13.0.0.tar.gz
+
+[vars]
+filesize=771714
+sha512=5eda1e5352eb727f50ece69a7e7100fd36f74f3a1e52ba36b2f5e220b55e42b16ea7259b93002cff4fb33d83e445dd5319a29be351583658b73c7266e024484c
+pkgver=1
+
+[deps.run]
+python
+python-pygments
+python-pygdbmi
+python-gevent
+python-flask
+python-flask-socketio
+python-flask-compress
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
