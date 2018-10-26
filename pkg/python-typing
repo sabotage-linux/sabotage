@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/bf/9b/2bf84e841575b633d8d91ad923e198a415e3901f228715524689495b4317/typing-3.6.6.tar.gz
+
+[vars]
+filesize=71799
+sha512=9baa331a2093276b571f26a21ab6419e85138574109471141eb88ccddb6c30adb6fbda35f11aeb1231adc334191c426c242494b17d593a2b279f09dea1b1f0ca
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

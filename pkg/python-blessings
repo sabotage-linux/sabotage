@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/5c/f8/9f5e69a63a9243448350b44c87fae74588aa634979e6c0c501f26a4f6df7/blessings-1.7.tar.gz
+
+[vars]
+filesize=28194
+sha512=66a8e7af6a8807c8be68f4d71db25ca6c26f46ddfa9a7e4792a2f73033df81d8392633ff75e6fa131039d9136030844ed93b11316b9f7e2e6ea77675f2f3e528
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
