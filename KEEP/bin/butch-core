@@ -191,6 +191,12 @@ esac
 shift
 test $mode = download_one && { dl_one "$1" ; exit $? ; }
 check_config
+UNSHARECMD='unshare --net'
+$UNSHARECMD true >/dev/null 2>&1 || {
+info "WARNING: Network access protection disabled. Is unshare installed?"
+UNSHARECMD=
+}
+
 args=
 for x_ in "$@" ; do add_list args $(basename "$x_") ; done
 
@@ -231,11 +237,7 @@ start_build() {
 	success=false
 	unsharecmd=
 	if ! allow_network "$1" ; then
-		if [ -x "$(command -v unshare)" ]; then
-			unsharecmd='unshare --net'
-		else
-			info "WARNING: Network access protection disabled. Is unshare installed?"
-		fi
+		unsharecmd="$UNSHARECMD"
 	fi
 	$unsharecmd $scrname </dev/null > $logname 2>&1 && success=true
 	if $success ; then
