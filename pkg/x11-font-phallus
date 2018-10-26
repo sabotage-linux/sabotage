@@ -1,0 +1,23 @@
+[mirrors]
+https://api.github.com/repos/phallus/fonts/tarball/e237278
+
+[vars]
+filesize=50951
+sha512=cef4630ffba39be9d53f34068ffaaae37a40e771ddbdc6eda40484e6a523c3c8cfbe24f40375813ed0c9a2e7436ec57eff6d5f3c7b49b950c2dbf331d748fbbc
+tarball=phallus-fonts-e237278.tar.gz
+tardir=phallus-fonts-e237278
+pkgver=1
+
+[deps.host]
+bdftopcf
+mkfontdir
+mkfontscale
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+fontsdest="$dest"/share/fonts/phallus
+mkdir -p "$fontsdest"
+bdftopcf -o "$fontsdest"/lemon.pcf lemon.bdf
+bdftopcf -o "$fontsdest"/uushi.pcf uushi.bdf
+mkfontdir "$fontsdest"
+mkfontscale "$fontsdest"
