@@ -63,7 +63,7 @@ set_title() {
 
 if [ -n "$1" ]; then
     $linux32 "$CHROOT" "$R" /bin/env -i \
-        HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
+        HOME=/root PATH="/local/bin:/bin" TERM="$TERM" PS1='\u:\w$ ' \
 	"$@"
 	ret=$?
 else
