@@ -103,23 +103,6 @@ index e201785..896af35 100644
  						    </widget>
  						  </child>
  						</widget>
-diff --git a/src/strings.c b/src/strings.c
-index 2447690..7e5c2c5 100644
---- a/src/strings.c
-+++ b/src/strings.c
-@@ -90,8 +90,8 @@ gchar *s = N_("From right edge");
- gchar *s = N_("px");
- gchar *s = N_("Fixed _y position:");
- gchar *s = N_("Centered");
--gchar *s = N_("From left edge");
--gchar *s = N_("From right edge");
-+gchar *s = N_("From top edge");
-+gchar *s = N_("From bottom edge");
- gchar *s = N_("px");
- gchar *s = N_("Move & Resize");
- gchar *s = N_("<span weight=\"bold\">Focusing Windows</span>");
--- 
-1.7.3.4
 
 From 03aadf423b4e4a19bc9444c36253f705eaf0386b Mon Sep 17 00:00:00 2001
 From: Dana Jansens <danakj@orodu.net>
@@ -243,22 +226,6 @@ index 896af35..81e926f 100644
  		<widget class="GtkVBox" id="vbox27">
  		  <property name="visible">True</property>
  		  <property name="homogeneous">False</property>
-diff --git a/src/strings.c b/src/strings.c
-index 7e5c2c5..abf39b6 100644
---- a/src/strings.c
-+++ b/src/strings.c
-@@ -133,6 +133,9 @@ gchar *s = N_("px");
- gchar *s = N_("_Bottom");
- gchar *s = N_("px");
- gchar *s = N_("Margins");
-+gchar *s = N_("<span weight=\"bold\">Dock</span>");
-+gchar *s = N_("    ");
-+gchar *s = N_("The dock is a special container for \"dockapps\", or dock applications.  It is not visible on screen until a dockapp is run.  Dockapps can be used to show things like a clock, or to provide you with a system tray.");
- gchar *s = N_("<span weight=\"bold\">Position</span>");
- gchar *s = N_("    ");
- gchar *s = N_("_Position:");
--- 
-1.7.3.4
 
 From 42b0ea6c275835bee09e83a2e83dfb934825aa8a Mon Sep 17 00:00:00 2001
 From: Dana Jansens <danakj@orodu.net>
@@ -1262,36 +1229,6 @@ index 5163174..596f092 100644
  void preview_update_set_title_layout     (const gchar *layout);
  
  #endif
-diff --git a/src/strings.c b/src/strings.c
-index abf39b6..8e24f40 100644
---- a/src/strings.c
-+++ b/src/strings.c
-@@ -45,7 +45,8 @@ gchar *s = N_("_Active window title: ");
- gchar *s = N_("_Inactive window title: ");
- gchar *s = N_("Menu _header: ");
- gchar *s = N_("_Menu Item: ");
--gchar *s = N_("_On-screen display: ");
-+gchar *s = N_("Active _On-screen display: ");
-+gchar *s = N_("Inactive O_n-screen display: ");
- gchar *s = N_("Appearance");
- gchar *s = N_("<span weight=\"bold\">Focusing Windows</span>");
- gchar *s = N_("    ");
-@@ -58,6 +59,15 @@ gchar *s = N_("Prefer to place new windows _on:");
- gchar *s = N_("All monitors");
- gchar *s = N_("The active monitor");
- gchar *s = N_("The monitor with the mouse");
-+gchar *s = N_("<span weight=\"bold\">Primary Monitor</span>");
-+gchar *s = N_("    ");
-+gchar *s = N_("The primary monitor is where Openbox will place dialogs, such as the one used for cycling windows.");
-+gchar *s = N_("Primary _monitor:");
-+gchar *s = N_("Fixed Monitor");
-+gchar *s = N_("Active Monitor");
-+gchar *s = N_("Monitor With Mouse Pointer");
-+gchar *s = N_("    ");
-+gchar *s = N_("_Fixed monitor:");
- gchar *s = N_("Windows");
- gchar *s = N_("<span weight=\"bold\">Moving and Resizing Windows</span>");
- gchar *s = N_("    ");
 diff --git a/src/windows.c b/src/windows.c
 index ed5ed35..d2b4d96 100644
 --- a/src/windows.c
@@ -1614,24 +1551,6 @@ Subject: [PATCH 19/25] add some configure stuff to .gitignore
 ---
  .gitignore |    2 ++
  1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 99fa800..a8279e8 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -9,8 +9,10 @@ config.guess
- config.log
- config.rpath
- config.status
-+config.status.lineno
- config.sub
- configure
-+configure.lineno
- depcomp
- install-sh
- missing
--- 
-1.7.3.4
 
 From e3545ed4e522e3495df95a8bf0c4e16f543b9e00 Mon Sep 17 00:00:00 2001
 From: Dana Jansens <danakj@orodu.net>
