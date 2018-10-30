@@ -1,0 +1,31 @@
+[mirrors]
+https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz
+
+[vars]
+filesize=632363
+sha512=a8dc25e8175f67e029e15cbcfca1705165c1c4cb2dd37eaaaebffb61e3ba132d9519cd73ca5add4c3358a2b0b7a91e878279e8d0b72143ff2c287fce07e4659a
+pkgver=1
+
+[deps]
+tcl
+
+[build]
+cp -f "$K"/config.sub tclconfig/
+cp -f "$K"/tclConfig.sh .
+tar xf "$C"/tcl8.6.4-src.tar.gz
+
+sed 's/if test "$cross_compiling" = yes; then :/if false ; then :/' -i configure
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+BUILD_ROOT="$butch_root_dir" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-tcl="$PWD" ac_cv_c_tclh="$butch_root_dir$butch_prefix"/include \
+  ac_cv_func_setpgrp_void=yes
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
