@@ -7,6 +7,7 @@ sha512=917b1268693f2b908134280f9f7cd73ef5832a6e3a77c30ecde2b1ec18b243addc248da68
 pkgver=1
 tarball=bgs-958acea074e5d8f3566289db37a9db236c05d7df.tar.gz
 tardir=bgs-958acea074e5d8f3566289db37a9db236c05d7df
+desc='simple background image setter based on imlib2'
 
 [deps]
 imlib2

@@ -5,6 +5,7 @@ https://github.com/p11-glue/p11-kit/releases/download/0.23.8/p11-kit-0.23.8.tar.
 filesize=1090814
 sha512=cf3b28e4bed8cc18ef49fa7af1e4ad04f1b97dbd08f1e0bab07c280f0aa35306c01e35896bc990c9ed7bdecd6c5ce697ccb95288ef04dd3740db384343ea2f24
 pkgver=1
+desc='provides a way to load and enumerate PKCS#11 modules.'
 
 [deps]
 libtasn1
