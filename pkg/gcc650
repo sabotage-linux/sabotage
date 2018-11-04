@@ -1,0 +1,202 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz
+
+[vars]
+filesize=74355588
+sha512=ce046f9a50050fd54b870aab764f7db187fe7ea92eb4aaffb7c3689ca623755604e231f2af97ef795f41c406bb80c797dd69957cfdd51dfa2ba60813f72b7eac
+pkgver=1
+desc="the GNU compiler collection, v6.5.0"
+no_unlink=1
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+gmp
+mpfr
+mpc
+zlib
+
+[deps.java]
+gcc-ecj-49
+zip
+
+[deps.host]
+m4
+zlib
+libelf
+
+[build]
+# TODO: forward port 0010-static-pie.diff from mcm, and add 0017-c++abi-break.diff
+VERSION=6.5.0
+VERSION_REMOVE='s,6\.5\.0.*,,'
+ECJ_VERSION=4.9
+# check that libc.so is available, otherwise we'll get a libstdc++.so
+# that is statically linked against musls libc.a.
+# this will lead to random crashes in C++ apps since two concurrent
+# malloc implementations will call brk and mess up each other.
+if [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
+	echo "libc.so non-existing or symlink broken"
+	exit 1
+fi
+
+patch -p1 < "$K"/gcc-650-revert-staticpie.patch #required for gcc630-mcm.patch
+patch -p1 < "$K"/gcc-650-c++-abi-break.patch
+patch -p1 < "$K"/gcc-640-invalid_tls_model.patch
+patch -p1 < "$K"/gcc-640-m68k.patch
+patch -p1 < "$K"/gcc-640-posix_memalign.patch
+patch -p1 < "$K"/gcc630-mcm.patch
+patch -p1 < "$K"/gcc-libtool-reproducible.patch
+patch -p1 < "$K"/gcc-gcj-stdgnu14-link.patch
+patch -p1 < "$K"/gcc4-boehm-gc.patch
+patch -p1 < "$K"/gcc4-gcj-musl.patch
+patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
+
+"$K"/libibertyfix libiberty
+
+config_arch_flags=
+config_arch_target_cflags=
+config_arch_target_ldflags=
+
+machine=
+if [ -n "$CROSS_COMPILE" ] ; then
+	if test 0$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}') -lt 6 ; then
+		cat << EOF >&2
+sorry: there's no way you can crosscompile gcc6's libgcc or c++14 libstdc++ with
+a gcc4- or gcc5-based crosscompiler. that only works in a native build because
+gcc will build those target libs with the freshly built native compiler.
+you need to get a $VERSION cross-compiler; check out
+https://github.com/richfelker/musl-cross-make to build one yourself.
+EOF
+	fi
+	if [ -z "$GCC_ARCH_CONFIG_FLAGS" ] ; then
+		#autodetect arch specifics if not passed via config
+		gccv=$($CC -v 2>&1|grep "^Configured with: ")
+		for flag in --with-arch --with-float --with-fpu ; do
+			for arg in $gccv ; do
+				printf "%s" "$arg" | grep "^$flag=" >/dev/null \
+				&& { GCC_ARCH_CONFIG_FLAGS="$arg $GCC_ARCH_CONFIG_FLAGS" ; break ; }
+			done
+		done
+	fi
+	machine=$($CC -dumpmachine)
+	xconfflags="--host=$machine --target=$machine $GCC_ARCH_CONFIG_FLAGS"
+#	export GCC_FOR_TARGET="$CC"
+	# if we dont use the exact same version of gcc to x-compile, we'll run
+	# into a build error: error: '__LIBGCC_VTABLE_USES_DESCRIPTORS__' undeclared
+	$CC --version | grep $VERSION || \
+	  sed -i 's/__LIBGCC_VTABLE_USES_DESCRIPTORS__/0/g' libgcc/libgcov-profiler.c
+
+else
+	machine=$($CC -dumpmachine|sed 's/gnu/musl/')
+	export CXX=g++
+	export AR=ar
+	export RANLIB=ranlib
+	xconfflags="--host=$machine --target=$machine --build=$machine $GCC_ARCH_CONFIG_FLAGS"
+fi
+
+extralangs=
+extrainst=
+[ "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
+&& cp -f "$C"/ecj-"$ECJ_VERSION".jar ./ecj.jar
+
+
+static_ccflags=-static
+if [ "$GCC_DYNAMIC" = 1 ] ; then
+	static_ccflags=
+fi
+export CC="$CC $static_ccflags -D_GNU_SOURCE"
+
+CFLAGS="-Os -g0" \
+CXXFLAGS="-Os -g0" \
+LDFLAGS="-s -Wl,--no-keep-memory" \
+CFLAGS_FOR_TARGET="-Os -g0 $config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
+./configure -C --with-headers=no --prefix="$butch_prefix" \
+  --disable-multilib \
+  --with-multilib-list= \
+  --disable-nls \
+  --disable-mudflap \
+  --disable-libmudflap \
+  --enable-libssp \
+  --disable-libgomp \
+  --disable-debug \
+  --disable-bootstrap \
+  --disable-libsanitizer \
+  --disable-vtable-verify \
+  --disable-gnu-indirect-function \
+  --disable-libmpx \
+  --disable-libquadmath \
+  --enable-libstdcxx-time \
+  --enable-lto \
+  --with-system-zlib \
+  --with-target-libiberty=no --with-target-zlib=no \
+  --enable-languages=c,c++,lto$extralangs --enable-clocale=generic \
+  $config_arch_flags $xconfflags
+
+
+gcc_cv_libc_provides_ssp=yes \
+make -j$MAKE_THREADS BOOT_LDFLAGS="$static_ccflags" LDFLAGS="$static_ccflags"
+make -j1 DESTDIR="$butch_install_dir" \
+  install-gcc \
+  install-lto-plugin \
+  install-target-libgcc \
+  install-target-libssp \
+  install-target-libstdc++-v3 $extrainst
+
+dest=$butch_install_dir$butch_prefix
+
+#create a host_tuple dummy entry, so binutils stuff will get into /bin, etc
+[ -z $machine ] && machine=$($dest/bin/gcc -dumpmachine)
+
+[ ! -e ${dest}/${machine} ] && 	( cd $dest ; ln -sf . ${machine} )
+
+#remove gcc's stddef.h which is not compatible
+rm $dest/lib/gcc/$machine/$VERSION/include/stddef.h
+
+#link liblto_plugin.so in place
+[ -e "$dest"/libexec/gcc/$machine/$VERSION/liblto_plugin.so ] && {
+mkdir -p "$dest"/lib/bfd-plugins
+ln -sf ../../libexec/gcc/$machine/$VERSION/liblto_plugin.so \
+   "$dest"/lib/bfd-plugins/liblto_plugin.so
+}
+
+#remove gcc's libssp.* (we only need libssp_nonshared.a)
+rm "$dest"/lib/libssp.*
+
+copy() {
+	printf "cp %s %s\n" "$1" "$2"
+	cp "$1" "$2"
+}
+
+echo link gcc intrinsic headers into /include/gcc
+# this allows usage of -I/include/gcc for stuff that uses them
+mkdir -p  $dest/include/gcc
+for i in $dest/lib/gcc/$machine/$VERSION/include/* ; do
+  header=`basename "$i"`
+  # do not copy headers that exist in musl
+  [ -e "$dest/include/$header" ] || copy "$i" "$dest/include/gcc/" || true
+done
+
+ln -sf gcc "$dest"/bin/cc
+
+# assert that libstdc++.so is not statically linked against musl
+if ! readelf -a "$dest"/lib/libstdc++.so | grep NEEDED | grep libc.so > /dev/null ; then
+	echo "error: libstdc++.so has no NEEDED entry for libc.so!"
+	exit 1
+fi
+
+ln -sf gcc "$dest"/bin/gcc-$VERSION
+ln -sf g++ "$dest"/bin/g++-$VERSION
+
+rm "$butch_install_dir""$butch_prefix"/lib/*.la
+
+if test "$option_java" = 1 ; then
+	ln -sf gcj "$dest"/bin/gcj-$VERSION
+	GCJ=$dest/bin/gcj
+	[ -n "$CROSS_COMPILE" ] && GCJ=gcj
+	$GCJ -Wl,-Bsymbolic -findirect-dispatch -o $dest/bin/javac \
+	--main=org.eclipse.jdt.internal.compiler.batch.Main "$C"/ecj-"$ECJ_VERSION".jar \
+	-lgcj || echo "WARNING: optimized javac not created" >&2
+fi
+
