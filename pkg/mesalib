@@ -1,5 +1,5 @@
 [mirrors]
-https://mesa.freedesktop.org/archive/13.0.6/mesa-13.0.6.tar.xz
+https://mesa.freedesktop.org/archive/older-versions/13.x/13.0.6/mesa-13.0.6.tar.xz
 
 [vars]
 filesize=9179236
