@@ -12,12 +12,24 @@ desc='foreign function interface lib. used by script langs to interface with C.'
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-libtool-sysroot=$butch_root_dir"
-CFLAGS=-D_GNU_SOURCE ./configure -C \
-  --prefix="$butch_prefix" $xconfflags
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+./configure -C \
+  --prefix="$butch_prefix" $xconfflags \
+  --includedir="$butch_prefix"/include
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
 dest="$butch_install_dir""$butch_prefix"
 if [ "$A" = x86_64 ] ; then
 	mv "$dest"/lib64/* "$dest"/lib/ || true
 	sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libffi.la
 fi
+
+mv "$dest"/lib/libffi-*/include "$dest"
+rm -rf "$dest"/lib/libffi-*
+
+sed -i 's,includedir=.*,includedir=${prefix}/include,' \
+  "$dest"/lib/pkgconfig/libffi.pc
+
