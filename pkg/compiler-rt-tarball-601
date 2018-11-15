@@ -1,0 +1,8 @@
+[mirrors]
+http://releases.llvm.org/6.0.1/compiler-rt-6.0.1.src.tar.xz
+
+[vars]
+filesize=1686820
+sha512=69850c1ad92c66977fa217cbfb42a6a3f502fbe3d1a08daa7fc4cfeb617a7736d231f8ad8d93b10b1ae29bd753315d2a2d70f9ff1f4d18a9a7cc81758d91f963
+pkgver=1
+

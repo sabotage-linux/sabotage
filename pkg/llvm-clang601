@@ -1,0 +1,115 @@
+[mirrors]
+http://releases.llvm.org/6.0.1/llvm-6.0.1.src.tar.xz
+
+[vars]
+filesize=25306628
+sha512=cbbb00eb99cfeb4aff623ee1a5ba075e7b5a76fc00c5f9f539ff28c108598f5708a0369d5bd92683def5a20c2fe60cab7827b42d628dbfcc79b57e0e91b84dd9
+pkgver=1
+
+[deps]
+libffi
+clang-tarball-601
+clang-tools-extra-tarball-601
+compiler-rt-tarball-601
+
+[deps.host]
+cmake
+
+[build]
+VER=6.0.1
+for i in cfe clang-tools-extra compiler-rt ; do
+	tar xf "$C"/"$i"-"$VER".src.tar.xz
+done
+
+XBPS_BUILDDIR=.
+version=$VER
+wrksrc="$PWD"
+
+if [ -d ${XBPS_BUILDDIR}/cfe-${version}.src ]; then
+	mv ${XBPS_BUILDDIR}/cfe-${version}.src ${wrksrc}/tools/clang
+fi
+if [ -d ${XBPS_BUILDDIR}/clang-tools-extra-${version}.src ]; then
+	mv ${XBPS_BUILDDIR}/clang-tools-extra-${version}.src ${wrksrc}/tools/clang/tools/extra
+fi
+if [ -d ${XBPS_BUILDDIR}/lld-${version}.src ]; then
+	mv ${XBPS_BUILDDIR}/lld-${version}.src ${wrksrc}/tools/lld
+fi
+if [ -z "$CROSS_BUILD" -a -d ${XBPS_BUILDDIR}/lldb-${version}.src ]; then
+	mv ${XBPS_BUILDDIR}/lldb-${version}.src ${wrksrc}/tools/lldb
+fi
+if [ -d ${XBPS_BUILDDIR}/compiler-rt-${version}.src ]; then
+	mv ${XBPS_BUILDDIR}/compiler-rt-${version}.src ${wrksrc}/projects/compiler-rt
+fi
+
+patch -p1 < "$K"/llvm601-clang-001-fix-stdint.patch
+patch -p1 < "$K"/llvm601-clang-003-fix-unwind-chain-inclusion.patch
+patch -p1 < "$K"/llvm601-clang-004-add-musl-triples.patch
+patch -p1 < "$K"/llvm601-003-musl.patch
+#sed -i 's|__ptrace_request|int|g' source/Plugins/Process/Linux/NativeProcessLinux.cpp
+sed -i 's/set(COMPILER_RT_HAS_SANITIZER_COMMON TRUE)/set(COMPILER_RT_HAS_SANITIZER_COMMON FALSE)/' ${wrksrc}/projects/compiler-rt/cmake/config-ix.cmake
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+if [ -n "$CROSS_COMPILE" ] ; then
+	mkdir -p HOST
+	cd HOST
+	CC="$HOSTCC" CXX="$HOSTCXX" CFLAGS="-O0 -g0" \
+		CXXFLAGS="-O0 -g0" LDFLAGS="-s" \
+		cmake ../.. -DCMAKE_BUILD_TYPE=Release
+	make -j$MAKE_THREADS -C utils/TableGen
+	make -j$MAKE_THREADS -C tools/clang/utils/TableGen
+	xconfflags="$xconfflags -DLLVM_TABLEGEN=${wrksrc}/build/HOST/bin/llvm-tblgen"
+	xconfflags="$xconfflags -DCLANG_TABLEGEN=${wrksrc}/build/HOST/bin/clang-tblgen"
+	cd ..
+fi
+
+case "$A" in
+	i?86*) arsch="X86";;
+	x86_64*) arsch="X86";;
+	armv5*) arsch="Armv5te";;
+	armv6*) arsch="Armv6";;
+	armv7*) arsch="Armv7";;
+	arm*) arsch="Armv7";;
+	aarch64*) arsch="AArch64";;
+	mips*) arsch="Mips";;
+	*) echo "oops, unknown arsch!" ; exit 1 ;;
+esac
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DLLVM_INSTALL_UTILS=ON \
+  -DLLVM_BUILD_LLVM_DYLIB=ON \
+  -DLLVM_LINK_LLVM_DYLIB=ON \
+  -DLLVM_ENABLE_RTTI=ON \
+  -DLLVM_ENABLE_FFI=ON \
+  -DLLVM_TARGET_ARCH="$arsch" \
+  -DLLVM_DEFAULT_TARGET_TRIPLE=$($CC -dumpmachine) \
+  -DLLVM_PARALLEL_COMPILE_JOBS=$MAKE_THREADS \
+  ..
+
+#   -DLLVM_BINUTILS_INCDIR="$butch_prefix"/include \
+
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
+
+

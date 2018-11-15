@@ -1,0 +1,8 @@
+[mirrors]
+http://releases.llvm.org/6.0.1/clang-tools-extra-6.0.1.src.tar.xz
+
+[vars]
+filesize=757256
+sha512=cf29d117b6dabcb7a8e5f6dab5016ce5a5c8f475679001a43fd5c935f2c368f37cdef50aae2080a1e4524f647f6d83458d4a5dec5b45d03fb374f463caf7c3f5
+pkgver=1
+

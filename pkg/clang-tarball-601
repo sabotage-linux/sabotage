@@ -1,0 +1,8 @@
+[mirrors]
+http://releases.llvm.org/6.0.1/cfe-6.0.1.src.tar.xz
+
+[vars]
+filesize=11905772
+sha512=f64ba9290059f6e36fee41c8f32bf483609d31c291fcd2f77d41fecfdf3c8233a5e23b93a1c73fed03683823bd6e72757ed993dd32527de3d5f2b7a64bb031b9
+pkgver=1
+
