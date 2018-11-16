@@ -1,12 +1,14 @@
 [mirrors]
-ftp://ftp.vim.org/pub/vim/unix/vim-8.0.586.tar.bz2
+ftp://ftp.vim.org/pub/vim/unix/vim-8.1.tar.bz2
 
 [vars]
-filesize=10866752
-sha512=f8f7f9babf7bca50bb5e80b85ca3d74172c3da783b3a2b13f67cce802f01974fe74042b67dda4de727bf2cf2c1399e3443428b14fd6b90f79be98a88ea03d621
-pkgver=4
-tardir=vim80
+filesize=11258868
+sha512=141074bdc25d68f7ced9b596da3b5c6e719f9e316b3ce6cb30d0c501d0c5396e2c6d0efc6425a41f2320cd80593fbb1c5ca64fb5e2178f1fb16cdbb470aa630e
+pkgver=5
+tardir=vim81
 desc='a terminal-based text editor with a gazillion of features'
+
+[deps]
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
@@ -26,7 +28,7 @@ LDFLAGS="$optldflags -static" \
   vim_cv_stat_ignores_slash=no \
   vim_cv_memmove_handles_overlap=yes \
   --prefix="$butch_prefix" --mandir="$butch_prefix"/share/man --localstatedir="$butch_prefix"/var/lib/vim \
-  --disable-nls --disable-netbeans --disable-gui --with-x=no --enable-multibyte
+  --disable-nls --disable-netbeans --disable-gui --with-x=no --enable-multibyte --with-features=normal --enable-terminal
 
 make -j$MAKE_THREADS
 make -j1 STRIP=true VIMRCLOC="$butch_prefix"/etc DESTDIR="$butch_install_dir" install
