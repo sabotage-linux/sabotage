@@ -1,10 +1,11 @@
-[vars]
-filesize=178152
-sha512=de466c9ea2ff666891d776241912d7ee742bf8c90ff0c57e2049b0a31eaba74361448c065e517fef5f84a8f917d22a3e85227116babe9056ad23d0686583a417
-
 [mirrors]
-https://www.kernel.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
-http://ftp.be.debian.org/pub/software/devel/sparse/dist/sparse-0.4.4.tar.xz
+https://www.kernel.org/pub/software/devel/sparse/dist/sparse-0.5.2.tar.xz
+http://ftp.be.debian.org/pub/software/devel/sparse/dist/sparse-0.5.2.tar.xz
+
+[vars]
+filesize=218684
+sha512=1c2e541db97d89b2dbe57c07f0af04831f4ef85dae316017c2a192c9da2fdf5f660d6a337a1a7b620080540fef97e9cd4582524d75b8b438861d030a90f135e4
+pkgver=2
 
 [deps]
 
@@ -14,5 +15,5 @@ PREFIX = $butch_prefix
 CFLAGS += -D_GNU_SOURCE $optcflags
 EOF
 LDFLAGS="-static $optldflags" \
-make Q= V=1 CC="$CC" -j$MAKE_THREADS HAVE_GTK2=no
-make HAVE_GTK2=no V=1 DESTDIR="$butch_install_dir" install
+make Q= V=1 CC="$CC" -j$MAKE_THREADS HAVE_GTK=no
+make HAVE_GTK=no V=1 DESTDIR="$butch_install_dir" install
