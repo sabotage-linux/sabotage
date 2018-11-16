@@ -9,6 +9,8 @@ pkgver=1
 [deps.host]
 bdftopcf
 imake
+mkfontdir
+mkfontscale
 xorg-cf-files
 
 [build]
