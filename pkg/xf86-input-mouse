@@ -1,9 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-input-mouse-1.9.1.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-mouse-1.9.3.tar.bz2
 
 [vars]
-filesize=348244
-sha512=0b9647c21b949fe5b357de29028d823b5d385ebb5c59fddd53a11fceae3bf65e25bb988ac05d833abe7e071f6813d5a4dc4cdf61d240fc8a4f591866a86b5926
+filesize=382013
+sha512=d99f5b4b1ef1aa4cbf1a92549e412f54f121bc804e4d6643248ad7ea18081b38b958bd289dc8476ebc0f6ef5f7424c2f2a8abcfaa30cae5378829549af6b148f
+pkgver=2
 
 [deps]
 xorg-server
@@ -12,7 +13,7 @@ inputproto
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
