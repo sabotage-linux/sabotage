@@ -1,0 +1,36 @@
+[mirrors]
+http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.14.2.tar.xz
+
+[vars]
+filesize=3693856
+sha512=35e7eb5c42fe265d38c433575f88d3306f15ff927a989eb375ed5399cbf92af2e9bf553d6eee349dc13673540cee00e1f879595f25e58c188ea443d8a969682f
+pkgver=1
+
+[deps]
+gstreamer
+
+[deps.host]
+python
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-debug \
+  --disable-valgrind \
+  --disable-examples \
+  --disable-gtk-doc-html
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+# configure script ignores --dissable-gtk-doc-html
+rm -r "$butch_install_dir"/share/gtk-doc
