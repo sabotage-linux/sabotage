@@ -22,61 +22,61 @@ die() {
 	end_proc 1
 }
 usage() {
-cat << EOF
-butch-core v$BUTCH_VERSION
-syntax: $0 command options
+	cat <<- EOF
+	butch-core v$BUTCH_VERSION
+	syntax: $0 command options
 
-commands: install, rebuild, prefetch
+	commands: install, rebuild, prefetch
 
-pass an arbitrary number of package names as options
+	pass an arbitrary number of package names as options
 
-	install: installs one or more packages when they're not yet installed
-		(list of installed packages is kept in /var/lib/butch.db unless
-		overridden via BUTCHDB env var.)
-	rebuild: installs one or more packages even when they're already
-		installed
-	prefetch: only download the given package and all of its dependencies,
-		unless they're not already in $C
-	update: rebuild packages that changed since last build
-		interactive mode, list can be edited before build start.
-	outdated: display packages that have changed since they were installed
+		install: installs one or more packages when they're not yet installed
+			(list of installed packages is kept in /var/lib/butch.db unless
+			overridden via BUTCHDB env var.)
+		rebuild: installs one or more packages even when they're already
+			installed
+		prefetch: only download the given package and all of its dependencies,
+			unless they're not already in $C
+		update: rebuild packages that changed since last build
+			interactive mode, list can be edited before build start.
+		outdated: display packages that have changed since they were installed
 
-EOF
-exit 1
+	EOF
+	exit 1
 }
 check_access() {
 	test -$2 $1 || die "permissions for $1 insufficient (want: $2)"
 }
 check_config() {
-[ -z "$BUTCH_DOWNLOAD_TEMPLATE" ] && die "BUTCH_DOWNLOAD_TEMPLATE not set"
-[ -z "$BUTCH_BUILD_TEMPLATE" ] && die "BUTCH_BUILD_TEMPLATE not set"
-[ -e "$BUTCH_DOWNLOAD_TEMPLATE" ] || die "$BUTCH_DOWNLOAD_TEMPLATE not found"
-[ -e "$BUTCH_BUILD_TEMPLATE" ] || die "$BUTCH_BUILD_TEMPLATE not found"
-[ -z "$A" ] && die "need to set A to your arch (ex. x86_64, i386, arm, mips...)"
-[ -z "$R" ] && R=/
-[ -z "$S" ] && S=$R/src
-[ -z "$B" ] && B=$S/build
-[ -z "$C" ] && C=$S/tarballs
-[ -z "$K" ] && K=$S/KEEP
-[ -z "$LOGPATH" ] && LOGPATH=$S/logs
-[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
-[ -z "$BUTCH_DL_THREADS" ] && BUTCH_DL_THREADS=16
-check_access $S r
-check_access $K r
-export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
-BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
+	[ -z "$BUTCH_DOWNLOAD_TEMPLATE" ] && die "BUTCH_DOWNLOAD_TEMPLATE not set"
+	[ -z "$BUTCH_BUILD_TEMPLATE" ] && die "BUTCH_BUILD_TEMPLATE not set"
+	[ -e "$BUTCH_DOWNLOAD_TEMPLATE" ] || die "$BUTCH_DOWNLOAD_TEMPLATE not found"
+	[ -e "$BUTCH_BUILD_TEMPLATE" ] || die "$BUTCH_BUILD_TEMPLATE not found"
+	[ -z "$A" ] && die "need to set A to your arch (ex. x86_64, i386, arm, mips...)"
+	[ -z "$R" ] && R=/
+	[ -z "$S" ] && S=$R/src
+	[ -z "$B" ] && B=$S/build
+	[ -z "$C" ] && C=$S/tarballs
+	[ -z "$K" ] && K=$S/KEEP
+	[ -z "$LOGPATH" ] && LOGPATH=$S/logs
+	[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+	[ -z "$BUTCH_DL_THREADS" ] && BUTCH_DL_THREADS=16
+	check_access $S r
+	check_access $K r
+	export A B C K R S BUTCHDB LOGPATH BUTCH_BUILD_TEMPLATE \
+	BUTCH_DOWNLOAD_TEMPLATE DEPS BUTCH_SKIPLIST BUTCH_DL_THREADS
 }
 check_write_access() {
-check_access $LOGPATH w
-check_access $R w
-check_access $C w
-if ! test -w $B ; then
-	mkdir -p $B
-	check_access $B w
-fi
-local dbd=$(dirname $BUTCHDB)
-mkdir -p $dbd
-check_access $dbd w
+	check_access $LOGPATH w
+	check_access $R w
+	check_access $C w
+	if ! test -w $B ; then
+		mkdir -p $B
+		check_access $B w
+	fi
+	local dbd=$(dirname $BUTCHDB)
+	mkdir -p $dbd
+	check_access $dbd w
 }
 has_section() {
 	grep -x '\['"$2"'\]' $S/pkg/$1 >/dev/null 2>&1
@@ -143,19 +143,19 @@ dl_one() {
 }
 
 start_dl() {
-[ -z "$@" ] && echo "DONE DONE" && return 0
-[ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
-if [ -n "$JOBFLOW" ] && [ -x "$JOBFLOW" ] ; then
-cat << EOF | sed 's/ /\n/g' | "$JOBFLOW" -threads=$BUTCH_DL_THREADS \
-  -delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 dl_one {}
-$@
-EOF
-else
-	for p in $@ ; do
-		$0 dl_one "$p"
-	done
-fi
-echo DONE DONE
+	[ -z "$@" ] && echo "DONE DONE" && return 0
+	[ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
+	if [ -n "$JOBFLOW" ] && [ -x "$JOBFLOW" ] ; then
+	cat <<- EOF | sed 's/ /\n/g' | "$JOBFLOW" -threads=$BUTCH_DL_THREADS \
+		-delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 dl_one {}
+	$@
+	EOF
+	else
+		for p in $@ ; do
+			$0 dl_one "$p"
+		done
+	fi
+	echo DONE DONE
 }
 setup_pipe() {
 	fd=$1
@@ -193,8 +193,8 @@ test $mode = download_one && { dl_one "$1" ; exit $? ; }
 check_config
 UNSHARECMD='unshare --net'
 $UNSHARECMD true >/dev/null 2>&1 || {
-info "WARNING: Network access protection disabled. Is unshare installed?"
-UNSHARECMD=
+	info "WARNING: Network access protection disabled. Is unshare installed?"
+	UNSHARECMD=
 }
 
 args=
@@ -391,8 +391,8 @@ trap - EXIT
 bfails=0
 afails=0
 test $mode = download || {
-  for p in $builderr ; do bfails=$(($bfails + 1)) ; done
-  for p in $buildlist ; do afails=$(($afails + 1)) ; done
+	for p in $builderr ; do bfails=$(($bfails + 1)) ; done
+	for p in $buildlist ; do afails=$(($afails + 1)) ; done
 }
 info "done."
 echo "got $dlfails download errors and $bfails build errors."
