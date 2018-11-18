@@ -21,9 +21,6 @@ usage() {
 	exit 1
 }
 
-[ -z "$1" ] && usage
-
-BINDIR=$(dirname $(readlink -f "$0"))
 get_pkgver() {
 	ver=$($BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
 	if [ -n "$ver" ] ; then
@@ -32,15 +29,6 @@ get_pkgver() {
 		echo 1
 	fi
 }
-
-comp=none
-ext=tar
-case $1 in
-	--none) shift ;;
-	--gz) comp=gz ; ext=tar.gz ; shift ;;
-	--xz) comp=xz ; ext=tar.xz ; shift ;;
-	--xze) comp=xze ; ext=tar.xz ; shift ;;
-esac
 
 pack(){
 	pkg=$1
@@ -74,6 +62,16 @@ pack(){
 	cd "$me"
 }
 
+[ -z "$1" ] && usage
+BINDIR=$(dirname $(readlink -f "$0"))
+comp=none
+ext=tar
+case $1 in
+	--none) shift ;;
+	--gz) comp=gz ; ext=tar.gz ; shift ;;
+	--xz) comp=xz ; ext=tar.xz ; shift ;;
+	--xze) comp=xze ; ext=tar.xz ; shift ;;
+esac
 ret=0
 while test -n "$1" ; do
 	pack "$1"
