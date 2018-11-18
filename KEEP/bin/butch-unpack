@@ -9,18 +9,18 @@ fi
 [ "$R" = "/" ] && R=
 [ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
 usage() {
-cat << EOF
-butch unpack : install binary package.
-- unpacks a distributable binary archive of a pkg
-- installs it into $R$butch_staging_dir
-- links it into $R
-- creates butch.db entry in $BUTCHDB
-may require root access.
+	cat <<- EOF
+	butch unpack : install binary package.
+	- unpacks a distributable binary archive of a pkg
+	- installs it into $R$butch_staging_dir
+	- links it into $R
+	- creates butch.db entry in $BUTCHDB
+	may require root access.
 
-synapsis:
-butch unpack filename
-EOF
-exit 1
+	synapsis:
+	butch unpack filename
+	EOF
+	exit 1
 }
 
 print_pkg_and_ver() {
@@ -46,16 +46,16 @@ fn=$(readlink -f "$1")
 
 set -e
 [ -e "$R$butch_staging_dir/$pkg" ] && {
-butch unlink "$pkg" || true
-rm -rf "$R$butch_staging_dir/$pkg"
+	butch unlink "$pkg" || true
+	rm -rf "$R$butch_staging_dir/$pkg"
 }
 
 (
-cd $R$butch_staging_dir || {
-echo "error: could not cd to $R$butch_staging_dir"
-exit 1
-}
-tar xf "$fn"
+	cd $R$butch_staging_dir || {
+		echo "error: could not cd to $R$butch_staging_dir"
+		exit 1
+	}
+	tar xf "$fn"
 )
 
 butch relink "$pkg"
