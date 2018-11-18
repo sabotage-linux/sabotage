@@ -22,53 +22,53 @@ BINDIR=$(dirname "$(readlink -f "$0")")
 [ ! -d $LOGPATH ] && mkdir -p $LOGPATH
 
 usage() {
-cat << EOF >&2
-butch v$($BINDIR/butch-core 2>&1 | head -n1 | sed -e 's@butch-core v@@')
+	cat <<- EOF >&2
+	butch v$($BINDIR/butch-core 2>&1 | head -n1 | sed -e 's@butch-core v@@')
 
-usage: $0 command package ...
+	usage: $0 command package ...
 
-------- available commands -----
-install [<package> ... ]  # build and install <packages>
-download [<package> ... ] # download tarballs required by <packages>
-rebuild [<package> ... ]  # rebuild already installed <packages>
+	------- available commands -----
+	install [<package> ... ]  # build and install <packages>
+	download [<package> ... ] # download tarballs required by <packages>
+	rebuild [<package> ... ]  # rebuild already installed <packages>
 
-install-service <args>    # install runit system service
+	install-service <args>    # install runit system service
 
-relink <package>          # create symlinks for an unlinked <package>
-relink-one <pkg> <file>   # create symlink for <file> of <pkg> into rootfs
-unlink <package>          # remove symlinks to a specific <package>
-rm [<package> ... ]       # completely remove installed <packages>
-genfilelist <package>     # create filelist for <package>
+	relink <package>          # create symlinks for an unlinked <package>
+	relink-one <pkg> <file>   # create symlink for <file> of <pkg> into rootfs
+	unlink <package>          # remove symlinks to a specific <package>
+	rm [<package> ... ]       # completely remove installed <packages>
+	genfilelist <package>     # create filelist for <package>
 
-pack [--method] <package> # create a binary archive of <package>
-unpack <filename>         # install binary archive <filename> created with pack
-builddeps <package>       # build and install dependencies of package
+	pack [--method] <package> # create a binary archive of <package>
+	unpack <filename>         # install binary archive <filename> created with pack
+	builddeps <package>       # build and install dependencies of package
 
-list                      # list installed packages
-files <package>           # show files installed by <package>
-mirrors <package>         # print mirrors for <package>
-owner <file>              # print which package owns a <file>
-users <package>           # print packages with <package> for dependency
-deps [<package> ... ]     # print deps of <packages>
+	list                      # list installed packages
+	files <package>           # show files installed by <package>
+	mirrors <package>         # print mirrors for <package>
+	owner <file>              # print which package owns a <file>
+	users <package>           # print packages with <package> for dependency
+	deps [<package> ... ]     # print deps of <packages>
 
-checksum <package>        # print checksums of files for a <package>
-reproduce <package>       # builds a package twice and compares the differences
-checkdownloads            # verify all package download links
-checktarballs             # verify the downloaded package tarballs
+	checksum <package>        # print checksums of files for a <package>
+	reproduce <package>       # builds a package twice and compares the differences
+	checkdownloads            # verify all package download links
+	checktarballs             # verify the downloaded package tarballs
 
-printsec <pkg> <section>  # print the specified <section> of <package>
-search <term>             # search for <term> in package names (grep syntax)
-descsearch [<term> ... ]  # search for <term> in package descriptions (grep)
-ucheck [<package> ... ]   # check for upstream updates in <packages>
+	printsec <pkg> <section>  # print the specified <section> of <package>
+	search <term>             # search for <term> in package names (grep syntax)
+	descsearch [<term> ... ]  # search for <term> in package descriptions (grep)
+	ucheck [<package> ... ]   # check for upstream updates in <packages>
 
-dlinfo <url> [filename]   # download url, print initial butch recipe
+	dlinfo <url> [filename]   # download url, print initial butch recipe
 
-update                    # interactively rebuild inst. packages /w new recipes
-outdated                  # print list of inst. pkgs that have an updated recipe
+	update                    # interactively rebuild inst. packages /w new recipes
+	outdated                  # print list of inst. pkgs that have an updated recipe
 
-download related actions are performed on-demand, i.e. the tarball is missing
+	download related actions are performed on-demand, i.e. the tarball is missing
 
-EOF
+	EOF
 }
 
 prog=butch-core
