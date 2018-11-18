@@ -5,20 +5,20 @@ if [ -z "$S" ] ; then
 fi
 
 usage() {
-cat << EOF
-butch pack : creates distributable binary archives of installed pkgs into the
-current directory.
-may require root to catch all files.
+	cat <<- EOF
+	butch pack : creates distributable binary archives of installed pkgs into the
+	current directory.
+	may require root to catch all files.
 
-butch pack [compressor] pkgname...
+	butch pack [compressor] pkgname...
 
-optional: compressor can be one of
-  --none: no compression. plain tar archive is created.
-  --gz:   gzip compression.
-  --xz:   fast xz compression.
-  --xze:  xz compression (extreme).
-EOF
-exit 1
+	optional: compressor can be one of
+	  --none: no compression. plain tar archive is created.
+	  --gz:   gzip compression.
+	  --xz:   fast xz compression.
+	  --xze:  xz compression (extreme).
+	EOF
+	exit 1
 }
 
 [ -z "$1" ] && usage
@@ -36,42 +36,42 @@ get_pkgver() {
 comp=none
 ext=tar
 case $1 in
---none) shift ;;
---gz) comp=gz ; ext=tar.gz ; shift ;;
---xz) comp=xz ; ext=tar.xz ; shift ;;
---xze) comp=xze ; ext=tar.xz ; shift ;;
+	--none) shift ;;
+	--gz) comp=gz ; ext=tar.gz ; shift ;;
+	--xz) comp=xz ; ext=tar.xz ; shift ;;
+	--xze) comp=xze ; ext=tar.xz ; shift ;;
 esac
 
 pack(){
-pkg=$1
+	pkg=$1
 
-fl=$S/pkg/$pkg
-if [ ! -e "$fl" ] ; then
-	echo "package $fl does not exist!"
-	return 1
-fi
+	fl=$S/pkg/$pkg
+	if [ ! -e "$fl" ] ; then
+		echo "package $fl does not exist!"
+		return 1
+	fi
 
-[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-me="$PWD"
+	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+	me="$PWD"
 
-tarflags=cf
-test $comp = gz && tarflags=czf
-test $comp = xz && tarflags=cJf
-[ "$R" = "/" ] && R=
-cd "$R"$butch_staging_dir
-[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; cd "$me" ; return 1 ; }
-ver=$(get_pkgver $pkg)
-out=$me/${pkg}_${A}_${ver}.$ext
-tar $tarflags "$out" "$pkg"
-[ -e "$out" ] || { cd "$me" ; return 1 ; }
-if test $comp = xze ; then
-	tr=$me/${pkg}_$A.tar
-	mv "$out" "$tr"
-	xz -z -9 -e "$tr"
+	tarflags=cf
+	test $comp = gz && tarflags=czf
+	test $comp = xz && tarflags=cJf
+	[ "$R" = "/" ] && R=
+	cd "$R"$butch_staging_dir
+	[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; cd "$me" ; return 1 ; }
+	ver=$(get_pkgver $pkg)
+	out=$me/${pkg}_${A}_${ver}.$ext
+	tar $tarflags "$out" "$pkg"
 	[ -e "$out" ] || { cd "$me" ; return 1 ; }
-fi
-echo "$(basename $out) created."
-cd "$me"
+	if test $comp = xze ; then
+		tr=$me/${pkg}_$A.tar
+		mv "$out" "$tr"
+		xz -z -9 -e "$tr"
+		[ -e "$out" ] || { cd "$me" ; return 1 ; }
+	fi
+	echo "$(basename $out) created."
+	cd "$me"
 }
 
 [ -z "$1" ] && usage
