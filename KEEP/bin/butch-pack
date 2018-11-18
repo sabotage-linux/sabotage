@@ -74,7 +74,6 @@ pack(){
 	cd "$me"
 }
 
-[ -z "$1" ] && usage
 ret=0
 while test -n "$1" ; do
 	pack "$1"
