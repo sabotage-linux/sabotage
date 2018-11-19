@@ -1,5 +1,4 @@
 #!/bin/sh
-#set -x
 if [ -z "$S" ] ; then
 	echo 'S not set, did you source config?'
 	exit 1
@@ -8,6 +7,7 @@ fi
 [ -z "$butch_do_filelists" ] && butch_do_filelists=true
 [ "$R" = "/" ] && R=
 [ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
+
 usage() {
 	cat <<- EOF
 	butch unpack : install binary package.
@@ -17,49 +17,44 @@ usage() {
 	- creates butch.db entry in $BUTCHDB
 	may require root access.
 
-	synapsis:
+	synopsis:
 	butch unpack filename
 	EOF
 	exit 1
 }
-
 print_pkg_and_ver() {
 	printf "%s %s\n" "$pkg" "$ver"
 }
 
-[ -z "$1" ] && usage
 [ ! -e "$1" ] && usage
 pkg=$(basename "$1" | cut -d '_' -f 1)
-pl=$(printf "%s" "$pkg"|wc -c | cut -d " " -f 1)
+pl=$(printf "%s" "$pkg" | wc -b)
 archnver=$(basename "$1" | cut -b $(($pl + 2))- | cut -d "." -f 1)
 case $archnver in
-	x86_64_*) arch=x86_64; ver=$(printf "%s\n" "$archnver"| cut -b 8-);;
+	x86_64_*) arch=x86_64; ver=$(printf "%s\n" "$archnver" | cut -b 8-);;
 	*)
-	arch=$(printf "%s\n" "$archnver"|cut -d "_" -f 1)
-	ver=$(printf "%s\n" "$archnver"|cut -d "_" -f 2);;
+	arch=$(printf "%s\n" "$archnver" | cut -d "_" -f 1)
+	ver=$(printf "%s\n" "$archnver" | cut -d "_" -f 2);;
 esac
 [ "$arch" = "$A" ] || {
 	echo "error: arch $arch of "$1" doesnt match arch $A of config!"
 	exit 1
 }
+
+BINDIR=$(dirname $(readlink -f "$0"))
 fn=$(readlink -f "$1")
 
-set -e
 [ -e "$R$butch_staging_dir/$pkg" ] && {
-	butch unlink "$pkg" || true
-	rm -rf "$R$butch_staging_dir/$pkg"
+	$BINDIR/butch-rm "$pkg" || exit 1
 }
-
-(
-	cd $R$butch_staging_dir || {
-		echo "error: could not cd to $R$butch_staging_dir"
-		exit 1
-	}
-	tar xf "$fn"
-)
-
-butch relink "$pkg"
-sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
+tar -C "$R$butch_staging_dir" -xf "$fn" || {
+	echo "error: could not extract $fn"
+	exit 1
+}
+$BINDIR/butch-relink "$pkg" || {
+	echo "error: could not link new pkg into place for installation"
+	exit 1
+}
 print_pkg_and_ver >> "$BUTCHDB"
-$butch_do_filelists && butch genfilelist "$pkg"
+$butch_do_filelists && $BINDIR/butch-genfilelist "$pkg"
 echo "successfully installed $pkg"
