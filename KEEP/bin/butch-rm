@@ -10,38 +10,38 @@ fi
 [ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 
 usage() {
-cat << EOF
-butch rm : completely remove installed package.
-- unlink the package from $R
-    in case the package overlaps with files from another package,
-    this may result in missing files. for example gnu wget, if
-    installed, overwrites busybox' /bin/wget symlink.
-    after removing wget, it will appear as if busybox' wget is not
-    available. you can fix that by relinking busybox.
-- removes $R$butch_staging_dir/packagename
-- remove filelist in $butch_filelists
-- removes butch.db entry in $BUTCHDB
+	cat <<- EOF
+	butch rm : completely remove installed package.
+	- unlink the package from $R
+	    in case the package overlaps with files from another package,
+	    this may result in missing files. for example gnu wget, if
+	    installed, overwrites busybox' /bin/wget symlink.
+	    after removing wget, it will appear as if busybox' wget is not
+	    available. you can fix that by relinking busybox.
+	- removes $R$butch_staging_dir/packagename
+	- remove filelist in $butch_filelists
+	- removes butch.db entry in $BUTCHDB
 
-these operations may require root access.
+	these operations may require root access.
 
-synapsis:
-butch rm package1 [package2 ... packageN]
-EOF
-exit 1
+	synapsis:
+	butch rm package1 [package2 ... packageN]
+	EOF
+	exit 1
 }
 
 [ -z "$1" ] && usage
 [ "$1" = --help ] && usage
 for pkg ; do
-if [ -e "$R$butch_staging_dir/$pkg" ] ; then
-	butch unlink "$pkg" > /dev/null
-	rm -rf "$R$butch_staging_dir/$pkg"
-	echo "$pkg: removed."
-else
-	echo "$pkg: not installed."
-fi
-fl="$butch_filelists"/"$pkg".txt
-rm -f "$fl"
-sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
+	if [ -e "$R$butch_staging_dir/$pkg" ] ; then
+		butch unlink "$pkg" > /dev/null
+		rm -rf "$R$butch_staging_dir/$pkg"
+		echo "$pkg: removed."
+	else
+		echo "$pkg: not installed."
+	fi
+	fl="$butch_filelists"/"$pkg".txt
+	rm -f "$fl"
+	sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
 
 done
