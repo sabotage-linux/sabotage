@@ -1,5 +1,4 @@
 #!/bin/sh
-#set -x
 if [ -z "$S" ] ; then
 	echo 'S not set, did you source config?'
 	exit 1
@@ -32,16 +31,16 @@ usage() {
 
 [ -z "$1" ] && usage
 [ "$1" = --help ] && usage
+BINDIR=$(dirname $(readlink -f "$0"))
 for pkg ; do
 	if [ -e "$R$butch_staging_dir/$pkg" ] ; then
-		butch unlink "$pkg" > /dev/null
-		rm -rf "$R$butch_staging_dir/$pkg"
+		$BINDIR/butch-unlink "$pkg" > /dev/null
+		rm -r "$R$butch_staging_dir/$pkg"
 		echo "$pkg: removed."
 	else
 		echo "$pkg: not installed."
 	fi
 	fl="$butch_filelists"/"$pkg".txt
-	rm -f "$fl"
-	sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
-
+	rm "$fl"
+	sed -i '/^'"$pkg"' /d' "$BUTCHDB"
 done
