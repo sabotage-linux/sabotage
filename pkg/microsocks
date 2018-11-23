@@ -1,11 +1,12 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/microsocks-0.0.2.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/microsocks-0.0.2.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/microsocks-1.0.0.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/microsocks-1.0.0.tar.xz
 
 [vars]
-filesize=7644
-sha512=c0b4b02c49c12ffd54c50246e6c260472d19dd20913e5038fc0ef70ca48567ac9eda804b65d4d84f1ab2c2d1af14f648b9658c707fdf14bcd8022c82ce8ce49b
-pkgver=2
+[vars]
+filesize=8032
+sha512=f86535753aad8722813ed3c7b5ae926a5a0f7447e37da94ca923dcd9ec08e2b481322a5cbdeb84c31fdad855bb7df22e2753b928eda6b6264e7ff1591b0e14e9
+pkgver=3
 desc='tiny socks5 server'
 
 [build]
