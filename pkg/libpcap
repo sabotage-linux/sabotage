@@ -1,12 +1,12 @@
 [mirrors]
-http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz
-http://www.uk.tcpdump.org/release/libpcap-1.8.1.tar.gz
-http://tcpdump.cybermirror.org/release/libpcap-1.8.1.tar.gz
+http://www.tcpdump.org/release/libpcap-1.9.0.tar.gz
+http://www.uk.tcpdump.org/release/libpcap-1.9.0.tar.gz
+http://tcpdump.cybermirror.org/release/libpcap-1.9.0.tar.gz
 
 [vars]
-filesize=739163
-sha512=bff5ff53fe53324f423e38eb4062c3fbb9125f86ca90d5e88aca9f0b3da72bc0acc6221c022b0f88cb3f000267580719119824c388da545c6f35117660cbb53b
-pkgver=2
+filesize=832079
+sha512=0ff25641f1e9d29082766caef45888c19214f770c4f378818caa73fcbc4ae54ad9195549c2499d4879ff46e35741d93b2b02cc5f3d6aa99e85a32194cf10bfe7
+pkgver=3
 desc='library for capturing network and other packets'
 
 [deps]
@@ -19,14 +19,14 @@ bison
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') --with-pcap=linux"
+xconfflags="--host=$($CC -dumpmachine) --with-pcap=linux"
 
 # package causes gcc breakage when lto is used
 if [ x$A = xmips ] ; then
   optldflags=$(printf "%s" "$optldflags"|sed 's/-flto//g')
   optcflags=$(printf "%s" "$optcflags"|sed 's/-flto//g')
 fi
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -DIPPROTO_HOPOPTS=0 \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -DIPPROTO_HOPOPTS=0 -include limits.h \
 -I$butch_root_dir$butch_prefix/include/libnl-tiny $optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
