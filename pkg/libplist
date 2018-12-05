@@ -1,0 +1,33 @@
+[mirrors]
+https://github.com/libimobiledevice/libplist/archive/af994607c799f3bfcbab280ef97e3bd85fe69ed2.tar.gz
+
+[vars]
+filesize=173051
+sha512=46b487c0ac7f7b6c4eac2c482668da25e018cae067ad348e39299acfc6ee6a7cc8ecca0de06204f45feae8245f28cc8c4f2f423b2c39c5e57516e49566ab0f0f
+tarball=libplist-af994607c799f3bfcbab280ef97e3bd85fe69ed2.tar.gz
+pkgver=1
+
+[deps.host]
+autoconf
+automake
+
+[deps]
+
+[build]
+autoreconf -i
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+   --without-cython
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

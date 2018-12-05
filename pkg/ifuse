@@ -1,0 +1,47 @@
+[mirrors]
+https://github.com/libimobiledevice/ifuse/archive/3b00243682962fec4f78f03d96cdded730cae38b.tar.gz
+
+[vars]
+filesize=19785
+sha512=99ccfe6eadb16bc47b8721c4b69b9c9cdfa34b1ee41fdbc36b63df167871e0946461a38f5e0cf1c79df10b0d2999d00b151e06181fc8fbb7fc44c45210960e09
+tarball=ifuse-3b00243682962fec4f78f03d96cdded730cae38b.tar.gz
+pkgver=1
+desc='mount iphone filesystem'
+
+[deps.host]
+autoconf
+automake
+
+[deps]
+libimobiledevice
+fuse
+
+[deps.run]
+usbmuxd
+
+[build]
+# Usage:
+# term1:
+# usbmuxd -f -n
+# term2:
+# idevicepair pair
+# ideviceinfo
+# ifuse /mnt/mountpoint (--root)
+
+autoreconf -i
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+   --without-cython
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
