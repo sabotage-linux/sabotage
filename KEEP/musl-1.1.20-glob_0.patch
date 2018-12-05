@@ -1,0 +1,32 @@
+From 09a805a62307307230a31125425d0c2b0b6f332e Mon Sep 17 00:00:00 2001
+From: Rich Felker <dalias@aerifal.cx>
+Date: Thu, 11 Oct 2018 14:27:15 -0400
+Subject: [PATCH] fix redundant computations of strlen in glob append function
+
+len was already passed as an argument, so don't use strcat, and use
+memcpy instead of strcpy.
+---
+ src/regex/glob.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/regex/glob.c b/src/regex/glob.c
+index 98636295..3e1b034e 100644
+--- a/src/regex/glob.c
++++ b/src/regex/glob.c
+@@ -41,8 +41,11 @@ static int append(struct match **tail, const char *name, size_t len, int mark)
+ 	if (!new) return -1;
+ 	(*tail)->next = new;
+ 	new->next = NULL;
+-	strcpy(new->name, name);
+-	if (mark) strcat(new->name, "/");
++	memcpy(new->name, name, len+1);
++	if (mark) {
++		new->name[len] = '/';
++		new->name[len+1] = 0;
++	}
+ 	*tail = new;
+ 	return 0;
+ }
+-- 
+2.15.1
+
