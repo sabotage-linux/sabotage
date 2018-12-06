@@ -111,6 +111,7 @@ It also installs packages into `/opt`, creates file lists, etc.
 
 When finished compiling, exit the chroot and either:
 
+* Run `utils/root-perms.sh /path/to/rootfs` to fix permissions
 * Use the rootfs directly, by copying it to some disk.
 * Use `utils/run-emulator.sh` to boot the system in QEMU.
   Running in QEMU has poor HDD performance, as the FS is mounted via 9P protocol.
