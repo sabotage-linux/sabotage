@@ -1,5 +1,5 @@
 #!/bin/sh
-BUTCH_VERSION=0.7.4
+BUTCH_VERSION=0.7.5
 test -n "$CONFIG" && . $CONFIG
 BINDIR=$(dirname $(readlink -f "$0"))
 hlppid=
