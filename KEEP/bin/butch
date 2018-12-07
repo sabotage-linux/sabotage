@@ -45,6 +45,7 @@ usage() {
 	builddeps <package>       # build and install dependencies of package
 
 	list                      # list installed packages
+	unused                    # list installed pkgs not required by other installed pkgs
 	files <package>           # show files installed by <package>
 	mirrors <package>         # print mirrors for <package>
 	owner <file>              # print which package owns a <file>
@@ -80,6 +81,7 @@ case $1 in
 	genfilelist) shift; prog=butch-genfilelist;;
 	builddeps) shift; prog=butch-builddeps;;
 	list) shift; prog=butch-list;;
+	unused) shift; prog=butch-unused;;
 	owner) shift; prog=butch-owner;;
 	files) shift; prog=butch-files;;
 	search) shift; prog=butch-search;;

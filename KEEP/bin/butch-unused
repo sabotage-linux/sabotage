@@ -1,0 +1,42 @@
+#!/bin/sh
+if [ -n "$1" ] ; then
+	echo "$0 - list 'unused' packages"
+	echo
+	echo "this does not necessarily mean that *you* do not use that package,"
+	echo "it just means that no other package you have installed depends on it."
+	echo
+	echo "can be helpful to spot orphaned libraries or no longer needed apps."
+	exit 1
+fi
+
+if [ -z "$S" ] ; then
+	echo "error: S is not set, did you source config?"
+	exit 1
+fi
+pkgdir="$S"/pkg
+if [ ! -d "$pkgdir" ] ; then
+	echo "error: cannot find pkg dir $pkgdir"
+	exit 1
+fi
+
+BINDIR=$(dirname $(readlink -f "$0"))
+
+is_meta_pkg() {
+	! grep '\[build\]'<"$pkgdir"/"$1">/dev/null
+}
+
+installed=$($BINDIR/butch-list)
+
+for i in $installed ; do
+	is_meta_pkg "$i" && continue
+	needed=false
+	for j in $($BINDIR/butch-users $i) ; do
+		test "$j" = "$i" && continue
+		for k in $installed ; do
+			test "$k" = "$i" && continue
+			test "$j" = "$k" && { needed=true ; break ; }
+		done
+		$needed && break
+	done
+	$needed || printf "%s\n" "$i"
+done
