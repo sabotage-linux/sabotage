@@ -8,6 +8,11 @@ if [ ! -d "$pkgdir" ] ; then
 	echo "error: cannot find pkg dir $pkgdir"
 	exit 1
 fi
+only_installed=false
+[ "$1" = "--installed" ] && {
+	shift
+	only_installed=true
+}
 search_pkg="$1"
 [ -z "$search_pkg" ] && {
 	echo "error: need package name"
@@ -19,8 +24,15 @@ test "$search_pkg" = "--help" && {
 }
 BINDIR=$(dirname $(readlink -f "$0"))
 
+pkglist() {
+	if $only_installed ; then
+		"$BINDIR"/butch-list | sed 's#^#'"$pkgdir"'/#'
+	else
+		find "$pkgdir"/
+	fi
+}
 [ -z "$DEPS" ] && DEPS=build:host:run
-for fn in `find "$pkgdir"/` ; do
+for fn in `pkglist` ; do
 	[ -d "$fn" ] && continue
 	if grep -x "$search_pkg"<"$fn">/dev/null ; then
 		if "$BINDIR"/butch-deps -v norecurse=1 "$fn" | grep -x "$search_pkg">/dev/null ;

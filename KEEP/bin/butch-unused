@@ -30,7 +30,7 @@ installed=$($BINDIR/butch-list)
 for i in $installed ; do
 	is_meta_pkg "$i" && continue
 	needed=false
-	for j in $($BINDIR/butch-users $i) ; do
+	for j in $($BINDIR/butch-users --installed $i) ; do
 		test "$j" = "$i" && continue
 		for k in $installed ; do
 			test "$k" = "$i" && continue
