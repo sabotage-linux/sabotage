@@ -17,6 +17,7 @@ xcb-util
 [deps.host]
 autoconf
 automake
+libtool
 
 [build]
 patch -p1 < "$C"/xf86-video-intel-git.patch
