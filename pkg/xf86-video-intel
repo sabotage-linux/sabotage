@@ -17,6 +17,7 @@ xcb-util
 [deps.host]
 autoconf
 automake
+libtool
 
 [build]
 patch -p1 < "$C"/xf86-video-intel-git.patch
@@ -36,4 +37,3 @@ LDFLAGS="-Wl,-z,lazy" \
 #  --enable-glamor \
 
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
-
