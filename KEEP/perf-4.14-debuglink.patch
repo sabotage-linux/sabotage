@@ -1,0 +1,20 @@
+--- linux-4.14.44.org/tools/perf/util/dso.c
++++ linux-4.14.44/tools/perf/util/dso.c
+@@ -89,7 +89,17 @@
+ 		ret = -1;
+ 		for (i = 0; i < ARRAY_SIZE(debuglink_paths); i++) {
+ 			snprintf(filename, size,
++					debuglink_paths[i], "", symfile);
++
++			if (is_regular_file(filename)) {
++				ret = 0;
++				break;
++			}
++		}
++		if(ret) for (i = 0; i < ARRAY_SIZE(debuglink_paths); i++) {
++			snprintf(filename, size,
+ 					debuglink_paths[i], dso_dir, symfile);
++
+ 			if (is_regular_file(filename)) {
+ 				ret = 0;
+ 				break;

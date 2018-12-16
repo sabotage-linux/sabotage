@@ -12,7 +12,7 @@ flex
 bison
 
 [build]
-patch -p1 < "$K"/perf-4.10-debuglink.patch
+patch -p1 < "$K"/perf-4.14-debuglink.patch
 cd tools/perf
 cat << EOF > hack.h
 #ifndef __ASSEMBLER__
