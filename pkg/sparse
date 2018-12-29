@@ -15,5 +15,5 @@ PREFIX = $butch_prefix
 CFLAGS += -D_GNU_SOURCE $optcflags
 EOF
 LDFLAGS="-static $optldflags" \
-make Q= V=1 CC="$CC" -j$MAKE_THREADS HAVE_GTK=no
+make Q= V=1 CC="$CC" LD="$CC" AR="$CROSS_COMPILE"ar -j$MAKE_THREADS HAVE_GTK=no
 make HAVE_GTK=no V=1 DESTDIR="$butch_install_dir" install
