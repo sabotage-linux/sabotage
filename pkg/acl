@@ -1,21 +1,21 @@
-[vars]
-filesize=386604
-sha512=59973199d371cd0b2368e95bc829a1b47f04e808a174fefba4c6854e766158bd19a71d9dbcc8d6fdc1573a1f971cdda39c453f7fa243bce02c1ab97c6e7c72e7
-tardir=acl-2.2.52
-
 [mirrors]
-http://download.savannah.gnu.org/releases/acl/acl-2.2.52.src.tar.gz
+http://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz
+
+[vars]
+filesize=524300
+sha512=176b7957fe0e7618e0b7bf2ac5071f7fa29417df718cce977661a576fa184e4af9d303b591c9d556b6ba8923e799457343afa401f5a9f7ecd9022185a4e06716
+pkgver=2
 
 [deps]
 attr
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --disable-shared $xconfflags \
                  --enable-static --enable-gettext=no
 
 make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install install-lib install-dev
+make DESTDIR="$butch_install_dir" install
