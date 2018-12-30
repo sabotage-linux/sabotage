@@ -1,10 +1,10 @@
 [mirrors]
-https://nodejs.org/dist/v9.5.0/node-v9.5.0.tar.gz
+https://nodejs.org/dist/v9.11.2/node-v9.11.2.tar.xz
 
 [vars]
-filesize=31351190
-sha512=fe00f57d2076b272158f03ad8b5e865f18665a0623014160391d2a7958660d835b1e6ce218f792ca07b6f91e8c70ee9d9daebad0efdfe8c934f180f3ac5e1a0c
-pkgver=6
+filesize=18507832
+sha512=ca49a1f3aaa8b25faa62c411a96551c8977bb43a22f8f171f27d3585306f379b6a12e55e60ddca04a6f2f8c62a1b3fed9e66c02898d80bf7ca59278536e04c13
+pkgver=7
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
