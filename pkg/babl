@@ -1,10 +1,10 @@
 [mirrors]
-http://gd.tuwien.ac.at/graphics/gimp/babl/0.1/babl-0.1.10.tar.bz2
-ftp://ftp.gtk.org/pub/babl/0.1/babl-0.1.10.tar.bz2
+http://download.gimp.org/pub/babl/0.1/babl-0.1.60.tar.bz2
 
 [vars]
-filesize=449537
-sha512=2950d94c255ee05d405e003a46138da0f4e0cad65e2d2a882089b788c2deac0524014f7c5758c3097253bdbebaded433caf0447c7d218c9cc96798df9e6f0c92
+filesize=685707
+sha512=a65533b4527c4334c7ab14fb16be41e3e2e93f51bbeb24dd427fa9263e25fa8ad83337b73a805bebc2414fb57bccceaa681f89ce5c5187bd0a03703bf07cccc2
+pkgver=2
 desc="support lib for gegl for color-space conversions"
 
 [deps]
