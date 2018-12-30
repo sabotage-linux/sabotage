@@ -1,17 +1,16 @@
 [mirrors]
-http://thrysoee.dk/editline/libedit-20170329-3.1.tar.gz
+http://thrysoee.dk/editline/libedit-20181209-3.1.tar.gz
 
 [vars]
-filesize=508504
-sha512=597ed2282240be6dc3c4a7bb8b4ade31fe16ebfeb2229e3aec58643a65882653cc91deb300343d1b1cc588959dbf95698122c4005e47dfb947efa3e6b134bb82
-pkgver=3
+filesize=521931
+sha512=7673fb5612149a0d3508a103ac6f92041704911b27fffa084624f835fa6ac55b17c43b6e622ff9eac6ca06368e80ede14d93ec75afb5a368651734b8bfe045d2
+pkgver=4
 
 [deps]
 curses
 
 [build]
 patch -p1 < "$K"/libedit_readlineh.patch
-patch -p1 < "$K"/libedit-export-event-hook.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
