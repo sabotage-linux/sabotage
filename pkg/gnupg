@@ -1,12 +1,12 @@
 [mirrors]
-https://gnupg.org/ftp/gcrypt/gnupg/gnupg-1.4.22.tar.bz2
-http://mirrors.dotsrc.org/gcrypt/gnupg/gnupg-1.4.22.tar.bz2
-http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/gnupg/gnupg-1.4.22.tar.bz2
+https://gnupg.org/ftp/gcrypt/gnupg/gnupg-1.4.23.tar.bz2
+http://mirrors.dotsrc.org/gcrypt/gnupg/gnupg-1.4.23.tar.bz2
+http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/gnupg/gnupg-1.4.23.tar.bz2
 
 [vars]
-filesize=3746546
-sha512=c03acac0fa55761470bb085d78a44e2b99ebb187e8396cbb031a184b1e40bef2a40c91da07755d1a20610a3daa6aa1eefea2d12a0dbd5a79a45466166419c708
-pkgver=2
+filesize=3749353
+sha512=78dc52a2010202a4afc8814b29fda657a6c9fe230d5e7db11ae040edd2b0ca819e1baa4dbd6c0d04d36cd353df484e83f52d17759d2891c2cf7025c0b5d36612
+pkgver=3
 
 [deps]
 readline
