@@ -1,10 +1,10 @@
 [mirrors]
-https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.25.tar.xz
+https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.26.tar.xz
 
 [vars]
-filesize=63672
-sha512=c3ab491885292adc171cde542b96f1295e84132febb50112a46575c3bde3a3eb6fcf733f7a756b4b656e013c0abb5ed6571db24799f8c0b23d8f759f992864f9
-pkgver=2
+filesize=67172
+sha512=1c2d59f007226405a924950b2c2090393527e06f0692a84e6463e33915a070df61a9070b8f30a624d5630ddd39290eac117e5d440577d1edd48510195b9d12f0
+pkgver=3
 
 [deps]
 attr
