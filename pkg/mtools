@@ -1,13 +1,15 @@
 [mirrors]
-http://ftp.gnu.org/gnu/mtools/mtools-4.0.18.tar.bz2
+http://ftp.gnu.org/gnu/mtools/mtools-4.0.23.tar.bz2
 
 [vars]
-filesize=420190
-sha512=3981a4727aa4e2ec5c931201b236f52fcd1c9d55f888cb2fbdc5c4172402e2b229ede9a5005b972ffdad59bcb861e2fcc01404845e521116419079ae78239090
+filesize=418592
+sha512=c8c48adedc3f3e4eeafead27ce80172c9cb9690b575618842001ed16aa0011dcd2bc517882ea4bf01a73810ba151aa4b86f8ce2f97d6e8a0177d09be71a6d1ed
+pkgver=2
+desc='collection of utilities to access MS-DOS disks'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -UHAVE_ICONV_H" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
