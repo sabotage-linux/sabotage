@@ -1,12 +1,12 @@
 [mirrors]
-https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
-http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libassuan/libassuan-2.4.3.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.2.tar.bz2
+http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libassuan/libassuan-2.5.2.tar.bz2
 
 [vars]
-filesize=559867
-sha512=2b0f58682b408fc58fa0ec2980b36e54ba66701bf504cf6c98ec652af43501bc7c18573bc78c5b83260f5a3bdb0ec8f4e0662bafd9bba3fe7287e77598e8e4c1
+filesize=570676
+sha512=1c6f87e3f785a053e6b736eb3554fa704c798c7078307391ca45961e06d9282c659c8e46d230d1f52e67acc2cc12d841f9ec0d5184443f68555d3f0d240865b3
+pkgver=3
 desc='interprocess communication library used by some GnuPG components'
-pkgver=2
 
 [deps]
 libgpg-error
