@@ -1,10 +1,10 @@
 [mirrors]
-http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.77.tar.xz
+http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.80.tar.xz
 
 [vars]
-filesize=487244
-sha512=6ca98a71a8fdfd606e29c58b34dadfa63148c39f931570cca67a287e044d52c6ec2f8acbf5620ada3312e9db3a2fd63877188d829c070beaa730607e3309e768
-pkgver=2
+filesize=501072
+sha512=58e56beb553fc41311e5dc16d8b0eb3b6801e2bdfbcd0e7a6659703f08960b6ad10d48b0b14a4d727636faf35483e01597cff2ae49e7fe9fa9e214f437b1c068
+pkgver=3
 desc="provides DNS, DHCP, router advertisement and network boot services"
 service=dnsmasq
 serviceflags="--down --log"
