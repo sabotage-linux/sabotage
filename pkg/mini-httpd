@@ -1,10 +1,10 @@
 [mirrors]
-https://acme.com/software/mini_httpd/mini_httpd-1.27.tar.gz
+https://acme.com/software/mini_httpd/mini_httpd-1.30.tar.gz
 
 [vars]
-filesize=43473
-sha512=a7374374d70eb6e531225bf944d80158c7a1870f0e9d3ab720f83706f722eaeac3a891f06c3d6ac2189e1d368504db0ce512440a1d09be109f804c8a0c7901e1
-pkgver=1
+filesize=43889
+sha512=c7464bbd6f9b18ad15f662978ca68fab7db1eea5247d2598134869f098c273b745c7bb0ef9a2841acefb94a369937111858aa84028ed08e9b07d9c6fc257a04c
+pkgver=2
 
 [deps]
 
