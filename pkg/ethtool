@@ -1,10 +1,10 @@
 [mirrors]
-http://cdn.kernel.org/pub/software/network/ethtool/ethtool-4.13.tar.xz
+http://cdn.kernel.org/pub/software/network/ethtool/ethtool-4.19.tar.xz
 
 [vars]
-filesize=217472
-sha512=d0f881b88379b959cd34949c924b0e4d4fb1af0873192cdf8ec9cc2d2d677a4de13021efabb0a1aea1932ef38a6952d9f3eb040c478a9af770054a6170777789
-pkgver=5
+filesize=221932
+sha512=5b0b83e09799a04e401563e34c4c784029803ecf83d5ba4f3a9cc92bfc7c2bc9cb0d86cb76ac9a7ffbfb379f6a0fc4bc3e0cf9b7826971e46504052e40156abd
+pkgver=6
 
 [deps]
 
