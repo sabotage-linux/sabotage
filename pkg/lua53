@@ -1,10 +1,10 @@
 [mirrors]
-https://www.lua.org/ftp/lua-5.3.4.tar.gz
+https://www.lua.org/ftp/lua-5.3.5.tar.gz
 
 [vars]
-filesize=303586
-sha512=739e31f82e6a60fa99910c2005e991b3a1e21339af52847f653cb190b30842054d189ca116ffcfdf9b36e07888c9ce5642b1dd2988cc7eff9f8789f9a2e34997
-pkgver=1
+filesize=303543
+sha512=4f9516acc4659dfd0a9e911bfa00c0788f0ad9348e5724fe8fb17aac59e9c0060a64378f82be86f8534e49c6c013e7488ad17321bafcc787831d3d67406bd0f4
+pkgver=2
 
 [deps]
 readline
