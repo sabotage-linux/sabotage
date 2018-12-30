@@ -1,12 +1,13 @@
-[vars]
-filesize=1652612
-sha512=b789f55d9cb95c1b4fba004691ed9f79b76da55020c9b202e1704a02aab1ba43b9fc1015e29843ed552e6df6165cef9c6ebc8a29d15a21c6e194cad8a42ab055
-desc="a yacc-compatible parser generator"
-
 [mirrors]
-ftp://ftp.gnu.org/gnu/bison/bison-2.4.3.tar.bz2
-http://gnu.mirrorcatalogs.com/bison/bison-2.4.3.tar.bz2
-http://spout.ussg.indiana.edu/gnu/bison/bison-2.4.3.tar.bz2
+ftp://ftp.gnu.org/gnu/bison/bison-3.2.4.tar.xz
+http://gnu.mirrorcatalogs.com/bison/bison-3.2.4.tar.xz
+http://spout.ussg.indiana.edu/gnu/bison/bison-3.2.4.tar.xz
+
+[vars]
+filesize=2094568
+sha512=652b54fdee969bbc17eeb04d05d65f143e8e0e1b46ac2574e3a76687b9bd916c9a0c97658b4f8357958d64e87fe2a6a2a98a6c312970f0e74fb4445962e9daae
+pkgver=2
+desc="a yacc-compatible parser generator"
 
 [deps.host]
 m4
@@ -23,3 +24,6 @@ CFLAGS="$optcflags" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/share/doc "$dest"/share/info
