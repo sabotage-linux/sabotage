@@ -1,10 +1,10 @@
 [mirrors]
-https://www.bearssl.org/bearssl-0.5.tar.gz
+https://www.bearssl.org/bearssl-0.6.tar.gz
 
 [vars]
-filesize=666905
-sha512=1bd510f62f36620cda5317509e72bd0c6f3538c30aca2695e80c26d1ea7270d174ed3fbb6d690b3ced5d51ce3f6bfc776d78a196492900296a452bc4c8185e45
-pkgver=4
+filesize=765094
+sha512=f9ed25683cfc6c4abe7f1203a2b82ed101ee4c9e0f9ab60755b6a09c8d1e8e4f64d413624e7bb9c4b0033f909a2e4568a1d916cc6ce4736222900691e1f8359a
+pkgver=5
 
 [deps]
 
