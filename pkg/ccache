@@ -1,10 +1,10 @@
 [mirrors]
-https://www.samba.org/ftp/ccache/ccache-3.3.3.tar.bz2
+https://www.samba.org/ftp/ccache/ccache-3.5.tar.xz
 
 [vars]
-filesize=346056
-sha512=b10a1a1e700a96e1c55a95031013896ae4f442d7038f4d57307ba33fa6930a25ac5dea9bee7854bdf0902df37b5d1d58b147123568f1bc13ed5d7dca3ad2cfe5
-pkgver=1
+filesize=334668
+sha512=92181fb794f06dc231baa4193c37e8f1d844c9281fd64bcb8f4b35c87b4a88dfc9bf36b810b37151ee85699778fcd3783818949a7010e619aeca7e3b33b7a2e3
+pkgver=2
 
 [deps]
 
