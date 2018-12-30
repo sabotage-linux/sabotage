@@ -1,11 +1,11 @@
 [mirrors]
-http://ftpmirror.gnu.org/gawk/gawk-4.2.0.tar.xz
-http://ftp.gnu.org/pub/gnu/gawk/gawk-4.2.0.tar.bz2
+http://ftpmirror.gnu.org/gawk/gawk-4.2.1.tar.xz
+http://ftp.gnu.org/pub/gnu/gawk/gawk-4.2.1.tar.xz
 
 [vars]
-filesize=2948108
-sha512=3076b2f42e43fff0ce63dcaa3fb749ce421473d0abc3e1e2d9dd375207d3e35c98d5bf91c3179f49156e8a4977424c16bb2d3d662846ad487153729dd4cfeb4c
-pkgver=3
+filesize=2985412
+sha512=0e3006a795dc3ac91359a7d2590c0cccbfd39b18a1d491617d68505c55a2800355b1439050681b4fcacf65fb0d533151a046babe0fd774503037bab363ef2ae4
+pkgver=4
 no_unlink=1
 
 [build]
