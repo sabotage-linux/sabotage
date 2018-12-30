@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.xz
+http://ftp.gnu.org/gnu/automake/automake-1.16.1.tar.xz
 
 [vars]
-filesize=1509496
-sha512=02f661b2676f1d44334ce1c7188f9913a6874bf46ba487708ad8090ad57905f14aead80fefed815e21effacfbb925e23b944ea7dd32563dca39c1a4174eda688
-pkgver=3
+filesize=1534936
+sha512=4013bd31f4903b10875caa7d6ac16a14623a4eb91aa758924dee5b990e234fb50848d131e2dbdbbbc32f89c41a14f9c52a0064c37aa6760c524d607b354b13c3
+pkgver=4
 desc="automated makefile generator"
 
 [deps]
