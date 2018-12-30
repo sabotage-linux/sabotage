@@ -1,10 +1,10 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.12.0-source.tar.xz
+http://mupdf.com/downloads/archive/mupdf-1.13.0-source.tar.xz
 
 [vars]
-filesize=37299040
-sha512=4c9ce81e7b0e2d77e017776fd9f700bc2f695f34b7fd97be7ba113ec1b340e7046c9db7d396abf19a98b1d0c7d72f01ecc1b44fadd250d2d6c6ffdcd9799bc16
-pkgver=6
+filesize=37243936
+sha512=c40694d907bb44f18ccf276b3014867f5e0031259064d6f5f4c2bb17bcf1c6773ea0b12b5b99bc3d88bbe69b574e323c490e387e8199f796b44b76bae01f8924
+pkgver=7
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
@@ -26,6 +26,7 @@ libressl
 jbig2dec
 
 [build]
+patch -p1 < "$K"/mupdf-1.13.0-bigendian.patch
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
 PCS_SAVE="$PKG_CONFIG_SYSROOT_DIR"
 PCL_SAVE="$PKG_CONFIG_LIBDIR"
@@ -43,7 +44,7 @@ done
 PKG_CONFIG_SYSROOT_DIR="$PCS_SAVE"
 PKG_CONFIG_LIBDIR="$PCL_SAVE"
 
-CFLAGS="$optcflags" \
+CFLAGS="$optcflags -I$butch_root_dir$butch_prefix/include/freetype2" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   make verbose=yes -j $MAKE_THREADS DESTDIR="$butch_install_dir" \
   HAVE_GLFW=no HAVE_GLUT=no \
