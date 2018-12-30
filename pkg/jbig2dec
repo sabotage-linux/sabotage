@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs922/jbig2dec-0.14.tar.gz
-http://downloads.ghostscript.com/public/jbig2dec/jbig2dec-0.14.tar.gz
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs924/jbig2dec-0.15.tar.gz
 
 [vars]
-filesize=463572
-sha512=066bd880ac0665fc1e42b0ae0e481008b125aab6e173b7f82d61a2a30e72c90085cbded9b2a68c6836f92dea3d8d8d5c2228dba76e0d99c79c922197d215705b
-pkgver=2
+filesize=472271
+sha512=142acf0c47be094232ff21074414be5cf633a7008b2095d60b8878c4e125966f36632d8db191959ae1ac4b12b8fdc78139f67cd531717d203864b459d2570369
+pkgver=3
+uchkurl=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
 
 [deps]
 
