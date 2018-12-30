@@ -1,10 +1,10 @@
 [mirrors]
-http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.16.tar.bz2
+http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.19.tar.bz2
 
 [vars]
-filesize=2674662
-sha512=6aa5e869924c6e42aa68113985aecfb75dc6eb68d5d7db8cedb9843621d29c36c17078e7a692f472e3e7f1edf7ca666e3614bc3bdb092a3631877733d5e3d518
-pkgver=6
+filesize=2688338
+sha512=8afe781af8409b92dec8f1f0026a8a35ce7295d9b9c51360724dfd108047cf5823e8982c21634a2422c93ec14b0b51bdd6e3ec2dd37d446269afd95505c39843
+pkgver=7
 desc='terminal web browser. supports HTTPS but not javascript'
 
 [deps]
@@ -13,7 +13,6 @@ curses
 ca-certificates
 
 [build]
-patch -p1 < "$K"/lynx-2.8.9-dev10-libressl.patch
 patch -p1 < "$K"/lynx-resize.patch
 
 # remove timestamp
