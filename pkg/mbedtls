@@ -1,11 +1,11 @@
 [mirrors]
-https://tls.mbed.org/download/mbedtls-2.7.0-apache.tgz
+https://tls.mbed.org/download/mbedtls-2.16.0-apache.tgz
 
 [vars]
-filesize=2108442
-sha512=1cdd0e9a8f0639830c03520a5fdf1546864e0ee7fc4dd5ef2c8a260d0f911b903a83038fd43e25c59a0e1d894b494fb6947478e0007a341c5ffcee5bf25cf43f
-pkgver=6
-tardir=mbedtls-2.7.0
+filesize=2506425
+sha512=765303bc0572b904e05990b254ed160eb18e300a1bbbb4aa5176e5cdbf5464a944d5ad06b712183e2396a48f0c7ae529e0c820303c3995f7d6b9c3f24535d004
+pkgver=7
+tardir=mbedtls-2.16.0
 
 [deps]
 
