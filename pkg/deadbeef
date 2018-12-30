@@ -16,15 +16,18 @@ imlib2
 ffmpeg
 
 [build]
+cp -f "$K"/config.sub .
 . "$K"/intltool-fix
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" \
+CXXFLAGS="$optcflags -Wno-narrowing" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  ac_cv_path_MSGFMT=msgfmt
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
