@@ -1,21 +1,24 @@
 [mirrors]
-http://code.kryo.se/iodine/iodine-0.7.0.tar.gz
+https://github.com/yarrick/iodine/archive/27e5d6fadd997ff167c70a431d41adae26428d41.tar.gz
 
 [vars]
-filesize=96181
-sha512=49fe4f0cf614d3400cbfdade84eb4f50430f8f92004f663a08acc1514e8ff342443a8c3f855828bbca1864a3fafe419b5256f8a80fc4024b364d4c8c953fc0ec
-pkgver=1
+filesize=99061
+sha512=ad77be9dbed18593f9cd270c1cc1ccb711bedc29d0f43d97a95c36884f2a16205a224e5243780b0a6e491dd137a699ab59e597bbb18681ea9af973d8d750f536
+tarball=iodine-0.7+git-27e5d6fadd997ff167c70a431d41adae26428d41.tar.gz
+tardir=iodine-27e5d6fadd997ff167c70a431d41adae26428d41
+pkgver=2
 desc='client and server to route traffic over DNS'
 
 [deps]
 
 [build]
+patch -p1 < "$K"/iodine-c.patch
 sed -i 's@sbin@bin@g' Makefile
 sed -i 's/@$(CC)/$(CC)/g' src/Makefile
 sed -i 's@static int daemon@static int daemon_unused@' src/common.c
 
 make V=1 -j$MAKE_THREADS \
 prefix="$butch_prefix" DESTDIR="$butch_install_dir" \
-CFLAGS="$optcflags -std=c99 -D_GNU_SOURCE -DLINUX -Wall -c" \
+CFLAGS="$optcflags -DGITREVISION=\\\"27e5d6fa\\\" -std=c99 -D_GNU_SOURCE -DLINUX -Wall -c" \
 LDFLAGS="$optldflags -lz -L." \
 all install
