@@ -1,10 +1,10 @@
 [mirrors]
-http://download.savannah.gnu.org/releases/freetype/freetype-2.8.1.tar.bz2
+http://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.bz2
 
 [vars]
-filesize=1886443
-sha512=ca59e47f0fceeeb9b8032be2671072604d0c79094675df24187829c05e99757d0a48a0f8062d4d688e056f783aa8f6090d732ad116562e94784fccf1339eb823
-pkgver=5
+filesize=1926385
+sha512=856766e1f3f4c7dc8afb2b5ee991138c8b642c6a6e5e007cd2bc04ae58bde827f082557cf41bf541d97e8485f7fd064d10390d1ee597f19d1daed6c152e27708
+pkgver=6
 
 [deps]
 zlib
