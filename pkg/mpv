@@ -6,6 +6,7 @@ filesize=3057997
 sha512=77204218bd217ae1da4812b09e0509965a3ef102d3de5cd4360f007ccf3779e4cbde5cfd6adae9629ea39062bd365e847429bdf7f9a1ddebd0a67d267492b221
 tarball=mpv-0.29.0.tar.gz
 pkgver=11
+need_net=1
 uchkurl=https://github.com/mpv-player/mpv/releases
 desc='media player forked from mplayer with major cleanups'
 
