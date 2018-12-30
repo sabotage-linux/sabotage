@@ -1,9 +1,10 @@
 [mirrors]
-http://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
+http://download.gimp.org/pub/gegl/0.2/gegl-0.2.2.tar.bz2
 
 [vars]
-filesize=7502040
-sha512=16ef3f6852fd8efef2b6468a754342a2d003f2c2bef468d9465a448e6c89dedb8e791570f073a9faed05218a7c94c6c418eaa0f3abeadfb3e6b88d766ab792c8
+filesize=23491503
+sha512=4404f99283f01b0cfbd6be9de139bbf6796b3644668d714bb086389e07ecd5ca5085ec614e803a22f2bce70056fdf8a61f9d2cdeaccd65ad2001d139d41ede4e
+pkgver=2
 
 [deps]
 pango
@@ -17,17 +18,21 @@ babl
 . "$K"/intltool-fix
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --without-sdl \
-  --disable-silent-rules
-
-for i in po docs docs/gallery ; do
-	printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
-done
+  --disable-docs \
+  --disable-glibtest \
+  --disable-nls \
+  --enable-introspection=no \
+  --without-vala \
+  --without-lua \
+  --without-libavformat \
+  --disable-silent-rules \
+   ac_cv_prog_RUBY=no
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
