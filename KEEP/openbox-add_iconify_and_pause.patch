@@ -1,0 +1,108 @@
+From e154b7faceebbdaf89f1f9ed3d9d4ca17f409841 Mon Sep 17 00:00:00 2001
+From: rofl0r <retnyg@gmx.net>
+Date: Fri, 11 Jan 2019 18:45:30 +0000
+Subject: [PATCH] add paused
+
+---
+ openbox/client.c      | 14 ++++++++++++++
+ openbox/client.h      |  8 ++++++++
+ openbox/client_menu.c |  7 +++++++
+ 3 files changed, 29 insertions(+)
+
+diff --git a/openbox/client.c b/openbox/client.c
+index f3b4bda..9961c45 100644
+--- a/openbox/client.c
++++ b/openbox/client.c
+@@ -3388,10 +3388,24 @@ static void client_iconify_recursive(ObClient *self,
+                                          hide_animation);
+ }
+ 
++void client_toggle_paused(ObClient *self, gboolean setpause)
++{
++    if (client_on_localhost(self) && self->pid) {
++        if(setpause && !self->paused) {
++            kill(self->pid, SIGSTOP);
++            self->paused = TRUE;
++        } else if (!setpause && self->paused) {
++            kill(self->pid, SIGCONT);
++            self->paused = FALSE;
++        }
++    }
++}
++
+ void client_iconify(ObClient *self, gboolean iconic, gboolean curdesk,
+                     gboolean hide_animation)
+ {
+     if (self->functions & OB_CLIENT_FUNC_ICONIFY || !iconic) {
++        if(self->paused && !iconic) client_toggle_paused(self, FALSE);
+         /* move up the transient chain as far as possible first */
+         self = client_search_top_direct_parent(self);
+         client_iconify_recursive(self, iconic, curdesk, hide_animation);
+diff --git a/openbox/client.h b/openbox/client.h
+index d5b344f..691201b 100644
+--- a/openbox/client.h
++++ b/openbox/client.h
+@@ -258,6 +258,8 @@ struct _ObClient
+     gboolean modal;
+     /*! Only the window's titlebar is displayed */
+     gboolean shaded;
++    /*! The window's main process is paused */
++    gboolean paused;
+     /*! The window is iconified */
+     gboolean iconic;
+     /*! The window is maximized to fill the screen vertically */
+@@ -495,6 +497,12 @@ void client_fullscreen(ObClient *self, gboolean fs);
+   monitor. */
+ gboolean client_is_oldfullscreen(const ObClient const *self, const Rect *area);
+ 
++/*! Sends the client window's process a SIGSTOP or SIGCONT
++  @param setpause true if the window's process should be paused; false if it
++                  should be unpaused.
++*/
++void client_toggle_paused(ObClient *self, gboolean setpause);
++
+ /*! Iconifies or uniconifies the client window
+   @param iconic true if the window should be iconified; false if it should be
+                 restored.
+diff --git a/openbox/client_menu.c b/openbox/client_menu.c
+index c6cdd63..0aa9f22 100644
+--- a/openbox/client_menu.c
++++ b/openbox/client_menu.c
+@@ -46,6 +46,7 @@ enum {
+     CLIENT_SEND_TO,
+     CLIENT_LAYER,
+     CLIENT_ICONIFY,
++    CLIENT_PAUSE_AND_ICONIFY,
+     CLIENT_RESTORE,
+     CLIENT_MAXIMIZE,
+     CLIENT_SHADE,
+@@ -79,6 +80,7 @@ static gboolean client_menu_update(ObMenuFrame *frame, gpointer data)
+ 
+         if (e->type == OB_MENU_ENTRY_TYPE_NORMAL) {
+             switch (e->id) {
++            case CLIENT_PAUSE_AND_ICONIFY:
+             case CLIENT_ICONIFY:
+                 *en = c->functions & OB_CLIENT_FUNC_ICONIFY;
+                 break;
+@@ -125,6 +127,9 @@ static void client_menu_execute(ObMenuEntry *e, ObMenuFrame *f,
+         ignore_start = event_start_ignore_all_enters();
+ 
+     switch (e->id) {
++    case CLIENT_PAUSE_AND_ICONIFY:
++        client_toggle_paused(c, TRUE);
++        /* fall through */
+     case CLIENT_ICONIFY:
+         /* the client won't be on screen anymore so hide the menu */
+         menu_frame_hide_all();
+@@ -399,6 +404,8 @@ void client_menu_startup(void)
+ 
+     menu_add_normal(menu, CLIENT_RESIZE, _("Resi_ze"), NULL, TRUE);
+ 
++    menu_add_normal(menu, CLIENT_PAUSE_AND_ICONIFY, _("_Pause and iconify"), NULL, TRUE);
++
+     e = menu_add_normal(menu, CLIENT_ICONIFY, _("Ico_nify"), NULL, TRUE);
+     e->data.normal.mask = ob_rr_theme->btn_iconify->mask;
+     set_icon_color(e);
+-- 
+2.19.1
+
