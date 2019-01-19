@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.7.tar.bz2
+ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.8.tar.bz2
 
 [vars]
-filesize=369866
-sha512=c3bb22ec3c5a167fb246cfc94131d53800e321b486ab743c3395a9d91dee0ff9703f6e4a2feaea5a4ee42a7e486d835d48ab880c784c5c34bb4eb5e9ded06d8e
-pkgver=4
+filesize=375346
+sha512=bb1a4411921ec332f47b43515f6d3b4c03a01568854950b9b5c3f0d8172d9a0c4a5b3652bc64c62eae5ea3aaa5d95fe3d32c0a213fe99adf490a9807bcb58ecd
+pkgver=5
 
 [deps]
 alsa-lib
