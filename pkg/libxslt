@@ -1,10 +1,10 @@
 [mirrors]
-http://xmlsoft.org/sources/libxslt-1.1.32.tar.gz
+http://xmlsoft.org/sources/libxslt-1.1.33.tar.gz
 
 [vars]
-filesize=3440715
-sha512=e1ed3c103cd4c9897e7dd2360a11f63cf30382b7566ce6fcc81117804e203714446b5a62179ce628c3834b0b32ecdeeceecbdfa417507ce9ed5a107a0ebefb39
-pkgver=3
+filesize=3444093
+sha512=ebbe438a38bf6355950167d3b580edc22baa46a77068c18c42445c1c9c716d42bed3b30c5cd5bec359ab32d03843224dae458e9e32dc61693e7cf4bab23536e0
+pkgver=4
 desc='XSLT transformation library from the libxml2 authors'
 
 [deps]
