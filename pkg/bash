@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/bash/bash-4.4.12.tar.gz
+http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 
 [vars]
-filesize=9463431
-sha512=dee9d83319b0b8c0201c71d6b5f60c1eebfcec76d856a167a84a374d2296de7dcf4c4960515f888251bbf8feb0f8e1602f0061005346a0f48efb4297a2a87834
-pkgver=3
+filesize=10135110
+sha512=bb4519f06e278f271d08722b531e49d2e842cc3e0b02a6b3eee422e2efcb5b6226111af43f5e5eae56beb85ac8bfebcd6a4aacbabb8f609e529aa4d571890864
+pkgver=4
 desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
 
 [deps]
