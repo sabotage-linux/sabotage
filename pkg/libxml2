@@ -1,12 +1,12 @@
 [mirrors]
-http://xmlsoft.org/sources/libxml2-2.9.8.tar.gz
-ftp://xmlsoft.org/libxml2/libxml2-2.9.8.tar.gz
-ftp://gd.tuwien.ac.at/pub/libxml/libxml2-2.9.8.tar.gz
+http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz
+ftp://xmlsoft.org/libxml2/libxml2-2.9.9.tar.gz
+ftp://gd.tuwien.ac.at/pub/libxml/libxml2-2.9.9.tar.gz
 
 [vars]
-filesize=5469097
-sha512=28903282c7672206effa1362fd564cbe4cf5be44264b083a7d14e383f73bccd1b81bcafb5f4f2f56f5e7e05914c660e27668c9ce91b1b9f256ef5358d55ba917
-pkgver=4
+filesize=5476717
+sha512=cb7784ba4e72e942614e12e4f83f4ceb275f3d738b30e3b5c1f25edf8e9fa6789e854685974eed95b362049dbf6c8e7357e0327d64c681ed390534ac154e6810
+pkgver=5
 desc="bloated and buggy XML parsing library with a history of security vulns"
 
 [deps]
