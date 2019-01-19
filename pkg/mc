@@ -1,10 +1,10 @@
 [mirrors]
-http://www.midnight-commander.org/downloads/mc-4.8.20.tar.xz
+http://www.midnight-commander.org/downloads/mc-4.8.22.tar.xz
 
 [vars]
-filesize=2529580
-sha512=c2460561ae94bed75b1ed12f5c8039c9f8ace4c06987c57d07b8399c4e01c5a6c57851fddb3e918a4541ade089c89e8526078572a09580ccd0ae95344e3c1138
-pkgver=4
+filesize=2538524
+sha512=834d467a4561fe4361bbde61be2c9ded95ade2a89855d953f58b7bfeb21297a3d6ebf674e72ac665b1794e0cbc8da752bc14fb37b129ff870856b339091f6bed
+pkgver=5
 desc='midnight commander - terminal file manager (norton commander clone)'
 
 [deps]
