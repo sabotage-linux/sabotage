@@ -1,16 +1,17 @@
 [mirrors]
-http://ftp.gnu.org/gnu/gzip/gzip-1.8.tar.xz
+http://ftp.gnu.org/gnu/gzip/gzip-1.10.tar.xz
 
 [vars]
-filesize=728116
-sha512=efd3e2439476054badeb127d9156e24e9252129111219f13fd939596c057b2a96291630b2717181984b391abf249ac8699488bbd01ceeb8a70b121c500b10c55
+filesize=775144
+sha512=e6ba9e3906cdb6a6235b213515093d02afa1722686f73eddacbacae628542b586b449829783b6a1701e9b9e0c4d4dfa6845904d3b6b010f5cf21aec4997c9299
+pkgver=2
 
 [deps]
 zlib
 
 [build]
 "$K"/gnulibfix lib
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 CPPFLAGS="-Drpl_fdopendir=fdopendir -DS_IRWXUGO=0777 -DO_BINARY=0" \
 ./configure -C $xconfflags \
