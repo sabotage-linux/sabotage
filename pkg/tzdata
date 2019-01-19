@@ -1,10 +1,10 @@
 [mirrors]
-http://www.iana.org/time-zones/repository/releases/tzdata2018c.tar.gz
+http://www.iana.org/time-zones/repository/releases/tzdata2018i.tar.gz
 
 [vars]
-filesize=341074
-sha512=0575c87c9ffcde7b7f62b0df928d8a0e8d93f832b5ef7227b3d8431686f851f1fd5372c7e768f2979830352433b31df7f3979a00c28ea3973a3a0987ebbfb835
-pkgver=2
+filesize=377009
+sha512=6afcacb377842190648ed26f01abcf3db37aa2e7c63d8c509c29b4bc0078b7ff2d4e5375291b9f53498215b9e2f04936bc6145e2f651ae0be6d8166d8d336f6a
+pkgver=3
 tardir=.
 
 [deps.host]
