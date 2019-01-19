@@ -5,6 +5,7 @@ http://ftp.gnu.org/gnu/libidn/libidn-1.35.tar.gz
 filesize=4169217
 sha512=782260f73b1fd8ebea8a40e2b3a6866c4f67494b2b3df03748daa9c0f842a9578932e746eb4bbf2547fccb1d65d7fc99a7977759dbe58f87f2fdd26d0fe45a09
 pkgver=2
+desc='encode and decode internationalized domain name strings'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
