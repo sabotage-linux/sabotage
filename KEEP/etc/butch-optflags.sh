@@ -36,3 +36,8 @@ elif [ "$BRUTE" = 1 ] ; then
         optcflags="$optcflags -s -Os -flto"
         optldflags="$optldflags -flto"
 fi
+
+if [ "$SECURE" = 1 ] ; then
+	optcflags="$optcflags -fPIE -fstack-protector"
+	optldflags="$optldflags -fpie"
+fi
