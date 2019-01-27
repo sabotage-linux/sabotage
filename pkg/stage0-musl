@@ -1,10 +1,10 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.20.tar.gz
+http://www.musl-libc.org/releases/musl-1.1.21.tar.gz
 
 [vars]
-filesize=977827
-sha512=d3a7a30aa375ca50d7dcfbd618581d59e1aa5378417f50a0ca5510099336fd74cc9db468e05c93dda3067abd890f6bd47af226c3446bb833adf0a5054bff2e5d
-pkgver=6
+filesize=987341
+sha512=fa6c4cc012626c5e517e0e10926fc845e3aa5f863ffaceeb38ac5b9ce0af631a37f6b94f470997db09aa0d5e03f4f28a2db83484b0f98481bea2239c1989d363
+pkgver=7
 
 [deps.stage0]
 stage0-gcc
@@ -14,7 +14,6 @@ stage0-gcc
 test "$STAGE" = "0" || exit 0
 
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
-patch -p1 < "$K"/musl-1.1.20-lock_race.patch
 
 CC=$R/bin/gcc ./configure --enable-gcc-wrapper \
   --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
