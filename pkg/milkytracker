@@ -1,30 +1,54 @@
 [mirrors]
-http://milkytracker.titandemo.org/files/milkytracker-0.90.86.tar.bz2
+https://github.com/milkytracker/MilkyTracker/archive/v1.02.00.tar.gz
 
 [vars]
-filesize=2202256
-sha512=8142f0b438e478571db25960d1b31f1d8c7e68feea96bdd238d1b1c1744105d929f18c990a301af6bebfc2d517bad687232410477ced6d8c4bfec8053cfcad8e
-pkgver=2
+filesize=3753882
+sha512=479a7b3198d97c68dca4fa772a2aa64d7f740957f5d8038fabfb303e724c85aec0865746a0a5c3ef6b9599b78892dcda22727ab2bb80ae38764bcf81b249e134
+tarball=milkytracker-1.02.00.tar.gz
+tardir=MilkyTracker-1.02.00
+uchkurl=https://github.com/milkytracker/MilkyTracker/releases
+pkgver=3
 
 [deps]
 alsa-lib
-sdl
+sdl2
 zlib
 zziplib
 
+[deps.host]
+cmake
+
 [build]
-printf "#!/bin/sh\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
-chmod +x sdl-config
+#printf "#!/bin/sh\necho -lSDL -I$butch_root_dir$butch_prefix/include/SDL\n" > sdl-config
+#chmod +x sdl-config
+#export PATH="$PWD:$PATH"
 
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine) \
-  --with-sysroot=$butch_root_dir"
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
 
-PATH="$PWD:$PATH" \
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags -std=gnu++03" \
-LDFLAGS="$optldflags -lasound -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
-make -j$MAKE_THREADS
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
 
 # install desktop file
