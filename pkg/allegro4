@@ -1,11 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/project/alleg/allegro/4.4.2/allegro-4.4.2.tar.gz
-http://switch.dl.sourceforge.net/project/alleg/allegro/4.4.2/allegro-4.4.2.tar.gz
-http://heanet.dl.sourceforge.net/project/alleg/allegro/4.4.2/allegro-4.4.2.tar.gz
+https://github.com/liballeg/allegro5/releases/download/4.4.3/allegro-4.4.3.tar.gz
 
 [vars]
-filesize=4674902
-sha512=ad4bc1c15fc83bc8a019031fed82f37a793664bb6683cf023ec05fd9cd945f00f43764f3126892426036249c63afa5678fb4906407bb325ce5827b36aee0fa86
+filesize=4759422
+sha512=e2ad0b0e958fcfbc1e2afa012ca4f50968fe6e59fc0fa7779d31f8466412ee5e5d08e2d64845acdfdb30b872910354207dafcb1011fb00c61f825b612b72dcf5
+pkgver=2
 
 [deps.host]
 cmake
