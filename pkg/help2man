@@ -1,0 +1,27 @@
+[mirrors]
+http://gnu.askapache.com/help2man/help2man-1.47.8.tar.xz
+http://ftp.gnu.org/gnu/help2man/help2man-1.47.8.tar.xz
+
+[vars]
+filesize=200264
+sha512=05e420560b143042418db2e992beaef45cc5a568cdbf640c7b285ba2dc322290d14e0df978ff4c412a99f4346e38f6fb9796ebda695ddc002a3d0e74e85725d6
+pkgver=1
+
+[deps]
+perl
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
