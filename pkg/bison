@@ -1,12 +1,13 @@
 [mirrors]
-ftp://ftp.gnu.org/gnu/bison/bison-3.2.4.tar.xz
-http://gnu.mirrorcatalogs.com/bison/bison-3.2.4.tar.xz
-http://spout.ussg.indiana.edu/gnu/bison/bison-3.2.4.tar.xz
+http://ftpmirror.gnu.org/gnu/bison/bison-2.6.2.tar.xz
+ftp://ftp.gnu.org/gnu/bison/bison-2.6.2.tar.xz
+http://gnu.mirrorcatalogs.com/bison/bison-2.6.2.tar.xz
+http://spout.ussg.indiana.edu/gnu/bison/bison-2.6.2.tar.xz
 
 [vars]
-filesize=2094568
-sha512=652b54fdee969bbc17eeb04d05d65f143e8e0e1b46ac2574e3a76687b9bd916c9a0c97658b4f8357958d64e87fe2a6a2a98a6c312970f0e74fb4445962e9daae
-pkgver=2
+filesize=1650196
+sha512=2a09033542f81737b0266bd1b3789f8cb09a2a6841e9a4577bce27f0f77b96c3f1ac3e10e06a801e99fc3cb20b35ed197a59cbea45e20592095c00a3a6bf62d6
+pkgver=3
 desc="a yacc-compatible parser generator"
 
 [deps.host]
