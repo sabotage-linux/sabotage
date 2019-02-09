@@ -1,0 +1,37 @@
+From 687b95b41fb178382cecac7c7f5b1a078503431e Mon Sep 17 00:00:00 2001
+From: Jari Ronkainen <ronchaine@gmail.com>
+Date: Tue, 3 Jul 2018 19:34:09 +0300
+Subject: [PATCH] Do not use deprecated stuff that only glibc now implements
+
+---
+ thirdparty/thekla_atlas/nvmath/nvmath.h | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/thirdparty/thekla_atlas/nvmath/nvmath.h b/thirdparty/thekla_atlas/nvmath/nvmath.h
+index f2b69426e16..a697f9293d8 100644
+--- a/thirdparty/thekla_atlas/nvmath/nvmath.h
++++ b/thirdparty/thekla_atlas/nvmath/nvmath.h
+@@ -181,10 +181,8 @@ namespace nv
+     {
+ #if NV_OS_WIN32 || NV_OS_XBOX || NV_OS_DURANGO
+         return _finite(f) != 0;
+-#elif NV_OS_DARWIN || NV_OS_FREEBSD || NV_OS_OPENBSD || NV_OS_ORBIS
++#elif NV_OS_DARWIN || NV_OS_FREEBSD || NV_OS_OPENBSD || NV_OS_ORBIS || NV_OS_LINUX
+         return isfinite(f);
+-#elif NV_OS_LINUX
+-        return finitef(f);
+ #else
+ #   error "isFinite not supported"
+ #endif
+@@ -196,10 +194,8 @@ namespace nv
+     {
+ #if NV_OS_WIN32 || NV_OS_XBOX || NV_OS_DURANGO
+         return _isnan(f) != 0;
+-#elif NV_OS_DARWIN || NV_OS_FREEBSD || NV_OS_OPENBSD || NV_OS_ORBIS
++#elif NV_OS_DARWIN || NV_OS_FREEBSD || NV_OS_OPENBSD || NV_OS_ORBIS || NV_OS_LINUX
+         return isnan(f);
+-#elif NV_OS_LINUX
+-        return isnanf(f);
+ #else
+ #   error "isNan not supported"
+ #endif

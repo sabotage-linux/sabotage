@@ -1,0 +1,10 @@
+--- godot-3.0.6-stable.org/platform/x11/joypad_linux.cpp
++++ godot-3.0.6-stable/platform/x11/joypad_linux.cpp
+@@ -36,6 +36,7 @@
+ #include <fcntl.h>
+ #include <linux/input.h>
+ #include <unistd.h>
++#include <byteswap.h>
+ 
+ #ifdef UDEV_ENABLED
+ #include <libudev.h>

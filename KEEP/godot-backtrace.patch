@@ -1,0 +1,11 @@
+--- godot-3.0.6-stable.org/platform/x11/crash_handler_x11.cpp
++++ godot-3.0.6-stable/platform/x11/crash_handler_x11.cpp
+@@ -37,6 +37,8 @@
+ #include "os/os.h"
+ #include "project_settings.h"
+ 
++#undef CRASH_HANDLER_ENABLED
++
+ #ifdef CRASH_HANDLER_ENABLED
+ #include <cxxabi.h>
+ #include <dlfcn.h>

@@ -1,0 +1,49 @@
+[mirrors]
+https://github.com/godotengine/godot/archive/3.0.6-stable.tar.gz
+
+[vars]
+filesize=18958766
+sha512=034f32f7ca2e2b04a65dc0f0c7f92514e7627b0598c33de4dff827d7be1ba3c234258dca2363c73e06e3869ed24c133130a176ed938fb19492c7b192506d7187
+tarball=godot-3.0.6-stable.tar.gz
+pkgver=1
+
+[deps]
+mesalib
+libxi
+
+[deps.host]
+scons
+
+[build]
+patch -p1 < "$K"/godot-backtrace.patch
+patch -p1 < "$K"/godot-bswap.patch
+patch -p1 < "$K"/godot-isnanf.patch
+
+#[ -z "$butch_prefix" ] && butch_prefix=/
+scons CC="$CC" CFLAGS="-D_GNU_SOURCE $optcflags" LINKFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" \
+  ZLIB="$butch_root_dir""$butch_prefix" \
+  OPENSSL="$butch_root_dir""$butch_prefix" \
+  platform=x11 \
+  -j$MAKE_THREADS
+
+#Linking Static Library ==> modules/svg/libsvg_builtin.x11.tools.64.a
+#Linking Static Library ==> modules/recast/librecast_builtin.x11.tools.64.a
+#Linking Static Library ==> core/libcore.x11.tools.64.a
+#Linking Static Library ==> servers/libservers.x11.tools.64.a
+#Linking Program        ==> bin/godot.x11.tools.64
+
+dest="$butch_install_dir""$butch_prefix"
+
+install -Dm 755 bin/godot.x11.tools.* "$dest"/bin/godot
+cat << EOF > godot.desktop
+[Desktop Entry]
+Name=Godot
+Comment=Application for making games
+Exec=/usr/bin/godot %U
+Icon=godot
+Terminal=false
+Type=Application
+Categories=Utility;Game;
+EOF
+install -Dm 644 godot.desktop "$dest"/share/applications/godot.desktop
