@@ -26,6 +26,8 @@ flex
 bison
 
 [build]
+patch -p1 < "$K"/mesalib-stacksize.patch
+
 if false ; then
   # add mesaglut to deps when you need it
   # currently this is non-functional as nothing in the glut src tree will
