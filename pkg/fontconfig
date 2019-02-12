@@ -9,6 +9,7 @@ pkgver=5
 [deps]
 freetype
 expat
+libuuid
 
 [deps.host]
 pkgconf
