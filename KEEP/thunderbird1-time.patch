@@ -1,0 +1,11 @@
+--- a/intl/locale/src/unix/nsDateTimeFormatUnix.cpp	2019-02-14 22:56:15.434104240 +0530
++++ b/intl/locale/src/unix/nsDateTimeFormatUnix.cpp	2019-02-14 22:59:43.670734560 +0530
+@@ -137,7 +137,7 @@
+   struct tm *tmc;
+   int i;
+ 
+-  tt = time((time_t)NULL);
++  tt = time((time_t*)NULL);
+   tmc = localtime(&tt);
+ 
+   tmc->tm_hour=22;    // put the test sample hour to 22:00 which is 10PM

@@ -24,6 +24,8 @@ patch -p1 < "$K"/thunderbird1-linux-detection.patch
 patch -p1 < "$K"/thunderbird1-chrome-registry.patch
 patch -p1 < "$K"/thunderbird1-useragent.patch
 patch -p1 < "$K"/thunderbird1-putentry.patch
+patch -p1 < "$K"/thunderbird1-time.patch
+patch -p1 < "$K"/thunderbird1-operator-fips.patch
 
 # https://bugzilla.mozilla.org/show_bug.cgi?id=416463
 rm xpcom/obsolete/component/nsFileSpecImpl.h \
