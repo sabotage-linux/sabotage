@@ -1,0 +1,28 @@
+[mirrors]
+http://download.savannah.gnu.org/releases/quilt/quilt-0.65.tar.gz
+
+[vars]
+filesize=410780
+sha512=37dffe34fe209371f2fbc0af2dbb4dcfa6edd2221aed15f31a0651a0bd457f2af03a98450a3e63406f70e040e944246e5b23733b820665eeb3fd4ff2bdde3a08
+desc='quilt is for managing large sets of patches with make'
+pkgver=1
+
+[deps]
+diffutils
+sed
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
