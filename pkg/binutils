@@ -1,10 +1,12 @@
 [mirrors]
-ftp://sourceware.org/pub/binutils/snapshots/binutils-2.24.90.tar.bz2
-http://www.mirrorservice.org/sites/sourceware.org/pub/binutils/snapshots/binutils-2.24.90.tar.bz2
+ftp://ftp.gnu.org/gnu/binutils/binutils-2.27.tar.bz2
+http://ftp.gnu.org/gnu/binutils/binutils-2.27.tar.bz2
+https://mirrors.tripadvisor.com/gnu/binutils/binutils-2.27.tar.bz2
 
 [vars]
-filesize=23659627
-sha512=dcd93cb314d5c275529c58d134956e48d64860bdd2e58bc94aa339aeba0ee66fbd7423ace1f71eba9905fa5b05db922c2242f585c8eef0247c4fa5fda56367af
+filesize=26099568
+sha512=cf276f84935312361a2ca077e04d0b469d23a3aed979d8ba5d92ea590904ffb2c2e7ed12cc842822bfc402836be86f479660cef3791aa62f3753d8a1a6f564cb
+pkgver=2
 desc="provides linker, assembler and other utils to handle object files"
 no_unlink=1
 
@@ -12,8 +14,13 @@ no_unlink=1
 stage0-musl
 
 [build]
-patch -p1 < "$K"/binutils-arm.patch
+patch -p1 < "$K"/binutils-j2.patch
+patch -p1 < "$K"/binutils-pr17739-sh-gc-sections-bug.patch
+patch -p1 < "$K"/binutils-microblaze-pr21017.patch
+patch -p1 < "$K"/binutils-mips-pie-tls.patch
 patch -p1 < "$K"/binutils-reproducible.patch
+
+sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
 "$K"/libibertyfix libiberty
 
