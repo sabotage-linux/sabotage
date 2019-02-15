@@ -18,6 +18,7 @@ cp -f "$K"/config.sub .
 # http://m.baert.free.fr/contrib/docs/libmad/ (documentation patch)
 # AVR32 patch http://www.mars.org/pipermail/mad-dev/2010-March/001410.html
 
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 CPPFLAGS=-D_GNU_SOURCE \
