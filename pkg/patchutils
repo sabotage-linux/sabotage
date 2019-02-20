@@ -1,9 +1,10 @@
-[vars]
-filesize=160193
-sha512=217354f69f1afbe5e5de64a7901eb0c82823696567226ebc2e077167ccfe6dfb85969f3961c631701fc38bc4635c4caf7fb0920eaa85e0ea2cc3a88d844bc1e3
-
 [mirrors]
-http://cyberelk.net/tim/data/patchutils/stable/patchutils-0.3.2.tar.bz2
+http://cyberelk.net/tim/data/patchutils/stable/patchutils-0.3.4.tar.xz
+
+[vars]
+filesize=166400
+sha512=ede006122fad180b78feaf69294f1c40c0a764981fa581f1893abeeb0421f9d586fc33f79d065690a6bc6187a31f11311b086669879dde12c6e49c7c8a2aa440
+pkgver=2
 
 [deps.run]
 perl
