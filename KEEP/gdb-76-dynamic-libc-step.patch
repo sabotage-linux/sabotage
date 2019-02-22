@@ -1,0 +1,14 @@
+since musl's dynlinker is also the libc, this function meant to prevent
+from stepping into dynlinker's lazy-loading resolve code, actually prevents
+from stepping the entire libc.so.
+
+--- gdb-7.6.2/gdb/solib-svr4.c
++++ gdb-7.6.2.org/gdb/solib-svr4.c
+@@ -1368,6 +1368,7 @@
+ int
+ svr4_in_dynsym_resolve_code (CORE_ADDR pc)
+ {
++  return 0;
+   struct svr4_info *info = get_svr4_info ();
+ 
+   return ((pc >= info->interp_text_sect_low

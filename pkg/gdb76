@@ -32,6 +32,7 @@ patch -p1 < "$K"/gdb-76-pid_t.patch
 patch -p1 < "$K"/gdb-76-configure-ash.patch
 patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 patch -p1 < "$K"/gdb-76-aarch64-linux-nat.patch
+patch -p1 < "$K"/gdb-76-dynamic-libc-step.patch
 
 # fix mips build ...
 cp "$K"/gdb-sgidefs.h gdb/sgidefs.h
