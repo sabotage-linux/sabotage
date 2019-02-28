@@ -4,7 +4,7 @@ http://ftp.gnome.org/pub/gnome/sources/glib/2.54/glib-2.54.2.tar.xz
 [vars]
 filesize=7830724
 sha512=09ee6fa3a6f3f15af229bd789bef536e3570f36d1e4ce624a57e97c4040577f6baccd6ab5746257863ccf7173b558cfa753951d562a278f854e52604104ba7ee
-pkgver=2
+pkgver=3
 
 [deps]
 musl
@@ -50,6 +50,21 @@ make V=1 -j$MAKE_THREADS DESTDIR="$butch_install_dir" \
 
 make DESTDIR="$butch_install_dir" install
 
+dest="$butch_install_dir""$butch_prefix"
+
 # the new glib-mkenums script was poorly translated to python and even though
 # it was apparently intended to work with python2+3, it fails with python2
-install -Dm 755 "$K"/glib-mkenums "$butch_install_dir""$butch_prefix"/bin/glib-mkenums
+install -Dm 755 "$K"/glib-mkenums "$dest"/bin/glib-mkenums
+
+#install glib-genmarshal program from glib 2.53.3, which doesn't require python
+#it is needed by some glib using programs, like eudev
+#check this commit message for a true WTF moment:
+#https://gitlab.gnome.org/GNOME/glib/commit/93f16a45abe81c3186c84a343a2e47493cf5d875
+cd gobject
+cp -f "$K"/glib-gmarshal.strings gmarshal.strings
+cp -f "$K"/glib-genmarshal.c glib-genmarshal.c
+$CC $optcflags $optldflags -I .. -I ../glib -L ../glib/.libs/ -lglib-2.0 \
+  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib  glib-genmarshal.c \
+  -o glib-genmarshal-bin
+install -Dm 755 glib-genmarshal-bin "$dest"/bin/glib-genmarshal
+cd ..
