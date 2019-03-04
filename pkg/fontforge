@@ -1,0 +1,42 @@
+[mirrors]
+https://github.com/fontforge/fontforge/releases/download/20170731/fontforge-dist-20170731.tar.xz
+
+[vars]
+filesize=13985256
+sha512=26f7a40714460716a24dd0229fdb027f3766bcc48db64b8993436ddcb6277898f9f3b67ad4fc0be515b2b38e01370d1c7d9ee3c6ece1be862b7d8c9882411f11
+tardir=fontforge-2.0.20170731
+pkgver=1
+desc='truetype font editor'
+
+[deps]
+freetype
+libz
+pango
+libxml2
+glib
+libice
+libx11
+gtk+2
+
+[build]
+sed -i 's/date --version/true/' configure
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+SOURCE_DATE_EPOCH=1551570000 \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-shared \
+  --enable-gtk2-use \
+  --disable-rpath \
+  --with-included-ltdl
+
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
