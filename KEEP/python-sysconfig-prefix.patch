@@ -1,0 +1,20 @@
+--- Python-2.7.15.org/Lib/distutils/sysconfig.py
++++ Python-2.7.15/Lib/distutils/sysconfig.py
+@@ -74,7 +74,7 @@
+     If 'prefix' is supplied, use it instead of sys.prefix or
+     sys.exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         prefix = plat_specific and EXEC_PREFIX or PREFIX
+ 
+     if os.name == "posix":
+@@ -115,7 +115,7 @@
+     If 'prefix' is supplied, use it instead of sys.prefix or
+     sys.exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         prefix = plat_specific and EXEC_PREFIX or PREFIX
+ 
+     if os.name == "posix":

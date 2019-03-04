@@ -1,5 +1,5 @@
---- Python-2.7.3.org/Modules/getpath.c	2012-04-09 23:07:34.000000000 +0000
-+++ Python-2.7.3/Modules/getpath.c	2013-08-03 23:17:07.569000003 +0000
+--- Python-2.7.15.org/Modules/getpath.c
++++ Python-2.7.15/Modules/getpath.c
 @@ -5,6 +5,8 @@
  
  #include <sys/types.h>
@@ -9,7 +9,7 @@
  
  #ifdef __APPLE__
  #include <mach-o/dyld.h>
-@@ -135,8 +137,13 @@
+@@ -114,8 +116,13 @@
  reduce(char *dir)
  {
      size_t i = strlen(dir);
@@ -23,7 +23,7 @@
      dir[i] = '\0';
  }
  
-@@ -267,7 +274,7 @@
+@@ -246,7 +253,7 @@
      /* If PYTHONHOME is set, we believe it unconditionally */
      if (home) {
          char *delim;
@@ -32,7 +32,7 @@
          delim = strchr(prefix, DELIM);
          if (delim)
              *delim = '\0';
-@@ -276,6 +283,11 @@
+@@ -255,6 +262,11 @@
          return 1;
      }
  
@@ -44,7 +44,7 @@
      /* Check to see if argv[0] is in the build directory */
      strcpy(prefix, argv0_path);
      joinpath(prefix, "Modules/Setup");
-@@ -290,7 +302,13 @@
+@@ -269,7 +281,13 @@
              return -1;
      }
  
@@ -59,7 +59,7 @@
      copy_absolute(prefix, argv0_path);
      do {
          n = strlen(prefix);
-@@ -301,9 +319,15 @@
+@@ -280,9 +298,15 @@
          prefix[n] = '\0';
          reduce(prefix);
      } while (prefix[0]);
@@ -76,15 +76,21 @@
      joinpath(prefix, lib_python);
      joinpath(prefix, LANDMARK);
      if (ismodule(prefix))
-@@ -344,6 +368,7 @@
+@@ -335,7 +359,13 @@
+       }
      }
  
++    if(!access(EXEC_PREFIX "/bin/python", X_OK)) {
++       snprintf(exec_prefix, sizeof exec_prefix, "%s", EXEC_PREFIX);
++       return 1;
++    }
++
      /* Search from argv0_path, until root is found */
 +    if(!strstr(argv0_path, "python")) goto skip_argv0_madness;
      copy_absolute(exec_prefix, argv0_path);
      do {
          n = strlen(exec_prefix);
-@@ -354,9 +379,16 @@
+@@ -346,9 +376,16 @@
          exec_prefix[n] = '\0';
          reduce(exec_prefix);
      } while (exec_prefix[0]);
@@ -102,7 +108,7 @@
      joinpath(exec_prefix, lib_python);
      joinpath(exec_prefix, "lib-dynload");
      if (isdir(exec_prefix))
-@@ -574,6 +606,12 @@
+@@ -566,6 +603,12 @@
      bufsz += strlen(zip_path) + 1;
      bufsz += strlen(exec_prefix) + 1;
  
@@ -115,7 +121,7 @@
      /* This is the only malloc call in this file */
      buf = (char *)PyMem_Malloc(bufsz);
  
-@@ -592,10 +630,6 @@
+@@ -584,10 +627,6 @@
          else
              buf[0] = '\0';
  
@@ -126,7 +132,7 @@
          /* Next goes merge of compile-time $PYTHONPATH with
           * dynamically located prefix.
           */
-@@ -622,8 +656,17 @@
+@@ -617,8 +656,17 @@
          }
          strcat(buf, delimiter);
  

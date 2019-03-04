@@ -5,7 +5,7 @@ http://sources.buildroot.net/Python-2.7.15.tar.xz
 [vars]
 filesize=12642436
 sha512=27ea43eb45fc68f3d2469d5f07636e10801dee11635a430ec8ec922ed790bb426b072da94df885e4dfa1ea8b7a24f2f56dd92f9b0f51e162330f161216bd6de6
-pkgver=5
+pkgver=6
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
@@ -30,6 +30,7 @@ patch -p1 < "$K"/python273-pathsearch.patch
 patch -p1 < "$K"/python-xcompile.patch
 patch -p1 < "$K"/python-includedirs.patch
 patch -p1 < "$K"/python-UTF-8.patch
+patch -p1 < "$K"/python-sysconfig-prefix.patch
 
 # below lines are commented out, because even though they should improve libedit support,
 # the resulting readline module doesn't deal correctly with tab completion.
