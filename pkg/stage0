@@ -1,13 +1,8 @@
 [deps.stage0]
-jobflow
-sabotage-core
+base-sys
 services
 stage0-gcc
 stage0-musl
-kernel-headers
-busybox
-patch
-binutils
-make
+base-dev
 
 

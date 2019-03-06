@@ -1,0 +1,7 @@
+[deps]
+jobflow
+sabotage-core
+kernel-headers
+patch
+binutils
+make

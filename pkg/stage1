@@ -1,9 +1,7 @@
 [deps]
-jobflow
-sabotage-core
+base-sys
 kbd
 9base
-busybox
 e2fsprogs
 gcc6
 gmp
@@ -13,10 +11,12 @@ musl
 man
 zlib
 binutils
-patch
 join
 libressl
 ca-certificates
+
+[deps.host]
+base-dev
 
 [build]
 rm -rf "$butch_root_dir""$butch_staging_dir"/stage1
