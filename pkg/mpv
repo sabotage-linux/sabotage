@@ -19,6 +19,8 @@ lua52
 python
 
 [build]
+patch -p1 < "$K"/mpv-29-alsa-spam.patch
+
 testlib() {
 	printf "int main() {}\n" > test_lib.c
 	$CC test_lib.c -l$1 >/dev/null 2>&1

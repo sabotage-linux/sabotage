@@ -1,0 +1,36 @@
+fix spam in terminal when video is paused and mouse hovered over mpv window
+
+https://github.com/mpv-player/mpv/issues/5890
+
+manual revert of 945303a92ecac73ba430b9eac0f10279cd95a32a
+
+diff --git a/audio/out/ao_alsa.c b/audio/out/ao_alsa.c
+index 32f08bef59..257f633b18 100644
+--- a/audio/out/ao_alsa.c
++++ b/audio/out/ao_alsa.c
+@@ -939,19 +939,13 @@ static void drain(struct ao *ao)
+ static int get_space(struct ao *ao)
+ {
+     struct priv *p = ao->priv;
+-
+-    snd_pcm_sframes_t space = snd_pcm_avail(p->alsa);
+-    if (space < 0) {
+-        MP_ERR(ao, "Error received from snd_pcm_avail (%ld, %s)!\n",
+-               space, snd_strerror(space));
+-        if (space == -EPIPE) // EOF
+-            return p->buffersize;
+-
+-        // request a reload of the AO if device is not present,
+-        // then error out.
+-        check_device_present(ao, space);
++    snd_pcm_status_t *status;
++    snd_pcm_status_alloca(&status);
++    int err = snd_pcm_status(p->alsa, status);
++    if (!check_device_present(ao, err))
+         goto alsa_error;
+-    }
++    CHECK_ALSA_ERROR("cannot get pcm status");
++    unsigned space = snd_pcm_status_get_avail(status);
+ 
+     if (space > p->buffersize) // Buffer underrun?
+         space = p->buffersize;
