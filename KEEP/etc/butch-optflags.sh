@@ -25,7 +25,7 @@ isgcc3=0
 [ "$STAGE" = 0 ] || is_gcc3 && isgcc3=1
 
 optcflags="-fdata-sections -ffunction-sections -Os -g0 -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack"
-optldflags="-s -Wl,--gc-sections -Wl,-z,relro,-z,now"
+optldflags="-s -Wl,--gc-sections -Wl,-z,relro,-z,now -Wl,-z,text"
 [ "$isx86" = 1 ] || [ "$A" = x86_64 ] && [ "$isgcc3" = 0 ] && \
 	optcflags="$optcflags -mtune=generic"
 
