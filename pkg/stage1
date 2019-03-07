@@ -17,6 +17,3 @@ ca-certificates
 
 [deps.host]
 base-dev
-
-[build]
-rm -rf "$butch_root_dir""$butch_staging_dir"/stage1
