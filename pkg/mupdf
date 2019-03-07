@@ -51,3 +51,8 @@ LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   LD="$CROSS_COMPILE"ld \
   USE_SYSTEM_LIBS=yes USE_SYSTEM_OPENJPEG=no \
   prefix="$butch_prefix" build=release install
+
+# we assume mupdf is only used as "app", not library
+dest="$butch_install_dir""$butch_prefix"
+test -n "$butch_install_dir" && \
+  rm -rf "$dest"/include "$dest"/lib/*.a
