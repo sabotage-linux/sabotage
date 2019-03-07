@@ -357,24 +357,41 @@ if $have_files ; then
 			printf "%s: done\n" "$(timestamp)"
 		fi
 	fi
-	if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] && has_bins ; then
-		printf "%s: stripping debug info into external files...\n" "$(timestamp)"
-		mkdir -p lib/debug && chmod 775 lib/debug
+	if has_bins ; then
+		strip_debug=false
+		if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
+			strip_debug=true
+			butch_do_strip_comments=false
+			printf "%s: stripping debug info into external files...\n" "$(timestamp)"
+			mkdir -p lib/debug && chmod 775 lib/debug
+		fi
+		if $butch_do_strip_comments ; then
+			printf "%s: stripping comment section of binaries...\n" "$(timestamp)"
+		fi
 		for i in lib/*.so* bin/* ; do
 			printf "%s" "$i" | grep '\*'>/dev/null && continue
 			[ -L "$i" ] || [ -d "$i" ] && continue
 			case "$i" in bin*)
 				elf=$(dd if="$i" bs=1 skip=1 count=3 2>/dev/null)
 				[ "$elf" != "ELF" ] && continue
+				if $butch_do_strip_comments ; then
+					"$CROSS_COMPILE"strip --remove-section .comment "$i"
+				fi
 			esac
-			name=$(printf "%s" "$i" | sed 's@/@_@')
-			"$CROSS_COMPILE"objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
-			"$CROSS_COMPILE"strip --strip-debug --strip-unneeded "$i" &&
-			"$CROSS_COMPILE"objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
+			if $strip_debug ; then
+				name=$(printf "%s" "$i" | sed 's@/@_@')
+				"$CROSS_COMPILE"objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
+				"$CROSS_COMPILE"strip --strip-debug --strip-unneeded "$i" &&
+				"$CROSS_COMPILE"objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
+			fi
 		done
-		test $(ls lib/debug | wc -l) = 0 && rm -rf lib/debug || \
-		chmod 664 lib/debug/*
-		printf "%s: done\n" "$(timestamp)"
+		if $strip_debug ; then
+			test $(ls lib/debug | wc -l) = 0 && rm -rf lib/debug || \
+			chmod 664 lib/debug/*
+		fi
+		if $strip_debug || $butch_do_strip_comments ; then
+			printf "%s: done\n" "$(timestamp)"
+		fi
 	fi
 
 	# here you could place some code that makes a tarball out of $butch_install_dir
