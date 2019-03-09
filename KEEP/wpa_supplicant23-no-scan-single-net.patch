@@ -1,0 +1,168 @@
+this patch prevents wpasupp from scanning when only a single network is
+enabled in the config. the scan is only done once on start, and when
+10 auth failures happened in a row (by which we assume the channel changed).
+other than that, it will directly reconnect to the saved BSS data.
+the top hunk of the patch additionally has a fix for an interface getting
+"stuck" by downing and upping the interface when a certain error condition
+is detected.
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index d030474..65536b3 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -6197,6 +6197,39 @@ static void nl80211_copy_auth_params(struct wpa_driver_nl80211_data *drv,
+ 	}
+ }
+ 
++#include <sys/ioctl.h>
++#include <sys/socket.h>
++/* set an interface up or down, depending on whether up is set.
++   if checkonly is true, no change will be made and the result
++   of the function can be interpreted as "isdownup".
++   if the interface was already up/down, 2 is returned.
++   if the interface was successfully upped/downed, 1 is returned.
++   0 is only returned if checkonly is set and the interface was not
++   in the queried state.
++   -1 is returned on error. */
++static int ifdownup(const char *dev, int up, int checkonly) {
++        int fd, ret = -1;
++        if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) return -1;
++        struct ifreq ifr = {0};
++        strcpy(ifr.ifr_name, dev);
++        if(ioctl(fd, SIOCGIFFLAGS, &ifr) <0) goto done;
++        int isup = ifr.ifr_flags & IFF_UP;
++        if((up && isup) || (!up && !isup)) ret = 2;
++        else if (checkonly) ret = 0;
++        else {
++                if(up) ifr.ifr_flags |= IFF_UP;
++                else   ifr.ifr_flags &= ~(IFF_UP);
++                ret = (ioctl(fd, SIOCSIFFLAGS, &ifr) >= 0);
++        }
++        done:
++        close(fd);
++        return ret;
++}
++
++static int auth_fails;
++int wpa_driver_nl80211_get_auth_fails(void) {
++	return auth_fails;
++}
+ 
+ static int wpa_driver_nl80211_authenticate(
+ 	struct i802_bss *bss, struct wpa_driver_auth_params *params)
+@@ -6299,10 +6332,30 @@ retry:
+ 
+ 	ret = send_and_recv_msgs(drv, msg, NULL, NULL);
+ 	msg = NULL;
++
++	const char *ifname = bss->ifname;
++#if 0
++	struct wpa_supplicant *wpa_s = drv->ctx;
++	ifname = wpa_s->ifname;
++
++#endif
++	wpa_dbg(drv->ctx, MSG_DEBUG,
++		"nl80211: MLME XXXXX ifname %s", ifname);
++
+ 	if (ret) {
+ 		wpa_dbg(drv->ctx, MSG_DEBUG,
+ 			"nl80211: MLME command failed (auth): ret=%d (%s)",
+ 			ret, strerror(-ret));
++		if(-ret == ENOENT) {
++			/* rtl8187 driver seems to have a bug which causes the
++			   netlink call to return "no such file or directory"
++			   at times. bringing the interface down and up again
++			   fixes it */
++			wpa_dbg(drv->ctx, MSG_DEBUG,
++			"XXXX it seems interface is unusable, trying to bring it up again...");
++			ifdownup(ifname, 0, 0);
++			ifdownup(ifname, 1, 0);
++		}
+ 		count++;
+ 		if (ret == -EALREADY && count == 1 && params->bssid &&
+ 		    !params->local_state_change) {
+@@ -6368,9 +6421,11 @@ retry:
+ 	ret = 0;
+ 	wpa_printf(MSG_DEBUG, "nl80211: Authentication request send "
+ 		   "successfully");
++	auth_fails = 0;
+ 
+ nla_put_failure:
+ 	nlmsg_free(msg);
++	if(ret) auth_fails++;
+ 	return ret;
+ }
+ 
+diff --git a/wpa_supplicant/bss.c b/wpa_supplicant/bss.c
+index 7d01a5f..342bdab 100644
+--- a/wpa_supplicant/bss.c
++++ b/wpa_supplicant/bss.c
+@@ -774,6 +774,10 @@ void wpa_bss_flush_by_age(struct wpa_supplicant *wpa_s, int age)
+ 	if (dl_list_empty(&wpa_s->bss))
+ 		return;
+ 
++	/* do not remove "old" bss if there's only one enabled net */
++	if (wpa_supplicant_enabled_networks(wpa_s) == 1)
++		return;
++
+ 	os_get_reltime(&t);
+ 	t.sec -= age;
+ 
+diff --git a/wpa_supplicant/scan.c b/wpa_supplicant/scan.c
+index debceb9..7c33a86 100644
+--- a/wpa_supplicant/scan.c
++++ b/wpa_supplicant/scan.c
+@@ -596,6 +596,21 @@ static void wpa_set_scan_ssids(struct wpa_supplicant *wpa_s,
+ }
+ 
+ 
++static void wpa_supplicant_get_first_enabled_network (
++	struct wpa_supplicant *wpa_s,
++	struct wpa_ssid **enabled_ssid)
++{
++	struct wpa_ssid *ssid;
++	*enabled_ssid = 0;
++	for (ssid = wpa_s->conf->ssid; ssid ; ssid = ssid->next) {
++		if (!wpas_network_disabled(wpa_s, ssid)) {
++			*enabled_ssid = ssid;
++			return;
++		}
++	}
++}
++
++extern int wpa_driver_nl80211_get_auth_fails(void);
+ static void wpa_supplicant_scan(void *eloop_ctx, void *timeout_ctx)
+ {
+ 	struct wpa_supplicant *wpa_s = eloop_ctx;
+@@ -633,7 +648,30 @@ static void wpa_supplicant_scan(void *eloop_ctx, void *timeout_ctx)
+ 		return;
+ 	}
+ 
+-	if (!wpa_supplicant_enabled_networks(wpa_s) &&
++	int enabled_count = wpa_supplicant_enabled_networks(wpa_s);
++	// the wpa_driver_nl80211_get_auth_fails() calls is to force a new
++	// scan in case the frequency changed.
++	if (enabled_count == 1 && wpa_s->last_scan_res && wpa_driver_nl80211_get_auth_fails() < 10) { // XXXXXX
++		wpa_printf(MSG_DEBUG, "only 1 enabled net, disabling scan\n");
++		wpa_supplicant_get_first_enabled_network(wpa_s, &ssid);
++		//wpa_s->connect_without_scan = NULL;
++		if (ssid) {
++			wpa_printf(MSG_DEBUG, "xStart a pre-selected network "
++					"without scan step");
++
++			// this works only with a wpa_bss struct having freq set
++			struct wpa_bss *bss = wpa_bss_get(wpa_s, ssid->bssid, ssid->ssid, ssid->ssid_len);
++			if(bss) {
++				wpa_supplicant_associate(wpa_s, bss, ssid);
++				//wpa_supplicant_assoc_try(wpa_s, ssid);
++				//wpas_notify_ap_scan_changed(wpa_s);
++				//wpa_supplicant_gen_assoc_event(wpa_s);
++				return;
++			}
++		}
++	}
++
++	if (!enabled_count &&
+ 	    wpa_s->scan_req == NORMAL_SCAN_REQ) {
+ 		wpa_dbg(wpa_s, MSG_DEBUG, "No enabled networks - do not scan");
+ 		wpa_supplicant_set_state(wpa_s, WPA_INACTIVE);

@@ -23,6 +23,7 @@ patch -p1 < "$K"/wpa_supplicant23-libressl.patch
 patch -p1 < "$K"/wpa_supplicant-cracker.patch
 #patch -p0 < "$K"/wpa_supplicant25-libressl.patch
 patch -p0 < "$K"/wpa_supplicant25-eloop.patch
+patch -p1 < "$K"/wpa_supplicant23-no-scan-single-net.patch
 cd wpa_supplicant
 cp defconfig .config
 
