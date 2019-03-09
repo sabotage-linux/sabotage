@@ -47,6 +47,9 @@ for hook in /etc/zzz.d/suspend/*; do
   [ -x "$hook" ] && "$hook"
 done
 
+count=0
+tsave=$(date '+%s')
+while test $count -lt 5 ; do
 case "$ZZZ_MODE" in
   standby) printf freeze >/sys/power/state || fail "standby failed";;
   suspend) printf mem >/sys/power/state || fail "suspend failed";;
@@ -55,6 +58,11 @@ case "$ZZZ_MODE" in
 	printf disk >/sys/power/state || fail "hibernate failed";;
   noop) sleep 5;;
 esac
+count=$(($count + 1))
+now=$(date '+%s')
+test $(($now - $tsave)) -gt 5 && break
+tsave=$now
+done
 
 for hook in /etc/zzz.d/resume/*; do
   [ -x "$hook" ] && "$hook"
