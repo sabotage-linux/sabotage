@@ -6,10 +6,11 @@ echo sabotage booting
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 
+mkdir -p /var/run
+mount -t tmpfs -o nosuid,nodev,mode=0755 run /var/run
+
 if which udevd > /dev/null 2>&1 ; then
 	# mount -t devtmpfs -o mode=0755,nosuid dev /dev
-	mkdir -p /run
-	mount -t tmpfs -o nosuid,nodev,mode=0755 run /run
 	echo > /proc/sys/kernel/hotplug
 	/bin/udevd --daemon
 	/bin/udevadm trigger --action=add    --type=subsystems
