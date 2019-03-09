@@ -1,0 +1,319 @@
+--- eudev-1.3.org/src/collect/collect.c
++++ eudev-1.3/src/collect/collect.c
+@@ -414,7 +414,7 @@
+         if (debug)
+                 fprintf(stderr, "Using checkpoint '%s'\n", checkpoint);
+ 
+-        strscpyl(tmpdir, sizeof(tmpdir), "/run/udev/collect", NULL);
++        strscpyl(tmpdir, sizeof(tmpdir), UDEV_ROOT_RUN "/udev/collect", NULL);
+         fd = prepare(tmpdir, checkpoint);
+         if (fd < 0) {
+                 ret = 3;
+--- eudev-1.3.org/src/libudev/libudev-device-private.c
++++ eudev-1.3/src/libudev/libudev-device-private.c
+@@ -38,7 +38,7 @@
+         id = udev_device_get_id_filename(dev);
+         if (id == NULL)
+                 return;
+-        strscpyl(filename, sizeof(filename), "/run/udev/tags/", tag, "/", id, NULL);
++        strscpyl(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/tags/", tag, "/", id, NULL);
+ 
+         if (add) {
+                 int fd;
+@@ -116,7 +116,7 @@
+                 return -1;
+ 
+         has_info = device_has_info(udev_device);
+-        strscpyl(filename, sizeof(filename), "/run/udev/data/", id, NULL);
++        strscpyl(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/data/", id, NULL);
+ 
+         /* do not store anything for otherwise empty devices */
+         if (!has_info &&
+@@ -186,7 +186,7 @@
+         id = udev_device_get_id_filename(udev_device);
+         if (id == NULL)
+                 return -1;
+-        strscpyl(filename, sizeof(filename), "/run/udev/data/", id, NULL);
++        strscpyl(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/data/", id, NULL);
+         unlink(filename);
+         return 0;
+ }
+--- eudev-1.3.org/src/libudev/libudev-device.c
++++ eudev-1.3/src/libudev/libudev-device.c
+@@ -527,7 +527,7 @@
+                 id = udev_device_get_id_filename(udev_device);
+                 if (id == NULL)
+                         return -1;
+-                strscpyl(filename, sizeof(filename), "/run/udev/data/", id, NULL);
++                strscpyl(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/data/", id, NULL);
+                 dbfile = filename;
+         }
+ 
+--- eudev-1.3.org/src/libudev/libudev-enumerate.c
++++ eudev-1.3/src/libudev/libudev-enumerate.c
+@@ -797,7 +797,7 @@
+                 struct dirent *dent;
+                 char path[UTIL_PATH_SIZE];
+ 
+-                strscpyl(path, sizeof(path), "/run/udev/tags/", udev_list_entry_get_name(list_entry), NULL);
++                strscpyl(path, sizeof(path), UDEV_ROOT_RUN "/udev/tags/", udev_list_entry_get_name(list_entry), NULL);
+                 dir = opendir(path);
+                 if (dir == NULL)
+                         continue;
+--- eudev-1.3.org/src/libudev/libudev-queue-private.c
++++ eudev-1.3/src/libudev/libudev-queue-private.c
+@@ -111,8 +111,8 @@
+ {
+         if (udev_queue_export == NULL)
+                 return;
+-        unlink("/run/udev/queue.tmp");
+-        unlink("/run/udev/queue.bin");
++        unlink(UDEV_ROOT_RUN "/udev/queue.tmp");
++        unlink(UDEV_ROOT_RUN "/udev/queue.bin");
+ }
+ 
+ static int skip_to(FILE *file, long offset)
+@@ -220,7 +220,7 @@
+         }
+ 
+         /* create new queue file */
+-        new_queue_file = fopen("/run/udev/queue.tmp", "w+e");
++        new_queue_file = fopen(UDEV_ROOT_RUN "/udev/queue.tmp", "w+e");
+         if (new_queue_file == NULL)
+                 goto error;
+         seqnum = udev_queue_export->seqnum_max;
+@@ -256,7 +256,7 @@
+                 goto error;
+ 
+         /* rename the new file on top of the old one */
+-        if (rename("/run/udev/queue.tmp", "/run/udev/queue.bin") != 0)
++        if (rename(UDEV_ROOT_RUN "/udev/queue.tmp", UDEV_ROOT_RUN "/udev/queue.bin") != 0)
+                 goto error;
+ 
+         if (udev_queue_export->queue_file != NULL)
+--- eudev-1.3.org/src/libudev/libudev-queue.c
++++ eudev-1.3/src/libudev/libudev-queue.c
+@@ -220,7 +220,7 @@
+ {
+         FILE *queue_file;
+ 
+-        queue_file = fopen("/run/udev/queue.bin", "re");
++        queue_file = fopen(UDEV_ROOT_RUN "/udev/queue.bin", "re");
+         if (queue_file == NULL)
+                 return NULL;
+ 
+--- eudev-1.3.org/src/libudev/log.c
++++ eudev-1.3/src/libudev/log.c
+@@ -184,7 +184,7 @@
+ static int log_open_journal(void) {
+         union sockaddr_union sa = {
+                 .un.sun_family = AF_UNIX,
+-                .un.sun_path = "/run/systemd/journal/socket",
++                .un.sun_path = UDEV_ROOT_RUN "/systemd/journal/socket",
+         };
+         int r;
+ 
+--- eudev-1.3.org/src/udev/udev-ctrl.c
++++ eudev-1.3/src/udev/udev-ctrl.c
+@@ -96,7 +96,7 @@
+         setsockopt(uctrl->sock, SOL_SOCKET, SO_PASSCRED, &on, sizeof(on));
+ 
+         uctrl->saddr.sun_family = AF_LOCAL;
+-        strscpy(uctrl->saddr.sun_path, sizeof(uctrl->saddr.sun_path), "/run/udev/control");
++        strscpy(uctrl->saddr.sun_path, sizeof(uctrl->saddr.sun_path), UDEV_ROOT_RUN "/udev/control");
+         uctrl->addrlen = offsetof(struct sockaddr_un, sun_path) + strlen(uctrl->saddr.sun_path);
+         return uctrl;
+ }
+--- eudev-1.3.org/src/udev/udev-node.c
++++ eudev-1.3/src/udev/udev-node.c
+@@ -189,7 +189,7 @@
+         char buf[UTIL_PATH_SIZE];
+ 
+         util_path_encode(slink + strlen("/dev"), name_enc, sizeof(name_enc));
+-        strscpyl(dirname, sizeof(dirname), "/run/udev/links/", name_enc, NULL);
++        strscpyl(dirname, sizeof(dirname), UDEV_ROOT_RUN "/udev/links/", name_enc, NULL);
+         strscpyl(filename, sizeof(filename), dirname, "/", udev_device_get_id_filename(dev), NULL);
+ 
+         if (!add && unlink(filename) == 0)
+--- eudev-1.3.org/src/udev/udev-rules.c
++++ eudev-1.3/src/udev/udev-rules.c
+@@ -1618,7 +1618,7 @@
+ 
+         rules->dirs = strv_new(UDEV_CONF_DIR "/rules.d",
+                                UDEV_RULES_DIR,
+-                               "/run/udev/rules.d",
++                               UDEV_ROOT_RUN "/udev/rules.d",
+                                UDEV_LIBEXEC_DIR "/rules.d",
+ #ifdef HAVE_SPLIT_USR
+                                "/lib/udev/rules.d",
+@@ -2652,7 +2652,7 @@
+                                 STRV_FOREACH(t, tags) {
+                                         _cleanup_free_ char *unescaped_filename = NULL;
+ 
+-                                        strscpyl(tags_dir, sizeof(tags_dir), "/run/udev/static_node-tags/", *t, "/", NULL);
++                                        strscpyl(tags_dir, sizeof(tags_dir), UDEV_ROOT_RUN "/udev/static_node-tags/", *t, "/", NULL);
+                                         r = mkdir_p(tags_dir, 0755);
+                                         if (r < 0) {
+                                                 log_error("failed to create %s: %s\n", tags_dir, strerror(-r));
+@@ -2718,9 +2718,9 @@
+         if (f) {
+                 fflush(f);
+                 fchmod(fileno(f), 0644);
+-                if (ferror(f) || rename(path, "/run/udev/static_node-tags") < 0) {
++                if (ferror(f) || rename(path, UDEV_ROOT_RUN "/udev/static_node-tags") < 0) {
+                         r = -errno;
+-                        unlink("/run/udev/static_node-tags");
++                        unlink(UDEV_ROOT_RUN "/udev/static_node-tags");
+                         unlink(path);
+                 }
+                 fclose(f);
+--- eudev-1.3.org/src/udev/udev-watch.c
++++ eudev-1.3/src/udev/udev-watch.c
+@@ -52,13 +52,13 @@
+         if (inotify_fd < 0)
+                 return;
+ 
+-        if (rename("/run/udev/watch", "/run/udev/watch.old") == 0) {
++        if (rename(UDEV_ROOT_RUN "/udev/watch", UDEV_ROOT_RUN "/udev/watch.old") == 0) {
+                 DIR *dir;
+                 struct dirent *ent;
+ 
+-                dir = opendir("/run/udev/watch.old");
++                dir = opendir(UDEV_ROOT_RUN "/udev/watch.old");
+                 if (dir == NULL) {
+-                        log_error("unable to open old watches dir /run/udev/watch.old; old watches will not be restored: %m");
++                        log_error("unable to open old watches dir " UDEV_ROOT_RUN "/udev/watch.old; old watches will not be restored: %m");
+                         return;
+                 }
+ 
+@@ -87,10 +87,10 @@
+                 }
+ 
+                 closedir(dir);
+-                rmdir("/run/udev/watch.old");
++                rmdir(UDEV_ROOT_RUN "/udev/watch.old");
+ 
+         } else if (errno != ENOENT) {
+-                log_error("unable to move watches dir /run/udev/watch; old watches will not be restored: %m");
++                log_error("unable to move watches dir " UDEV_ROOT_RUN "/udev/watch; old watches will not be restored: %m");
+         }
+ }
+ 
+@@ -111,7 +111,7 @@
+                 return;
+         }
+ 
+-        snprintf(filename, sizeof(filename), "/run/udev/watch/%d", wd);
++        snprintf(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/watch/%d", wd);
+         mkdir_parents(filename, 0755);
+         unlink(filename);
+         r = symlink(udev_device_get_id_filename(dev), filename);
+@@ -136,7 +136,7 @@
+         log_debug("removing watch on '%s'\n", udev_device_get_devnode(dev));
+         inotify_rm_watch(inotify_fd, wd);
+ 
+-        snprintf(filename, sizeof(filename), "/run/udev/watch/%d", wd);
++        snprintf(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/watch/%d", wd);
+         unlink(filename);
+ 
+         udev_device_set_watch_handle(dev, -1);
+@@ -151,7 +151,7 @@
+         if (inotify_fd < 0 || wd < 0)
+                 return NULL;
+ 
+-        snprintf(filename, sizeof(filename), "/run/udev/watch/%d", wd);
++        snprintf(filename, sizeof(filename), UDEV_ROOT_RUN "/udev/watch/%d", wd);
+         len = readlink(filename, device, sizeof(device));
+         if (len <= 0 || (size_t)len == sizeof(device))
+                 return NULL;
+--- eudev-1.3.org/src/udev/udevadm-info.c
++++ eudev-1.3/src/udev/udevadm-info.c
+@@ -231,33 +231,33 @@
+ {
+         DIR *dir;
+ 
+-        unlink("/run/udev/queue.bin");
++        unlink(UDEV_ROOT_RUN "/udev/queue.bin");
+ 
+-        dir = opendir("/run/udev/data");
++        dir = opendir(UDEV_ROOT_RUN "/udev/data");
+         if (dir != NULL) {
+                 cleanup_dir(dir, S_ISVTX, 1);
+                 closedir(dir);
+         }
+ 
+-        dir = opendir("/run/udev/links");
++        dir = opendir(UDEV_ROOT_RUN "/udev/links");
+         if (dir != NULL) {
+                 cleanup_dir(dir, 0, 2);
+                 closedir(dir);
+         }
+ 
+-        dir = opendir("/run/udev/tags");
++        dir = opendir(UDEV_ROOT_RUN "/udev/tags");
+         if (dir != NULL) {
+                 cleanup_dir(dir, 0, 2);
+                 closedir(dir);
+         }
+ 
+-        dir = opendir("/run/udev/static_node-tags");
++        dir = opendir(UDEV_ROOT_RUN "/udev/static_node-tags");
+         if (dir != NULL) {
+                 cleanup_dir(dir, 0, 2);
+                 closedir(dir);
+         }
+ 
+-        dir = opendir("/run/udev/watch");
++        dir = opendir(UDEV_ROOT_RUN "/udev/watch");
+         if (dir != NULL) {
+                 cleanup_dir(dir, 0, 1);
+                 closedir(dir);
+--- eudev-1.3.org/src/udev/udevadm-settle.c
++++ eudev-1.3/src/udev/udevadm-settle.c
+@@ -152,8 +152,8 @@
+         if (pfd[0].fd < 0) {
+                 log_error("inotify_init failed: %m\n");
+         } else {
+-                if (inotify_add_watch(pfd[0].fd, "/run/udev" , IN_MOVED_TO) < 0) {
+-                        log_error("watching /run/udev failed\n");
++                if (inotify_add_watch(pfd[0].fd, UDEV_ROOT_RUN "/udev" , IN_MOVED_TO) < 0) {
++                        log_error("watching " UDEV_ROOT_RUN "/udev failed\n");
+                         close(pfd[0].fd);
+                         pfd[0].fd = -1;
+                 }
+--- eudev-1.3.org/src/udev/udevd.c
++++ eudev-1.3/src/udev/udevd.c
+@@ -1033,7 +1033,7 @@
+         }
+         umask(022);
+ 
+-        mkdir("/run/udev", 0755);
++        mkdir(UDEV_ROOT_RUN "/udev", 0755);
+ 
+         dev_setup(NULL);
+         static_dev_create_from_modules(udev);
+@@ -1146,10 +1146,10 @@
+         inotify_add_watch(fd_inotify, UDEV_CONF_DIR "/rules.d",
+                           IN_DELETE | IN_MOVE | IN_CLOSE_WRITE);
+ 
+-        if (access("/run/udev/rules.d", F_OK) < 0) {
+-                mkdir_p("/run/udev/rules.d", 0755);
++        if (access(UDEV_ROOT_RUN "/udev/rules.d", F_OK) < 0) {
++                mkdir_p(UDEV_ROOT_RUN "/udev/rules.d", 0755);
+         }
+-        inotify_add_watch(fd_inotify, "/run/udev/rules.d",
++        inotify_add_watch(fd_inotify, UDEV_ROOT_RUN "/udev/rules.d",
+                           IN_DELETE | IN_MOVE | IN_CLOSE_WRITE);
+ 
+         udev_watch_restore(udev);
+--- eudev-1.3.org/test/test-udev.c
++++ eudev-1.3/test/test-udev.c
+@@ -58,7 +58,7 @@
+         } fakefss[] = {
+                 { "test/sys", "/sys",                   "failed to mount test /sys" },
+                 { "test/dev", "/dev",                   "failed to mount test /dev" },
+-                { "test/run", "/run",                   "failed to mount test /run" },
++                { "test/run", UDEV_ROOT_RUN "",                   "failed to mount test /run" },
+                 { "test/run", "/etc/udev/rules.d",      "failed to mount empty /etc/udev/rules.d" },
+                 { "test/run", "/lib/udev/rules.d",      "failed to mount empty /lib/udev/rules.d" },
+         };
