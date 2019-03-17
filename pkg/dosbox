@@ -1,9 +1,10 @@
 [mirrors]
-http://heanet.dl.sourceforge.net/project/dosbox/dosbox/0.74/dosbox-0.74.tar.gz
+http://downloads.sourceforge.net/project/dosbox/dosbox/0.74-2/dosbox-0.74-2.tar.gz
 
 [vars]
-filesize=1265711
-sha512=4a6ff4c658997a495119d200ec6ad37649da940814a4b14fca0dd29a99142026e324695b7aa9d2946efc2abf9067a819d911e43778efe905ed10ddf9b9f2dd3d
+filesize=1324059
+sha512=5e02ba84bfb89318f2ce4d2f387d36a0988e4e5c04e89d6c902f865bbf951a38850fc51b24632cec706687b51b4f661de918975367e6fd0d775c5f40a623cf78
+pkgver=2
 desc='x86/DOS emulator to play the good old games'
 
 [deps]
@@ -13,9 +14,6 @@ zlib
 libpng
 
 [build]
-patch -p1 < "$K"/dosbox.patch
-patch -p1 < "$K"/dosbox-gcc47.patch
-cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -27,5 +25,5 @@ CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-opengl
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS AR="$CROSS_COMPILE"ar
 make DESTDIR="$butch_install_dir" install
