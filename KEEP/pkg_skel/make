@@ -1,0 +1,11 @@
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target all
+mk_target install
