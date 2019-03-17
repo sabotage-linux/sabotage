@@ -1,20 +1,21 @@
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/giflib/giflib-5.1.4.tar.bz2
+http://downloads.sourceforge.net/sourceforge/giflib/giflib-5.1.8.tar.gz
 
 [vars]
-filesize=639703
-sha512=32b5e342056c210e6478e9cb3b6ceec9594dcfaf34feea1eb4dad633a081ed4465bceee578c19165907cb47cb83912ac359ceea666a8e07dbbb5420f9928f96d
+filesize=419065
+sha512=d390917837a64de1912720ab8968e6b077c6be9f9a2f835faced44420f54d6d55d4e3543b9779ec65d399858856188fea93c170b253d0b83928f15548a14aba3
+pkgver=2
 uchkurl=http://sourceforge.net/projects/giflib/files/
 
 [deps]
 libx11
 
 [build]
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir"
-
-CPPFLAGS=-D_GNU_SOURCE CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-./configure -C --prefix="$butch_prefix" $xconfflags have_xmlto=no
-make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar OFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target all
+mk_target install
