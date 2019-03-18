@@ -14,6 +14,7 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/${tarball}
 musl
 
 [build]
+patch -p1 < "$K"/curses-powerpc.patch
 cat << EOF > config.mak
 CC=$CC
 HOSTCC=$HOSTCC
