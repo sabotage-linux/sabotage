@@ -15,6 +15,7 @@ g++346
 [build]
 VERSION=3.4.6
 
+test -n "$CROSS_COMPILE" && exit 0
 test "$STAGE" = 0 || option_cplusplus=1
 if test "$option_cplusplus" = 1 ; then
 (
