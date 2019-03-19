@@ -13,9 +13,28 @@ libgpg-error
 [build]
 cat << EOF > libassuan-config
 #!/bin/sh
-[ "\$1" = --version ] && echo 2.4.1 || echo -lassuan
+if [ "\$1" = --version ] ; then
+ echo 2.4.1
+elif [ "\$1" = --host ] ; then
+ \$CC -dumpmachine
+elif [ "\$1" = --api-version ] ; then
+ echo 2
+else
+ echo -lassuan
+fi
 EOF
 chmod +x libassuan-config
+cat << EOF > gpg-error-config
+#!/bin/sh
+if [ "\$1" = --version ] ; then
+ echo 1.27
+elif [ "\$1" = --host ] ; then
+ \$CC -dumpmachine
+else
+ echo -lgpg-error
+fi
+EOF
+chmod +x gpg-error-config
 
 #patch -p1 < "$K"/some.patch
 #cp -f "$K"/config.sub .
