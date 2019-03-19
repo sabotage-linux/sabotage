@@ -10,6 +10,7 @@ desc='peg/leg recursive decent parser generators for C'
 [deps]
 
 [build]
+sed -i 's,strip,true,' Makefile
 make V=1 -j$MAKE_THREADS \
 CPPFLAGS="-D_GNU_SOURCE" \
 OFLAGS="$optcflags" \
