@@ -1,5 +1,5 @@
 [vars]
-pkgver=2
+pkgver=3
 
 [deps]
-gcc640
+gcc650
