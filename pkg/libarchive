@@ -23,5 +23,5 @@ CFLAGS="$optcflags -D_BSD_SOURCE" LDFLAGS="$optldflags" \
     --without-expat \
     --enable-shared --enable-static
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
