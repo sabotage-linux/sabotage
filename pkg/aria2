@@ -1,10 +1,12 @@
-[vars]
-filesize=2155310
-sha512=ba505b45f84266543cb403752cc3592469545dea806e77bd7b7fec1fbe7ed5baf14372cf6dea840ccbdd054cd0c92cdeb4516eb52b167aca03909000f02aec95
-desc="bloated C++-11 download utility. supports torrents/magnet."
-
 [mirrors]
-http://downloads.sourceforge.net/project/aria2/stable/aria2-1.19.0/aria2-1.19.0.tar.bz2
+https://github.com/aria2/aria2/releases/download/release-1.34.0/aria2-1.34.0.tar.xz
+
+[vars]
+filesize=1525908
+sha512=80bc43e242c06acc95030021cb347b4ec230729f3d7e512ca1932941b34ef95c312a34007a226869e5d720839a400e66cdb072ccab5d42228d8cf3d828723dcc
+pkgver=2
+desc="bloated C++-11 download utility. supports torrents/magnet."
+uchkurl=https://github.com/aria2/aria2/releases
 
 [deps]
 gnutls
@@ -17,7 +19,6 @@ libxml2
 pkgconf
 
 [build]
-patch -p1 < "$K"/aria2-logger.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir --with-libgcrypt-prefix=$butch_root_dir$butch_prefix"
