@@ -13,6 +13,12 @@ desc='simple background image setter based on imlib2'
 imlib2
 
 [build]
+cat << EOF > config.mak
+LDFLAGS= $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib
+CPPFLAGS= $optcflags
+EOF
+cat config.mk >> config.mak
+mv config.mak config.mk
 
 make V=1 -j$MAKE_THREADS
 make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
