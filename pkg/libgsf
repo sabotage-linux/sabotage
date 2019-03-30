@@ -17,7 +17,8 @@ gdk-pixbuf
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 cp -f "$K"/config.sub .
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 CPPFLAGS=-D_GNU_SOURCE \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
@@ -27,5 +28,5 @@ for i in po ; do
 	printf 'all:\n\ttrue\ninstall:\n\ttrue\nclean:\n\ttrue\n' > "$i"/Makefile
 done
 
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
