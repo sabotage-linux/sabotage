@@ -12,6 +12,7 @@ pkgver=1
 lua53
 
 [build]
+dest="$butch_install_dir""$butch_prefix"
 for i in *.lua ; do
 install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$i"
 done
