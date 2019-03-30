@@ -21,7 +21,7 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
 	--disable-docs \
 	
