@@ -9,6 +9,7 @@ pkgver=1
 [deps]
 
 [build]
+cp -f "$K"/config.sub .
 patch -p1 < "$K"/libconfig-patch.patch
 
 [ -n "$CROSS_COMPILE" ] && \
