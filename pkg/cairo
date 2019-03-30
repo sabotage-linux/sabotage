@@ -30,7 +30,8 @@ export ax_cv_c_float_words_bigendian=no
 $CC -dM -E - < /dev/null  | grep __FLOAT_WORD_ORDER__ | \
   grep __ORDER_BIG_ENDIAN__ >/dev/null && \
   export ax_cv_c_float_words_bigendian=yes || true
-CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -D_GNU_SOURCE" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   ac_cv_func_XRenderCreateLinearGradient=yes \
   ac_cv_func_XRenderCreateRadialGradient=yes \
