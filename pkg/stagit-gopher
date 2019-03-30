@@ -13,8 +13,10 @@ libgit2
 [build]
 make clean
 make \
-  GITINC="$butch_root_dir/include" \
-  GITLIB="$butch_root_dir/lib" \
-  -j$MAKE_THREADS 
+ GITINC="$butch_root_dir/include" \
+ GITLIB="$butch_root_dir/lib" \
+ CFLAGS="$optcflags" \
+ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lgit2" \
+ -j$MAKE_THREADS
 make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
 
