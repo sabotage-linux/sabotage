@@ -42,6 +42,7 @@ cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DENABLE_RUBY=OFF \
+  -DENABLE_TCL=OFF \
   ..
 make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
