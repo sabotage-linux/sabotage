@@ -58,6 +58,7 @@ BUTCH_TARDIR="$tardir"
 # note that you could set similar stuff using env variables.
 butch_do_config_cache=true
 butch_do_cleanup_builddir=true
+[ -z "$butch_do_delete_libtool_archives" ] && butch_do_delete_libtool_archives=true
 [ -z "$butch_do_compress_manpages" ] && butch_do_compress_manpages=true
 
 [ -z "$butch_do_custom_destdir" ] && butch_do_custom_destdir=true
@@ -392,6 +393,14 @@ if $have_files ; then
 		if $strip_debug || $butch_do_strip_comments ; then
 			printf "%s: done\n" "$(timestamp)"
 		fi
+	fi
+
+	if $butch_do_delete_libtool_archives ; then
+		# remove libtool .la files
+		for i in lib/*.la ; do
+			echo "removing .la file $i"
+			rm -f "$i"
+		done
 	fi
 
 	# here you could place some code that makes a tarball out of $butch_install_dir
