@@ -12,7 +12,8 @@ libgsf
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 cp -f "$K"/config.sub .
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" $xconfflags \
    ac_cv_path_mkdir="mkdir -p"
 
