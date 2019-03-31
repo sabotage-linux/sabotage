@@ -1,20 +1,21 @@
-[deps]
-libx11
-libxt
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.11.tar.bz2
 
 [vars]
 filesize=443496
 sha512=c089056108d4598f6c4603d6440d9ef6216e87c5cf1e30d143b0e7abc9c5d6f40050c747a57a27d751bc80786ded0390d97cbe221be628241c881d21a3ce6024
+pkgver=1
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.11.tar.bz2
+[deps]
+libx11
+libxt
 
 [build]
 sed -i 's/USE_GETTEXT="yes"/USE_GETTEXT="no"/' configure
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE -D_BSD_SOURCE" \
-LDFLAGS="$optldflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
