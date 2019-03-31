@@ -14,7 +14,7 @@ cat << EOF >> src/config.h
 #define BR_USE_UNIX_TIME 1
 EOF
 case "$A" in i[3-5]86) echo "#define BR_SSE2   0" >> src/config.h ;; esac
-make V=1 -j$MAKE_THREADS CC="$CC" CFLAGS="$optcflags -I src -I inc" \
+make V=1 -j$MAKE_THREADS CC="$CC" LD="$CC" CFLAGS="$optcflags -I src -I inc" \
 LDFLAGS="$optldflags" AR="${CROSS_COMPILE}ar" lib tools
 dest="$butch_install_dir""$butch_prefix"
 install -Dm 755 build/brssl "$dest"/bin/brssl
