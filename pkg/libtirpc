@@ -1,23 +1,17 @@
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/libtirpc/libtirpc-0.3.2.tar.bz2
+https://downloads.sourceforge.net/libtirpc/libtirpc-1.1.4.tar.bz2
 
 [vars]
-filesize=491373
-sha512=f7a58826f0d873e3d67238ff723d6edcdcc00d64daee26c7ec1c967b237e555b0c73aa5baedab9573c0c0799ac4b652956f2bbe4aad247dfbeb7e3da0942a030
+filesize=510924
+sha512=392f391f9fc1bd68d81dc44e4058831a64b32790b5c8c37338b0ab416fad2ae4d16389e632596734dba09780347918cc65c6f134e0c1afd09e81ec250785ed23
 desc='transport independent RPC library (SunRPC replacement)'
+pkgver=2
 
 [deps]
 queue-h
 
 [build]
-# the original patch from alpine does 3 more things:
-# it adds a check for the functions cbc_crypt ecb_crypt to configure,
-# it adds des_crypt.c to the list of c files in libtirpc_la_SOURCES in src/Makefile.am
-# it adds rpcdname.c to the list of files in libtirpc_la_SOURCES (src/Makefile.in)
-
-patch -p1 < "$K"/libtirpc.patch
-mkdir src/rpcsvc
-cp -f "$K"/libtirpc-nis.h src/rpcsvc/nis.h
+patch -p1 < "$K"/libtirpc-musl.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
@@ -33,5 +27,3 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
-mv "$dest"/include/tirpc/* "$dest"/include/
-rm -rf "$dest"/include/tirpc/
