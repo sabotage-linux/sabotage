@@ -38,3 +38,6 @@ cat config.status | grep 'ALSA_LIBS.*lasound' > /dev/null || {
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
+dest="$butch_install_dir""$butch_prefix"
+sed -i 's@^Libs: .*$@Libs: -lSDL@' "$dest"/lib/pkgconfig/sdl.pc
+
