@@ -1,0 +1,75 @@
+--- a/configure
++++ b/configure
+@@ -20302,9 +20302,9 @@
+   fi
+ fi
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __res_querydomain in -lresolv" >&5
+-$as_echo_n "checking for __res_querydomain in -lresolv... " >&6; }
+-if ${ac_cv_lib_resolv___res_querydomain+:} false; then :
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for res_querydomain in -lresolv" >&5
++$as_echo_n "checking for res_querydomain in -lresolv... " >&6; }
++if ${ac_cv_lib_resolv_res_querydomain+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+@@ -20318,27 +20318,27 @@
+ #ifdef __cplusplus
+ extern "C"
+ #endif
+-char __res_querydomain ();
++char res_querydomain ();
+ int
+ main ()
+ {
+-return __res_querydomain ();
++return res_querydomain ();
+   ;
+   return 0;
+ }
+ _ACEOF
+ if ac_fn_c_try_link "$LINENO"; then :
+-  ac_cv_lib_resolv___res_querydomain=yes
++  ac_cv_lib_resolv_res_querydomain=yes
+ else
+-  ac_cv_lib_resolv___res_querydomain=no
++  ac_cv_lib_resolv_res_querydomain=no
+ fi
+ rm -f core conftest.err conftest.$ac_objext \
+     conftest$ac_exeext conftest.$ac_ext
+ LIBS=$ac_check_lib_save_LIBS
+ fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_resolv___res_querydomain" >&5
+-$as_echo "$ac_cv_lib_resolv___res_querydomain" >&6; }
+-if test "x$ac_cv_lib_resolv___res_querydomain" = xyes; then :
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_resolv_res_querydomain" >&5
++$as_echo "$ac_cv_lib_resolv_res_querydomain" >&6; }
++if test "x$ac_cv_lib_resolv_res_querydomain" = xyes; then :
+   cat >>confdefs.h <<_ACEOF
+ #define HAVE_LIBRESOLV 1
+ _ACEOF
+@@ -22407,11 +22407,11 @@
+  -pipe \
+  -Wall \
+  -Wextra \
+- -Werror=strict-prototypes \
+- -Werror=missing-prototypes \
+- -Werror=missing-declarations \
++ -Wstrict-prototypes \
++ -Wmissing-prototypes \
++ -Wmissing-declarations \
+  -Werror=format=2 \
+- -Werror=undef \
++ -Wundef \
+  -Werror=missing-include-dirs \
+  -Werror=strict-aliasing=2 \
+  -Werror=init-self \
+@@ -22540,7 +22540,7 @@
+   CFLAGS="$my_save_cflags"
+ 
+ 
+-AM_CFLAGS="$my_am_cflags $flg1 $flg2 $flg3 $flg4"
++AM_CFLAGS="$my_am_cflags $flg1 $flg2 $flg4"
+ 
+ 
+ # Make sure that $ACLOCAL_FLAGS are used during a rebuild

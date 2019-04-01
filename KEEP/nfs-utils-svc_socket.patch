@@ -1,0 +1,11 @@
+--- a/support/nfs/svc_socket.c
++++ b/support/nfs/svc_socket.c
+@@ -46,7 +46,7 @@
+ 	struct rpcent *rpcp;
+ 	struct servent servbuf, *servp = NULL;
+ 	int ret = 0;
+-#if HAVE_GETRPCBYNUMBER_R
++#ifdef HAVE_GETRPCBYNUMBER_R
+ 	char rpcdata[1024];
+ 	struct rpcent rpcbuf;
+ 
