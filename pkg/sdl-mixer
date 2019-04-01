@@ -13,6 +13,8 @@ libflac
 fluidsynth
 
 [build]
+patch -p1 < "$K"/sdl-mixer-LDFLAGS.patch
+
 # you may want to remove fluidsynth from the deps list, this will lead to a lack of midi
 # but save from glib dependency hell.
 cp -f "$K"/config.sub build-scripts/
