@@ -5,7 +5,7 @@ http://sources.buildroot.net/Python-2.7.15.tar.xz
 [vars]
 filesize=12642436
 sha512=27ea43eb45fc68f3d2469d5f07636e10801dee11635a430ec8ec922ed790bb426b072da94df885e4dfa1ea8b7a24f2f56dd92f9b0f51e162330f161216bd6de6
-pkgver=6
+pkgver=7
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
@@ -47,8 +47,9 @@ sed -i 's@return readline@return feedline@' configure
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --build=$($HOSTCC -dumpmachine)"
 
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC $optcflags" \
-LDFLAGS="$optldflags -L $butch_root_dir$butch_prefix/lib -lncursesw -lterminfo" \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC" \
+OPT="$optcflags" \
+LDFLAGS="$optldflags -lncursesw -lterminfo" \
 ./configure -C --prefix="$butch_prefix" \
   --with-system-expat --with-system-ffi $xconfflags \
   --with-threads \
@@ -84,10 +85,7 @@ else
 	make Parser/pgen -j$MAKE_THREADS
 fi
 
-# python does not use the user CFLAGS as last element, so they override our
-# optimization and debug level with their hardcoded one.
-# thus the usage of EXTRA_CFLAGS to get into the last position.
-EXTRA_CFLAGS="$optcflags" make -j$MAKE_THREADS
+make -j$MAKE_THREADS
 
 make DESTDIR="$butch_install_dir" install
 
@@ -104,3 +102,6 @@ done
 # this can cause a minimal startup time increase
 find "$dest"/lib/python2.7/ -name '*.pyo' -or -name '*.pyc' -exec rm {} \;
 
+# remove hardcoded CFLAGS interfering with cross builds
+# note: OPT is only used if CFLAGS are exported in environment.
+sed -i "s,'OPT': '.*','OPT': ''," "$dest"/lib/python2.7/_sysconfigdata.py

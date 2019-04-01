@@ -1,3 +1,13 @@
+this patch fixes 3 things:
+1) native: if prefix is empty, use "/" to construct the pathname, otherwise
+   we will end up with something like `-I include/python2.7`
+2) cross-compile: if we're cross-compiling, we're reusing the
+   PKG_CONFIG_SYSROOT_DIR environment variable to prefix the include/lib path.
+   this though helps only when the system doing the crosscompile uses the so-
+   patched python. we therefore assume a sabotage host system is used.
+3) previously, the right logic for selecting LD_SHARED was only used on Mac.
+   it should be done on any POSIX system (CC overrides).
+
 --- Python-2.7.15.org/Lib/distutils/sysconfig.py
 +++ Python-2.7.15/Lib/distutils/sysconfig.py
 @@ -74,7 +74,7 @@
@@ -9,7 +19,18 @@
          prefix = plat_specific and EXEC_PREFIX or PREFIX
  
      if os.name == "posix":
-@@ -115,7 +115,7 @@
+@@ -90,7 +90,9 @@
+                 # Include is located in the srcdir
+                 inc_dir = os.path.join(srcdir, "Include")
+             return inc_dir
+-        return os.path.join(prefix, "include", "python" + get_python_version())
++        sysroot = ''
++        if 'PKG_CONFIG_SYSROOT_DIR' in os.environ: sysroot = os.environ['PKG_CONFIG_SYSROOT_DIR']
++        return os.path.join(sysroot + prefix, "include", "python" + get_python_version())
+     elif os.name == "nt":
+         return os.path.join(prefix, "include")
+     elif os.name == "os2":
+@@ -115,11 +117,14 @@
      If 'prefix' is supplied, use it instead of sys.prefix or
      sys.exec_prefix -- i.e., ignore 'plat_specific'.
      """
@@ -18,3 +39,20 @@
          prefix = plat_specific and EXEC_PREFIX or PREFIX
  
      if os.name == "posix":
+-        libpython = os.path.join(prefix,
++        sysroot = ''
++        if 'PKG_CONFIG_SYSROOT_DIR' in os.environ: sysroot = os.environ['PKG_CONFIG_SYSROOT_DIR']
++
++        libpython = os.path.join(sysroot + prefix,
+                                  "lib", "python" + get_python_version())
+         if standard_lib:
+             return libpython
+@@ -178,7 +183,7 @@
+ 
+         if 'CC' in os.environ:
+             newcc = os.environ['CC']
+-            if (sys.platform == 'darwin'
++            if ((sys.platform == 'darwin' or os.name == "posix")
+                     and 'LDSHARED' not in os.environ
+                     and ldshared.startswith(cc)):
+                 # On OS X, if CC is overridden, use that as the default
