@@ -3,7 +3,8 @@
 [build]
 mk_target() {
 make -j$MAKE_THREADS \
-  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
   "$1"
 }
