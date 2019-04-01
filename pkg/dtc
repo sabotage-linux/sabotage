@@ -12,5 +12,12 @@ flex
 bison
 
 [build]
-make
-make DESTDIR=$butch_install_dir PREFIX=$butch_prefix install
+sed -i 's,--quiet,,g' pylibfdt/Makefile.pylibfdt
+sed -i 's,-Werror ,,' Makefile
+export CFLAGS="$optcflags"
+mktarget() {
+  make V=1 -j$MAKE_THREADS \
+  NO_PYTHON=1 DESTDIR=$butch_install_dir PREFIX=$butch_prefix $1
+}
+mktarget all
+mktarget install
