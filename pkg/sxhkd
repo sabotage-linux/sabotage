@@ -11,5 +11,12 @@ desc='simple hotkey daemon for x11'
 xcb-util-keysyms
 
 [build]
-make PREFIX=$butch_install_prefix DESTDIR=$butch_install_dir all install
+mkt() {
+make -j$MAKE_THREADS \
+  CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX=$butch_install_prefix DESTDIR=$butch_install_dir $1
+}
+mkt all
+mkt install
 
