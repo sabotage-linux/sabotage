@@ -9,6 +9,7 @@ python
 python
 
 [build]
+export CFLAGS="$optcflags"
 python setup.py build
 python setup.py install --prefix="$butch_prefix" \
        --root="$butch_install_dir"
