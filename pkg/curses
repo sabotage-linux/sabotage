@@ -1,8 +1,8 @@
 [vars]
-filesize=530156
-sha512=9994c1efc2d5ac7beda7e09c023cb48ffe5638a570f6cc073ff613af7a3b3d8dbebc17414111abf947a31a25eb7b96c135e0cbe9aa87065d3b26138131339859
-pkgver=7
-tarball=netbsd-curses-0.3.0.tar.xz
+filesize=529996
+sha512=bd65358b59299de6b9879022842c7cd4fcdc1449b6bf7db5870a5fe0ffcc873f68da2bcf6b27bc231a956797377d66f56177178dad14304f332aaf924482ca90
+pkgver=8
+tarball=netbsd-curses-0.3.1.tar.xz
 desc='netbsd libcurses, lightweight replacement for ncurses'
 
 [mirrors]
@@ -14,7 +14,6 @@ http://dl.2f30.org/mirrors/sabotage/tarballs/${tarball}
 musl
 
 [build]
-patch -p1 < "$K"/curses-powerpc.patch
 cat << EOF > config.mak
 CC=$CC
 HOSTCC=$HOSTCC
