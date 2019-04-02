@@ -4,7 +4,12 @@ http://code.call-cc.org/releases/4.9.0/chicken-4.9.0.1.tar.gz
 [vars]
 filesize=4023371
 sha512=fff4b43833d98bcc76252f7f1d7e491f8f64cfdc7357c94c91df728eb556e2e9019bb4eb9fb944d7592c81ea1c8941114338b704ff690c0f24c5b518c4437f28
+pkgver=1
 
 [build]
-make PLATFORM=linux PREFIX="$butch_prefix"
-make PLATFORM=linux PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
+mkt(){
+  make CONFIG= PLATFORM=linux PREFIX="$butch_prefix" \
+  DESTDIR="$butch_install_dir" $1
+}
+mkt all
+mkt install
