@@ -231,12 +231,17 @@ if $BUTCH_HAVE_TARBALL ; then
 fi
 
 printf "%s: start build\n" "`timestamp`"
+# python packages "respect" the umask set by the user, unlike all other packages
+# which set explicit permissions. non-default umask causes unexpected surprises.
+umask_save=$(umask) ; umask 022
 # this will be replaced by the contents of the pkg's [build] section.
 # note that all critical commands in the buildscript should use || exit 1
 # so that it aborts on error!
 set -e
 %BUTCH_BUILDSCRIPT
 set +e
+
+umask $umask_save
 
 printf "%s: end build\n" "`timestamp`"
 
