@@ -1,5 +1,5 @@
 [mirrors]
-http://www.directfb.org/downloads/Core/DirectFB-1.6/DirectFB-1.6.2.tar.gz
+https://src.fedoraproject.org/lookaside/extras/directfb/DirectFB-1.6.2.tar.gz/6bebdbf26f03f7114ae17ab86d4d1d27/DirectFB-1.6.2.tar.gz
 
 [vars]
 filesize=4250510
