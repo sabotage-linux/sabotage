@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/jarun/nnn/releases/download/v2.4/nnn-v2.4.tar.gz
+
+[vars]
+filesize=62704
+sha512=c487fce96c99afe542eeb825cd991c268dc215e676ddf6dfc5ae655598bfbd8eafb45e594172ca54dcde313c9c54cacd2e2d09e1d9c3b235ce5f9ff52c76b2fb
+tardir=nnn
+pkgver=1
+
+[deps]
+curses
+libedit
+
+[build]
+sed -i 's/rl_menu_complete/rl_complete/' src/nnn.c
+sed -i 's/NCURSES_WIDECHAR/FOOBAR/' src/nnn.c
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target all
+mk_target install
