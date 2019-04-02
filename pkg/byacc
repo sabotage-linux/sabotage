@@ -1,5 +1,5 @@
 [mirrors]
-ftp://ftp.invisible-island.net/byacc/byacc-20180609.tgz
+ftp://ftp.invisible-island.net/pub/byacc/byacc-20180609.tgz
 
 [vars]
 filesize=745317
