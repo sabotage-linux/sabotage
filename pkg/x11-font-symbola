@@ -2,8 +2,9 @@
 http://users.teilar.gr/~g1951d/Symbola.zip
 
 [vars]
-filesize=2907542
-sha512=be7b3fd8b2070a6713b189c0ee0c6d8aef481eb0c7e476dabfa3eb1a599cc7f3a00f14d7b9ca1f563722d550c098f272f62bb99fc490aba8132ed5ae7de59a7b
+filesize=3163061
+sha512=96057c9dbf8a1ab48323d49f727dc00eb8ab66a60e4037b622280d6b84a2c692129e174994a36683ba78bee43e2a2096c4d87ac5c350be78f4d8d6cd7218a528
+pkgver=2
 desc='truetype unicode charactes'
 
 [deps]
