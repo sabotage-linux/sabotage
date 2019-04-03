@@ -15,13 +15,15 @@ cp -f "$K"/tclConfig.sh .
 tar xf "$C"/tcl8.6.4-src.tar.gz
 
 sed 's/if test "$cross_compiling" = yes; then :/if false ; then :/' -i configure
+sed 's/pty_${PTY_TYPE}.c/pty_termios.c/' -i configure
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 BUILD_ROOT="$butch_root_dir" \
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -DHAVE_TERMIOS=1 -DHAVE_UNISTD_H" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   --with-tcl="$PWD" ac_cv_c_tclh="$butch_root_dir$butch_prefix"/include \
