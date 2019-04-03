@@ -4,23 +4,27 @@ https://cr.yp.to/daemontools/daemontools-0.76.tar.gz
 [vars]
 filesize=36975
 sha512=e4a7938352b745a03ccc41acdddba1e6782f0ca245e5cae060de62ab6c5a23c841a994c30140298d274405a7f26d53ba7e84e5810a3d185b2c01e4c0feffe6c7
+tardir=admin/daemontools-0.76
 pkgver=1
 
 [build]
-cd admin/daemontools-0.76
 sed -i '1 i\#include <errno.h>' src/error.h
 sed -i 's/cat -v/cat/' src/Makefile
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
-CFLAGS="$optcflags -O2 -Wimplicit -Wunused -Wcomment -Wchar-subscripts -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings"
-LDFLAGS="$optldflags -Wl,-static"
+CFLAGS="$optcflags -Wall -include unistd.h"
+LDFLAGS="$optldflags -static"
 
 echo "${CC:-"gcc"} $CFLAGS" > src/conf-cc
 echo "${CC:-"gcc"} $LDFLAGS" > src/conf-ld
-echo "$butch_install_dir"/"$butch_prefix" > src/conf-home
+dest="$butch_install_dir""$butch_prefix"
+
+echo "$dest" > src/conf-home
 
 package/compile
 
-mkdir -p $butch_install_dir/bin
-cp command/* $butch_install_dir/bin/
+for i in command/* ; do
+  j=$(basename "$i")
+  install -Dm 755 "$j" "$dest"/bin/"$j"
+done
