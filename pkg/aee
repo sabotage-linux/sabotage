@@ -22,6 +22,9 @@ EOF
 
 sed -i 's/9x15/fixed/' Xcurse.c
 
-make V=1 -j1 CC="$CC -include cursefix.h" both
+make V=1 -j1 \
+ CC="$CC -include cursefix.h -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+ both
+
 install -Dm 755 aee "$butch_install_dir""$butch_prefix"/bin/aee
 install -Dm 755 xae "$butch_install_dir""$butch_prefix"/bin/xae
