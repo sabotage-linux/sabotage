@@ -18,5 +18,11 @@ queue-h
 bison
 
 [build]
-make
-make DESTDIR=$butch_install_dir PREFIX=$butch_prefix install
+mkt(){
+  make \
+    LDFLAGS="$(pkg-config --libs x11 xft xrandr) $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"  \
+    CFLAGS="$optcflags"  -j$MAKE_THREADS \
+    DESTDIR=$butch_install_dir PREFIX=$butch_prefix $1
+}
+mkt all
+mkt install
