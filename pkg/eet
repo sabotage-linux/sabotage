@@ -1,9 +1,10 @@
+[mirrors]
+http://download.enlightenment.org/releases/eet-1.7.8.tar.gz
+
 [vars]
 filesize=680487
 sha512=ada26d744974158d487774a1bfaa59192de46797eb4f35062b452cb9e6168b45626595df8c527533d75b0a95bd55008151a14b7b195b9db2eb88c76e557d8d2f
-
-[mirrors]
-http://download.enlightenment.org/releases/eet-1.7.8.tar.gz
+pkgver=1
 
 [deps]
 musl
@@ -13,6 +14,12 @@ eina
 libressl
 
 [build]
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
