@@ -4,6 +4,7 @@ https://src.fedoraproject.org/lookaside/extras/directfb/DirectFB-1.6.2.tar.gz/6b
 [vars]
 filesize=4250510
 sha512=47ab8803d6af28b167cd5eb1d231a503aad8cf4d9f3a811a7253af1dc5a49e432f917cf45b4877668cc10936830b76ce238c0102a68929bb604e97b97d3010c1
+pkgver=1
 
 [deps]
 
@@ -12,7 +13,13 @@ patch -p1 < "$K"/directfb-sigval.patch
 patch -p1 < "$K"/directfb-comparfn.patch
 patch -p1 < "$K"/directfb-matrox.patch
 
-CFLAGS="-D_GNU_SOURCE" ./configure -C --prefix="$butch_prefix" \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   --disable-silent-rules
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
