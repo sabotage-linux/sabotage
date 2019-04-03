@@ -14,7 +14,6 @@ cmake
 [deps]
 mbedtls
 
-
 [build]
 # NOTE: the mirror requires tls, download with curl:
 #       USE_CURL=1 butch install hiawatha
@@ -23,8 +22,28 @@ mbedtls
 # Hiawatha usually compiles its own mbedtls to make sure it has the
 # right config options. In sabotage, we already have these options set,
 # so we use the system library of course.
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
 
-CFLAGS="-static" cmake \
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
 	-DENABLE_CACHE=OFF \
 	-DENABLE_RPROXY=ON \
 	-DENABLE_TOOLKIT=OFF \
@@ -40,8 +59,9 @@ CFLAGS="-static" cmake \
 	-DLOG_DIR="$butch_prefix/var/log/hiawatha" \
 	-DPID_DIR="$butch_prefix/var/run/hiawatha" \
 	-DWEBROOT_DIR="$butch_prefix/var/www" \
-
-make V=1 -j$MAKE_THREADS
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
 
 # set the user-id to www-data (as in the service)
 sed -i 's/#ServerId = www-data/ServerId = www-data/' config/hiawatha.conf
