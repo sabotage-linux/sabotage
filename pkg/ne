@@ -12,6 +12,7 @@ curses
 
 [build]
 patch -p1 < "$K"/ne-curses.patch
+sed 's,strip ne,true ne,' -i makefile
 make CC="$CC" \
   OPTS="$optcflags" \
   DESTDIR="$butch_install_dir" \
