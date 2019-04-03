@@ -10,6 +10,7 @@ tarball=unicorn-1.0.1.tar.gz
 [deps]
 
 [build]
+echo UNICORN_QEMU_FLAGS=--disable-stack-protector >> config.mk
 make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" -j$MAKE_THREADS \
 UNICORN_SHARED=yes  V=1 libunicorn.so.1
 dest="$butch_install_dir""$butch_prefix"
