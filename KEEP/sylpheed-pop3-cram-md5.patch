@@ -1,0 +1,480 @@
+Subject: [PATCH] implement POP3 CRAM-MD5 AUTH
+
+diff --git a/libsylph/pop.c b/libsylph/pop.c
+index 8cb7f5c..5b840a6 100644
+--- a/libsylph/pop.c
++++ b/libsylph/pop.c
+@@ -35,6 +35,8 @@
+ 
+ #include "pop.h"
+ #include "md5.h"
++#include "md5_hmac.h"
++#include "base64.h"
+ #include "prefs.h"
+ #include "prefs_account.h"
+ #include "utils.h"
+@@ -45,6 +47,8 @@ gint pop3_greeting_recv		(Pop3Session *session,
+ gint pop3_getauth_user_send	(Pop3Session *session);
+ gint pop3_getauth_pass_send	(Pop3Session *session);
+ gint pop3_getauth_apop_send	(Pop3Session *session);
++gint pop3_getauth_crammd5_send	(Pop3Session *session);
++gint pop3_getauth_crammd5_digest_send(Pop3Session *session);
+ #if USE_SSL
+ gint pop3_stls_send		(Pop3Session *session);
+ gint pop3_stls_recv		(Pop3Session *session);
+@@ -140,6 +144,45 @@ gint pop3_getauth_pass_send(Pop3Session *session)
+ 	return PS_SUCCESS;
+ }
+ 
++gint pop3_getauth_crammd5_send(Pop3Session *session)
++{
++	g_return_val_if_fail(session->user != NULL, -1);
++	g_return_val_if_fail(session->pass != NULL, -1);
++
++	session->state = POP3_GETAUTH_CRAM_MD5;
++	pop3_gen_send(session, "AUTH CRAM-MD5");
++	return PS_SUCCESS;
++}
++
++gint pop3_getauth_crammd5_digest_send(Pop3Session *session)
++{
++	gchar hexdigest[33];
++	gchar *response;
++	gchar *response64;
++
++	g_return_val_if_fail(session->user != NULL, -1);
++	g_return_val_if_fail(session->pass != NULL, -1);
++	g_return_val_if_fail(session->digest != NULL, -1);
++
++	md5_hex_hmac(hexdigest, (guchar *)session->digest, session->digest_len,
++                     (guchar *)session->pass, strlen(session->pass));
++
++	response = g_strdup_printf("%s %s", session->user, hexdigest);
++	log_print("POP3> [Encoded: %s]\n", response);
++	response64 = g_malloc((strlen(response) + 3) * 2 + 1);
++	base64_encode(response64, (guchar *)response, strlen(response));
++
++	pop3_gen_send(session, response64);
++	session->state = POP3_GETAUTH_CRAM_MD5_DIGEST;
++
++	g_free(response);
++	g_free(response64);
++	g_free(session->digest);
++	session->digest = NULL;
++
++	return PS_SUCCESS;
++}
++
+ gint pop3_getauth_apop_send(Pop3Session *session)
+ {
+ 	gchar *start, *end;
+@@ -193,6 +236,23 @@ gint pop3_getrange_stat_send(Pop3Session *session)
+ 	return PS_SUCCESS;
+ }
+ 
++gint pop3_digest_crammd5_recv(Pop3Session *session, const gchar *msg)
++{
++	if (msg) log_print("POP3< %s\n", msg);
++
++	if(!msg || msg[0] != '+' || msg[1] != ' ') {
++		return PS_ERROR;
++	}
++
++	session->digest = g_malloc(strlen(msg + 2) + 1);
++	session->digest_len = base64_decode((guchar *)session->digest, msg + 2, -1);
++	session->digest[session->digest_len] = 0;
++
++	log_print("POP3< [Decoded: %s]\n", session->digest);
++
++	return PS_SUCCESS;
++}
++
+ gint pop3_getrange_stat_recv(Pop3Session *session, const gchar *msg)
+ {
+ 	if (sscanf(msg, "%d %lld", &session->count, &session->total_bytes) != 2) {
+@@ -703,6 +763,8 @@ Pop3ErrorValue pop3_ok(Pop3Session *session, const gchar *msg)
+ 			case POP3_GETAUTH_USER:
+ 			case POP3_GETAUTH_PASS:
+ 			case POP3_GETAUTH_APOP:
++			case POP3_GETAUTH_CRAM_MD5:
++			case POP3_GETAUTH_CRAM_MD5_DIGEST:
+ 				log_warning(_("error occurred on authentication\n"));
+ 				ok = PS_AUTHFAIL;
+ 				break;
+@@ -738,6 +800,7 @@ static gint pop3_session_recv_msg(Session *session, const gchar *msg)
+ 
+ 	body = msg;
+ 	if (pop3_session->state != POP3_GETRANGE_UIDL_RECV &&
++	    pop3_session->state != POP3_GETAUTH_CRAM_MD5 &&
+ 	    pop3_session->state != POP3_GETSIZE_LIST_RECV) {
+ 		val = pop3_ok(pop3_session, msg);
+ 		if (val != PS_SUCCESS) {
+@@ -772,19 +835,33 @@ static gint pop3_session_recv_msg(Session *session, const gchar *msg)
+ 			val = pop3_stls_send(pop3_session);
+ 		else
+ #endif
+-		if (pop3_session->ac_prefs->use_apop_auth)
++		switch(pop3_session->ac_prefs->pop_auth_type) {
++		case POP3_AUTH_APOP:
+ 			val = pop3_getauth_apop_send(pop3_session);
+-		else
++			break;
++		case POP3_AUTH_LOGIN:
+ 			val = pop3_getauth_user_send(pop3_session);
++			break;
++		case POP3_AUTH_CRAM_MD5:
++			val = pop3_getauth_crammd5_send(pop3_session);
++			break;
++		}
+ 		break;
+ #if USE_SSL
+ 	case POP3_STLS:
+ 		if ((val = pop3_stls_recv(pop3_session)) != PS_SUCCESS)
+ 			return -1;
+-		if (pop3_session->ac_prefs->use_apop_auth)
++		switch(pop3_session->ac_prefs->pop_auth_type) {
++		case POP3_AUTH_APOP:
+ 			val = pop3_getauth_apop_send(pop3_session);
+-		else
++			break;
++		case POP3_AUTH_LOGIN:
+ 			val = pop3_getauth_user_send(pop3_session);
++			break;
++		case POP3_AUTH_CRAM_MD5:
++			val = pop3_getauth_crammd5_send(pop3_session);
++			break;
++		}
+ 		break;
+ #endif
+ 	case POP3_GETAUTH_USER:
+@@ -792,11 +869,18 @@ static gint pop3_session_recv_msg(Session *session, const gchar *msg)
+ 		break;
+ 	case POP3_GETAUTH_PASS:
+ 	case POP3_GETAUTH_APOP:
++	case POP3_GETAUTH_CRAM_MD5_DIGEST:
+ 		if (pop3_session->auth_only)
+ 			val = pop3_logout_send(pop3_session);
+ 		else
+ 			val = pop3_getrange_stat_send(pop3_session);
+ 		break;
++	case POP3_GETAUTH_CRAM_MD5:
++		if ((val = pop3_digest_crammd5_recv(pop3_session, body)) != PS_SUCCESS)
++			return -1;
++		else
++			val = pop3_getauth_crammd5_digest_send(pop3_session);
++		break;
+ 	case POP3_GETRANGE_STAT:
+ 		if ((val = pop3_getrange_stat_recv(pop3_session, body)) != PS_SUCCESS)
+ 			return -1;
+diff --git a/libsylph/pop.h b/libsylph/pop.h
+index 050caf5..f8c94a2 100644
+--- a/libsylph/pop.h
++++ b/libsylph/pop.h
+@@ -36,6 +36,12 @@ typedef struct _Pop3Session	Pop3Session;
+ 
+ #define POP3_SESSION(obj)	((Pop3Session *)obj)
+ 
++typedef enum {
++	POP3_AUTH_LOGIN		= 1 << 0, /* default unencrypted user/pass auth */
++	POP3_AUTH_APOP		= 1 << 1, /* APop method */
++	POP3_AUTH_CRAM_MD5      = 1 << 2, /* cram-md5 digest */
++} Pop3AuthType;
++
+ typedef enum {
+ 	POP3_READY,
+ 	POP3_GREETING,
+@@ -43,6 +49,8 @@ typedef enum {
+ 	POP3_GETAUTH_USER,
+ 	POP3_GETAUTH_PASS,
+ 	POP3_GETAUTH_APOP,
++	POP3_GETAUTH_CRAM_MD5,
++	POP3_GETAUTH_CRAM_MD5_DIGEST,
+ 	POP3_GETRANGE_STAT,
+ 	POP3_GETRANGE_LAST,
+ 	POP3_GETRANGE_UIDL,
+@@ -114,8 +122,10 @@ struct _Pop3Session
+ 	PrefsAccount *ac_prefs;
+ 
+ 	gchar *greeting;
++	gchar *digest;
+ 	gchar *user;
+ 	gchar *pass;
++	gint digest_len;
+ 	gint count;
+ 	gint64 total_bytes;
+ 	gint cur_msg;
+diff --git a/libsylph/prefs_account.c b/libsylph/prefs_account.c
+index 1aecba9..2a35af9 100644
+--- a/libsylph/prefs_account.c
++++ b/libsylph/prefs_account.c
+@@ -34,6 +34,7 @@
+ #include "customheader.h"
+ #include "account.h"
+ #include "utils.h"
++#include "pop.h"
+ 
+ static PrefsAccount tmp_ac_prefs;
+ 
+@@ -54,7 +55,7 @@ static PrefParam param[] = {
+ 	{"inbox", "inbox", &tmp_ac_prefs.inbox, P_STRING},
+ 
+ 	/* Receive */
+-	{"use_apop_auth", "FALSE", &tmp_ac_prefs.use_apop_auth, P_BOOL},
++	{"pop_auth_method", "0", &tmp_ac_prefs.pop_auth_type, P_ENUM},
+ 	{"remove_mail", "TRUE", &tmp_ac_prefs.rmmail, P_BOOL},
+ 	{"message_leave_time", "7", &tmp_ac_prefs.msg_leave_time, P_INT},
+ 	{"get_all_mail", "FALSE", &tmp_ac_prefs.getall, P_BOOL},
+@@ -226,7 +227,7 @@ void prefs_account_read_config(PrefsAccount *ac_prefs, const gchar *label)
+ 	if (ac_prefs->protocol == A_APOP) {
+ 		debug_print("converting protocol A_APOP to new prefs.\n");
+ 		ac_prefs->protocol = A_POP3;
+-		ac_prefs->use_apop_auth = TRUE;
++		ac_prefs->pop_auth_type = POP3_AUTH_APOP;
+ 	}
+ 
+ 	custom_header_read_config(ac_prefs);
+diff --git a/libsylph/prefs_account.h b/libsylph/prefs_account.h
+index ad899f8..249711b 100644
+--- a/libsylph/prefs_account.h
++++ b/libsylph/prefs_account.h
+@@ -82,7 +82,7 @@ struct _PrefsAccount
+ 	gchar *tmp_pass;
+ 
+ 	/* Receive */
+-	gboolean use_apop_auth;
++	gint pop_auth_type;
+ 	gboolean rmmail;
+ 	gint msg_leave_time;
+ 	gboolean getall;
+diff --git a/src/prefs_account_dialog.c b/src/prefs_account_dialog.c
+index e9cba13..5d8b638 100644
+--- a/src/prefs_account_dialog.c
++++ b/src/prefs_account_dialog.c
+@@ -52,6 +52,7 @@
+ #include "alertpanel.h"
+ #include "smtp.h"
+ #include "imap.h"
++#include "pop.h"
+ #include "plugin.h"
+ 
+ static gboolean cancelled;
+@@ -84,7 +85,7 @@ static struct Basic {
+ 
+ static struct Receive {
+ 	GtkWidget *pop3_frame;
+-	GtkWidget *use_apop_chkbtn;
++	GtkWidget *pop_auth_type_optmenu;
+ 	GtkWidget *rmmail_chkbtn;
+ 	GtkWidget *leave_time_entry;
+ 	GtkWidget *getall_chkbtn;
+@@ -227,9 +228,14 @@ static void prefs_account_protocol_set_data_from_optmenu(PrefParam *pparam);
+ static void prefs_account_protocol_set_optmenu		(PrefParam *pparam);
+ static void prefs_account_protocol_activated		(GtkMenuItem *menuitem);
+ 
++static void prefs_account_pop_auth_type_set_data_from_optmenu
++							(PrefParam *pparam);
++static void prefs_account_pop_auth_type_set_optmenu	(PrefParam *pparam);
++
+ static void prefs_account_imap_auth_type_set_data_from_optmenu
+ 							(PrefParam *pparam);
+ static void prefs_account_imap_auth_type_set_optmenu	(PrefParam *pparam);
++
+ static void prefs_account_smtp_auth_type_set_data_from_optmenu
+ 							(PrefParam *pparam);
+ static void prefs_account_smtp_auth_type_set_optmenu	(PrefParam *pparam);
+@@ -270,8 +276,9 @@ static PrefsUIData ui_data[] = {
+ 	 prefs_set_data_from_entry, prefs_set_entry},
+ 
+ 	/* Receive */
+-	{"use_apop_auth", &receive.use_apop_chkbtn,
+-	 prefs_set_data_from_toggle, prefs_set_toggle},
++	{"pop_auth_method", &receive.pop_auth_type_optmenu,
++	 prefs_account_pop_auth_type_set_data_from_optmenu,
++	 prefs_account_pop_auth_type_set_optmenu},
+ 	{"remove_mail", &receive.rmmail_chkbtn,
+ 	 prefs_set_data_from_toggle, prefs_set_toggle},
+ 	{"message_leave_time", &receive.leave_time_entry,
+@@ -893,7 +900,7 @@ static void prefs_account_receive_create(void)
+ 	GtkWidget *vbox1;
+ 	GtkWidget *frame1;
+ 	GtkWidget *vbox2;
+-	GtkWidget *use_apop_chkbtn;
++	GtkWidget *pop_auth_type_optmenu;
+ 	GtkWidget *rmmail_chkbtn;
+ 	GtkWidget *hbox_spc;
+ 	GtkWidget *leave_time_label;
+@@ -910,6 +917,7 @@ static void prefs_account_receive_create(void)
+ 	GtkWidget *inbox_btn;
+ 
+ 	GtkWidget *imap_frame;
++	GtkWidget *optmenu_pop;
+ 	GtkWidget *optmenu;
+ 	GtkWidget *optmenu_menu;
+ 	GtkWidget *menuitem;
+@@ -936,8 +944,26 @@ static void prefs_account_receive_create(void)
+ 	gtk_container_add (GTK_CONTAINER (frame1), vbox2);
+ 	gtk_container_set_border_width (GTK_CONTAINER (vbox2), 8);
+ 
+-	PACK_CHECK_BUTTON (vbox2, use_apop_chkbtn,
+-			   _("Use secure authentication (APOP)"));
++	hbox1 = gtk_hbox_new (FALSE, 8);
++	gtk_widget_show (hbox1);
++	gtk_box_pack_start (GTK_BOX (vbox2), hbox1, FALSE, FALSE, 0);
++
++	label = gtk_label_new (_("Authentication method"));
++	gtk_widget_show (label);
++	gtk_box_pack_start (GTK_BOX (hbox1), label, FALSE, FALSE, 0);
++
++	optmenu = gtk_option_menu_new ();
++	gtk_widget_show (optmenu);
++	gtk_box_pack_start (GTK_BOX (hbox1), optmenu, FALSE, FALSE, 0);
++
++	optmenu_menu = gtk_menu_new ();
++
++	MENUITEM_ADD (optmenu_menu, menuitem, _("Unencrypted (standard)"), POP3_AUTH_LOGIN);
++	MENUITEM_ADD (optmenu_menu, menuitem, _("Use secure authentication (APOP)"), POP3_AUTH_APOP);
++	MENUITEM_ADD (optmenu_menu, menuitem, "CRAM-MD5", POP3_AUTH_CRAM_MD5);
++
++	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu), optmenu_menu);
++	optmenu_pop = optmenu;
+ 
+ 	PACK_CHECK_BUTTON (vbox2, rmmail_chkbtn,
+ 			   _("Remove messages on server when received"));
+@@ -1106,7 +1132,7 @@ static void prefs_account_receive_create(void)
+ 		 _("`Get all' checks for new messages on this account"));
+ 
+ 	receive.pop3_frame            = frame1;
+-	receive.use_apop_chkbtn       = use_apop_chkbtn;
++	receive.pop_auth_type_optmenu = optmenu_pop;
+ 	receive.rmmail_chkbtn         = rmmail_chkbtn;
+ 	receive.leave_time_entry      = leave_time_entry;
+ 	receive.getall_chkbtn         = getall_chkbtn;
+@@ -2447,7 +2473,7 @@ static void prefs_account_protocol_set_optmenu(PrefParam *pparam)
+ 	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
+ }
+ 
+-static void prefs_account_imap_auth_type_set_data_from_optmenu(PrefParam *pparam)
++static void prefs_account_auth_type_set_data_from_optmenu(PrefParam *pparam)
+ {
+ 	PrefsUIData *ui_data;
+ 	GtkWidget *menu;
+@@ -2463,10 +2489,21 @@ static void prefs_account_imap_auth_type_set_data_from_optmenu(PrefParam *pparam
+ 		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+ }
+ 
+-static void prefs_account_imap_auth_type_set_optmenu(PrefParam *pparam)
++static void prefs_account_imap_auth_type_set_data_from_optmenu(PrefParam *pparam)
++{
++	prefs_account_auth_type_set_data_from_optmenu(pparam);
++}
++
++static void prefs_account_pop_auth_type_set_data_from_optmenu(PrefParam *pparam)
++{
++	prefs_account_auth_type_set_data_from_optmenu(pparam);
++}
++
++static void prefs_account_auth_type_set_optmenu(PrefParam *pparam, gboolean is_imap)
+ {
+ 	PrefsUIData *ui_data;
+-	IMAPAuthType type = *((IMAPAuthType *)pparam->data);
++	IMAPAuthType itype;
++	Pop3AuthType ptype;
+ 	GtkOptionMenu *optmenu;
+ 	GtkWidget *menu;
+ 	GtkWidget *menuitem;
+@@ -2477,19 +2514,38 @@ static void prefs_account_imap_auth_type_set_optmenu(PrefParam *pparam)
+ 
+ 	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+ 
+-	switch (type) {
+-	case IMAP_AUTH_LOGIN:
+-		gtk_option_menu_set_history(optmenu, 1);
+-		break;
+-	case IMAP_AUTH_PLAIN:
+-		gtk_option_menu_set_history(optmenu, 2);
+-		break;
+-	case IMAP_AUTH_CRAM_MD5:
+-		gtk_option_menu_set_history(optmenu, 3);
+-		break;
+-	case 0:
+-	default:
+-		gtk_option_menu_set_history(optmenu, 0);
++	if (is_imap) {
++		itype = *((IMAPAuthType *)pparam->data);
++		switch (itype) {
++		case IMAP_AUTH_LOGIN:
++			gtk_option_menu_set_history(optmenu, 1);
++			break;
++		case IMAP_AUTH_PLAIN:
++			gtk_option_menu_set_history(optmenu, 2);
++			break;
++		case IMAP_AUTH_CRAM_MD5:
++			gtk_option_menu_set_history(optmenu, 3);
++			break;
++		case 0:
++		default:
++			gtk_option_menu_set_history(optmenu, 0);
++		}
++	} else {
++		ptype = *((Pop3AuthType *)pparam->data);
++		switch (ptype) {
++		case POP3_AUTH_LOGIN:
++			gtk_option_menu_set_history(optmenu, 0);
++			break;
++		case POP3_AUTH_APOP:
++			gtk_option_menu_set_history(optmenu, 1);
++			break;
++		case POP3_AUTH_CRAM_MD5:
++			gtk_option_menu_set_history(optmenu, 2);
++			break;
++		case 0:
++		default:
++			gtk_option_menu_set_history(optmenu, 0);
++		}
+ 	}
+ 
+ 	menu = gtk_option_menu_get_menu(optmenu);
+@@ -2497,6 +2553,16 @@ static void prefs_account_imap_auth_type_set_optmenu(PrefParam *pparam)
+ 	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
+ }
+ 
++static void prefs_account_imap_auth_type_set_optmenu(PrefParam *pparam)
++{
++	prefs_account_auth_type_set_optmenu(pparam, TRUE);
++}
++
++static void prefs_account_pop_auth_type_set_optmenu(PrefParam *pparam)
++{
++	prefs_account_auth_type_set_optmenu(pparam, FALSE);
++}
++
+ static void prefs_account_smtp_auth_type_set_data_from_optmenu(PrefParam *pparam)
+ {
+ 	PrefsUIData *ui_data;
+diff --git a/src/rpop3.c b/src/rpop3.c
+index 571671f..3f59aa0 100644
+--- a/src/rpop3.c
++++ b/src/rpop3.c
+@@ -884,7 +884,8 @@ static gint rpop3_session_recv_msg(Session *session, const gchar *msg)
+ 			val = pop3_stls_send(pop3_session);
+ 		else
+ #endif
+-		if (pop3_session->ac_prefs->use_apop_auth)
++		/* XXX FIXME: need switch block to deal with POP3_AUTH_CRAM_MD5 just like in libsylph/pop.c */
++		if (pop3_session->ac_prefs->pop_auth_type == POP3_AUTH_APOP)
+ 			val = pop3_getauth_apop_send(pop3_session);
+ 		else
+ 			val = pop3_getauth_user_send(pop3_session);
+@@ -893,7 +894,8 @@ static gint rpop3_session_recv_msg(Session *session, const gchar *msg)
+ 	case POP3_STLS:
+ 		if ((val = pop3_stls_recv(pop3_session)) != PS_SUCCESS)
+ 			break;
+-		if (pop3_session->ac_prefs->use_apop_auth)
++		/* XXX FIXME: need switch block to deal with POP3_AUTH_CRAM_MD5 just like in libsylph/pop.c */
++		if (pop3_session->ac_prefs->pop_auth_type == POP3_AUTH_APOP)
+ 			val = pop3_getauth_apop_send(pop3_session);
+ 		else
+ 			val = pop3_getauth_user_send(pop3_session);
+-- 
+2.20.1
+

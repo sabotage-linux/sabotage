@@ -4,7 +4,7 @@ http://sylpheed.sraoss.jp/sylpheed/v3.7/sylpheed-3.7.0.tar.xz
 [vars]
 filesize=2616228
 sha512=1f3255dd61878e9f52f78cd68a76712835c376296ddfa72034a0415f17843eaa334fb6019900b2fa18ccc600d918945febd7ffdfde91990a4e9f5c05a1609c76
-pkgver=3
+pkgver=4
 uchkurl='http://sylpheed.sraoss.jp/en/'
 desc='small and fast desktop email client'
 
@@ -12,6 +12,8 @@ desc='small and fast desktop email client'
 gtk+2
 
 [build]
+patch -p1 < "$K"/sylpheed-pop3-cram-md5.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
