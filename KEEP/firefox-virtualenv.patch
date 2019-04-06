@@ -110,7 +110,7 @@
      #distutils_cfg = DISTUTILS_CFG + "\n[install]\nprefix=%s\n" % home_dir
 +    logger.warn("XXX overwriting distutils init.py %s" % os.path.join(distutils_path, '__init__.py'))
 +    # we need to remove the old __init__.py, otherwise we'll overwrite it if it's a symlink
-+    os.unlink(os.path.join(distutils_path, '__init__.py'))
++    if os.path.exists(os.path.join(distutils_path, '__init__.py')): os.unlink(os.path.join(distutils_path, '__init__.py'))
 +    if os.path.exists(os.path.join(distutils_path, '__init__.py')):
 +        logger.warn("XXX the file still exists, wtf ?")
 +        sys.exit(1)
