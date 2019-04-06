@@ -8,6 +8,7 @@ tardir=UXP-PM28.2.2_Release
 pkgver=1
 
 [deps]
+autoconf213-tarball
 libevent
 gtk+2
 alsa-lib
