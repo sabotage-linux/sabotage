@@ -1,0 +1,41 @@
+Subject: [PATCH] trayicon: fix main window restoration on different desktop
+
+with the previous code, the main window could only be restored on
+the desktop where it was minimized, which made the systray feature
+almost useless.
+now it behaves exactly like xchat2, from which the method has been
+borrowed.
+attempts to move the code into main_window_popup() failed.
+
+diff --git a/src/trayicon.c b/src/trayicon.c
+index ef56dc1..3020fe0 100644
+--- a/src/trayicon.c
++++ b/src/trayicon.c
+@@ -251,11 +251,20 @@ static void trayicon_activated(GtkStatusIcon *status_icon, gpointer data)
+ 	else
+ 		main_window_popup(mainwin);
+ #else
++	static GdkScreen *screen;
++	static int x, y;
++
+ 	if (prefs_common.toggle_window_on_trayicon_click &&
+-	    gtk_window_is_active(GTK_WINDOW(mainwin->window)))
+-		gtk_window_iconify(GTK_WINDOW(mainwin->window));
+-	else
+-		main_window_popup(mainwin);
++	    gtk_widget_get_visible (GTK_WIDGET (mainwin->window))) {
++		gtk_window_get_position (GTK_WINDOW(mainwin->window), &x, &y);
++		screen = gtk_window_get_screen(GTK_WINDOW(mainwin->window));
++		gtk_widget_hide (GTK_WIDGET (mainwin->window));
++	} else {
++		gtk_window_set_screen (GTK_WINDOW(mainwin->window), screen);
++		gtk_window_move (GTK_WINDOW(mainwin->window), x, y);
++		gtk_widget_show (GTK_WIDGET (mainwin->window));
++		gtk_window_present (GTK_WINDOW(mainwin->window));
++	}
+ #endif
+ }
+ 
+-- 
+2.20.1
+
