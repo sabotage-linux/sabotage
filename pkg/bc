@@ -1,22 +1,21 @@
 [mirrors]
-https://github.com/gavinhoward/bc/releases/download/1.0/bc-1.0.tar.xz
+https://github.com/gavinhoward/bc/releases/download/1.2.3/bc-1.2.3.tar.xz
 
 [vars]
-filesize=70352
-sha512=3741a3dd31ea1623788c2396a7b2a8293d19eb5b11b4e0a3eee6d04e10017babec78a1f1e830462b1f6210add4bd1528332eb63988dc6947a7a2e0e085d380c7
-pkgver=2
+filesize=121032
+sha512=5277177a0627b00d8022f37060f6496312ae0f25e41521b5d7276c0e177f1ee7605f148b0bdee1f526fbc5d00e36a2c1ecbf4f808978e6f55e2745f327bd3bdd
+pkgver=3
 desc='bc calculator and programming language interpreter'
 
 [deps]
 
 [build]
-make CC="$HOSTCC" gen
+test -z "$butch_prefix" && butch_prefix=/
 
-make V=1 -j$MAKE_THREADS \
-LDLIBS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-CFLAGS="$optcflags -funsigned-char -Iinclude" all
+DESTDIR="$butch_install_dir" PREFIX="$butch_prefix" CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure.sh -EHNG
 
-dest="$butch_install_dir""$butch_prefix"
-install -Dm 755 bin/bc "$dest"/bin/bc
-ln -s bc "$dest"/bin/dc
+make V=1 -j$MAKE_THREADS all
+make install
 
