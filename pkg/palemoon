@@ -1,0 +1,270 @@
+[mirrors]
+http://releases.mozilla.org/pub/mozilla.org/firefox/releases/52.9.0esr/source/firefox-52.9.0esr.source.tar.xz
+ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/52.9.0esr/source/firefox-52.9.0esr.source.tar.xz
+
+[vars]
+filesize=214087304
+sha512=bfca42668ca78a12a9fb56368f4aae5334b1f7a71966fbba4c32b9c5e6597aac79a6e340ac3966779d2d5563eb47c054ab33cc40bfb7306172138ccbd3adb2b9
+pkgver=12
+tardir=firefox-52.9.0esr
+uchkurl=http://releases.mozilla.org/pub/mozilla.org/firefox/releases/
+no_unlink=1
+
+[deps]
+autoconf213-tarball
+libevent
+gtk+2
+alsa-lib
+zlib
+libpng
+bzip2
+libxt
+mesalib
+libogg
+libvorbis
+icu
+libvpx
+hunspell
+
+[deps.host]
+yasm
+perl
+python
+zip
+
+[build]
+FF_VERSION=52.9.0
+export SHELL=/bin/sh
+
+# install ancient autoconf version firefox wants into src tree
+mkdir AC213
+tar xf "$C"/autoconf-2.13.tar.gz
+cd autoconf-2.13
+./configure --prefix="$PWD"/../AC213  --program-suffix=-2.13
+make && make install
+cd ..
+export PATH="$PATH":"$PWD"/AC213/bin
+
+
+# fix usage of inflateValidate in libpng code which is only in latest zlib
+sed -i 's@0x1281@0x1290@' media/libpng/pngrutil.c
+
+PATCH() {
+	echo "***** $1 *****"
+	patch -p1 < "$K"/"$1"
+}
+
+PATCH firefox-virtualenv.patch
+PATCH firefox-virtualenv2.patch
+PATCH firefox-getprotobyname_r.patch
+PATCH firefox-finite.patch
+
+PATCH firefox38-BLOCK_SIZE.patch
+PATCH firefox38-xul-order.patch
+PATCH firefox45-mallinfo.patch
+PATCH firefox45-libavutil.patch
+PATCH firefox45-seccomp-bpf.patch
+PATCH firefox45-7-psutil.patch
+PATCH firefox-disable-moz-stackwalk.patch
+PATCH firefox-fix-toolkit.patch
+PATCH firefox-fix-tools.patch
+PATCH firefox-disable-hunspell_hooks.patch
+PATCH firefox-fix-arm-atomics-grsec.patch
+PATCH firefox-fix-arm-version-detect.patch
+
+cat << EOF > mozconfig
+mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
+mk_add_options MOZ_GL_DEFAULT_PROVIDER=NONE
+ac_add_options --disable-dbus
+ac_add_options --disable-necko-wifi
+#ac_add_options --disable-libnotify
+ac_add_options --disable-jemalloc
+ac_add_options --disable-replace-malloc
+#ac_add_options --disable-wrap-malloc
+
+ac_add_options --disable-profiling
+#ac_add_options --disable-shark
+ac_add_options --disable-callgrind
+ac_add_options --disable-vtune
+
+ac_add_options --disable-elf-hack
+
+# this option breaks the build
+#ac_add_options --disable-webspeech
+# disabling ogg as the makefile forgets to add -logg -lvorbis
+#ac_add_options --disable-ogg
+#ac_add_options --disable-opus
+#ac_add_options --disable-webgl
+ac_add_options --disable-gconf
+
+
+# GStreamer is necessary for H.264 video playback in HTML5 Video Player;
+# to be enabled, also remember to set "media.gstreamer.enabled" to "true"
+# in about:config. If you have installed GStreamer comment out this line:
+#ac_add_options --disable-gstreamer
+
+# Uncomment these lines if you have installed optional dependencies:
+ac_add_options --enable-system-hunspell
+#ac_add_options --enable-startup-notification
+
+# Uncomment this line if you compiled Cairo with --enable-tee switch and want
+# to use it instead of the bundled one:
+#ac_add_options --enable-system-cairo
+
+# If you have not installed Yasm then uncomment these 3 lines:
+#ac_add_options --disable-webm
+ac_add_options --disable-webrtc
+ac_add_options --disable-libjpeg-turbo
+
+ac_add_options --disable-pulseaudio
+
+# If you have installed xulrunner uncomment the next two ac_add_options lines
+# and check that the sdk will be set by running pkg-config in a subshell
+# and has not become hardcoded or empty when you created this file
+#ac_add_options --with-system-libxul
+#ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
+
+# Comment out following options if you have not installed
+# recommended dependencies:
+#ac_add_options --enable-system-sqlite
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+#ac_add_options --with-system-nspr
+#ac_add_options --with-system-nss
+ac_add_options --with-system-icu
+
+# It is recommended not to touch anything below this line
+ac_add_options --prefix=/$butch_prefix
+ac_add_options --enable-application=browser
+
+ac_add_options --disable-crashreporter
+#ac_add_options --disable-installer
+ac_add_options --disable-updater
+ac_add_options --disable-debug
+ac_add_options --disable-tests
+
+ac_add_options --enable-optimize
+ac_add_options --disable-strip
+ac_add_options --disable-install-strip
+ac_add_options --enable-gio
+ac_add_options --enable-official-branding
+ac_add_options --enable-safe-browsing
+ac_add_options --enable-url-classifier
+
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+ac_add_options --with-pthreads
+
+ac_add_options --with-system-bz2
+#ac_add_options --with-system-jpeg
+#ac_add_options --with-system-png
+ac_add_options --with-system-zlib
+#mk_add_options AUTOCONF=autoconf
+ac_add_options --enable-default-toolkit=cairo-gtk2
+
+CXX="$CXX"
+CC="$CC"
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
+EOF
+[ -n "$CROSS_COMPILE" ] && \
+  printf "ac_add_options %s\n" "--target=$($CC -dumpmachine)" >> mozconfig
+
+# prevent non-reproducible BuildID timestamps everywhere
+export MOZ_BUILD_DATE=20170301000000
+
+cat << 'EOF' > convertmozconfig.py
+import fileinput
+s = ''
+m = ''
+for line in fileinput.input():
+        line = line.strip()
+        if line == '': continue
+        if line.startswith('#'): continue
+        if line.startswith('ac_add_options'):
+                a = line[len('ac_add_options')+1:]
+                s += a + ' \\\n'
+        elif line.startswith('mk_add_options'):
+                a = line[len('mk_add_options')+1:]
+                m += 'export ' + a + '\n'
+        else:
+                m += 'export ' + line + '\n'
+
+with open('myconfigure', 'w') as h:
+        h.write('#!/bin/sh\n')
+        h.write(m + '\n')
+        h.write('exec ../configure \\\n')
+        h.write(s + '\n"@"\n')
+
+EOF
+python convertmozconfig.py < mozconfig
+
+mkdir -p include/sys
+cat << EOF > include/sys/cdefs.h
+#ifndef __P
+#define __P(foo) foo
+#endif
+EOF
+
+find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@g'
+
+sed -i 's@-Wl,--build-id@@' old-configure
+
+reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
+# on arm binutils 2.24 assertion failure is triggered due to some of the cflags
+# in the default butch config. see issue #186
+[ "$A" = arm ] && \
+allflags="-D_GNU_SOURCE -I$PWD/include -Os -g0 -fno-unwind-tables \
+-fno-asynchronous-unwind-tables -Wa,--noexecstack $reqldf"
+
+#export PYTHONHOME="$PWD"/firefox-build-dir/_virtualenv/
+mkdir -p objdir && cd objdir
+LDFLAGS=-lz \
+CFLAGS="$allflags -lz" \
+CXXFLAGS="$allflags" \
+sh ../myconfigure
+#make -f client.mk
+
+make -j$MAKE_THREADS
+
+rm -rf "$butch_install_dir"/*
+make install DESTDIR="$butch_install_dir"
+
+dest="$butch_install_dir""$butch_prefix"
+mkdir -p "$dest"/lib/firefox-"$FF_VERSION" "$dest"/bin \
+  "$dest"/share/applications "$dest"/share/pixmaps
+
+# for some reason libxul.so on arm isnt stripped, and > 800MB
+test "$DEBUGBUILD" = 1 ||
+  ${CROSS_COMPILE}strip "$dest"/lib/firefox-"$FF_VERSION"/libxul.so
+
+rm -rf "$dest"/include "$dest"/lib/firefox-devel-"$FF_VERSION"
+rm -f "$dest"/bin/firefox 
+cat << EOF > "$dest"/bin/firefox
+#!/bin/sh
+FFDIR="$butch_prefix/lib/firefox-${FF_VERSION}"
+LD_LIBRARY_PATH="\$FFDIR" \
+"\$FFDIR"/firefox-bin "\$@"
+EOF
+chmod +x "$dest"/bin/firefox
+
+cat << EOF > "$dest"/share/applications/firefox.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Firefox Web Browser
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+Exec=firefox %u
+Terminal=false
+Type=Application
+Icon=firefox
+Categories=GNOME;GTK;Network;WebBrowser;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+EOF
+ln -sf ../../lib/firefox-"$FF_VERSION"/browser/icons/mozicon128.png \
+"$dest"/share/pixmaps/firefox.png
+
+rm -f "$dest"/lib/firefox-"$FF_VERSION"/lib*.chk
