@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/MoonchildProductions/UXP/archive/PM28.2.2_Release.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/PM28.3.0_Release.tar.gz
 
 [vars]
-filesize=294303713
-sha512=23b69421239a7a52f872c1e056c25c07382de7501c6eb757dda788dd9956b6c08ed8c1663f8c1e85e9067cdb73f4f03b51e242d085fbebdad502b06ac5aebd8b
-tardir=UXP-PM28.2.2_Release
-pkgver=1
+filesize=294368460
+sha512=71276972388221b7d2e0ce2c4d1ea89b56d62f4a455cb9853bfdc32846f9ad28e87427e3761274fbe59fad57c04f81c302be50d8ec587fc29b0dacfc2498cee9
+tardir=UXP-PM28.3.0_Release
+pkgver=2
 
 [deps]
 autoconf213-tarball
@@ -31,7 +31,7 @@ zip
 
 [build]
 BROWSER_NAME=basilisk
-BROWSER_VERSION=28.2.2
+BROWSER_VERSION=28.3.0
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
 
