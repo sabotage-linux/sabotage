@@ -1,0 +1,25 @@
+--- Python-2.7.15.org/Modules/main.c
++++ Python-2.7.15/Modules/main.c
+@@ -372,7 +372,7 @@
+         /* case 'J': reserved for Jython */
+ 
+         case 'O':
+-            Py_OptimizeFlag++;
++            /* Py_OptimizeFlag++; */
+             break;
+ 
+         case 'B':
+--- Python-2.7.15.org/Python/pythonrun.c
++++ Python-2.7.15/Python/pythonrun.c
+@@ -949,9 +949,9 @@
+             fprintf(stderr, "python: Can't reopen .pyc file\n");
+             goto done;
+         }
+-        /* Turn on optimization if a .pyo file is given */
++        /* Turn on optimization if a .pyo file is given
+         if (strcmp(ext, ".pyo") == 0)
+-            Py_OptimizeFlag = 1;
++            Py_OptimizeFlag = 1; */
+         v = run_pyc_file(fp, filename, d, d, flags);
+     } else {
+         v = PyRun_FileExFlags(fp, filename, Py_file_input, d, d,

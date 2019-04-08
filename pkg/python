@@ -5,7 +5,7 @@ http://sources.buildroot.net/Python-2.7.15.tar.xz
 [vars]
 filesize=12642436
 sha512=27ea43eb45fc68f3d2469d5f07636e10801dee11635a430ec8ec922ed790bb426b072da94df885e4dfa1ea8b7a24f2f56dd92f9b0f51e162330f161216bd6de6
-pkgver=7
+pkgver=8
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
@@ -31,7 +31,16 @@ patch -p1 < "$K"/python-xcompile.patch
 patch -p1 < "$K"/python-includedirs.patch
 patch -p1 < "$K"/python-UTF-8.patch
 patch -p1 < "$K"/python-sysconfig-prefix.patch
-
+# if PYTHON_SMALL_AND_SLOW is set, we disable automatic creation of .pyc and
+# .pyo bytecode files. the result is small delay on startup (up to 2.5x slower)
+# but substantial savings in disk space (31 vs 22 MB on x86_64)).
+if test "$PYTHON_SMALL_AND_SLOW" = 1 ; then
+  patch -p1 < "$K"/python2715-dont_write_bytecode.patch
+else
+  # we benchmarked python .pyo optimization and it is completely useless, but
+  # causes additionaly cluttering with .pyo files, so disable it.
+  patch -p1 < "$K"/python2715-disable_pyo_optimization.patch
+fi
 # below lines are commented out, because even though they should improve libedit support,
 # the resulting readline module doesn't deal correctly with tab completion.
 # for example "completing text" code from https://pymotw.com/2/readline/
@@ -98,10 +107,16 @@ for test in sqlite3/test email/test ctypes/test test unittest/test lib-tk/test \
             bsddb/test json/tests lib2to3/tests distutils/tests tests ; do
 	rm -rf "$dest"/lib/python2.7/"$test"
 done
-# removing precompiled python code
-# this can cause a minimal startup time increase
-find "$dest"/lib/python2.7/ -name '*.pyo' -or -name '*.pyc' -exec rm {} \;
 
 # remove hardcoded CFLAGS interfering with cross builds
 # note: OPT is only used if CFLAGS are exported in environment.
 sed -i "s,'OPT': '.*','OPT': ''," "$dest"/lib/python2.7/_sysconfigdata.py
+
+if test "$PYTHON_SMALL_AND_SLOW" = 1 ; then
+ # removing precompiled python code, if any
+ find "$dest"/lib/python2.7/ -name '*.pyo' -or -name '*.pyc' -delete
+else
+ # precompile all .pyc files now rather than on first use, so they're part of
+ # the package directory
+ test -n "$CROSS_COMPILE" || ./python -E Lib/compileall.py "$dest"/lib/python2.7
+fi
