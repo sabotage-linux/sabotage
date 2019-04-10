@@ -1,0 +1,48 @@
+[mirrors]
+https://github.com/teeshop/rexgen/archive/50eeb7b5f52bdc5d90501c1f1eb8d43b881e7892.tar.gz
+
+[vars]
+filesize=164592
+sha512=2ae1ea23cba48c1accef11a00d43fcaf4a6e92a5df99809c9fa6cfba97bd704991f35c9b4f6638147b6cc3d15496e175e2ff25c0da1fcf154423ac19cd94e647
+tarball=librexgen-2.0.8.tar.gz
+tardir=rexgen-50eeb7b5f52bdc5d90501c1f1eb8d43b881e7892
+pkgver=1
+
+[deps]
+
+[deps.host]
+cmake
+flex
+bison
+
+[build]
+
+sed -i 's,xlocale.h,string.h,' src/librexgen/string/simplestring.h
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  ../src
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
