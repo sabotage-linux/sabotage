@@ -1,12 +1,12 @@
 [mirrors]
-https://github.com/magnumripper/JohnTheRipper/archive/643d9261.tar.gz
+https://github.com/magnumripper/JohnTheRipper/archive/97cce637cdf3796fc2a1b28117dfad4272a9e99f.tar.gz
 
 [vars]
-filesize=38500832
-sha512=79e4f58cc056592f5ed1756a0eae2af753836ffd15221433d3b0f2fbb8ef26390cba8947208ce464fda3b5bcde1588af45f31d007e68316820cb317f686aee26
-tarball=JohnTheRipper-1.8.0.6-jumbo-git-643d9261.tar.gz
-tardir=JohnTheRipper-643d9261b9154c6bdfb55b104d1fc040fc1188a3
-pkgver=5
+filesize=47490489
+sha512=eaa6c8650d8ababf713ee5cd8ce5783ae5e3a60853d8df1c4679f19b5ccfe32ffbd659fa4d31d3a2449329cd9649f9d82c77676add305efa6776d93c07d38aeb
+tarball=JohnTheRipper-1.8.0.7-jumbo-git-97cce637.tar.gz
+tardir=JohnTheRipper-97cce637cdf3796fc2a1b28117dfad4272a9e99f
+pkgver=6
 desc='password hash cracker'
 
 [deps]
