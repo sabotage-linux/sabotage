@@ -43,6 +43,8 @@ fi
 test -e /dev/root || {
 	dv=$(sed -n 's,.*root=\(/dev/[sh]d[a-z][0-9]\).*,\1,p' < /proc/cmdline)
 	test -n "$dv" || dv=$(sed -n 's,.*root=\(/dev/mapper/[_A-Za-z0-9]*\).*,\1,p' < /proc/cmdline)
+	test -n "$dv" || dv=$(findfs $(sed -n 's,.*root=\(UUID=[-A-Za-z0-9]*\).*,\1,p' < /proc/cmdline) 2>/dev/null)
+	test -n "$dv" || dv=$(findfs $(sed -n 's,.*root=\(LABEL=[-_A-Za-z0-9]*\).*,\1,p' < /proc/cmdline) 2>/dev/null)
 	test -n "$dv" && test -e "$dv" && ln -s "$dv" /dev/root
 }
 
