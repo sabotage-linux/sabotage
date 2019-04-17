@@ -1,40 +1,23 @@
 [mirrors]
-http://www.prevanders.net/libdwarf-20130729.tar.gz
+https://www.prevanders.net/libdwarf-20190110.tar.gz
 
 [vars]
-filesize=1533828
-sha512=f9d25cfd6c6b15bebf6cd63c7014ecf4123798fce637c0da103008758d6a9d5705c3797216a8d1ab3e210c4235f199ab19d7ed0bf6c3582f49eacba1629c5cc0
-tardir=dwarf-20130729
+filesize=2257739
+sha512=3d754da425e6d0608f560fae8e2a4089a8d28db0ffc6709ec8529d64be8676aebcf76adb3c9648af8ee2b2ffc7c53c603804e649bc0581003711b82e54d6868a
+pkgver=2
 
 [deps]
 libelf
 
 [build]
-patch -p1 < "$K"/libdwarf-xcompile.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-for dir in libdwarf dwarfdump ; do
-echo XXX entering dir $dir
-[ -n "$CROSS_COMPILE" ] && [ $dir = dwarfdump ] && continue
-cd $dir
-cp -f "$K"/config.cache .
-sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
-# the make target of dwarfdump is broken for concurrent build
-[ $dir = dwarfdump ] && MAKE_THREADS=1
-make -j$MAKE_THREADS
-cd ..
-done
 
-# libdwarf lacks make install
-dest="$butch_install_dir""$butch_prefix"
-install -D -m 755 libdwarf/libdwarf.a "$dest"/lib/libdwarf.a
-install -D -m 755 libdwarf/libdwarf.h "$dest"/include/libdwarf.h
-install -D -m 755 libdwarf/dwarf.h "$dest"/include/dwarf.h
-[ -n "$CROSS_COMPILE" ] || install -D -m 755 dwarfdump/dwarfdump "$dest"/bin/dwarfdump
-[ -n "$CROSS_COMPILE" ] || install -D -m 755 dwarfdump/dwarfdump.1 "$dest"/share/man/man1/dwarfdump.1
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
