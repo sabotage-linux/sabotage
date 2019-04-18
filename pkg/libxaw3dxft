@@ -1,0 +1,30 @@
+[mirrors]
+https://sourceforge.net/projects/sf-xpaint/files/libxaw3dxft/libXaw3dXft-1.6.2e.tar.bz2
+
+[vars]
+filesize=575198
+sha512=6db210f7ca2d356e93c2993c8518b348aaed450dca21de523d5c60296620f161fc9a88b60cd49ee64c8d3156e58543ed98640e1138996fcf73f9aeb6da400da8
+pkgver=1
+
+[deps]
+libx11
+libxt
+libxmu
+libxext
+libxft
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

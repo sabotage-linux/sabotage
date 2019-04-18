@@ -1,0 +1,30 @@
+[mirrors]
+https://sourceforge.net/projects/sf-xpaint/files/sf-xpaint/xpaint-2.10.2/xpaint-2.10.2.tar.bz2
+
+[vars]
+filesize=1891925
+sha512=a25aa940931c686e86cbc2bd8d6fd3c80d2c793a20d7a2dd90fb5cba1cd360b5e1c8433bf0d639e2b86cb2a74040be373f732c4617909aaf8c5ada2624ab5614
+pkgver=1
+
+[deps]
+libx11
+libxft
+libxpm
+libxaw3dxft
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 substads
+make V=1 -j$MAKE_THREADS LIBTOOL="$PWD"/libtool
+make DESTDIR="$butch_install_dir" LIBTOOL="$PWD"/libtool install
