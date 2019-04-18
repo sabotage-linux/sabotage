@@ -1,0 +1,59 @@
+From: Dominik Danelski <dominik@danelski.pl>
+Date: Thu, 2 Nov 2017 01:43:17 +0100
+Subject: Included patch by Juan Balderas (crash in toolbar)
+
+Applied-Upstream: https://bazaar.launchpad.net/~gnome-paint-developers/gnome-paint/trunk/revision/88
+Last-Update: 2019-02-26
+
+---
+ src/toolbar.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
+
+diff --git a/src/toolbar.c b/src/toolbar.c
+index 1c5ba03..94bf7e0 100644
+--- a/src/toolbar.c
++++ b/src/toolbar.c
+@@ -1,9 +1,11 @@
+ /***************************************************************************
+  *            toolbar.c
+  *
+- *  Sat May  9 15:13:23 2009
++ *  Last update: 2011-05-24
+  *  Copyright (C) Rogério Ferro do Nascimento 2009 
+  *  <rogerioferro@gmail.com>
++ *  Copyright (C) Juan Balderas 2011 
++ *  <juan.balderas.0@gmail.com>
+  ****************************************************************************/
+ 
+ /*
+@@ -497,15 +499,22 @@ on_brush11_realize   (GtkObject *object, gpointer user_data)
+ static GtkWidget * 
+ get_gtk_image ( GtkWidget *widget, gchar** xpm )
+ {
+-	GdkPixmap *gdkpixmap	= NULL;
+-    GdkBitmap *mask 		= NULL;
++	GdkPixbuf *pixbuf		= NULL;
+     GtkWidget *gtkimage 	= NULL;
+-	gdkpixmap = gdk_pixmap_create_from_xpm_d(widget->window, &mask, NULL, xpm);
+-	g_assert ( gdkpixmap );
+-	gtkimage = gtk_image_new_from_pixmap(gdkpixmap, mask);
+-    g_assert ( gtkimage );
+-	g_object_unref ( G_OBJECT(gdkpixmap) );
+-    g_object_unref ( G_OBJECT(mask) ); 
++
++	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
++
++	if(!gdk_pixbuf_get_has_alpha (pixbuf))
++	{
++		GdkPixbuf *tmp;
++
++		tmp = gdk_pixbuf_add_alpha (pixbuf, FALSE, 0, 0, 0);
++		if(GDK_IS_PIXBUF(tmp)){ g_object_unref(pixbuf); pixbuf = tmp; }
++	}
++	gtkimage = gtk_image_new_from_pixbuf (pixbuf);
++
++	if(GDK_IS_PIXBUF(pixbuf)){ g_object_unref(pixbuf); }
++
+ 	gtk_widget_show(gtkimage);
+ 	return gtkimage;
+ }
