@@ -1,0 +1,79 @@
+From: Matthias Klose <doko@debian.org>
+Date: Mon, 7 Mar 2016 13:49:51 +0100
+Subject: giflib5
+
+===================================================================
+---
+ src/png.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/png.c b/src/png.c
+index 2b30821..734f783 100644
+--- a/src/png.c
++++ b/src/png.c
+@@ -1510,7 +1510,7 @@ static int load_gif_frames(char *file_name, ani_settings *ani)
+ 	int res, val, disposal, bpp, cmask, lastzero = FALSE;
+ 
+ 
+-	if (!(giffy = DGifOpenFileName(file_name))) return (-1);
++	if (!(giffy = DGifOpenFileName(file_name, NULL))) return (-1);
+ 
+ 	/* Init state structure */
+ 	memset(&stat, 0, sizeof(stat));
+@@ -1608,7 +1608,7 @@ static int load_gif_frames(char *file_name, ani_settings *ani)
+ 	}
+ 	res = 1;
+ fail:	mem_free_chanlist(w_set.img);
+-	DGifCloseFile(giffy);
++	DGifCloseFile(giffy, NULL);
+ 	return (res);
+ }
+ 
+@@ -1621,7 +1621,7 @@ static int load_gif(char *file_name, ls_settings *settings)
+ 	int delay = settings->gif_delay, trans = -1;//, disposal = 0;
+ 
+ 
+-	if (!(giffy = DGifOpenFileName(file_name))) return (-1);
++	if (!(giffy = DGifOpenFileName(file_name, NULL))) return (-1);
+ 
+ 	/* Get global palette */
+ 	settings->colors = convert_gif_palette(settings->pal, giffy->SColorMap);
+@@ -1659,7 +1659,7 @@ static int load_gif(char *file_name, ls_settings *settings)
+ 		}
+ 	}
+ 	res = 1;
+-fail:	DGifCloseFile(giffy);
++fail:	DGifCloseFile(giffy, NULL);
+ 	return (res);
+ }
+ 
+@@ -1682,10 +1682,10 @@ static int save_gif(char *file_name, ls_settings *settings)
+ 	nc |= nc >> 1; nc |= nc >> 2; nc |= nc >> 4;
+ 	nc += !nc + 1; // No less than 2 colors
+ 
+-	gif_map = MakeMapObject(nc, NULL);
++	gif_map = GifMakeMapObject(nc, NULL);
+ 	if (!gif_map) return -1;
+ 
+-	giffy = EGifOpenFileName(file_name, FALSE);
++	giffy = EGifOpenFileName(file_name, FALSE, NULL);
+ 	if (!giffy) goto fail0;
+ 
+ 	for (i = 0; i < settings->colors; i++)
+@@ -1725,14 +1725,14 @@ static int save_gif(char *file_name, ls_settings *settings)
+ 	if (!settings->silent) progress_end();
+ 	msg = 0;
+ 
+-fail:	EGifCloseFile(giffy);
++fail:	EGifCloseFile(giffy, NULL);
+ #ifndef WIN32
+ 	/* giflib creates files with 0600 permissions, which is nasty - WJ */
+ 	mode = umask(0022);
+ 	umask(mode);
+ 	chmod(file_name, 0666 & ~mode);
+ #endif
+-fail0:	FreeMapObject(gif_map);
++fail0:	GifFreeMapObject(gif_map);
+ 
+ 	return (msg);
+ }

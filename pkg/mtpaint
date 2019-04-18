@@ -1,0 +1,31 @@
+[mirrors]
+https://sourceforge.net/projects/mtpaint/files/mtpaint/3.40/mtpaint-3.40.tar.bz2
+
+[vars]
+filesize=600857
+sha512=b242794ea74edeedeb1bc51df581b82b30196388b2aae03564f3152a9c4a20cdeeff715d46417722673279bcff5e5fb7e80147fc06babb8720b65bfa29f124fd
+pkgver=1
+desc='gtk+2 painting program with decent set of functionality'
+
+[deps]
+gtk+2
+
+[build]
+sed -i 's/exp10/my_exp10/g' src/csel.c
+sed -i 's/kprinter /gtklp /' src/spawn.c
+
+patch -p1 < "$K"/mtpaint-giflib5.patch
+
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
