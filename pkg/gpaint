@@ -1,0 +1,31 @@
+[mirrors]
+ftp://alpha.gnu.org/gnu/gpaint/gpaint-2-0.3.2.tar.gz
+
+[vars]
+filesize=370973
+sha512=c139ac511e398b5a7f17ef63e52d2fd678bd6efa3bd2cf31e555e18eb6e2bd033478804df870ad962c922fc044596d010f15f826a269cfd8ff984f0e837fe58a
+pkgver=1
+desc='simple gtk+2 painting program reminding of paintbrush'
+
+[deps]
+gtk+2
+
+[build]
+sed -i 's/GTK_RESPONSE_DISCARD/GTK_RESPONSE_NO/' src/drawing.c
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+mv "$dest"/bin/gpaint-2 "$dest"/bin/gpaint
