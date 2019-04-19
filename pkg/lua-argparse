@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/mpeterv/argparse/archive/0.6.0.tar.gz
+
+[vars]
+filesize=36712
+sha512=7efdfab8ec563a9e7eddc7aff760fd4d3605df2896939af3f2c80e5ed4d4e5ba45a7815057e15446d242351a6fd139d6b8da802fe318d4a4bcd69918fece53d1
+tarball=argparse-0.6.0.tar.gz
+pkgver=1
+
+[deps]
+lua53
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+for i in src/*.lua ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$(basename "$i")"
+done
