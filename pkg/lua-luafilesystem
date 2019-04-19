@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/keplerproject/luafilesystem/archive/v1_7_0_2.tar.gz
+
+[vars]
+filesize=30877
+sha512=a1d4d077776e57cd878dbcd21656da141ea3686c587b5420a2b039aeaf086b7e7d05d531ee1cc2bbd7d06660d1315b09593e52143f6711f033ce8eecdc550511
+tarball=luafilesystem-1_7_0_2.tar.gz
+pkgver=1
+
+[deps]
+lua53
+
+[build]
+LUADIR="$butch_root_dir""$butch_prefix"/include/lua5.3
+
+make -j$MAKE_THREADS CC="$CC" CFLAGS="$optcflags -fPIC -I $LUADIR" \
+lib
+
+dest="$butch_install_dir""$butch_prefix"
+for i in src/*.so ; do
+install -Dm 644 "$i" "$dest"/lib/lua/5.3/"$(basename "$i")"
+done
