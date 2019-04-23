@@ -5,7 +5,7 @@ kernel-patches
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=56
+pkgver=57
 no_unlink=1
 
 [build]
