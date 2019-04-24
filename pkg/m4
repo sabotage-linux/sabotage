@@ -10,7 +10,7 @@ desc='the GNU m4 shellscript macro preprocessor. used heavily by autoconf/make'
 [build]
 "$K"/gnulibfix lib > /dev/null
 cp -f "$K"/config.sub build-aux/
-printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags -static" \
 CPPFLAGS="-Drpl_strstr=strstr -Drpl_mkstemp=mkstemp -Drpl_readlink=readlink \
