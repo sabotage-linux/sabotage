@@ -1,0 +1,22 @@
+[mirrors]
+https://files.pythonhosted.org/packages/d1/e9/d27fb1a5f00c722247b8003c9a81240e49c01dfa6f7fb510d19355a48679/pudb-2018.1.tar.gz
+
+[vars]
+filesize=56771
+sha512=4f0311d5a8642ff7097c2bceecde9a45999ad4567e008507cc8f977cc1e452cbbb80be525d08703c3e22038831b6b94e9b5b46ea1f1a1dc2d4292c8df9ef7ca7
+pkgver=1
+
+[deps.run]
+python
+python-urwid
+python-pygments
+
+[deps.host]
+python
+
+[build]
+patch -p1 < "$K"/pudb-readline.patch
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

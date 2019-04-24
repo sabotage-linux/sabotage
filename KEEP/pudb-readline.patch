@@ -1,0 +1,54 @@
+--- pudb-2018.1/pudb/debugger.py
++++ pudb-2018.1.org/pudb/debugger.py
+@@ -1831,7 +1831,13 @@
+ 
+         def run_cmdline(w, size, key):
+             if CONFIG["shell"] == "internal":
+-                return toggle_cmdline_focus(w, size, key)
++                curframe = self.debugger.curframe
++                self.screen.stop()
++                import pudb.shell as shell
++                shell.setup_readline(curframe.f_globals, curframe.f_locals)
++                ret = toggle_cmdline_focus(w, size, key)
++                self.screen.start()
++                return ret
+             else:
+                 return run_external_cmdline(w, size, key)
+ 
+--- pudb-2018.1/pudb/shell.py
++++ pudb-2018.1.org/pudb/shell.py
+@@ -72,14 +72,7 @@
+ 
+ custom_shell_dict = {}
+ 
+-
+-def run_classic_shell(globals, locals, first_time=[True]):
+-    if first_time:
+-        banner = "Hit Ctrl-D to return to PuDB."
+-        first_time.pop()
+-    else:
+-        banner = ""
+-
++def setup_readline(globals, locals):
+     ns = SetPropagatingDict([locals, globals], locals)
+ 
+     from pudb.settings import get_save_config_path
+@@ -97,6 +90,18 @@
+             readline.read_history_file(hist_file)
+         except IOError:
+             pass
++
++    return hist_file
++
++
++def run_classic_shell(globals, locals, first_time=[True]):
++    if first_time:
++        banner = "Hit Ctrl-D to return to PuDB."
++        first_time.pop()
++    else:
++        banner = ""
++
++    hist_file = setup_readline(globals, locals)
+ 
+     from code import InteractiveConsole
+     cons = InteractiveConsole(ns)
