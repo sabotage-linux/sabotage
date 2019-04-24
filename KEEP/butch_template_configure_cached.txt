@@ -57,9 +57,10 @@ BUTCH_TARDIR="$tardir"
 # some settings to influence this script...
 # note that you could set similar stuff using env variables.
 butch_do_config_cache=true
-butch_do_cleanup_builddir=true
+butch_do_cleanup_builddir_prebuild=true
 [ -z "$butch_do_delete_libtool_archives" ] && butch_do_delete_libtool_archives=true
 [ -z "$butch_do_compress_manpages" ] && butch_do_compress_manpages=true
+[ -z "$butch_do_cleanup_builddir_postbuild" ] && butch_do_cleanup_builddir_postbuild=true
 
 [ -z "$butch_do_custom_destdir" ] && butch_do_custom_destdir=true
 
@@ -166,9 +167,15 @@ if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
 		debug_build=1
 fi
 
-if $butch_do_cleanup_builddir && [ -e "$butch_build_dir" ] ; then
+cleanup_builddir() {
+	test -d "$butch_build_dir" && \
+	test "$butch_build_dir" != "$butch_build_root" && \
+	test "${#butch_build_dir}" -gt 4 && \
+	test "${#butch_build_dir}" -gt "${#butch_build_root}" && \
 	rm -rf "$butch_build_dir"
-fi
+}
+$butch_do_cleanup_builddir_prebuild && cleanup_builddir
+
 [ -d "$butch_build_root" ] || mkdir -p "$butch_build_root"
 cd "$butch_build_root"
 
@@ -249,6 +256,8 @@ echo "post buildscript phase..."
 
 # install service if package has a servicescript.
 [ -n "$service" ] && "$K"/bin/butch-install-service $serviceflags $service "$K"/services/$service
+
+$butch_do_cleanup_builddir_postbuild && cleanup_builddir
 
 # if stuff was directly installed into the rootfs, i.e. without
 # butch_do_custom_destdir, any further action is unwanted/impossible
