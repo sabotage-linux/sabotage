@@ -1,0 +1,38 @@
+fix a build error with non-GNU sed and without bash.
+taken from MirBSD.
+
+--- gpc-20060325.org/p/utils/mk-t-inc
++++ gpc-20060325/p/utils/mk-t-inc
+@@ -20,23 +20,6 @@
+ # the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ # Boston, MA 02111-1307, USA. }
+ 
+-# This script requires bash. Since bash cannot be assumed to be in
+-# /bin, /usr/bin or any other certain place, we cannot use it in the
+-# first line. So we use /bin/sh, which can be assumed to exist. Then
+-# we check if it's actually bash, and if not, try to re-run the
+-# script with bash.
+-if [ x"$BASH" = x ]; then
+-  if [ x"$RERUN_BASH_TRIED" != x ]; then
+-    echo "`basename "$0"`: cannot run, \`bash' is either not bash or a very old version" >&2
+-    exit 1
+-  else
+-    RERUN_BASH_TRIED=1; export RERUN_BASH_TRIED
+-    exec bash "$0" "$@"
+-    echo "`basename "$0"`: cannot run bash" >&2
+-    exit 1
+-  fi
+-fi
+-
+ if [ $# -ne 2 ]; then
+   echo "Usage: `basename $0` gcc-dir dest-filename" >&2
+   exit 1
+@@ -71,6 +54,6 @@ echo ""
+ {
+   cat "$GCCDIR/tree.def"
+   echo 'DEFTREECODE (LAST_AND_UNUSED_C_TREE_CODE, "unused", '"'x', 0)"
+-  sed -e '/#ifdef EGCS/,${/#ifdef EGCS/d;/#else/,/#endif/d}'  "$GCCDIR/p/p-tree.def"
+-} | sed -ne ':loop;/\\$/{N;b loop};/^DEFTREECODE/{s,/\*.*\*/,,;s/["'"'"']x["'"'"'].*/'"'x', 0)/;p;};/^#/p"
++  sed -e '/#ifdef EGCS/,${/#ifdef EGCS/d;/#else/,/#endif/d;}'  "$GCCDIR/p/p-tree.def"
++} | sed -ne ':loop;/\\$/{N;b loop;};/^DEFTREECODE/{s,/\*.*\*/,,;s/["'"'"']x["'"'"'].*/'"'x', 0)/;p;};/^#/p"
+ } > "$2" || { rm -f "$2"; false; }

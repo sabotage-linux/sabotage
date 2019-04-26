@@ -1,0 +1,63 @@
+pascal wants to use POSIX regex functions with non-zero-terminated
+pascal strings. these functions seem to have been part of GLIBC at
+some point and are documented in this pdf:
+https://studylib.net/doc/11480811/rx-tom-lord
+we provide wrappers here that copy the pascal string into a buffer
+and null-terminate it there.
+if the provided stack buffer is of insuffienct size, malloc is used
+temporarily. untested, but should work.
+the semantics might be unexpected for pascal strings containing
+nul characters. also malloc might fail on memory exhaustion.
+
+--- gpc-20060325.org/p/units/regexc.c
++++ gpc-20060325/p/units/regexc.c
+@@ -29,7 +29,9 @@
+   General Public License. */
+ 
+ #include <stdlib.h>
+-#include <rxposix.h>
++//#include <rxposix.h>
++#include <regex.h>
++#include <string.h>
+ 
+ #define GLOBAL(decl) decl; decl
+ 
+@@ -44,6 +46,29 @@
+   void       *Error;
+ } RegExType;
+ 
++static int regnexec(const regex_t *compiled, const char *string,
++	int len, size_t nmatch, regmatch_t matchptr[], int eflags)
++{
++	char buf[1024], *p = buf;
++	if(len > sizeof(buf) -1) p = malloc(len);
++	memcpy(p, string, len);
++	p[len] = 0;
++	int ret = regexec(compiled, p, nmatch, matchptr, eflags);
++	if(p!=buf) free(p);
++	return ret;
++}
++
++static int regncomp(regex_t *compiled, const char *pattern, int len, int cflags)
++{
++	char buf[1024], *p = buf;
++	if(len > sizeof(buf) -1) p = malloc(len);
++	memcpy(p, pattern, len);
++	p[len] = 0;
++	int ret = regcomp(compiled, p, cflags);
++	if(p!=buf) free(p);
++	return ret;
++}
++
+ GLOBAL (void _p_CNewRegEx (RegExType *r, const char *Expression, int ExpressionLength,
+                            Boolean ExtendedRegEx, Boolean CaseInsensitive, Boolean NewLines))
+ {
+@@ -114,7 +139,7 @@
+   int i = r->Length = StrLength - From + 1;
+   r->From = From;
+   return !regnexec (r->RegEx, (i >= 0) ? aString + From - 1 : aString, (i >= 0) ? i : 0, r->SubExpressions + 1,
+-                    &r->RegMatch, (NotBeginningOfLine ? REG_NOTBOL : 0) |
++                    r->RegMatch, (NotBeginningOfLine ? REG_NOTBOL : 0) |
+                     (NotEndOfLine ? REG_NOTEOL : 0));
+ }
+ 

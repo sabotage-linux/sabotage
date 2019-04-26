@@ -1,0 +1,8 @@
+[mirrors]
+http://www.gnu-pascal.de/alpha/gpc-20060325.tar.bz2
+
+[vars]
+filesize=2767216
+sha512=eab5d6ce0023b7d23c172b105832540ab601f25fa56bccb89998fb4204b6bfec44331a38986f28ff4a0a582f6c74bd532b2d083f10ad15d990b15f410fbd4852
+pkgver=1
+

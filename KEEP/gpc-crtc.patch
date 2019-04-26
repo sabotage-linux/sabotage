@@ -1,0 +1,35 @@
+the crt unit uses some ncurses specific hacks. not sure whether my
+fixes here are 100% correct, but they fix build and simple example
+progs work. netbsd-curses' replace_panel() assigns the window so
+at least the latter fix is probably correct.
+
+--- gpc-20060325.org/p/units/crtc.c
++++ gpc-20060325/p/units/crtc.c
+@@ -120,9 +120,6 @@
+ extern int fileno (FILE *f);
+ #endif
+ 
+-#if NCURSES_VERSION_MAJOR < 5
+-#error The CRT unit requires ncurses version 5.0 or newer.
+-#endif
+ #include <panel.h>
+ #include <term.h>
+ #define REVERSE_WORKS TRUE
+@@ -135,7 +132,7 @@
+ static char *crt_Save_enter_ca_mode = NULL, *crt_Save_exit_ca_mode = NULL;
+ 
+ /* This is undocumented, but there doesn't seem to be another way! */
+-#define SETCURSOR(x,y) wmove (newscr, y, x)
++#define SETCURSOR(x,y) wmove (stdscr, y, x)
+ 
+ GLOBAL (int crt_Get_Input_FD (void))
+ {
+@@ -1837,7 +1834,7 @@
+   getyx ((*w), y, x);
+   new = resize_window ((*w), ysize, xsize);
+   if (new) *w = new;
+-  panel->win = *w;
++  //panel->win = *w;
+   replace_panel (panel, (*w));
+   move_panel (panel, y1 - 1, x1 - 1);
+   if (x >= xsize) x = xsize - 1;
