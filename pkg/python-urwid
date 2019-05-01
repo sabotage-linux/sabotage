@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/c7/90/415728875c230fafd13d118512bde3184d810d7bf798a631abc05fac09d0/urwid-2.0.1.tar.gz
+
+[vars]
+filesize=604167
+sha512=99c86a26b08c624c23207ce8e587e8442bece1f522e0c788600ad5f01a4c679efff95dd947edade8b6f4adc376edca949a40c305f9d5ddaf6a0ff97f13c6da30
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
