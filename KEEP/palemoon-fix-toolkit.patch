@@ -1,0 +1,20 @@
+diff --git a/toolkit/mozapps/update/updater/updater.cpp b/toolkit/mozapps/update/updater/updater.cpp
+index 257ccb4..01314e4 100644
+--- a/toolkit/mozapps/update/updater/updater.cpp
++++ b/toolkit/mozapps/update/updater/updater.cpp
+@@ -3737,6 +3737,7 @@ int add_dir_entries(const NS_tchar *dirpath, ActionList *list)
+ int add_dir_entries(const NS_tchar *dirpath, ActionList *list)
+ {
+   int rv = OK;
++#if !defined(__linux__) || defined(__GLIBC__)
+   FTS *ftsdir;
+   FTSENT *ftsdirEntry;
+   NS_tchar searchpath[MAXPATHLEN];
+@@ -3840,6 +3841,7 @@ int add_dir_entries(const NS_tchar *dirpath, ActionList *list)
+   }
+ 
+   fts_close(ftsdir);
++#endif
+ 
+   return rv;
+ }
