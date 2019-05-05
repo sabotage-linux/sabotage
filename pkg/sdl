@@ -13,6 +13,7 @@ libxext
 cp -f "$K"/config.sub build-scripts/
 patch -p1 < "$K"/sdl-stacksize.patch
 patch -p1 < "$K"/sdl-grsec.patch
+patch -p1 < "$K"/sdl-resizing.patch
 
 cd src/video/fbcon
 sed -i -e "s|__u16|ushort|" -e "s|__u32|uint|" *.c *.h
