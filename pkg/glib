@@ -4,7 +4,7 @@ http://ftp.gnome.org/pub/gnome/sources/glib/2.54/glib-2.54.2.tar.xz
 [vars]
 filesize=7830724
 sha512=09ee6fa3a6f3f15af229bd789bef536e3570f36d1e4ce624a57e97c4040577f6baccd6ab5746257863ccf7173b558cfa753951d562a278f854e52604104ba7ee
-pkgver=3
+pkgver=4
 
 [deps]
 musl

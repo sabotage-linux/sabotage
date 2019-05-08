@@ -17,6 +17,6 @@
 "g_cclosure_marshal_VOID__OBJECT",
 "g_cclosure_marshal_VOID__VARIANT",
 "g_cclosure_marshal_VOID__UINT_POINTER",
-"g_cclosure_marshal_BOOL__FLAGS",
+"g_cclosure_marshal_BOOLEAN__FLAGS",
 "g_cclosure_marshal_STRING__OBJECT_POINTER",
-"g_cclosure_marshal_BOOL__BOXED_BOXED",
+"g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
