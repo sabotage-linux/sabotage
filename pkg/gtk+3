@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/gtk+-3.22.30.tar.xz
+http://ftp.gnome.org/pub/gnome/sources/gtk+/3.24/gtk+-3.24.8.tar.xz
 
 [vars]
-filesize=18946084
-sha512=31440a615cb2f406d0f904e59febb8f876106f27818ddd6951c76ab9bcb421ca480dae2bebfb1c4b1e03b833fc7c42e9feede053d9d71f19a02fe778e3197b38
-pkgver=2
+filesize=22419364
+sha512=a988ca2e25f0f32e55b2931f16c72f9649ed98405579d217e8a5e7f0ac10bcd1969090c622c5d9eb7d75235813ff7ccb90e30e252afd71ba283c6172ee459fe5
+pkgver=3
 
 [deps]
 gdk-pixbuf
