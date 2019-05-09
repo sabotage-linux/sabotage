@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.40.14.tar.xz
+http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.42/pango-1.42.4.tar.xz
 
 [vars]
-filesize=858388
-sha512=35ba7bc8be3992f206ccc2cc5aca0b94e2a3832f887fc9c45b0e29fddcb9051ce05a74377de0ca4ff95a87983b15688fa5d379d592faf87aa8eaca25ac18b7ea
-pkgver=2
+filesize=833876
+sha512=993e97f647eba0c5ed90bcfcb8228bf67fa3f20b1f4331e4e40a30788d7c3ac55eee1209471bf21df125cb8fc6121acc8062a9da2f8a7d6cbe8e9ad13a9320dc
+pkgver=3
 uchkurl=https://github.com/GNOME/pango/releases
 
 [deps]
@@ -15,6 +15,7 @@ libx11
 libxft
 cairo
 harfbuzz
+fribidi
 
 [build]
 touch pango/s-enum-types-h
