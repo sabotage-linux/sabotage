@@ -14,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.5.tar.bz2
 [build]
 cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+  xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags" \
 CFLAGS="$optcflags -D_GNU_SOURCE -D_BSD_SOURCE" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
