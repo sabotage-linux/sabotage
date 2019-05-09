@@ -13,6 +13,7 @@ http://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.4.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
+xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
