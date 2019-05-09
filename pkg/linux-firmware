@@ -1,10 +1,10 @@
 [mirrors]
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-6d3bc8886517d171068fd1263176b8b5c51df204.tar.gz
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20190416.tar.gz
 
 [vars]
-filesize=91156731
-sha512=0f86e58914d75358d37ad39e9b1b61d4c2152da3428776db7919b7df27aaa260405339ce5f6f60af47da717b55229377a01b8b8f1908ef57478bf9e90051a0c0
-pkgver=1
+filesize=183441981
+sha512=674b768900b93d297584f67226082ae994d1eb68ecec3fded0753720e7084a2abe9c9c6ac2623e4a9ae354fb648b5bc9de47cc32ca01e9a8babd03636feacf07
+pkgver=2
 
 [build]
 make DESTDIR="$butch_install_dir" install
