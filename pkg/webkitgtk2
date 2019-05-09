@@ -1,10 +1,10 @@
 [mirrors]
-https://webkitgtk.org/releases/webkitgtk-2.20.3.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.22.7.tar.xz
 
 [vars]
-filesize=16623456
-sha512=69a7b27e294de6fd43240ce1d314cd1ccdbf29674c97967674459fd02720b31fa53e5412efbd93dc1e805d38e38feb7fe9a12cdd9c472471676b8db3c11734de
-pkgver=1
+filesize=16777676
+sha512=c11f60b14f279752bb75efce4b69cbfd75e854bfb16772edc3b24d28eff2fb65090e03f24c1cfaf1f27668e017d877e04d5210560da70568029c5af33a916126
+pkgver=2
 
 [deps]
 cairo
@@ -26,7 +26,7 @@ python
 ruby
 
 [build]
-patch -p1 < "$K"/webkitgtk2-musl-fix-javascriptcore.patch
+patch -p1 < "$K"/webkitgtk2-musl-fixes.patch
 patch -p1 < "$K"/webkitgtk2-fix-fast-memory-disabled.patch
 patch -p1 < "$K"/webkitgtk2-fix_armv6l.patch
 
