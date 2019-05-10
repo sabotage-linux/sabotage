@@ -1,9 +1,11 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-fbdev-0.4.3.tar.bz2
+https://www.x.org/releases/individual/driver/xf86-video-fbdev-0.5.0.tar.gz
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-fbdev-0.5.0.tar.gz
 
 [vars]
-filesize=289056
-sha512=0e29c3aab44246f53cdd74cc3236ebc705f0aedd496803f91e83c12dc2e31c52aac9bd86061667fb827b822a70262dd340153bafce706669b49fb1bf00d2e844
+filesize=388054
+sha512=aed59f23f376febb37b6ec0c62aaeba8979eee01018ea2211548827a622c06566aa729d59927c63c3ea126a929c4e050cc2eb7a5e6506f59c9edeecff130c46a
+pkgver=2
 
 [deps]
 xproto
@@ -11,9 +13,6 @@ libx11
 xorg-server
 
 [build]
-cp -f "$K"/config.sub .
-patch -p1 < "$K"/xf86-video-fbdev_mibstore.patch
-xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags" \
