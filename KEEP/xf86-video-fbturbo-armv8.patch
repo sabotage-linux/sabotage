@@ -1,0 +1,12 @@
+--- a/src/cpuinfo.c
++++ b/src/cpuinfo.c
+@@ -96,6 +96,9 @@
+             cpuinfo->has_arm_vfp  = find_feature(val, "vfp");
+             cpuinfo->has_arm_neon = find_feature(val, "neon");
+             cpuinfo->has_arm_wmmx = find_feature(val, "iwmmxt");
++	    /* armv8 */
++            cpuinfo->has_arm_vfp  = find_feature(val, "asimd");
++            cpuinfo->has_arm_neon = find_feature(val, "asimd");
+         }
+         else if ((val = cpuinfo_match_prefix(buffer, "CPU implementer"))) {
+             if (sscanf(val, "%i", &cpuinfo->arm_implementer) != 1) {
