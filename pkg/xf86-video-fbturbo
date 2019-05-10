@@ -11,7 +11,7 @@ pkgver=1
 [deps]
 
 [build]
-cp -f "$K"/config.sub .
+patch -p1 < "$K"/xf86-video-fbturbo-armv8.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
