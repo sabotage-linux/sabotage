@@ -6,7 +6,7 @@ http://mirror.mcs.anl.gov/pub/linux/utils/raid/mdadm/mdadm-4.0.tar.xz
 [vars]
 filesize=430780
 sha512=12fb26e6b9c1912698defa406e5e47a7ca8d68d4a9aa7acdc9b463ee2d4a37fc6ecef6beb5395ff619018c3f6bdb6d8c573060d027707540f645ad2265170e8b
-pkgver=2
+pkgver=3
 desc='utility used to manage and monitor software RAID devices'
 
 [deps]
@@ -16,8 +16,11 @@ musl
 [build]
 
 make -j$MAKE_THREADS LDFLAGS="-static $optldflags" STRIP= \
+  CHECK_RUN_DIR=0 \
   CC="$CC" \
   CXFLAGS="$optcflags" \
   CWFLAGS=-Wall \
   MANDIR="$butch_prefix"/share/man \
+  BINDIR="$butch_prefix"/bin \
+  RUN_DIR="$butch_prefix"/var/run/mdadm \
   DESTDIR="$butch_install_dir" all install
