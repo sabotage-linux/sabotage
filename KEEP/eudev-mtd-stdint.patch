@@ -1,0 +1,10 @@
+--- eudev-1.3.org/src/mtd_probe/mtd_probe.h
++++ eudev-1.3/src/mtd_probe/mtd_probe.h
+@@ -17,6 +17,7 @@
+  * Boston, MA  02110-1301  USA
+  */
+ 
++#include <stdint.h>
+ #include <mtd/mtd-user.h>
+ 
+ /* Full oob structure as written on the flash */

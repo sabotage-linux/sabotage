@@ -14,6 +14,7 @@ glib
 [build]
 patch -p1 < "$K"/eudev-Handle-1-return-from-sysconf.patch
 patch -p1 < "$K"/eudev-root-run.patch
+patch -p1 < "$K"/eudev-mtd-stdint.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
