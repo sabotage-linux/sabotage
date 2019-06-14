@@ -4,13 +4,13 @@
  reduce(wchar_t *dir)
  {
      size_t i = wcslen(dir);
-+    if (i == 1 && dir[0] == '/') {
++    if (i == 1 && dir[0] == SEP) {
 +        dir[0] = 0;
 +        return;
 +    }
      while (i > 0 && dir[i] != SEP)
          --i;
-+    if (i == 0 && dir[0] == '/') i = 1;
++    if (i == 0 && dir[0] == SEP) i = 1;
      dir[i] = '\0';
  }
  
@@ -72,7 +72,7 @@
      copy_absolute(exec_prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
          n = wcslen(exec_prefix);
-@@ -507,9 +535,15 @@
+@@ -507,9 +535,16 @@
          exec_prefix[n] = L'\0';
          reduce(exec_prefix);
      } while (exec_prefix[0]);
@@ -80,70 +80,77 @@
  
      /* Look at configure's EXEC_PREFIX */
 -    wcsncpy(exec_prefix, calculate->exec_prefix, MAXPATHLEN);
-+    if (strlen(EXEC_PREFIX))
++    if (strlen(EXEC_PREFIX)) {
 +        wcsncpy(exec_prefix, calculate->exec_prefix, MAXPATHLEN);
++    }
 +    else {
-+        exec_prefix[0] = '/';
-+        exec_prefix[1] = 0;
++        exec_prefix[0] = L'/';
++        exec_prefix[1] = L'\0';
 +    }
      exec_prefix[MAXPATHLEN] = L'\0';
      joinpath(exec_prefix, calculate->lib_python);
      joinpath(exec_prefix, L"lib-dynload");
-@@ -831,6 +865,20 @@
-     bufsz += wcslen(calculate->zip_path) + 1;
-     bufsz += wcslen(exec_prefix) + 1;
- 
-+    bufsz += wcslen(prefix);
-+    bufsz += wcslen(L"/");
-+    bufsz += wcslen(calculate->lib_python);
-+    bufsz += wcslen(L":");
-+    bufsz += wcslen(exec_prefix);
-+    bufsz += wcslen(L"/");
-+    bufsz += wcslen(calculate->lib_python);
-+    bufsz += wcslen(L"/lib-dynload:");
-+    bufsz += wcslen(prefix);
-+    bufsz += wcslen(L"/");
-+    bufsz += wcslen(calculate->lib_python);
-+    bufsz += wcslen(L"/site-packages");
-+    bufsz += 1;
-+
-     /* Allocate the buffer */
-     wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
-     if (buf == NULL) {
-@@ -844,10 +892,6 @@
-         wcscat(buf, delimiter);
+@@ -828,8 +863,18 @@
+         defpath = delim + 1;
      }
  
--    /* Next is the default zip path */
+-    bufsz += wcslen(calculate->zip_path) + 1;
+-    bufsz += wcslen(exec_prefix) + 1;
++//  bufsz += wcslen(calculate->zip_path) + 1;
++    bufsz += wcslen(calculate->prefix) + 1;
++    bufsz += wcslen(calculate->lib_python) + 1;
++    bufsz += wcslen(calculate->exec_prefix) + 1;
++    bufsz += wcslen(calculate->lib_python) + 1;
++    bufsz += wcslen(L"lib-dynload") + 1;
++    bufsz += wcslen(calculate->prefix) + 1;
++    bufsz += wcslen(calculate->lib_python) + 1;
++    bufsz += wcslen(L"site-packages") + 1;
++    if (wcslen(exec_prefix)) {
++        bufsz += wcslen(exec_prefix) + 1;
++    }
+ 
+     /* Allocate the buffer */
+     wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
+@@ -845,8 +890,8 @@
+     }
+ 
+     /* Next is the default zip path */
 -    wcscat(buf, calculate->zip_path);
 -    wcscat(buf, delimiter);
--
++//  wcscat(buf, calculate->zip_path);
++//  wcscat(buf, delimiter);
+ 
      /* Next goes merge of compile-time $PYTHONPATH with
       * dynamically located prefix.
-      */
-@@ -879,8 +923,28 @@
+@@ -879,8 +924,34 @@
      }
      wcscat(buf, delimiter);
  
--    /* Finally, on goes the directory for dynamic-load modules */
 +    /* Next is the default prefix path. if we don't add this,
 +       python will stupidly search for modules only in it's *DESTDIR* instead of prefix
 +       this is fundamentally incompatible with the way sabotage relocates
 +       packages */
-+    wcscat(buf, prefix);
-+    wcscat(buf, L"/");
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, L":");
-     wcscat(buf, exec_prefix);
-+    wcscat(buf, L"/");
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, L"/lib-dynload:");
-+    wcscat(buf, prefix);
-+    wcscat(buf, L"/");
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, L"/site-packages");
 +
-+    /* Finally, on goes the directory for dynamic-load modules */
++    wcscat(buf, calculate->prefix);
++    wcscat(buf, separator);
++    wcscat(buf, calculate->lib_python);
++    wcscat(buf, delimiter);
++
++    wcscat(buf, calculate->exec_prefix);
++    wcscat(buf, separator);
++    wcscat(buf, calculate->lib_python);
++    wcscat(buf, separator);
++    wcscat(buf, L"lib-dynload");
++    wcscat(buf, delimiter);
++
++    wcscat(buf, calculate->prefix);
++    wcscat(buf, separator);
++    wcscat(buf, calculate->lib_python);
++    wcscat(buf, separator);
++    wcscat(buf, L"site-packages");
++
+     /* Finally, on goes the directory for dynamic-load modules */
+-    wcscat(buf, exec_prefix);
 +    if (wcslen(exec_prefix)) {
 +        wcscat(buf, delimiter);
 +        wcscat(buf, exec_prefix);
