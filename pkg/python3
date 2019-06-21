@@ -1,6 +1,6 @@
 [mirrors]
 https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tar.xz
-# http://sources.buildroot.net/Python-3.6.4.tar.xz
+http://sources.buildroot.net/python3/Python-3.7.3.tar.xz
 
 [vars]
 filesize=17108364
