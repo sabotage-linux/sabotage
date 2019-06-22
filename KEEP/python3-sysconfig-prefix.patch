@@ -1,0 +1,29 @@
+--- Python-3.7.3.org/Lib/distutils/sysconfig.py
++++ Python-3.7.3/Lib/distutils/sysconfig.py
+@@ -92,7 +92,7 @@
+     If 'prefix' is supplied, use it instead of sys.base_prefix or
+     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+     if os.name == "posix":
+         if python_build:
+@@ -135,7 +135,7 @@
+     If 'prefix' is supplied, use it instead of sys.base_prefix or
+     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         if standard_lib:
+             prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+         else:
+@@ -189,7 +189,7 @@
+ 
+         if 'CC' in os.environ:
+             newcc = os.environ['CC']
+-            if (sys.platform == 'darwin'
++            if ((sys.platform == 'darwin' or os.name == 'posix')
+                     and 'LDSHARED' not in os.environ
+                     and ldshared.startswith(cc)):
+                 # On OS X, if CC is overridden, use that as the default
