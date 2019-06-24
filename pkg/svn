@@ -41,8 +41,8 @@ CPPFLAGS="-D_GNU_SOURCE" \
   --with-apr-util=$PWD/apr-1-config \
   --without-berkeley-db \
   --disable-experimental-libtool \
-  --disable-nls \
-  --without-libmagic
+  --without-libmagic \
+  --disable-nls
 make -j$MAKE_THREADS
 make -j$MAKE_THREADS swig-pl  # needed for git-svn
 make DESTDIR="$butch_install_dir" install
