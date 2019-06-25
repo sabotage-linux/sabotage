@@ -151,7 +151,7 @@ packages installed as the ones you wish to compile.
 If you intend to cross-compile only packages written in C, the choice of the
 version of your cross-compiler is not important. If you however intend to
 compile also C++ packages, you should use the same GCC version that is built
-as default during stage1 (currently GCC 6.4.0) from `musl-cross-make` repo.
+as default during stage1 (currently GCC 6.5.0) from `musl-cross-make` repo.
 that is necessary so the applications are built against the same libstdc++
 they'll be bundled together with (if they use dynamic linking).
 
