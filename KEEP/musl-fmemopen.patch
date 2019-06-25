@@ -1,0 +1,13 @@
+diff --git a/src/stdio/fmemopen.c b/src/stdio/fmemopen.c
+index 82413b2d..5685092e 100644
+--- a/src/stdio/fmemopen.c
++++ b/src/stdio/fmemopen.c
+@@ -83,7 +83,7 @@ FILE *fmemopen(void *restrict buf, size_t size, const char *restrict mode)
+ 	struct mem_FILE *f;
+ 	int plus = !!strchr(mode, '+');
+ 	
+-	if (!size || !strchr("rwa", *mode)) {
++	if (!strchr("rwa", *mode)) {
+ 		errno = EINVAL;
+ 		return 0;
+ 	}
