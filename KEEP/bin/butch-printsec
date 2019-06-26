@@ -9,6 +9,7 @@ BEGIN {
 		error("this script prints the specified section of the specified package\n" "need package name as argv 1 and section name as argv 2!")
 	}
 	print_sec(ARGV[1], ARGV[2])
+	exit 0
 }
 function eprint(msg) {
 	print msg > "/dev/stderr"
@@ -30,7 +31,11 @@ function print_sec(pkg, sec,		r, insect, pkgFile, isbuild) {
 		}
 		if(insect) {
 			if(/^\s*$/ && !isbuild) continue
-			print $0
+			if(isbuild && /^%include .*%$/) {
+				print_sec(substr($0, 10, length($0)-10), "build")
+			} else {
+				print $0
+			}
 		}
 	}
 	if (r == -1) {
