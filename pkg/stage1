@@ -4,9 +4,9 @@ kbd
 9base
 e2fsprogs
 gcc6
-gmp
-mpc
-mpfr
+stage1-gmp
+stage1-mpc
+stage1-mpfr
 musl
 man
 zlib
