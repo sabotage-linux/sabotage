@@ -1,0 +1,14 @@
+[mirrors]
+http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.6.tar.xz
+
+[vars]
+filesize=1133672
+sha512=746ee74d5026f267f74ab352d850ed30ff627d530aa840c71b24793e44875f8503946bd7399905dea2b2dd5744326254d7889337fe94cfe58d03c4066e9d8054
+pkgver=1
+option_shared=false
+
+[deps]
+stage1-gmp
+
+[build]
+%include mpfr%

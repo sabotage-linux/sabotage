@@ -12,9 +12,9 @@ no_unlink=1
 stage1-g++
 
 [deps]
-gmp
-mpfr
-mpc
+stage1-gmp
+stage1-mpfr
+stage1-mpc
 zlib
 
 [deps.java]
