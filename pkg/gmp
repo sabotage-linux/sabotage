@@ -26,7 +26,7 @@ CPPFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE" \
 CFLAGS="-Wno-implicit $optcflags" \
 LDFLAGS="$optldflags" \
 ./configure -C $xconfflags \
-  --prefix="$butch_prefix" --with-pic --disable-shared $abihack $cpp
+  --prefix="$butch_prefix" --with-pic $abihack $cpp
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
