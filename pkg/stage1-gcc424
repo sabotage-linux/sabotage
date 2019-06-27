@@ -1,1 +1,18 @@
-gcc424
+[vars]
+filesize=18927613
+sha512=3b29aba3d90525d6cc4fcc2e0b99ac9f65a5cda488937346c2c742647b8b2f3b93644bfef801eda358945f9beef6a2cd108bb43071d0b13dce384f282921a7ca
+tardir=gcc-4.2.4
+no_unlink=1
+pkgver=1
+
+[deps.cplusplus]
+g++424
+
+[deps.stage1]
+g++424
+
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-4.2.4/gcc-core-4.2.4.tar.bz2
+
+[build]
+%include gcc424%

@@ -1,1 +1,17 @@
-gcc3
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2
+
+[vars]
+filesize=13366790
+sha512=06645865a851bfdeca399ed1266f99e072a9bb1d8c6f0d3d6d0f809080ce1e60f45d9e4b52c93cf89f2062a4db0a69f519f23ac5de918bc89bdd794ebd2b96b4
+tardir=gcc-3.4.6
+pkgver=1
+
+[deps.cplusplus]
+g++346
+
+[deps.stage1]
+g++346
+
+[build]
+%include gcc3%
