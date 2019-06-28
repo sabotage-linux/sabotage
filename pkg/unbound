@@ -1,10 +1,10 @@
 [mirrors]
-https://www.unbound.net/downloads/unbound-1.6.8.tar.gz
+https://nlnetlabs.nl/downloads/unbound/unbound-1.9.2.tar.gz
 
 [vars]
-filesize=5467536
-sha512=653d88d5dbc8cf25f7261e4a9869b6591843c7ff27b5d63f979a94505daafbbb61e05d46bedd2d01230355d5f08dd9fe14ed04c5c7340f3f27581b61ad6edfa3
-pkgver=1
+filesize=5676395
+sha512=118f0e53ee2d5cfb53ce1f792ca680cc01b5825bf81575e36bd3b24f3bdbe14e6631401bf1bf85eb2ac2a3fa0ee2ee3eb6a28b245d06d48d9975ce4cc260f764
+pkgver=2
 desc='validating, recursive, and caching DNS resolver and library'
 
 [deps]
