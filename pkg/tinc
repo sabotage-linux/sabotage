@@ -1,9 +1,10 @@
 [mirrors]
-http://www.tinc-vpn.org/packages/tinc-1.0.34.tar.gz
+https://www.tinc-vpn.org/packages/tinc-1.0.35.tar.gz
 
 [vars]
-filesize=484174
-sha512=b711a2c532f8efc94c77e9bbe5213ae284d2a3cb598d2760df700448e495a02ac56baa0393bbc6fbc735bf97a26ca5a79133c92952d98a9086a9ffd273eef725
+filesize=499277
+sha512=037867306c21506d57d69d35c0f246b2936022047978fa3e01464b5f6b65f109760507d9cc740f82f8166f39c5ce44d9f8dde55655a6372dacd5b5974aeaee32
+pkgver=2
 desc='vpn daemon using encrypted tunnelling'
 
 [deps]
