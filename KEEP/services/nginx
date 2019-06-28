@@ -1,0 +1,113 @@
+#!/bin/sh
+CONFDIR=/etc/nginx
+SRVDIR=/var/www
+CONF="$CONFDIR"/nginx.conf
+
+if ! grep -q '^www-data:' /etc/passwd ; then
+	busybox addgroup -S www-data
+	busybox adduser -h "$SRVDIR" -s /bin/nologin -S -D -H -G www-data www-data
+	if [ ! -d "$SRVDIR" ] ; then 
+		install -D -d -m 755 "$SRVDIR"
+		chown -R www-data "$SRVDIR"
+		chgrp -R www-data "$SRVDIR"
+	fi
+fi
+
+if [ ! -f "$CONF" ]; then
+	mkdir -p "$CONFDIR"
+	cat <<EOF > "$CONF"
+user  www-data;
+worker_processes  1;
+daemon off;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    # don't go in background
+    sendfile        on;
+    keepalive_timeout  65;
+    server_tokens off;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+    # HTTPS server
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+    # include configurations
+    include /etc/nginx/conf.d/*.conf;
+    # include other virtual hosts
+    include /etc/nginx/sites-enabled/*;
+}
+EOF
+fi
+
+if ! /bin/nginx -tq; then
+	# print configuration errors
+	/bin/nginx -t
+	exit 1
+fi
+exec /bin/nginx 2>&1
