@@ -8,6 +8,7 @@ pkgver=1
 desc='validating, recursive, and caching DNS resolver and library'
 
 [deps]
+expat
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
