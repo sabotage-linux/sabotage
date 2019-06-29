@@ -7,6 +7,8 @@ sha512=54be3afd2eaa11b31029c58350601918ac8ec35b90af1a2beedf94f259cdeb15c893e9f09
 
 [deps]
 lzo
+xz
+pcre
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
