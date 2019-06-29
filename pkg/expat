@@ -1,12 +1,12 @@
 [mirrors]
-http://sourceforge.net/projects/expat/files/expat/2.2.6/expat-2.2.6.tar.bz2
+https://github.com/libexpat/libexpat/releases/download/R_2_2_7/expat-2.2.7.tar.xz
 
 [vars]
-filesize=513322
-sha512=dbfb635a5fe7b190722664263a0dd437b512fdf519bc53bd4905567f4bfb4b1e89a021562da63df8cacd48b706d1dea60ccde47f279e57400ad3c846b6e9c4e6
-pkgver=6
+filesize=424264
+sha512=bf3af5b5a8e1a1b76658a41f67dbe7b10104e3b724e1882f529fecc509b07c75dde02d8f8b89b1522e05484e8dc417d47651c5f8d4aac1749676ba5c4752c107
+pkgver=7
 desc='library to interface with XML files'
-uchkurl=https://sourceforge.net/projects/expat/files/expat/
+uchkurl=https://github.com/libexpat/libexpat/releases
 
 [deps]
 musl
