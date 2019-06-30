@@ -3,15 +3,15 @@ perl
 perl5-HTML-Tagset
 
 [mirrors]
-http://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.71.tar.gz
+https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.72.tar.gz
 
 [vars]
-filesize=90368
-sha512=98165e22534477a4e06e6c61c10a16ad04f0e4ec79a52e458a322751d66fc3fe0182391ff60dce76076449f29dcfcb613a6e43a839d4fc15c4af5b4e8751036e
+filesize=90680
+sha512=9fded69219791af085018ffbe6737e74e370c543af52aa221aec174daf52d1b8d3cdd07f025176c0212ae572a924555262f2eefc73781f82cdb7d9cff58ae716
+pkgver=2
 
 [build]
 perl Makefile.PL
 make -j$MAKE_THREADS
 [ -z "$CROSS_COMPILE" ] && make test
 make DESTDIR="$butch_install_dir" install
-
