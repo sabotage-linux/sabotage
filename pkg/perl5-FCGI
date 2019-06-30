@@ -1,0 +1,13 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/E/ET/ETHER/FCGI-0.78.tar.gz
+
+[vars]
+filesize=93598
+sha512=d0932a70098ff414d23e55fb606f524bb36922d8733732c38d99fa872129f781af16696e72d6319bd897e8e9acc9deb4a26bc0f6b0913817f4f5be440eb21936
+pkgver=1
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -n "$CROSS_COMPILE" ] && make test
+make install DESTDIR="$butch_install_dir"
