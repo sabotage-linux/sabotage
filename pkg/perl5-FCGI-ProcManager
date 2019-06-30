@@ -1,0 +1,13 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/A/AR/ARODLAND/FCGI-ProcManager-0.28.tar.gz
+
+[vars]
+filesize=28791
+sha512=dacf7a18b7c7d402769bdbfbe136e1c11fb9c7565d29e1d1892a055136052117ad85b4ec2b93dd34ee5f2a907fde6919089b86ad40c5d602011f8f6e58b9169e
+pkgver=1
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -n "$CROSS_COMPILE" ] && make test
+make install DESTDIR="$butch_install_dir"
