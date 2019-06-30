@@ -1,0 +1,8 @@
+#!/bin/sh
+
+exec perl /lib/perl5/site_perl/FCGI/Daemon.pm \
+	-l 1.3 \
+	-p /var/run/fcgi-daemon.pid \
+	-s /var/run/fcgi-daemon.sock \
+	-u www-data \
+	-g www-data 2>&1

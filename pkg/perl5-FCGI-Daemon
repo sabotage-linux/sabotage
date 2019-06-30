@@ -1,0 +1,21 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/O/ON/ONLYJOB/FCGI-Daemon-0.20151226.tar.gz
+
+[vars]
+filesize=23375
+sha512=67e0e92a8a01400c70a219f9df7c30a1f67c0ee0ea9506f0dbf388473a9931d64f2a5d7f4b34329241ae5c5bd1caf55dfce4f1dd1b5f4d6f6c7ee4615612dd14
+pkgver=1
+service=perl5-FCGI-Daemon
+serviceflags="--down --log"
+
+[deps]
+nginx
+perl5-BSD-Resource
+perl5-FCGI-ProcManager
+perl5-FCGI
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -n "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
