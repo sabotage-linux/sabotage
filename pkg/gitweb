@@ -1,0 +1,18 @@
+[mirrors]
+http://cdn.kernel.org/pub/software/scm/git/git-2.22.0.tar.xz
+https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.22.0.tar.xz
+
+[vars]
+filesize=5609772
+sha512=75b3dcac36f80281effcd099944de34050a35f3599ce42f86ce60455b6c952039fb0f6438d296e0cc9c0651d4a17f467780dc475669227d3c98ddefe91723d42
+pkgver=1
+desc='git web interface'
+
+[deps]
+git
+
+[build]
+cd gitweb || exit 1
+[ -z "$butch_prefix" ] && butch_prefix=/
+make -j$MAKE_THREADS GITWEB_PROJECTROOT="/srv/gitweb" prefix="$butch_prefix" bindir="/bin/git"
+make DESTDIR="$butch_install_dir" install
