@@ -1,0 +1,39 @@
+[mirrors]
+https://github.com/ngircd/ngircd/releases/download/rel-25/ngircd-25.rc1.tar.xz
+
+[vars]
+filesize=350300
+sha512=4a8fbf14a0e0e3a128f97ee5c440dd52a7d02e1b518833870dce7894649faad397112f4a60629d3b10d9c62fc7a783498109406116a3adb35cfd6cadf3b16cbc
+pkgver=1
+desc="ngIRCd - Next Generation IRC Server"
+service=ngircd
+serviceflags="--down --log"
+tardir=ngircd-25~rc1
+
+[deps]
+libressl
+zlib
+
+[build]
+# use -static so ngircd can be chrooted
+CFLAGS=-static ./configure \
+		--prefix= \
+		--with-openssl=yes \
+		--with-zlib=yes \
+		--with-gnutls=no \
+		--with-pam=no \
+		--with-ident=no \
+		--with-syslog=no \
+		--disable-ircplus \
+		--enable-ipv6
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+[ -d "$butch_install_dir"/sbin ] && mv "$butch_install_dir"/sbin "$butch_install_dir"/bin
+
+if [ -f doc/sample-ngircd.conf.tmpl ]; then
+	sed -i	-e 's@;PidFile = /var/run/ngircd/ngircd.pid@PidFile = /var/run/ngircd.pid@' \
+					-e 's@;Ident = yes@Ident = no@' \
+					-e 's@;PAM = yes@PAM = no@' doc/sample-ngircd.conf.tmpl
+	install -Dm 644 doc/sample-ngircd.conf.tmpl "$butch_install_dir""$butch_prefix"/etc/ngircd.conf
+fi

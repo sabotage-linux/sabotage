@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if ! echo | ngircd --configtest -f /etc/ngircd.conf > /dev/null; then
+	echo "ngircd: configuration error"
+	exit 1
+fi
+exec ngircd --nodaemon -f /etc/ngircd.conf 2>&1
