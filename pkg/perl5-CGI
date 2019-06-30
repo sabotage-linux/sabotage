@@ -1,0 +1,16 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/L/LE/LEEJO/CGI-4.44.tar.gz
+
+[vars]
+filesize=204816
+sha512=3cbb7d8c54a08ded7a78f971bda8dbd95ebe52cb10ff20a1094bbff7aa422eb76d456aa4a425aa45c6add2a6a2d669fc3814ee4ba554079d64a5226e0538ccfc
+pkgver=1
+
+[deps]
+perl5-HTML-Parser
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+#[ -n "$CROSS_COMPILE" ] && make test
+make install DESTDIR="$butch_install_dir"
