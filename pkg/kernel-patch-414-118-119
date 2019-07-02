@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.118-119.xz
+
+[vars]
+filesize=28180
+sha512=ec78c862ed0b32ab7cf7942eaf997ac3ff7b30628d012cb86e35c363d6524c90627b21d7884d429f8fe6fd2af36f3ba340f47d3a30b58a7dd7f69d6cdc234ead
+tarball=kernel-patch-4.14.118-119.xz
+pkgver=1

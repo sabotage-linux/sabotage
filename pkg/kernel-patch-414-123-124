@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.123-124.xz
+
+[vars]
+filesize=24528
+sha512=a8f510c2b814ddbe7ddf75950be0f77b460469ecdd600f7f8a42a49d863811cfe574787dbaeb14e1d22a9dd1da254c34fb1842533cb063a2602f604c367d5771
+tarball=kernel-patch-4.14.123-124.xz
+pkgver=1
