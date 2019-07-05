@@ -1,0 +1,8 @@
+[mirrors]
+https://www.kernel.org/pub/software/scm/git/git-2.18.0.tar.xz
+
+[vars]
+filesize=5102264
+sha512=db19363c9c2042248322d49874a27c0614acfb912183725e5d4f0331d6b44cef66a9a7da6a49bd4a17e5d86d30c5fed6bef7527f386494184595a433c4060e46
+pkgver=1
+desc="dummy package to match required git version needed by cgit"

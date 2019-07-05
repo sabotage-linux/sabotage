@@ -1,0 +1,20 @@
+[mirrors]
+https://git.zx2c4.com/cgit/snapshot/cgit-1.2.1.tar.xz
+
+[vars]
+filesize=89648
+sha512=c7380df9afbc3735ef9e4f196f4f5bbd26cf52e473fa6f435e7d0c00dc295cc8de6bee6bfb1857144025c8591d41a6a74efb1af551e8610848d90ac40fcfab36
+pkgver=1
+
+[deps]
+libressl
+git218-tarball
+
+[build]
+export NO_LUA=1
+export NO_REGEX=NeedsStartEnd
+[ -d git ] && rm -rf git
+tar Jxf $C/git-2.18.0.tar.xz && mv git-2.18.0 git
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
