@@ -259,7 +259,8 @@ Sabotage originally was a distribution curated by chris2, based around shell
 scripts and Plan 9's mk.
 This was possible through the help and inspiration of
 dalias, niklata, garbeam, pikhq, xmw, gaf and Arch Linux.
-
+Special thanks go to @AequoreaVictoria for years of support and countless
+contributions.
 
 ## CONTACT
 
