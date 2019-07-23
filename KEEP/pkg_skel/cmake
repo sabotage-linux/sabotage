@@ -28,6 +28,7 @@ CXXFLAGS="$optcflags" \
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
   ..
 make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
