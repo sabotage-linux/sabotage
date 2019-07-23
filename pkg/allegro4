@@ -43,6 +43,7 @@ xconfflags=
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX=$butch_prefix \
   -DMANDIR=share/man \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
   -DCMAKE_C_FLAGS="-D_GNU_SOURCE $optcflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -fno-strict-aliasing" \
   -DCMAKE_LD_FLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   -DWANT_TESTS=OFF \
