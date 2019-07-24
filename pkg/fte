@@ -3,7 +3,7 @@ http://prdownloads.sourceforge.net/fte/fte-20020324-src.zip
 
 [vars]
 filesize=625459
-sha512=50a653a67ad135683df25d94e6a722e2b0e8be2da81d6c59b2ac30d905130b127c53bf2c$
+sha512=50a653a67ad135683df25d94e6a722e2b0e8be2da81d6c59b2ac30d905130b127c53bf2c621585c109dad3a58a22cff36a7b04773a9816ddf7d0ffab03dc86b1
 tardir=fte
 pkgver=1
 desc='text editor'
