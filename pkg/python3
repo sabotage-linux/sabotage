@@ -5,7 +5,7 @@ http://sources.buildroot.net/python3/Python-3.7.3.tar.xz
 [vars]
 filesize=17108364
 sha512=6d9b7c0f1764e0f655a39430a3af6f7b5e3c9b7166c042e780677a54b17ad4ca6d0d9cba262c82b1b70bba8f7c28883dad4cc0d7cc194fc7d2c1b5f4f08a763a
-pkgver=1
+pkgver=2
 desc='interpreter for the python 3.x scripting language'
 
 [deps]
