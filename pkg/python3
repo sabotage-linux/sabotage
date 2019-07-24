@@ -27,6 +27,7 @@ zlib
 # python can't deal with prefix= or prefix=/ correctly.
 # it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
+# we hardcode a check for $butch_staging_dir and skip to / if it's seen.
 patch -p1 < "$K"/python3-pathsearch.patch
 patch -p1 < "$K"/python3-xcompile.patch
 patch -p1 < "$K"/python3-includedirs.patch
@@ -65,7 +66,7 @@ sed -i -e "s|^#.* /usr/local/bin/python|#!/bin/python3|" Lib/cgi.py
 find . -name '*.py' -exec \
   sed -i "s|#[ ]*![ ]*/usr/bin/env python$|#!/usr/bin/env python3|" {} +
 
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC" \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC -DBUTCH_STAGING_DIR='\"$butch_staging_dir/\"'" \
 OPT="$optcflags" \
 LDFLAGS="$optldflags -lncursesw -lterminfo" \
 ./configure -C --prefix="$butch_prefix" \

@@ -1,51 +1,51 @@
---- Python-3.7.3.org/Modules/getpath.c
+--- Python-3.7.3.orig/Modules/getpath.c
 +++ Python-3.7.3/Modules/getpath.c
-@@ -155,8 +155,13 @@
+@@ -121,6 +121,7 @@ typedef struct {
+     wchar_t *pythonpath;               /* PYTHONPATH define */
+     wchar_t *prefix;                   /* PREFIX define */
+     wchar_t *exec_prefix;              /* EXEC_PREFIX define */
++    wchar_t *butch_staging_dir;        /* BUTCH_STAGING_DIR define */
+ 
+     wchar_t *lib_python;               /* "lib/pythonX.Y" */
+     wchar_t argv0_path[MAXPATHLEN+1];
+@@ -155,9 +156,16 @@ static void
  reduce(wchar_t *dir)
  {
      size_t i = wcslen(dir);
 +    if (i == 1 && dir[0] == SEP) {
-+        dir[0] = 0;
++        /* L"/" becomes L"" */
++        dir[0] = L'\0';
 +        return;
 +    }
      while (i > 0 && dir[i] != SEP)
          --i;
-+    if (i == 0 && dir[0] == SEP) i = 1;
-     dir[i] = '\0';
+-    dir[i] = '\0';
++    if (i == 0 && dir[0] == SEP)
++        i = 1; /* L"/blah" becomes L"/" */
++    dir[i] = L'\0';
  }
  
-@@ -354,6 +359,11 @@
-         return 1;
-     }
  
-+    if (!access(PREFIX "/bin/python3", X_OK)) {
-+        swprintf(prefix, sizeof prefix, L"%s", calculate->prefix);
-+        return 1;
-+    }
-+
-     /* Check to see if argv[0] is in the build directory */
-     wcsncpy(prefix, calculate->argv0_path, MAXPATHLEN);
-     prefix[MAXPATHLEN] = L'\0';
-@@ -374,7 +384,13 @@
+@@ -374,6 +382,14 @@ search_for_prefix(const _PyCoreConfig *core_config,
          }
      }
  
--    /* Search from argv0_path, until root is found */
-+    /* Search from argv0_path, until root is found
-+     * judging from the path of the currently running
-+     * program about where the prefix is completely
-+     * bogus unless we're running the python interpreter
-+     * itself.
++    /* If argv[0] appears to be in butch's staging directory,
++     * then skip to the following PREFIX check,
++     * otherwise proceed as normal to preserve virtual environments.
 +     */
-+    if (!wcsstr(calculate->argv0_path, L"python")) goto skip_argv0_madness;
++    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
++                 wcslen(calculate->butch_staging_dir)))
++        goto skip_argv0_path;
++
+     /* Search from argv0_path, until root is found */
      copy_absolute(prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-         n = wcslen(prefix);
-@@ -386,9 +402,15 @@
+@@ -386,9 +402,15 @@ search_for_prefix(const _PyCoreConfig *core_config,
          prefix[n] = L'\0';
          reduce(prefix);
      } while (prefix[0]);
-+    skip_argv0_madness:
++    skip_argv0_path:
  
      /* Look at configure's PREFIX */
 -    wcsncpy(prefix, calculate->prefix, MAXPATHLEN);
@@ -58,25 +58,26 @@
      prefix[MAXPATHLEN] = L'\0';
      joinpath(prefix, calculate->lib_python);
      joinpath(prefix, LANDMARK);
-@@ -495,7 +517,13 @@
+@@ -495,6 +517,14 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
          }
      }
  
-+    if (!access(EXEC_PREFIX "/bin/python3", X_OK)) {
-+        swprintf(exec_prefix, sizeof exec_prefix, L"%s", calculate->exec_prefix);
-+        return 1;
-+    }
++    /* If argv[0] appears to be in butch's staging directory,
++     * then skip to the following EXEC_PREFIX check,
++     * otherwise proceed as normal to preserve virtual environments.
++     */
++    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
++                 wcslen(calculate->butch_staging_dir)))
++        goto skip_argv0_path;
 +
      /* Search from argv0_path, until root is found */
-+    if (!wcsstr(calculate->argv0_path, L"python")) goto skip_argv0_madness;
      copy_absolute(exec_prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-         n = wcslen(exec_prefix);
-@@ -507,9 +535,16 @@
+@@ -507,9 +537,16 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
          exec_prefix[n] = L'\0';
          reduce(exec_prefix);
      } while (exec_prefix[0]);
-+    skip_argv0_madness:
++    skip_argv0_path:
  
      /* Look at configure's EXEC_PREFIX */
 -    wcsncpy(exec_prefix, calculate->exec_prefix, MAXPATHLEN);
@@ -90,65 +91,20 @@
      exec_prefix[MAXPATHLEN] = L'\0';
      joinpath(exec_prefix, calculate->lib_python);
      joinpath(exec_prefix, L"lib-dynload");
-@@ -828,8 +863,18 @@
-         defpath = delim + 1;
+@@ -829,7 +866,9 @@ calculate_module_search_path(const _PyCoreConfig *core_config,
      }
  
--    bufsz += wcslen(calculate->zip_path) + 1;
+     bufsz += wcslen(calculate->zip_path) + 1;
 -    bufsz += wcslen(exec_prefix) + 1;
-+//  bufsz += wcslen(calculate->zip_path) + 1;
-+    bufsz += wcslen(calculate->prefix) + 1;
-+    bufsz += wcslen(calculate->lib_python) + 1;
-+    bufsz += wcslen(calculate->exec_prefix) + 1;
-+    bufsz += wcslen(calculate->lib_python) + 1;
-+    bufsz += wcslen(L"lib-dynload") + 1;
-+    bufsz += wcslen(calculate->prefix) + 1;
-+    bufsz += wcslen(calculate->lib_python) + 1;
-+    bufsz += wcslen(L"site-packages") + 1;
 +    if (wcslen(exec_prefix)) {
 +        bufsz += wcslen(exec_prefix) + 1;
 +    }
  
      /* Allocate the buffer */
      wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
-@@ -845,8 +890,8 @@
-     }
- 
-     /* Next is the default zip path */
--    wcscat(buf, calculate->zip_path);
--    wcscat(buf, delimiter);
-+//  wcscat(buf, calculate->zip_path);
-+//  wcscat(buf, delimiter);
- 
-     /* Next goes merge of compile-time $PYTHONPATH with
-      * dynamically located prefix.
-@@ -879,8 +924,34 @@
-     }
+@@ -880,7 +919,10 @@ calculate_module_search_path(const _PyCoreConfig *core_config,
      wcscat(buf, delimiter);
  
-+    /* Next is the default prefix path. if we don't add this,
-+       python will stupidly search for modules only in it's *DESTDIR* instead of prefix
-+       this is fundamentally incompatible with the way sabotage relocates
-+       packages */
-+
-+    wcscat(buf, calculate->prefix);
-+    wcscat(buf, separator);
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, delimiter);
-+
-+    wcscat(buf, calculate->exec_prefix);
-+    wcscat(buf, separator);
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, separator);
-+    wcscat(buf, L"lib-dynload");
-+    wcscat(buf, delimiter);
-+
-+    wcscat(buf, calculate->prefix);
-+    wcscat(buf, separator);
-+    wcscat(buf, calculate->lib_python);
-+    wcscat(buf, separator);
-+    wcscat(buf, L"site-packages");
-+
      /* Finally, on goes the directory for dynamic-load modules */
 -    wcscat(buf, exec_prefix);
 +    if (wcslen(exec_prefix)) {
@@ -158,3 +114,14 @@
  
      config->module_search_path = buf;
      return _Py_INIT_OK();
+@@ -908,6 +950,10 @@ calculate_init(PyCalculatePath *calculate,
+     if (!calculate->prefix) {
+         return DECODE_LOCALE_ERR("PREFIX define", len);
+     }
++    calculate->butch_staging_dir = Py_DecodeLocale(BUTCH_STAGING_DIR, &len);
++    if (!calculate->butch_staging_dir) {
++        return DECODE_LOCALE_ERR("BUTCH_STAGING_DIR define", len);
++    }
+     calculate->exec_prefix = Py_DecodeLocale(EXEC_PREFIX, &len);
+     if (!calculate->prefix) {
+         return DECODE_LOCALE_ERR("EXEC_PREFIX define", len);
