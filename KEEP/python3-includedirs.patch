@@ -1,5 +1,3 @@
-diff --git a/Python-3.7.3.orig/setup.py b/Python-3.7.3/setup.py
-index b4357e3..cf1de25 100644
 --- Python-3.7.3.orig/setup.py
 +++ Python-3.7.3/setup.py
 @@ -536,8 +536,12 @@ class PyBuildExt(build_ext):

@@ -31,7 +31,7 @@ patch -p1 < "$K"/python3-pathsearch.patch
 patch -p1 < "$K"/python3-xcompile.patch
 patch -p1 < "$K"/python3-includedirs.patch
 #patch -p1 < "$K"/python3-UTF-8.patch # TODO
-patch -p1 < "$K"/python3-sysconfig-prefix.patch # TODO: incomplete
+patch -p1 < "$K"/python3-sysconfig-prefix.patch
 
 # if PYTHON_SMALL_AND_SLOW is set, we disable automatic creation of .pyc and
 # .pyo bytecode files. the result is small delay on startup (up to 2.5x slower)
