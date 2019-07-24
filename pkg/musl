@@ -46,3 +46,11 @@ sed -i "s,PPPP,$butch_prefix," "$musl_gcc"
 #this should speed up dynamic linker path search
 mkdir -p "$dest"/etc
 printf "%s\n" "$butch_prefix"/lib > "$dest"/etc/ld-musl-$A.path
+
+## fix ssp on i?86
+case "$A" in
+	i?86)
+		$CC $optldflags $optcflags -c "$K/__stack_chk_fail_local.c" -o __stack_chk_fail_local.o
+		"$CROSS_COMPILE"ar rcs "$dest/lib/libssp_nonshared.a" __stack_chk_fail_local.o
+	;;
+esac
