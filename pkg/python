@@ -16,6 +16,7 @@ bzip2
 expat
 libffi
 libedit
+sqlite
 
 [build]
 # work around buggy installer which puts stuff into prefix directly (omitting destdir) when
