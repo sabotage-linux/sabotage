@@ -130,7 +130,10 @@ else
 fi
 
 # create symlinks without the major version number in them
+cd "$dest/bin"
 for bin in idle3.7 2to3-3.7 pip3.7 easy_install-3.7 \
            python3.7 pyvenv-3.7 python3.7m pydoc3.7 python3.7m-config ; do
-  ln -sf "$dest/bin/$bin" "$dest/bin/${bin/3.7/3}"
+  if [ -e "$bin" ]; then
+      ln -sf "$bin" "${bin/3.7/3}"
+  fi
 done
