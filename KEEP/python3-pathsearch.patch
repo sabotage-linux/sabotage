@@ -26,7 +26,7 @@
  }
  
  
-@@ -374,6 +382,14 @@
+@@ -374,6 +382,15 @@
          }
      }
  
@@ -35,13 +35,14 @@
 +     * otherwise proceed as normal to preserve virtual environments.
 +     */
 +    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
-+                 wcslen(calculate->butch_staging_dir)))
++                 wcslen(calculate->butch_staging_dir)) ||
++        !wcsncmp(calculate->argv0_path, L"/bin/../", 8))
 +        goto skip_argv0_path;
 +
      /* Search from argv0_path, until root is found */
      copy_absolute(prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-@@ -386,9 +402,15 @@
+@@ -386,9 +403,15 @@
          prefix[n] = L'\0';
          reduce(prefix);
      } while (prefix[0]);
@@ -58,7 +59,7 @@
      prefix[MAXPATHLEN] = L'\0';
      joinpath(prefix, calculate->lib_python);
      joinpath(prefix, LANDMARK);
-@@ -495,6 +517,14 @@
+@@ -495,6 +518,15 @@
          }
      }
  
@@ -67,13 +68,14 @@
 +     * otherwise proceed as normal to preserve virtual environments.
 +     */
 +    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
-+                 wcslen(calculate->butch_staging_dir)))
++                 wcslen(calculate->butch_staging_dir)) ||
++        !wcsncmp(calculate->argv0_path, L"/bin/../", 8))
 +        goto skip_argv0_path;
 +
      /* Search from argv0_path, until root is found */
      copy_absolute(exec_prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-@@ -507,9 +537,16 @@
+@@ -507,9 +539,16 @@
          exec_prefix[n] = L'\0';
          reduce(exec_prefix);
      } while (exec_prefix[0]);
@@ -91,7 +93,7 @@
      exec_prefix[MAXPATHLEN] = L'\0';
      joinpath(exec_prefix, calculate->lib_python);
      joinpath(exec_prefix, L"lib-dynload");
-@@ -829,7 +866,9 @@
+@@ -829,7 +868,9 @@
      }
  
      bufsz += wcslen(calculate->zip_path) + 1;
@@ -102,7 +104,7 @@
  
      /* Allocate the buffer */
      wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
-@@ -880,7 +919,10 @@
+@@ -880,7 +921,10 @@
      wcscat(buf, delimiter);
  
      /* Finally, on goes the directory for dynamic-load modules */
@@ -114,7 +116,7 @@
  
      config->module_search_path = buf;
      return _Py_INIT_OK();
-@@ -908,6 +950,10 @@
+@@ -908,6 +952,10 @@
      if (!calculate->prefix) {
          return DECODE_LOCALE_ERR("PREFIX define", len);
      }
