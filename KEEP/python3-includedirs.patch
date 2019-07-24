@@ -1,6 +1,6 @@
 --- Python-3.7.3.orig/setup.py
 +++ Python-3.7.3/setup.py
-@@ -536,8 +536,12 @@ class PyBuildExt(build_ext):
+@@ -536,8 +536,12 @@
                                      add_dir_to_list(self.compiler.library_dirs,
                                                      d)
                          elif is_gcc and in_incdirs and '/gcc/' not in line:

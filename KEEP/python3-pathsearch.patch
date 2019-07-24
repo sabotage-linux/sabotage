@@ -1,6 +1,6 @@
 --- Python-3.7.3.orig/Modules/getpath.c
 +++ Python-3.7.3/Modules/getpath.c
-@@ -121,6 +121,7 @@ typedef struct {
+@@ -121,6 +121,7 @@
      wchar_t *pythonpath;               /* PYTHONPATH define */
      wchar_t *prefix;                   /* PREFIX define */
      wchar_t *exec_prefix;              /* EXEC_PREFIX define */
@@ -8,7 +8,7 @@
  
      wchar_t *lib_python;               /* "lib/pythonX.Y" */
      wchar_t argv0_path[MAXPATHLEN+1];
-@@ -155,9 +156,16 @@ static void
+@@ -155,9 +156,16 @@
  reduce(wchar_t *dir)
  {
      size_t i = wcslen(dir);
@@ -26,7 +26,7 @@
  }
  
  
-@@ -374,6 +382,14 @@ search_for_prefix(const _PyCoreConfig *core_config,
+@@ -374,6 +382,14 @@
          }
      }
  
@@ -41,7 +41,7 @@
      /* Search from argv0_path, until root is found */
      copy_absolute(prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-@@ -386,9 +402,15 @@ search_for_prefix(const _PyCoreConfig *core_config,
+@@ -386,9 +402,15 @@
          prefix[n] = L'\0';
          reduce(prefix);
      } while (prefix[0]);
@@ -58,7 +58,7 @@
      prefix[MAXPATHLEN] = L'\0';
      joinpath(prefix, calculate->lib_python);
      joinpath(prefix, LANDMARK);
-@@ -495,6 +517,14 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
+@@ -495,6 +517,14 @@
          }
      }
  
@@ -73,7 +73,7 @@
      /* Search from argv0_path, until root is found */
      copy_absolute(exec_prefix, calculate->argv0_path, MAXPATHLEN+1);
      do {
-@@ -507,9 +537,16 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
+@@ -507,9 +537,16 @@
          exec_prefix[n] = L'\0';
          reduce(exec_prefix);
      } while (exec_prefix[0]);
@@ -91,7 +91,7 @@
      exec_prefix[MAXPATHLEN] = L'\0';
      joinpath(exec_prefix, calculate->lib_python);
      joinpath(exec_prefix, L"lib-dynload");
-@@ -829,7 +866,9 @@ calculate_module_search_path(const _PyCoreConfig *core_config,
+@@ -829,7 +866,9 @@
      }
  
      bufsz += wcslen(calculate->zip_path) + 1;
@@ -102,7 +102,7 @@
  
      /* Allocate the buffer */
      wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
-@@ -880,7 +919,10 @@ calculate_module_search_path(const _PyCoreConfig *core_config,
+@@ -880,7 +919,10 @@
      wcscat(buf, delimiter);
  
      /* Finally, on goes the directory for dynamic-load modules */
@@ -114,7 +114,7 @@
  
      config->module_search_path = buf;
      return _Py_INIT_OK();
-@@ -908,6 +950,10 @@ calculate_init(PyCalculatePath *calculate,
+@@ -908,6 +950,10 @@
      if (!calculate->prefix) {
          return DECODE_LOCALE_ERR("PREFIX define", len);
      }

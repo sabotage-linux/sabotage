@@ -1,6 +1,6 @@
 --- Python-3.7.3.orig/Makefile.pre.in
 +++ Python-3.7.3/Makefile.pre.in
-@@ -620,7 +620,7 @@ sharedmods: $(BUILDPYTHON) pybuilddir.txt Modules/_math.o
+@@ -620,7 +620,7 @@
  		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
  	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
  		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
@@ -9,7 +9,7 @@
  
  
  # Build static library
-@@ -1393,33 +1393,6 @@ libinstall:	build_all $(srcdir)/Modules/xxmodule.c
+@@ -1393,33 +1393,6 @@
  		$(INSTALL_DATA) $(srcdir)/Modules/xxmodule.c \
  			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
  	fi
