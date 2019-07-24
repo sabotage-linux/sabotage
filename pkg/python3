@@ -25,14 +25,14 @@ zlib
 [ "$butch_prefix" = "/" ] && butch_prefix=
 
 # python can't deal with prefix= or prefix=/ correctly.
-# it will emit empty PREFIX and EXEC_PREFIX macros into pyconfig.h
-# additionally it searches for stuff only relative to its own binary.
+# it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
 patch -p1 < "$K"/python3-pathsearch.patch
 patch -p1 < "$K"/python3-xcompile.patch
 patch -p1 < "$K"/python3-includedirs.patch
 #patch -p1 < "$K"/python3-UTF-8.patch # TODO
 patch -p1 < "$K"/python3-sysconfig-prefix.patch # TODO: incomplete
+
 # if PYTHON_SMALL_AND_SLOW is set, we disable automatic creation of .pyc and
 # .pyo bytecode files. the result is small delay on startup (up to 2.5x slower)
 # but substantial savings in disk space (31 vs 22 MB on x86_64)).
@@ -81,6 +81,7 @@ LDFLAGS="$optldflags -lncursesw -lterminfo" \
   ac_cv_file__dev_ptmx=yes
 
 if [ -n "$CROSS_COMPILE" ] ; then
+  # temporarily use the host's sizes of types for the parser generator.
   cp pyconfig.h pyconfig.h.target
   for i in SIZEOF_LONG SIZEOF_PTHREAD_T SIZEOF_SIZE_T SIZEOF_TIME_T SIZEOF_VOID_P SIZEOF_UINTPTR_T ; do
     sed -i 's,#define '$i',//,' pyconfig.h
@@ -107,6 +108,7 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" altinstall
 
 dest="$butch_install_dir""$butch_prefix"
+
 # removing tests
 for test in sqlite3/test email/test ctypes/test test unittest/test tkinter/test \
             bsddb/test json/tests lib2to3/tests distutils/tests tests ; do
