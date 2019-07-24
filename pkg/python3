@@ -17,6 +17,7 @@ expat
 libffi
 libedit
 gettext
+zlib
 
 [build]
 # work around buggy installer which puts stuff into prefix directly
