@@ -11,7 +11,7 @@ cp -f "$K"/config.sub config/
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
+CFLAGS="-D_GNU_SOURCE $optcflags -include sys/sysmacros.h" LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
                  --disable-nls --disable-rpath --disable-tls --disable-libuuid \
                  --disable-libmount --disable-mount --disable-losetup \
