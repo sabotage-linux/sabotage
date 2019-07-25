@@ -15,7 +15,9 @@ pkgver=2
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls --disable-ssp $xconfflags \
+	ac_cv_tls=__thread \
+	ax_cv_check_cflags___ftls_model_local_dynamic=no
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
