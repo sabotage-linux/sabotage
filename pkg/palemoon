@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/MoonchildProductions/UXP/archive/PM28.6.0_Release.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/PM28.6.0.1_Release.tar.gz
 
 [vars]
-filesize=278469857
-sha512=03a6ed45dcc707ed6514a3dda6c1be865b29bd375a55ae4867fac057c3fe8b49461dc92928880735f0198e98477ce090a8c06bb4b605c04062c79c21c22b6be3
-tardir=UXP-PM28.6.0_Release
-pkgver=8
+filesize=278478702
+sha512=6160741d286a502330dd9c1c6f685a254ad82bda2525d423e38a9438a1ea4b55c33f94f0f0755dd2fab366a2ab7747b25001d9f5d37566da471e605275d9f603
+tardir=UXP-PM28.6.0.1_Release
+pkgver=9
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
