@@ -12,6 +12,9 @@ python
 [deps.host]
 python
 
+[deps]
+libxml2
+
 [build]
 export CFLAGS="$optcflags"
 python setup.py build
