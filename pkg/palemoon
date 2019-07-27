@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/MoonchildProductions/UXP/archive/PM28.5.2_Release.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/PM28.6.0_Release.tar.gz
 
 [vars]
-filesize=291908024
-sha512=acc085d45b3da53bca851b18091d46ee0aaf596e63fa7ae0df1b299571ae62faf930cbde7316a0e48c3837cc7c21f1f91b83bcd6257169e35c5368aea2805be9
-tardir=UXP-PM28.5.2_Release
-pkgver=7
+filesize=278469857
+sha512=03a6ed45dcc707ed6514a3dda6c1be865b29bd375a55ae4867fac057c3fe8b49461dc92928880735f0198e98477ce090a8c06bb4b605c04062c79c21c22b6be3
+tardir=UXP-PM28.6.0_Release
+pkgver=8
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
@@ -32,7 +32,7 @@ zip
 
 [build]
 BROWSER_NAME=basilisk
-BROWSER_VERSION=28.5.2
+BROWSER_VERSION=28.6.0
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
 
@@ -75,7 +75,6 @@ PATCH palemoon-fix-toolkit.patch
 PATCH firefox-disable-hunspell_hooks.patch
 PATCH firefox-fix-arm-atomics-grsec.patch
 PATCH firefox-fix-arm-version-detect.patch
-PATCH palemoon-accessible.patch
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"
