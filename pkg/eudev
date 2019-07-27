@@ -21,7 +21,8 @@ patch -p1 < "$K"/eudev-mtd-stdint.patch
 
 # https://github.com/gentoo/eudev/issues/75
 # https://github.com/gentoo/eudev/issues/70
-CFLAGS="-D_GNU_SOURCE $optcflags -DUDEV_ROOT_RUN=\\\"$butch_prefix/var/run\\\"" \
+CFLAGS="-D_GNU_SOURCE $optcflags -DUDEV_ROOT_RUN=\\\"$butch_prefix/var/run\\\" \
+ -include sys/sysmacros.h" \
 LDFLAGS="$optldflags -lblkid" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --sbindir="$butch_prefix"/bin \
