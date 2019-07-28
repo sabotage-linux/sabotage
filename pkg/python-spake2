@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/60/0b/bb5eca8e18c38a10b1c207bbe6103df091e5cf7b3e5fdc0efbcad7b85b60/spake2-0.8.tar.gz
+
+[vars]
+filesize=58088
+sha512=406719ebb9731f7900a8a5c913dd63a81dd6d48da8b8d1f8ebc903fcfca01a8638032a1a757fe402a701a65ecca6be91a42b2271db251c06adfa8bf0daa35973
+pkgver=1
+uchkurl=https://pypi.org/project/spake2/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

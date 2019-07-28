@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/8c/e0/e512e4ac6d091fc990bbe13f9e0378f34cf6eecd1c6c268c9e598dcf5bb9/humanize-0.5.1.tar.gz
+
+[vars]
+filesize=14250
+sha512=2727268d9fc7b393228f7eb9e71a5c881988ec56e265ddf83613fe57116da3aaad70d2417db4cef8a8c40cb73753eb2c2bd775d3cd25c2de751cb61373f0a551
+pkgver=1
+uchkurl=https://pypi.org/project/humanize/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/b5/af/955c37e197df562b92a049d11a0f5cbae8ab8996007b3a65a88a920b75b0/foolscap-0.13.1.tar.gz
+
+[vars]
+filesize=524167
+sha512=aa77fc22d6c1c32e1361f0ccc42902f25cf18ac917f81428d32f1170b75ecb4fe73f639e8bb641822775326ec920f14308ad7f4c5c01cd8051305fccde9c5e9e
+pkgver=1
+uchkurl=https://pypi.org/project/foolscap/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

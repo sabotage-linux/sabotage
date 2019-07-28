@@ -1,0 +1,19 @@
+[mirrors]
+https://files.pythonhosted.org/packages/8f/26/02c4016aa95f45479eea37c90c34f8fab6775732ae62587a874b619ca097/incremental-17.5.0.tar.gz
+
+[vars]
+filesize=15527
+sha512=91443205f7c92ec8f6502f38379c5ac2fe441435ff9490af01e5420d6bb05bb1c666dd612fc45204199a34afd533fd3de1390ca482bb554dfec7d3a22958a4bc
+pkgver=1
+uchkurl=https://pypi.org/project/incremental/
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/9a/3d/9eb0563e066ea0540cf580695593ab079376e920016d4d1b3ff2fd8abf4b/service_identity-18.1.0.tar.gz
+
+[vars]
+filesize=21653
+sha512=c1556e385035a8d43fd0e3960c0396b9d2536c5e3c7450b3669c8c9b8ff60b6a9d2f0282dc30c1fb46034b4abcb0ff6d74ed79f6bcc33f59035988ccaf3324d2
+pkgver=1
+uchkurl=https://pypi.org/project/service_identity/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

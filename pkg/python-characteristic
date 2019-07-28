@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/dc/66/54b7a4758ea44fbc93895c7745060005272560fb2c356f2a6f7448ef9a80/characteristic-14.3.0.tar.gz
+
+[vars]
+filesize=26993
+sha512=e13a86f453cd3688a74188005b82a661a9c73d9f0408d9afe9e0575e69ffe87a5327f51e2c16a9c0a653b738e7c014d5aa08e353835f0aca7897714b7ae56e83
+pkgver=1
+uchkurl=https://pypi.org/project/characteristic/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

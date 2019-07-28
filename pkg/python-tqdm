@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/d0/0a/50a145091ce0c02db89d0342a59327c1ddeee206ef2991f09158d4e52406/tqdm-4.32.2.tar.gz
+
+[vars]
+filesize=121017
+sha512=b39c0b488cef6935edc63ee73cde800678d8c3211abf74d6680274618086970a12b5bf9aaad9b6841fa2e84261d1348ceccf32c25f5a3afd8e1a1d1822f98d91
+pkgver=1
+uchkurl=https://pypi.org/project/tqdm/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

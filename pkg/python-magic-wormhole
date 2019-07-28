@@ -1,0 +1,26 @@
+[mirrors]
+https://files.pythonhosted.org/packages/77/15/9438290bab8146efc0213f7c3d9645d9bc5a2e885e4049477e7432e40336/magic-wormhole-0.11.2.tar.gz
+
+[vars]
+filesize=197378
+sha512=890c0f1f946dfd9a9bde2ec0079c55dc23b328e04780e6baf8c580dfd068bf37a5b2e00e12119be6529a6e0893d4f711145e04c349ccfdf7ef91e87cef785d36
+pkgver=1
+uchkurl=https://pypi.org/project/magic-wormhole/
+
+[deps]
+python
+python-humanize
+python-click
+python-tqdm
+python-hkdf
+python-automat
+python-attrs
+python-autobahn
+python-pynacl
+python-spake2
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

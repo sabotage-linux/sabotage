@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/ec/0b/69620cb04a016e4a1e8e352e8a42717862129b574b3479adb2358a1f12f7/pyasn1-modules-0.2.5.tar.gz
+
+[vars]
+filesize=78918
+sha512=16b49e95b570e1e4c4185cfe596bc4614930030101ddb02080067ca1d94aa388a7932f807fe7b76eaad50ef135f6a0cdbe2a0b355fd7778364eb9d8df7610434
+pkgver=1
+uchkurl=https://pypi.org/project/pyasn1-modules/
+
+[deps]
+python
+
+[build]
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/a3/65/837fefac7475963d1eccf4aa684c23b95aa6c1d033a2c5965ccb11e22623/PyYAML-5.1.1.tar.gz
+
+[vars]
+filesize=274442
+sha512=fa47fb2d2903506c55e3651ec130ad5472168e0257eabec8fdf329336f60d9ef36df0f8c4eb7d5ab913f3037120048b02f715aa2215085b3b1ce936cdcff77bf
+pkgver=1
+uchkurl=https://pypi.org/project/PyYAML/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

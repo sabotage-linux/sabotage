@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/79/e5/26dc921e91c00d1eaf09f35f10f4d788cccec3b0dc73a69920f42950f189/pyutil-3.3.0.tar.gz
+
+[vars]
+filesize=292857
+sha512=70e4a2eaf860dc9fea49bbb56ac9febff022f393d50787c90de3b67423cb881854cc2582321f52fa147945e637c217ee376e720ea5f6d015c1b2c97ccbec26f8
+pkgver=1
+uchkurl=https://pypi.org/project/pyutil/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

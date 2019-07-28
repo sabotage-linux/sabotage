@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/6d/90/ede3f19deabe3fcfe61211211da60d6c23a70501acef03e22de05d12eacf/autobahn-19.7.1.tar.gz
+
+[vars]
+filesize=549201
+sha512=880f2ab05ea17621f29e99978dc3291b47a5e3c2737b027094d4a5e974bd2142966f33bf2d73a13e73713256dcc30eef2700f4b8b290a1820d62429b01c55439
+pkgver=1
+uchkurl=https://pypi.org/project/autobahn/
+
+[deps]
+python
+python-txaio
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

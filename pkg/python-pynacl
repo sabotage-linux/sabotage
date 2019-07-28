@@ -1,0 +1,22 @@
+[mirrors]
+https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
+
+[vars]
+filesize=3351016
+sha512=1762d7d9add6ca59ce83e394071861f78f27d0f06ad1481255ebb66023186127e1a67b49a2c2f51bcbd97bdd151a3a2adea099c47c2a9f456dda5e3b1508af50
+pkgver=1
+uchkurl=https://pypi.org/project/PyNaCl/
+
+[deps]
+python
+libsodium
+
+[build]
+
+echo "#!/bin/true" > ldconfig && chmod +x ldconfig
+export PATH="${PWD}:${PATH}"
+export CFLAGS="$optcflags -fstack-protector"
+export LDFLAGS="$optldflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

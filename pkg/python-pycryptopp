@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/7c/e2/7e035d306c7516c471802d7cd7b6c1e403e582489bc5c14706854a187a24/pycryptopp-0.7.1.869544967005693312591928092448767568728501330214.tar.gz
+
+[vars]
+filesize=1992756
+sha512=8b5996badedcd32345818f95e26487ac938c10e1790495515c74816075261a4fcedd2f80c55beddbdea54ed8899bc7c7b1a192468cb3cf434c50f9a68b65cc25
+pkgver=1
+uchkurl=https://pypi.org/project/pycryptopp/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

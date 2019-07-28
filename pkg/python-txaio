@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/c1/99/81de004578e9afe017bb1d4c8968088a33621c05449fe330bdd7016d5377/txaio-18.8.1.tar.gz
+
+[vars]
+filesize=51092
+sha512=5aa0024b32211534b0c673da13b092ba08e15195b3b016bc21104618605d5c0b49096fa2795e13d9d5c4247defa1d72f903cbcc8d00a21359825224faab64b64
+pkgver=1
+uchkurl=https://pypi.org/project/txaio/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

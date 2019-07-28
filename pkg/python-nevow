@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/d6/24/fdfae1b49587d51e4cd4cd5b8c171682fbc67d8e9c7e54581be107ae3925/Nevow-0.14.4.tar.gz
+
+[vars]
+filesize=548851
+sha512=83df398f5b0e5823a35fa04eacdbc77f4a684080f39735d3b22383b42453e666dc0dc1d517027dc2f8dd1422e76a043249ec7a30dde7a7477b9b5004422c480b
+pkgver=1
+uchkurl=https://pypi.org/project/Nevow/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

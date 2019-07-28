@@ -1,0 +1,37 @@
+[mirrors]
+https://tahoe-lafs.org/downloads/tahoe-lafs-1.13.0.tar.gz
+
+[vars]
+filesize=1710199
+sha512=c8986edae1bea0ac4ecf8f97e0e4ee89ff5024a0ab6039ba21585e9ac2604b7b43bac01d63b91812eef269629b9a5ba99043a30bb12a0ea16c4d13496e24464a
+pkgver=1
+desc="Free and open, decentralized cloud storage system with faul tolerance support."
+
+[deps]
+python
+python-click
+python-zfec
+python-txtorcon
+python-humanize
+python-magic-wormhole
+python-twisted
+python-characteristic
+python-service-identity
+python-nevow
+python-pycryptopp
+python-foolscap
+python-pyasn1
+python-pyasn1-modules
+python-pyopenssl
+python-pyyaml
+python-pyhamcrest
+python-hyperlink
+python-constantly
+python-pyutil
+python-incremental
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

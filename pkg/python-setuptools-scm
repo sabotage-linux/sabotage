@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/83/44/53cad68ce686585d12222e6769682c4bdb9686808d2739671f9175e2938b/setuptools_scm-3.3.3.tar.gz
+
+[vars]
+filesize=36903
+sha512=196d4785a1802875d89b9e54ae788e791a9c5cb685109784059955b691242984e42b96d77075116790935f56be82259bc2588d95d65ecbb101261d76daddb83c
+pkgver=1
+uchkurl=https://pypi.org/project/setuptools-scm/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/c3/be/327e072850db181ce56afd51e26ec7aa5659b18466c709fa5ea2548c935f/hkdf-0.0.3.tar.gz
+
+[vars]
+filesize=3959
+sha512=c58f9310c151f8d710998d019221713ec71ac8083c42300f5e77326c7b35be341263c40fb485402937c381a6435cbd9899c8d32846a50d1d1e6a4d3e61f58c7d
+pkgver=1
+uchkurl=https://pypi.org/project/hkdf/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

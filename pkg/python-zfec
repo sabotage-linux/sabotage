@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/8f/99/aba4602ff6ed25a5ff2a9e0f9a3762d84d7e1b941b75d620a53a0ccecd9f/zfec-1.5.3.tar.gz
+
+[vars]
+filesize=79402
+sha512=1aee0740b370025cf5c24dca0decd9d87b83311d408198f97aa7b2361a2ebc1e5f1c34015ee72456144667842f20dcbc12e5f788c54942e4489d5e355c2706bd
+pkgver=1
+uchkurl=https://pypi.org/project/zfec/
+
+[deps]
+python
+python-pyutil
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

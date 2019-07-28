@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/2d/a4/509f6e7783ddd35482feda27bc7f72e65b5e7dc910eca4ab2164daf9c577/mistune-0.8.4.tar.gz
+
+[vars]
+filesize=58322
+sha512=36c3ef5d5537f5cceaa43e4da20a84b27c378cb744a93f0380024faefde490bcb42c453f79002ca049083fc437278f4afb3e10de5462f9eeb9077ca2a2fcaea7
+pkgver=1
+uchkurl=https://pypi.org/project/mistune/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

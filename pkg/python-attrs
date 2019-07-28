@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/cc/d9/931a24cc5394f19383fbbe3e1147a0291276afa43a0dc3ed0d6cd9fda813/attrs-19.1.0.tar.gz
+
+[vars]
+filesize=124220
+sha512=22ee45e8b10a7abe10e720788c5cfab424d0bfe70e595dfb116928b8ebea497a747e8234d96549da00f0967de750fb943db0cd3669354253a27be2ca30fe413a
+pkgver=1
+uchkurl=https://pypi.org/project/attrs/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

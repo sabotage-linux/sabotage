@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/e0/46/1451027b513a75edf676d25a47f601ca00b06a6a7a109e5644d921e7462d/hyperlink-19.0.0.tar.gz
+
+[vars]
+filesize=99099
+sha512=5d5723bc0bd0c381edd3a9ef7bab3ba9ad4252027d5a4afa61e6cfff3e5b8457994b6dd36ecc356e638d41f797fe3367a3010249e0e77bee6e9e94336c1e7c2e
+pkgver=1
+uchkurl=https://pypi.org/project/hyperlink/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

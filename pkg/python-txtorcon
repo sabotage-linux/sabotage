@@ -1,0 +1,18 @@
+[mirrors]
+https://files.pythonhosted.org/packages/b7/93/e16d8160bac3a19d13c9ead9ac6b38f837f2534d40884109a334be1f849c/txtorcon-19.0.0.tar.gz
+
+[vars]
+filesize=310418
+sha512=adfd6cfc5c5e1c3b4915c296055bcf2412b32baef012f534ac3e6fe15da8c936484c3c0866a6491e67f9d9850c5ae71948a8955147824c1c8066437367f3a7ea
+pkgver=1
+uchkurl=https://pypi.org/project/txtorcon/
+
+[deps]
+python
+python-automat
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

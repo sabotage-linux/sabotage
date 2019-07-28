@@ -1,0 +1,21 @@
+[mirrors]
+https://files.pythonhosted.org/packages/4a/4f/64db3ffda8828cb0541fe949354615f39d02f596b4c33fb74863756fc565/Automat-0.7.0.tar.gz
+
+[vars]
+filesize=61461
+sha512=a6f307d312a3ceb721071b5212297c73d2306894b5fafd39265578041a2859bd6f041ac43a654bdda4175a70a4e90e0db1ee35cd43fa620cd5c594b5d1988a74
+pkgver=1
+uchkurl=https://pypi.org/project/Automat/
+
+[deps]
+python
+python-m2r
+python-setuptools-scm
+python-docutils
+python-mistune
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

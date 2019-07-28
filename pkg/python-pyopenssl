@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/40/d0/8efd61531f338a89b4efa48fcf1972d870d2b67a7aea9dcf70783c8464dc/pyOpenSSL-19.0.0.tar.gz
+
+[vars]
+filesize=168551
+sha512=a7e12bf5be725ccebd1223d567a9b9e8bd35f79cbf3a0409108fa6f00e10ab137dd6876369e9dede02b2abc7d700786cc905532ca5c31b6e246f6df8b24e2818
+pkgver=1
+uchkurl=https://pypi.org/project/pyOpenSSL/
+
+[deps]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
