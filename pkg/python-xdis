@@ -5,6 +5,7 @@ https://pypi.python.org/packages/f1/68/982e12c6f1ea460273dad56f703d88fd208732afb
 filesize=154152
 sha512=93b1a092ae7790e84dfd8dc4128659d48be85c4e00d9914bbd748fad5ec4246bbfc6c19a5c5de366f4bd6d91847dad4ce3c1c3affe8f7608652f2f6e343650e1
 pkgver=1
+uchkurl=https://pypi.org/project/xdis/
 
 [deps.run]
 python

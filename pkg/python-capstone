@@ -5,6 +5,7 @@ https://pypi.python.org/packages/e7/29/e9ad2a12c38f19e9ca8aff05122e5b9e271da6ecb
 filesize=3175587
 sha512=4546264fe8eff04a37f636c0ad2eaa2a57c1c8ff695a9ceee25ee72541fc56cad74ec1769e82a548e2475ab92a600d522b7c5ab50a4c4656068939107b4ac5fb
 pkgver=1
+uchkurl=https://pypi.org/project/capstone/
 
 [deps.run]
 python

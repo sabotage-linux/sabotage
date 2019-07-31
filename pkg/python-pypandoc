@@ -5,6 +5,7 @@ https://pypi.python.org/packages/68/6d/4f8ff7661e13f5038bafe1e7d8c4c2a0fb83f3fbe
 filesize=25664
 sha512=753b6c868576d971d8137002969b434404185709e0c4a63a7f53a9dfcca555a2fb0476a421818e7d136bcabdad08243389cdbfc1907f46d87e3d69564d40b7ef
 pkgver=1
+uchkurl=https://pypi.org/project/pypandoc/
 
 [deps.run]
 python

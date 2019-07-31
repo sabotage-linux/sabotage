@@ -5,6 +5,7 @@ https://pypi.python.org/packages/c5/d5/03e3afe251a7aed91254a0ccef7bdb59923e29016
 filesize=17274
 sha512=59fa112f88a6fa2a3134138991e8b8840e1e5773c5e5186154030c2338b936807d51f32891fc1b962be76732e30baaa6a7057664f6ac0025fd273329821de366
 pkgver=1
+uchkurl=https://pypi.org/project/ROPGadget/
 
 [deps.run]
 python

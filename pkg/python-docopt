@@ -5,6 +5,7 @@ https://pypi.python.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b6
 filesize=25901
 sha512=af138feccf8c37b374ee44fcda4938a88107d434df13c173214021b1a3348b152a595095a86982b66ac03a11db8e0f1e9e6a3a65c98deea92330311daeb831a3
 pkgver=1
+uchkurl=https://pypi.org/project/docopt/
 
 [deps.run]
 python

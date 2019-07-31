@@ -5,6 +5,7 @@ https://pypi.python.org/packages/3d/90/9b0e6d0236fa8bfed4f1adbe9f6fa2d723932806c
 filesize=96630
 sha512=9a298abb2d1b99bd89dfb2a6e0cfb8017bd5ecfae40e53b4ea49ad2f1021fc53e94cc21b87d811ac38178f1ca1cb108b302ef483f7fa592493ddace03c92e0d1
 pkgver=2
+uchkurl=https://pypi.org/project/claripy/
 
 [deps.run]
 python

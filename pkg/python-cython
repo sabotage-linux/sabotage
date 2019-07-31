@@ -5,6 +5,7 @@ https://pypi.python.org/packages/b7/67/7e2a817f9e9c773ee3995c1e15204f5d01c8da718
 filesize=1703315
 sha512=1974b9374aeedb030307dc95aa6560ce9d5e1652783cd4552e96ef11663c73dd263e3521b68e7712abbb31628011e2e66320c5ee2577968684e2679eb80726e1
 pkgver=1
+uchkurl=https://pypi.org/project/Cython/
 
 [deps.run]
 python

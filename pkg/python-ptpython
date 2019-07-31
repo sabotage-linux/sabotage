@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/9d/72/60f5674963adc45953dba81d389c52459a
 filesize=43252
 sha512=506473ff80f9d2937e065e37128428d2b12600256bfd5a0941ffc601b0fc85dfddfe17e4163310a90de3d19143ff7781246fe31585bb9a3e634ea8c26e49aa1a
 pkgver=1
+uchkurl=https://pypi.org/project/ptpython/
 
 [deps.run]
 python

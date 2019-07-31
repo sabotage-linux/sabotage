@@ -5,6 +5,7 @@ https://pypi.python.org/packages/56/4b/cb75836863a6382199aefb3d3809937e21fa4cb0d
 filesize=575112
 sha512=15608f2487783ea3a48faf743ee1b8e811adc34281c613e56f1a4548f3c614d1d5dbc943911943a7f8f6d34a962a27387d8fc17862038c1abee2e6c3328a79cf
 pkgver=1
+uchkurl=https://pypi.org/project/Mako/
 
 [deps.run]
 python

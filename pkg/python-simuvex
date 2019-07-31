@@ -5,6 +5,7 @@ https://pypi.python.org/packages/66/13/79574b34c86cb2f7826558b35e2cbe11ac223f852
 filesize=202696
 sha512=6d73107f0225009497a0dec09dd80e212577ef22b32901979f0efdc2bdd4e83e9fc1de2cd720e36fb747d5fd822d46454b274b0dd781185997b16b91ae52b571
 pkgver=2
+uchkurl=https://pypi.org/project/simuvex/
 
 [deps.run]
 python

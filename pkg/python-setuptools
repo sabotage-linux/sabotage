@@ -7,6 +7,7 @@ sha512=750df326a149c2308971582d8a77b757c5dedb2251673826a8cb8860576700ee8d82a061c
 tarball=setuptools-40.4.3.tar.gz
 tardir=setuptools-40.4.3
 pkgver=2
+uchkurl=https://pypi.org/project/setuptools/
 
 [deps]
 python

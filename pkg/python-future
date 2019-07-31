@@ -5,6 +5,7 @@ https://pypi.python.org/packages/00/2b/8d082ddfed935f3608cc61140df6dcbf0edea1bc3
 filesize=824484
 sha512=41c795cd1746a76df84de2da9fbc611fc6164322c1c712ec9e8a8626c21c2717cb4899ec150d95c5e0c037270e6bb71e099edd169609369aae619daea9df2e5f
 pkgver=1
+uchkurl=https://pypi.org/project/future/
 
 [deps.run]
 python

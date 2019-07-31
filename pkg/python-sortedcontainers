@@ -5,6 +5,7 @@ https://pypi.python.org/packages/8d/aa/5369362d730728639ba434318df26b5c554804578
 filesize=11970881
 sha512=a9f2ba152c47eddfda6ad8ef7ecfbfa5d51b17afb4042b0b1e6d8b3dbc6caf6f8281af415dfcf1e356aaf80aa3212865ba926fe0d6e08961c8fbbc68adb34108
 pkgver=1
+uchkurl=https://pypi.org/project/sortedcontainers/
 
 [deps.run]
 python

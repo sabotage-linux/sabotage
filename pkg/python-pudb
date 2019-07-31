@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/d1/e9/d27fb1a5f00c722247b8003c9a81240e49
 filesize=56771
 sha512=4f0311d5a8642ff7097c2bceecde9a45999ad4567e008507cc8f977cc1e452cbbb80be525d08703c3e22038831b6b94e9b5b46ea1f1a1dc2d4292c8df9ef7ca7
 pkgver=1
+uchkurl=https://pypi.org/project/pudb/
 
 [deps.run]
 python

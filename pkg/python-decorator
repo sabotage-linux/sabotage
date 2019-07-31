@@ -5,6 +5,7 @@ https://pypi.python.org/packages/cc/ac/5a16f1fc0506ff72fcc8fd4e858e3a1c231f224ab
 filesize=70616
 sha512=acce545d26c05ad03e4a3889214c3e94d1d47a9ccba42318ff8acb4d9384e676839fdcdb8d501a808f9332f532e4087a60398c273a58e07dfbc02f04f04af69c
 pkgver=1
+uchkurl=https://pypi.org/project/decorator/
 
 [deps.run]
 python

@@ -5,6 +5,7 @@ https://pypi.python.org/packages/0c/4e/1ea357e7783c756bb579333c1e4a026fb331371ee
 filesize=20265
 sha512=b3ccc5bd7cc613f7683f12247a26aae9dacde37e60616c3078c7505fb1defbb512451a2e3e8cd1db3e84d115af01420e3ceaea0d58ae38975f40220e59531227
 pkgver=1
+uchkurl=https://pypi.org/project/enum/
 
 [deps.run]
 python

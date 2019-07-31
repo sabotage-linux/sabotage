@@ -5,6 +5,7 @@ https://pypi.python.org/packages/5e/b7/ffbe551cec03004c4dc7e388b3b79f26e5f2d1572
 filesize=4259
 sha512=d7279baf3a160d9d462b2ff67b14b0fcb32c4b34355fc042a727e4e37b613e334ac4b316f9cfbc47c5d3d7defb5f7447b9936eb4b8c4fb1e3e481560509df27d
 pkgver=1
+uchkurl=https://pypi.org/project/tox-pyenv/
 
 [deps.run]
 python

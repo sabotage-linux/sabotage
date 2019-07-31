@@ -5,6 +5,7 @@ https://pypi.python.org/packages/df/97/e6c38e1a567748fadae9afede3e249b4e4e9cc949
 filesize=134114
 sha512=290069ebe37aa4d5dddacefe3a4d48607076990fe1f27f914d154fa48a5249cddd0c9d238b7e4c7a9a52ddfc054a3cd5639e52b618b5f4bc5b833c4e38b21c2b
 pkgver=1
+uchkurl=https://pypi.org/project/spark-parser/
 
 [deps.run]
 python

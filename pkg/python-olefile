@@ -5,6 +5,7 @@ https://pypi.python.org/packages/35/17/c15d41d5a8f8b98cc3df25eb00c5cee76193114c7
 filesize=74147
 sha512=096450638b21882d462ceb6c60ece2e603318f7f4783414ed33b45e3dbbf38a60f763144b14df6685a0d55cc034cf16f82a0f8ed8773fe9a7d10d6bf32d4edfc
 pkgver=1
+uchkurl=https://pypi.org/project/olefile/
 
 [deps.run]
 python

@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/10/c1/9499b146bfa43aa4f1e0ed1bab1bd3209a
 filesize=4614437
 sha512=6dba487a9527eb352dc6a5f57120bf7973da655b3a331cad6637271b626c6e9e5439b20ee8abd9035ecb36e5259c99c69dea5ecdb8fa7ad0dbe28876c4d746d8
 pkgver=1
+uchkurl=https://pypi.org/project/gevent/
 
 [deps]
 libevent

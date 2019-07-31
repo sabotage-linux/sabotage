@@ -5,6 +5,7 @@ https://pypi.python.org/packages/a1/32/e3d6c3a8b5461b903651dd6ce958ed03c093d2e00
 filesize=407108
 sha512=6e76f181b6b7b760a14ad70338edd104a8b8e2eac5680e336d3868e0bd031a1665608e29a65dc0c56806afb8a8c03811586f151f3acef11e54e60c1bfcf902e3
 pkgver=1
+uchkurl=https://pypi.org/project/cffi/
 
 [deps.run]
 python

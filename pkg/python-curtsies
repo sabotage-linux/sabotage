@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/78/1e/3b69f26d9e496901e80fc90e39e479c85f
 filesize=47120
 sha512=b1fc09a4e9aefe09b878a5c710ef86c90f93895a8ed40b40a3c13b24a2dfc1fe771ace11c20e3fed4fcdd0bed8b9615ee3c2bcf200fa34fbfb895a4a7b57b14c
 pkgver=1
+uchkurl=https://pypi.org/project/curtsies/
 
 [deps.run]
 python

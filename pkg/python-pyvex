@@ -5,6 +5,7 @@ https://pypi.python.org/packages/0d/10/89f3219bb139c94b87961981b3523b6894d3605da
 filesize=44977
 sha512=e80039d3363b5bd22b638569baf198472f3004664240ba476a917193c424623c5507277bee2754fd7e490ad075fda7766e5f883a3f5c18dc0122652059c5eeed
 pkgver=2
+uchkurl=https://pypi.org/project/pyvex/
 
 [deps.run]
 python

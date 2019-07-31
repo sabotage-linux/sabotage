@@ -5,6 +5,7 @@ https://pypi.python.org/packages/46/f0/537702b49e1565a06d9918bbbfc7cfe4ac9fd94fd
 filesize=60478
 sha512=5170e10779e912404e358e3d680ebea2f21f44cf6ffe82c080f2547cb85c73c4066ca9a436c9dbd9b04cffa271e6d3289afd1ce17e449372742a7879710a6768
 pkgver=2
+uchkurl=https://pypi.org/project/cle/
 
 [deps.run]
 python

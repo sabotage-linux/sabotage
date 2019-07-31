@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/5d/94/6f55de2fd72f1d7f7eb17cd6045a50581e
 filesize=14650
 sha512=cffca739f3c0c9f2c33c1983e53ed33a75d0bd1553c9ebd9fddde2b4f0bbbfdfb21d8423be5f051cae104225f3c1afe7c8c65d468518bef8aee19d5280ca79a2
 pkgver=1
+uchkurl=https://pypi.org/project/Flask-SocketIO/
 
 [deps.run]
 python
