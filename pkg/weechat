@@ -1,10 +1,10 @@
 [mirrors]
-http://www.weechat.org/files/src/weechat-2.0.1.tar.xz
+http://www.weechat.org/files/src/weechat-2.5.tar.xz
 
 [vars]
-filesize=1967336
-sha512=3947e79a0ac8dce7605905c39039bedf9ba2af4778ee6905f12ca75786b62f3081568ce9426be251e65bad2837ddcf0664cbb08059f898d4ac60171325a94e74
-pkgver=9
+filesize=2067180
+sha512=af0135009b799d40790c09da5419c950a6c750264a556de418b0ba4f396ecbde2aadeae5cbea3f2e98fc9926f07439e28beac00cb0019dc6752c1a5640a9834e
+pkgver=10
 desc='IRC client for the terminal'
 
 [deps]
@@ -16,7 +16,6 @@ curses
 cmake
 
 [build]
-patch -p1 < "$K"/weechat-1.6-curses.patch
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
 printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
