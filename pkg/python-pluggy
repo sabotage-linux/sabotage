@@ -5,6 +5,7 @@ https://pypi.python.org/packages/38/e2/b23434f4030bbb1af3bcdbb2ecff6b11cf2e46762
 filesize=19054
 sha512=1a6e28df05751767df1ac3dfac4c29ba0367f05ae9c8c6a7f5163bb53de36f90226ed18baedeb41bc8ca23504ca61a9b32ef907d3ec3fee7512bcdf45a56d19c
 pkgver=1
+uchkurl=https://pypi.org/project/pluggy/
 
 [deps.run]
 python

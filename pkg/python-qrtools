@@ -5,6 +5,7 @@ https://pypi.python.org/packages/c3/f8/0e6da677d31f55100bba8301f07aca2adea6d8b7b
 filesize=10179
 sha512=b22dce470feacbf265e2dbd3df23c41eded0b3890f5ce25e10c5455f88736b276e8cff0d09bf34f323e7f5ca79cd05fd31a38dc517fb620cfe15ae299f456eab
 pkgver=1
+uchkurl=https://pypi.org/project/qrtools/
 
 [deps.run]
 python

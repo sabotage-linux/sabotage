@@ -7,6 +7,7 @@ sha512=bbc37330439ad3f8d71683914609bb53bf6fe20202ed50424a3afec7bab570442de8130ae
 tarball=python-zbar-0.10.tar.bz2
 tardir=zbar-0.10
 pkgver=1
+uchkurl=https://pypi.org/project/zbar/
 
 [deps.run]
 python

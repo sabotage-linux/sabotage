@@ -5,6 +5,7 @@ https://pypi.python.org/packages/26/37/2184c13cee81e1dbeaebbb13570195247e73ab213
 filesize=147636
 sha512=f45b9862beffdc74e1e5840ec8ea1a7e15a31518df5e3782f247e98566d7d471fc4105e30d8c90194c714c46b77edfd944192fef6446cd6d60d1e4c304d0b029
 pkgver=1
+uchkurl=https://pypi.org/project/gmpy/
 
 [deps.run]
 python

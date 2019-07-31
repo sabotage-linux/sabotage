@@ -5,6 +5,7 @@ https://pypi.python.org/packages/6b/1a/7f609ff9867056d2cbabed5e3f98792a55189e37f
 filesize=3978
 sha512=6d86bc246de67031ef6b455cf5c939906c52a152bb817e588b7b7fee4bc15f867482b9cdc6b203d6bce11ace825d81bad12c76c243cd96b7feb0af6547a513d4
 pkgver=1
+uchkurl=https://pypi.org/project/ana/
 
 [deps.run]
 python

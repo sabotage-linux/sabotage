@@ -5,6 +5,7 @@ https://pypi.python.org/packages/59/01/82c7024afccb8b8e6c2cc9df85d85c29bbb54f1f0
 filesize=321684
 sha512=1dde57b616bc2a8a2fcdb2746b24bee0cb09a23e8e5397cf03d0986fa2778898cef596093fb5f23b6ecda82396447000e5d88832278c7ddde155e1c016ac400a
 pkgver=2
+uchkurl=https://pypi.org/project/angr/
 
 [deps.run]
 python

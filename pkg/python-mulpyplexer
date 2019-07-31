@@ -5,6 +5,7 @@ https://pypi.python.org/packages/bc/85/1c666735a3b66bfb7e3b2c3612a425f426b2354e1
 filesize=2060
 sha512=ae946e3af8e61c540d6b10f83f94c14cdb6f4e3497319521b6a6a7145c7fe6bfa3bc4f96dc289acc149e0d050610beccd1b8f9b25d9927fe9a2de2d758bc2067
 pkgver=1
+uchkurl=https://pypi.org/project/mulpyplexer/
 
 [deps.run]
 python

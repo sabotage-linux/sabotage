@@ -5,6 +5,7 @@ https://pypi.python.org/packages/dc/64/16cbf95e0ac473503c5dcd61aefbbab9f12e1875f
 filesize=18592
 sha512=b1e7a6ed87a82a981f6c9b27bc96f26fdae241a12db85ff890538935e957d7ea88688e20a000691466bdb7db053f8c2145385dfcec6f5f4d84dd812ca419752d
 pkgver=1
+uchkurl=https://pypi.org/project/cachetools/
 
 [deps.run]
 python

@@ -5,6 +5,7 @@ https://pypi.python.org/packages/26/85/f6a315cd3c1aa597fb3a04cc7d7dbea5b3cc66ea6
 filesize=48184
 sha512=7e9c2aad6ebed638a1354cef51c7e1f68b25e59f8caf4694997a9afecd7cd8baa629a9363297ac0d961430f007fd22dcae7dae1bcbd7838a3b5d4285063bc7c5
 pkgver=1
+uchkurl=https://pypi.org/project/pyflakes/
 desc='static analysis tool for python code to find errors'
 
 [deps.run]

@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/c7/90/415728875c230fafd13d118512bde3184d
 filesize=604167
 sha512=99c86a26b08c624c23207ce8e587e8442bece1f522e0c788600ad5f01a4c679efff95dd947edade8b6f4adc376edca949a40c305f9d5ddaf6a0ff97f13c6da30
 pkgver=1
+uchkurl=https://pypi.org/project/urwid/
 
 [deps.run]
 python

@@ -5,6 +5,7 @@ https://pypi.python.org/packages/15/f0/0c90391352db8244321e22604d93cb6a4e3c538e9
 filesize=100736
 sha512=43a53ed174fc88db69568fbda5b131388e38436c4c3ed2f62607bf57149f9781772bfe5382eac54239790a10bb5a3ae22b89b2d1e3fc27ec77a1c0b9dbfe78ec
 pkgver=1
+uchkurl=https://pypi.org/project/Flask-SQLAlchemy/
 
 [deps.run]
 python

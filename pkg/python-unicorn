@@ -5,6 +5,7 @@ https://pypi.python.org/packages/7d/7f/47fe864fe967e91de2d57677618cffc91bee3918f
 filesize=1534737
 sha512=11dc4fb8e78bf508cff68ba60d3725eea4e9c2ccb56fca2f8ac2ba7e4ba40defb4a7b1a6c6afad260c2ebecee868b5a0d90fbd43f557f3f80a4131fed855e09c
 pkgver=2
+uchkurl=https://pypi.org/project/unicorn/
 tarball=python-unicorn-1.0.1.tar.gz
 tardir=unicorn-1.0.1
 

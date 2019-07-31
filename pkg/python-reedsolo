@@ -5,6 +5,7 @@ https://pypi.python.org/packages/b7/fc/9a92265c7e8d556d3af1fc023727707385645fa05
 filesize=4168
 sha512=8ea7d89820c4db9db052b4eef6c4e0d4d99b958981168a1c5b4b487be75d3ca7041dc2629926fab7781446119431d6850249c753fb7c6cf908336fb00723d6b1
 pkgver=1
+uchkurl=https://pypi.org/project/reedsolo/
 
 [deps.run]
 python

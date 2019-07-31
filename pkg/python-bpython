@@ -5,6 +5,7 @@ https://bpython-interpreter.org/releases/bpython-0.17.1.tar.gz
 filesize=213638
 sha512=5b5e861646df90510db75520dff9533b71501d35b7af1d152adf2c929b171fa6a2b1c0a6b7eda0311f9315703db161c6a78698a6cd434e5321464d6d1c033e4e
 pkgver=1
+uchkurl=https://pypi.org/project/bpython/
 desc='improved python repl with syntax highlighting and autocomplete'
 
 [deps.run]

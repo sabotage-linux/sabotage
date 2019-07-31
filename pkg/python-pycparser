@@ -5,6 +5,7 @@ https://pypi.python.org/packages/be/64/1bb257ffb17d01f4a38d7ce686809a736837ad437
 filesize=231163
 sha512=c9caaa8d256748e0623d077b11931abb38d19367136c70a835f7587e1f7ceb64f3acb7a983dcb68bedd2cf187517762a5753844e8ed58d1d9ed6f364c55839b4
 pkgver=1
+uchkurl=https://pypi.org/project/pycparser/
 
 [deps.run]
 python

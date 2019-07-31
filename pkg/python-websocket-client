@@ -5,6 +5,7 @@ https://pypi.python.org/packages/c9/bb/8d3dd9063cfe0cd5d03fe6a1f74ddd948f384e9c1
 filesize=202611
 sha512=0d384e96be66877ba0c24e7194e2f3d554f818c2e2f107b054e07034fa7678946738c2b08c68cd71ebe0237fa507fade319273c492871fbd0ad7085b87cf0a54
 pkgver=2
+uchkurl=https://pypi.org/project/websocket_client/
 
 [deps.run]
 python

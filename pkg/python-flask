@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/1b/72/ffc594a6832337ace475f939e61c34a44c
 filesize=531086
 sha512=ef911d56d8a19183d0e2cc6e2a248763741e350c29fb3f2702e676e47e8706603741d0385dca531f9211f0c247aabdd80cfa2543e713eff2e7f8a91ac691d243
 pkgver=2
+uchkurl=https://pypi.org/project/Flask/
 
 [deps.run]
 python

@@ -6,6 +6,7 @@ filesize=1459132
 sha512=47ca2eceafe7b693c569a92c106782037d869c323aaaec41cace07dfdeb3c6a7e9f7bc8ca1150b3c0daea54e6665f93eb1dfc3c511419cfa28eb2e0753bf9ba4
 tarball=scapy-2.3.3.tar.gz
 pkgver=1
+uchkurl=https://pypi.org/project/scapy/
 
 [deps.run]
 python

@@ -5,6 +5,7 @@ https://pypi.python.org/packages/5d/66/404dfe062cbd00a12a53ae6e69f69cb085223193c
 filesize=53541
 sha512=c586ab79d2ab3a8e14128c7ac5ae49a3311de0723453f801edb805819b06037ae015825fda32ac7620d99fdeceacbcbc5d1b4fadc3c7b2ac778e883ba9406793
 pkgver=1
+uchkurl=https://pypi.org/project/rpyc/
 
 [deps.run]
 python

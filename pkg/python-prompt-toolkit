@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/96/29/179b81ea51e5abbd04888489d745ef4817
 filesize=339714
 sha512=37082011ee5b8d6fd9febef95c92494ed6108b9ad8c64ac580b69c3464781a2f0dcef5b1c4d06fe309a3036932f7c622042e6b2293acf2ab6f9f2aa3c48d9322
 pkgver=2
+uchkurl=https://pypi.org/project/prompt_toolkit/
 
 [deps.run]
 python

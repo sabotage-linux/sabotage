@@ -5,6 +5,7 @@ https://pypi.python.org/packages/35/6d/0da28f24d3ac2401bf065ade0280cfe81b472a7ea
 filesize=33666
 sha512=3437a9328df5ec5a7e46e8c73a10d3db2d59e0c024d2c27c85c6ba33351ba2e97a92f6db321bd024dac45ef2c565a1af0c595c135c2853c04af16c0d3440c160
 pkgver=1
+uchkurl=https://pypi.org/project/archinfo/
 
 [deps.run]
 python

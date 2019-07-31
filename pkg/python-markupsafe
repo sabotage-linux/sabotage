@@ -5,6 +5,7 @@ https://pypi.python.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255d
 filesize=14356
 sha512=7437a02cb1b9c1d6d6c20b13d394f24a1cd1cb8c743f832d8b1cbb6ab8846f70f54d924dd693423b33c4d592e772983ae38fd4a35961e233457c48bd3584ecb8
 pkgver=1
+uchkurl=https://pypi.org/project/MarkupSafe/
 
 [deps.run]
 python

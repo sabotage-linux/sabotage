@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/23/28/a446c8d6a32449b933d4ec39572bc26c0f
 filesize=24180
 sha512=285d6235aaa5914f21a883976ecf31e15947d28e396c859080cf418094e21b5f3a9c4de01361a2c3219edf43c3c587bca24c9f10ebb97be23bc12c59af79ee2b
 pkgver=1
+uchkurl=https://pypi.org/project/python-socketio/
 
 [deps.run]
 python

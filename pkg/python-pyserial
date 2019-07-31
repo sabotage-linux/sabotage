@@ -5,6 +5,7 @@ https://pypi.python.org/packages/1f/3b/ee6f354bcb1e28a7cd735be98f39ecf8055494828
 filesize=147338
 sha512=8d3e580cc7781fc6549ab6e408642f4321eb90aafbe593f5dcf953001730f89ee32ce6592728764027a7944bfe4a0ebe2cfac1fce071777aac7c4f27ac94ab7f
 pkgver=1
+uchkurl=https://pypi.org/project/pyserial/
 
 [deps.run]
 python

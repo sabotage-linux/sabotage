@@ -5,6 +5,7 @@ https://pypi.python.org/packages/2a/a5/139ca93a9ffffd9fc1d3f14be375af3085f53cc49
 filesize=193961
 sha512=5474ba113b205e499acae78a1bfedcdcea5eb61c35aa17bce73e6a49d316ca2dc9e19c4d17e1dd084424ef9f50b5a4ba045b1bb7a8bd7a6d7062afa552354cb6
 pkgver=1
+uchkurl=https://pypi.org/project/py/
 
 [deps.run]
 python

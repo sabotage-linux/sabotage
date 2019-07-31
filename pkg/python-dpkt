@@ -5,6 +5,7 @@ https://pypi.python.org/packages/fa/d4/3f2d61b11c82d4e17b06dfeafb2e03f561fdf7158
 filesize=102074
 sha512=c557b3b22462273ce40119ef045a2b15df1b87538de13de9b2183545e16cc4200545e08f2efe42a5af01d820cc48fde28e1155cc78b1d06a44482706ab485392
 pkgver=1
+uchkurl=https://pypi.org/project/dpkt/
 
 [deps.run]
 python

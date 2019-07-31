@@ -5,6 +5,7 @@ https://pypi.python.org/packages/fb/64/ad3dbcc052d92fedd535a80b9866a9334afaf136c
 filesize=160670
 sha512=6bcb8404a06e4e41e827ff947d13ea3165b7dbf0cd3f3f58c74ac1b49718a5d81f1a0ca0e59180928610b5eaefcc248aad9b8ca033978f580c141cd52405dc3f
 pkgver=1
+uchkurl=https://pypi.org/project/polib/
 
 [deps.run]
 python

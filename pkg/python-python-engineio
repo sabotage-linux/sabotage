@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/66/18/09516793c68e0f7fb759d54c109a09a86e
 filesize=24614
 sha512=af8a033728f2c9c2051d1d7a4098959b9d5f382abce6d19b41f6e0c0867105f8c14821b64e5c2a7341bb333a70efbc551bc17f4e6bfaa3745a31de9dc3e9c8a3
 pkgver=1
+uchkurl=https://pypi.org/project/python-engineio/
 
 [deps.run]
 python

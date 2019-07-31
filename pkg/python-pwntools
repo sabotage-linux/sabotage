@@ -5,6 +5,7 @@ https://github.com/Gallopsled/pwntools/archive/3.6.1.tar.gz
 filesize=1118230
 sha512=0588c108950fbef6910050f2ace1cc29c8663e050f385fa793dd445cf221315aaf82d094934f9090555a1774beb525951ea30237ea0e294dc4c27d06d9d7c15b
 pkgver=3
+uchkurl=https://pypi.org/project/pwntools/
 tarball=pwntools-3.6.1.tar.gz
 
 [deps.run]

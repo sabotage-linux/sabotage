@@ -5,6 +5,7 @@ https://files.pythonhosted.org/packages/f8/e8/b30ae23b45f69aa3f024b46064c0ac8e5f
 filesize=59694
 sha512=a3b7856aadc988fe153f5cf62552dd6219358f35ee2ca136e5eb5c9871cb7545986753af299e6b3e95877e9aa564559e95c548785f78e680766630b047a1ec89
 pkgver=1
+uchkurl=https://pypi.org/project/greenlet/
 
 [deps.run]
 python
