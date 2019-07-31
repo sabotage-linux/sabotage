@@ -13,7 +13,7 @@ pkgver=2
 # https://lists.samba.org/archive/rsync/2015-November/030439.html
 patch -p1 -l < "$K"/rsync-fix-proto.h-tstamp-target.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
+CFLAGS="-include sys/sysmacros.h -D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
