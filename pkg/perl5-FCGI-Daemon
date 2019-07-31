@@ -13,6 +13,7 @@ nginx
 perl5-BSD-Resource
 perl5-FCGI-ProcManager
 perl5-FCGI
+perl5-CGI
 
 [build]
 perl Makefile.PL
