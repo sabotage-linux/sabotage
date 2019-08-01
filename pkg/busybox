@@ -36,14 +36,17 @@ dopatch "$K"/busybox-ping.patch
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
 
-make KCONFIG_ALLCONFIG="$K/"busybox.stage1.config allnoconfig
+cp "$K/"busybox.stage1.config config.stage1
 
-if [ ! -z "$DEBUGBUILD" ] ; then
+if [ "$DEBUGBUILD" = "1" ] ; then
 	debugcflags="-O0 -g"
-	sed -i 's/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/' .config
-	sed -i 's/# CONFIG_DEBUG_PESSIMIZE is not set/CONFIG_DEBUG_PESSIMIZE=y/' .config
-	sed -i 's/CONFIG_NO_DEBUG_LIB=y/# CONFIG_NO_DEBUG_LIB is not set/' .config
+	sed -e 's/# CONFIG_DEBUG is not set/CONFIG_DEBUG=y/' \
+	    -e 's/# CONFIG_DEBUG_PESSIMIZE is not set/CONFIG_DEBUG_PESSIMIZE=y/' \
+	    -e 's/CONFIG_NO_DEBUG_LIB=y/# CONFIG_NO_DEBUG_LIB is not set/' \
+	    -i config.stage1
 fi
+
+make KCONFIG_ALLCONFIG=config.stage1 allnoconfig
 
 # alternative:
 # make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
