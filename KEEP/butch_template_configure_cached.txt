@@ -158,14 +158,14 @@ test "$USE_CCACHE" = 1 && type ccache >/dev/null 2>&1 && {
 	CXX="ccache $CXX"
 }
 
-debug_build=0
+debug_build=false
 if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
 	user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
 	printf "%s: sourcing user defined optimization config %s\n" "`timestamp`" "$user_optimizations_file"
 	. "$user_optimizations_file"
 	printf "%s\n" "$optcflags" | \
 		grep -E '(^|\s)[-]g[123]*($|\s)' >/dev/null && \
-		debug_build=1
+		debug_build=true
 fi
 
 cleanup_builddir() {
@@ -375,7 +375,7 @@ if $have_files ; then
 	fi
 	if has_bins ; then
 		strip_debug=false
-		if $butch_do_separate_debug_info && [ "$debug_build" = 1 ] ; then
+		if $butch_do_separate_debug_info && $debug_build ; then
 			strip_debug=true
 			butch_do_strip_comments=false
 			printf "%s: stripping debug info into external files...\n" "$(timestamp)"
