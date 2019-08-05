@@ -1,0 +1,17 @@
+[deps]
+kernel419-tarball
+kernel419-patches
+
+[deps.host]
+bison
+flex
+
+[vars]
+LINUX_VER=$(cat "$K"/kernel419.version)
+tarball=linux-"$LINUX_VER".tar.xz
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%
+
