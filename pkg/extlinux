@@ -22,7 +22,7 @@ $HOSTCC -Wall "$K"/extlinux-bin2c-replacement.c -o libinstaller/bin2c.pl
 
 PATH="$PATH:$PWD/libinstaller" make -j$MAKE_THREADS -C libinstaller CC="$CC" PERL=""
 make -j$MAKE_THREADS -C extlinux \
-  CC="$CC" OPTFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags"
+  CC="$CC" OPTFLAGS="-D_GNU_SOURCE $optcflags -include sys/sysmacros.h" LDFLAGS="-static $optldflags"
 make -j$MAKE_THREADS -C linux \
   CC="$CC" OPTFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags"
 
