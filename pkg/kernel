@@ -2,6 +2,10 @@
 kernel-tarball
 kernel-patches
 
+[deps.host]
+bison
+flex
+
 [vars]
 LINUX_VER=$(cat "$K"/kernel.version)
 tarball=linux-"$LINUX_VER".tar.xz
@@ -16,6 +20,10 @@ no_unlink=1
 # we build it fixed into the kernel so we don't need the bloated "crda" tool
 # to change regulatory domains with iw set reg.
 cp -f "$K"/linux-regdb.txt net/wireless/db.txt
+
+# install awk script to remove perl dependency
+cp -f "$K"/build_OID_registry ./lib/
+sed -i -e 's@perl $(srctree)/$(src)/build_OID_registry@awk -f $(srctree)/$(src)/build_OID_registry@' ./lib/Makefile
 
 dopatch() {
 	echo "applying patch $1"
