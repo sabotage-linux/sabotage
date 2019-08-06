@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/howl-editor/howl/releases/download/0.4.1/howl-0.4.1.tgz
+https://github.com/howl-editor/howl/releases/download/0.6/howl-0.6.tgz
 
 [vars]
-filesize=2766078
-sha512=a5b42b7a81af36a9555eb6482f4e59933ae21b416eabe9d7bc404e416554d83db954021f0e3d8bbdc454a4e2a03a3d1ccd018c73e5d2b36c065e01ef03186442
-pkgver=1
+filesize=2462495
+sha512=6379b06a9dfb5ae70078219fad08c5e52cae96ffdef6a7c03086a4f39b634ed52584f961fa5473c184b1c923ceac0125dd02866875bf6ef83f75289e29c8e6ab
+pkgver=2
 desc='luajit based lightweight editor'
 
 [deps]
