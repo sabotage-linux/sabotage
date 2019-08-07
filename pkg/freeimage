@@ -1,0 +1,20 @@
+[mirrors]
+http://downloads.sourceforge.net/freeimage/FreeImage3180.zip
+
+[vars]
+filesize=7415716
+sha512=9d9cc7e2d57552c3115e277aeb036e0455204d389026b17a3f513da5be1fd595421655488bb1ec2f76faebed66049119ca55e26e2a6d37024b3fb7ef36ad4818
+pkgver=1
+tardir=FreeImage
+
+[build]
+patch -p1 < "$K"/freeimage.patch
+
+mv Makefile.gnu Makefile
+sed -i -e's@$(DESTDIR)/usr/lib@$(DESTDIR)/lib@' Makefile
+sed -i -e's@$(DESTDIR)/usr/include@$(DESTDIR)/include@' Makefile
+
+make -j$MAKE_THREADS  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir"
+
+PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" make install
