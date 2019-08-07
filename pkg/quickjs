@@ -1,0 +1,26 @@
+[mirrors]
+https://bellard.org/quickjs/quickjs-2019-07-28.tar.xz
+
+[vars]
+filesize=739740
+sha512=f975aee2a54454eeda922130010bdcf2daf4889080e4c1b90fa15b66275bc6cb5b6321af6a14ce3432ddea53eca7ed2a733152690e20b9cb8f6707c6029c5fc7
+pkgver=1
+
+[build]
+# do not compile additional libs for Windows or 32-bit support
+# native 32-bit builds should still succeed
+sed -i -e's@#CONFIG_WIN32=y@#undef CONFIG_WIN32@' Makefile
+sed -i -e's@CONFIG_M32=y@#undef CONFIG_M32@' Makefile
+
+# LTO support relies on LLVM's libLTO
+sed -i -e's@CONFIG_LTO=y@#undef CONFIG_LTO@' Makefile
+
+# respect our preferred prefixes
+sed -i -e"s@prefix=/usr/local@prefix=\"$butch_install_dir$butch_prefix\"@" Makefile
+
+sed -i -e"s@CFLAGS += -Wno-array-bounds@CFLAGS += -Wno-array-bounds $optcflags@" Makefile
+sed -i -e"s@LDFLAGS=-g@LDFLAGS=$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib@" Makefile
+
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar
+make install
