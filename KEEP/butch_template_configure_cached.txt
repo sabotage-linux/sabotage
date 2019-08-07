@@ -217,7 +217,7 @@ if $BUTCH_HAVE_TARBALL ; then
 				echo "tarball error"
 				exit 1 ;;
 			*.zip)
-				unzip "$butch_cache_dir/$BUTCH_TARBALL" || {
+				unzip -o "$butch_cache_dir/$BUTCH_TARBALL" || {
 				echo "unzip error"
 				exit 1 ; } ;;
 			*)
