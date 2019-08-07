@@ -1,10 +1,10 @@
 [mirrors]
-https://dl.bintray.com/boostorg/release/1.63.0/source/boost_1_63_0.tar.bz2
+https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 
 [vars]
-filesize=81984414
-sha512=c915c5f5778dee49b8e9d0a40f37f90f56fb1fdb1d8ce92d97bf48bc7bc462212487badfe4bbe30b06196d1149cfb221da12ac54e97499b0d4cb6466813bb4ad
-pkgver=2
+filesize=95078138
+sha512=d0e9bb858c44880d56c0291afef6a1b011a62f659a2d8f58dcb6147ea0899f9157bd8db3097896618fee0116847ebeac78b6d0f0fec8a92c3469500828bbe552
+pkgver=3
 desc="monstrous collection of C++ libraries"
 
 [deps]
@@ -13,8 +13,6 @@ bzip2
 [build]
 # https://svn.boost.org/trac/boost/ticket/7847
 patch -p1 < "$K"/boost-execinfo.patch
-
-patch -p1 < "$K"/boost-1.62.0-asio-libressl.patch
 
 # FIXME there's no DESTDIR support, thus internal hardcoded paths will be all wrong
 # https://svn.boost.org/trac/boost/ticket/7846
