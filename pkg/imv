@@ -1,0 +1,29 @@
+[mirrors]
+https://github.com/eXeC64/imv/archive/v3.1.2.tar.gz
+
+[vars]
+filesize=45218
+sha512=57427130542d22bca20ddf4280a67451d9213c56309d80bb953c84c25f4912f6b4c5bb2e2d04cf31b3feabdccbb575a535c4aa03c22d9b2a1f97165c7c6a8079
+pkgver=1
+tarball=imv-3.1.2.tar.gz
+
+[deps]
+fontconfig
+sdl2
+sdl2-ttf
+asciidoc
+librsvg
+freeimage
+cmocka
+
+[build]
+sed -i -e's@!= git describe --dirty --always --tags 2> /dev/null || echo@=@' Makefile
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir"
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  install
