@@ -1,10 +1,10 @@
 [mirrors]
-https://nodejs.org/dist/v9.11.2/node-v9.11.2.tar.xz
+https://nodejs.org/dist/v12.7.0/node-v12.7.0.tar.gz
 
 [vars]
-filesize=18507832
-sha512=ca49a1f3aaa8b25faa62c411a96551c8977bb43a22f8f171f27d3585306f379b6a12e55e60ddca04a6f2f8c62a1b3fed9e66c02898d80bf7ca59278536e04c13
-pkgver=7
+filesize=49510408
+sha512=8d85130f5a08fd63be0da7c23c8848b592e98ac42fbebccd51ed0852598dcb2a015da3b1ab7e8fef2ba0d3fd0d17325d7159137895b52ede5f88adc440db1f7f
+pkgver=8
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
@@ -13,16 +13,30 @@ python
 [build]
 patch -p1 < "$K"/nodejs-nameser_compat.h
 patch -p1 < "$K"/nodejs-openssl_termios.h
-patch -p1 < "$K"/nodejs-prefix.patch
 
-chmod +x configure
+# setting PREFIX by force
+sed -i -e"s@default='/usr/local',@default='$butch_prefix',@" configure.py
+sed -i -e"s@PREFIX ?= /usr/local@PREFIX ?= $butch_prefix@" Makefile
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags" ./configure --prefix="$butch_prefix"
+LDFLAGS="$optldflags" ./configure
 
 # the python configure script does not care about C(XX)FLAGS being passed
 sed -i "s@cflags': \[\]@cflags': ['-D_GNU_SOURCE -D_BSD_SOURCE']@" config.gypi
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+# fixes 'npm install --global <pkg>' behavior.
+# run 'npm-fix' after every npm update to reapply this fix!
+sed -i -e"s@globalPrefix = path.dirname(path.dirname(process.execPath))@globalPrefix = \"/$butch_prefix\"@" \
+  "$butch_install_dir$butch_prefix"/lib/node_modules/npm/lib/config/defaults.js
+
+cat << EOF > "$butch_install_dir$butch_prefix"/bin/npm-fix
+#!/bin/sh
+sed -i -e"s@globalPrefix = path.dirname(path.dirname(process.execPath))@globalPrefix = \"/$butch_prefix\"@" \
+   /lib/node_modules/npm/lib/config/defaults.js
+EOF
+chmod +x "$butch_install_dir$butch_prefix"/bin/npm-fix
+
