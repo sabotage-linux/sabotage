@@ -1,12 +1,13 @@
 [mirrors]
-https://github.com/jgm/cmark/archive/0.18.tar.gz
+https://github.com/commonmark/cmark/archive/0.29.0.tar.gz
 
 [vars]
-filesize=221416
-sha512=2f7bb90ad4aadc15cc99a2d4a51c1fc612148f451a19ae8976f61550df899cde02894bf93d2ba48c1d341f9e7d0d3f76198be819fe7a24006736071ffbe7b3e0
-tardir=cmark-0.18
-tarball=cmark-0.18.tar.gz
-desc="commonmark parsing and rendering library"
+filesize=234545
+sha512=06eb110cfd90c9e980c022b7588e28864d15a4da5d07d61ad4b27c6de47367492b9e58e9434e62b07517aa6dc484f17af13916808be3188f38c37d20cbf33112
+tardir=cmark-0.29.0
+tarball=cmark-0.29.0.tar.gz
+desc="the commonmark-reference markdown parsing and rendering library"
+pkgver=2
 
 [deps.host]
 cmake
