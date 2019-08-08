@@ -1,0 +1,31 @@
+[mirrors]
+https://github.com/traviscross/mtr/archive/v0.93.tar.gz
+
+[vars]
+filesize=142148
+sha512=865c394d8dfa234c472832dc205ddc9ec3cf0552475f565782fd4f4e878251c03f1473e2d28d6799e59da4fcb33c5355049f1e6f02e8610c6bbf681ffb78f53e
+pkgver=1
+tardir=mtr-0.93
+desc="mtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool. "
+
+[deps]
+automake
+
+[build]
+./bootstrap.sh
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+	--without-gtk \
+	--disable-bash-completion \
+	--prefix="${butch_prefix}" \
+	--sbindir="${butch_prefix}/bin" \
+	--bindir="${butch_prefix}/bin"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
