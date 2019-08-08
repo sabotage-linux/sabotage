@@ -15,7 +15,7 @@ seccomp
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 sed -i 's@-Werror@-Wall@g' configure
-CFLAGS="$optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CFLAGS="-include sys/sysmacros.h $optcflags" LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
    ./configure -C --prefix="$butch_prefix" \
             --bindir="$butch_prefix"/bin \
             --sbindir="$butch_prefix"/bin \
