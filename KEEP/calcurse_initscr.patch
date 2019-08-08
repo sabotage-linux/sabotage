@@ -1,0 +1,10 @@
+--- ./src/custom.c
++++ ./src/custom.c
+@@ -59,6 +59,7 @@
+ void custom_init_attr(void)
+ {
+ 	short col_fg, dummy;
++	initscr();
+ 	pair_content(COLR_CUSTOM, &col_fg, &dummy);
+ 
+ 	attr.color[ATTR_HIGHEST] =

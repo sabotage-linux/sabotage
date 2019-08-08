@@ -1,0 +1,25 @@
+[mirrors]
+https://calcurse.org/files/calcurse-4.5.0.tar.gz
+
+[vars]
+filesize=657976
+sha512=795eae7c62b89c733049f0c137da398ce3dd5fba78f9a2c323aacdf8b176cf37bd9d0768dbdac0bb1cb64cd248b1d851efd059836fbbbdd9665fa47beff3b872
+pkgver=1
+desc='calcurse is a calendar and scheduling application for the command line.'
+
+[deps]
+curses
+gettext
+
+[build]
+patch -p1 < "$K"/calcurse_initscr.patch
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
