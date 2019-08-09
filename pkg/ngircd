@@ -15,9 +15,14 @@ libressl
 zlib
 
 [build]
-# use -static so ngircd can be chrooted
-CFLAGS=-static ./configure \
-		--prefix= \
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+# use -static so ngircd can be chrooted       vvvv
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags -static" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
 		--with-openssl=yes \
 		--with-zlib=yes \
 		--with-gnutls=no \
@@ -26,6 +31,8 @@ CFLAGS=-static ./configure \
 		--with-syslog=no \
 		--disable-ircplus \
 		--enable-ipv6
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
