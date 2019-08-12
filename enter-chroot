@@ -13,6 +13,7 @@ elif [ "$R" = / ] ; then
 	exit 1
 fi
 
+mkdir -p "$H"/tarballs
 mkdir -p "$R"/src/tarballs
 linux32=
 if [ $(uname -m) = "x86_64" ] ; then
