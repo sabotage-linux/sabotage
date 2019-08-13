@@ -1,9 +1,10 @@
 [mirrors]
-https://fossies.org/linux/misc/bzip2-1.0.6.tar.gz
+https://versaweb.dl.sourceforge.net/project/bzip2/bzip2-1.0.6.tar.gz
 
 [vars]
 filesize=782025
 sha512=00ace5438cfa0c577e5f578d8a808613187eff5217c35164ffe044fbafdfec9e98f4192c02a7d67e01e5a5ccced630583ad1003c37697219b0f147343a3fdd12
+pkgver=1
 
 [build]
 patch -p1 < "$K"/bzip2-flags.patch
