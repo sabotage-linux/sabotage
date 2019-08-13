@@ -1,0 +1,67 @@
+#!/bin/sh
+#set -x
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+BINDIR=$(dirname $(readlink -f "$0"))
+[ "$R" = "/" ] && R=
+[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+
+[ -z "$1" ] && exit 0
+
+# trash: packages to be removed
+# audit: dependencies of trash, may be later added to trash
+trash=""
+audit=""
+for pkg ; do
+	trash="$trash $pkg"
+	audit="$audit $($BINDIR/butch-deps $pkg |grep -v ^stage |grep -v ^$pkg$)"
+done
+audit="$(echo $audit |tr ' ' '\n' |sed '/^$/d' |sort |uniq |tr '\n' ' ')"
+
+# if any audit dependency is already trash, remove it
+filter=""
+for pkg in $audit ; do
+	found=false
+	for name in $trash ; do
+		[ $pkg == $name ] && found=true && break
+	done
+	$found || filter="$filter $pkg"
+done
+audit=$filter
+
+# safe: dependencies of installed packages
+# neither trash, nor dependencies of trash
+# bootstrap packages are excluded
+safe=""
+for installed in $(cat $BUTCHDB |grep -v ^base- |grep -v ^stage |awk '{print $1}'); do
+	found=false
+	for pkg in $trash ; do
+		[ $pkg == $installed ] && found=true && break
+	done
+	$found && continue
+	for pkg in $audit ; do
+		[ $pkg == $installed ] && found=true && break
+	done
+	$found && continue
+	export DEPS="build"
+	safe="$safe $($BINDIR/butch-deps $installed |grep -v ^$installed$ |grep -v ^stage)"
+	export DEPS="run"
+	safe="$safe $($BINDIR/butch-deps $installed |grep -v ^$installed$ |grep -v ^stage)"
+	export -n DEPS
+done
+safe="$(echo $safe |tr ' ' '\n' |sed '/^$/d' |sort |uniq |tr '\n' ' ')"
+
+# move audited package to trash if it's not a safe dependency
+for pkg in $audit ; do
+	found=false
+	for dep in $safe ; do
+		[ $pkg == $dep ] && found=true && break
+	done
+	$found || trash="$trash $pkg"
+done
+
+echo "$trash" |tr ' ' '\n' |sed '/^$/d' |sort |uniq

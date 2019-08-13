@@ -1,0 +1,57 @@
+#!/bin/sh
+#set -x
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+BINDIR=$(dirname $(readlink -f "$0"))
+
+usage() {
+cat << EOF
+butch purge : remove packages and their now orphaned dependencies
+- will remove the supplied packages
+- dependencies of these packages will also be removed if
+  nothing installed depends on them
+- you will be prompted with an interactive confirmation
+  of the files to remove prior to their execution
+
+these operations require root access
+use with care, it will remove packages!
+
+synopsis:
+butch purge package1 [package2 ... packageN]
+EOF
+exit 1
+}
+
+[ -z "$1" ] && usage
+[ "$1" = --help ] && usage
+
+tmp=$(mktemp -u)
+for pkg in $("$BINDIR"/butch purgelist "$@") ; do
+	echo $pkg >> $tmp
+done
+cat <<- EOF >> $tmp
+#
+# welcome to butch's interactive purge mode.
+#
+# all lines represent a package to be removed.
+#
+# remove any packages you wish to keep and then save.
+#
+EOF
+
+[ -z "$EDITOR" ] && EDITOR=vi
+$EDITOR $tmp
+
+trash=""
+while read i ; do
+	printf "%s\n" "$i" | grep -v '^#' >/dev/null 2>&1 && \
+	trash="$trash $i"
+done < $tmp
+rm -f $tmp
+
+[ -z "$trash" ] && exit 0
+
+"$BINDIR"/butch-rm $trash
