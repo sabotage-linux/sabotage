@@ -24,7 +24,7 @@ butch rm : completely remove installed package.
 
 these operations may require root access.
 
-synapsis:
+synopsis:
 butch rm package1 [package2 ... packageN]
 EOF
 exit 1

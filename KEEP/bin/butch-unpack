@@ -17,7 +17,7 @@ usage() {
 	- creates butch.db entry in $BUTCHDB
 	may require root access.
 
-	synapsis:
+	synopsis:
 	butch unpack filename
 	EOF
 	exit 1
