@@ -3,6 +3,7 @@ pkgconf
 
 [deps]
 xproto
+zlib
 
 [vars]
 filesize=294884
