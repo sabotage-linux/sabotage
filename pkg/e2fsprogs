@@ -1,8 +1,10 @@
 [mirrors]
-http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+https://kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.42.9/e2fsprogs-1.42.9.tar.xz
+
 [vars]
-filesize=6069173
-sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
+filesize=4656468
+sha512=eecba1b9223d882090a96bbc55a2ac18fa014b2cfe26a61f331ef179d327720b5a01eb406d9e8dd5a966f890dea3c545fe8345453650e46ec02d4ab8e5515b9b
+pkgver=1
 
 [deps.host]
 pkgconf
