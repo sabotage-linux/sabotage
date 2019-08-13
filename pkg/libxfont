@@ -12,6 +12,7 @@ libfontenc
 xproto
 fontsproto
 xtrans
+zlib
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
