@@ -1,0 +1,287 @@
+#!/bin/sh
+[ "$STAGE" = "0" ] && [ -z "$CONFIG" ] && CONFIG="$PWD/config"
+[ -z "$CONFIG" ] && CONFIG=/src/config
+
+if [ ! -e "$CONFIG" ] ; then
+	echo "error: $CONFIG not found"
+	exit 1
+fi
+
+export CONFIG
+. "$CONFIG"
+[ "$R" = "/" ] && R=
+[ -z "$butch_staging_dir" ] && butch_staging_dir=$R/opt
+[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
+
+usage() {
+cat << EOF
+srcprep : modify packages on the system root
+targets:
+	--stage1       # fully prepares a stage1 chroot
+	--rm-host-deps # purges all unneeded 'deps.host' packages
+	--rm-build     # purges 'stage1-build' and 'development' packages
+	--rm-ssl       # purges SSL support packages
+	--rm-fs-tools  # purges filesystem utility packages
+	--rm-cxx-libs  # removes the gcc C++ libraries
+	--rm-src       # removes /src and Sabotage support packages
+
+these operations require root access
+use with care, the '--rm' options will remove packages!
+
+synopsis:
+srcprep  --target1 [--target2 ... --targetN]
+EOF
+exit 1
+}
+
+[ -z "$1" ] && usage
+[ "$1" = --help ] && usage
+
+GCCVER="$(butch printsec stage1 deps \
+	|sort \
+	|grep '^gcc[4-6][0-9][0-9]-libs$' \
+	|tail -n1 \
+	|sed 's/-libs//')"
+
+do_stage1=false
+do_rmbuild=false
+do_rmhostdeps=false
+do_rmssl=false
+do_rmfstools=false
+do_rmcxxlibs=false
+do_rmsrc=false
+for opt ; do
+case "$opt" in
+	"--stage1") do_stage1=true ;;
+	"--rm-build") do_rmbuild=true ;;
+	"--rm-host-deps") do_rmhostdeps=true ;;
+	"--rm-ssl") do_rmssl=true ;;
+	"--rm-fs-tools") do_rmfstools=true ;;
+	"--rm-cxx-libs") do_rmcxxlibs=true ;;
+	"--rm-src") do_rmsrc=true ;;
+	*) usage ;;
+esac
+done
+
+if $do_stage1 ; then
+	if ! grep -q "^stage1 " $BUTCHDB ; then
+		echo "$(date +'%F %T') installing stage1"
+		butch install stage1 || exit 1
+	fi
+
+	echo "$(date +'%F %T') rebuilding stage1"
+	pkg="
+	libz
+	m4
+	gmp
+	mpfr
+	mpc
+	libelf
+	$GCCVER
+	musl
+	jobflow
+	patch
+	busybox
+	binutils
+	make
+	sabotage-core
+	join
+	kbd
+	9base
+	pkgconf
+	libblkid
+	e2fsprogs
+	man
+	libressl
+	ca-certificates
+	"
+	pkg="$(echo $pkg |sed '/^$/d' |tr '\n' ' ')"
+
+	butch rebuild $pkg || exit 1
+	echo "$(date +'%F %T') extracting $GCCVER-libs"
+	butch rebuild $GCCVER-libs > /dev/null || true
+
+	if grep -q "^gcc3 " $BUTCHDB ; then
+		echo "$(date +'%F %T') removing bootstrap"
+
+		rm_pkg="
+		gcc3
+		gcc424
+		stage0-gcc424
+		stage1-gcc424
+		stage0-gcc3
+		stage1-gcc3
+		stage0-musl
+		stage1-gmp
+		stage1-mpfr
+		stage1-mpc
+		"
+		rm_pkg="$(echo $rm_pkg |sed '/^$/d' |tr '\n' ' ')"
+
+		butch rm $rm_pkg
+
+		ln_pkg="
+		musl
+		$(butch list | grep '^gcc[4-6][0-9][0-9]$' |tail -n1)
+		gmp
+		mpfr
+		mpc
+		"
+		ln_pkg="$(echo $ln_pkg |sed '/^$/d' |tr '\n' ' ')"
+
+		butch relink $ln_pkg > /dev/null
+		for p in $ln_pkg; do echo "$p: relinked."; done
+		butch relink $GCCVER-libs > /dev/null || true
+		echo "$GCCVER-libs: relinked."
+
+		# HACK: lie to butch and say the stage1 packages are still installed
+		echo "stage1-gcc3 1" >> "$BUTCHDB"
+		echo "stage1-gcc424 1" >> "$BUTCHDB"
+		echo "stage1-gmp 1" >> "$BUTCHDB"
+		echo "stage1-mpfr 1" >> "$BUTCHDB"
+		echo "stage1-mpc 1" >> "$BUTCHDB"
+	fi
+fi
+
+if $do_rmbuild ; then
+	if [ -e "$butch_staging_dir/$GCCVER/$butch_prefix/lib/libstdc++.a" ] ; then
+		echo "$(date +'%F %T') extracting $GCCVER-libs"
+		butch rebuild $GCCVER-libs > /dev/null || true
+	fi
+
+	echo "$(date +'%F %T') removing build toolchain"
+	trash="
+	kernel-headers
+	$GCCVER
+	binutils
+	make
+	patch
+	"
+	trash="$(echo $trash |sed '/^$/d' |tr '\n' ' ')"
+
+	extras="
+	gdb
+	gdb76
+	file
+	hexedit0r
+	strace
+	git
+	"
+	extras="$(echo $extras |sed '/^$/d' |tr '\n' ' ')"
+
+	for pkg in $extras ; do
+		if grep -q "^$pkg " $BUTCHDB ; then
+			trash="$trash $pkg" ;
+		fi
+	done
+
+	gmp=false
+	mpfr=false
+	mpc=false
+	zlib=false
+	gmp_users="$(butch users gmp |grep -v mpfr)"
+	mpfr_users="$(butch users mpfr |grep -v mpc)"
+	mpc_users="$(butch users mpc)"
+	zlib_users="$(butch users zlib)"
+	zlib_users="$zlib_users $(butch users libz | grep -v zlib)"
+	for pkg in $(cat $BUTCHDB |awk '{print $1}' |grep -v '^stage'); do
+		ok=true
+		for name in $trash gmp mpfr mpc zlib libz ; do
+			[ $pkg == $name ] && ok=false && break
+		done
+		$ok || continue
+		if ! $gmp ; then
+			for name in $gmp_users ; do
+				[ $pkg == $name ] && gmp=true && break
+			done
+		fi
+		if ! $mpfr ; then
+			for name in $mpfr_users ; do
+				[ $pkg == $name ] && mpfr=true && break
+			done
+		fi
+		if ! $mpc ; then
+			for name in $mpc_users ; do
+				[ $pkg == $name ] && mpc=true && break
+			done
+		fi
+		if ! $zlib ; then
+			for name in $zlib_users ; do
+				[ $pkg == $name ] && zlib=true && break
+			done
+		fi
+	done
+	$gmp || trash="$trash gmp"
+	$mpfr || trash="$trash mpfr"
+	$mpc || trash="$trash mpc"
+	$zlib || trash="$trash zlib libz"
+
+	butch rm $(butch purgelist $trash) |grep -v "not installed"
+	butch relink $GCCVER-libs > /dev/null
+	echo "$GCCVER-libs: relinked."
+fi
+
+if $do_rmhostdeps ; then
+	echo "$(date +'%F %T') removing unneeded host deps"
+
+	safe=""
+	host=""
+	for pkg in $(cat $BUTCHDB |awk '{print $1}' |grep -v '^stage'); do
+		export DEPS="build"
+		safe="$safe $(butch deps $pkg |grep -v ^$pkg$)"
+		export DEPS="run"
+		safe="$safe $(butch deps $pkg |grep -v ^$pkg$)"
+		export DEPS="host"
+		host="$host $(butch deps $pkg |grep -v ^$pkg$)"
+		export -n DEPS
+	done
+	safe="$(echo $safe |tr ' ' '\n' |sed '/^$/d' |sort |uniq |tr '\n' ' ')"
+	host="$(echo $host |tr ' ' '\n' |sed '/^$/d' |sort |uniq |tr '\n' ' ')"
+
+	trash=""
+	for pkg in $host ; do
+		ok=false
+		for name in $safe ; do
+			[ $pkg = $name ] && ok=true && break
+		done
+		$ok || trash="$trash $pkg"
+	done
+
+	[ -z "$trash" ] || butch rm $(butch purgelist $trash) |grep -v "not installed"
+fi
+
+if $do_rmssl ; then
+	echo "$(date +'%F %T') removing SSL"
+	butch rm libressl ca-certificates |grep -v "not installed"
+fi
+
+if $do_rmfstools ; then
+	echo "$(date +'%F %T') removing filesystem utilities"
+	butch rm $(butch purgelist e2fsprogs) |grep -v "not installed"
+fi
+
+if $do_rmcxxlibs ; then
+	if [ -e "$butch_staging_dir/$GCCVER/$butch_prefix/lib/libstdc++.a" ] ; then
+		echo "$(date +'%F %T') extracting $GCCVER-libs"
+		butch rebuild $GCCVER-libs > /dev/null || true
+	fi
+
+	echo "$(date +'%F %T') removing gcc C++ libraries"
+	butch rm $GCCVER-libs
+fi
+
+if $do_rmsrc ; then
+	echo "$(date +'%F %T') removing sabotage packages"
+	butch rm jobflow sabotage-core
+
+    if [ $(stat -c %i /) == 2 ] ; then
+      echo "$(date +'%F %T') removing /src"
+      rm -rf /src || true
+    else
+      echo "$(date +'%F %T') WARNING: inside chroot, not removing /src"
+      echo "                             remove /src manually outside chroot!"
+    fi
+fi
+
+echo "$(date +'%F %T') done"
