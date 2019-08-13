@@ -4,6 +4,5 @@ sha512=bbe3cb82c35a78331067ce098396acabf83599d7061e3b8ddc063411327dca8ba0ba4e1b2
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
 
 [mirrors]
-ftp://www.kernel.org/pub/linux/utils/util-linux/v2.23/$tarball
 http://www.kernel.org/pub/linux/utils/util-linux/v2.23/$tarball
 http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/util-linux/v2.23/$tarball
