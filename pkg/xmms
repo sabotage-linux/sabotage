@@ -7,6 +7,8 @@ sha512=0b559f66520777e5e92ee6cf05c8fbeb899656c2246f6848cb484f5da70bd4316170eda6e
 
 [deps]
 glib
+
+[deps.host]
 pkgconf
 
 [build]
