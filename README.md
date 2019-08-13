@@ -29,6 +29,7 @@ Native builds are well tested and considered stable.
 This system has built *natively* on Debian 6 & 7, Fedora 18 & 21, Ubuntu 14.04,
 Ubuntu 16.04, openSUSE 13.2, Alpine 3.1.2 and Void Linux.
 
+
 ## Obtaining Sabotage
 
 You can bootstrap your own build from the scripts at:
@@ -72,31 +73,32 @@ The `enter-chroot` script automatically handles this scenario.
 
 Once inside the chroot:
 
-	$ butch install stage1	# Installs core system + build chain
+	$ srcprep --stage1       # Installs core system + build chain
 
-ATTENTION: if you're using void or arch linux, building gcc630 in stage1 might
-fail due to a buggy ld. there's a workaround though:
-https://github.com/sabotage-linux/sabotage/issues/505
+The `srcprep --stage1` script installs the remaining packages, then rebuilds
+the entirety of stage1 again. This rebuild not only removes all traces of the
+bootstrap and produces better binaries, but the resulting packages should
+be identical to ones produced on different systems. Finally, all unneeded
+bootstrap packages are removed.
 
-At this point, stage1 is complete and your Sabotage chroot is set up. There are
-two optional steps to consider at this time:
+You may instead execute `butch install stage1`, which will skip the rebuild and
+removal of the bootstrap packages. Later you can execute `srcprep --stage1`
+to finish the procedure.
 
-	$ /src/utils/clean-stage1.sh     # remove unneeded bootstrap packages
-	$ /src/utils/rebuild-stage1.sh   # rebuild core packages with the stage1 gcc
+At this point, stage1 is complete and your Sabotage chroot is set up. You may
+now install optional packages:
 
-Rebuilding stage1 will not only optimize the packages built with the older
-bootstrap compiler, but will also ensure that your builds are reproducible
-and will match the results of others.
+	$ butch install core    # networking + base developer system
+	$ butch install desktop # everything needed for X11 + audio + core
 
-You may also install optional packages:
+At this point, you will need to select the window manager and other provided
+applications. You may use `butch install gui` for a lightweight preset, but
+you are encouraged to make your own that build off of either `desktop` or
+`core`.
 
-	$ butch install core    # base developer system
-	$ butch install xorg    # install everything needed for X11
-	$ butch install world   # almost everything
+Get a list available packages by using `ls /src/pkg`.
 
-You may list available packages by using `ls /src/pkg`.
-
-If you wish to build the default kernel:
+At any time, you may add the default kernel:
 
 	$ butch install kernel
 
@@ -107,9 +109,10 @@ Run `butch` and look at the usage information for further options.
 It provides a tuned `config.cache` for faster configure runs.
 It also installs packages into `/opt`, creates file lists, etc.
 
+
 ## After Compiling
 
-When finished compiling, exit the chroot and either:
+Exit the chroot and either:
 
 * Run `utils/root-perms.sh /path/to/rootfs` to fix permissions
 * Use the rootfs directly, by copying it to some disk.
@@ -134,6 +137,7 @@ configuration, DHCP, console keymapping...
 If you have X installed, edit the example `/bin/X` for the correct evdev
 settings, then run `startx`.
 Check `/etc/xinitrc` for X11 keyboard configuration.
+
 
 ## Cross-Compile Requirements:
 
@@ -259,29 +263,11 @@ feel free to report the error or even better, fix it, make a PR and claim
 maintainership.
 
 
-## THANKS
-
-Sabotage originally was a distribution curated by chris2, based around shell
-scripts and Plan 9's mk.
-This was possible through the help and inspiration of
-dalias, niklata, garbeam, pikhq, xmw, gaf and Arch Linux.
-Special thanks go to @AequoreaVictoria for years of support and countless
-contributions.
-
 ## CONTACT
-
-There <strike>is</strike> was a mailing list: sabotage@lists.openwall.com
-
-<strike>Email sabotage-subscribe@lists.openwall.com and follow its instructions to
-subscribe.</strike>
-
-Archives available: http://openwall.com/lists/sabotage/
-
-**The mailing list is currently unmaintained. please use IRC.**
 
 /join #sabotage on irc.freenode.net for real time help.
 
-**READ THE COOKBOOK FIRST BEFORE POSTING**.
+**READ THIS DOCUMENT AND THE COOKBOOK FIRST BEFORE ASKING FOR HELP**
 
 
 ## DONATIONS
