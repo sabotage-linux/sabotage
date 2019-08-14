@@ -1,11 +1,10 @@
 [mirrors]
-https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable.tar.gz
+https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz
 
 [vars]
-filesize=1852767
-sha512=5d421049ec58e68fe5624ce85c1a0a765591e2ded428cd4ec8e10ddae475d229aa0eb40d6a6e7f96926fd921a12cef75a015244e18b803e0f436eaf0fdc9a007
+filesize=1919817
+sha512=17e8638e46d8f6f7d024fe5559eccf2b8baf23e143fadd472a7d29d228b186d86686a5e6920385fe2020729119a5f12f989c3a782afbd05a8db4819bb18666ef
 pkgver=3
-tardir=libsodium-stable
 
 [deps]
 
