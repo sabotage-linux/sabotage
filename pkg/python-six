@@ -1,10 +1,10 @@
 [mirrors]
-https://pypi.python.org/packages/b3/b2/238e2590826bfdd113244a40d9d3eb26918bd798fc187e2360a8367068db/six-1.10.0.tar.gz
+https://files.pythonhosted.org/packages/dd/bf/4138e7bfb757de47d1f4b6994648ec67a51efe58fa907c1e11e350cddfca/six-1.12.0.tar.gz
 
 [vars]
-filesize=29630
-sha512=9a53b7bc8f7e8b358c930eaecf91cc5639176a699830153f586780c3e6d637f1bd31349a69c383574f99da19cb3a36524e7733a318f3572b27aefb69c6409c2e
-pkgver=1
+filesize=32725
+sha512=937728372edf1e0ac13bbd706723d0de35e015c30d0ae41f789c5ed2e3669bb0db70cdc6e036ec2d437a6c4aa0d5d1e727b6d09ac34cca7e4e92e5d3b4775151
+pkgver=2
 uchkurl=https://pypi.org/project/six/
 
 [deps.run]
