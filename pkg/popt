@@ -1,5 +1,5 @@
 [mirrors]
-http://rpm5.org/files/popt/popt-1.16.tar.gz
+http://ftp.rpm.org/mirror/popt/popt-1.16.tar.gz
 
 [vars]
 filesize=702769
