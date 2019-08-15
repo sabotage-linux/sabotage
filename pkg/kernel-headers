@@ -1,12 +1,13 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/kernel-headers-3.12.6-5.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/kernel-headers-3.12.6-5.tar.xz
-http://codu.org/~rofl/tarballs/kernel-headers-3.12.6-5.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/kernel-headers-3.12.6-5.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
+http://codu.org/~rofl/tarballs/kernel-headers-4.4.2-3.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
 
 [vars]
-filesize=757200
-sha512=f6a8eff1c93556aced47c0ac962b8356c3394ad9b25dcfe425a87d26f35391608a9d06f7f5010c1146fa4959c2093ca01ab251b2215f6c21298827ab0fc01032
+filesize=841752
+sha512=eb6958d16959922bb10218c0bf36008123eda2cdad511900c1dce1bcdd90a0451e101e2452271c4d849f1ff4d600ad398c64733b4bd8b7353093df5de753d4ab
+pkgver=2
 
 [build]
 case "$A" in
@@ -16,5 +17,6 @@ make ARCH="$A" prefix="$butch_prefix" DESTDIR="$butch_install_dir" install \
 
 dest="$butch_install_dir""$butch_prefix"
 #fix ext2 header...
-cp -f "$K"/ext2_fs.h "$dest"/include/linux/
+install -Dm 644 "$K"/ext2_fs.h "$dest"/include/linux/
+
 
