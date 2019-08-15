@@ -9,7 +9,7 @@ desc='the musl C standard library (libc)'
 no_unlink=1
 
 [deps.stage1]
-gcc6
+gcc650-libs
 
 [build]
 patch -p1 < "$K"/musl-1.1.18-armasm.patch

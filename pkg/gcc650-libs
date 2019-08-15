@@ -1,0 +1,9 @@
+[deps]
+gcc650
+
+[build]
+dest="$butch_install_dir$butch_prefix"
+lib="$butch_install_dir/../gcc650/$butch_prefix/lib"
+
+mkdir $dest/lib
+mv $lib/lib* $dest/lib/

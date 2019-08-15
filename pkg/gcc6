@@ -1,5 +1,0 @@
-[vars]
-pkgver=3
-
-[deps]
-gcc650

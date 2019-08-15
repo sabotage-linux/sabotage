@@ -3,12 +3,7 @@
 busybox
 e2fsprogs
 extlinux
-gcc6
-gmp
-m4
-mpc
-mpfr
+gcc650-libs
 musl
-zlib
 capchroot
 bedrock-scripts

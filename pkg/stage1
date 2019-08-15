@@ -3,13 +3,9 @@ base-sys
 kbd
 9base
 e2fsprogs
-gcc6
-stage1-gmp
-stage1-mpc
-stage1-mpfr
+gcc650-libs
 musl
 man
-zlib
 binutils
 join
 libressl
