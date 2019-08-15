@@ -1,5 +1,14 @@
---- Python-3.7.3.org/Makefile.pre.in
+--- Python-3.7.3.orig/Makefile.pre.in
 +++ Python-3.7.3/Makefile.pre.in
+@@ -620,7 +620,7 @@
+ 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
+ 	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
+ 		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
+-		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build
++		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py build
+ 
+ 
+ # Build static library
 @@ -1393,33 +1393,6 @@
  		$(INSTALL_DATA) $(srcdir)/Modules/xxmodule.c \
  			$(DESTDIR)$(LIBDEST)/distutils/tests ; \

@@ -5,7 +5,7 @@ http://sources.buildroot.net/python3/Python-3.7.3.tar.xz
 [vars]
 filesize=17108364
 sha512=6d9b7c0f1764e0f655a39430a3af6f7b5e3c9b7166c042e780677a54b17ad4ca6d0d9cba262c82b1b70bba8f7c28883dad4cc0d7cc194fc7d2c1b5f4f08a763a
-pkgver=1
+pkgver=2
 desc='interpreter for the python 3.x scripting language'
 
 [deps]
@@ -16,6 +16,8 @@ bzip2
 expat
 libffi
 libedit
+gettext
+zlib
 
 [build]
 # work around buggy installer which puts stuff into prefix directly
@@ -23,14 +25,15 @@ libedit
 [ "$butch_prefix" = "/" ] && butch_prefix=
 
 # python can't deal with prefix= or prefix=/ correctly.
-# it will emit empty PREFIX and EXEC_PREFIX macros into pyconfig.h
-# additionally it searches for stuff only relative to its own binary.
+# it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
+# we hardcode a check for $butch_staging_dir and skip to / if it's seen.
 patch -p1 < "$K"/python3-pathsearch.patch
 patch -p1 < "$K"/python3-xcompile.patch
-#patch -p1 < "$K"/python3-includedirs.patch # TODO
+patch -p1 < "$K"/python3-includedirs.patch
 #patch -p1 < "$K"/python3-UTF-8.patch # TODO
-patch -p1 < "$K"/python3-sysconfig-prefix.patch # TODO: incomplete
+patch -p1 < "$K"/python3-sysconfig-prefix.patch
+
 # if PYTHON_SMALL_AND_SLOW is set, we disable automatic creation of .pyc and
 # .pyo bytecode files. the result is small delay on startup (up to 2.5x slower)
 # but substantial savings in disk space (31 vs 22 MB on x86_64)).
@@ -63,7 +66,7 @@ sed -i -e "s|^#.* /usr/local/bin/python|#!/bin/python3|" Lib/cgi.py
 find . -name '*.py' -exec \
   sed -i "s|#[ ]*![ ]*/usr/bin/env python$|#!/usr/bin/env python3|" {} +
 
-CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC" \
+CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -fPIC -DBUTCH_STAGING_DIR='\"$butch_staging_dir/\"'" \
 OPT="$optcflags" \
 LDFLAGS="$optldflags -lncursesw -lterminfo" \
 ./configure -C --prefix="$butch_prefix" \
@@ -74,10 +77,12 @@ LDFLAGS="$optldflags -lncursesw -lterminfo" \
   ac_cv_lib_readline_rl_completion_display_matches_hook=no \
   ac_cv_lib_readline_rl_completion_matches=yes \
   ac_cv_have_long_long_format=yes \
+  ac_cv_func_timegm=yes \
   ac_cv_file__dev_ptc=no \
   ac_cv_file__dev_ptmx=yes
 
 if [ -n "$CROSS_COMPILE" ] ; then
+  # temporarily use the host's sizes of types for the parser generator.
   cp pyconfig.h pyconfig.h.target
   for i in SIZEOF_LONG SIZEOF_PTHREAD_T SIZEOF_SIZE_T SIZEOF_TIME_T SIZEOF_VOID_P SIZEOF_UINTPTR_T ; do
     sed -i 's,#define '$i',//,' pyconfig.h
@@ -104,6 +109,7 @@ make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" altinstall
 
 dest="$butch_install_dir""$butch_prefix"
+
 # removing tests
 for test in sqlite3/test email/test ctypes/test test unittest/test tkinter/test \
             bsddb/test json/tests lib2to3/tests distutils/tests tests ; do
@@ -124,7 +130,10 @@ else
 fi
 
 # create symlinks without the major version number in them
+cd "$dest/bin"
 for bin in idle3.7 2to3-3.7 pip3.7 easy_install-3.7 \
            python3.7 pyvenv-3.7 python3.7m pydoc3.7 python3.7m-config ; do
-  ln -sf "$dest/bin/$bin" "$dest/bin/${bin/3.7/3}"
+  if [ -e "$bin" ]; then
+      ln -sf "$bin" "${bin/3.7/3}"
+  fi
 done
