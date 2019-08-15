@@ -1,8 +1,10 @@
 [mirrors]
-http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.9.tar.gz
+https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.45.3/e2fsprogs-1.45.3.tar.xz
+
 [vars]
-filesize=6069173
-sha512=31041c45bc4e4a37fc4a1026424e15d4fc8fbf990c968fc9fba92861d9bec15f192dee8d5341cc2215af30a86b0bdb12d8a01f3c113b79a66c65f4a737136bb7
+filesize=5561452
+sha512=9f898d353af48a1d357cb01f64187b6dfef671bb2e0450438530fe4fa9454fccc6b755c9469d81e702e6d85a4defd02ae0a493897a4b3284cb112e8444c9bf52
+pkgver=2
 
 [deps.host]
 pkgconf
@@ -13,6 +15,7 @@ libblkid
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+sed 's;LIBS="-lblkid -luuid;LIBS="-lblkid;' -i configure
 for i in misc/fsck.c misc/mke2fs.c e2fsck/unix.c ; do
 sed -i 's@sbin@bin@g' $i
 done
@@ -20,7 +23,8 @@ CFLAGS="-D_GNU_SOURCE $optcflags -D__uint64_t=u_int64_t -fPIC" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --with-root-prefix="$butch_prefix" \
   --sbindir="$butch_prefix"/bin $xconfflags \
-  --disable-nls --disable-libblkid
+  --disable-nls --disable-libblkid \
+  ac_cv_path_mkdir="mkdir -p"
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 make DESTDIR="$butch_install_dir" install-libs
