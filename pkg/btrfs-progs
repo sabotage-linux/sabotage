@@ -1,11 +1,10 @@
 [mirrors]
-http://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
-https://www.kernel.org/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
-http://ftp.free.fr/pub/linux/kernel/people/mason/btrfs-progs/btrfs-progs-v3.16.tar.xz
+https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.2.1.tar.xz
 
 [vars]
-filesize=290544
-sha512=dd1f4bc13e62623792121d0f2a2a388be85bae4eec4abc348e0d21949fefa58863e7bf56515dd57022c312ee02d2fa76cc7b1a1c2d78a36532961b22b410a4db
+filesize=2049856
+sha512=7da495df7dd2ef1c7961eda132c5f587785c7a91d2531a0c5ed3917f07c708d02acd48681520c10c375edd7a8a7ecab371e806077ccae7899eb41a5ddea89c59
+pkgver=2
 
 [deps.host]
 bash
@@ -20,29 +19,19 @@ attr
 libblkid
 
 [build]
-patch -p1 < "$K"/btrfs-progs.patch
-make prefix="$butch_prefix" DESTDIR="$butch_install_dir"\
-     V=1 C= CC="$CC" AR="$CROSS_COMPILE"ar \
-     CFLAGS="-DXATTR_NAME_MAX=255 -DXATTR_LIST_MAX=65536 \
-     -DXATTR_SIZE_MAX=65536 -DPATH_MAX=4096 $optcflags" \
-     LDFLAGS="$optldflags" -j$MAKE_THREADS install
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
 
-make prefix="$butch_prefix" \
-     V=1 C= CC="$CC" AR="$CROSS_COMPILE"ar \
-     CFLAGS="-DXATTR_NAME_MAX=255 \
-       -DXATTR_LIST_MAX=65536 -DXATTR_SIZE_MAX=65536 \
-       -DPATH_MAX=4096 $optcflags" \
-     LDFLAGS="$optldflags" -j$MAKE_THREADS static
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -static" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-shared \
+  --disable-zstd \
+  --disable-python \
+  --disable-documentation \
+  --disable-backtrace
 
-make prefix="$butch_prefix" install
-install -D -m 755 btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/btrfs.static
-install -D -m 755 mkfs.btrfs.static "$butch_install_dir"/"$butch_prefix"/bin/mkfs.btrfs.static
+make V=1 -j$MAKE_THREADS CHECKER=true
+make DESTDIR="$butch_install_dir" install
 
-make prefix="$butch_prefix" \
-     V=1 C= CC="$CC" AR="$CROSS_COMPILE"ar \
-     CFLAGS="-DXATTR_NAME_MAX=255 \
-       -DXATTR_LIST_MAX=65536 -DXATTR_SIZE_MAX=65536 \
-       -DPATH_MAX=4096 $optcflags" \
-     LDFLAGS="$optldflags" -j$MAKE_THREADS btrfs-zero-log.static
-
-install -D -m 755 btrfs-zero-log.static "$butch_install_dir"/"$butch_prefix"/bin/btrfs-zero-log.static
