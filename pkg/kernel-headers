@@ -12,6 +12,7 @@ pkgver=2
 [build]
 case "$A" in
 	i?86) A=i386 ;;
+	x86_64-x32) A=x32 ;;
 esac
 make ARCH="$A" prefix="$butch_prefix" DESTDIR="$butch_install_dir" install \
 
