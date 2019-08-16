@@ -7,12 +7,33 @@
 #export A=microblaze
 #export A=sh
 #export A=arm
+
+[ -z "$A" ] && { printf "ERROR: no arch set\n" ; exit 1 ; }
+
 # arch specific flags to pass to the gcc build
 # your crosscompiler should be configured equivalently
 # if not provided, will be derived from the crosscompiler config
 #export GCC_ARCH_CONFIG_FLAGS="--with-float=soft --with-fpu=vfp"
 
-[ -z "$A" ] && { printf "ERROR: no arch set\n" ; exit 1 ; }
+# set to basepath containing your musl-cross toolchains
+# we assume there's a subdir equal to the triplet in there
+crosstoolchain=$HOME/musl-cross-6.5.0
+
+#set toolchain triplet
+#triplet=x86_64-linux-muslx32
+#triplet=arm-linux-musleabihf
+triplet=$A-linux-musl
+
+# point S to sabotage checkout or /src dir of an existing sabotage install
+# path is used to lookup KEEP, pkg and tarballs dirs
+#export S=/src
+export S=XXXXX
+
+# set R to the rootfs path (where stuff gets installed to)
+export R=$HOME/x-prefix/$A
+
+# set number of parallel make processes
+export MAKE_THREADS=1
 
 # set BRUTE to 1 to enable LTO in the standard etc/butch-optflags profile
 # (slow to compile, but results in minimal binary size and very fast code)
@@ -20,21 +41,8 @@
 # set TESTBUILD to 1 to build everything without optimization/debug (much faster)
 #export TESTBUILD=1
 
-# set to basepath containing your musl-cross toolchains
-crosstoolchain=$HOME/musl-cross-4.8.3
+# typically, you shouldn't have to change any of the vars after this line
 
-# set number of parallel make processes
-export MAKE_THREADS=1
-
-# point S to sabotage checkout or /src dir of an existing sabotage install
-# path is used to lookup KEEP, pkg and tarballs dirs
-#export S=/src
-export S=$PWD
-
-# set R to the rootfs path (where stuff gets installed to)
-export R=$HOME/x-prefix/$A
-
-# usually, you shouldn't have to change any of these paths
 export K=$S/KEEP
 # where stuff gets built
 export B=$R/src/build
@@ -46,12 +54,11 @@ export butch_tarballs_used=$R/src/tarballs_used.txt
 export BUTCH_BUILD_TEMPLATE=$K/butch_build_template.txt
 export BUTCH_DOWNLOAD_TEMPLATE=$K/butch_download_template.txt
 
-[ "$A" = arm ] && eabi=eabi
-export PATH="$PATH":$crosstoolchain/$A-linux-musl$eabi/bin
+export PATH="$PATH":$crosstoolchain/$triplet/bin
 
-export CC="$A-linux-musl$eabi-gcc -L$R/lib -isystem $R/include"
-export CXX="$A-linux-musl$eabi-g++ -L$R/lib -isystem $R/include"
-export CROSS_COMPILE=$A-linux-musl$eabi-
+export CC="$triplet-gcc -L$R/lib -isystem $R/include"
+export CXX="$triplet-g++ -L$R/lib -isystem $R/include"
+export CROSS_COMPILE=$triplet-
 export HOSTCC=gcc
 export HOSTCXX=g++
 
