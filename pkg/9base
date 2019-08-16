@@ -11,17 +11,10 @@ http://dl.suckless.org/tools/9base-6.tar.gz
 
 [build]
 echo "PREFIX = $butch_prefix" >>config.mk
-# the dc calculator, called by bc, assumes a signed char,
-# which is not true for ARM. it fails on "4 - 3" resp. "4 3 -ps."
-# without -fsigned-char.
-echo "CFLAGS += -fsigned-char -D_GNU_SOURCE -DPLAN9PORT -D__USE_MISC $optcflags" >>config.mk
+echo "CFLAGS += -D_GNU_SOURCE -DPLAN9PORT -D__USE_MISC $optcflags" >>config.mk
 echo "LDFLAGS += $optldflags" >> config.mk
 echo "CC = $CC" >> config.mk
 echo "STRIP = true" >> config.mk
-if [ -n "$CROSS_COMPILE" ] ; then
-	echo "YACC = yacc" >> config.mk
-	patch -p1 < "$K"/9base-bc-yacc.patch
-fi
 
 for i in diff lib9 ; do sed -i 's@-I\${PREFIX}/include@@' $i/Makefile ; done
 for i in std.mk diff/Makefile ; do
