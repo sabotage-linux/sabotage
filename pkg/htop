@@ -9,6 +9,13 @@ sha512=57991a55b69028c01549b067ec749099466df5b08a0ed9a65dd779e6d2c8ee0a5d9c330bb
 curses
 
 [build]
+cat << EOF > ncurses5-config
+#!/bin/sh
+echo -lcurses -lterminfo
+EOF
+chmod +x ncurses5-config
+export PATH="$PWD:$PATH"
+
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
 LIBS="-lcurses -lterminfo" \
 CFLAGS="-D_GNU_SOURCE $optcflags" \
