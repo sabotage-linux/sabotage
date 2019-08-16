@@ -10,6 +10,8 @@ desc='foreign function interface lib. used by script langs to interface with C.'
 [deps]
 
 [build]
+sed 's;-gnux32;-*x32;' -i configure
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-libtool-sysroot=$butch_root_dir"
 
