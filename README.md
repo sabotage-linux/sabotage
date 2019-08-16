@@ -145,8 +145,9 @@ Check `/etc/xinitrc` for X11 keyboard configuration.
 * Packages may have a `deps.host` section listing further packages required on
   the host.
 
-The only tested cross-compile setup is a Sabotage host that has the same
-packages installed as the ones you wish to compile.
+The only supported cross-compile setup is using a Sabotage host that has the
+same packages installed as the ones you wish to compile, but it was also
+successfully used on non-sabotage hosts.
 
 If you intend to cross-compile only packages written in C, the choice of the
 version of your cross-compiler is not important. If you however intend to
@@ -154,6 +155,11 @@ compile also C++ packages, you should use the same GCC version that is built
 as default during stage1 (currently GCC 6.5.0) from `musl-cross-make` repo.
 that is necessary so the applications are built against the same libstdc++
 they'll be bundled together with (if they use dynamic linking).
+
+additionally, the cross toolchain needs to use the identical (currently 2.27)
+or an older binutils version as in our `binutils` package.
+newer binutils often immediately default to new features that the older versions
+can't deal with (e.g. https://github.com/richfelker/musl-cross-make/pull/73 )
 
 
 ## Cross-Compile Instructions:
