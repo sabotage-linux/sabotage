@@ -72,7 +72,7 @@ EOF
 	if [ -z "$GCC_ARCH_CONFIG_FLAGS" ] ; then
 		#autodetect arch specifics if not passed via config
 		gccv=$($CC -v 2>&1|grep "^Configured with: ")
-		for flag in --with-arch --with-float --with-fpu ; do
+		for flag in --with-arch --with-float --with-fpu --with-abi ; do
 			for arg in $gccv ; do
 				printf "%s" "$arg" | grep "^$flag=" >/dev/null \
 				&& { GCC_ARCH_CONFIG_FLAGS="$arg $GCC_ARCH_CONFIG_FLAGS" ; break ; }
