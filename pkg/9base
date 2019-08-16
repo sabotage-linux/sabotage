@@ -44,25 +44,19 @@ sed -i '/^.touch./d' Makefile  # we don't have futimes
 # when libc functions like getpwuid call getline.
 patch -p1 < "$K"/9base-ed-getline.patch
 
-stuff_to_build="ascii cleanname ed factor fmt freq getflags hoc \
+stuff_to_build="ascii cleanname ed factor fmt freq getflags \
 look mk mtime pbd primes read troff unicode"
 
 sed -i 's/SUBDIRS  =/FOO =/' Makefile
-[ -n "$CROSS_COMPILE" ] && \
-  stuff_to_build=$(echo "$stuff_to_build" | sed -e 's/hoc //' -e 's/yacc //')
 echo "SUBDIRS=lib9 $stuff_to_build" >> config.mk
 
 make -j$MAKE_THREADS
 
 # only install things not sufficently well-provided by busybox
-for f in ascii cleanname ed factor fmt freq getflags hoc \
+for f in ascii cleanname ed factor fmt freq getflags \
          look mk mtime pbd primes read troff unicode
 do
-  if [ "$f" = hoc ] && [ -n "$CROSS_COMPILE" ] ; then :
-  # hoc.y depends on 9yacc which is not 100% yacc compatible
-  else
   make -C $f DESTDIR="$butch_install_dir" install
-  fi
 done
 
 ln -sf troff "$butch_install_dir""$butch_prefix"/bin/nroff
