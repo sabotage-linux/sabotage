@@ -26,7 +26,7 @@ cp defconfig .config
 
 sed -i 's,#CONFIG_WPS=y,CONFIG_WPS=y,' .config
 
-CFLAGS="-D_GNU_SOURCE -I$butch_prefix/include/libnl-tiny \
+CFLAGS="-D_GNU_SOURCE -I$butch_root_dir$butch_prefix/include/libnl-tiny \
   -DLIBNL1_COMPAT \
   -DCONFIG_LIBNL20 \
   -D__int32_t=int32_t -D__int16_t=int16_t -D__uint8_t=uint8_t \
