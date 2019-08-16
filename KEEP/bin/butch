@@ -3,12 +3,15 @@
 # wrapper script to set up environment for butch-core
 # and redirects to several extension scripts
 # + aliases to some commands
+tryconfig() {
+	test -z "$CONFIG" && { test -e "$1" && CONFIG="$1" ; }
+}
 
-[ "$STAGE" = "0" ] && [ -z "$CONFIG" ] && CONFIG="$PWD/config"
-[ -z "$CONFIG" ] && CONFIG=/src/config
+tryconfig "/src/config"
 
-if [ ! -e "$CONFIG" ] ; then
-	echo "error: $CONFIG not found"
+if [ -z "$CONFIG" ] ; then
+	echo "error: CONFIG not set, and/or no config found in default path"
+	echo "default path is /src/config"
 	exit 1
 fi
 
