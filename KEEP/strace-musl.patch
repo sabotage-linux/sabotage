@@ -22,6 +22,15 @@ diff -ru strace-4.8.orig/defs.h strace-4.8/defs.h
 diff -ru strace-4.8.orig/desc.c strace-4.8/desc.c
 --- strace-4.8.orig/desc.c	2013-05-01 22:39:10.000000000 +0000
 +++ strace-4.8/desc.c	2013-09-20 14:30:38.795856744 +0000
+@@ -223,7 +223,7 @@
+ 	{ 0,				NULL			},
+ };
+ 
+-#if _LFS64_LARGEFILE
++#if _LFS64_LARGEFILE || defined(X32)
+ /* fcntl/lockf */
+ static void
+ printflock64(struct tcb *tcp, long addr, int getlk)
 @@ -299,7 +299,7 @@
  #ifdef X32
  	tprintf(", start=%lld, len=%lld", fl.l_start, fl.l_len);
