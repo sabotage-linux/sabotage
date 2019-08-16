@@ -17,7 +17,10 @@ m4
 cp -f configfsf.guess config.guess
 # force correct ABI detection on x86 (could fail if a 64bit kernel is used)
 abihack=
-case "$A" in i[3-6]86) abihack="ABI=32" ;; esac
+case "$A" in
+  i[3-6]86) abihack="ABI=32" ;;
+  x32|x86_64-x32) abihack="ABI=x32" ;;
+esac
 [ -n "$CXX" ] && "$CXX" --version >/dev/null 2>&1 && cpp=--enable-cxx
 
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
