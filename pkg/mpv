@@ -12,6 +12,7 @@ desc='media player forked from mplayer with major cleanups'
 
 [deps]
 ffmpeg
+libarchive
 libass
 lua52
 
