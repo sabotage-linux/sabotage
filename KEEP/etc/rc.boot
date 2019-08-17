@@ -51,7 +51,7 @@ test -e /dev/root || {
 cryptmount -M # make encrypted devices from /etc/crypttab available
 
 $rw && mount -o remount,ro /
-fsck -A -T -C -p
+[ -e /bin/fsck ] && fsck -A -T -C -p
 mkdir -p /dev/shm /dev/pts
 $rw && mount -o remount,rw /
 
