@@ -40,9 +40,6 @@ chmod 775 src/build
 chmod 1777 tmp
 chmod 700 root
 
-cp -f "$K"/runsvdir-start "$R"/bin/
-chmod 0755 "$R"/bin/runsvdir-start
-
 cp -r "$K"/etc/* "$R"/etc/
 cp -r "$K"/boot/* "$R"/boot/
 chmod 0600 "$R"/etc/shadow
