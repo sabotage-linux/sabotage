@@ -1,0 +1,24 @@
+[mirrors]
+http://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.63.orig.tar.xz
+
+[vars]
+filesize=80468
+sha512=71bd5ec4d265dff708db372189146acb067c4edaf62888755d245ccb3f4b5bb54f6c31bda68991f78c27ab231de8ea7126f947834f3604b60d7142d0357cb66b
+tardir=moreutils-0.63
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  MANS=/dev/null \
+  "$1"
+}
+mk_target all
+mk_target install
+test -n "$butch_install_dir" && test "$butch_install_dir" != / && \
+  rm -rf "$butch_install_dir""$butch_prefix"/share
