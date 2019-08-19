@@ -1,13 +1,10 @@
 [vars]
-pkgver=17
+pkgver=1
 no_unlink=1
-
-[deps]
-butch-scripts
 
 [build]
 dest="$butch_install_dir""$butch_prefix"
-for i in "$K"/bin/*; do
+for i in "$K"/butch/*; do
 	install -Dm 755 "$i" "$dest"/bin/$(basename "$i")
 done
 cp -rf "$K"/share "$dest"

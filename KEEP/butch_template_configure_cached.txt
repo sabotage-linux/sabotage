@@ -122,7 +122,7 @@ if $butch_do_custom_destdir ; then
 		esac
 		rm -rf "$butch_custom_destdir"
 		if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
-			"$K"/bin/butch-unlink "$butch_package_name"
+			"$K"/butch/butch-unlink "$butch_package_name"
 			rm -f "$filelist"
 		fi
 	else
@@ -256,7 +256,7 @@ printf "%s: end build\n" "`timestamp`"
 echo "post buildscript phase..."
 
 # install service if package has a servicescript.
-[ -n "$service" ] && "$K"/bin/butch-install-service $serviceflags $service "$K"/services/$service
+[ -n "$service" ] && "$K"/butch/butch-install-service $serviceflags $service "$K"/services/$service
 
 $butch_do_cleanup_builddir_postbuild && cleanup_builddir
 
@@ -274,12 +274,12 @@ $butch_do_custom_destdir || exit 0
 if test -n "$butch_install_dir_final" ; then
 	# swap out temporary builddir after the build succeeded, in case of no_unlink package.
 	flnew=$(mktemp)
-	"$K"/bin/butch-genfilelist -D "$butch_install_dir" - | sort -u > "$flnew"
+	"$K"/butch/butch-genfilelist -D "$butch_install_dir" - | sort -u > "$flnew"
 	flold=$(mktemp)
 	if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
 		sort -u < "$filelist" > "$flold"
 	else
-		"$K"/bin/butch-genfilelist -D "$butch_install_dir_final" - | sort -u > "$flold"
+		"$K"/butch/butch-genfilelist -D "$butch_install_dir_final" - | sort -u > "$flold"
 	fi
 	fl=$(mktemp)
 
@@ -306,7 +306,7 @@ if test -n "$butch_install_dir_final" ; then
 	done < "$fl"
 	# overwrite filelist with files only in old dir, so butch unlink can remove stale links.
 	mv "$fl" "$filelist"
-	"$K"/bin/butch-unlink "$butch_package_name"
+	"$K"/butch/butch-unlink "$butch_package_name"
 
 	rm -f "$flold" "$flnew" "$filelist"
 	rm -rf "$butch_install_dir"
@@ -422,20 +422,20 @@ if $have_files ; then
 	# moves the contents to / or create some sort of package file list.
 	# e.g.
 	if $butch_do_filelists ; then
-		"$K"/bin/butch-genfilelist "$butch_package_name"
+		"$K"/butch/butch-genfilelist "$butch_package_name"
 	fi
 
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into butch_prefix
 		printf "%s: linking into rootfs...\n" "$(timestamp)"
-		"$K"/bin/butch-relocate "$butch_package_name"
+		"$K"/butch/butch-relocate "$butch_package_name"
 		printf "%s: done\n" "$(timestamp)"
 	fi
 
 	if $butch_do_create_tarball ; then
 		(
 		mkdir -p "$butch_pack_dest" && cd "$butch_pack_dest" && \
-		"$K"/bin/butch-pack --xz "$butch_package_name"
+		"$K"/butch/butch-pack --xz "$butch_package_name"
 		)
 	fi
 

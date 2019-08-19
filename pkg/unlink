@@ -1,0 +1,7 @@
+[vars]
+pkgver=1
+no_unlink=1
+
+[build]
+$CC $optcflags -Wall -std=gnu99 -o unlink "$K"/unlink.c -static $optldflags
+install -D -m 755 unlink "$butch_install_dir""$butch_prefix"/bin/unlink
