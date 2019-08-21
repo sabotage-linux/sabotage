@@ -71,6 +71,8 @@ https://github.com/pikhq/gzip somewhere into your PATH so it's picked up first.
 EOF
 
 export ARCH=$A
+case "$ARCH" in x86_64-x32|x32) export ARCH=x86_64 ;; esac
+
 linux_config="$K"/linux.config
 
 if [ -z "$HOSTCC" ] ; then
@@ -84,12 +86,12 @@ fi
 
 cat "$linux_config" > my.config
 
-make V=1 ARCH=$A defconfig HOSTCFLAGS="-D_GNU_SOURCE" \
+make V=1 ARCH=$ARCH defconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
 
 mv .config .defconfig
 
-make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
+make V=1 ARCH=$ARCH allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
 
 cp .config .allnoconfig
@@ -102,7 +104,7 @@ echo "---------------------------------------------------"
 diff -u .allnoconfig.clean .defconfig.clean || true
 echo "---------------------------------------------------"
 
-make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
+make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$ARCH HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y \
   KBUILD_BUILD_USER=user \
   KBUILD_BUILD_HOST=sabotage \
@@ -130,7 +132,7 @@ cp -f $kpath $butch_install_dir/boot/vmlinuz
 # "build" headers into dest/
 # we need to build them after the kernel because grsec assumes this order
 # otherwise some generated headers won't be found
-make V=1 ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
+make V=1 ARCH=$ARCH HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
   DISABLE_PAX_PLUGINS=y headers_install
 
 # remove junk from kernel headers
