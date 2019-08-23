@@ -1,11 +1,11 @@
 [mirrors]
-https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tar.xz
-http://sources.buildroot.net/Python-2.7.15.tar.xz
+https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tar.xz
+http://sources.openwrt.org/Python-2.7.16.tar.xz
 
 [vars]
-filesize=12642436
-sha512=27ea43eb45fc68f3d2469d5f07636e10801dee11635a430ec8ec922ed790bb426b072da94df885e4dfa1ea8b7a24f2f56dd92f9b0f51e162330f161216bd6de6
-pkgver=8
+filesize=12752104
+sha512=16e814e8dcffc707b595ca2919bd2fa3db0d15794c63d977364652c4a5b92e90e72b8c9e1cc83b5020398bd90a1b397dbdd7cb931c49f1aa4af6ef95414b43e0
+pkgver=9
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
