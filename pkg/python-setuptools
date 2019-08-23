@@ -1,12 +1,12 @@
 [mirrors]
-https://github.com/pypa/setuptools/archive/v40.4.3.tar.gz
+https://github.com/pypa/setuptools/archive/v41.2.0.tar.gz
 
 [vars]
-filesize=766298
-sha512=750df326a149c2308971582d8a77b757c5dedb2251673826a8cb8860576700ee8d82a061c6a93075eb06307fdf324466e3b2941686059a45520951269e6e70b9
-tarball=setuptools-40.4.3.tar.gz
-tardir=setuptools-40.4.3
-pkgver=2
+filesize=785827
+sha512=9ddaae9d530cb5580566abba4b9aec19d5bbbc9bd571eb121ce597d311e99c8f766fd905d856419355fa9a676040c41703c0d7fbe7e6d068e701dd89df4280e1
+tarball=setuptools-41.2.0.tar.gz
+tardir=setuptools-41.2.0
+pkgver=3
 uchkurl=https://pypi.org/project/setuptools/
 
 [deps]
