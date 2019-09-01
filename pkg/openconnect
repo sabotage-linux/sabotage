@@ -1,0 +1,41 @@
+[mirrors]
+http://ftp.openbsd.org/pub/OpenBSD/distfiles/openconnect-8.04.tar.gz
+ftp://ftp.infradead.org/pub/openconnect/openconnect-8.04.tar.gz
+https://fossies.org/linux/privat/legacy/openconnect-8.04.tar.gz
+
+[vars]
+filesize=1914479
+sha512=3d1f335c5ac62cdcf874b0371e9ed939e5e44060d422b35120d0a6bb87f1a7cc4ffc783e6c65d11a9d5ef974c99e56107da837ee61a03f70d9397e077185050a
+pkgver=1
+desc="Open client for Cisco AnyConnect VPN, and more."
+
+[deps]
+vpnc-scripts-tarball
+
+[build]
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" \
+		--disable-nls $xconfflags \
+		--sbindir="$butch_prefix"/bin \
+		--with-vpnc-script="$butch_prefix/etc/vpnc-script/vpnc-script"
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+dest="${butch_prefix}${butch_install_dir}"
+tar xvfz "$C/vpnc-scripts-d2c5a77f3.tar.gz"
+cd alonbl-vpnc-scripts-d2c5a77 || exit 1
+mkdir -vp "${dest}/etc/vpnc-script"
+install -m644 vpnc-script "${dest}/etc/vpnc-script/"
+install -m644 vpnc-script-ptrtd "${dest}/etc/vpnc-script/"
+install -m644 vpnc-script-sshd "${dest}/etc/vpnc-script/"
+install -m644 xinetd.netns.conf "${dest}/etc/"
