@@ -1,0 +1,8 @@
+[mirrors]
+https://api.github.com/repos/alonbl/vpnc-scripts/tarball/d2c5a77f3
+
+[vars]
+filesize=18322
+sha512=6404e4dd9d2e56ce3e8afcac0426905e17659aed0c6bb34d3899a544d021075365e3d8af911464ad69fa0e8adc039b234f1aa35b165180d75573ccdc1c6a909a
+pkgver=1
+tarball="vpnc-scripts-d2c5a77f3.tar.gz"
