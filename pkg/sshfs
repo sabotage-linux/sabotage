@@ -7,6 +7,7 @@ http://downloads.sourceforge.net/sourceforge/fuse/sshfs-fuse-2.5.tar.gz
 
 [deps]
 fuse
+glib
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
