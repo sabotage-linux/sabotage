@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/rg3/youtube-dl/releases/download/2019.08.02/youtube-dl-2019.08.02.tar.gz
+https://github.com/ytdl-org/youtube-dl/releases/download/2019.09.12.1/youtube-dl-2019.09.12.1.tar.gz
 
 [vars]
-filesize=3174224
-sha512=9740fd8cb16ce73695ecc40017b8807d8a40d2df6bb7c1f89db00d0c490bd5a67718dffdf39b2b7d65071f01738c684a1deb520eef5efcf87f1e39ac8f3e103f
-pkgver=28
+filesize=3180312
+sha512=8177165cab21e83d1e1012c3d56e5182816f2367322eeea526c6d18aa74d35271a4625c6663204c0a5206976dbe32c97cdcd22b000e4e8e23a1073b474345eb3
+pkgver=29
 tardir=youtube-dl
 uchkurl=http://youtube-dl.org/downloads/
 desc='command line tool to download videos from youtube, vimeo, twitter etc'
