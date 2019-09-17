@@ -50,7 +50,7 @@ find gcc/config -name linux.h -exec sed -i 's@struct siginfo@siginfo_t@g' "{}" \
 intel32=false
 case "$A" in i[3-6]86) intel32=true ;; esac
 if $intel32 && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
-	printf '#!/bin/sh\necho i386-unknown-linux-gnu\n' > config.guess
+	printf '#!/bin/sh\necho $A-unknown-linux-gnu\n' > config.guess
 fi
 
 
