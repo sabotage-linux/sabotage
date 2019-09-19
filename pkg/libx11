@@ -1,3 +1,11 @@
+[mirrors]
+http://xorg.freedesktop.org/releases/individual/lib/libX11-1.6.2.tar.bz2
+
+[vars]
+filesize=2339981
+sha512=c8609ff34d1fe71f35b35e0273a872ccded4d824c8afdcca37e1779d37bf667cb814e0ead0805668b4222f196148476f283e417ba371b722f1fe716a5bbba20b
+pkgver=1
+
 [deps]
 util-macros
 libxcb
@@ -7,13 +15,6 @@ xtrans
 kbproto
 inputproto
 xf86bigfontproto
-
-[vars]
-filesize=2339981
-sha512=c8609ff34d1fe71f35b35e0273a872ccded4d824c8afdcca37e1779d37bf667cb814e0ead0805668b4222f196148476f283e417ba371b722f1fe716a5bbba20b
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libX11-1.6.2.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
