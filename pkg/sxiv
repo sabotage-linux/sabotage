@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/muennich/sxiv/archive/v25.tar.gz
+
+[vars]
+filesize=48814
+sha512=ca0d834c9982c5e98c0bae51d21b7d08692af2d692eeb2ac55e19c4da7d09b16bbaa8022af0a0d00c52def4120058d895f37a2f8b14f453a0ceb65eebe564814
+tarball=sxiv-25.tar.gz
+pkgver=1
+desc='simple x11 image viewer'
+
+[deps]
+imlib2
+libx11
+libxft
+libexif
+
+[build]
+sed -i Makefile \
+ -e 's;/usr/include/freetype2;'$butch_root_dir$butch_prefix'/include/freetype2;'
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" V=1 \
+  "$1"
+}
+mk_target all
+mk_target install
