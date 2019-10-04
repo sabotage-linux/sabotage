@@ -19,6 +19,7 @@ patch -p1 < "$K"/binutils-pr17739-sh-gc-sections-bug.patch
 patch -p1 < "$K"/binutils-microblaze-pr21017.patch
 patch -p1 < "$K"/binutils-mips-pie-tls.patch
 patch -p1 < "$K"/binutils-reproducible.patch
+patch -p1 < "$K"/binutils-227-arm-pie-tls.patch
 
 sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
