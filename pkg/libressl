@@ -1,21 +1,24 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.7.5.tar.gz
-http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.7.5.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.9.2.tar.gz
+http://ftp.ch.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.9.2.tar.gz
 
 [vars]
-filesize=3539591
-sha512=00828dd115f6395186ce4c9cadb604612763f67f2ad2236a331062add8115f6494a655cbec237ae069e373ffb915ed4025c993e06456c3da69b279e5f7e2b8d4
-pkgver=6
+filesize=3607549
+sha512=b43e73e47c1f14da3c702ab42f29f1d67645a4fa425441337bd6c125b481ef78a40fd13e6b34dadb2af337e1c0c190cfb616186d4db9c9a743a37e594b9b8033
+pkgver=7
 desc="tls and crypto library. replaces openssl"
 
 [deps]
 
 [build]
+patch -p1 < "$K"/libressl-292-progname.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -DHAVE___PROGNAME" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags --disable-hardening
 
