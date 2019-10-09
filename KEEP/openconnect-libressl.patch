@@ -1,0 +1,22 @@
+--- openconnect-8.04.org/openssl-dtls.c
++++ openconnect-8.04/openssl-dtls.c
+@@ -315,7 +315,7 @@
+ 
+ #endif
+ 
+-#if OPENSSL_VERSION_NUMBER < 0x10002000L
++#if OPENSSL_VERSION_NUMBER < 0x10002000L || defined(LIBRESSL_VERSION_NUMBER)
+ static const SSL_CIPHER *SSL_CIPHER_find(SSL *ssl, const unsigned char *ptr)
+ {
+     return ssl->method->get_cipher_by_char(ptr);
+--- openconnect-8.04.org/openssl-esp.c
++++ openconnect-8.04/openssl-esp.c
+@@ -36,6 +36,8 @@
+ 				    HMAC_CTX_cleanup(c);	\
+ 				    free(c); } while (0)
+ 
++#endif
++#if OPENSSL_VERSION_NUMBER < 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+ static inline HMAC_CTX *HMAC_CTX_new(void)
+ {
+ 	HMAC_CTX *ret = malloc(sizeof(*ret));

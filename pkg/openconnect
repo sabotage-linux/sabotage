@@ -13,18 +13,26 @@ desc="Open client for Cisco AnyConnect VPN, and more."
 vpnc-scripts-tarball
 
 [build]
-#patch -p1 < "$K"/some.patch
+patch -p1 < "$K"/openconnect-libressl.patch
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\nclean:\n\ttrue\n\ndistclean:\n\ttrue" > tests/Makefile.in
+
 #cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" \
+		--without-openssl-version-check \
+		--disable-dsa-tests \
+		--disable-symvers \
 		--disable-nls $xconfflags \
 		--sbindir="$butch_prefix"/bin \
 		--with-vpnc-script="$butch_prefix"/etc/vpnc-script/vpnc-script
+
+sed 's/#define HAVE_DTLS12 1//' -i config.h
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
