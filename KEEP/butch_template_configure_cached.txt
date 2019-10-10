@@ -60,7 +60,7 @@ butch_do_config_cache=true
 butch_do_cleanup_builddir_prebuild=true
 [ -z "$butch_do_delete_libtool_archives" ] && butch_do_delete_libtool_archives=true
 [ -z "$butch_do_compress_manpages" ] && butch_do_compress_manpages=true
-[ -z "$butch_do_cleanup_builddir_postbuild" ] && butch_do_cleanup_builddir_postbuild=true
+[ -z "$butch_do_cleanup_builddir_postbuild" ] && butch_do_cleanup_builddir_postbuild=false
 
 [ -z "$butch_do_custom_destdir" ] && butch_do_custom_destdir=true
 
