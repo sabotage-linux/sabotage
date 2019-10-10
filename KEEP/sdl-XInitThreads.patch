@@ -1,0 +1,36 @@
+this patch assures that the fist X11 call done by SDL is XInitThreads(),
+which makes it possible to use multi-threaded SDL apps without getting
+errors like:
+
+[xcb] Unknown sequence number while processing reply
+[xcb] Most likely this is a multi-threaded client and XInitThreads has not been called
+[xcb] Aborting, sorry about that.
+Assertion failed: !xcb_xlib_threads_sequence_lost (xcb_io.c: _XReply: 635)
+
+the obvious location to place the call would be X11_VideoInit(), but it seems
+SDL calls X11_Available() before that which in turn calls X11 APIs after it
+runs SDL_X11_LoadSymbols().
+therefore we place the call in the latter function, so it is always called
+first, no matter whether X11_Available or X11_VideoInit was the first X11 user.
+
+--- SDL-1.2.15.org/src/video/x11/SDL_x11sym.h	2019-10-10 21:42:13.312198649 +0000
++++ SDL-1.2.15/src/video/x11/SDL_x11sym.h	2019-10-10 21:49:06.524032790 +0000
+@@ -197,5 +197,7 @@
+ SDL_X11_SYM(void,XRRFreeScreenConfigInfo,(XRRScreenConfiguration *config),(config),)
+ #endif
+ 
++SDL_X11_SYM(Status,XInitThreads,(void),(),return)
++
+ /* end of SDL_x11sym.h ... */
+ 
+--- SDL-1.2.15.org/src/video/x11/SDL_x11dyn.c	2019-10-10 21:42:13.312198649 +0000
++++ SDL-1.2.15/src/video/x11/SDL_x11dyn.c	2019-10-10 21:52:16.804653955 +0000
+@@ -182,6 +182,8 @@
+ 		#undef SDL_X11_MODULE
+ 		#undef SDL_X11_SYM
+ 
++		pXInitThreads(); /* this must be called as first X11 lib call */
++
+ 		#ifdef X_HAVE_UTF8_STRING
+ 		pXCreateIC = (XIC(*)(XIM,...)) X11_GetSym("XCreateIC",
+ 		                                          &SDL_X11_HAVE_UTF8);
