@@ -58,3 +58,8 @@ if [ "$SECURE" = 1 ] ; then
 	optcflags="$optcflags -fPIE -fstack-protector"
 	optldflags="$optldflags -fpie"
 fi
+
+if test "$1" = --dump ; then
+	printf 'CFLAGS="%s"\n' "$optcflags"
+	printf 'LDFLAGS="%s"\n' "$optldflags"
+fi
