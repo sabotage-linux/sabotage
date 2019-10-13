@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.invisible-island.net/pub/byacc/byacc-20180609.tgz
+ftp://ftp.invisible-island.net/pub/byacc/byacc-20190617.tgz
 
 [vars]
-filesize=745317
-sha512=45aa6de839ca23385ab832685fdaa49225dcde6a40bdb990eefde8ab1be2cfe063875072e844629ac91e9533e6e310fa0bb8a6bd01e246a1cefc67bbc3c175f9
-pkgver=6
+filesize=799465
+sha512=79d04d7aa976e8b4e1bbd69f75ac1f0dbe005b1a7b072ce5ef75c877e8ece043e4adf48645c10ef036ee02de639b56b9befebb34f6e46cac1a59f8f641cc7cc8
+pkgver=7
 desc="berkeley yacc is a tool to generate LALR(1) parsers"
 
 [build]
