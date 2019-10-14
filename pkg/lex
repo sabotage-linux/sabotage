@@ -1,0 +1,22 @@
+[mirrors]
+http://ftp.barfooze.de/pub/sabotage/tarballs/lex-2.15.tar.xz
+
+[vars]
+filesize=40024
+sha512=b8ad589e82278e3406ddc5bc1399f7e01ed295d4bd57749f511dcf9a1c77d27137f5a7c201f8d958ed81d37857103c1d6c377906ad7636a322d9e476f6a1b621
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar RANLIB="$CROSS_COMPILE"ranlib \
+  HOSTCC=cc \
+  CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target all
+mk_target install
