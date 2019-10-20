@@ -12,7 +12,8 @@ cp -f "$K"/config.sub config/
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static --static $optldflags" \
+CFLAGS="-D_GNU_SOURCE -include sys/sysmacros.h $optcflags" \
+LDFLAGS="-static --static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
                  --disable-nls --disable-rpath --disable-tls --disable-libuuid \
                  --enable-libmount --disable-mount --disable-losetup \
