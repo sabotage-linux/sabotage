@@ -1,10 +1,11 @@
 [mirrors]
-http://www.geocities.jp/aoyoume/aotuv/source_code/libvorbis-aotuv_b6.03_2015.tar.bz2
+https://github.com/AO-Yumi/vorbis_aotuv/archive/beta6.03-2018.tar.gz
 
 [vars]
-filesize=1398388
-sha512=f87e494aad030e1e91a2a49b64c24384af7c5a3e768432859c5b72c4e2b0564fcea3d0787eed61278a99e9624dcc49cfec589d9446bfaec3b88c22040a820a05
-tardir=aotuv-b6.03_20110424-20150808
+filesize=1634602
+sha512=ebe0886b657c91b1fffe27acc05c11b381293071eea273bae709ca1f2a29d170cb271849417e00cbded80019986cf1e032ad82033bc888db3394e6615f07fcb9
+tarball=vorbis_aotuv-beta6.03-2018.tar.gz
+pkgver=2
 
 [deps]
 libogg
