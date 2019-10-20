@@ -59,6 +59,10 @@ if [ "$SECURE" = 1 ] ; then
 	optldflags="$optldflags -fpie"
 fi
 
+if [ "$STATICBUILD" = 1 ] ; then
+	optldflags="$optldflags -static --static"
+fi
+
 if test "$1" = --dump ; then
 	printf 'CFLAGS="%s"\n' "$optcflags"
 	printf 'LDFLAGS="%s"\n' "$optldflags"
