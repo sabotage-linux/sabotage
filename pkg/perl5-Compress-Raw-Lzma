@@ -1,0 +1,22 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/P/PM/PMQS/Compress-Raw-Lzma-2.087.tar.gz
+
+[vars]
+filesize=115421
+sha512=75558afdbd55e71f50ac7e0b5bdf9bbd36ab1a4bf400334a48785e1387522cf36a511c7f1c353c4d51d0a57c8cbc28c49c680de30160f246afe70360ae71320a
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+
