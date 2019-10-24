@@ -127,6 +127,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --disable-gnu-indirect-function \
   --disable-libmpx \
   --disable-libquadmath \
+  --disable-decimal-float \
   --enable-libstdcxx-time \
   --enable-lto \
   --with-system-zlib \
