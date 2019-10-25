@@ -17,7 +17,7 @@
 
 # set to basepath containing your musl-cross toolchains
 # we assume there's a subdir equal to the triplet in there
-crosstoolchain=$HOME/musl-cross-6.5.0
+crosstoolchain=$HOME/musl-cross-make-6.5.0
 
 #set toolchain triplet
 #triplet=x86_64-linux-muslx32
@@ -67,3 +67,13 @@ export PKG_CONFIG_SYSROOT_DIR=$R
 export PKG_CONFIG_LIBDIR=$R/lib/pkgconfig
 # do not build host/runtime deps
 export DEPS=build
+
+if ! test -d "$R" ; then
+	echo "ERROR: R points to non-existing path $R">&2
+	exit 1
+fi
+if ! $CC --version >/dev/null 2>&1 ; then
+	echo "ERROR! toolchain $CC not found in PATH $PATH">&2
+	exit 1
+fi
+
