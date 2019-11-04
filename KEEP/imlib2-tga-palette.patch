@@ -1,15 +1,15 @@
-From cd21a8d21dda6484fe625c4cae32e21cea6911b3 Mon Sep 17 00:00:00 2001
+From 0df9dc3ca034561252d58ac57cf60f6a3cd68c75 Mon Sep 17 00:00:00 2001
 From: rofl0r <rofl0r@users.noreply.github.com>
-Date: Mon, 4 Nov 2019 00:43:22 +0000
+Date: Mon, 4 Nov 2019 01:43:22 +0000
 Subject: [PATCH] tga loader: implement handling of palette
 
 implemented 8 bit color mapped images with 24/32bpp palette.
 ---
- src/modules/loaders/loader_tga.c | 44 +++++++++++++++++++++++++++++---
- 1 file changed, 40 insertions(+), 4 deletions(-)
+ src/modules/loaders/loader_tga.c | 49 +++++++++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 4 deletions(-)
 
 diff --git a/src/modules/loaders/loader_tga.c b/src/modules/loaders/loader_tga.c
-index 988b6ce..62c5116 100644
+index 988b6ce..4b820bf 100644
 --- a/src/modules/loaders/loader_tga.c
 +++ b/src/modules/loaders/loader_tga.c
 @@ -266,6 +266,7 @@ load(ImlibImage * im, ImlibProgressFunction progress,
@@ -33,12 +33,17 @@ index 988b6ce..62c5116 100644
  
          /* allocate the destination buffer */
          im->data = malloc(im->w * im->h * sizeof(DATA32));
-@@ -336,6 +337,16 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -336,6 +337,21 @@ load(ImlibImage * im, ImlibProgressFunction progress,
          datasize = ss.st_size - sizeof(tga_header) - header->idLength -
             (footer_present ? sizeof(tga_footer) : 0);
  
 +        if (header->imageType == TGA_TYPE_MAPPED)
 +          {
++             if (bpp != 8)
++               {
++                  close(fd);
++                  return 0;
++               }
 +             palette = filedata;
 +             palcnt = (header->colorMapLengthHi << 8) | header->colorMapLengthLo;
 +             palbpp = header->colorMapSize/8; /* bytes per palette entry */
@@ -50,7 +55,7 @@ index 988b6ce..62c5116 100644
          /* buffer is ready for parsing */
  
          /* bufptr is the next byte to be read from the buffer */
-@@ -397,8 +408,33 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -397,8 +413,33 @@ load(ImlibImage * im, ImlibProgressFunction progress,
  
                              /* 8-bit grayscale */
                           case 8:
