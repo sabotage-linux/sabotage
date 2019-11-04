@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/enlightenment/imlib2-1.4.8.tar.bz2
+https://downloads.sourceforge.net/enlightenment/imlib2-1.5.1.tar.bz2
 
 [vars]
-filesize=891876
-sha512=ddfd9a27edb8a27d992e2e6d911fd9330062b4c402283ecf1914d3da4f7aa39c59728ae4cbbbf73c6f875ad4aabbe43db9ec46fb54754f217eeabf66f6ef3bdf
+filesize=919810
+sha512=f9d971674887d4af067c6921e34b6fe598db0317052bc864b676c526b36373ce021d9d49cad95aa64dbbd8e74f1831ddf3ed105900e3df2b66a6b53f7f27c732
+pkgver=2
 uchkurl=https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 [deps]
@@ -15,8 +16,10 @@ libjpeg
 giflib
 
 [build]
+patch -p1 < "$K"/imlib2-tga-palette.patch
+
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config

@@ -1,0 +1,91 @@
+From cd21a8d21dda6484fe625c4cae32e21cea6911b3 Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Mon, 4 Nov 2019 00:43:22 +0000
+Subject: [PATCH] tga loader: implement handling of palette
+
+implemented 8 bit color mapped images with 24/32bpp palette.
+---
+ src/modules/loaders/loader_tga.c | 44 +++++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 4 deletions(-)
+
+diff --git a/src/modules/loaders/loader_tga.c b/src/modules/loaders/loader_tga.c
+index 988b6ce..62c5116 100644
+--- a/src/modules/loaders/loader_tga.c
++++ b/src/modules/loaders/loader_tga.c
+@@ -266,6 +266,7 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+         rle = 1;
+         break;
+ 
++     case TGA_TYPE_MAPPED:
+      case TGA_TYPE_COLOR:
+      case TGA_TYPE_GRAY:
+         rle = 0;
+@@ -312,10 +313,10 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+    if (((!im->data) && (im->loader)) || (immediate_load) || (progress))
+      {
+         unsigned long       datasize;
+-        unsigned char      *bufptr, *bufend;
++        unsigned char      *bufptr, *bufend, *palette = 0;
+         DATA32             *dataptr;
+ 
+-        int                 y;
++        int                 y, palcnt = 0, palbpp = 0;
+ 
+         /* allocate the destination buffer */
+         im->data = malloc(im->w * im->h * sizeof(DATA32));
+@@ -336,6 +337,16 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+         datasize = ss.st_size - sizeof(tga_header) - header->idLength -
+            (footer_present ? sizeof(tga_footer) : 0);
+ 
++        if (header->imageType == TGA_TYPE_MAPPED)
++          {
++             palette = filedata;
++             palcnt = (header->colorMapLengthHi << 8) | header->colorMapLengthLo;
++             palbpp = header->colorMapSize/8; /* bytes per palette entry */
++             int palbytes = palcnt * palbpp;
++             filedata = ((unsigned char*) filedata) + palbytes;
++             datasize -= palbytes;
++          }
++
+         /* buffer is ready for parsing */
+ 
+         /* bufptr is the next byte to be read from the buffer */
+@@ -397,8 +408,33 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+ 
+                             /* 8-bit grayscale */
+                          case 8:
+-                            WRITE_RGBA(dataptr, /* grayscale */
+-                                       *bufptr, *bufptr, *bufptr, (char)0xff);
++                            if (!palette)
++                              {
++                                 WRITE_RGBA(dataptr, /* grayscale */
++                                            *bufptr, *bufptr, *bufptr, (char)0xff);
++                              }
++                            else
++                              {
++                                 if (*bufptr >= palcnt)
++                                   {
++                                      close(fd);
++                                      return 0;
++                                   }
++                                 switch(palbpp)
++                                   {
++                                      case 4: case 3:
++                                      WRITE_RGBA(dataptr,
++                                                 palette[*bufptr*palbpp+2],
++                                                 palette[*bufptr*palbpp+1],
++                                                 palette[*bufptr*palbpp+0], (char)0xff);
++                                      break;
++                                      default:
++                                      /* currently not supported */
++                                      close(fd);
++                                      return 0;
++                                   }
++                              }
++
+                             dataptr++;
+                             bufptr += 1;
+                             break;
+-- 
+2.22.0
+
