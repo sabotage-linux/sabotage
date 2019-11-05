@@ -5,14 +5,20 @@ Subject: [PATCH] tga loader: implement handling of palette
 
 implemented 8 bit color mapped images with 24/32bpp palette.
 ---
- src/modules/loaders/loader_tga.c | 49 +++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 4 deletions(-)
+ src/modules/loaders/loader_tga.c | 97 ++++++++++++++++++++++++++++++--
+ 1 file changed, 93 insertions(+), 4 deletions(-)
 
 diff --git a/src/modules/loaders/loader_tga.c b/src/modules/loaders/loader_tga.c
 index 988b6ce..4b820bf 100644
 --- a/src/modules/loaders/loader_tga.c
 +++ b/src/modules/loaders/loader_tga.c
-@@ -266,6 +266,7 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -261,11 +261,13 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+ 
+    switch (header->imageType)
+      {
++     case TGA_TYPE_MAPPED_RLE:
+      case TGA_TYPE_COLOR_RLE:
+      case TGA_TYPE_GRAY_RLE:
          rle = 1;
          break;
  
@@ -20,7 +26,7 @@ index 988b6ce..4b820bf 100644
       case TGA_TYPE_COLOR:
       case TGA_TYPE_GRAY:
          rle = 0;
-@@ -312,10 +313,10 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -312,10 +314,10 @@ load(ImlibImage * im, ImlibProgressFunction progress,
     if (((!im->data) && (im->loader)) || (immediate_load) || (progress))
       {
          unsigned long       datasize;
@@ -33,11 +39,11 @@ index 988b6ce..4b820bf 100644
  
          /* allocate the destination buffer */
          im->data = malloc(im->w * im->h * sizeof(DATA32));
-@@ -336,6 +337,21 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -336,6 +338,21 @@ load(ImlibImage * im, ImlibProgressFunction progress,
          datasize = ss.st_size - sizeof(tga_header) - header->idLength -
             (footer_present ? sizeof(tga_footer) : 0);
  
-+        if (header->imageType == TGA_TYPE_MAPPED)
++        if (header->imageType == TGA_TYPE_MAPPED || header->imageType == TGA_TYPE_MAPPED_RLE)
 +          {
 +             if (bpp != 8)
 +               {
@@ -55,7 +61,7 @@ index 988b6ce..4b820bf 100644
          /* buffer is ready for parsing */
  
          /* bufptr is the next byte to be read from the buffer */
-@@ -397,8 +413,33 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+@@ -397,8 +414,33 @@ load(ImlibImage * im, ImlibProgressFunction progress,
  
                              /* 8-bit grayscale */
                           case 8:
@@ -91,6 +97,71 @@ index 988b6ce..4b820bf 100644
                              dataptr++;
                              bufptr += 1;
                              break;
+@@ -473,8 +515,31 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+                             for (i = 0; (i < count) && (dataptr < final_pixel);
+                                  i++)
+                               {
++                                if (!palette)
++                                {
++
+                                  WRITE_RGBA(dataptr, alpha, alpha, alpha,
+                                             (char)0xff);
++                                 } else {
++                                   if (alpha >= palcnt)
++                                   {
++                                      close(fd);
++                                      return 0;
++                                   }
++                                   switch(palbpp)
++                                   {
++                                      case 4: case 3:
++                                      WRITE_RGBA(dataptr,
++                                                 palette[alpha*palbpp+2],
++                                                 palette[alpha*palbpp+1],
++                                                 palette[alpha*palbpp+0], (char)0xff);
++                                      break;
++                                      default:
++                                      /* currently not supported */
++                                      close(fd);
++                                      return 0;
++                                   }
++                                }
+                                  dataptr++;
+                               }
+                             break;
+@@ -524,8 +589,32 @@ load(ImlibImage * im, ImlibProgressFunction progress,
+ 
+                                  /* 8-bit grayscale */
+                               case 8:
++                                 if (!palette)
++                                   {
++
+                                  WRITE_RGBA(dataptr, *bufptr,   /* pseudo-grayscale */
+                                             *bufptr, *bufptr, (char)0xff);
++
++                                   } else {
++                                       if (*bufptr >= palcnt)
++                                       {
++                                          close(fd);
++                                          return 0;
++                                       }
++                                       switch(palbpp)
++                                       {
++                                          case 4: case 3:
++                                          WRITE_RGBA(dataptr,
++                                                     palette[*bufptr*palbpp+2],
++                                                     palette[*bufptr*palbpp+1],
++                                                     palette[*bufptr*palbpp+0], (char)0xff);
++                                          break;
++                                          default:
++                                          /* currently not supported */
++                                          close(fd);
++                                          return 0;
++                                       }
++                                 }
+                                  dataptr++;
+                                  bufptr += 1;
+                                  break;
 -- 
 2.22.0
 
