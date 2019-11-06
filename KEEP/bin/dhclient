@@ -7,5 +7,5 @@ if [ -z "$1" ] ; then
 fi
 interface="$1"
 retries=1
-/sbin/udhcpc -t $retries -n -i "$interface" -s /etc/udhcpc-script
+/sbin/udhcpc -q -f -t $retries -n -i "$interface" -s /etc/udhcpc-script
 
