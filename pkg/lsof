@@ -1,4 +1,5 @@
 [mirrors]
+http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/OLD/lsof_4.90.tar.bz2
 http://ftp.u-strasbg.fr/securite/lsof/lsof_4.90.tar.bz2
 
 [vars]
