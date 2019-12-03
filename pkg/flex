@@ -1,13 +1,17 @@
-[vars]
-filesize=1612101
-sha512=8b1b86b81e7d231c746887c0c24fd1004f3f7598af4e41408667f609918a9994721b61d666a1e184822409de329323b829193a4a8dcdf12ce9313d0fe37cbbc1
-
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.39.tar.bz2
+https://github.com/westes/flex/files/981163/flex-2.6.4.tar.gz
+
+[vars]
+filesize=1419096
+sha512=e9785f3d620a204b7d20222888917dc065c2036cae28667065bf7862dfa1b25235095a12fd04efdbd09bfd17d3452e6b9ef953a8c1137862ff671c97132a082e
+pkgver=2
+
+[deps.run]
+m4
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags -static" CPPFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS" CFLAGS="$optcflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls --infodir="$butch_prefix"/share/info --mandir="$butch_prefix"/share/man
