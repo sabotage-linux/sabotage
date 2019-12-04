@@ -5,7 +5,7 @@ kernel414-patches
 [vars]
 LINUX_VER=$(cat "$K"/kernel414.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=58
+pkgver=59
 no_unlink=1
 
 [build]
