@@ -11,7 +11,8 @@ patch -p1 < "$K"/util-linux.patch
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
 
-CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="-static $optldflags" \
+CFLAGS="-D_GNU_SOURCE -include sys/sysmacros.h $optcflags" \
+LDFLAGS="-static $optldflags" \
   ./configure -C --prefix="$butch_prefix" --without-ncurses --disable-shared  \
                  --disable-nls --disable-rpath --disable-tls --disable-libuuid \
                  --disable-libmount --disable-mount --disable-losetup \
