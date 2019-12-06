@@ -18,7 +18,7 @@ musl
 make -j$MAKE_THREADS LDFLAGS="-static $optldflags" STRIP= \
   CHECK_RUN_DIR=0 \
   CC="$CC" \
-  CXFLAGS="$optcflags" \
+  CXFLAGS="-include sys/sysmacros.h $optcflags" \
   CWFLAGS=-Wall \
   MANDIR="$butch_prefix"/share/man \
   BINDIR="$butch_prefix"/bin \
