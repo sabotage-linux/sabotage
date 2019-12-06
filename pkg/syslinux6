@@ -87,12 +87,25 @@ sed -i '/herror.*/d' utils/gethostip.c
 sed -ri 's,__uint([0-9]+)_t,uint\1_t,g' efi/wrapper.c
 sed -ri 's,__uint([0-9]+)_t,uint\1_t,g' efi/wrapper.h
 
-PREFIXED_PATHS="BINDIR='/bin' LIBDIR='/lib' DATADIR='/share' MANDIR='/man' INCDIR='/include'"
+PREFIXED_PATHS="BINDIR='/bin' LIBDIR='/lib' DATADIR='/share' MANDIR='/share/man' INCDIR='/include'"
 
-make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux/bios" INSTALLROOT="$butch_install_dir" bios installer
+domake() {
+cat << EOF
+domake "$@"
+EOF
+
+make \
+	$PREFIXED_PATHS \
+	OPTFLAGS="$optcflags -include sys/sysmacros.h" \
+	INSTALLROOT="$butch_install_dir" \
+	"$@"
+}
+
+domake AUXDIR="$butch_prefix/lib/syslinux/bios" bios installer
+# can't call this one with domake as it uses -nostdlib
 make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux/bios" INSTALLROOT="$butch_install_dir" -j1 bios install
 
 target=efi64
 case "$A" in i[3-6]86) target=efi32 ;; esac
-make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" $target installer
-make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux" INSTALLROOT="$butch_install_dir" -j1 $target install
+domake AUXDIR="$butch_prefix/lib/syslinux" $target installer
+domake AUXDIR="$butch_prefix/lib/syslinux" -j1 $target install
