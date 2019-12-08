@@ -15,5 +15,5 @@ cd squashfs-tools
 
 make INSTALL_DIR="$butch_install_dir""$butch_prefix""/bin"\
      EXTRA_LDFLAGS="$optldflags"\
-     EXTRA_CFLAGS="-D_GNU_SOURCE -DFNM_EXTMATCH=0 $optcflags"\
+     EXTRA_CFLAGS="-include sys/sysmacros.h -D_GNU_SOURCE -DFNM_EXTMATCH=0 $optcflags"\
      -j$MAKE_THREADS all install
