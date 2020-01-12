@@ -1,0 +1,14 @@
+--- VVVVVV-f85622b7e95e8b63859e1f03eb900dec10f6ae5a.org/desktop_version/src/FileSystemUtils.cpp
++++ VVVVVV-f85622b7e95e8b63859e1f03eb900dec10f6ae5a/desktop_version/src/FileSystemUtils.cpp
+@@ -71,7 +71,11 @@
+ 	}
+ 
+ 	/* Mount the stock content last */
++#ifdef DATA_DIR
++	strcpy(output, DATA_DIR);
++#else
+ 	strcpy(output, PHYSFS_getBaseDir());
++#endif
+ 	strcat(output, "data.zip");
+ 	if (!PHYSFS_mount(output, NULL, 1))
+ 	{
