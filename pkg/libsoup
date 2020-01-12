@@ -6,6 +6,9 @@ filesize=1815256
 sha512=85af6fac87343bdd22312518402144d33916225f60d6fa158efdd84f7ee7ed1f9895989b3558f711c9aedc93cff35a4114ad79d6d2aa19c54cb326f162a4c7de
 pkgver=2
 
+[deps.host]
+python
+
 [deps]
 libxml2
 sqlite
@@ -13,6 +16,7 @@ gnutls
 glib-networking
 
 [build]
+# TODO replace libsoup/tld-parser.py with .c prog to remove py dep
 . "$K"/intltool-fix
 
 [ -n "$CROSS_COMPILE" ] && \
