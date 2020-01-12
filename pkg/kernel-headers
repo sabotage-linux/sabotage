@@ -1,13 +1,12 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
-http://codu.org/~rofl/tarballs/kernel-headers-4.4.2-3.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/kernel-headers-4.4.2-3.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/linux-headers-4.19.88.tar.xz
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/linux-headers-4.19.88.tar.xz
+http://dl.2f30.org/mirrors/sabotage/tarballs/linux-headers-4.19.88.tar.xz
 
 [vars]
-filesize=841752
-sha512=eb6958d16959922bb10218c0bf36008123eda2cdad511900c1dce1bcdd90a0451e101e2452271c4d849f1ff4d600ad398c64733b4bd8b7353093df5de753d4ab
-pkgver=2
+filesize=1052880
+sha512=5a975ba49b577869f2338aa80f44efd4e94f76e5b4bda11a6a1761a6d646848fdeaad7c820339b2c1c20d55f9bbf0e686121d621ac1cfa1dfc6cd71a166ade3a
+pkgver=3
 
 [build]
 case "$A" in
