@@ -1,10 +1,10 @@
 [mirrors]
-https://downloads.sourceforge.net/enlightenment/imlib2-1.5.1.tar.bz2
+https://downloads.sourceforge.net/enlightenment/imlib2-1.6.1.tar.bz2
 
 [vars]
-filesize=919810
-sha512=f9d971674887d4af067c6921e34b6fe598db0317052bc864b676c526b36373ce021d9d49cad95aa64dbbd8e74f1831ddf3ed105900e3df2b66a6b53f7f27c732
-pkgver=2
+filesize=893119
+sha512=ecdbdbfe8767ec2b1f22ce664cbab5e1d3f75be7a3c8f37488f5243b3c31dbc433414b8d50d2d1b70c67a80e31e42cc5398161991ce3955e991c114c82ddd58f
+pkgver=3
 uchkurl=https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 [deps]
@@ -16,8 +16,6 @@ libjpeg
 giflib
 
 [build]
-patch -p1 < "$K"/imlib2-tga-palette.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
