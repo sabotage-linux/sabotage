@@ -1,10 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/sourceforge/giflib/giflib-5.1.8.tar.gz
+http://downloads.sourceforge.net/sourceforge/giflib/giflib-5.2.1.tar.gz
 
 [vars]
-filesize=419065
-sha512=d390917837a64de1912720ab8968e6b077c6be9f9a2f835faced44420f54d6d55d4e3543b9779ec65d399858856188fea93c170b253d0b83928f15548a14aba3
-pkgver=2
+filesize=444187
+sha512=4550e53c21cb1191a4581e363fc9d0610da53f7898ca8320f0d3ef6711e76bdda2609c2df15dc94c45e28bff8de441f1227ec2da7ea827cb3c0405af4faa4736
+pkgver=3
 uchkurl=http://sourceforge.net/projects/giflib/files/
 
 [deps]
