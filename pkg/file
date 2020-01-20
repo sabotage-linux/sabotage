@@ -1,12 +1,12 @@
 [mirrors]
-http://distfiles.macports.org/file/file-5.35.tar.gz
-ftp://ftp.astron.com/pub/file/file-5.35.tar.gz
-http://dbg.download.sourcemage.org/fallback/file-5.35.tar.gz
+http://distfiles.macports.org/file/file-5.38.tar.gz
+ftp://ftp.astron.com/pub/file/file-5.38.tar.gz
+http://dbg.download.sourcemage.org/fallback/file-5.38.tar.gz
 
 [vars]
-filesize=865425
-sha512=cbecc52e9209be8bc090752d0672efa181625d4e1e688e63edd1f5657b29bad69364a477fb4ed85d1fa413b8002c8578c86153d2acaaecce78446c0ca6ea9e38
-pkgver=6
+filesize=932528
+sha512=9eeeba69cbc9f0c00a0bdf9eaf60c73a4a709e797068f109d85c1ef2a19c8b0e012ecd73714f03cbb1770dfa717e8a661ad746b644cc030cafbfb1f7aac35a40
+pkgver=7
 desc='analyzes files and often outputs helpful information'
 
 [build]
