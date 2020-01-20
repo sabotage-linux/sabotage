@@ -1,11 +1,11 @@
 [mirrors]
-http://www.ijg.org/files/jpegsrc.v9c.tar.gz
+http://www.ijg.org/files/jpegsrc.v9d.tar.gz
 
 [vars]
-filesize=1028134
-sha512=2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7
-pkgver=2
-tardir=jpeg-9c
+filesize=1070160
+sha512=c425cf413e679e4112b428592e6facc813cadf92e42a6b850c5d348b3dd47b0599e2f4a119d7ff543b762cdcadd42a77ed1429a08874e73f64a54fb869714357
+pkgver=3
+tardir=jpeg-9d
 
 [build]
 cp -f "$K"/config.sub .
