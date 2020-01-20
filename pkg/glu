@@ -1,17 +1,18 @@
 [mirrors]
-ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.bz2
-http://ftp.cc.uoc.gr/mirrors/linux/lfs/LFS/svn/Xorg/glu-9.0.0.tar.bz2
+ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.1.tar.xz
+http://ftp.cc.uoc.gr/mirrors/linux/lfs/LFS/svn/Xorg/glu-9.0.1.tar.xz
 
 [vars]
-filesize=493206
-sha512=ff920e3fbca739794e1432a92fdd8517aa732110fea71ed724185425042f83ce18e9866c16f95c6e10f6993f0814a90fac9636e2b3d8ca2084d1ac0a860f61c8
+filesize=434632
+sha512=8a6dae5b4bd63efb96d15f23ccda4ad9c2ffaa964897e5fa63d1e58360d8d4e6732c5efd2109dba04155d5fc457ab1718a65cf9b544ce0d452679ba988d04018
+pkgver=2
 
 [deps]
 mesalib
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
