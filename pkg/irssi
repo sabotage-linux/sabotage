@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/irssi/irssi/releases/download/1.1.2/irssi-1.1.2.tar.xz
+https://github.com/irssi/irssi/releases/download/1.2.2/irssi-1.2.2.tar.xz
 
 [vars]
-filesize=1084328
-sha512=706f811c810b976888101a29bab6ff6b9aa6116678994b3710d6b266bfbc0ae2be1d4fd889aedfbf0a13a2e3da3f1affcce0018346ecc582865eaccd8cc79f84
-pkgver=12
+filesize=1140844
+sha512=5444ac102ff9ad3a6399a47c967d138e181330dd226eac68886d35fee4ad455932b9306a367bee3478095158e41ba67fb46deb8f0a33512046b9b83bae37c610
+pkgver=13
 desc='console IRC client'
 uchkurl=https://github.com/irssi/irssi/releases/
 
@@ -21,7 +21,6 @@ zlib
 curses
 
 [build]
-patch -p0 < "$K"/irssi-libressl.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
