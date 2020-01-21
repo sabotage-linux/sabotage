@@ -1,10 +1,10 @@
 [mirrors]
-https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.4.tar.gz
+https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz
 
 [vars]
-filesize=11682695
-sha512=7320a5c9111908d402fbb0c12a49eb359a6db645c0c86839793ebb1a5b75eaca7c85eb96851f3a0b4a68a2f06363c8189555afd4f1048a4a41447370eddd7e6a
-pkgver=4
+filesize=11736518
+sha512=77e743d3f32707e015b290c1379ae3c7d7a3fe265995713267f0d0ec6517de4808f0de9890b5ab28445941af5bc9fbff346620629e0d7d7e9f365262cab05ee7
+pkgver=5
 
 [deps]
 zlib
