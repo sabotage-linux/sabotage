@@ -1,16 +1,15 @@
 [mirrors]
-http://ftp.gnu.org/gnu/screen/screen-4.6.2.tar.gz
+http://ftp.gnu.org/gnu/screen/screen-4.7.0.tar.gz
 
 [vars]
-filesize=845210
-sha512=224bd16ad5ae501d1b8bb7d2ba9cc19e6a0743de5a5b320109c2f6bf3b1ca564cc7094ed9211be13733d9d769cde77d13fe236341d448cad0518038ab1e85c99
-pkgver=4
+filesize=854192
+sha512=44c7a33e2ed772ce91998cdc07556ef7b972e5b100335e14702b273a234e437fe6415de459e7b6d34c6086282a432778629047424ef9159ac6fcf26d22b45745
+pkgver=5
 desc='terminal multiplexer'
 
 [deps]
 
 [build]
-patch -p1 < "$K"/screen-configure.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
