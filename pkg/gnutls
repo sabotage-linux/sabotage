@@ -1,11 +1,11 @@
 [mirrors]
-ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
-http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
+ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6/gnutls-3.6.9.tar.xz
+http://ftp.heanet.ie/mirrors/ftp.gnupg.org/gcrypt/gnutls/v3.6/gnutls-3.6.9.tar.xz
 
 [vars]
-filesize=6709492
-sha512=a0a578034e8092dd422dc310a655fda3c4a2de5cb06745d9b47bb39734cb983902553b56dfbbabc618b3824defc62489b1b3c8de3b824b97b28273ddedd06ea7
-pkgver=4
+filesize=5773928
+sha512=a9fd0f4edae4c081d5c539ba2e5574a4d7294bc00c5c73ea25ce26cb7fd126299c2842a282d45ef5cf0544108f27066e587df28776bc7915143d190d7d5b9d07
+pkgver=5
 desc='C library implementing the SSL, TLS and DTLS protocols'
 
 [deps]
@@ -23,6 +23,7 @@ CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls \
-  --without-p11-kit
+  --without-p11-kit \
+  --with-included-unistring
 make V=1 -j$MAKE_THREADS CPPFLAGS=-D_GNU_SOURCE
 make DESTDIR="$butch_install_dir" install
