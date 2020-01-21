@@ -1,9 +1,9 @@
 [mirrors]
-http://mupdf.com/downloads/archive/mupdf-1.14.0-source.tar.xz
+http://mupdf.com/downloads/archive/mupdf-1.15.0-source.tar.xz
 
 [vars]
-filesize=41602372
-sha512=bd41125dac1a81b7dbbfbb5f5e06e70bb601854731e0945983688da5d8d7c0bca9771fff2e4b6d9c36dbead6146f0a866ed7427d58e13d02ed6dfd94dcfe54bf
+filesize=39828864
+sha512=ef19362e8b6c2843e214fd2fcdcc9ba91017884383f7e1cfe08ef1f528a233820475ddfdd8aef481e6e37ae69e8b64324eb4b30699baa8055e99e47c2fab31dd
 pkgver=8
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
