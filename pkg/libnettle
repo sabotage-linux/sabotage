@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/nettle/nettle-3.4.tar.gz
+http://ftp.gnu.org/gnu/nettle/nettle-3.5.1.tar.gz
 
 [vars]
-filesize=1935069
-sha512=3bea3aabd2c99cc42d084a94fd6b0b5dbdb24cd6c7020271a6ee87a81a904b21b21756f590cb1afdf2e85fd1cb59e5c3651c5c4032e30204e7ea6f8801d1ea3b
-pkgver=3
+filesize=1989593
+sha512=f738121b9091cbe79435fb5d46b45cf6f10912320c233829356908127bab1cac6946ca56e022a832380c44f2c10f21d2feef64cb0f4f41e3da4a681dc0131784
+pkgver=4
 desc='low-level crypto library'
 
 [deps]
