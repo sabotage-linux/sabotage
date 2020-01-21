@@ -1,14 +1,12 @@
 [mirrors]
-ftp://ftp.invisible-island.net/reflex/reflex.tar.gz
-http://invisible-island.net/datafiles/release/reflex.tar.gz
+ftp://ftp.invisible-island.net/reflex/reflex-20191123.tgz
+http://invisible-island.net/datafiles/release/reflex-20191123.tgz
 
 [vars]
-filesize=461872
-sha512=a95458ce6ae155cbd737cbcef1572490b0e0948b0367c0d6bf82b8a5dfad2c265bb6dd643cd8b02240e6f2e99606f87ce12f6269ecf5fe7bac6fc20060b7cce1
-tarball=reflex-20171231.tar.gz
-tardir=reflex-20171231
+filesize=467096
+sha512=732ee5db6fb0ae0e0568604c4c14fd13096c994b74fc15245b6a5534928ece06c358e9f7f2a02089675f87f8c4924d836b540bcba176f7e2c9f41aa40931cd6c
+pkgver=2
 desc='flex, but less buggy and better posix compliance'
-pkgver=1
 
 [deps]
 
