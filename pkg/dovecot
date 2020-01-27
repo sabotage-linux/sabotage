@@ -4,7 +4,7 @@ http://dovecot.org/releases/2.2/dovecot-2.2.36.tar.gz
 [vars]
 filesize=6239707
 sha512=327c50971e276f6013ca7f7bb59498ee88d76c9f8419bd18ee531cf10142214350fb81c6d64eaef73ee01765dd0fcf4142ab146ed67d9d7d86d5a58d41cf8db5
-pkgver=11
+pkgver=12
 desc='security-focused IMAP and POP3 server'
 service=dovecot
 serviceflags="--down --log"

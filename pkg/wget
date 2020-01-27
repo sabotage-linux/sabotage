@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/wget/wget-1.20.1.tar.gz
 [vars]
 filesize=4392853
 sha512=855c7e3c45f9020a9fdb30e286ee6a0bdcaa780be3d0dda9ffdae73b562ae1012d4550242f66240407a28076a7054328d4f08a469a0da227a9e3410b8d5f46dc
-pkgver=7
+pkgver=8
 desc='command line program for file downloads supporting various protocols'
 
 [deps]
