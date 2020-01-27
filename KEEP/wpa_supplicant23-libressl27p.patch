@@ -1,0 +1,12 @@
+--- wpa_supplicant-2.3.org/src/crypto/tls_openssl.c
++++ wpa_supplicant-2.3/src/crypto/tls_openssl.c
+@@ -3377,7 +3377,8 @@
+ #endif
+ 	if (h)
+ 		md_size = EVP_MD_size(h);
+-#if OPENSSL_VERSION_NUMBER >= 0x10000000L
++#if OPENSSL_VERSION_NUMBER >= 0x10000000L && OPENSSL_VERSION_NUMBER < 0x10100000L \
++    && LIBRESSL_VERSION_NUMBER < 0x20700000L
+ 	else if (conn->ssl->s3)
+ 		md_size = conn->ssl->s3->tmp.new_mac_secret_size;
+ #endif
