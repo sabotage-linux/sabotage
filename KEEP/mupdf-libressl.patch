@@ -1,0 +1,39 @@
+From 6a924c89d6bb633f3101b6632bbb4e2f81269267 Mon Sep 17 00:00:00 2001
+From: Sebastian Rasmussen <sebras@gmail.com>
+Date: Wed, 22 Jan 2020 23:11:58 +0800
+Subject: [PATCH] libressl
+
+---
+ source/helpers/pkcs7/pkcs7-openssl.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/source/helpers/pkcs7/pkcs7-openssl.c b/source/helpers/pkcs7/pkcs7-openssl.c
+index 5856721..4875bb5 100644
+--- a/source/helpers/pkcs7/pkcs7-openssl.c
++++ b/source/helpers/pkcs7/pkcs7-openssl.c
+@@ -116,6 +116,22 @@ static const char AdobeCA_p7c[] = {
+ #warning detect version of openssl at compile time
+ #endif
+ 
++#ifdef LIBRESSL_VERSION_NUMBER
++
++static inline const STACK_OF(PKCS12_SAFEBAG) *
++PKCS12_SAFEBAG_get0_safes(const PKCS12_SAFEBAG *bag)
++{
++	return (OBJ_obj2nid(bag->type) == NID_safeContentsBag) ? bag->value.safes : NULL;
++}
++
++static inline const PKCS8_PRIV_KEY_INFO *
++PKCS12_SAFEBAG_get0_p8inf(const PKCS12_SAFEBAG *bag)
++{
++	return (OBJ_obj2nid(bag->type) == NID_keyBag) ? bag->value.keybag : NULL;
++}
++
++#endif
++
+ typedef struct
+ {
+ 	fz_context *ctx;
+-- 
+2.9.1
+
