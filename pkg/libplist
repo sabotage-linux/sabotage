@@ -10,6 +10,7 @@ pkgver=1
 [deps.host]
 autoconf
 automake
+libtool
 
 [deps]
 
