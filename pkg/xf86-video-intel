@@ -28,6 +28,7 @@ autoreconf -vif
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+CPPFLAGS="-include sys/sysmacros.h" \
 LDFLAGS="-Wl,-z,lazy" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-xvmc \
