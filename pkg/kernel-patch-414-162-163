@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.162-163.xz
+
+[vars]
+filesize=23192
+sha512=6357fef39ca2626919b2487e0da1fb17b9018803197a38e53241e54173b15e87f45f2a82e0a072ebbe5e7c7ccddfd8f2831edd75d5bc126d6db63bd9e137e4b2
+tarball=kernel-patch-4.14.162-163.xz
+pkgver=1
