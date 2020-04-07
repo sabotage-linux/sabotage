@@ -71,7 +71,10 @@ https://github.com/pikhq/gzip somewhere into your PATH so it's picked up first.
 EOF
 
 export ARCH=$A
-case "$ARCH" in x86_64-x32|x32) export ARCH=x86_64 ;; esac
+case "$ARCH" in
+	x86_64-x32|x32) export ARCH=x86_64 ;;
+	i[4-6]86) export ARCH=i386 ;;
+esac
 
 linux_config="$K"/linux.config
 
