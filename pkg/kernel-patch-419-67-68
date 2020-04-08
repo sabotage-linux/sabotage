@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.19.67-68.xz
+
+[vars]
+filesize=24684
+sha512=b51c6d03121e2ffa294a69ebd4af70e894039f21e0e295164e188ea873aa8dbde0d3d7f73c230f0047af57bc985e2e0b5190281da2e04a50f1bebb0ef5e498cf
+tarball=kernel-patch-4.19.67-68.xz
+pkgver=1

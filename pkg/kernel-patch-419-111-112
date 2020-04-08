@@ -1,0 +1,8 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.19.111-112.xz
+
+[vars]
+filesize=18400
+sha512=6a5db84894d5e5785e94826f4f4c12e7eba4ba31d06f6d54e244d9fd6cb7d91b8152313771316fbb56e35bd07ffe99da49334c74fc9ecab23339dad4a38eb768
+tarball=kernel-patch-4.19.111-112.xz
+pkgver=1
