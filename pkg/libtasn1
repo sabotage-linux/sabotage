@@ -1,10 +1,11 @@
 [mirrors]
-http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.15.0.tar.gz
+https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.16.0.tar.gz
+http://www.nic.funet.fi/pub/gnu/ftp.gnu.org/pub/gnu/libtasn1/libtasn1-4.16.0.tar.gz
 
 [vars]
-filesize=1800713
-sha512=a8095aebf57a0b482027d06e0ee6978946f267b57bf2db3c891c4656ca35250cc1f72e2e90f4cc0ddbdf6cd2b1783881a62d495a57ad4a98684f8d037307552d
-pkgver=5
+filesize=1812442
+sha512=b356249535d5d592f9b59de39d21e26dd0f3f00ea47c9cef292cdd878042ea41ecbb7c8d2f02ac5839f5210092fe92a25acd343260ddf644887b031b167c2e71
+pkgver=6
 desc='ASN.1 library used by GnuTLS and others'
 
 [deps]
