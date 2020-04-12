@@ -76,13 +76,17 @@ case "$ARCH" in
 	i[4-6]86) export ARCH=i386 ;;
 esac
 
-linux_config="$K"/linux.config
+# if linux_config is already defined, use value as a full path to config file
+# if not, use sabotage default config
+: "${linux_config:=$K/linux.config}"
+[ ! -r "$linux_config" ] && (echo "error: $linux_config not found" ; exit 1)
+echo "[!] Using $linux_config as config"
 
 if [ -z "$HOSTCC" ] ; then
 	HOSTCC="$CC"
 fi
 
-if [ "$A" = arm ] ; then
+if [ "$A" = arm ] && [ "$linux_config" = "$K"/linux.config ]; then
 	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
 	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
 fi
