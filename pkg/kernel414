@@ -136,14 +136,5 @@ else
 fi
 cp -f $kpath $butch_install_dir/boot/vmlinuz
 
-# "build" headers into dest/
-# we need to build them after the kernel because grsec assumes this order
-# otherwise some generated headers won't be found
-make V=1 ARCH=$ARCH HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
-  DISABLE_PAX_PLUGINS=y headers_install
-
-# remove junk from kernel headers
-find dest/include \( -name .install -o -name ..install.cmd \) -delete
-
 $got_modules && depmod -b $butch_install_dir "$LINUX_VER"
 
