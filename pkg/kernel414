@@ -5,7 +5,7 @@ kernel414-patches
 [vars]
 LINUX_VER=$(cat "$K"/kernel414.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=60
+pkgver=61
 no_unlink=1
 
 [build]
@@ -52,7 +52,7 @@ for p in $(cat "$K"/$k_base.patches) ; do
 	LINUX_VER=$(get_stuff_before_last_dot "$LINUX_VER").$(printf "%s\n" "$p" | cut -d "-" -f 2)
 done
 
-dopatch linux-timeconst-nobc.patch
+dopatch $k_base-linux-timeconst-nobc.patch
 
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
@@ -76,13 +76,17 @@ case "$ARCH" in
 	i[4-6]86) export ARCH=i386 ;;
 esac
 
-linux_config="$K"/linux.config
+# if linux_config is already defined, use value as a full path to config file
+# if not, use sabotage default config
+: "${linux_config:=$K/linux.config}"
+[ ! -r "$linux_config" ] && (echo "error: $linux_config not found" ; exit 1)
+echo "[!] Using $linux_config as config"
 
 if [ -z "$HOSTCC" ] ; then
 	HOSTCC="$CC"
 fi
 
-if [ "$A" = arm ] ; then
+if [ "$A" = arm ] && [ "$linux_config" = "$K"/linux.config ]; then
 	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
 	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
 fi
@@ -131,15 +135,6 @@ else
 	kpath="arch/x86/boot/bzImage"
 fi
 cp -f $kpath $butch_install_dir/boot/vmlinuz
-
-# "build" headers into dest/
-# we need to build them after the kernel because grsec assumes this order
-# otherwise some generated headers won't be found
-make V=1 ARCH=$ARCH HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest \
-  DISABLE_PAX_PLUGINS=y headers_install
-
-# remove junk from kernel headers
-find dest/include \( -name .install -o -name ..install.cmd \) -delete
 
 $got_modules && depmod -b $butch_install_dir "$LINUX_VER"
 
