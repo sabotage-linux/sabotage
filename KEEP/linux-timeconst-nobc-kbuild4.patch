@@ -1,0 +1,30 @@
+Replace timeconst.bc with the c version I've been using for years (to replace
+the perl version). Eventually I should add bc to toybox, but for now...
+Part 2/2 for Linux 4.x
+
+diff --git a/Kbuild b/Kbuild
+index f55cefd..e412515 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -53,16 +53,18 @@ $(obj)/$(bounds-file): kernel/bounds.s FORCE
+ timeconst-file := include/generated/timeconst.h
+ 
+ targets += $(timeconst-file)
++hostprogs-y += mktimeconst
++mktimeconst-objs = kernel/time/mktimeconst.o
+ 
+ quiet_cmd_gentimeconst = GEN     $@
+ define cmd_gentimeconst
+-	(echo $(CONFIG_HZ) | bc -q $< ) > $@
++	$(obj)/mktimeconst $(CONFIG_HZ) $@
+ endef
+ define filechk_gentimeconst
+-	(echo $(CONFIG_HZ) | bc -q $< )
++	$(obj)/mktimeconst $(CONFIG_HZ) -
+ endef
+ 
+-$(obj)/$(timeconst-file): kernel/time/timeconst.bc FORCE
++$(obj)/$(timeconst-file): $(obj)/mktimeconst FORCE
+ 	$(call filechk,gentimeconst)
+ 
+ #####
