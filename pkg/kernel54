@@ -140,14 +140,5 @@ else
 fi
 cp -f $kpath $butch_install_dir/boot/vmlinuz
 
-# "build" headers into dest/
-# we need to build them after the kernel because grsec assumes this order
-# otherwise some generated headers won't be found
-make V=1 ARCH=$ARCH HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y headers
-
-# we use find and install to workaround headers_install rsync dependency
-find usr/include -name *.h -exec /bin/sh -c \
-  'install -Dp {} dest/$(echo {} | cut -d"/" -f2-)' \;
-
 $got_modules && depmod -b $butch_install_dir "$LINUX_VER"
 
