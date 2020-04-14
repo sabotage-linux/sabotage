@@ -34,7 +34,8 @@ for p in $(cat "$K"/kernel49.patches) ; do
 	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
 done
 
-dopatch linux-timeconst-nobc.patch
+dopatch linux-timeconst-nobc-mktimeconstc.patch
+dopatch linux-timeconst-nobc-kbuild4.patch
 
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
