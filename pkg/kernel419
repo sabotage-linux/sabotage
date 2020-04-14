@@ -9,7 +9,7 @@ flex
 [vars]
 LINUX_VER=$(cat "$K"/kernel419.version)
 tarball=linux-"$LINUX_VER".tar.xz
-pkgver=2
+pkgver=3
 no_unlink=1
 
 [build]
