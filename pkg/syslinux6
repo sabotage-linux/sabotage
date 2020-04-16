@@ -8,17 +8,16 @@ perl
 nasm
 
 [vars]
-filesize=9772883
-sha512=ca3da9d7f5f1c4ccc2eaa1cc33f5d2bb4afe2518dadeb863169ba2cce023c62112e5312181b047ce868a217e36f9b103622cf2e0e8559c3b7de35ad191388450
-pkgver=3
+filesize=6855224
+sha512=dd2b2916962b9e93bc1e714182e3ca2a727a229b8afabe913050bcfdd43ee2af51ee3acf79121d8c20caf434583efaa7f3196871e0e07c04d82191323a50fe31
+pkgver=4
 
 [mirrors]
-ftp://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
-http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.02.tar.bz2
-http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.02.tar.bz2
+https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
+http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
+http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
 
 [build]
 isx86=0
@@ -32,6 +31,8 @@ esac
     echo "ERROR: syslinux6 only supports the intel architecture"
     exit 0
 }
+
+patch -p1 < "$K"/syslinux6-ext4_fix_64bit_feature.patch
 
 # We dont use sbin
 sed -i 's,/sbin,/bin,' syslinux.spec mk/syslinux.mk
