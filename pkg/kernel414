@@ -22,11 +22,6 @@ cp -f "$K"/build_OID_registry ./lib/
 sed -i -e 's@perl $(srctree)/$(src)/build_OID_registry@awk -f $(srctree)/$(src)/build_OID_registry@' ./lib/Makefile
 fi
 
-# install regulatory domain database into kernel tree
-# we build it fixed into the kernel so we don't need the bloated "crda" tool
-# to change regulatory domains with iw set reg.
-cp -f "$K"/linux-regdb.txt net/wireless/db.txt
-
 dopatch() {
 	echo "applying patch $1"
 	if ! patch -p1 < "$K"/"$1" ; then
@@ -54,6 +49,15 @@ done
 
 dopatch linux-timeconst-nobc-mktimeconstc.patch
 dopatch linux-timeconst-nobc-kbuild$k_major.patch
+
+if [ "$k_major" -ge 5 ] || { [ "$k_major" -eq 4 ] && [ "$k_minor" -ge 19 ];}; then
+	dopatch kernel419-revert-remove-support-for-built-in-regdb.patch
+fi
+
+# install regulatory domain database into kernel tree
+# we build it fixed into the kernel so we don't need the bloated "crda" tool
+# to change regulatory domains with iw set reg.
+cp -f "$K"/linux-regdb.txt net/wireless/db.txt
 
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
