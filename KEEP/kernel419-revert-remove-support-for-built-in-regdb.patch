@@ -1,0 +1,423 @@
+From 4e6cda8436f3e839f9f42778dbc8c2055ebc0c7e Mon Sep 17 00:00:00 2001
+From: Joni Lapilainen <joni.lapilainen@gmail.com>
+Date: Fri, 17 Apr 2020 23:18:59 +0300
+Subject: [PATCH] Revert "cfg80211: reg: remove support for built-in regdb"
+
+This reverts commit c8c240e284b3d821011b4f680b3eaa99569b3756, and
+includes following fixes:
+
+cfg80211: reg: do not load regulatory.db if built-in regdb is enabled
+
+cfg80211: reg: update Kconfig description and documentation
+
+cfg80211: reg: make Kconfig entry more inline with other options
+---
+ Documentation/networking/regulatory.txt |  22 +++-
+ net/wireless/.gitignore                 |   1 +
+ net/wireless/Kconfig                    |  30 ++++-
+ net/wireless/Makefile                   |   7 +-
+ net/wireless/db.txt                     |  17 +++
+ net/wireless/genregdb.awk               | 158 ++++++++++++++++++++++++
+ net/wireless/reg.c                      |  39 ++++++
+ net/wireless/regdb.h                    |  23 ++++
+ 8 files changed, 293 insertions(+), 4 deletions(-)
+ create mode 100644 net/wireless/db.txt
+ create mode 100644 net/wireless/genregdb.awk
+ create mode 100644 net/wireless/regdb.h
+
+diff --git a/Documentation/networking/regulatory.txt b/Documentation/networking/regulatory.txt
+index 381e5b23d61d..dba96b50388c 100644
+--- a/Documentation/networking/regulatory.txt
++++ b/Documentation/networking/regulatory.txt
+@@ -200,5 +200,25 @@ Then in some part of your code after your wiphy has been registered:
+ Statically compiled regulatory database
+ ---------------------------------------
+ 
+-When a database should be fixed into the kernel, it can be provided as a
++In most situations the userland solution using CRDA as described
++above is the preferred solution.  However in some cases a set of
++rules built into the kernel itself may be desirable.  To account
++for this situation, a configuration option has been provided
++(i.e. CONFIG_CFG80211_INTERNAL_REGDB).  With this option enabled,
++the wireless database information contained in net/wireless/db.txt is
++used to generate a data structure encoded in net/wireless/regdb.c.
++That option also enables code in net/wireless/reg.c which queries
++the data in regdb.c as an alternative to using CRDA. Another alternative
++when a database should be fixed into the kernel, is to provide it as a
+ firmware file at build time that is then linked into the kernel.
++
++The file net/wireless/db.txt should be kept up-to-date with the db.txt
++file available in the git repository here:
++
++    git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git
++
++Again, most users in most situations should be using the CRDA package
++provided with their distribution, and in most other situations users
++should be building and using CRDA on their own rather than using
++this option.  If you are not absolutely sure that you should be using
++CONFIG_CFG80211_INTERNAL_REGDB then _DO_NOT_USE_IT_.
+diff --git a/net/wireless/.gitignore b/net/wireless/.gitignore
+index 61cbc304a3d3..844f86d886e9 100644
+--- a/net/wireless/.gitignore
++++ b/net/wireless/.gitignore
+@@ -1,2 +1,3 @@
+ shipped-certs.c
+ extra-certs.c
++regdb.c
+diff --git a/net/wireless/Kconfig b/net/wireless/Kconfig
+index 41722046b937..3a082a53f12e 100644
+--- a/net/wireless/Kconfig
++++ b/net/wireless/Kconfig
+@@ -87,9 +87,35 @@ config CFG80211_CERTIFICATION_ONUS
+ 	  you are a wireless researcher and are working in a controlled
+ 	  and approved environment by your local regulatory agency.
+ 
++config CFG80211_INTERNAL_REGDB
++	bool "use statically compiled regulatory rules database" if CFG80211_CERTIFICATION_ONUS
++	default n
++	depends on CFG80211_CERTIFICATION_ONUS
++	---help---
++	  This option generates an internal data structure representing
++	  the wireless regulatory rules described in net/wireless/db.txt
++	  and includes code to query that database. This is an alternative
++	  to using CRDA or wireless-regdb binary "firmware" for defining
++	  regulatory rules for the kernel.
++
++	  Using this option requires some parsing of the db.txt at build time,
++	  the parser will be upkept with the latest wireless-regdb updates but
++	  older wireless-regdb formats will be ignored. The parser may later
++	  be replaced to avoid issues with conflicts on versions of
++	  wireless-regdb.
++
++	  For details see:
++
++	  http://wireless.kernel.org/en/developers/Regulatory
++
++	  NOTE: regulatory.db is not used if this option is enabled.
++
++	  Most distributions have a CRDA and/or wireless-regdb package so if
++	  unsure, say N.
++
+ config CFG80211_REQUIRE_SIGNED_REGDB
+ 	bool "require regdb signature" if CFG80211_CERTIFICATION_ONUS
+-	default y
++	default y if !CFG80211_INTERNAL_REGDB
+ 	select SYSTEM_DATA_VERIFICATION
+ 	help
+ 	  Require that in addition to the "regulatory.db" file a
+@@ -99,7 +125,7 @@ config CFG80211_REQUIRE_SIGNED_REGDB
+ 
+ config CFG80211_USE_KERNEL_REGDB_KEYS
+ 	bool "allow regdb keys shipped with the kernel" if CFG80211_CERTIFICATION_ONUS
+-	default y
++	default y if !CFG80211_INTERNAL_REGDB
+ 	depends on CFG80211_REQUIRE_SIGNED_REGDB
+ 	help
+ 	  Allow the regulatory database to be signed by one of the keys for
+diff --git a/net/wireless/Makefile b/net/wireless/Makefile
+index 1d84f91bbfb0..b0b70070f096 100644
+--- a/net/wireless/Makefile
++++ b/net/wireless/Makefile
+@@ -15,6 +15,7 @@ cfg80211-y += mlme.o ibss.o sme.o chan.o ethtool.o mesh.o ap.o trace.o ocb.o
+ cfg80211-$(CONFIG_OF) += of.o
+ cfg80211-$(CONFIG_CFG80211_DEBUGFS) += debugfs.o
+ cfg80211-$(CONFIG_CFG80211_WEXT) += wext-compat.o wext-sme.o
++cfg80211-$(CONFIG_CFG80211_INTERNAL_REGDB) += regdb.o
+ 
+ CFLAGS_trace.o := -I$(src)
+ 
+@@ -55,4 +56,8 @@ $(obj)/extra-certs.c: $(CONFIG_CFG80211_EXTRA_REGDB_KEYDIR:"%"=%) \
+ 	      echo 'unsigned int extra_regdb_certs_len = sizeof(extra_regdb_certs);'; \
+ 	  ) > $@)
+ 
+-clean-files += shipped-certs.c extra-certs.c
++$(obj)/regdb.c: $(src)/db.txt $(src)/genregdb.awk
++	@$(AWK) -f $(srctree)/$(src)/genregdb.awk < $< > $@
++
++clean-files += shipped-certs.c extra-certs.c regdb.c
++
+diff --git a/net/wireless/db.txt b/net/wireless/db.txt
+new file mode 100644
+index 000000000000..a2fc3a09ccdc
+--- /dev/null
++++ b/net/wireless/db.txt
+@@ -0,0 +1,17 @@
++#
++# This file is a placeholder to prevent accidental build breakage if someone
++# enables CONFIG_CFG80211_INTERNAL_REGDB.  Almost no one actually needs to
++# enable that build option.
++#
++# You should be using CRDA instead.  It is even better if you use the CRDA
++# package provided by your distribution, since they will probably keep it
++# up-to-date on your behalf.
++#
++# If you _really_ intend to use CONFIG_CFG80211_INTERNAL_REGDB then you will
++# need to replace this file with one containing appropriately formatted
++# regulatory rules that cover the regulatory domains you will be using.  Your
++# best option is to extract the db.txt file from the wireless-regdb git
++# repository:
++#
++#   git://git.kernel.org/pub/scm/linux/kernel/git/linville/wireless-regdb.git
++#
+diff --git a/net/wireless/genregdb.awk b/net/wireless/genregdb.awk
+new file mode 100644
+index 000000000000..baf2426b555a
+--- /dev/null
++++ b/net/wireless/genregdb.awk
+@@ -0,0 +1,158 @@
++#!/usr/bin/awk -f
++#
++# genregdb.awk -- generate regdb.c from db.txt
++#
++# Actually, it reads from stdin (presumed to be db.txt) and writes
++# to stdout (presumed to be regdb.c), but close enough...
++#
++# Copyright 2009 John W. Linville <linville@tuxdriver.com>
++#
++# Permission to use, copy, modify, and/or distribute this software for any
++# purpose with or without fee is hereby granted, provided that the above
++# copyright notice and this permission notice appear in all copies.
++#
++# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++
++BEGIN {
++	active = 0
++	rules = 0;
++	print "/*"
++	print " * DO NOT EDIT -- file generated from data in db.txt"
++	print " */"
++	print ""
++	print "#include <linux/nl80211.h>"
++	print "#include <net/cfg80211.h>"
++	print "#include \"regdb.h\""
++	print ""
++	regdb = "const struct ieee80211_regdomain *reg_regdb[] = {\n"
++}
++
++function parse_country_head() {
++	country=$2
++	sub(/:/, "", country)
++	printf "static const struct ieee80211_regdomain regdom_%s = {\n", country
++	printf "\t.alpha2 = \"%s\",\n", country
++	if ($NF ~ /DFS-ETSI/)
++		printf "\t.dfs_region = NL80211_DFS_ETSI,\n"
++	else if ($NF ~ /DFS-FCC/)
++		printf "\t.dfs_region = NL80211_DFS_FCC,\n"
++	else if ($NF ~ /DFS-JP/)
++		printf "\t.dfs_region = NL80211_DFS_JP,\n"
++	printf "\t.reg_rules = {\n"
++	active = 1
++	regdb = regdb "\t&regdom_" country ",\n"
++}
++
++function parse_reg_rule()
++{
++	flag_starts_at = 7
++
++	start = $1
++	sub(/\(/, "", start)
++	end = $3
++	bw = $5
++	sub(/\),/, "", bw)
++	gain = 0
++	power = $6
++	# power might be in mW...
++	units = $7
++	dfs_cac = 0
++
++	sub(/\(/, "", power)
++	sub(/\),/, "", power)
++	sub(/\),/, "", units)
++	sub(/\)/, "", units)
++
++	if (units == "mW") {
++		flag_starts_at = 8
++		power = 10 * log(power)/log(10)
++		if ($8 ~ /[[:digit:]]/) {
++			flag_starts_at = 9
++			dfs_cac = $8
++		}
++	} else {
++		if ($7 ~ /[[:digit:]]/) {
++			flag_starts_at = 8
++			dfs_cac = $7
++		}
++	}
++	sub(/\(/, "", dfs_cac)
++	sub(/\),/, "", dfs_cac)
++	flagstr = ""
++	for (i=flag_starts_at; i<=NF; i++)
++		flagstr = flagstr $i
++	split(flagstr, flagarray, ",")
++	flags = ""
++	for (arg in flagarray) {
++		if (flagarray[arg] == "NO-OFDM") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_OFDM | "
++		} else if (flagarray[arg] == "NO-CCK") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_CCK | "
++		} else if (flagarray[arg] == "NO-INDOOR") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_INDOOR | "
++		} else if (flagarray[arg] == "NO-OUTDOOR") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_OUTDOOR | "
++		} else if (flagarray[arg] == "DFS") {
++			flags = flags "\n\t\t\tNL80211_RRF_DFS | "
++		} else if (flagarray[arg] == "PTP-ONLY") {
++			flags = flags "\n\t\t\tNL80211_RRF_PTP_ONLY | "
++		} else if (flagarray[arg] == "PTMP-ONLY") {
++			flags = flags "\n\t\t\tNL80211_RRF_PTMP_ONLY | "
++		} else if (flagarray[arg] == "PASSIVE-SCAN") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_IR | "
++		} else if (flagarray[arg] == "NO-IBSS") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_IR | "
++		} else if (flagarray[arg] == "NO-IR") {
++			flags = flags "\n\t\t\tNL80211_RRF_NO_IR | "
++		} else if (flagarray[arg] == "AUTO-BW") {
++			flags = flags "\n\t\t\tNL80211_RRF_AUTO_BW | "
++		}
++
++	}
++	flags = flags "0"
++	printf "\t\tREG_RULE_EXT(%d, %d, %d, %d, %.0f, %d, %s),\n", start, end, bw, gain, power, dfs_cac, flags
++	rules++
++}
++
++function print_tail_country()
++{
++	active = 0
++	printf "\t},\n"
++	printf "\t.n_reg_rules = %d\n", rules
++	printf "};\n\n"
++	rules = 0;
++}
++
++/^[ \t]*#/ {
++	# Ignore
++}
++
++!active && /^[ \t]*$/ {
++	# Ignore
++}
++
++!active && /country/ {
++	parse_country_head()
++}
++
++active && /^[ \t]*\(/ {
++	parse_reg_rule()
++}
++
++active && /^[ \t]*$/ {
++	print_tail_country()
++}
++
++END {
++	if (active)
++		print_tail_country()
++	print regdb "};"
++	print ""
++	print "int reg_regdb_size = ARRAY_SIZE(reg_regdb);"
++}
+diff --git a/net/wireless/reg.c b/net/wireless/reg.c
+index 2f702adf2912..ce76afe4d70e 100644
+--- a/net/wireless/reg.c
++++ b/net/wireless/reg.c
+@@ -61,6 +61,7 @@
+ #include "core.h"
+ #include "reg.h"
+ #include "rdev-ops.h"
++#include "regdb.h"
+ #include "nl80211.h"
+ 
+ /*
+@@ -496,6 +497,38 @@ static int reg_schedule_apply(const struct ieee80211_regdomain *regdom)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_CFG80211_INTERNAL_REGDB
++static int reg_query_builtin(const char *alpha2)
++{
++	const struct ieee80211_regdomain *regdom = NULL;
++	unsigned int i;
++
++	for (i = 0; i < reg_regdb_size; i++) {
++		if (alpha2_equal(alpha2, reg_regdb[i]->alpha2)) {
++			regdom = reg_copy_regd(reg_regdb[i]);
++			break;
++		}
++	}
++	if (!regdom)
++		return -ENODATA;
++
++	return reg_schedule_apply(regdom);
++}
++
++/* Feel free to add any other sanity checks here */
++static void reg_regdb_size_check(void)
++{
++	/* We should ideally BUILD_BUG_ON() but then random builds would fail */
++	WARN_ONCE(!reg_regdb_size, "db.txt is empty, you should update it...");
++}
++#else
++static inline void reg_regdb_size_check(void) {}
++static inline int reg_query_builtin(const char *alpha2)
++{
++	return -ENODATA;
++}
++#endif /* CONFIG_CFG80211_INTERNAL_REGDB */
++
+ #ifdef CONFIG_CFG80211_CRDA_SUPPORT
+ /* Max number of consecutive attempts to communicate with CRDA  */
+ #define REG_MAX_CRDA_TIMEOUTS 10
+@@ -1092,8 +1125,14 @@ int reg_reload_regdb(void)
+ 
+ static bool reg_query_database(struct regulatory_request *request)
+ {
++#ifdef CONFIG_CFG80211_INTERNAL_REGDB
++	/* query internal regulatory database (if it exists) */
++	if (reg_query_builtin(request->alpha2) == 0)
++		return true;
++#else
+ 	if (query_regdb_file(request->alpha2) == 0)
+ 		return true;
++#endif /* CONFIG_CFG80211_INTERNAL_REGDB */
+ 
+ 	if (call_crda(request->alpha2) == 0)
+ 		return true;
+diff --git a/net/wireless/regdb.h b/net/wireless/regdb.h
+new file mode 100644
+index 000000000000..3279cfcefb0c
+--- /dev/null
++++ b/net/wireless/regdb.h
+@@ -0,0 +1,23 @@
++#ifndef __REGDB_H__
++#define __REGDB_H__
++
++/*
++ * Copyright 2009 John W. Linville <linville@tuxdriver.com>
++ *
++ * Permission to use, copy, modify, and/or distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ */
++
++extern const struct ieee80211_regdomain *reg_regdb[];
++extern int reg_regdb_size;
++
++#endif /* __REGDB_H__ */
+-- 
+2.26.1
+
