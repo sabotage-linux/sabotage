@@ -25,11 +25,7 @@ fi
 # install regulatory domain database into kernel tree
 # we build it fixed into the kernel so we don't need the bloated "crda" tool
 # to change regulatory domains with iw set reg.
-# kernels later than 4.14 expect regdb as a firmware either in /lib/firmware
-# or built into kernel image which our default config does.
-if [ "$k_major" = 4 -a "$k_minor" -lt 15 ]; then
-	cp -f "$K"/linux-regdb.txt net/wireless/db.txt
-fi
+cp -f "$K"/linux-regdb.txt net/wireless/db.txt
 
 dopatch() {
 	echo "applying patch $1"
@@ -91,18 +87,12 @@ if [ -z "$HOSTCC" ] ; then
 	HOSTCC="$CC"
 fi
 
-if [ "$linux_config" = "$K"/linux.config ]; then
-	if [ "$A" = arm ]; then
-		[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
-		linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
-	fi
-
-	if [ "$k_major" = 4 -a "$k_minor" -ge 15 ] || [ "$k_major" = 5 ]; then
-		linux_config="$linux_config $K/linux.config.regdb"
-	fi
+if [ "$A" = arm ] && [ "$linux_config" = "$K"/linux.config ]; then
+	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
+	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
 fi
 
-cat $linux_config > my.config
+cat "$linux_config" > my.config
 
 make V=1 ARCH=$ARCH defconfig HOSTCFLAGS="-D_GNU_SOURCE" \
   KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
