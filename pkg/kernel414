@@ -47,7 +47,7 @@ for p in $(cat "$K"/$k_base.patches) ; do
 	LINUX_VER=$(get_stuff_before_last_dot "$LINUX_VER").$(printf "%s\n" "$p" | cut -d "-" -f 2)
 done
 
-dopatch linux-timeconst-nobc.patch
+dopatch linux-timeconst-nobc-kbuild$k_major.patch
 cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c
 
 if [ "$k_major" -ge 5 ] || { [ "$k_major" -eq 4 ] && [ "$k_minor" -ge 19 ];}; then
