@@ -53,6 +53,7 @@ for p in $(cat "$K"/$k_base.patches) ; do
 done
 
 dopatch linux-timeconst-nobc.patch
+cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c
 
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
