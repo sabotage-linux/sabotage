@@ -6,6 +6,7 @@ filesize=1457964
 sha512=82b29622d742ed0a3430116d82ec6005bbe24dec6aec0e6c9acd05dd0a01fe02ff6a544dcf022a95ba4394030b641ac459300850c538f121a416c5db9caffe7e
 pkgver=1
 uchkurl=https://pypi.org/project/uncompyle6/
+desc='python decompiler'
 
 [deps.run]
 python
