@@ -23,6 +23,7 @@ yaml-cpp
 cmake
 
 [build]
+patch -p1 < "$K"/openxcom-abs.patch
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
 printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"

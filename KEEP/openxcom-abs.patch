@@ -1,0 +1,35 @@
+--- OpenXcom-1.0.org/src/Geoscape/Globe.cpp	2020-07-30 15:41:18.274865491 +0000
++++ OpenXcom-1.0/src/Geoscape/Globe.cpp	2020-07-30 15:42:08.740234587 +0000
+@@ -1195,14 +1195,14 @@
+ 	bool inv;
+ 	Sint16 tcol;
+ 	double len,x0,y0,SX,SY;
+-	if (abs((int)y2-(int)y1) > abs((int)x2-(int)x1)) 
++	if (std::abs((int)y2-(int)y1) > std::abs((int)x2-(int)x1)) 
+ 	{
+-		len=abs((int)y2-(int)y1);
++		len=std::abs((int)y2-(int)y1);
+ 		inv=false;
+ 	}
+ 	else
+ 	{
+-		len=abs((int)x2-(int)x1);
++		len=std::abs((int)x2-(int)x1);
+ 		inv=true;
+ 	}
+ 
+@@ -1390,12 +1390,12 @@
+ 
+ 	if (fabs(sx)<0.01)
+ 	{
+-		seg = abs( sy/(2*M_PI)*48 );
++		seg = std::abs( sy/(2*M_PI)*48 );
+ 		if (seg == 0) ++seg;
+ 	}
+ 	else
+ 	{
+-		seg = abs( sx/(2*M_PI)*96 );
++		seg = std::abs( sx/(2*M_PI)*96 );
+ 		if (seg == 0) ++seg;
+ 	}
+ 
