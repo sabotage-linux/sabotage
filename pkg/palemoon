@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/MoonchildProductions/UXP/archive/PM28.7.2_Release.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/PM28.8.0_Release.tar.gz
 
 [vars]
-filesize=278215092
-sha512=26f7f12f9236206ca6f0d6f7dbad0f8aa1e4b0847a783c3194fdbf9c5de16202b1b7ee9d2f654f8a95ca8274deea0c7a8e02f251ec84ad96c22f674724dff2f1
-tardir=UXP-PM28.7.2_Release
-pkgver=13
+filesize=281620767
+sha512=25497e37f892ae5d98528bf76cc91ee0b3e428ac1179f846663168cbb6f9dece2f58617c37c504093b615305084c2c6d603e520d0c073e7b8ba74fc357ce5aeb
+tardir=UXP-PM28.8.0_Release
+pkgver=14
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
@@ -32,7 +32,7 @@ zip
 
 [build]
 BROWSER_NAME=basilisk
-BROWSER_VERSION=28.7.2
+BROWSER_VERSION=28.8.0
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
 
@@ -56,7 +56,7 @@ PATCH() {
 
 PATCH firefox-virtualenv.patch
 PATCH firefox-virtualenv2.patch
-PATCH firefox38-xul-order.patch
+PATCH palemoon28_8-xul-order.patch
 
 # above 3 patches are required to get it building.
 # below patches apply, so supposedly it's OK to keep them
