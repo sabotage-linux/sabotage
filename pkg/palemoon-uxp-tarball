@@ -1,0 +1,9 @@
+[mirrors]
+https://github.com/MoonchildProductions/UXP/archive/RELBASE_20200324.tar.gz
+
+[vars]
+filesize=313599193
+sha512=03a15e8f7a31ccc68cd0ac7a063782206a2d6b8890d7414a33100c44d2567d655820967a48960b6d384be675ebf571faa4e74cc6d700066bfc3ccc4e5fc766ca
+tarball=UXP-RELBASE_20200324.tar.gz
+pkgver=1
+
