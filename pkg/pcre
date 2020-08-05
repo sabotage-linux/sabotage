@@ -1,5 +1,4 @@
 [mirrors]
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.tar.bz2
 http://sourceforge.net/projects/pcre/files/pcre/8.42/pcre-8.42.tar.bz2
 
 [vars]
