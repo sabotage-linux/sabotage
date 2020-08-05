@@ -1,12 +1,10 @@
 [mirrors]
-http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-3.1.0.tar.gz
-http://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.1.0.tar.gz
-ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.1.0.tar.gz
+http://cdn.postfix.johnriley.me/mirrors/postfix-release/official/postfix-3.5.6.tar.gz
 
 [vars]
-filesize=4336709
-sha512=06cf4c827de8d613cab6a57a8e76198d293660a263f60d17dd189f511da4b1e12eb98bbcf75695697a62959e26ca204bf2a53eb6657e8bd756a816977e717783
-pkgver=2
+filesize=4613310
+sha512=9187981357a3861d735b8601c61851a5b9e53cde5668a0ebc62ca8b922a2629e53fe3369af6beb9df1a6fe6d4d87822d8882e27410a460ea8c98418b17287b9c
+pkgver=3
 service=postfix
 serviceflags="--down --log"
 
@@ -16,7 +14,8 @@ libressl
 dovecot
 
 [build]
-sed -i -e 's@#if OPENSSL_VERSION_NUMBER < 0x10100000L@#ifndef OPENSSL_VERSION@' src/tls/tls.h
+patch -p1 < "$K"/postfix-libressl.patch
+
 CCARGS="-DNO_NIS -DUSE_TLS -DUSE_SASL_AUTH -DDEF_SASL_SERVER_TYPE=\"dovecot\"" \
 AUXLIBS="-lssl -lcrypto" make -f Makefile.init makefiles
 make -j$MAKE_THREADS
