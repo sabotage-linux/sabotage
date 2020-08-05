@@ -1,0 +1,12 @@
+--- a/src/tls/tls.h
++++ b/src/tls/tls.h
+@@ -78,6 +78,9 @@
+ #include <openssl/opensslv.h>		/* OPENSSL_VERSION_NUMBER */
+ #include <openssl/ssl.h>
+ 
++#undef OPENSSL_VERSION_NUMBER
++#define OPENSSL_VERSION_NUMBER  0x1000900fUL
++
+  /* Appease indent(1) */
+ #define x509_stack_t STACK_OF(X509)
+ #define general_name_stack_t STACK_OF(GENERAL_NAME)
