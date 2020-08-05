@@ -1,0 +1,23 @@
+[mirrors]
+https://api.github.com/repos/cmvnd/fonts/tarball/e237278
+
+[vars]
+filesize=50964
+sha512=e08d589cc55d9c63cdff7f20b456430502fb6132129d7b95d71600410619adffc6cc359c5ed2e5349fd4a1eb6f84d97f86f1d9d3a2fb19b1350e138863236f3e
+tarball=cmvnd-fonts-e237278.tar.gz
+tardir=cmvnd-fonts-e237278
+pkgver=2
+
+[deps.host]
+bdftopcf
+mkfontdir
+mkfontscale
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+fontsdest="$dest"/share/fonts/cmvnd
+mkdir -p "$fontsdest"
+bdftopcf -o "$fontsdest"/lemon.pcf lemon.bdf
+bdftopcf -o "$fontsdest"/uushi.pcf uushi.bdf
+mkfontdir "$fontsdest"
+mkfontscale "$fontsdest"
