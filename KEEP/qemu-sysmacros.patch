@@ -1,0 +1,30 @@
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -24,6 +24,7 @@
+ #include "coth.h"
+ #include "trace.h"
+ #include "migration/migration.h"
++#include <sys/sysmacros.h>
+ 
+ int open_fd_hw;
+ int total_open_fd;
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -10,6 +10,7 @@
+ #include <linux/if_packet.h>
+ #include <sched.h>
+ #include "qemu.h"
++#include <sys/sysmacros.h>
+ 
+ int do_strace=0;
+ 
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -40,6 +40,7 @@
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+ #include <net/if.h>
++#include <sys/sysmacros.h>
+ 
+ #ifdef FIFREEZE
+ #define CONFIG_FSFREEZE

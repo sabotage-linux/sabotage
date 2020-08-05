@@ -23,6 +23,8 @@ python
 patch -p1 < "$K"/qemu22-fix-sigevent-and-sigval_t.patch
 patch -p1 < "$K"/qemu-262-powerpc.patch
 patch -p1 < "$K"/qemu-2811-memfd.patch
+patch -p1 < "$K"/qemu-sysmacros.patch
+
 sed -i 's,curses_version,"foo";//,' configure
 
 testlib() {
