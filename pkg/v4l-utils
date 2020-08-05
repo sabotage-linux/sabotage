@@ -12,6 +12,7 @@ glu
 
 [build]
 patch -p1 < "$K"/v4l-utils-i2c.patch
+patch -p1 < "$K"/v4l-utils-minor.patch 
 
 cat << EOF > gnu.h
 #ifndef TEMP_FAILURE_RETRY
