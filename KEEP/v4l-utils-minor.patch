@@ -1,0 +1,22 @@
+--- a/lib/libv4lconvert/control/libv4lcontrol.c
++++ b/lib/libv4lconvert/control/libv4lcontrol.c
+@@ -20,9 +20,7 @@
+  */
+ 
+ #include <sys/types.h>
+-#if defined(MAJOR_IN_SYSMACROS)
+ #include <sys/sysmacros.h>
+-#endif
+ #include <sys/mman.h>
+ #include <fcntl.h>
+ #include <sys/stat.h>
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -27,6 +27,7 @@
+ #include <inttypes.h>
+ #include <getopt.h>
+ #include <sys/types.h>
++#include <sys/sysmacros.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <ctype.h>
