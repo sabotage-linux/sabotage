@@ -59,6 +59,17 @@ fi
 # to change regulatory domains with iw set reg.
 cp -f "$K"/linux-regdb.txt net/wireless/db.txt
 
+if [ "$k_major" -eq 4 ] && [ "$k_minor" -eq 4 ] ; then
+# work around mismatch between devicename and channel name in 9p virtfs code
+# p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
+	dopatch linux-virtio9p.patch
+# patches to support busybox trap and sed with strict musl BRE engine
+	dopatch linux-3.18-posix_sed.patch
+# linux 4.3 broke monitor mode on ralink wireless chips
+# https://bugs.kali.org/view.php?id=3028
+	dopatch linux-4.3-ralink-monitor.patch
+fi
+
 # force reproducible build
 sed -i Makefile -e 's/--build-id/--build-id=none/g'
 sed -i usr/gen_init_cpio.c -e 's/time(NULL)/0/' \
