@@ -1,8 +1,0 @@
-[mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.9.61-62.xz
-
-[vars]
-filesize=26392
-sha512=4e573b1ef4f2a117bdc74d61c8751db4352725a26728850b4501c67e75e9b4660551635384e428cbd6f8df94dbf5920178cec1055112708fc258d676cfe21828
-tarball=kernel-patch-4.9.61-62.xz
-pkgver=1

@@ -1,8 +1,0 @@
-[mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.19.91-92.xz
-
-[vars]
-filesize=57428
-sha512=3c47de2707bd3fb0910fddd7debb112bdb17bb317b2155d6f21f8595dee027024b861ed1dd350a96883c5e816196c079488b1b37e3ad21b8a8c79b41d0ecf12d
-tarball=kernel-patch-4.19.91-92.xz
-pkgver=1

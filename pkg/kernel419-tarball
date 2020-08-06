@@ -1,8 +1,8 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.64.tar.xz
+http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.tar.xz
 
 [vars]
-filesize=103291164
-sha512=025fb42990cb8f02f9a5a37c0e77f67b306f2abe0b6894e5420a26e45e764939cfdacd325a0466688acea3de923d4655188c93f35785f14fad1dc81d286fae31
-pkgver=1
+filesize=103117552
+sha512=ab67cc746b375a8b135e8b23e35e1d6787930d19b3c26b2679787d62951cbdbc3bb66f8ededeb9b890e5008b2459397f9018f1a6772fdef67780b06a4cb9f6f4
+pkgver=2
 

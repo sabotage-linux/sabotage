@@ -1,7 +1,8 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.2.tar.xz
+http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.tar.xz
 
 [vars]
-filesize=87294516
-sha512=87c84433661bcf8c4f6f9e2e5dd6c2058d9aad9fff90e826c5ab729564695fd5b6d8e7daee53a20c346c1a1e24eca1dd3bc0096af836b4362e64cde59c949a12
+filesize=87295988
+sha512=13c8459933a8b80608e226a1398e3d1848352ace84bcfb7e6a4a33cb230bbe1ab719d4b58e067283df91ce5311be6d2d595fc8c19e2ae6ecc652499415614b3e
+pkgver=2
 

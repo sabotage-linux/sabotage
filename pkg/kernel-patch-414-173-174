@@ -1,8 +1,0 @@
-[mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.173-174.xz
-
-[vars]
-filesize=28268
-sha512=d0f19e21c7dc3fb9615e6901209f24e31bb294360e983d02d619f80dba85dc92a341c50a2814595672de0dc363a5578dc7e25fbb4ed06804f30a3e1b28176b38
-tarball=kernel-patch-4.14.173-174.xz
-pkgver=1

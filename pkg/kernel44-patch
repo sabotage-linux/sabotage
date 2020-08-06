@@ -1,0 +1,9 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v4.x/patch-4.4.59.xz
+
+[vars]
+filesize=1046304
+sha512=f74eabfcd0e02f99ca62b6ed601325226841374107a30e0856f44c790d9a27dcd66af50d2da3425f8522ea84ba9829c5ab36a999fc42aa5cc9d438eb43414437
+tarball=kernel-patch-4.4.59.xz
+pkgver=1
+

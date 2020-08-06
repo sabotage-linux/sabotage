@@ -1,8 +1,0 @@
-[mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.4.22-23.xz
-
-[vars]
-filesize=26372
-sha512=1f42c2b5206380979622ceac8345139e75e0808702b65347d19f8c6189b2cba859965d02e51e324d7b3114175c7ad4e172bd1346d1a7bfcc98d97e43edcf4816
-tarball=kernel-patch-4.4.22-23.xz
-

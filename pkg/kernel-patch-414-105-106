@@ -1,8 +1,0 @@
-[mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v4.x/incr/patch-4.14.105-106.xz
-
-[vars]
-filesize=39976
-sha512=e5c12b0c9c771c7cb65a631ecb67ada81b4f3083f0ca380603eee48f2660a286c1544a4e9cec3b3a19b9be5a6b293dd9d597f5aa745050631fd38b284a638a3f
-tarball=kernel-patch-4.14.105-106.xz
-pkgver=1

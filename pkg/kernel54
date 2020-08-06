@@ -1,14 +1,15 @@
 [deps]
 kernel54-tarball
-kernel54-patches
+kernel54-patch
 
 [deps.host]
 bison
 flex
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel54.version)
+LINUX_VER=5.4
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=36
 pkgver=2
 no_unlink=1
 

@@ -1,0 +1,9 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v4.x/patch-4.14.175.xz
+
+[vars]
+filesize=3558268
+sha512=27abe5bc008c412f2afcc28dde9f6a58cce2ff118da236977abec9b8de0a6f87bda42c8547e6b3d2f4408a6c3286c5e4b873abe77624745714226fe7851a5237
+tarball=kernel-patch-4.14.175.xz
+pkgver=1
+

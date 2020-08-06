@@ -1,14 +1,15 @@
 [deps]
 kernel419-tarball
-kernel419-patches
+kernel419-patch
 
 [deps.host]
 bison
 flex
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel419.version)
+LINUX_VER=4.19
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=114
 pkgver=3
 no_unlink=1
 

@@ -1,7 +1,7 @@
 [mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.9.13.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.9.tar.xz
 
 [vars]
-filesize=93204620
-sha512=50d8bee4e3504e4454541a8a5ff3b24ccd985d58ae24536cd5e3fdac523b830797738c9e9df9df138f004f4f76d37e69b132e68824a9c0852b9f4510f6e4afab
-pkgver=2
+filesize=93192404
+sha512=bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3a571225f92a33ef0b6d65f35595bc32d773356646df2627da55e9bc7f1f1a
+pkgver=3

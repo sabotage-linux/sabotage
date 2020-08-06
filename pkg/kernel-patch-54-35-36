@@ -1,8 +1,0 @@
-[mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/incr/patch-5.4.35-36.xz
-
-[vars]
-filesize=58528
-sha512=fb3a9642c32c643d177d89112e340afefcf7c7c4d0b00ce5e9071294a6564d8ad03fed3ce601da5bba58e9fb15bc82a7203aab9e2206f769e3630987042ad99e
-tarball=kernel-patch-5.4.35-36.xz
-pkgver=1

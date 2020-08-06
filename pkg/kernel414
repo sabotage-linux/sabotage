@@ -1,10 +1,11 @@
 [deps]
 kernel414-tarball
-kernel414-patches
+kernel414-patch
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel414.version)
+LINUX_VER=4.14
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=175
 pkgver=60
 no_unlink=1
 
@@ -29,23 +30,17 @@ dopatch() {
 		exit 1
 	fi
 }
-get_stuff_before_last_dot() {
-	printf "%s\n" "$1" |  \
-	awk '{n=split($0,a,"");while(a[n]!="."){n=n-1;};x=0;while(x!=n){s=s a[x]; x=x+1;}; print s;}'
-}
 strip_junk() {
 	cat "$1" | sed '/^#.*/d' | sort -u > "$2"
 }
 
-for p in $(cat "$K"/$k_base.patches) ; do
-	kpatch="$C"/kernel-patch-"$p".xz
-	[ -e "$kpatch" ] || {
-		echo "error: kernel patch $kpatch not found"
-		exit 1
-	}
-	xzcat "$C"/kernel-patch-"$p".xz | patch -p 1
-	LINUX_VER=$(get_stuff_before_last_dot "$LINUX_VER").$(printf "%s\n" "$p" | cut -d "-" -f 2)
-done
+kpatch="$C"/kernel-patch-"$LINUX_VER"."$patchver".xz
+[ -e "$kpatch" ] || {
+	echo "error: kernel patch $kpatch not found"
+	exit 1
+}
+xzcat "$kpatch" | patch -p 1
+LINUX_VER="$LINUX_VER"."$patchver"
 
 dopatch linux-timeconst-nobc-kbuild$k_major.patch
 cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c

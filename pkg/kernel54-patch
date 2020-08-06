@@ -1,0 +1,9 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-5.4.36.xz
+
+[vars]
+filesize=1268144
+sha512=2e0edb5f2199f32e86718c71c4f62a87527b0e4c626b87e6b8d0a79f72259cf20f11f668b4464cc97db53db14ec7248f1b2af3364c18f099a19db117f034bc4e
+tarball=kernel-patch-5.4.36.xz
+pkgver=1
+

@@ -1,10 +1,11 @@
 [deps]
 kernel49-tarball
-kernel49-patches
+kernel49-patch
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel49.version)
+LINUX_VER=4.9
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=102
 pkgver=47
 no_unlink=1
 

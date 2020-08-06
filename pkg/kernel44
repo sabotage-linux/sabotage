@@ -1,10 +1,11 @@
 [deps]
 kernel44-tarball
-kernel44-patches
+kernel44-patch
 
 [vars]
-LINUX_VER=$(cat "$K"/kernel44.version)
+LINUX_VER=4.4
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=59
 pkgver=37
 no_unlink=1
 

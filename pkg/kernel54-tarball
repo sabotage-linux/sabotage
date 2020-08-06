@@ -1,8 +1,8 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.31.tar.xz
+http://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.tar.xz
 
 [vars]
-filesize=109511080
-sha512=0afd762ea25f5cfb0de26be30c67973f34902a7c2a1541b05921ce94e893a7a3a67f6c56b7b89ef5efd8f3b81a08197b479e28b57e53cfaf56c02fb00bcd95eb
-pkgver=1
+filesize=109441440
+sha512=9f60f77e8ab972b9438ac648bed17551c8491d6585a5e85f694b2eaa4c623fbc61eb18419b2656b6795eac5deec0edaa04547fc6723fbda52256bd7f3486898f
+pkgver=2
 
