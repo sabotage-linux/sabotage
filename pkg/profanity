@@ -1,10 +1,10 @@
 [mirrors]
-http://www.profanity.im/profanity-0.5.0.tar.gz
+https://github.com/profanity-im/profanity/releases/download/0.8.1/profanity-0.8.1.tar.gz
 
 [vars]
-filesize=687169
-sha512=65625f0ed0b1e87c6cd4ec9dc85076a971b899b9b39d5707d32d1977a450b910ff760e339bfacd0d0906740bd299c018877b6720071d92c805fca095631e7163
-pkgver=1
+filesize=809405
+sha512=e8ddfd13c4f2cd712c0cafe44f243c1dc81bdd39ae152609c4528364a81d70315e6a260725de288acbe8c1729d37397e25d1863d50e43163bac00ad34702fe40
+pkgver=2
 desc='terminal instant messenger for xmpp protocol'
 
 [deps]
