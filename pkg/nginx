@@ -4,7 +4,7 @@ https://nginx.org/download/nginx-1.17.3.tar.gz
 [vars]
 filesize=1034586
 sha512=b81e75c4c8c03ca2f0b40b9c2a1812cf168cb2319d7246b9b0cce838ef7dba81f3cd57a213ec8d58e457a0fa6b912adff2e5597e5ada7258cfe27f55b05205e2
-pkgver=18
+pkgver=1
 service=nginx
 serviceflags="--down --log"
 

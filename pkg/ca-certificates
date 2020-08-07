@@ -4,7 +4,7 @@ http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_2019011
 [vars]
 filesize=243472
 sha512=9ce2661018edb120d0ef5bd3ed52c0f73f577d7607d135a31730549f5eb4176db4865cdb8bde77a78dc3efb8968846da5e72af8a833a9da2a8a7deb4f1560372
-pkgver=6
+pkgver=7
 tardir=ca-certificates-20190110
 
 [deps]

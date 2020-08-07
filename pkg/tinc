@@ -4,7 +4,7 @@ https://www.tinc-vpn.org/packages/tinc-1.0.35.tar.gz
 [vars]
 filesize=499277
 sha512=037867306c21506d57d69d35c0f246b2936022047978fa3e01464b5f6b65f109760507d9cc740f82f8166f39c5ce44d9f8dde55655a6372dacd5b5974aeaee32
-pkgver=2
+pkgver=3
 desc='vpn daemon using encrypted tunnelling'
 
 [deps]

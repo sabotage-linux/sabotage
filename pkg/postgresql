@@ -4,7 +4,7 @@ http://ftp.postgresql.org/pub/source/v9.4.25/postgresql-9.4.25.tar.bz2
 [vars]
 filesize=16849015
 sha512=be45c47a17788be40a2beca058b5dcbf1ded985838d1c85229fbece174fca222d5ac07025c764d40c92f823d6bf784975a25b79a545b903434be8bcd24efb9a0
-pkgver=10
+pkgver=11
 desc="professional SQL database server and interface libraries"
 uchkurl=http://ftp.postgresql.org/pub/source/
 service=postgresql

@@ -4,7 +4,7 @@ http://nmap.org/dist/nmap-7.40.tar.bz2
 [vars]
 filesize=9043221
 sha512=98e37bf1c29789ea19ee4542d719ed6970c8bcc1bf92af4948a52a75273c2403329149f6b5df6368c23840d1bb3f47af9e5ce543f7a36596a33896609574f02d
-pkgver=5
+pkgver=6
 desc='port scanner/pentest tool with a gazillion of features'
 
 [deps]

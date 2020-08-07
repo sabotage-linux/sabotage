@@ -4,7 +4,7 @@ http://monkey.org/~dugsong/dsniff/beta/dsniff-2.4b1.tar.gz
 [vars]
 filesize=131666
 sha512=62dafab293de6dc3e9b01561b3627d63ca334467c01c3550a6318d8bcbe99d5a301ec16967af34065a14e8bca1c4b6a41da766cbd51ebd8338615b950c4f642f
-pkgver=2
+pkgver=3
 tardir=dsniff-2.4
 desc="collection of tools for network auditing/sniffing and penetration testing"
 

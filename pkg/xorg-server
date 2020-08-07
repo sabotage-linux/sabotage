@@ -5,7 +5,7 @@ http://ftp.x.org/pub/individual/xserver/xorg-server-1.16.3.tar.bz2
 [vars]
 filesize=5806406
 sha512=c0459ed95a6682b2094340b6b8fc7b59fcda5227ee2f13e87f68eb5c29b91cd3f05c5fc2126e33d6303beb3ad04d19466951ef4eb53f2e9918684cdaf3692c5a
-pkgver=2
+pkgver=3
 
 [deps]
 util-macros

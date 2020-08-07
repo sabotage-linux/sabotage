@@ -4,7 +4,7 @@ http://w1.fi/releases/wpa_supplicant-2.3.tar.gz
 [vars]
 filesize=2398722
 sha512=dc64c0ff5581ca36e9c41f7663883d5bf6626a4418423233fa69b2c4b57c24fa120e0699c95613152be7775835a45bd9edbe5cc95456ac3ce699b546ddaee71e
-pkgver=3
+pkgver=4
 desc='service to support WPA(2) encryption of wireless networks'
 service=wpa_supplicant
 serviceflags="--down --log"

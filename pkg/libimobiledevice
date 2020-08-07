@@ -5,7 +5,7 @@ https://github.com/libimobiledevice/libimobiledevice/archive/92c5462adef87b1e577
 filesize=236204
 sha512=a46bcfb6223ee7c4a4262441347c6616b3205503e80271709cd88c4404ddb53b130de9fb6c41d62d6ef906be98ca73b59b03d640eb15ac77eed1160858b3cc2d
 tarball=libimobiledevice-92c5462adef87b1e577b8557b6b9c64d5a089544.tar.gz
-pkgver=2
+pkgver=3
 
 [deps.host]
 autoconf

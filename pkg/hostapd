@@ -4,7 +4,7 @@ http://w1.fi/releases/hostapd-2.5.tar.gz
 [vars]
 filesize=1720783
 sha512=bbb0547c29f4925aff8639cae3291ed020c2a9d989dd267be831b2418880916d2ec69003e36ecc796c348476086397cca8f63c52633f91c11a9c2ab72e1c83c0
-pkgver=3
+pkgver=4
 
 [deps]
 zlib

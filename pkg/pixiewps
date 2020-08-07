@@ -4,7 +4,7 @@ https://github.com/wiire-a/pixiewps/releases/download/v1.4.2/pixiewps-1.4.2.tar.
 [vars]
 filesize=97380
 sha512=4ae5a0490a9502afd1351d33e6ccf8946e067ea01bdfaaf92efd87467a63a299d7a0ba524603ada014f876c1593091b1756629c4e801dfe33932ef811b8808a9
-pkgver=6
+pkgver=7
 desc='pixiedust offline wps attack tool'
 
 [deps]

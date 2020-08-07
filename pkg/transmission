@@ -4,7 +4,7 @@ https://github.com/transmission/transmission-releases/raw/master/transmission-2.
 [vars]
 filesize=3378116
 sha512=4d99476bee88cedcc4238a0eee64a4089016933cbfc1cfb1cca023ad4ebcfe46375c9e7651a17af4aeaaf1feb19cbd8166aa56ef7992d9e745a7bbcbe8efca11
-pkgver=3
+pkgver=4
 
 [deps]
 curl

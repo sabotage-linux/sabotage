@@ -4,7 +4,7 @@ http://www.rsyslog.com/download/files/download/rsyslog/rsyslog-7.6.6.tar.gz
 [vars]
 filesize=3027663
 sha512=851b5f437e3bad60951d00a7411f787eae5203c640918fc27052801b93eb261e69981d3e05b5cee914b96f3d81b26f00a4542fd68542b2435893893475b2e6b4
-pkgver=3
+pkgver=4
 service=rsyslog
 serviceflags="--down --log"
 

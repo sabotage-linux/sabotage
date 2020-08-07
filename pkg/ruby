@@ -4,7 +4,7 @@ https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.0.tar.gz
 [vars]
 filesize=15834941
 sha512=0712fe68611f5d0cd6dd54b814f825478e64b6a62bdf67bce431f4dca2dc00b1a33f77bebfbcd0a151118a1152554ab457decde435b424aa1f004bc0aa40580d
-pkgver=4
+pkgver=5
 desc='interpreter for the ruby scripting language'
 
 [deps]

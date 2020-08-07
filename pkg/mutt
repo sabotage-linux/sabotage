@@ -4,7 +4,7 @@ http://ftp.mutt.org/pub/mutt/mutt-1.10.1.tar.gz
 [vars]
 filesize=4255890
 sha512=13509ff159c65e23614696967b4bd8baf7b8e16c0e85cfd89e2df8201de2dc97e6c4a426f5919f05051dee2b14f847c7203e0b236931d3cdf81dbbb221551726
-pkgver=3
+pkgver=4
 tardir=mutt-1.10.1
 desc='terminal email client'
 

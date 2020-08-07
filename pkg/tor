@@ -5,7 +5,7 @@ http://mirror.hackthissite.org/tor/tor-0.3.4.11.tar.gz
 [vars]
 filesize=6804196
 sha512=cde57dd0b4ccb65068d18d81f8d75b471ebc3f0e484b7f7be8bd6e0041d4447f18639b0d71aa110559e76bdf40828f7343a87c9ecb17239ee56b2c10bea19216
-pkgver=19
+pkgver=20
 desc='onion router for anonymization of internet traffic'
 service=tor
 serviceflags="--down --log"

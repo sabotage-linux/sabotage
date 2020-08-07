@@ -4,7 +4,7 @@ https://github.com/irssi/irssi/releases/download/1.2.2/irssi-1.2.2.tar.xz
 [vars]
 filesize=1140844
 sha512=5444ac102ff9ad3a6399a47c967d138e181330dd226eac68886d35fee4ad455932b9306a367bee3478095158e41ba67fb46deb8f0a33512046b9b83bae37c610
-pkgver=13
+pkgver=14
 desc='console IRC client'
 uchkurl=https://github.com/irssi/irssi/releases/
 

@@ -4,7 +4,7 @@ https://bitbucket.org/Lithopsian/deadbeef-opus/downloads/opus-0.6.tar.gz
 [vars]
 filesize=47937
 sha512=602004caafd3d6c900f879bdb750bfb1283ce9bafedc2c05b4136f3ea87da19de68948b823dc8f1bd67b8db042ada4362ff1942f5a3a0673a32649ab4621c688
-pkgver=2
+pkgver=3
 tarball=deadbeef-opus-0.6.tar.gz
 tardir=opus-0.6
 

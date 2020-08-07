@@ -4,7 +4,7 @@ http://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9dev.19.tar.bz2
 [vars]
 filesize=2688338
 sha512=8afe781af8409b92dec8f1f0026a8a35ce7295d9b9c51360724dfd108047cf5823e8982c21634a2422c93ec14b0b51bdd6e3ec2dd37d446269afd95505c39843
-pkgver=7
+pkgver=8
 desc='terminal web browser. supports HTTPS but not javascript'
 
 [deps]
