@@ -1,16 +1,16 @@
 [mirrors]
-https://git.alpinelinux.org/cgit/apk-tools/snapshot/apk-tools-2.9.1.tar.bz2
+https://git.alpinelinux.org/apk-tools/snapshot/apk-tools-2.10.5.tar.xz
 
 [vars]
-filesize=129852
-sha512=28779ac68a2369cf61194f9c0c1304231019abff8187fee44a698cef27393008bb2253f846d6f300a0ddc87d42bc5d8e9c05440733e5c4396ce83bf1cd615e6d
-pkgver=2
+filesize=130788
+sha512=0f85ec7c734f2ffc671007fa029f3c96eacfb196c45e465e33aa65c32a6fbcd7523153b6441fdf826a5b4d2e66de02d338620474d333c28cb1ce0233f1120495
+pkgver=3
 desc='alpine linux binary package manager'
 
 [deps]
 libressl
 alpine-keys
-lua52
+lua53
 
 [build]
 # -isystem is added because they override CC with $(CROSS_COMPILE)gcc if
