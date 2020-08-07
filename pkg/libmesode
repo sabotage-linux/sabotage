@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/boothj5/libmesode/archive/0.9.1.tar.gz
+https://github.com/boothj5/libmesode/archive/0.9.3.tar.gz
 
 [vars]
-filesize=142880
-sha512=b549c17e61aa3e1d80a93783ac47d5a9e87767876173500c30613e9326d10ed413f284c7435b4f24c028a51f8a8d9be913cd7de9baaa5b358cac5951496d9076
-tarball=libmesode-0.9.1.tar.gz
-pkgver=1
+filesize=149584
+sha512=572b51d762a9b7eabf8d49106219eb60613c054ac35915a54eb43ff153e434bc08c32003bc9d2277a679f246f90973bb0b47ac93af7cffcdbae07af4d2af3db8
+tarball=libmesode-0.9.3.tar.gz
+pkgver=2
 desc='fork of libstrophe for profanity IM client'
 
 [deps.host]
