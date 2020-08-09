@@ -53,7 +53,7 @@ make DESTDIR="$butch_install_dir" install-nokeys
 dest="$butch_install_dir""$butch_prefix"
 
 mv "$dest"/etc/ssh/sshd_config "$dest"/etc/ssh/sshd_config.default
-cat << 'EOF' > "$dest"/etc/ssh/sshd_config
+cat << EOF > "$dest"/etc/ssh/sshd_config
 Port 22
 Protocol 2
 Ciphers chacha20-poly1305@openssh.com,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr
