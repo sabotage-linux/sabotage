@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-3.3.12.tar.xz
+http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-3.3.15.tar.xz
 
 [vars]
-filesize=845484
-sha512=ea816740ff72cc53d99b5d2e78a511b627ea5b295e0efff67605c56d1ab075abc6b0e2da3df4facbfe903fc9d679e892d351b6884a966d37c6f4bfd9141a924b
+filesize=904416
+sha512=bc83ccc1941e7be8266588fdfbba17e2424b30163a215873ee6dee96215d66249f5d5e46fec2278d030b42bd7599861c4878360042dacec4c221ce411453747c
+pkgver=2
 desc='process monitoring command line utilities using information from /proc'
 uchkurl=http://ftp.de.debian.org/debian/pool/main/p/procps/
 
@@ -11,8 +12,6 @@ uchkurl=http://ftp.de.debian.org/debian/pool/main/p/procps/
 curses
 
 [build]
-patch -p1 < "$K"/procps-ng-netbsd-curses.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
