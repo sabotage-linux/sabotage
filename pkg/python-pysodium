@@ -1,0 +1,22 @@
+[mirrors]
+https://files.pythonhosted.org/packages/2b/0f/d3cf795f0ac72740d8858b9620ea2d952525a2e7dafc8d4eb96269b2b0b6/pysodium-0.7.5.tar.gz
+
+[vars]
+filesize=19889
+sha512=0c87f749e9ab3d60244b34c276a03a7a71388e72ccb4cc616801c8af22570a4dbee043d574929d8655e76c4594ec8b00e9bb891a15eb19091eae0992a492c862
+pkgver=1
+
+[deps]
+libsodium
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
