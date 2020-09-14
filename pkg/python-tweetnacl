@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/warner/python-tweetnacl/archive/10845d09cf241781505836d23d852f9b50803b13.tar.gz
+
+[vars]
+filesize=22891
+sha512=e04765a6805d07119f1f8b9fd9eddb8147a222f7cc0ff82c3883213d0fcd3f7a8acac620df3274448fd226ee6f7598583fea59c6e38d818d113fbe24fae9bbec
+tarball=python-tweetnacl-10845d09cf241781505836d23d852f9b50803b13.tar.gz
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+patch -p1 < "$K"/python-tweetnacl-pkgname.patch
+mv src/raw.py src/__init__.py
+find test/ -name '*.py' -exec \
+  sed 's/import nacl.raw as nacl/import tweetnacl as nacl/' -i {} \;
+
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
