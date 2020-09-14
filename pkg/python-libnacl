@@ -1,0 +1,22 @@
+[mirrors]
+https://files.pythonhosted.org/packages/08/9b/16725e8cbb278569db379ea6e4eb24b2e8c574be1ec7617ac2dff8f91b2b/libnacl-1.7.1.tar.gz
+
+[vars]
+filesize=41186
+sha512=6486cb4e3f34b1a7f4f778527be3191020858a644b0bef8a3c9a058eb741db4352e1a7f1f6c95e2128f1b561b193a39faddc93b1bf637c1e9fb39b22273cf96c
+pkgver=1
+
+[deps]
+libsodium
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
