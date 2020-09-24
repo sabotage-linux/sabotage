@@ -34,6 +34,10 @@ pkglist() {
 [ -z "$DEPS" ] && DEPS=build:host:run
 for fn in `pkglist` ; do
 	[ -d "$fn" ] && continue
+	[ -e "$fn" ] || {
+		printf "warning: package recipe of %s was removed\n" "$fn" >&2
+		continue
+	}
 	if grep -x "$search_pkg"<"$fn">/dev/null ; then
 		if "$BINDIR"/butch-deps -v norecurse=1 "$fn" | grep -x "$search_pkg">/dev/null ;
 		then
