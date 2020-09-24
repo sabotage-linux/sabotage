@@ -13,7 +13,6 @@ uchkurl=https://github.com/MoonchildProductions/UXP/releases
 [deps]
 palemoon-uxp-tarball
 autoconf213-tarball
-libevent
 gtk+2
 alsa-lib
 zlib
@@ -23,8 +22,6 @@ libxt
 mesalib
 libogg
 libvorbis
-icu
-libvpx
 hunspell
 
 [deps.host]
