@@ -1,10 +1,13 @@
 [vars]
 desc='profiling tool using instrumentation facilities provided by the kernel'
-LINUX_VER=$(cat "$K"/kernel.version)
+LINUX_VER=4.14
 tarball=linux-"$LINUX_VER".tar.xz
+patchver=191
+pkgver=2
 
 [deps]
-kernel-tarball
+kernel414-tarball
+kernel414-patch
 libelf
 
 [deps.host]
@@ -12,6 +15,9 @@ flex
 bison
 
 [build]
+kpatch="$C"/kernel-patch-"$LINUX_VER"."$patchver".xz
+xzcat "$kpatch" | patch -p 1
+
 patch -p1 < "$K"/perf-4.14-debuglink.patch
 cd tools/perf
 cat << EOF > hack.h
@@ -26,6 +32,7 @@ EOF
 # build system which i were unable to detect where it comes from
 printf '#!/bin/sh\nflags=\naddflags() {\ntest -z "$flags" && flags="$1" || flags="$flags $1" \n}\nfor arg; do\ntest "$arg" = -s || addflags "$arg"\ndone\n%s $flags\n' "$CC" > mycc
 chmod +x mycc
-make CC=$PWD/mycc WERROR=0 V=1 EXTRA_CFLAGS="-I$PWD -include hack.h $optcflags" \
+make CC=$PWD/mycc WERROR=0 V=1 \
+EXTRA_CFLAGS="-I$PWD -include hack.h -D__always_inline=inline $optcflags" \
 LDFLAGS="$optldflags -static" NO_LIBPYTHON=1 NO_LIBBPF=1
 install -Dm 755  perf "$butch_install_dir""$butch_prefix"/bin/perf
