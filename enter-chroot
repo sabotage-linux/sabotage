@@ -19,7 +19,7 @@ if [ $(uname -m) = "x86_64" ] ; then
 case "$A" in i?86)
 	echo "trying to get into 32bit rootfs from 64bit host"
 	[ -x ./linux32 ] && linux32=./linux32 || {
-		$CC KEEP/linux32.c -static -s -Os -o ./linux32 && linux32=./linux32 || \
+		$CC "$K"/linux32.c -static -s -Os -o ./linux32 && linux32=./linux32 || \
 		echo -ne "warning: trying to chroot into i386 rootfs on x86_64" \
 		         "kernel and building linux32 command failed\n"
 	} ;;
