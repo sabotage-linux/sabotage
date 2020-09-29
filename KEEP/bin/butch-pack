@@ -4,6 +4,8 @@ if [ -z "$S" ] ; then
 	exit 1
 fi
 
+[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+
 usage() {
 	cat <<- EOF
 	butch pack : creates distributable binary archives of installed pkgs into the
@@ -22,12 +24,7 @@ usage() {
 }
 
 get_pkgver() {
-	ver=$($BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
-	if [ -n "$ver" ] ; then
-		printf "%s\n" "$ver" | cut -b 8-
-	else
-		echo 1
-	fi
+	grep "^$1 " "$BUTCHDB" | cut -d " " -f 2
 }
 
 pack(){
