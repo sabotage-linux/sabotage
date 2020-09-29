@@ -27,7 +27,7 @@ esac
 fi
 
 uid="$(id -u)"
-if [ -d /proc/self/ns ] && [ "$uid" != "0" ] ; then
+if [ -d /proc/self/ns ] ; then
 	CHROOT=./super_chroot
 	if [ ! -x "$CHROOT" ] ; then
 		if ! $CC "$K"/super_chroot.c -static -s -Os -o "$CHROOT" 2>/dev/null ; then
