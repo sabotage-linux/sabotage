@@ -1,9 +1,9 @@
 [mirrors]
-https://github.com/MoonchildProductions/UXP/archive/RELBASE_20200901.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/RELBASE_20200929.tar.gz
 
 [vars]
-filesize=299774407
-sha512=b1bca5239c91d5b27e51d8af779a1e8d8a8cb88f6bb58a2c8e1084f8acf4979e2740b9adcf90792df792d0cc870627a93c29649555a299a8567f53f763153018
-tarball=UXP-RELBASE_20200901.tar.gz
-pkgver=7
+filesize=299762318
+sha512=95bdf3d5f41678b84ef7729b82720c275fffeee92e12fd52ff87c99a3ae564db8295ac4e81a30ebece3364ea0ffee66bc2386eca9e82a3235d1a80da4a84212f
+tarball=UXP-RELBASE_20200929.tar.gz
+pkgver=8
 
