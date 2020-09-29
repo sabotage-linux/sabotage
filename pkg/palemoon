@@ -1,13 +1,13 @@
 [mirrors]
-https://github.com/MoonchildProductions/Pale-Moon/archive/28.12.0_Release.tar.gz
+https://github.com/MoonchildProductions/Pale-Moon/archive/28.13.0_Release.tar.gz
 
 [vars]
-filesize=4401790
-sha512=343cf07bbbf3064c07944b8626f1f9b659ef0655c0cace3a4cbd76d340b2c46881ad63decef3a4ef77c9f1c0a93a00112d6135e7cab9c93dd1c2e01bd40d42b0
-tarball=Pale-Moon-28.12.0_Release.tar.gz
-pkgver=25
-BROWSER_VERSION=28.12.0
-UXP_VERSION=20200730
+filesize=4401589
+sha512=6eb837de85907240b77ec40130c8285780211e86f332d7bacf5b3d3d03ec0c25eb3871ab0de84da89968fe5fe512937b9e93785f252b12d3706a5804034cae45
+tarball=Pale-Moon-28.13.0_Release.tar.gz
+pkgver=26
+BROWSER_VERSION=28.13.0
+UXP_VERSION=20200901
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
