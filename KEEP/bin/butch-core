@@ -3,6 +3,12 @@ BUTCH_VERSION=0.7.5
 test -n "$CONFIG" && . $CONFIG
 BINDIR=$(dirname $(readlink -f "$0"))
 hlppid=
+GREP=grep
+echo ABC | $GREP ABC >/dev/null 2>&1 || GREP="busybox grep"
+echo ABC | $GREP ABC >/dev/null || {
+	echo "error: grep not working!">&2
+	exit 1
+}
 timestamp() {
 	date '+%Y-%m-%d %H:%M:%S'
 }
@@ -79,7 +85,7 @@ check_write_access() {
 	check_access $dbd w
 }
 has_section() {
-	grep -x '\['"$2"'\]' $S/pkg/$1 >/dev/null 2>&1
+	$GREP -x '\['"$2"'\]' $S/pkg/$1 >/dev/null 2>&1
 }
 has_mirrors() {
 	has_section "$1" mirrors
@@ -91,10 +97,10 @@ is_installed() {
 	return 0
 }
 dont_unlink() {
-	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep -x 'no_unlink=1' >/dev/null 2>&1
+	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | $GREP -x 'no_unlink=1' >/dev/null 2>&1
 }
 get_pkgver() {
-	ver=$($AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep '^pkgver=')
+	ver=$($AWKPROG -f $BINDIR/butch-printsec "$1" vars | $GREP '^pkgver=')
 	if [ -n "$ver" ] ; then
 		printf "%s\n" "$ver" | cut -b 8-
 	else
@@ -222,7 +228,7 @@ is_downloaded() {
 	test $resss_ = 1 && return 0 || return 1
 }
 allow_network() {
-	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | grep -x 'need_net=1' >/dev/null 2>&1
+	$AWKPROG -f $BINDIR/butch-printsec "$1" vars | $GREP -x 'need_net=1' >/dev/null 2>&1
 }
 start_build() {
 	scrname=$B/build_$1.sh
@@ -261,7 +267,7 @@ launch_build() {
 
 [ -z "$AWKPROG" ] && AWKPROG=awk
 if [ "$STAGE" = 0 ] ; then
-	$AWKPROG -W version 2>/dev/null | grep "mawk" > /dev/null && \
+	$AWKPROG -W version 2>/dev/null | $GREP "mawk" > /dev/null && \
 	AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
 fi
 setup_pipe "3"
@@ -311,7 +317,7 @@ if test $mode = outdated || test $mode = update ; then
 	$EDITOR $tmp
 	args=
 	while read i ; do
-		printf "%s\n" "$i" | grep -v '^#' >/dev/null 2>&1 && \
+		printf "%s\n" "$i" | $GREP -v '^#' >/dev/null 2>&1 && \
 		add_list args "$i"
 	done < $tmp
 	rm -f $tmp

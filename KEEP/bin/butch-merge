@@ -11,7 +11,9 @@ merges pkg with template and writes the result to stdout.
 EOF
 }
 [ -z "$2" ] && usage
-echo ABC | grep ABC >/dev/null || {
+GREP=grep
+echo ABC | $GREP ABC >/dev/null 2>&1 || GREP="busybox grep"
+echo ABC | $GREP ABC >/dev/null || {
 	echo "error: grep not working!">&2
 	exit 1
 }
@@ -27,12 +29,12 @@ pkg="$(basename "$1")"
 template="$2"
 [ -r "$S/pkg/$pkg" ] && [ -r "$2" ] || { echo "error could not read $S/pkg/$pkg and $2"; exit 1; }
 hasbuild=false
-grep -x '\[build\]' "$S/pkg/$pkg" >/dev/null 2>&1 && hasbuild=true
+$GREP -x '\[build\]' "$S/pkg/$pkg" >/dev/null 2>&1 && hasbuild=true
 mirrors=$($AWK -f $BINDIR/butch-printsec "$pkg" mirrors | sed 's/\n/ /g')
 while read -r line ; do
-if printf "%s\n" "$line" | grep -x "%BUTCH_CONFIG">/dev/null 2>&1 ; then
+if printf "%s\n" "$line" | $GREP -x "%BUTCH_CONFIG">/dev/null 2>&1 ; then
 if [ -n "$CONFIG" ] ; then
-grep -v '^#' < "$CONFIG"
+$GREP -v '^#' < "$CONFIG"
 else
 cat << EOF
 export A=$A
@@ -49,7 +51,7 @@ cat << EOF
 BUTCH_PACKAGE_NAME=$pkg
 BUTCH_MIRROR_URLS="$mirrors"
 EOF
-elif printf "%s\n" "$line" | grep -x "%BUTCH_BUILDSCRIPT">/dev/null 2>&1 ; then
+elif printf "%s\n" "$line" | $GREP -x "%BUTCH_BUILDSCRIPT">/dev/null 2>&1 ; then
 if $hasbuild ; then
 	$AWK -f $BINDIR/butch-printsec "$pkg" build
 else
