@@ -22,6 +22,6 @@ sed -i -e"s@prefix=/usr/local@prefix=\"$butch_install_dir$butch_prefix\"@" Makef
 sed -i -e"s@CFLAGS += -Wno-array-bounds@CFLAGS += -Wno-array-bounds $optcflags@" Makefile
 sed -i -e"s@LDFLAGS=-g@LDFLAGS=$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib@" Makefile
 
-make -j$MAKE_THREADS \
+make -j$MAKE_THREADS QJSC_CC=gcc \
   CC="$CC" AR="$CROSS_COMPILE"ar
 make install
