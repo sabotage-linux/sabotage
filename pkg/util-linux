@@ -10,6 +10,7 @@ patch -p1 < "$K"/util-linux.patch
 patch -p1 < "$K"/util-linux-hexdump.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
+CPPFLAGS="-include sys/sysmacros.h" \
 LDFLAGS="--static $optldflags -lcurses -lterminfo" \
 ./configure -C \
   --prefix="$butch_prefix" \
