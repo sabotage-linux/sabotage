@@ -50,5 +50,6 @@ LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   LD="$CROSS_COMPILE"ld \
   USE_SYSTEM_LIBS=yes USE_SYSTEM_OPENJPEG=no \
   USE_SYSTEM_GUMBO=no \
+  shared=yes \
   prefix="$butch_prefix" build=release install
 
