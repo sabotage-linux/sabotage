@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950/jbig2dec-0.17.tar.gz
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/jbig2dec-0.19.tar.gz
 
 [vars]
-filesize=563083
-sha512=e1ac4af318fb31e097b558e6b88334d35e035d1378b152aabb025f2918969a3a79c6a6644848fccf5d4eaa6efaf2b0422ff01d5bbcde8245f7af6fa29022d9b8
-pkgver=4
+filesize=572889
+sha512=0d3ec8123b446b5b74846b189004c188e82cdf7b1c7ec3e02f98892aaa249fba0b0fe7f1db7036f2571b0ef2a5df22d1997d3d3f5479c9bef7851bf114134737
+pkgver=5
 uchkurl=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
 
 [deps]
