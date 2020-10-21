@@ -26,6 +26,7 @@ libressl
 jbig2dec
 
 [build]
+patch -p1 < "$K"/mupdf-1.18-shared.patch
 rm -rf thirdparty/curl thirdparty/freetype thirdparty/jpeg thirdparty/zlib thirdparty/jbig2dec
 PCS_SAVE="$PKG_CONFIG_SYSROOT_DIR"
 PCL_SAVE="$PKG_CONFIG_LIBDIR"

@@ -1,0 +1,11 @@
+--- mupdf-1.18.0-source.org/Makefile
++++ mupdf-1.18.0-source/Makefile
+@@ -61,7 +61,7 @@
+ ifdef RANLIB
+   RANLIB_CMD = $(QUIET_RANLIB) $(RANLIB) $@
+ endif
+-LINK_CMD = $(QUIET_LINK) $(MKTGTDIR) ; $(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
++LINK_CMD = $(QUIET_LINK) $(MKTGTDIR) ; $(CC) $(LDFLAGS) -o $@ $(subst $(MUPDF_LIB),-L$(OUT) -lmupdf,$^) $(LIBS)
+ TAGS_CMD = $(QUIET_TAGS) ctags -R --c-kinds=+p
+ WINDRES_CMD = $(QUIET_WINDRES) $(MKTGTDIR) ; $(WINDRES) $< $@
+ OBJCOPY_CMD = $(QUIET_OBJCOPY) $(MKTGTDIR) ; $(LD) -r -b binary -z noexecstack -o $@ $<
