@@ -1,9 +1,10 @@
 [mirrors]
-https://www.wireshark.org/download/src/all-versions/wireshark-1.12.13.tar.bz2
+https://www.wireshark.org/download/src/all-versions/wireshark-2.6.20.tar.xz
 
 [vars]
-filesize=29398804
-sha512=60ce38c9850bcb2532ffcba9b372d2aa71383110c425dc1db20707f29ca81411813ba88bc12d50ce17bc67df1015b80611b67155fe669313075c10da474ad04e
+filesize=28557592
+sha512=0e49e807b578368478e912970e7b4434cffcf499b803f62dbff64281c1400db5be8e96b69872270f2f52276c5fd8aee75ad3f175e8c1979dbe721a2d77f8cb13
+pkgver=2
 desc='sniff, decrypt, analyze and visualize network traffic'
 
 [deps]
@@ -18,7 +19,7 @@ lua52
 patch -p1 < "$K"/wireshark-window-icon.patch
 patch -p1 < "$K"/wireshark-dirent_macros.patch
 
-for i in ui/export_object_smb.c epan/dissectors/packet-ssl-utils.c ; do
+for i in epan/dissectors/packet-ssl-utils.c ; do
 	sed -i 's@g_memmove@memmove@g' "$i"
 done
 sed -i 's@DISABLE_DEPRECATED@ENABLE_DEPRECATED@g' configure
@@ -35,7 +36,7 @@ CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags -Werror=implicit-function-declaration" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --with-qt=no --with-gtk2=yes --with-gtk3=no
+  --with-qt=no --with-gtk=2
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
@@ -44,5 +45,4 @@ make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
-install -m644 -D wireshark.desktop "$dest/share/applications/wireshark.desktop"
 install -m644 -D image/wsicon48.png "$dest/share/pixmaps/wireshark.png"
