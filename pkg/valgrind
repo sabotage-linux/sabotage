@@ -1,0 +1,37 @@
+[mirrors]
+ftp://sourceware.org/pub/valgrind/valgrind-3.13.0.tar.bz2
+
+[vars]
+filesize=14723076
+sha512=34e1013cd3815d30a459b86220e871bb0a6209cc9e87af968f347083693779f022e986f211bdf1a5184ad7370cde12ff2cfca8099967ff94732970bd04a97009
+pkgver=1
+
+[deps.host]
+autoconf
+
+[build]
+patch -p1 < "$K"/valgrind-suppressions.patch
+patch -p1 < "$K"/valgrind-arm.patch
+patch -p1 < "$K"/valgrind-3.13.0-malloc.patch
+
+# required for the patches to kick in
+autoreconf -i
+
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags -fno-stack-protector -no-pie" \
+CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+    --sysconfdir="$butch_prefix"/etc \
+    --mandir="$butch_prefix"/share/man \
+    --localstatedir="$butch_prefix"/var \
+    --without-mpicc
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
