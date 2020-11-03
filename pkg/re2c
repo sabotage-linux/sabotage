@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/skvadrik/re2c/releases/download/1.1.1/re2c-1.1.1.tar.gz
+https://github.com/skvadrik/re2c/releases/download/2.0.3/re2c-2.0.3.tar.xz
 
 [vars]
-filesize=5907416
-sha512=a6fe73611103588043748340976f0e6d07169a6546cb80627c0ccd2ceac83f362dbbf371530361d893537fd95deb19503b2c73c41ed40efe7787210d6c757397
-pkgver=2
+filesize=1288996
+sha512=893c533e9847a6236d55ae65e413ddc48b7531b89f5552a3ad79beeac079317ceca4c35710f3c2d88a6de5a3c0a5070a24a8cffb1b4277578a41697ea0e3bf8c
+pkgver=3
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
@@ -13,7 +13,8 @@ pkgver=2
 
 CFLAGS="-D_GNU_SOURCE $optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-golang
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
