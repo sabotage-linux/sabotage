@@ -1,0 +1,181 @@
+diff --git a/libsylph/filter.c b/libsylph/filter.c
+index c58f8fc..dcc3dcd 100644
+--- a/libsylph/filter.c
++++ b/libsylph/filter.c
+@@ -1886,6 +1886,10 @@ void filter_get_keyword_from_msg(MsgInfo *msginfo, gchar **header, gchar **key,
+ 		*header = g_strdup("Subject");
+ 		*key = g_strdup(msginfo->subject);
+ 		break;
++	case FLT_BY_ENVELOPE_TO:
++		*header = g_strdup("Envelope-To");
++		*key = g_strdup(msginfo->envelopeto); /* YYY */
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/libsylph/filter.h b/libsylph/filter.h
+index 296c150..7bc0391 100644
+--- a/libsylph/filter.h
++++ b/libsylph/filter.h
+@@ -98,7 +98,8 @@ typedef enum
+ 	FLT_BY_AUTO,
+ 	FLT_BY_FROM,
+ 	FLT_BY_TO,
+-	FLT_BY_SUBJECT
++	FLT_BY_SUBJECT,
++	FLT_BY_ENVELOPE_TO
+ } FilterCreateType;
+ 
+ typedef enum
+diff --git a/libsylph/procheader.c b/libsylph/procheader.c
+index 1dcffa2..91013f4 100644
+--- a/libsylph/procheader.c
++++ b/libsylph/procheader.c
+@@ -572,7 +572,8 @@ enum
+ 	H_CONTENT_TYPE	= 8,
+ 	H_SEEN		= 9,
+ 	H_CC		= 10,
+-	H_X_FACE	= 11
++	H_X_FACE	= 11,
++	H_ENVELOPE_TO   = 12,
+ };
+ 
+ MsgInfo *procheader_parse_stream(FILE *fp, MsgFlags flags, gboolean full)
+@@ -589,6 +590,7 @@ MsgInfo *procheader_parse_stream(FILE *fp, MsgFlags flags, gboolean full)
+ 					   {"Seen:",		NULL, FALSE},
+ 					   {"Cc:",		NULL, TRUE},
+ 					   {"X-Face:",		NULL, FALSE},
++					   {"Envelope-To:",	NULL, TRUE}, /* YYYY */
+ 					   {NULL,		NULL, FALSE}};
+ 
+ 	static HeaderEntry hentry_short[] = {{"Date:",		NULL, FALSE},
+@@ -623,6 +625,7 @@ MsgInfo *procheader_parse_stream(FILE *fp, MsgFlags flags, gboolean full)
+ 	msginfo->flags = flags;
+ 	msginfo->references = NULL;
+ 	msginfo->inreplyto = NULL;
++	msginfo->envelopeto = NULL;
+ 
+ 	while ((hnum = procheader_get_one_field(buf, sizeof(buf), fp, hentry))
+ 	       != -1) {
+@@ -714,6 +717,10 @@ MsgInfo *procheader_parse_stream(FILE *fp, MsgFlags flags, gboolean full)
+ 			if (msginfo->xface) break;
+ 			msginfo->xface = g_strdup(hp);
+ 			break;
++		case H_ENVELOPE_TO:
++			if(msginfo->envelopeto) break;
++			msginfo->envelopeto = g_strdup(hp);
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/libsylph/procmsg.c b/libsylph/procmsg.c
+index 28d16f3..ccc25c0 100644
+--- a/libsylph/procmsg.c
++++ b/libsylph/procmsg.c
+@@ -2236,6 +2236,7 @@ MsgInfo *procmsg_msginfo_copy(MsgInfo *msginfo)
+ 	MEMBDUP(subject);
+ 	MEMBDUP(msgid);
+ 	MEMBDUP(inreplyto);
++	MEMBDUP(envelopeto);
+ 
+ 	MEMBCOPY(folder);
+ 	MEMBCOPY(to_folder);
+@@ -2328,6 +2329,7 @@ void procmsg_msginfo_free(MsgInfo *msginfo)
+ 	g_free(msginfo->subject);
+ 	g_free(msginfo->msgid);
+ 	g_free(msginfo->inreplyto);
++	g_free(msginfo->envelopeto);
+ 
+ 	slist_free_strings(msginfo->references);
+ 	g_slist_free(msginfo->references);
+diff --git a/libsylph/procmsg.h b/libsylph/procmsg.h
+index 77f0d8a..736f84b 100644
+--- a/libsylph/procmsg.h
++++ b/libsylph/procmsg.h
+@@ -188,6 +188,7 @@ struct _MsgInfo
+ 	gchar *subject;
+ 	gchar *msgid;
+ 	gchar *inreplyto;
++	gchar *envelopeto;
+ 
+ 	GSList *references;
+ 
+diff --git a/src/mainwindow.c b/src/mainwindow.c
+index bc7e713..6962145 100644
+--- a/src/mainwindow.c
++++ b/src/mainwindow.c
+@@ -857,6 +857,8 @@ static GtkItemFactoryEntry mainwin_entries[] =
+ 						NULL, create_filter_cb, FLT_BY_TO, NULL},
+ 	{N_("/_Tools/_Create filter rule/by _Subject"),
+ 						NULL, create_filter_cb, FLT_BY_SUBJECT, NULL},
++	{N_("/_Tools/_Create filter rule/by _Envelope-To"),
++						NULL, create_filter_cb, FLT_BY_ENVELOPE_TO, NULL},
+ 	{N_("/_Tools/---"),			NULL, NULL, 0, "<Separator>"},
+ 	{N_("/_Tools/Filter _junk mails in folder"),
+ 						NULL, filter_junk_cb, 0, NULL},
+diff --git a/src/messageview.c b/src/messageview.c
+index 782bc80..a07e652 100644
+--- a/src/messageview.c
++++ b/src/messageview.c
+@@ -311,6 +311,8 @@ static GtkItemFactoryEntry msgview_entries[] =
+ 					NULL, create_filter_cb, FLT_BY_TO, NULL},
+ 	{N_("/_Tools/_Create filter rule/by _Subject"),
+ 					NULL, create_filter_cb, FLT_BY_SUBJECT, NULL},
++	{N_("/_Tools/_Create filter rule/by _Envelope-To"),
++					NULL, create_filter_cb, FLT_BY_ENVELOPE_TO, NULL},
+ #ifndef G_OS_WIN32
+ 	{N_("/_Tools/---"),		NULL, NULL, 0, "<Separator>"},
+ 	{N_("/_Tools/Actio_ns"),	NULL, NULL, 0, "<Branch>"},
+diff --git a/src/query_search.c b/src/query_search.c
+index 0b6170e..329e2a9 100644
+--- a/src/query_search.c
++++ b/src/query_search.c
+@@ -155,6 +155,7 @@ static const gchar *ui_def =
+ 	"      <menuitem name='From' action='FilterFromAction'/>"
+ 	"      <menuitem name='To' action='FilterToAction'/>"
+ 	"      <menuitem name='Subject' action='FilterSubjectAction'/>"
++	"      <menuitem name='Envelope-To' action='FilterEnvelopeToAction'/>"
+ 	"    </menu>"
+ 	"    <separator />"
+ 	"    <menuitem name='Open' action='OpenAction'/>"
+@@ -233,6 +234,7 @@ static void create_filter_auto_cb(void);
+ static void create_filter_from_cb(void);
+ static void create_filter_to_cb(void);
+ static void create_filter_subject_cb(void);
++static void create_filter_envelopeto_cb(void);
+ static void open_cb			(void);
+ static void open_source_cb		(void);
+ static void print_cb			(void);
+@@ -274,6 +276,7 @@ static GtkActionEntry action_entries[] = {
+ 	{"FilterFromAction", NULL, N_("by _From"), NULL, NULL, create_filter_from_cb},
+ 	{"FilterToAction", NULL, N_("by _To"), NULL, NULL, create_filter_to_cb},
+ 	{"FilterSubjectAction", NULL, N_("by _Subject"), NULL, NULL, create_filter_subject_cb},
++	{"FilterEnvelopeToAction", NULL, N_("by _EnvelopeTo"), NULL, NULL, create_filter_envelopeto_cb},
+ 
+ 	{"OpenAction", GTK_STOCK_OPEN, N_("Open in _new window"), NULL, NULL, open_cb},
+ 	{"OpenSourceAction", NULL, N_("View mess_age source"), NULL, NULL, open_source_cb},
+@@ -1585,6 +1588,11 @@ static void create_filter_subject_cb(void)
+ 	query_search_create_filter(FLT_BY_SUBJECT);
+ }
+ 
++static void create_filter_envelopeto_cb(void)
++{
++	query_search_create_filter(FLT_BY_ENVELOPE_TO);
++}
++
+ static void open_cb(void)
+ {
+ 	query_search_open_msg(TRUE);
+diff --git a/src/summaryview.c b/src/summaryview.c
+index 211efed..ff58fa6 100644
+--- a/src/summaryview.c
++++ b/src/summaryview.c
+@@ -479,6 +479,8 @@ static GtkItemFactoryEntry summary_popup_entries[] =
+ 					NULL, summary_create_filter_cb, FLT_BY_TO, NULL},
+ 	{N_("/Create f_ilter rule/by _Subject"),
+ 					NULL, summary_create_filter_cb, FLT_BY_SUBJECT, NULL},
++	{N_("/Create f_ilter rule/by _Envelope-To"),
++					NULL, summary_create_filter_cb, FLT_BY_ENVELOPE_TO, NULL},
+ 	{N_("/---"),			NULL, NULL,		0, "<Separator>"},
+ 	{N_("/_View"),			NULL, NULL,		0, "<Branch>"},
+ 	{N_("/_View/Open in new _window"),
