@@ -12,6 +12,7 @@ desc='terminal hex editor, fork of hexedit'
 curses
 
 [build]
+sed 's/lncurses/lncurses -lterminfo/' -i Makefile
 make -j$MAKE_THREADS \
   CFLAGS="$optcflags" \
   LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
