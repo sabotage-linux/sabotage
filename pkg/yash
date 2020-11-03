@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/magicant/yash/releases/download/2.50/yash-2.50.tar.xz
+
+[vars]
+filesize=739988
+sha512=fc78d61b09f7c81d1d7bd3f4feefa7d4c0de910524759ebcba2b53322abc3f1e0a937007b36a5060af0ee759df210ec06d5eed2c71cf3f7ccd0825521b50edb7
+pkgver=1
+desc='lightweight but powerful posix-compliant shell'
+
+[deps]
+curses
+
+[build]
+LDADDS="-lcurses -lterminfo" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -static" \
+  ./configure --prefix="$butch_prefix" --disable-nls \
+  --with-term-lib="curses terminfo"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
