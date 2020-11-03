@@ -65,6 +65,11 @@ else
 	test -d "$dest"/etc/service/"$service"/log && \
 		rm -rf "$dest"/etc/service/"$service"/log
 fi
-[ "$down" = 1 ] && touch "$dest"/etc/service/"$service"/down
+if [ "$down" = 1 ] ; then
+	touch "$dest"/etc/service/"$service"/down
+else
+	test -e "$dest"/etc/service/"$service"/down && \
+		rm -f "$dest"/etc/service/"$service"/down
+fi
 
 ln -sf ../../etc/service/"$service" "$dest"/var/service/
