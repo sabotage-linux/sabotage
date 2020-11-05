@@ -4,13 +4,21 @@
 dest=$R
 
 usage() {
-	printf "creates directory structure and installs supplied run script for usage with runit\n"
-	printf "USAGE: %s %s\n" $(basename "$0") "[--down --force --log] servicename filename_of_run_script"
-	printf "%s\n" "--down: service is down by default"
-	printf "%s\n" "--force: service will be overwritten if existent"
-	printf "%s\n" "--log: create default logging service"
+	printf "%s - %s\n" $(basename "$0") "install systemwide runit service."
+	printf "creates directory structure and installs supplied run script for usage with runit\n\n"
+	printf "USAGE: %s %s\n\n" $(basename "$0") "[--down --force --log] servicename filename_of_run_script"
+	printf "%s\n" "--down  : service is down by default"
+	printf "%s\n" "--force : service will be overwritten if existent"
+	printf "%s\n" "--log   : create default logging service"
 	printf "\n"
 	printf "%s\n" "use env. var R to override install location (prefix+DESTDIR-like)"
+	printf "\n"
+	printf "if you want to switch a service with logging enabled to non-logging:\n"
+	printf "1) stop the service, 2) kill the corresponding svlogd process,\n"
+	printf "3) run %s --force without the log option,\n" $(basename "$0")
+	printf "4) kill corresponding runsv process.\n"
+	printf "now runsvdir will bring the service up again (if --down wasn't passed).\n"
+
 	exit 1
 }
 
