@@ -5,13 +5,17 @@ https://sourceforge.net/projects/timidity/files/TiMidity%2B%2B/TiMidity%2B%2B-2.
 filesize=1363040
 sha512=36c3c79d941903109d5d6d529963d12e8192a857e80402ad5ab0d1e223451a7cf5dc8fdd046b22ae7da96f413d68db8587a8fce348635838eba2f30f7019192f
 tardir=TiMidity++-2.15.0
-pkgver=2
+pkgver=3
 
 [deps]
 libao
 curses
 
 [build]
+## use timidity -OO foo.mid to play a midi file; in order to use it you need
+## a soundfount and a line in /etc/timidity.cfg pointing to your font like this:
+## soundfont /share/sounds/sf2/OPL-3_FM_128M.sf2
+
 cp -f "$K"/config.sub autoconf/
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
@@ -19,7 +23,8 @@ cp -f "$K"/config.sub autoconf/
 sed -i 's@if test "x\$prefix" != xNONE -a@if false -a@' configure
 
 # alsa output can't be used directly because it uses the old API with symver hacks
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -DCONFIG_FILE=\\\"/etc/timidity.cfg\\\"" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --mandir="$butch_prefix/share/man" \
