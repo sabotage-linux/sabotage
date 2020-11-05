@@ -1,0 +1,81 @@
+[mirrors]
+http://web.archive.org/web/20170419131940/http://www.thierryb.net/site/IMG/zip/ProPatchesLite1.61.zip
+http://www.thierryb.net/site/IMG/zip/ProPatchesLite1.61.zip
+
+[vars]
+filesize=6309158
+sha512=5cf3e5bd1d0c6d3b05d69f8178e6b5e87b6fbf3fd0f87d6b25b0f4f07f49d74f4f132f0767202d186f907690ab7cd7368d5aca7a99f52c7351f4a7209542ceb0
+tardir=.
+pkgver=1
+desc='gravis ultrasound compatible patches for midi programs'
+
+[build]
+cat << 'EOF' > printsec.awk
+#!/bin/awk -f
+# use: $0 <file> <section>
+# prints section of file
+BEGIN {
+  if (ARGC!=3) {
+    print "error: require filename and sectionname" > "/dev/stderr"
+    exit 1
+  }
+  print_sec(ARGV[1], ARGV[2])
+  exit 0
+}
+function print_sec(file, sec,            r, insect) {
+  insect=0
+  while ((r = getline < file) == 1) {
+    if (insect && /^\[.*\]$/) break
+    if ($0 == "[" sec "]") {
+      insect=1
+      continue
+    }
+    if(insect) {
+      if(/^\s*$/) continue
+      print $0
+    }
+  }
+  if (r == -1) {
+    print "unable to read from " file > "/dev/stderr"
+    exit 1
+  }
+  close(file)
+}
+EOF
+chmod +x printsec.awk
+unzip ProPatchesLite1.60/pplt_160.zip
+unzip Update\ 160to161/pplt161u.zip
+for i in ORCDRUM 808DRUM 909DRUM PWRDRUM BRSHDRUM JAZZDRUM ; do
+mv pplt_160/$i/* pplt_160/
+done
+dos2unix pplt161u/ULTRASND.INI
+ini() {
+bankname="$1"
+gusbank="$2"
+startno="$3"
+endno="$4"
+echo "$bankname"
+./printsec.awk pplt161u/ULTRASND.INI "$gusbank" > tmp
+for n in `seq $startno $endno` ; do
+fn=$(cat tmp | grep "^$n=" | cut -d '=' -f 2 | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ)
+printf "      %03d   %s.PAT\n" $n "$fn"
+done
+}
+printit() {
+ini "bank 0" "Melodic Bank 0" 0 127
+ini "drumset 0" "Drum Patches" 27 87
+ini "drumset 1" "Drum Bank 9" 27 87
+ini "drumset 2" "Drum Bank 17" 27 87
+ini "drumset 3" "Drum Bank 25" 27 87
+ini "drumset 4" "Drum Bank 26" 27 87
+ini "drumset 5" "Drum Bank 33" 27 87
+ini "drumset 6" "Drum Bank 41" 27 87
+ini "drumset 7" "Drum Bank 49" 27 87
+ini "drumset 8" "Drum Bank 0" 27 87
+}
+printit > propatches.cfg
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 propatches.cfg "$dest"/etc/propatches/propatches.cfg
+for i in pplt_160/*.PAT ; do
+install -Dm 644 "$i" "$dest"/share/midi/propatches/"$(basename "$i")"
+done
