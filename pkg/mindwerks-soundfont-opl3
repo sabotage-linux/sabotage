@@ -1,0 +1,13 @@
+[mirrors]
+https://github.com/Mindwerks/opl3-soundfont/releases/download/1.0/OPL-3_FM_128M.sf2
+
+[vars]
+filesize=135020964
+sha512=15021d8d4a51623595087d1e67e6e07809e02abc01449aa787295721a104ccc977f02f06c8ff6a5ad408d1558eea43241de029b7949072f6823e5b8fcc9776d6
+pkgver=1
+
+[deps]
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+install -D -m 644 "$C"/OPL-3_FM_128M.sf2 "$dest"/share/sounds/sf2/OPL-3_FM_128M.sf2
