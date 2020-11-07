@@ -1,10 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/project/dosbox/dosbox/0.74-2/dosbox-0.74-2.tar.gz
+http://downloads.sourceforge.net/project/dosbox/dosbox/0.74-3/dosbox-0.74-3.tar.gz
 
 [vars]
-filesize=1324059
-sha512=5e02ba84bfb89318f2ce4d2f387d36a0988e4e5c04e89d6c902f865bbf951a38850fc51b24632cec706687b51b4f661de918975367e6fd0d775c5f40a623cf78
-pkgver=2
+filesize=1326339
+sha512=3770f1578e71730168fba01809585f2a05cf8c4d420524687ba28791d242faad294401bb9cd268bba725798e1db853551f274dc00a4024331f5dcef9f87f8f5f
+pkgver=3
 desc='x86/DOS emulator to play the good old games'
 
 [deps]
