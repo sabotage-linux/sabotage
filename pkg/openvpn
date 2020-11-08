@@ -1,10 +1,10 @@
 [mirrors]
-https://swupdate.openvpn.org/community/releases/openvpn-2.4.3.tar.xz
+https://swupdate.openvpn.org/community/releases/openvpn-2.5.0.tar.xz
 
 [vars]
-filesize=938440
-sha512=b92ec769f672fa7c7a70985535754c566891f94774e4bc3aeb2141b3c168783aebeb82341635d3708978dd3254708221e2ddaae9919d4cf398318fff7d01c926
-pkgver=4
+filesize=1126928
+sha512=4d7175dc9b9cba84560fdb38ae9ff7f54c880c0927eee2874726e1558b8e553a6f4cf6cc26381c4bbc6541ec05419ac05a7554312140193903545b1da44f7771
+pkgver=5
 
 [deps]
 libressl
@@ -15,6 +15,7 @@ lzo
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+LIBS="-lssl -lcrypto" \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
