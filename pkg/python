@@ -1,11 +1,11 @@
 [mirrors]
-https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tar.xz
-http://sources.openwrt.org/Python-2.7.16.tar.xz
+https://www.python.org/ftp/python/2.7.17/Python-2.7.17.tar.xz
+http://sources.openwrt.org/Python-2.7.17.tar.xz
 
 [vars]
-filesize=12752104
-sha512=16e814e8dcffc707b595ca2919bd2fa3db0d15794c63d977364652c4a5b92e90e72b8c9e1cc83b5020398bd90a1b397dbdd7cb931c49f1aa4af6ef95414b43e0
-pkgver=10
+filesize=12855568
+sha512=2dc19a0b0d818c71429dae94783e58b2aac0fa31f5faa1e840cac06245a59932ecc4658d913515736601bcf70a78c9ec60367aed75f4567d1e41ff3bb104da9a
+pkgver=11
 desc='interpreter for the python 2.x scripting language'
 
 [deps]
