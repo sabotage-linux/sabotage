@@ -1,0 +1,34 @@
+https://www.vogons.org/viewtopic.php?f=41&t=38029
+
+--- a/src/hardware/adlib.cpp	2013-01-15 12:10:04 +0000
++++ b/src/hardware/adlib.cpp	2014-04-03 18:05:11 +0000
+@@ -227,14 +227,17 @@
+ 		Bitu i, val;
+ 		/* Check the registers to add */
+ 		for (i=0;i<256;i++) {
+-			//Skip the note on entries
+-			if (i>=0xb0 && i<=0xb8) 
+-				continue;
+ 			val = (*cache)[ i ];
++			//Silence the note on entries			
++			if (i>=0xb0 && i<=0xb8) 
++				val &= ~0x20;
++			if (i==0xbd) val &= ~0x1f;
+ 			if (val) {
+ 				AddWrite( i, val );
+ 			}
+ 			val = (*cache)[ 0x100 + i ];
++			if (i>=0xb0 && i<=0xb8) 
++				val &= ~0x20;
+ 			if (val) {
+ 				AddWrite( 0x100 + i, val );
+ 			}
+@@ -525,6 +528,7 @@
+ 
+ void Module::Init( Mode m ) {
+ 	mode = m;
++	memset(cache, 0, 0x200);
+ 	switch ( mode ) {
+ 	case MODE_OPL3:
+ 	case MODE_OPL2:
+
