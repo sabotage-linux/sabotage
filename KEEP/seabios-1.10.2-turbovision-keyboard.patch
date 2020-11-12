@@ -1,0 +1,11 @@
+--- a/src/hw/ps2port.c
++++ b/src/hw/ps2port.c
+@@ -401,6 +401,7 @@ handle_09(void)
+         dprintf(1, "ps2 keyboard irq but found mouse data?!\n");
+         goto done;
+     }
++    i8042_command(I8042_CMD_KBD_DISABLE, NULL);
+     v = inb(PORT_PS2_DATA);
+ 
+     if (!(GET_LOW(Ps2ctr) & I8042_CTR_KBDINT))
+

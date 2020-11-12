@@ -1,0 +1,25 @@
+[mirrors]
+https://www.seabios.org/downloads/seabios-1.10.2.tar.gz
+
+[vars]
+filesize=589283
+sha512=ea8396fe247a3bd16b43ab775cf8e23f139673b94e83f450cadb094cc8117ca7e9ef518162d965209d5ab091c96f70ec5cc8ec8d15b638e06c4c8f7a0e1609dc
+pkgver=1
+
+[deps]
+
+[deps.host]
+iasl
+
+[build]
+patch -p1 < "$K"/seabios-1.10.2-turbovision-keyboard.patch
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar LD="$CROSS_COMPILE"ld CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" V=1 \
+  "$1"
+}
+mk_target all
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 out/bios.bin "$dest"/share/seabios/bios.bin
