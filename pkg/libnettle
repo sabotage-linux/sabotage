@@ -17,7 +17,8 @@ gmp
 CPPFLAGS=-D_GNU_SOURCE \
 CFLAGS="$optcflags -fPIC" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-./configure -C --prefix="$butch_prefix" $xconfflags
+./configure -C --prefix="$butch_prefix" $xconfflags \
+  --disable-documentation
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 dest="$butch_install_dir""$butch_prefix"
