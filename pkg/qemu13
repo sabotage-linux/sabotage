@@ -4,11 +4,13 @@ http://wiki.qemu-project.org/download/qemu-1.3.0.tar.bz2
 [vars]
 filesize=10286423
 sha512=2b314590363697140c3f7b3c445a40782f34c3d8911ded66e15ddd4470c7f38d0035fa09b6e6d99122f209495b62111809ce2eb4fc308fc120b9c598d18c2bc7
+pkgver=2
 
 [deps]
 glib
 sdl
 libx11
+alsa-lib
 
 [build]
 
@@ -20,13 +22,22 @@ patch -p1 < "$K"/qemu-arm-user-exec.patch
 
 CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 CFLAGS="$CFLAGS -DF_SETLKW64=F_SETLKW -DF_GETLK64=F_GETLK -DF_SETLK64=F_SETLK"
-CFLAGS="$CFLAGS -O2 -g0" \
+CFLAGS="$CFLAGS -O2 -g0 -include sys/sysmacros.h" \
 ./configure --prefix="$butch_prefix" \
   --enable-kvm \
   --disable-werror \
   --disable-vnc \
   --disable-bluez \
+  --audio-drv-list=alsa,sdl \
+  --audio-card-list=ac97,es1370,sb16,cs4231a,adlib,gus \
+  --with-confsuffix=/qemu13 \
   --enable-sdl
 
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+
+for x in "$dest"/bin/qemu-* ; do
+y=$(basename $x | cut -b 5-); z="qemu13$y" ; mv $x "$dest"/bin/$z
+done
