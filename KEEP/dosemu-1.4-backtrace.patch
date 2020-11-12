@@ -1,0 +1,31 @@
+--- dosemu-1.4.0.org/src/arch/linux/async/debug.c
++++ dosemu-1.4.0/src/arch/linux/async/debug.c
+@@ -6,7 +6,6 @@
+ #include <unistd.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+-#include <execinfo.h>
+ 
+ static FILE *gdb_f = NULL;
+ 
+@@ -66,20 +65,6 @@
+  */
+ static void print_trace (void)
+ {
+-  void *array[10];
+-  int size;
+-  char **strings;
+-  size_t i;
+-  
+-  size = backtrace (array, 10);
+-  strings = backtrace_symbols (array, size);
+-  
+-  printf ("Obtained %d stack frames.\n", size);
+-  
+-  for (i = 0; i < size; i++)
+-    printf ("%s\n", strings[i]);
+-  
+-  free (strings);
+ }
+ 
+ static void collect_info(pid_t pid)

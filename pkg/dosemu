@@ -1,0 +1,57 @@
+[mirrors]
+http://downloads.sourceforge.net/dosemu/dosemu-1.4.0.tgz
+
+[vars]
+filesize=2295595
+sha512=fdeb48c9d2051eed101919dbf7e9c698c6035770e94bb3b77cf2addf55373526f573ee48cfdac48b263281169c6ae5c44c811e53cd1865614c10c551e12a6794
+pkgver=1
+
+[deps]
+sdl
+alsa-lib
+
+[deps.host]
+bison
+bdftopcf
+mkfontdir
+
+[build]
+patch -p1 < "$K"/dosemu-1.4-backtrace.patch
+patch -p1 < "$K"/dosemu-1.4-ipx.patch
+sed -e 's@#define IPX 1@#undef IPX@' -i src/include/ipx.h
+
+sed -e 's@extern inline@static inline@' -i src/include/dosemu_debug.h
+sed -e 's@GetDebugFlagsHelper(char \*debugStr)@GetDebugFlagsHelper(char *debugStr, int p)@' -i src/include/dosemu_debug.h
+sed -e 's@major=$1; minor=$2@major=9; minor=99@' -i configure
+sed -e "s@-printf ' %f'@"'|while read n ; do printf " %s" $(basename $n); done@' \
+  -i mkpluginhooks
+
+for i in src/base/dev/dma/dma.c src/include/dma.h ; do
+sed -e 's@inline int dma_get_block_size@int dma_get_block_size@' -i $i
+done
+
+for i in src/base/dev/pic/pic.c src/include/pic.h ; do
+sed -e 's@inline void pic_watch@void pic_watch@' -i $i
+done
+
+for i in src/base/serial/ser_ports.c src/base/serial/ser_defs.h ; do
+sed -e 's@inline int msr_compute_delta_bits@int msr_compute_delta_bits@' -i $i
+done
+
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -Dloff_t=off_t -DNO_DEBUGPRINT_AT_ALL -include limits.h" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags -std=gnu89" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+

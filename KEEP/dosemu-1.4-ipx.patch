@@ -1,0 +1,36 @@
+--- dosemu-1.4.0.org/src/dosext/net/net/ipx.c
++++ dosemu-1.4.0/src/dosext/net/net/ipx.c
+@@ -21,7 +21,6 @@
+ #include <sys/socket.h>
+ #include <sys/time.h>
+ #include <sys/types.h>
+-#include <netipx/ipx.h>
+ #include <netinet/in.h>
+ #include <errno.h>
+ 
+@@ -33,6 +32,7 @@
+ #include "bios.h"
+ #include "ipx.h"
+ #ifdef IPX
++#include <netipx/ipx.h>
+ 
+ #define MAX_PACKET_DATA		1500
+ 
+--- dosemu-1.4.0.org/src/dosext/net/net/ipxglt.c
++++ dosemu-1.4.0/src/dosext/net/net/ipxglt.c
+@@ -20,7 +20,6 @@
+ #include <sys/time.h>
+ #include <sys/ioctl.h>
+ #include <net/route.h>
+-#include <netipx/ipx.h>
+ #include <netinet/in.h>
+ #include <errno.h>
+ 
+@@ -28,6 +27,7 @@
+ #include "utilities.h"
+ #include "ipx.h"
+ #ifdef IPX
++#include <netipx/ipx.h>
+ 
+ #define FALSE   0
+ #define TRUE    1
