@@ -1,0 +1,23 @@
+[mirrors]
+https://acpica.org/sites/acpica/files/acpica-unix2-20200925.tar.gz
+
+[vars]
+filesize=1582343
+sha512=e5009e6f38b145019406b2d237247f3063372bcd006371501991f338f974bf441c3de3162f5b800ff5f6eed4ab267ef4b715b2256cc9a6ae0a787eb0d0a24c68
+pkgver=1
+
+[deps]
+bison
+flex
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar OPT_CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target iasl
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 generate/unix/bin/iasl "$dest"/bin/iasl
