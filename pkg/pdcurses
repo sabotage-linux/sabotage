@@ -31,7 +31,7 @@ dest="$butch_install_dir""$butch_prefix"
 for i in curses panel ; do
 install -Dm 644 $i.h "$dest"/include/pdcurses/$i.h
 done
-install -Dm 644 sdl1/pdcurses.a "$dest"/lib/pdcurses.a
+install -Dm 644 sdl1/pdcurses.a "$dest"/lib/libpdcurses.a
 cat << EOF > pdcurses.pc
 Name: pdcurses
 Description: pdcurses terminal library
