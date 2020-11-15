@@ -17,7 +17,6 @@ BEGIN {
 			DEPTYPES["build"]="deps";
 			DEPTYPES["host"]="deps.host";
 			DEPTYPES["run"]="deps.run";
-			break;
 		} else {
 			DEPTYPES[x[a]]= x[a]=="build"?"deps":"deps." x[a];
 		}
@@ -36,6 +35,14 @@ function error(msg) {
 	eprint("error: " msg)
 	exit 1
 }
+function has_alternative_provider_dep(pkg,         i,pd) {
+	pd = "deps." pkg ".";
+	for(i in DEPTYPES) {
+		if(substr(DEPTYPES[i],1,length(pd)) == pd)
+			return 1;
+	}
+	return 0;
+}
 
 function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 	pkgFile=ENVIRON["S"] "/pkg/" pkg
@@ -51,7 +58,7 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 	}
 	while ((r = getline < pkgFile) == 1) {
 		dep=$0
-		if (/^\[deps(\.([a-z0-9])+)?\]$/) {
+		if (/^\[deps(\.([-a-zA-Z0-9.])+)?\]$/) {
 			inDepsSection=0
 			for(i in DEPTYPES) {
 				if ($0 == "[" DEPTYPES[i] "]") {
@@ -59,6 +66,8 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 					break
 				}
 			}
+			if(!inDepsSection && $0 == "[deps." pkg ".default]" && !has_alternative_provider_dep(pkg))
+				inDepsSection=1
 			continue
 		}
 		if (/\[/) {
