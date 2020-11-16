@@ -1,0 +1,362 @@
+From 8312f7f60f9dfe88118163d38b8282abf04aac2f Mon Sep 17 00:00:00 2001
+From: Rich Felker <dalias@aerifal.cx>
+Date: Mon, 2 Jun 2014 02:13:57 -0400
+Subject: [PATCH] implement new dns backend, res_send and other legacy resolver
+ functions
+
+this is the second phase of the "resolver overhaul" project.
+
+the key additions in this commit are the __res_msend and __res_mkquery
+functions, which have been factored so as to provide a backend for
+both the legacy res_* functions and the standard getaddrinfo and
+getnameinfo functions. the latter however are still using the old
+backend code; there is code duplication which still needs to be
+removed, and this will be the next phase of the resolver overhaul.
+
+__res_msend is derived from the old __dns_doqueries function, but
+generalized to send arbitrary caller-provided packets in parallel
+rather than producing the parallel queries itself. this allows it to
+be used (completely trivially) as a backend for res_send. the
+factored-out query generation code, with slightly more generality, is
+now part of __res_mkquery.
+---
+ src/network/res_init.c        |   2 +
+ src/network/res_mkquery.c     |  41 ++++++++
+ src/network/res_msend.c       | 184 ++++++++++++++++++++++++++++++++++
+ src/network/res_query.c       |  28 ++----
+ src/network/res_querydomain.c |  14 +++
+ src/network/res_send.c        |  12 +++
+ 6 files changed, 263 insertions(+), 18 deletions(-)
+ create mode 100644 src/network/res_mkquery.c
+ create mode 100644 src/network/res_msend.c
+ create mode 100644 src/network/res_querydomain.c
+ create mode 100644 src/network/res_send.c
+
+diff --git a/src/network/res_init.c b/src/network/res_init.c
+index cbd5b155..5dba9dfc 100644
+--- a/src/network/res_init.c
++++ b/src/network/res_init.c
+@@ -1,3 +1,5 @@
++#include <resolv.h>
++
+ int res_init()
+ {
+ 	return 0;
+diff --git a/src/network/res_mkquery.c b/src/network/res_mkquery.c
+new file mode 100644
+index 00000000..f7e4e9c6
+--- /dev/null
++++ b/src/network/res_mkquery.c
+@@ -0,0 +1,41 @@
++#include <resolv.h>
++#include <string.h>
++#include <time.h>
++#include "libc.h"
++
++int __res_mkquery(int op, const char *dname, int class, int type,
++	const unsigned char *data, int datalen,
++	const unsigned char *newrr, unsigned char *buf, int buflen)
++{
++	int id, i, j;
++	unsigned char q[280];
++	struct timespec ts;
++	size_t l = strnlen(dname, 256);
++
++	if (l-1>=254 || buflen<18+l || op>15u || class>255u || type>255u)
++		return -1;
++
++	/* Construct query template - ID will be filled later */
++	memset(q, 0, 18+l);
++	q[2] = op*8 + 1;
++	q[5] = 1;
++	memcpy((char *)q+13, dname, l);
++	for (i=13; q[i]; i=j+1) {
++		for (j=i; q[j] && q[j] != '.'; j++);
++		if (j-i-1u > 62u) return -1;
++		q[i-1] = j-i;
++	}
++	q[i+1] = type;
++	q[i+3] = class;
++
++	/* Make a reasonably unpredictable id */
++	clock_gettime(CLOCK_REALTIME, &ts);
++	id = ts.tv_nsec + ts.tv_nsec/65536UL & 0xffff;
++	q[0] = id/256;
++	q[1] = id;
++
++	memcpy(buf, q, 18+l);
++	return 18+l;
++}
++
++weak_alias(__res_mkquery, res_mkquery);
+diff --git a/src/network/res_msend.c b/src/network/res_msend.c
+new file mode 100644
+index 00000000..cded5353
+--- /dev/null
++++ b/src/network/res_msend.c
+@@ -0,0 +1,184 @@
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <netdb.h>
++#include <arpa/inet.h>
++#include <stdint.h>
++#include <string.h>
++#include <poll.h>
++#include <time.h>
++#include <ctype.h>
++#include <unistd.h>
++#include <errno.h>
++#include <pthread.h>
++#include "stdio_impl.h"
++#include "syscall.h"
++
++static void cleanup(void *p)
++{
++	__syscall(SYS_close, (intptr_t)p);
++}
++
++static unsigned long mtime()
++{
++	struct timespec ts;
++	clock_gettime(CLOCK_REALTIME, &ts);
++	return (unsigned long)ts.tv_sec * 1000
++		+ ts.tv_nsec / 1000000;
++}
++
++int __res_msend(int nqueries, const unsigned char *const *queries,
++	const int *qlens, unsigned char *const *answers, int *alens, int asize)
++{
++	int fd;
++	FILE *f, _f;
++	unsigned char _buf[256];
++	char line[64], *s, *z;
++	int timeout = 5000, attempts = 2, retry_interval;
++	union {
++		struct sockaddr_in sin;
++		struct sockaddr_in6 sin6;
++	} sa = {0}, ns[3] = {{0}};
++	socklen_t sl = sizeof sa.sin;
++	int nns = 0;
++	int family = AF_INET;
++	int rlen;
++	int next;
++	int i, j;
++	int cs;
++	struct pollfd pfd;
++	unsigned long t0, t1, t2;
++
++	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
++
++	/* Get nameservers from resolv.conf, fallback to localhost */
++	f = __fopen_rb_ca("/etc/resolv.conf", &_f, _buf, sizeof _buf);
++	if (f) for (nns=0; nns<3 && fgets(line, sizeof line, f); ) {
++		if (!strncmp(line, "options", 7) && isspace(line[7])) {
++			unsigned long x;
++			char *p, *z;
++			p = strstr(line, "timeout:");
++			if (p && isdigit(p[8])) {
++				p += 8;
++				x = strtoul(p, &z, 10);
++				if (z != p) timeout = x < 30 ? x*1000 : 30000;
++			}
++			p = strstr(line, "attempts:");
++			if (p && isdigit(p[9])) {
++				p += 9;
++				x = strtoul(p, &z, 10);
++				if (z != p) attempts = x < 10 ? x : 10;
++				if (!attempts) attempts = 1;
++			}
++		}
++		if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
++			continue;
++		for (s=line+11; isspace(*s); s++);
++		for (z=s; *z && !isspace(*z); z++);
++		*z=0;
++
++		if (inet_pton(AF_INET, s, &ns[nns].sin.sin_addr)>0) {
++			ns[nns].sin.sin_port = htons(53);
++			ns[nns++].sin.sin_family = AF_INET;
++		} else if (inet_pton(AF_INET6, s, &ns[nns].sin6.sin6_addr)>0) {
++			sl = sizeof sa.sin6;
++			ns[nns].sin6.sin6_port = htons(53);
++			ns[nns++].sin6.sin6_family = family = AF_INET6;
++		}
++	}
++	if (f) __fclose_ca(f);
++	if (!nns) {
++		ns[0].sin.sin_family = AF_INET;
++		ns[0].sin.sin_port = htons(53);
++		ns[0].sin.sin_addr.s_addr = htonl(0x7f000001);
++		nns=1;
++	}
++
++	/* Get local address and open/bind a socket */
++	sa.sin.sin_family = family;
++	fd = socket(family, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0);
++
++	/* Handle case where system lacks IPv6 support */
++	if (fd < 0 && family == AF_INET6 && errno == EAFNOSUPPORT) {
++		fd = socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0);
++		family = AF_INET;
++	}
++	if (fd < 0 || bind(fd, (void *)&sa, sl) < 0) return -1;
++
++	/* Past this point, there are no errors. Each individual query will
++	 * yield either no reply (indicated by zero length) or an answer
++	 * packet which is up to the caller to interpret. */
++
++	pthread_cleanup_push(cleanup, (void *)(intptr_t)fd);
++	pthread_setcancelstate(cs, 0);
++
++	/* Convert any IPv4 addresses in a mixed environment to v4-mapped */
++	if (family == AF_INET6) {
++		setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &(int){0}, sizeof 0);
++		for (i=0; i<nns; i++) {
++			if (ns[i].sin.sin_family != AF_INET) continue;
++			memcpy(ns[i].sin6.sin6_addr.s6_addr+12,
++				&ns[i].sin.sin_addr, 4);
++			memcpy(ns[i].sin6.sin6_addr.s6_addr,
++				"\0\0\0\0\0\0\0\0\0\0\xff\xff", 12);
++			ns[i].sin6.sin6_family = AF_INET6;
++			ns[i].sin6.sin6_flowinfo = 0;
++			ns[i].sin6.sin6_scope_id = 0;
++		}
++	}
++
++	memset(alens, 0, sizeof *alens * nqueries);
++
++	pfd.fd = fd;
++	pfd.events = POLLIN;
++	retry_interval = timeout / attempts;
++	t0 = t2 = mtime();
++	t1 = t2 - retry_interval;
++
++	for (; t2-t0 < timeout; t2=mtime()) {
++		if (t2-t1 >= retry_interval) {
++			/* Query all configured namservers in parallel */
++			for (i=0; i<nqueries; i++)
++				if (!alens[i])
++					for (j=0; j<nns; j++)
++						sendto(fd, queries[i],
++							qlens[i], MSG_NOSIGNAL,
++							(void *)&ns[j], sl);
++			t1 = t2;
++		}
++
++		/* Wait for a response, or until time to retry */
++		if (poll(&pfd, 1, t1+retry_interval-t2) <= 0) continue;
++
++		while ((rlen = recvfrom(fd, answers[next], asize, 0,
++		  (void *)&sa, (socklen_t[1]){sl})) >= 0) {
++
++			/* Ignore non-identifiable packets (no query id) */
++			if (rlen < 2) continue;
++
++			/* Ignore replies from addresses we didn't send to */
++			for (i=0; i<nns && memcmp(ns+i, &sa, sl); i++);
++			if (i==nns) continue;
++
++			/* Find which query this answer goes with, if any */
++			for (i=next; i<nqueries && (
++				answers[next][0] != queries[i][0] ||
++				answers[next][1] != queries[i][1] ); i++);
++			if (i==nqueries) continue;
++			if (alens[i]) continue;
++
++			/* Store answer in the right slot, or update next
++			 * available temp slot if it's already in place. */
++			alens[i] = rlen;
++			if (i == next)
++				for (; next<nqueries && alens[next]; next++);
++			else
++				memcpy(answers[i], answers[next], rlen);
++
++			if (next == nqueries) goto out;
++		}
++	}
++out:
++	pthread_cleanup_pop(1);
++
++	return 0;
++}
+diff --git a/src/network/res_query.c b/src/network/res_query.c
+index 3847da37..2b4e4bb1 100644
+--- a/src/network/res_query.c
++++ b/src/network/res_query.c
+@@ -1,25 +1,17 @@
+-#define _GNU_SOURCE
+ #include <resolv.h>
+ #include <netdb.h>
+-#include "__dns.h"
+ #include "libc.h"
+ 
+-int res_query(const char *name, int class, int type, unsigned char *dest, int len)
++int __res_mkquery(int, const char *, int, int, const unsigned char *, int, const unsigned char*, unsigned char *, int);
++int __res_send(const unsigned char *, int, unsigned char *, int);
++
++int __res_query(const char *name, int class, int type, unsigned char *dest, int len)
+ {
+-	if (class != 1 || len < 512)
+-		return -1;
+-	switch(__dns_doqueries(dest, name, &type, 1)) {
+-	case EAI_NONAME:
+-		h_errno = HOST_NOT_FOUND;
+-		return -1;
+-	case EAI_AGAIN:
+-		h_errno = TRY_AGAIN;
+-		return -1;
+-	case EAI_FAIL:
+-		h_errno = NO_RECOVERY;
+-		return -1;
+-	}
+-	return 512;
++	unsigned char q[280];
++	int ql = __res_mkquery(0, name, class, type, 0, 0, 0, q, sizeof q);
++	if (ql < 0) return ql;
++	return __res_send(q, ql, dest, len);
+ }
+ 
+-weak_alias(res_query, res_search);
++weak_alias(__res_query, res_query);
++weak_alias(__res_query, res_search);
+diff --git a/src/network/res_querydomain.c b/src/network/res_querydomain.c
+new file mode 100644
+index 00000000..c746dbe6
+--- /dev/null
++++ b/src/network/res_querydomain.c
+@@ -0,0 +1,14 @@
++#include <resolv.h>
++#include <string.h>
++
++int res_querydomain(const char *name, const char *domain, int class, int type, unsigned char *dest, int len)
++{
++	char tmp[256];
++	size_t nl = strnlen(name, 256);
++	size_t dl = strnlen(domain, 256);
++	if (nl+dl+1 > 255) return -1;
++	memcpy(tmp, name, nl);
++	tmp[nl] = '.';
++	memcpy(tmp+nl+1, domain, dl+1);
++	return res_query(tmp, class, type, dest, len);
++}
+diff --git a/src/network/res_send.c b/src/network/res_send.c
+new file mode 100644
+index 00000000..19cfe0f6
+--- /dev/null
++++ b/src/network/res_send.c
+@@ -0,0 +1,12 @@
++#include <resolv.h>
++#include "libc.h"
++
++int __res_msend(int, const unsigned char *const *, const int *, unsigned char *const *, int *, int);
++
++int __res_send(const unsigned char *msg, int msglen, unsigned char *answer, int anslen)
++{
++	int r = __res_msend(1, &msg, &msglen, &answer, &anslen, anslen);
++	return r<0 ? r : anslen;
++}
++
++weak_alias(__res_send, res_send);
+-- 
+2.22.0
+
