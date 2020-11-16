@@ -1,2 +1,8 @@
-[deps]
+[vars]
+pkgver=2
+
+[deps.readline.default]
 libedit
+
+[deps.readline.gnu]
+gnu-readline
