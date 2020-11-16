@@ -1,0 +1,16 @@
+[vars]
+pkgver=1
+
+[deps.libc.default]
+musl
+
+[deps.libc.musl]
+musl
+
+[deps.libc.musl-1]
+musl-1
+
+[deps.libc.musl-git]
+musl-git
+
+
