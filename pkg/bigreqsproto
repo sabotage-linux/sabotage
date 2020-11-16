@@ -8,7 +8,7 @@ desc="big requests extension for the X server"
 
 [deps]
 util-macros
-musl
+libc
 
 [build]
 cp -f "$K"/config.sub .

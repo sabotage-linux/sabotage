@@ -7,7 +7,7 @@ sha512=04f22e969c794246b9aa28055b202638081cfb0bb4a5625c049a30c48ac84cdd41db12a53
 pkgver=3
 
 [deps]
-musl
+libc
 kernel-headers
 
 [deps.host]

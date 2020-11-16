@@ -6,7 +6,7 @@ filesize=100501
 sha512=e6c96707d651eb20aa4a4c76f78891154d576ccdfaef08b5eff6094b90b62a0e97f6e35a4a996dcc3b5f0b57ee2c60542f41832039c6cbdf853ff3d022c1b609
 
 [deps]
-musl
+libc
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -8,7 +8,7 @@ pkgver=2
 desc='source code generator for fast string comparisons via hashes'
 
 [deps]
-musl
+libc
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -9,7 +9,7 @@ pkgver=6
 desc='ASN.1 library used by GnuTLS and others'
 
 [deps]
-musl
+libc
 
 [build]
 "$K"/gnulibfix gl

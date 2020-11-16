@@ -9,7 +9,7 @@ desc='GNU stream editor with more features than busybox sed'
 no_unlink=1
 
 [deps]
-musl
+libc
 
 [build]
 cp -f "$K"/config.sub build-aux/

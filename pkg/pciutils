@@ -7,7 +7,7 @@ sha512=e3ede8051de6911a63eb3f60d684996845d7f02e32f02f2e5c5b91f6b27f5a59b8c9662cb
 pkgver=6
 
 [deps]
-musl
+libc
 kmod
 xz
 

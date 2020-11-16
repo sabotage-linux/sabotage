@@ -10,7 +10,7 @@ pkgver=5
 desc='sniff and dump network and usb traffic'
 
 [deps]
-musl
+libc
 libpcap
 
 [build]

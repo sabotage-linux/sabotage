@@ -7,7 +7,7 @@ sha512=8930086b8e7fddcd4dbd3354c5f5ee05171df68fde1cc222b6c402430042b6e761efbad7e
 pkgver=1
 
 [deps]
-musl
+libc
 
 [build]
 make V=1 -j$MAKE_THREADS CFLAGS="$optcflags" LDFLAGS="$optldflags" \

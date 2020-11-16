@@ -11,7 +11,7 @@ desc='library for capturing network and other packets'
 
 [deps]
 libnl-tiny
-musl
+libc
 
 [deps.host]
 flex

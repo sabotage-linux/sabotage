@@ -8,7 +8,7 @@ pkgver=12
 desc='fast and relatively unbloated PDF viewer. used on embedded devices'
 
 [deps]
-musl
+libc
 zlib
 curl
 freetype

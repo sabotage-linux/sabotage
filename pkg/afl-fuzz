@@ -8,7 +8,7 @@ pkgver=14
 desc='powerful instrumented binary fuzzer'
 
 [deps]
-musl
+libc
 
 [build]
 patch -p0 < "$K"/afl-Makefile.patch

@@ -9,7 +9,7 @@ pkgver=2
 desc='interpreter for the python 3.x scripting language'
 
 [deps]
-musl
+libc
 curses
 libressl
 bzip2

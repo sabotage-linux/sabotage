@@ -7,7 +7,7 @@ sha512=3233d81cb2739a54b840a0a82064eebbfaa4fb442fb993a35d6bd41d8395c51f038c90ae0
 pkgver=2
 
 [deps]
-musl
+libc
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

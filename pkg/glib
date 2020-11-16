@@ -7,7 +7,7 @@ sha512=09ee6fa3a6f3f15af229bd789bef536e3570f36d1e4ce624a57e97c4040577f6baccd6ab5
 pkgver=4
 
 [deps]
-musl
+libc
 libffi
 gettext
 zlib

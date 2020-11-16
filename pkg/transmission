@@ -8,7 +8,7 @@ pkgver=4
 
 [deps]
 curl
-musl
+libc
 libressl
 libevent
 

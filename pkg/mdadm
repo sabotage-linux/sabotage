@@ -11,7 +11,7 @@ desc='utility used to manage and monitor software RAID devices'
 
 [deps]
 kernel-headers
-musl
+libc
 
 [build]
 

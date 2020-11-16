@@ -1,5 +1,5 @@
 [deps]
-musl
+libc
 
 [deps.host]
 pkgconf

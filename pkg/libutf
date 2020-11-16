@@ -7,7 +7,7 @@ sha512=b17059f95b5a5b24f7e69f157e818eab556752126738b50cc361f7b0186202b30ed490f22
 desc='utf library from plan9 ported to unix'
 
 [deps]
-musl
+libc
 
 [build]
 sed -i 's,/man/man7,/share/man/man7,' Makefile

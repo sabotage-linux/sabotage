@@ -8,7 +8,7 @@ pkgver=2
 desc='redirect connections of dynamic linked programs to one or more proxies'
 
 [deps]
-musl
+libc
 
 [build]
 CFLAGS=-D_GNU_SOURCE ./configure --prefix="$butch_prefix"

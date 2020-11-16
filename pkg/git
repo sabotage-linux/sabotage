@@ -9,7 +9,7 @@ pkgver=20
 desc='tools to work with the git distributed version control system'
 
 [deps]
-musl
+libc
 curl
 
 [deps.run]

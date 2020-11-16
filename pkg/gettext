@@ -9,7 +9,7 @@ sha512=432c97800b682dea616af2437007fc131782b676da18fd6f13205b3021e962b969845110a
 pkgver=3
 
 [deps]
-musl
+libc
 
 [build]
 cat << EOF > config.mak

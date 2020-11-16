@@ -1,5 +1,5 @@
 [deps]
-musl
+libc
 apr
 apr-util
 zlib

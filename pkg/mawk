@@ -8,7 +8,7 @@ pkgver=7
 desc='ancient awk implementation used by debian derivates'
 
 [deps]
-musl
+libc
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
