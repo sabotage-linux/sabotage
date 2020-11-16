@@ -15,7 +15,7 @@ libressl
 bzip2
 expat
 libffi
-libedit
+readline
 sqlite
 
 [build]

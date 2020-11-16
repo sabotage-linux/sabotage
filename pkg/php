@@ -13,7 +13,7 @@ re2c
 [deps]
 gettext
 freetype
-libedit
+readline
 curl
 db
 libressl
@@ -38,6 +38,8 @@ bzip2
 [ -z "$butch_prefix" ] && butch_prefix=/
 pfx="$butch_prefix"
 cpfx="$butch_root_dir""$butch_prefix"
+readline_or_libedit=readline
+grep "Name: libedit" "$cpfx"/lib/pkgconfig/readline.pc>/dev/null && readline_or_libedit=libedit
 
 printf '#!/bin/sh\n[ "$1" = --version ] && echo 2.9.4 || echo -lxml2 -I%s/include/libxml2\n' "$butch_root_dir$butch_prefix" > xml2-config
 chmod +x xml2-config
@@ -68,7 +70,7 @@ CFLAGS="-D_BSD_SOURCE -D_GNU_SOURCE $optcflags" ./configure -C $xconfflags \
   --with-zlib="$cpfx" \
   --with-zlib-dir="$cpfx" --with-curl="$cpfx" --with-bz2="$cpfx" \
   --with-db4="$pfx" --with-gmp="$cpfx" \
-  --with-libedit="$cpfx" --with-freetype-dir="$cpfx" \
+  --with-"$readline_or_libedit"="$cpfx" --with-freetype-dir="$cpfx" \
   --enable-maintainer-zts \
   --disable-fileinfo \
   --disable-opcache \

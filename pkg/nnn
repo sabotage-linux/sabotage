@@ -9,7 +9,7 @@ pkgver=1
 
 [deps]
 curses
-libedit
+readline
 
 [build]
 sed -i 's/rl_menu_complete/rl_complete/' src/nnn.c
