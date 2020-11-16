@@ -4,7 +4,7 @@ http://thrysoee.dk/editline/libedit-20191231-3.1.tar.gz
 [vars]
 filesize=516801
 sha512=1df2eced98e8db1bb0af940678c154d87e3b11dd21e65a903682367f5feace5112f9a543b8e0cb04bbfeaaf73729f808db2d9c302637fc063e81c0a37777ac2c
-pkgver=5
+pkgver=6
 
 [deps]
 curses
@@ -27,3 +27,4 @@ mkdir -p "$dest"/include/readline
 touch "$dest"/include/readline/history.h
 touch "$dest"/include/readline/tilde.h
 ln -sf ../editline/readline.h "$dest"/include/readline/readline.h
+ln -sf libedit.pc "$dest"/lib/pkgconfig/readline.pc
