@@ -7,6 +7,7 @@ sha512=18243189d39bf0d4c8a76cddcce75243c1bae8824c686e9b6ba352667607e5b10c5feb793
 pkgver=2
 
 [deps]
+termcap
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

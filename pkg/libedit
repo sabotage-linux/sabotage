@@ -7,7 +7,7 @@ sha512=1df2eced98e8db1bb0af940678c154d87e3b11dd21e65a903682367f5feace5112f9a543b
 pkgver=6
 
 [deps]
-curses
+termcap
 
 [build]
 patch -p1 < "$K"/libedit_readlineh.patch

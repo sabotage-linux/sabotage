@@ -6,7 +6,7 @@ filesize=316133
 sha512=4c6d43a031cea38eb79e88a1aa40f737869d2ab879bd6feb89adb8d2bdb6561471f9013aa083cdbbf142fcdbade367b1b4552ff26c0b710890c9be53815f75e9
 
 [deps]
-curses
+termcap
 
 [build]
 #configure is missing some includes... which lead to implicit declarations

@@ -8,7 +8,7 @@ pkgver=2
 
 [deps]
 gettext
-curses
+termcap
 
 [build]
 patch -p1 < "$K"/psmisc-termcap.patch

@@ -10,7 +10,7 @@ http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.16.15.tar.xz
 zlib
 bzip2
 xz
-curses
+termcap
 
 [deps.host]
 perl

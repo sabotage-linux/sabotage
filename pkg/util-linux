@@ -3,7 +3,7 @@ tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
 
 [deps]
 util-linux-tarball
-curses
+termcap
 
 [build]
 patch -p1 < "$K"/util-linux.patch
@@ -12,11 +12,12 @@ patch -p1 < "$K"/util-linux-cal.patch
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CPPFLAGS="-include sys/sysmacros.h" \
-LDFLAGS="--static $optldflags -lcurses -lterminfo" \
+LDFLAGS="--static $optldflags" \
 ./configure -C \
   --prefix="$butch_prefix" \
   --sbindir="$butch_prefix"/bin \
-  --with-ncurses --disable-shared  \
+  --without-ncurses \
+  --disable-shared  \
   --disable-silent-rules \
   --disable-nls --disable-libuuid --disable-mount           \
   --disable-fsck --disable-uuidd --disable-libblkid         \
