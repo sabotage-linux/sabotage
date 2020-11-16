@@ -4,7 +4,7 @@ https://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz
 [vars]
 filesize=2910016
 sha512=18243189d39bf0d4c8a76cddcce75243c1bae8824c686e9b6ba352667607e5b10c5feb79372a1093c1c388d821841670702e940df12eae94bcebdeed90047870
-pkgver=1
+pkgver=2
 
 [deps]
 
@@ -19,3 +19,15 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+cat << EOF > readline.pc
+prefix=$butch_prefix
+includedir=\${prefix}/include
+
+Name: readline
+Version: 7.0
+Libs: -lreadline -lhistory
+Cflags: -I\${includedir} -I\${includedir}/readline
+EOF
+install -Dm 644 readline.pc "$dest"/lib/pkgconfig/readline.pc
