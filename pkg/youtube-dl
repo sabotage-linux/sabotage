@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ytdl-org/youtube-dl/releases/download/2020.07.28/youtube-dl-2020.07.28.tar.gz
+https://yt-dl.org/downloads/latest/youtube-dl-2020.11.12.tar.gz
 
 [vars]
-filesize=3179686
-sha512=be18cd53577a1e750a9610d481225b5683414ee4a095aa90b1a9ef150e9009bec4c2188f19f13505c88ac0179872751a07f5fb4b591beca3cefd11ccf071132d
-pkgver=33
+filesize=3188015
+sha512=7db373f6cc252635a3613ffe0b3b10640e262778105ebbd78b837fe019b0a2609032d2aeb81b239e000a86220aff99d2c018a9a6325adad6981a8ab64048131c
+pkgver=34
 tardir=youtube-dl
 uchkurl=http://youtube-dl.org/downloads/
 desc='command line tool to download videos from youtube, vimeo, twitter etc'
