@@ -16,7 +16,7 @@ xconfflags="--build=$($CC -dumpmachine)"
 CPPFLAGS="-D_GNU_SOURCE" \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  ./configure --cache-file=./config.cache --prefix="$butch_prefix" $xconfflags \
   --sbindir="$butch_prefix"/bin
 
 ( cd include
