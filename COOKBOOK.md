@@ -144,9 +144,18 @@ The `utils/dlinfo` script is useful in generating the above sections for you.
 
 Any combination of the above three headers may optionally be present.
 
-`[deps]` is the standard list of dependencies required by the recipe.
-`[deps.host]` are dependencies required on the host for cross-compilation.
+`[deps]` is the standard list of dependencies required by the recipe, also
+known as `build dependencies`.
+
+`[deps.host]` are dependencies required on the host running the compiler.
+Doing cross-compilation, one would typically omit to build those for the target.
+
 `[deps.run]` are requirements to run the package on the target system.
+
+For non-crosscompilation scenarios, butch defaults to build all of the above,
+equivalent to specifying `DEPS=all` or `DEPS=build:host:run` in `config`,
+in crosscompilation only to `DEPS=build` (see cross-compile config template
+`config.cross` in `KEEP`).
 
 	[build]
 	<shell instructions to build application>
@@ -219,6 +228,20 @@ The download template. It downloads, tests and unpacks tarballs.
 Used during the bootstrap process by scripts to determine the current stage.
 Leave this alone.
 
+### Alternative package providers
+
+Some packages (at the time of this writing, only `curses`), allow multiple
+packages to provide the dependency, in `curses` case the user has the choice
+between `ncurses` and `netbsd-curses` (the latter being the default).
+
+To find out which packages allow the choice of alternative providers, run
+
+    grep 'deps\..*\..*' pkg/*
+
+To prefer a non-default provider over the default one, add the prefered
+option to your `config`'s DEPS variable like so:
+
+    DEPS=all:curses.ncurses
 
 ### Installing the system
 
