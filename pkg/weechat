@@ -1,14 +1,15 @@
 [mirrors]
-http://www.weechat.org/files/src/weechat-2.5.tar.xz
+http://www.weechat.org/files/src/weechat-3.0.tar.xz
 
 [vars]
-filesize=2067180
-sha512=af0135009b799d40790c09da5419c950a6c750264a556de418b0ba4f396ecbde2aadeae5cbea3f2e98fc9926f07439e28beac00cb0019dc6752c1a5640a9834e
-pkgver=10
+filesize=2215408
+sha512=d6a68f35dc7363b838af811ff0a0a8d9fff519a4231c66f963e896bdda8653a56608e46333dc866e7dee25c1eafd2f1bf99c443089dde5a268bba637a0dee8ca
+pkgver=11
 desc='IRC client for the terminal'
 
 [deps]
 libgcrypt
+gnutls
 curl
 curses
 
@@ -40,7 +41,16 @@ CXXFLAGS="$optcflags" \
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DENABLE_SPELL=OFF \
+  -DENABLE_NLS=OFF \
   -DENABLE_RUBY=OFF \
+  -DENABLE_GUILE=OFF \
+  -DENABLE_PYTHON=OFF \
+  -DENABLE_PYTHON2=OFF \
+  -DENABLE_PERL=OFF \
+  -DENABLE_PHP=OFF \
+  -DENABLE_LUA=OFF \
+  -DENABLE_JAVASCRIPT=OFF \
   -DENABLE_TCL=OFF \
   ..
 make -j$MAKE_THREADS VERBOSE=1
