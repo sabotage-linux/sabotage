@@ -8,7 +8,7 @@ http://distfiles.exherbo.org/distfiles/alsa-utils-1.1.8.tar.bz2
 [vars]
 filesize=1262174
 sha512=f877b491840126420dd9847347d0af865b6d03eccac2e2c3853cdbc76e91899f5a5139753cc41a4db942e7999c8d53cf9bd57d2fd5e1d32c872871b2d25146d9
-pkgver=6
+pkgver=7
 
 [deps]
 alsa-lib
@@ -30,3 +30,6 @@ CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -D_LARGEFILE64_SOU
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 "$K"/alarmclock "$dest"/bin/alarmclock
