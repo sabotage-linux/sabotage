@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20190110.tar.xz
+http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20200601.tar.xz
 
 [vars]
-filesize=243472
-sha512=9ce2661018edb120d0ef5bd3ed52c0f73f577d7607d135a31730549f5eb4176db4865cdb8bde77a78dc3efb8968846da5e72af8a833a9da2a8a7deb4f1560372
-pkgver=7
-tardir=ca-certificates-20190110
+filesize=245668
+sha512=7bfd3122430be0a46bd10dcb0e0664561d1e0b2656b9f37677d89f71a1dcb0e668c25ffe08412888125fa9a53ee8245a4b3fc1004c419a159766665b1241113c
+pkgver=8
+tardir=work
 
 [deps]
 libressl
