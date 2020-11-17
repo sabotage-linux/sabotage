@@ -4,7 +4,7 @@ http://tukaani.org/xz/xz-5.2.5.tar.xz
 [vars]
 filesize=1148824
 sha512=59266068a51cb616eb31b67cd8f07ffeb2288d1391c61665ae2ec6814465afac80fec69248f6a2f2db45b44475af001296a99af6a32287226a9c41419173ccbb
-pkgver=3
+pkgver=4
 
 [deps]
 
@@ -19,6 +19,7 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
     --disable-nls --with-pic --enable-shared \
+    --enable-symbol-versions \
     --enable-static $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
