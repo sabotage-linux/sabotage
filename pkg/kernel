@@ -1,5 +1,21 @@
 [vars]
 pkgver=58
+desc='meta package for linux kernel. choose the version suiting your taste.'
 
-[deps]
+[deps.kernel.default]
 kernel414
+
+[deps.kernel.54]
+kernel54
+
+[deps.kernel.419]
+kernel419
+
+[deps.kernel.414]
+kernel414
+
+[deps.kernel.49]
+kernel49
+
+[deps.kernel.44]
+kernel44
