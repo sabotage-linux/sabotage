@@ -1,0 +1,20 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gdb/gdb-7.9.1.tar.xz
+
+[vars]
+filesize=17867692
+sha512=eebdf88b24e52e792b8a4b89ea85790de72b462a7810b44975fdf4232c068f353b15506071f450102a9d4bcecdde8e93dc3748a10699b7f73f3e04fb2d9d8414
+pkgver=1
+desc='the GNU debugger. debug applications created in asm, C, C++'
+gdb_major=7
+gdb_minor=9
+
+[deps]
+kernel-headers
+termcap
+gettext
+readline
+zlib
+
+[build]
+%include gdb76%

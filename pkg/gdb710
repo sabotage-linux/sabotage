@@ -1,0 +1,20 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gdb/gdb-7.10.1.tar.xz
+
+[vars]
+filesize=18531436
+sha512=17a5138277a31685a5c2a841cb47ed9bc4626ea617b8ca77750513b300299f4fbbffe504958b5372de610dcb952c679cf8fa9c1bdadd380294fbf59b6e366010
+pkgver=1
+desc='the GNU debugger. debug applications created in asm, C, C++'
+gdb_major=7
+gdb_minor=10
+
+[deps]
+kernel-headers
+termcap
+gettext
+readline
+zlib
+
+[build]
+%include gdb76%

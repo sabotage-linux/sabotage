@@ -6,6 +6,9 @@ http://ftp.gnu.org/gnu/gdb/gdb-7.6.2.tar.bz2
 filesize=24269334
 sha512=e72e9c2abb58cc08c38841380270fe783f26baf62798171d21cf0843e6c9a81d285f424dc6229ea7b1c6c957d999c8aa75c2bd15076817abb9caab28c4eb7666
 desc='the GNU debugger. debug applications created in asm, C, C++'
+pkgver=1
+gdb_major=7
+gdb_minor=6
 
 [deps]
 kernel-headers
@@ -22,16 +25,33 @@ find . -name 'configure' -exec sed -i 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=t
 # remove hardcoded -O2 -g CFLAGS which are *not* overridable (i.e. always appended, taking precedence)
 find . -name configure -exec sed -e 's/CFLAGS="-g -O2"/:/g' -e 's/CFLAGS="-O2"/:/g' -i "{}" \;
 
-patch -p1 < "$K"/gdb-threaddb.patch
-patch -p1 < "$K"/gdb-linux_nat.patch
-patch -p1 < "$K"/gdb-amd64-debugreg.patch
-patch -p1 < "$K"/gdb-arm-gentmap.patch
-patch -p1 < "$K"/gdb-76-linux-low-threaddb.patch
-patch -p1 < "$K"/gdb-76-readline.patch
-patch -p1 < "$K"/gdb-76-pid_t.patch
-patch -p1 < "$K"/gdb-76-configure-ash.patch
-patch -p1 < "$K"/gdb-76-debuglink-dir.patch
+# fixme: need to fix interpreter names for other archs too
+sed -e 's@ld64.so.1@ld-musl-x86_64.so.1@' -e 's@ldx32.so.1@ld-musl-x32.so.1@' \
+  -i bfd/elf64-x86-64.c
+
+if test $gdb_major = 7 && test $gdb_minor -lt 11 ; then
 patch -p1 < "$K"/gdb-76-aarch64-linux-nat.patch
+fi
+if test $gdb_major = 7 && test $gdb_minor -lt 10 ; then
+# testme: it's unknown whether gdb >= 7.10 thread debugging works, as
+# the gdb-linux_nat_thread.patch patch doesn't apply anymore.
+patch -p1 < "$K"/gdb-linux_nat_thread.patch
+patch -p1 < "$K"/gdb-arm-gentmap.patch
+patch -p1 < "$K"/gdb-76-readline.patch
+fi
+if test $gdb_major = 7 && test $gdb_minor -lt 9 ; then
+patch -p1 < "$K"/gdb-amd64-debugreg.patch
+patch -p1 < "$K"/gdb-76-configure-ash.patch
+fi
+if test $gdb_major = 7 && test $gdb_minor -lt 8 ; then
+patch -p1 < "$K"/gdb-76-pid_t.patch
+fi
+if test $gdb_major = 7 && test $gdb_minor -lt 7 ; then
+patch -p1 < "$K"/gdb-threaddb.patch
+patch -p1 < "$K"/gdb-76-linux-low-threaddb.patch
+fi
+patch -p1 < "$K"/gdb-linux_nat.patch
+patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 patch -p1 < "$K"/gdb-76-dynamic-libc-step.patch
 
 # fix mips build ...
@@ -51,6 +71,7 @@ bash_cv_func_sigsetjmp=yes
 bash_cv_func_strcoll_broken=no
 bash_cv_func_ctype_nonascii=no
 ac_cv_func_strncmp_works=yes
+ac_cv_func_strstr=yes
 ac_cv_c_stack_direction=-1
 gt_cv_func_gnugettext1_libintl=yes
 EOF
@@ -60,9 +81,14 @@ for culprit in readline libiberty libdecnumber opcodes readline bfd ; do
 	mkdir -p $culprit
 	cp config.cache $culprit/
 done
+if test $gdb_major = 7 && test $gdb_minor -lt 10 ; then
 sed -i 's/noconfigdirs=""/noconfigdirs="intl readline"/' ../configure
 # let's use libedit in lieu of readline and save us from the in-tree compile of the latter...
 ln -sf "$butch_root_dir""$butch_prefix"/lib/libreadline.a readline/libreadline.a
+else
+# fixme: gdb starting with 7.10 uses more readline stuff like rl_ding(), not provided by libedit
+sed -i 's/noconfigdirs=""/noconfigdirs="intl"/' ../configure
+fi
 archflags=
 if [ "$A" = "powerpc" ] ; then
 	cp "$K"/ppc-regs.h .
@@ -82,7 +108,7 @@ pythonflags=
 	[ -d "$butch_root_dir""$butch_prefix"/include/python2.7 ] && \
 	CPPFLAGS="-I ""$butch_root_dir""$butch_prefix"/include/python2.7
 	export CPPFLAGS
-}
+} || pythonflags="--without-python"
 [ "$GDB_DYNAMIC" = 1 ] && static_ldflags= ||  { \
 	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/configure
 	sed -i 's@RDYNAMIC=@RDYNAMIC= #@g' ../gdb/gdbserver/configure
@@ -97,8 +123,11 @@ if [ -n "$CROSS_COMPILE" ] ; then
 	targets=
 fi
 
+echo "XXX build config: dynamic: $GDB_DYNAMIC, tui: $WANT_TUI, gdbserver: $WANT_GDBSERVER, python: $WANT_PYTHON"
+
 LDFLAGS="$static_ldflags $optldflags" \
-CFLAGS="-Dgnu_fnmatch=fnmatch \
+CFLAGS="-Dgnu_fnmatch=fnmatch -Drpl_strstr=strstr \
+ -Dhistory_max_entries=max_input_history \
  -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_rl_echoing_p=readline_echoing_p \
   -O0 $optcflags $archflags" \
 ../configure -C \
