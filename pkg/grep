@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.gnu.org/gnu/grep/grep-3.4.tar.xz
-http://mirrors.kernel.org/gnu/grep/grep-3.4.tar.xz
+http://ftp.gnu.org/gnu/grep/grep-3.6.tar.xz
+http://mirrors.kernel.org/gnu/grep/grep-3.6.tar.xz
 
 [vars]
-filesize=1555820
-sha512=0f1506bd19971fbdcb47a111277ca63e8ad045456f096980852fd0a61c860f29f4b369bbaaa5cbce4b0a81718e3e3274d9a078b491f2109baa9a02ce600ee206
-pkgver=7
+filesize=1589412
+sha512=8934544a19ded61344d83ff2cab501e86f17f8ae338892e0c36c2d2d8e63c76817840a0071ef5e3fcbca9115eba8a1aae0e4c46b024e75cd9a2e3bd05f933d90
+pkgver=8
 desc='GNU grep with more features than busybox grep'
 no_unlink=1
 
