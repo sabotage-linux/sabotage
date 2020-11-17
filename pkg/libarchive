@@ -1,10 +1,10 @@
 [mirrors]
-http://www.libarchive.org/downloads/libarchive-3.4.1.tar.xz
+http://www.libarchive.org/downloads/libarchive-3.4.3.tar.xz
 
 [vars]
-filesize=4821780
-sha512=45da32179ffa781cd007151ccde85bdc62a543ea85ed3a6910aeb91f3f7095a7d53a8490e5fac4773c202282d8f04e5cad41f57e78af6edc4f6e407f59c0deec
-pkgver=4
+filesize=4811508
+sha512=9ad2b80de8edd94f9b2e590bfbcd07d36234382595784d918ed47fc532859cabd4bcf45cb3cf08ba7fc5202098191a42629c38f66a63a9efff194fac63a79c76
+pkgver=5
 
 [deps]
 xz
