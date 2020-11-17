@@ -5,9 +5,10 @@ http://mirrors.kernel.org/gnu/grep/grep-3.6.tar.xz
 [vars]
 filesize=1589412
 sha512=8934544a19ded61344d83ff2cab501e86f17f8ae338892e0c36c2d2d8e63c76817840a0071ef5e3fcbca9115eba8a1aae0e4c46b024e75cd9a2e3bd05f933d90
-pkgver=8
+pkgver=9
 desc='GNU grep with more features than busybox grep'
 no_unlink=1
+STATICBUILD=1
 
 [deps]
 xz
