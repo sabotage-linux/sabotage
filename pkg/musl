@@ -12,16 +12,15 @@ no_unlink=1
 gcc6
 
 [build]
+if test "$STAGE" = "0" ; then
+	export CC=$R/bin/gcc
+	cfgflags=--enable-gcc-wrapper
+fi
+
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
 
 CFLAGS="$optcflags" \
-./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
-if [ "$A" = "powerpc" ] ; then
-cat << EOF >> config.mak
-LDFLAGS += -Wl,--secure-plt
-CFLAGS += -msecure-plt
-EOF
-fi
+./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib $cfgflags
 
 # enable debug libc when DEBUGBUILD is set
 [ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
@@ -37,10 +36,24 @@ ln -sf  ../lib/libc.so "$dest"/bin/ldd
 
 musl_gcc="$dest/bin/musl-gcc"
 
+if test "$STAGE" = "0" ; then
+# generate a musl-gcc wrapper that is aware of our directory layout...
+cat << EOF > "$dest"/bin/musl-gcc
+#!/bin/sh
+self=\`readlink -f "\$0"\`
+selfdir=\`dirname "\$self"\`/../../../bin
+exec "\$selfdir/rawcc" "\$@" -specs "\$selfdir/../lib/musl-gcc.specs"
+EOF
+# fix paths in spec file
+sed -i 's,/lib,'"$butch_root_dir"'/lib,g' "$dest"/lib/musl-gcc.specs
+sed -i 's,/include,'"$butch_root_dir"'/include,g' "$dest"/lib/musl-gcc.specs
+sed -i 's,/lib/ld-musl,/xxx/xxx/,' "$dest"/lib/musl-gcc.specs
+else
 cp "$K/musl-gcc" "$musl_gcc"
-chmod +x "$musl_gcc"
 sed -i "s,AAAA,$A," "$musl_gcc"
 sed -i "s,PPPP,$butch_prefix," "$musl_gcc"
+fi
+chmod +x "$musl_gcc"
 
 #create dynlinker path file which only contains /lib
 #this should speed up dynamic linker path search

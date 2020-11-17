@@ -13,32 +13,4 @@ stage0-gcc
 # do not rebuild stage0 packages once we're past that stage
 test "$STAGE" = "0" || exit 0
 
-patch -p1 < "$K"/musl-1.1.18-armasm.patch
-
-CC=$R/bin/gcc ./configure --enable-gcc-wrapper \
-  --prefix=$butch_prefix --syslibdir=$butch_prefix/lib
-
-# enable debug libc when DEBUGBUILD is set
-[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS += -O0 -g" >> config.mak
-[ ! -z "$DEBUGBUILD" ] && echo "CFLAGS_ALL_SHARED += -O0 -g" >> config.mak
-
-make CC=$R/bin/gcc -j$MAKE_THREADS
-make install DESTDIR="$butch_install_dir"
-
-dest="$butch_install_dir""$butch_prefix"
-
-# generate a musl-gcc wrapper that is aware of our directory layout...
-cat << EOF > "$dest"/bin/musl-gcc
-#!/bin/sh
-self=\`readlink -f "\$0"\`
-selfdir=\`dirname "\$self"\`/../../../bin
-exec "\$selfdir/rawcc" "\$@" -specs "\$selfdir/../lib/musl-gcc.specs"
-EOF
-
-chmod +x "$dest"/bin/musl-gcc
-
-# fix paths in spec file
-sed -i 's,/lib,'"$butch_root_dir"'/lib,g' "$dest"/lib/musl-gcc.specs
-sed -i 's,/include,'"$butch_root_dir"'/include,g' "$dest"/lib/musl-gcc.specs
-sed -i 's,/lib/ld-musl,/xxx/xxx/,' "$dest"/lib/musl-gcc.specs
-
+%include musl%
