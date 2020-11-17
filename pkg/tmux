@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/tmux/tmux/releases/download/2.8/tmux-2.8.tar.gz
-http://distfiles.macports.org/tmux/tmux-2.8.tar.gz
+https://github.com/tmux/tmux/releases/download/3.1c/tmux-3.1c.tar.gz
+http://distfiles.macports.org/tmux/tmux-3.1c.tar.gz
 
 [vars]
-filesize=491195
-sha512=e382aec122a10624953432b3c869b21d69390bc2e7d459440a46950802e39503eafb398178f8085191261925e4f0872bb99b19e0403e7beb56d3ceecc4c86b09
-pkgver=5
+filesize=561323
+sha512=aad2e6457dd350369f245f711f1936a575d0588b72e660d10e7abc7d373da0d322903b451ad00b96a3e0e6847ca855673da6a4c5447cea91fa756edd23659397
+pkgver=6
 uchkurl=https://github.com/tmux/tmux/releases/
 desc='terminal multiplexer, similar to GNU screen but with more features'
 
