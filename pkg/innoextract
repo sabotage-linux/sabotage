@@ -1,10 +1,10 @@
 [mirrors]
-http://constexpr.org/innoextract/files/innoextract-1.7.tar.gz
+http://constexpr.org/innoextract/files/innoextract-1.9.tar.gz
 
 [vars]
-filesize=195123
-sha512=5e92625a411a4351dd4639d4b63e8664519c6697122a0679c010412e94a1e5da95324c33be16211f91c2b25b8cea40fe4ba4da5e19c12d0c27a4916159465ca4
-pkgver=2
+filesize=206931
+sha512=2b18f7bb7f50744bcb1bdcd25e57e0760193b179c77b55e0f63c537e55afc98de3b0380da3cae470ce97660ed41a7ffbb48c8c25329c9ce9b3811d9aec74bcde
+pkgver=3
 desc='extraction of windows installers in .exe format created with innosetup'
 
 [deps]
