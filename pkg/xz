@@ -1,10 +1,10 @@
 [mirrors]
-http://tukaani.org/xz/xz-5.2.3.tar.xz
+http://tukaani.org/xz/xz-5.2.5.tar.xz
 
 [vars]
-filesize=1032248
-sha512=a5b8f3c402ec3df5c1875a32081136606dd7701190d8b8091bae1bac36553ebe3480985c8069bf5d9e24f374ea64b1fe22614d3eebac1c10e5d609701bceca95
-pkgver=2
+filesize=1148824
+sha512=59266068a51cb616eb31b67cd8f07ffeb2288d1391c61665ae2ec6814465afac80fec69248f6a2f2db45b44475af001296a99af6a32287226a9c41419173ccbb
+pkgver=3
 
 [deps]
 
