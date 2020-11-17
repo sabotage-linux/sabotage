@@ -1,10 +1,10 @@
 [mirrors]
-http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.10.2.tar.gz
+http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.11.2.tar.gz
 
 [vars]
-filesize=225196
-sha512=0ae29be77794df0ba254967649b9728611a75fbb3acd32ab6634d76399d1ce97c7d12d31da465482a7e4f3207093415c496c39525cace9b78ab3cb9444dd7640
-pkgver=3
+filesize=244475
+sha512=2f846c26f3722ea3315aae73461f9c21a0a8a9ac712e1caf8dd9993e34729227c7648bf6f72fad8488247986e560298f95aa2411bd4e395410565c0b527b9db4
+pkgver=4
 desc="debian almquist shell, a strictly POSIX conforming shell"
 
 [deps]
@@ -24,7 +24,7 @@ $HOSTCC nl.c -o nl
 export PATH="$PWD:$PATH"
 
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
+  xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 LC_CTYPE=C CFLAGS="-D_GNU_SOURCE -D__KLIBC__ $optcflags -g" \
