@@ -1,18 +1,16 @@
 [mirrors]
-ftp://ftp.invisible-island.net/reflex/reflex-20191123.tgz
-http://invisible-island.net/datafiles/release/reflex-20191123.tgz
+http://invisible-mirror.net/archives/reflex/reflex-20200715.tgz
+ftp://ftp.invisible-island.net/reflex/reflex-20200715.tgz
 
 [vars]
-filesize=467096
-sha512=732ee5db6fb0ae0e0568604c4c14fd13096c994b74fc15245b6a5534928ece06c358e9f7f2a02089675f87f8c4924d836b540bcba176f7e2c9f41aa40931cd6c
-pkgver=2
+filesize=467633
+sha512=b1b395e81a2e7b368df18db71f5ed40a92903f256bf30bb6bfb42e02fb2cd0816accd0c7bd4c04c15eda8bd0a3e4640c39463ba890fb7670fe7fac049acc6ed4
+pkgver=3
 desc='flex, but less buggy and better posix compliance'
 
 [deps]
 
 [build]
-#patch -p1 < "$K"/some.patch
-#cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -20,8 +18,6 @@ desc='flex, but less buggy and better posix compliance'
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-
-#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
