@@ -1,10 +1,10 @@
 [mirrors]
-https://matt.ucc.asn.au/dropbear/releases/dropbear-2019.78.tar.bz2
+https://matt.ucc.asn.au/dropbear/releases/dropbear-2020.81.tar.bz2
 
 [vars]
-filesize=2708659
-sha512=f667ba8dae17ea89c118642b566f2c134c71bfd0b8bacea5cf7ec87d75ac79bd7cd1864a8788367a89d30ee35427d389ef6416375adff6e83caae30ff3e0549f
-pkgver=4
+filesize=2289644
+sha512=2fa9d4d7dcb1c81281f5e47c8a99b7300eb46b3bb605daaec956404eae9124879a8bbbef521dea6da8b3643f3dc6f7f5005e265bfcaba97e89812f5642c294da
+pkgver=5
 desc="lightweight ssh server/client"
 service=dropbear
 serviceflags="--down --log"
