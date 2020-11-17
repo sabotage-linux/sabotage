@@ -1,18 +1,16 @@
 [mirrors]
-https://dev.yorhel.nl/download/ncdu-1.14.tar.gz
+https://dev.yorhel.nl/download/ncdu-1.15.1.tar.gz
 
 [vars]
-filesize=145911
-sha512=9583d86f66ae9ab19e5d373d90e0d85504807f726fe6656e593ab09f83ba4ff22c0bec6fcfec216c4d9ac0b3725899ff1d9fe6cca1e3d5fd1c76cd4636b65c1f
-pkgver=4
+filesize=148242
+sha512=572379264b9bd0d782151bd2f79add0e7a6d092029a041ff8f9288e928a4b6a6733467bca7c1702cbb44c3861279da1bc3d4278df6fba1814fe1dc909f2d8087
+pkgver=5
 desc='ncurses disk usage'
 
 [deps]
 curses
 
 [build]
-#patch -p1 < "$K"/some.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
@@ -20,8 +18,6 @@ curses
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-
-#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
