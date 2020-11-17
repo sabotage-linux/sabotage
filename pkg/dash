@@ -33,3 +33,6 @@ LDFLAGS="$optldflags -static" \
 
 LC_CTYPE=C make -j$MAKE_THREADS CC_FOR_BUILD="$HOSTCC"
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+[ "$option_dash_as_sh" = 1 ] && ln -sf dash "$dest"/bin/sh
