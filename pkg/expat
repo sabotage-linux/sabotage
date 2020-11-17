@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/libexpat/libexpat/releases/download/R_2_2_7/expat-2.2.7.tar.xz
+https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.xz
 
 [vars]
-filesize=424264
-sha512=bf3af5b5a8e1a1b76658a41f67dbe7b10104e3b724e1882f529fecc509b07c75dde02d8f8b89b1522e05484e8dc417d47651c5f8d4aac1749676ba5c4752c107
-pkgver=7
+filesize=425432
+sha512=a8e0c8a9cf7e6fbacdc6e709f3c99c533ab550fba52557d24259bb8b360f9697624c7500c0e9886fa57ee2b529aadd0d1835d66fe8112e15c20df75cd3eb090f
+pkgver=8
 desc='library to interface with XML files'
 uchkurl=https://github.com/libexpat/libexpat/releases
 
@@ -12,7 +12,7 @@ uchkurl=https://github.com/libexpat/libexpat/releases
 libc
 
 [build]
-[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
+[ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
   --mandir="$butch_prefix"/share/man $xconfflags
