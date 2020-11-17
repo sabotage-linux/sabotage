@@ -1,10 +1,10 @@
 [mirrors]
-https://bellard.org/quickjs/quickjs-2020-09-06.tar.xz
+https://bellard.org/quickjs/quickjs-2020-11-08.tar.xz
 
 [vars]
-filesize=753080
-sha512=cc250be9ac1494480b4fe7e50687875893681b57789a395d2b725d07834039f9fbbc8cc8cc4255accfc98c4346bddc807313320e8f05a396d8b43c3e793f2fa7
-pkgver=2
+filesize=752132
+sha512=d437813948269bab6046c0219eb20ccea45613073bea1c4eee5b553831fdaaa5e2165b14fcb436e86bf70d488200845f7821864abb6f40b115f0ef7f24971e02
+pkgver=3
 desc='small embeddable javascript engine'
 
 [build]
