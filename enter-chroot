@@ -73,7 +73,7 @@ else
 
     $linux32 "$CHROOT" "$R" /bin/env -i \
         HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
-        /bin/sh --login
+        /bin/ash --login
 	ret=$?
 
 	#echo empty line so we get a proper prompt back
