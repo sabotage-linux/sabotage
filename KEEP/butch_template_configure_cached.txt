@@ -242,11 +242,18 @@ printf "%s: start build\n" "`timestamp`"
 # python packages "respect" the umask set by the user, unlike all other packages
 # which set explicit permissions. non-default umask causes unexpected surprises.
 umask_save=$(umask) ; umask 022
-# this will be replaced by the contents of the pkg's [build] section.
-# note that all critical commands in the buildscript should use || exit 1
-# so that it aborts on error!
+build_err_handler() {
+test "$?" = 0 && msg="build succeeded without postinstall" || msg="error: build failed"
+printf "%s: %s.\n" "`timestamp`" "$msg"
+[ -n "$start" ] && printf "total build time: %d seconds.\n" $(($(date +%s) - $start))
+}
 set -e
+trap build_err_handler EXIT
+
+# this will be replaced by the contents of the pkg's [build] section.
 %BUTCH_BUILDSCRIPT
+
+trap - EXIT
 set +e
 
 umask $umask_save
