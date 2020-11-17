@@ -4,6 +4,7 @@ http://xorg.freedesktop.org/releases/individual/app/xset-1.2.3.tar.bz2
 [vars]
 filesize=142286
 sha512=7b2cf4b06b93aec9f6f868be3f0932a5d6e62968485f7eb742a9b775059aa2a49c9170404e0597fd41a5730c0bf321e371ee6b23bbcde3be054f768ab8d3d92a
+pkgver=2
 
 [deps]
 libx11
@@ -18,3 +19,11 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+cat << EOF > screenoff
+#!/bin/sh
+busybox sleep 0.25
+xset dpms force off
+EOF
+install -Dm 755 screenoff "$dest"/bin/screenoff
