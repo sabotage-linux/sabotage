@@ -1,0 +1,47 @@
+[mirrors]
+https://hg.icculus.org/icculus/SDL_sound/archive/9262f9205898.tar.bz2
+
+[vars]
+filesize=331268
+sha512=0e26515bd1c08252cddd35e2e708618936b21951ee2b0c8291596682a60fb490583d31b6952e34755c6036cd9beeca40d6f7b2483efaf3152c8a43f98d73d3dc
+tarball=SDL2_sound_9262f9205898.tar.bz2
+tardir=SDL_sound-9262f9205898
+pkgver=1
+
+[deps]
+sdl2
+alsa-lib
+
+[deps.host]
+cmake
+
+[build]
+sed 's|FILES SDL_sound.h DESTINATION include|FILES src/SDL_sound.h DESTINATION include/SDL2|' -i CMakeLists.txt
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
