@@ -22,3 +22,9 @@ dest="$butch_install_dir""$butch_prefix"
 make DEST_HOME="$dest" \
      DEST_MAN="$dest"/share/man \
      DEST_SHARE_DOC="$dest"/share/doc/p7zip-9.20.1 install
+
+# fix absolute paths in shell script wrappers
+for x in "$dest"/bin/* ; do
+y="$(basename "$x")"
+ln -sf ../lib/p7zip/"$y" "$x"
+done
