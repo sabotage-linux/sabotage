@@ -5,7 +5,7 @@ http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
 [vars]
 filesize=1742201
 sha512=d65275b082c46c5efe7cf3264fa6794d6e99a36d4a54b50554fc56979d6c0837381587fd5399195e1db680d2a5ad1ef0b99a180eac2b4de5637906cb7a89e9ce
-pkgver=9
+pkgver=10
 service=openssh
 serviceflags="--down --log"
 
@@ -14,6 +14,7 @@ libressl
 
 [build]
 patch -p1 < "$K"/openssh-sys_param.patch
+patch -p1 < "$K"/openssh-proxychains-ipcheck.patch
 
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in
