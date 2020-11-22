@@ -25,6 +25,7 @@ sed -i 's@-m 4711@-m 0750@g' Makefile.in
 }
 
 CFLAGS="$optcflags" \
+CPPFLAGS="-D_DEFAULT_SOURCE -include stdio.h" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" \
   --sbindir="$butch_prefix"/bin --libexecdir="$butch_prefix"/lib/ssh \
