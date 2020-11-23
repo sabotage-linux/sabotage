@@ -1,10 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libX11-1.6.2.tar.bz2
+http://xorg.freedesktop.org/releases/individual/lib/libX11-1.7.0.tar.bz2
 
 [vars]
-filesize=2339981
-sha512=c8609ff34d1fe71f35b35e0273a872ccded4d824c8afdcca37e1779d37bf667cb814e0ead0805668b4222f196148476f283e417ba371b722f1fe716a5bbba20b
-pkgver=1
+filesize=2409144
+sha512=f661ca90350fd8a94f054b00f12f5122cea068ebff706acfd399462236c189a296a2358d17d16166635101cf56cc19303dd407873a159932d093c9f33556f9fb
+pkgver=2
 
 [deps]
 util-macros
