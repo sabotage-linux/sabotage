@@ -1,0 +1,38 @@
+--- gdb-7.7.1.org/gdb/symfile.c
++++ gdb-7.7.1/gdb/symfile.c
+@@ -1515,14 +1515,20 @@
+     }
+ 
+   cleanups = make_cleanup (xfree, debuglink);
++
++  debugfile = find_separate_debug_file(DEBUGDIR "/", "", debuglink, crc32, objfile);
++
++  if(!debugfile) {
+   dir = xstrdup (objfile_name (objfile));
+   make_cleanup (xfree, dir);
+   terminate_after_last_dir_separator (dir);
++
+   canon_dir = lrealpath (dir);
+ 
+   debugfile = find_separate_debug_file (dir, canon_dir, debuglink,
+ 					crc32, objfile);
+   xfree (canon_dir);
++  }
+ 
+   if (debugfile == NULL)
+     {
+@@ -1555,6 +1561,14 @@
+ 	}
+ #endif  /* HAVE_LSTAT  */
+     }
++
++  if(!debugfile) {
++          printf_unfiltered (_("Failed to find debuglink file %s"), debuglink);
++  } else {
++	  printf_unfiltered (_("Reading symbols from %s..."), debuglink);
++  }
++  wrap_here ("");    
++  gdb_flush (gdb_stdout);
+ 
+   do_cleanups (cleanups);
+   return debugfile;
