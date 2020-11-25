@@ -1,0 +1,21 @@
+[mirrors]
+https://git.sr.ht/~mcf/samurai/archive/1.1.tar.gz
+
+[vars]
+filesize=31793
+sha512=957e7976a18d07199f17496a2a53637696bbaa7318ff27d196b42bd770ba016d93e640d77615e07149d8c2d7af02f7706000e63c262950e690852f701b800995
+tarball=samurai-1.1.tar.gz
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target samu
+mk_target install
