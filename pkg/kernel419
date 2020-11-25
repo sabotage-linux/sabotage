@@ -9,8 +9,8 @@ flex
 [vars]
 LINUX_VER=4.19
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=136
-pkgver=4
+patchver=160
+pkgver=5
 no_unlink=1
 
 [build]

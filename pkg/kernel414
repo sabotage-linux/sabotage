@@ -5,8 +5,8 @@ kernel414-patch
 [vars]
 LINUX_VER=4.14
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=191
-pkgver=61
+patchver=209
+pkgver=62
 no_unlink=1
 
 [build]
@@ -41,6 +41,9 @@ kpatch="$C"/kernel-patch-"$LINUX_VER"."$patchver".xz
 }
 xzcat "$kpatch" | patch -p 1
 LINUX_VER="$LINUX_VER"."$patchver"
+
+grep offsetof include/uapi/linux/wireless.h >/dev/null && \
+	dopatch linux-stddef-breakage.patch
 
 dopatch linux-timeconst-nobc-kbuild$k_major.patch
 cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c
