@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/illiliti/libudev-zero/archive/0.4.5.tar.gz
+
+[vars]
+filesize=11928
+sha512=cc63a266284f60ab8b4d91ff9e7bade6df18c632fa867afe4c1b2cc2ec1e92cf40cc7ad0d693bd3c318994bcfcba0e548461061284131090a2ceb4aa268eaf73
+tarball=libudev-zero-0.4.5.tar.gz
+pkgver=1
+
+[deps]
+libc
+kernel-headers
+
+[build]
+patch -p1 < "$K"/libudev-zero-inputprops.patch
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$1"
+}
+mk_target all
+mk_target install

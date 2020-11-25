@@ -1,0 +1,10 @@
+--- libudev-zero-0.4.5.org/udev_device.c	2020-11-25 21:38:32.421158153 +0000
++++ libudev-zero-0.4.5/udev_device.c	2020-11-25 21:42:44.235010046 +0000
+@@ -5,6 +5,7 @@
+ #include <limits.h>
+ #include <sys/stat.h>
+ #include <linux/input.h>
++#include <linux/input-event-codes.h>
+ 
+ #include "udev.h"
+ #include "udev_list.h"
