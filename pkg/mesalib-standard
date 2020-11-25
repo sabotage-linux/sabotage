@@ -1,0 +1,70 @@
+[mirrors]
+https://mesa.freedesktop.org/archive/older-versions/13.x/13.0.6/mesa-13.0.6.tar.xz
+
+[vars]
+filesize=9179236
+sha512=2455e044647f674c2f1dd524143b61b8630713fa929bbf6fe1c981436a9c08dc933553d638a22b32d2799afb77be746355b48b1b20af172141c5b63891e94441
+pkgver=3
+
+[deps]
+dri2proto
+dri3proto
+presentproto
+gettext
+glproto
+libdrm
+libxdamage
+libxext
+libxml2
+libxshmfence
+libxxf86vm
+libudev
+expat
+
+[deps.host]
+flex
+bison
+
+[build]
+patch -p1 < "$K"/mesalib-stacksize.patch
+
+if false ; then
+  # add mesaglut to deps when you need it
+  # currently this is non-functional as nothing in the glut src tree will
+  # be built, so it needs some additional makefile patches.
+  tar xf "$C"/MesaGLUT-7.9.2.tar.gz
+  mv Mesa-7.9.2/src/glut src/
+  mv Mesa-7.9.2/include/GL/* include/GL/
+fi
+
+archflags=
+[ "$A" = arm ] || [ "$A" = mips ] || [ "$A" = aarch64 ] && archflags=--with-dri-drivers=swrast
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11 -include sys/sysmacros.h" \
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sysconfdir="$butch_prefix"/etc \
+  --with-gallium-drivers=nouveau \
+  --enable-gallium-llvm=no \
+  --enable-gallium-egl=no \
+  --enable-gallium-gbm=no \
+  --enable-gallium-tests=no \
+  --enable-gallium-g3dvl=no \
+  --enable-texture-float         \
+  --enable-gles1                 \
+  --enable-gles2                 \
+  --enable-osmesa                \
+  --disable-xa                    \
+  --enable-gbm                  \
+  --disable-asm			\
+  --disable-glx-tls               \
+  --enable-sysfs \
+  --with-egl-platforms="drm,x11" $archflags \
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+echo true >  bin/missing
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
