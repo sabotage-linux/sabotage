@@ -17,7 +17,7 @@ libxext
 libxml2
 libxshmfence
 libxxf86vm
-eudev
+libudev
 expat
 llvm-clang36
 libelf

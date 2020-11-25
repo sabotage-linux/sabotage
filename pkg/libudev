@@ -1,0 +1,12 @@
+[vars]
+pkver=1
+
+[deps.libudev.default]
+eudev
+
+[deps.libudev.eudev]
+eudev
+
+[deps.libudev.zero]
+libudev-zero
+

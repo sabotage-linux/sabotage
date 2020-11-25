@@ -7,7 +7,7 @@ http://ftp.gnome.org/pub/gnome/sources/libgudev/230/libgudev-230.tar.xz
 
 [deps]
 glib
-eudev
+libudev
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

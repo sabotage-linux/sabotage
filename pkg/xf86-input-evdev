@@ -7,7 +7,7 @@ sha512=358909c9ba3a7cd094b4408b0c158964deabade0de160e1d8b9d4fde96b0fc65a7fd8e7dc
 pkgver=2
 
 [deps]
-eudev
+libudev
 xproto
 libx11
 xorg-server
