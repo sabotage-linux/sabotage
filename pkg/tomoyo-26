@@ -1,0 +1,21 @@
+[mirrors]
+https://jaist.dl.osdn.jp/tomoyo/70710/tomoyo-tools-2.6.0-20201111.tar.gz
+
+[vars]
+filesize=210809
+sha512=75d8232d91f183efda9a284c2943685d6c5b1cfb5146165509c892cadc7fc8ae67506aebe7e1564e74eb72a570e4daba606e8d8b1a87fd3e1db587d9d2fd4f52
+pkgver=1
+tardir=tomoyo-tools
+desc='tomoyo tools for kernel >= 5.1'
+
+[deps]
+curses
+
+[build]
+sed -i 's,/sbin,$(PREFIX)/bin,g' Include.make
+sed -i 's,/usr,$(PREFIX),g' Include.make
+echo "PREFIX=$butch_prefix" >> Include.make
+make -j$MAKE_THREADS LDFLAGS="$optldflags -lncurses -lterminfo" \
+CFLAGS="$optcflags"
+make INSTALLDIR="$butch_install_dir" install
+
