@@ -31,7 +31,7 @@ patch -p1 < "$K"/xorg-server-gcc5.patch
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Wl,-z,lazy" \
 CPPFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE \
           -I$butch_root_dir$butch_prefix/include/pixman-1" \
 CFLAGS=" $optcflags -include sys/sysmacros.h" \
