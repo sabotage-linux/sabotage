@@ -47,10 +47,18 @@ sed -i 's@#if CPU.*$@#if 0@' qtscript/src/3rdparty/javascriptcore/JavaScriptCore
 debugflags=
 [ "$DEBUGBUILD" = "1" ] && debugflags="-no-optimized-qmake -debug"
 
+CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive"
+LDFLAGS="$optldflags"
+
+sed -i -e "s|-O2|$CXXFLAGS|" \
+	-e "/^QMAKE_RPATH/s| -Wl,-rpath,||g" \
+	-e "/^QMAKE_LFLAGS\s/s|+=|+= $LDFLAGS|g" \
+	qtbase/mkspecs/common/*.conf
+
 # Wno-parentheses has no effect...
-QMAKE_CXXFLAGS="-D_GNU_SOURCE -DMESA_EGL_NO_X11_HEADERS $optcflags -fpermissive" \
+QMAKE_CXXFLAGS="$CXXFLAGS" \
 QMAKE_CFLAGS="$optcflags" \
-QMAKE_LDFLAGS="$optldflags" \
+QMAKE_LDFLAGS="$LDFLAGS" \
 ./configure \
   -prefix "$butch_prefix" \
   -plugindir "$butch_prefix"/lib/qt5/plugins \
