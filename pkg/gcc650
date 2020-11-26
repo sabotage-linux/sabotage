@@ -7,6 +7,8 @@ sha512=ce046f9a50050fd54b870aab764f7db187fe7ea92eb4aaffb7c3689ca623755604e231f2a
 pkgver=1
 desc="the GNU compiler collection, v6.5.0"
 no_unlink=1
+gcc_major=6
+gcc_minor=5
 
 [deps.stage1]
 stage1-g++
@@ -27,9 +29,8 @@ zlib
 libelf
 
 [build]
-# TODO: forward port 0010-static-pie.diff from mcm, and add 0017-c++abi-break.diff
-VERSION=6.5.0
-VERSION_REMOVE='s,6\.5\.0.*,,'
+VERSION=$gcc_major.$gcc_minor.0
+VERSION_REMOVE='s,'$gcc_major'\.'$gcc_minor'\.0.*,,'
 ECJ_VERSION=4.9
 # check that libc.so is available, otherwise we'll get a libstdc++.so
 # that is statically linked against musls libc.a.
@@ -40,8 +41,10 @@ if [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
 	exit 1
 fi
 
+if test $gcc_major = 6 && test $gcc_minor = 5 ; then
 patch -p1 < "$K"/gcc-650-revert-staticpie.patch #required for gcc630-mcm.patch
 patch -p1 < "$K"/gcc-650-c++-abi-break.patch
+fi
 patch -p1 < "$K"/gcc-640-invalid_tls_model.patch
 patch -p1 < "$K"/gcc-640-m68k.patch
 patch -p1 < "$K"/gcc-640-posix_memalign.patch
