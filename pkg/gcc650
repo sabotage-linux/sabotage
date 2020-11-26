@@ -49,6 +49,9 @@ mv patches/gcc-7.3.0 patches/gcc-7.5.0
 elif test $gcc_major = 8 && test $gcc_minor = 4 ; then
 mv patches/gcc-8.3.0 patches/gcc-8.4.0
 rm -f patches/gcc-8.4.0/0017-pr93402.diff
+elif test $gcc_major = 9 && test $gcc_minor = 3 ; then
+mv patches/gcc-9.2.0 patches/gcc-9.3.0
+rm -f patches/gcc-9.3.0/0017-pr93402.diff
 fi
 for p in patches/gcc-$gcc_major.$gcc_minor.0/*.diff ; do
 	echo "applying $p"
