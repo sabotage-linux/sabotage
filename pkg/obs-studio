@@ -20,6 +20,7 @@ libv4l2
 libxcomposite
 libxinerama
 xrandr
+libx264
 
 [deps.host]
 cmake
