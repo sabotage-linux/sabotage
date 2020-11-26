@@ -4,6 +4,9 @@ https://mesa.freedesktop.org/archive/older-versions/13.x/13.0.6/mesa-13.0.6.tar.
 [vars]
 filesize=9179236
 sha512=2455e044647f674c2f1dd524143b61b8630713fa929bbf6fe1c981436a9c08dc933553d638a22b32d2799afb77be746355b48b1b20af172141c5b63891e94441
+pkgver=2
+option_radeon=true
+desc='mesalib opengl drivers. this version features intel, nouveau and radeon'
 
 [deps]
 dri2proto
@@ -27,15 +30,6 @@ flex
 bison
 
 [build]
-if false ; then
-  # add mesaglut to deps when you need it
-  # currently this is non-functional as nothing in the glut src tree will
-  # be built, so it needs some additional makefile patches.
-  tar xf "$C"/MesaGLUT-7.9.2.tar.gz
-  mv Mesa-7.9.2/src/glut src/
-  mv Mesa-7.9.2/include/GL/* include/GL/
-fi
-
 # Remember to manually edit CONFIG_EXTRA_FIRMWARE with the correct
 # firmware blobs for your card to /src/KEEP/linux.config
 # (see https://wiki.gentoo.org/wiki/Radeon#Firmware)
@@ -47,11 +41,6 @@ fi
 # CONFIG_EXTRA_FIRMWARE_DIR=/lib/firmware
 # and rebuild the kernel
 
-archflags=
-[ "$A" = arm ] || [ "$A" = mips ] && archflags=--with-dri-drivers=swrast
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
-
 # workaround for missing endian-ness defines taken from alpine linux
 endian="LITTLEENDIAN_CPU"
 [ $("$K"/endiancheck.sh) = "big" ] && endian="BIGENDIAN_CPU"
@@ -61,26 +50,4 @@ r800_hdr=src/amd/addrlib/inc/chip/r800/si_gb_reg.h
 cat $r800_hdr >> tmp.h
 mv tmp.h $r800_hdr
 
-CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11" \
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --sysconfdir="$butch_prefix"/etc \
-  --with-gallium-drivers="nouveau,radeonsi,r300,r600" \
-  --enable-gallium-llvm=yes \
-  --enable-gallium-tests=no \
-  --enable-texture-float \
-  --enable-gles1 \
-  --enable-gles2 \
-  --enable-osmesa \
-  --disable-xa \
-  --enable-gbm \
-  --disable-asm \
-  --disable-glx-tls \
-  --with-egl-platforms="drm,x11" $archflags
-
-[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-
-echo true >  bin/missing
-
-make V=1 -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+%include mesalib-standard%

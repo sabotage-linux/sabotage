@@ -5,6 +5,8 @@ https://mesa.freedesktop.org/archive/older-versions/13.x/13.0.6/mesa-13.0.6.tar.
 filesize=9179236
 sha512=2455e044647f674c2f1dd524143b61b8630713fa929bbf6fe1c981436a9c08dc933553d638a22b32d2799afb77be746355b48b1b20af172141c5b63891e94441
 pkgver=3
+option_radeon=false
+desc='mesalib opengl drivers. this version features intel and nouveau'
 
 [deps]
 dri2proto
@@ -41,16 +43,25 @@ archflags=
 [ "$A" = arm ] || [ "$A" = mips ] || [ "$A" = aarch64 ] && archflags=--with-dri-drivers=swrast
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+
+gallium_drivers=nouveau
+gallium_llvm=no
+std_flags="--enable-gallium-egl=no --enable-gallium-gbm=no \
+ --enable-gallium-g3dvl=no --enable-sysfs"
+
+if "$option_radeon" ; then
+gallium_drivers="nouveau,radeonsi,r300,r600"
+gallium_llvm=yes
+std_flags=
+fi
+
 CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11 -include sys/sysmacros.h" \
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --sysconfdir="$butch_prefix"/etc \
-  --with-gallium-drivers=nouveau \
-  --enable-gallium-llvm=no \
-  --enable-gallium-egl=no \
-  --enable-gallium-gbm=no \
+  --with-gallium-drivers="$gallium_drivers" \
+  --enable-gallium-llvm=$gallium_llvm \
   --enable-gallium-tests=no \
-  --enable-gallium-g3dvl=no \
   --enable-texture-float         \
   --enable-gles1                 \
   --enable-gles2                 \
@@ -59,8 +70,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   --enable-gbm                  \
   --disable-asm			\
   --disable-glx-tls               \
-  --enable-sysfs \
-  --with-egl-platforms="drm,x11" $archflags \
+  --with-egl-platforms="drm,x11" $std_flags $archflags
 
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
