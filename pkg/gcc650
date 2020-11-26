@@ -41,6 +41,18 @@ if [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
 	exit 1
 fi
 
+if test $gcc_major -gt 6 ; then
+tar xf "$C"/musl-cross-make-$mcm_version.tar.gz
+mv musl-cross-make-$mcm_version/patches .
+if test $gcc_major = 7 && test $gcc_minor = 5 ; then
+mv patches/gcc-7.3.0 patches/gcc-7.5.0
+fi
+for p in patches/gcc-$gcc_major.$gcc_minor.0/*.diff ; do
+	echo "applying $p"
+	patch -p1 < "$p"
+done
+fi
+
 if test $gcc_major = 6 && test $gcc_minor = 5 ; then
 patch -p1 < "$K"/gcc-650-revert-staticpie.patch #required for gcc630-mcm.patch
 patch -p1 < "$K"/gcc-650-c++-abi-break.patch
@@ -51,6 +63,7 @@ patch -p1 < "$K"/gcc-630-posix_memalign.patch
 elif test $gcc_major = 6 ; then
 patch -p1 < "$K"/gcc-640-posix_memalign.patch
 fi
+if test $gcc_major = 6 ; then
 patch -p1 < "$K"/gcc-640-invalid_tls_model.patch
 patch -p1 < "$K"/gcc-640-m68k.patch
 patch -p1 < "$K"/gcc630-mcm.patch
@@ -59,6 +72,7 @@ patch -p1 < "$K"/gcc-gcj-stdgnu14-link.patch
 patch -p1 < "$K"/gcc4-boehm-gc.patch
 patch -p1 < "$K"/gcc4-gcj-musl.patch
 patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
+fi
 
 "$K"/libibertyfix libiberty
 
@@ -68,9 +82,9 @@ config_arch_target_ldflags=
 
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
-	if test 0$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}') -lt 6 ; then
+	if test 0$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}') -lt $gcc_major ; then
 		cat << EOF >&2
-sorry: there's no way you can crosscompile gcc6's libgcc or c++14 libstdc++ with
+sorry: there's no way you can crosscompile gcc${gcc_major}'s libgcc or c++14 libstdc++ with
 a gcc4- or gcc5-based crosscompiler. that only works in a native build because
 gcc will build those target libs with the freshly built native compiler.
 you need to get a $VERSION cross-compiler; check out
@@ -105,7 +119,7 @@ fi
 
 extralangs=
 extrainst=
-[ "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
+[ "$gcc_major" -lt 7 -a "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
 && cp -f "$C"/ecj-"$ECJ_VERSION".jar ./ecj.jar
 
 
@@ -197,7 +211,7 @@ ln -sf g++ "$dest"/bin/g++-$VERSION
 
 rm "$butch_install_dir""$butch_prefix"/lib/*.la
 
-if test "$option_java" = 1 ; then
+if test "$gcc_major" -lt 7 -a "$option_java" = 1 ; then
 	ln -sf gcj "$dest"/bin/gcj-$VERSION
 	GCJ=$dest/bin/gcj
 	[ -n "$CROSS_COMPILE" ] && GCJ=gcj
