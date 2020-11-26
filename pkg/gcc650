@@ -160,9 +160,6 @@ dest=$butch_install_dir$butch_prefix
 
 [ ! -e ${dest}/${machine} ] && 	( cd $dest ; ln -sf . ${machine} )
 
-#remove gcc's stddef.h which is not compatible
-rm $dest/lib/gcc/$machine/$VERSION/include/stddef.h
-
 #link liblto_plugin.so in place
 [ -e "$dest"/libexec/gcc/$machine/$VERSION/liblto_plugin.so ] && {
 mkdir -p "$dest"/lib/bfd-plugins
