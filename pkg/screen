@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/screen/screen-4.8.0.tar.gz
 [vars]
 filesize=854854
 sha512=770ebaf6ee9be711bcb8a6104b3294f2bf4523dae6683fdc5eac4b3aff7e511be2d922b6b2ad28ec241113c2e4fe0d80f9a482ae1658adc19c8c3a3680caa25c
-pkgver=6
+pkgver=7
 desc='terminal multiplexer'
 
 [deps]
@@ -14,6 +14,7 @@ desc='terminal multiplexer'
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
+  --enable-colors256 \
   --with-sys-screenrc="$butch_prefix"/etc/screenrc $xconfflags
 
 cat << EOF >> config.h
