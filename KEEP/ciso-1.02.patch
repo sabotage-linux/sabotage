@@ -1,0 +1,106 @@
+fix erroneous assumption that long == 32bit
+based on https://github.com/jamie/ciso/commit/87af861468a0a97247b60d1c05febcf34f88aa22
+added check that input and output filename aren't identical.
+
+diff -ruw ciso-1.0.0.org/ciso.c ciso-1.0.0/ciso.c
+--- ciso-1.0.0.org/ciso.c	2020-11-29 19:31:31.972525393 +0000
++++ ciso-1.0.0/ciso.c	2020-11-29 19:42:43.251133256 +0000
+@@ -22,6 +22,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <zlib.h>               /* /usr(/local)/include/zlib.h */
+ #include <zconf.h>
+ 
+@@ -117,7 +118,7 @@
+ 	ciso_total_block = ciso.total_bytes / ciso.block_size;
+ 
+ 	/* allocate index block */
+-	index_size = (ciso_total_block + 1 ) * sizeof(unsigned long);
++	index_size = (ciso_total_block + 1 ) * sizeof(unsigned);
+ 	index_buf  = malloc(index_size);
+ 	block_buf1 = malloc(ciso.block_size);
+ 	block_buf2 = malloc(ciso.block_size*2);
+@@ -138,7 +139,7 @@
+ 
+ 	/* show info */
+ 	printf("Decompress '%s' to '%s'\n",fname_in,fname_out);
+-	printf("Total File Size %ld bytes\n",ciso.total_bytes);
++	printf("Total File Size %lld bytes\n",(long long)ciso.total_bytes);
+ 	printf("block size      %d  bytes\n",ciso.block_size);
+ 	printf("total blocks    %d  blocks\n",ciso_total_block);
+ 	printf("index align     %d\n",1<<ciso.align);
+@@ -250,14 +251,14 @@
+ 	int align,align_b,align_m;
+ 
+ 	file_size = check_file_size(fin);
+-	if(file_size<0)
++	if((long long)file_size<0)
+ 	{
+ 		printf("Can't get file size\n");
+ 		return 1;
+ 	}
+ 
+ 	/* allocate index block */
+-	index_size = (ciso_total_block + 1 ) * sizeof(unsigned long);
++	index_size = (ciso_total_block + 1 ) * sizeof(unsigned);
+ 	index_buf  = malloc(index_size);
+ 	crc_buf    = malloc(index_size);
+ 	block_buf1 = malloc(ciso.block_size);
+@@ -279,7 +280,7 @@
+ 
+ 	/* show info */
+ 	printf("Compress '%s' to '%s'\n",fname_in,fname_out);
+-	printf("Total File Size %ld bytes\n",ciso.total_bytes);
++	printf("Total File Size %lld bytes\n",(long long)ciso.total_bytes);
+ 	printf("block size      %d  bytes\n",ciso.block_size);
+ 	printf("index align     %d\n",1<<ciso.align);
+ 	printf("compress level  %d\n",level);
+@@ -305,8 +306,8 @@
+ 		{
+ 			percent_cnt = percent_period;
+ 			printf("compress %3d%% avarage rate %3d%%\r"
+-				,block / percent_period
+-				,block==0 ? 0 : 100*write_pos/(block*0x800));
++				,(int)(block / percent_period)
++				,block==0 ? 0 : (int)(100*write_pos/(block*0x800)));
+ 		}
+ 
+ 		if (deflateInit2(&z, level , Z_DEFLATED, -15,8,Z_DEFAULT_STRATEGY) != Z_OK)
+@@ -401,7 +402,7 @@
+ 	int level;
+ 	int result;
+ 
+-	fprintf(stderr, "Compressed ISO9660 converter Ver.1.01 by BOOSTER\n");
++	fprintf(stderr, "Compressed ISO9660 converter Ver.1.02a by BOOSTER\n");
+ 
+ 	if (argc != 4)
+ 	{
+@@ -419,6 +420,11 @@
+ 
+ 	fname_in = argv[2];
+ 	fname_out = argv[3];
++	/* protect from mistakenly overwriting input file */
++	if(!strcmp(fname_in, fname_out)) {
++		printf("error: out and in filename identical\n");
++		return 1;
++	}
+ 
+ 	if ((fin = fopen(fname_in, "rb")) == NULL)
+ 	{
+diff -ruw ciso-1.0.0.org/ciso.h ciso-1.0.0/ciso.h
+--- ciso-1.0.0.org/ciso.h	2020-11-29 19:31:31.971525406 +0000
++++ ciso-1.0.0/ciso.h	2020-11-29 19:33:51.561780288 +0000
+@@ -28,9 +28,9 @@
+ typedef struct ciso_header
+ {
+ 	unsigned char magic[4];			/* +00 : 'C','I','S','O'                 */
+-	unsigned long header_size;		/* +04 : header size (==0x18)            */
++	unsigned header_size;		/* +04 : header size (==0x18)            */
+ 	unsigned long long total_bytes;	/* +08 : number of original data size    */
+-	unsigned long block_size;		/* +10 : number of compressed block size */
++	unsigned block_size;		/* +10 : number of compressed block size */
+ 	unsigned char ver;				/* +14 : version 01                      */
+ 	unsigned char align;			/* +15 : align of index value            */
+ 	unsigned char rsv_06[2];		/* +16 : reserved                        */

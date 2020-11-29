@@ -4,12 +4,14 @@ https://sourceforge.net/projects/ciso/files/ciso/1.0.0/ciso-1.0.0.tar.gz
 [vars]
 filesize=9271
 sha512=ceede6d0e0c5d994d88c1fac4e33b5c249371a02eb4510ee573107f870649ffc92c2a8e0ca4db0f794bef25259c3a54c85caf6e157ac92f69e5024076917a2a8
-pkgver=1
+pkgver=2
 desc='convert iso into compressed cso files'
 
 [deps]
 zlib
 
 [build]
-$CC $optcflags -include string.h ciso.c -o ciso -lz $optldflags
+dos2unix ciso.h
+patch -p1 < "$K"/ciso-1.02.patch
+$CC $optcflags ciso.c -o ciso -lz $optldflags
 install -Dm 755 ciso "$butch_install_dir""$butch_prefix"/bin/ciso
