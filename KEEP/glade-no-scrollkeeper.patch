@@ -1,0 +1,18 @@
+--- glade-2.6.8/configure	2004-12-21 12:11:14.000000000 +0000
++++ glade-2.6.8.patched/configure	2020-11-30 15:26:12.226241563 +0000
+@@ -24262,13 +24262,14 @@
+ echo "${ECHO_T}no" >&6
+ fi
+ 
++if false ; then
+ if test "$SCROLLKEEPER_CONFIG" = "no"; then
+   { { echo "$as_me:$LINENO: error: Couldn't find scrollkeeper-config, please install the scrollkeeper package" >&5
+ echo "$as_me: error: Couldn't find scrollkeeper-config, please install the scrollkeeper package" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+ SCROLLKEEPER_REQUIRED=0.1.4
+-
++fi
+ 
+ 
+ 

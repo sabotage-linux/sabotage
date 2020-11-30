@@ -1,0 +1,27 @@
+[mirrors]
+https://download.gnome.org/sources/glade/2.6/glade-2.6.8.tar.gz
+
+[vars]
+filesize=3699235
+sha512=f6f2ca3ad190f356542a3fa7920fd9f8930ac872372c4020da6fbb913b9b291e14c893be8b9240fdfbaf9ae03a5221a0451d70a46c416abd33cb3e33c95c4c0b
+pkgver=1
+desc='gtk gui designer'
+
+[deps]
+gtk+2
+
+[build]
+patch -p1 < "$K"/glade-no-scrollkeeper.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
