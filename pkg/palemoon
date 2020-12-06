@@ -6,7 +6,7 @@ filesize=8535155
 sha512=8eebb301c3d01ffaafd09e5adbfb4a2b00bcc6fa5cb4505b4c05e667fb1c25ec82450a42e6c0a4cb137256c833bc5f751b9b3eba87f1c13b48399315dd60fb87
 tarball=Pale-Moon-28.16.0_Release.tar.gz
 tardir=pale-moon
-pkgver=29
+pkgver=30
 BROWSER_VERSION=28.16.0
 UXP_VERSION=20201124
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
@@ -39,6 +39,7 @@ export MC_PRIVATE_BUILD=true
 tar xf "$C"/UXP-RELBASE_${UXP_VERSION}.tar.gz
 mv UXP-RELBASE_${UXP_VERSION}/* platform/
 patch -p1 < "$K"/palemoon-no-xz.patch
+patch -p1 < "$K"/palemoon-cpu-usage.patch
 
 # install ancient autoconf version firefox wants into src tree
 mkdir AC213
