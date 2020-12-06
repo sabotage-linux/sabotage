@@ -1,10 +1,10 @@
 [mirrors]
-https://download.gnome.org/sources/glade/2.6/glade-2.6.8.tar.gz
+https://download.gnome.org/sources/glade/2.12/glade-2.12.2.tar.bz2
 
 [vars]
-filesize=3699235
-sha512=f6f2ca3ad190f356542a3fa7920fd9f8930ac872372c4020da6fbb913b9b291e14c893be8b9240fdfbaf9ae03a5221a0451d70a46c416abd33cb3e33c95c4c0b
-pkgver=1
+filesize=1785723
+sha512=c59e2163fe7ad8be7ba1ae97c09026b879cd99c10509e27e1ed6beae1de7d0dd1dd710e75815c348e82cff6b02b604476a8494f2cbabbc1742fd0e4d2e26bcf6
+pkgver=2
 desc='gtk gui designer'
 
 [deps]
@@ -12,6 +12,22 @@ gtk+2
 
 [build]
 patch -p1 < "$K"/glade-no-scrollkeeper.patch
+
+cat << EOF > glade-2.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Glade Interface Designer
+Comment=Design user interfaces
+Exec=glade-2 %F
+Terminal=false
+Type=Application
+Icon=glade-2.png
+Categories=Application;Development;
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=glade
+X-GNOME-Bugzilla-Component=general
+EOF
+
 #cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
