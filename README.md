@@ -182,9 +182,6 @@ to use the resulting rootfs to boot into, you should however start with building
 `stage1`, and if you want to use the resulting rootfs as a full sabotage
 installation with development tools, also the package `base-dev`.
 
-Note that you need to build the `make` and `binutils` packages additional to
-`stage1` if you intend to use the resulting rootfs with full compiler toolchain.
-
 
 ## NOTES TO CONTRIBUTORS
 
