@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/28.16.0_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/28.17.0_Release.tar.gz
 
 [vars]
-filesize=8535155
-sha512=8eebb301c3d01ffaafd09e5adbfb4a2b00bcc6fa5cb4505b4c05e667fb1c25ec82450a42e6c0a4cb137256c833bc5f751b9b3eba87f1c13b48399315dd60fb87
-tarball=Pale-Moon-28.16.0_Release.tar.gz
+filesize=8535184
+sha512=9f5dfc7971421ebe968a00ee9bf86f4b5b7291655a6bc3904404b416f3d7f50919aaa00818d0fa96e264a53700f8d5355f3abec47dccc261ebe1a777f8f74ece
+tarball=Pale-Moon-28.17.0_Release.tar.gz
 tardir=pale-moon
-pkgver=30
-BROWSER_VERSION=28.16.0
-UXP_VERSION=20201124
+pkgver=31
+BROWSER_VERSION=28.17.0
+UXP_VERSION=20201218
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
@@ -39,7 +39,6 @@ export MC_PRIVATE_BUILD=true
 tar xf "$C"/UXP-RELBASE_${UXP_VERSION}.tar.gz
 mv UXP-RELBASE_${UXP_VERSION}/* platform/
 patch -p1 < "$K"/palemoon-no-xz.patch
-patch -p1 < "$K"/palemoon-cpu-usage.patch
 
 # install ancient autoconf version firefox wants into src tree
 mkdir AC213
