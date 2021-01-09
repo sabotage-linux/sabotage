@@ -1,12 +1,13 @@
 [mirrors]
-https://www.libsdl.org/release/SDL2-2.0.12.tar.gz
+https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
 
 [vars]
-filesize=5720162
-sha512=3f1f04af0f3d9dda9c84a2e9274ae8d83ea0da3fc367970a820036cc4dc1dbf990cfc37e4975ae05f0b45a4ffa739c6c19e470c00bf3f2bce9b8b63717b8b317
-pkgver=7
+filesize=6089974
+sha512=ebc482585bd565bf3003fbcedd91058b2183e333b9ea566d2f386da0298ff970645d9d25c1aa4459c7c96e9ea839fd1c5f2da0242a56892865b2e456cdd027ee
+pkgver=8
 
-[deps]
+[deps.host]
+bash
 
 [build]
 sed -i 's/-Werror=/-W/g' configure
@@ -16,7 +17,9 @@ sed -i 's/-Werror=/-W/g' configure
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  bash ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+"$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
