@@ -1,9 +1,10 @@
+[mirrors]
+http://www.libsdl.org/release/SDL-1.2.15.tar.gz
+
 [vars]
 filesize=3920622
 sha512=ac392d916e6953b0925a7cbb0f232affea33339ef69b47a0a7898492afb9784b93138986df53d6da6d3e2ad79af1e9482df565ecca30f89428be0ae6851b1adc
-
-[mirrors]
-http://www.libsdl.org/release/SDL-1.2.15.tar.gz
+pkgver=2
 
 [deps]
 alsa-lib
@@ -15,6 +16,7 @@ patch -p1 < "$K"/sdl-stacksize.patch
 patch -p1 < "$K"/sdl-grsec.patch
 patch -p1 < "$K"/sdl-resizing.patch
 patch -p1 < "$K"/sdl-XInitThreads.patch
+patch -p1 < "$K"/sdl-poll.patch
 
 cd src/video/fbcon
 sed -i -e "s|__u16|ushort|" -e "s|__u32|uint|" *.c *.h

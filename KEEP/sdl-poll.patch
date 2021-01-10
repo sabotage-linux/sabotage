@@ -1,0 +1,971 @@
+prevents SDL_WaitEvent() from waking up every few milliseconds in a loop,
+which causes some CPU load even if nothing ever happens.
+
+https://bugzilla.libsdl.org/show_bug.cgi?id=323
+
+--- SDL-1.2.15.org/src/events/SDL_events.c
++++ SDL-1.2.15/src/events/SDL_events.c
+@@ -101,22 +101,27 @@
+ 	while ( SDL_EventQ.active ) {
+ 		SDL_VideoDevice *video = current_video;
+ 		SDL_VideoDevice *this  = current_video;
++		int wait_for_event = 0;  /* !!! FIXME: sanity check, then set to 1. */
+ 
+-		/* Get events from the video subsystem */
+-		if ( video ) {
+-			video->PumpEvents(this);
+-		}
+-
+-		/* Queue pending key-repeat events */
+-		SDL_CheckKeyRepeat();
+-
+ #if !SDL_JOYSTICK_DISABLED
+ 		/* Check for joystick state change */
++		/* !!! FIXME: Check for OPEN sticks, not existing ones... */
+ 		if ( SDL_numjoysticks && (SDL_eventstate & SDL_JOYEVENTMASK) ) {
++			wait_for_event = 0;  /* !!! FIXME: We can't block twice in here! */
+ 			SDL_JoystickUpdate();
+ 		}
+ #endif
+ 
++		/* Queue pending key-repeat events */
++		if (SDL_CheckKeyRepeat()) {
++			wait_for_event = 0;  /* can't block until key is unpressed. */
++		}
++
++		/* Get events from the video subsystem */
++		if ( video ) {
++			video->PumpEvents(this, wait_for_event);
++		}
++
+ 		/* Give up the CPU for the rest of our timeslice */
+ 		SDL_EventLock.safe = 1;
+ 		if ( SDL_timer_running ) {
+@@ -365,34 +370,45 @@
+ }
+ 
+ /* Run the system dependent event loops */
+-void SDL_PumpEvents(void)
++static void pump_events(int wait_for_event)
+ {
+ 	if ( !SDL_EventThread ) {
+ 		SDL_VideoDevice *video = current_video;
+ 		SDL_VideoDevice *this  = current_video;
+ 
+-		/* Get events from the video subsystem */
+-		if ( video ) {
+-			video->PumpEvents(this);
+-		}
+-
+-		/* Queue pending key-repeat events */
+-		SDL_CheckKeyRepeat();
+-
+ #if !SDL_JOYSTICK_DISABLED
+ 		/* Check for joystick state change */
++		/* !!! FIXME: Check for OPEN sticks, not existing ones... */
+ 		if ( SDL_numjoysticks && (SDL_eventstate & SDL_JOYEVENTMASK) ) {
++			wait_for_event = 0;  /* !!! FIXME: We can't block twice in here! */
+ 			SDL_JoystickUpdate();
+ 		}
+ #endif
++
++		/* Queue pending key-repeat events */
++		if (SDL_CheckKeyRepeat()) {
++			wait_for_event = 0;  /* can't block until key is unpressed. */
++		}
++
++		/* Get events from the video subsystem */
++		if ( video ) {
++			video->PumpEvents(this, wait_for_event);
++		}
+ 	}
+ }
+ 
++
++void SDL_PumpEvents(void)
++{
++	pump_events(0);
++}
++
++
+ /* Public functions */
+ 
+ int SDL_PollEvent (SDL_Event *event)
+ {
+-	SDL_PumpEvents();
++	pump_events(0);
+ 
+ 	/* We can't return -1, just return 0 (no event) on error */
+ 	if ( SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_ALLEVENTS) <= 0 )
+@@ -403,7 +419,7 @@
+ int SDL_WaitEvent (SDL_Event *event)
+ {
+ 	while ( 1 ) {
+-		SDL_PumpEvents();
++		pump_events(1);
+ 		switch(SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_ALLEVENTS)) {
+ 		    case -1: return 0;
+ 		    case 1: return 1;
+--- SDL-1.2.15.org/src/events/SDL_events_c.h
++++ SDL-1.2.15/src/events/SDL_events_c.h
+@@ -74,7 +74,7 @@
+ extern void SDL_ResetKeyboard(void);
+ 
+ /* Used by the event loop to queue pending keyboard repeat events */
+-extern void SDL_CheckKeyRepeat(void);
++extern int SDL_CheckKeyRepeat(void);
+ 
+ /* Used by the OS keyboard code to detect whether or not to do UNICODE */
+ #ifndef DEFAULT_UNICODE_TRANSLATION
+--- SDL-1.2.15.org/src/events/SDL_keyboard.c
++++ SDL-1.2.15/src/events/SDL_keyboard.c
+@@ -570,11 +570,13 @@
+ /*
+  * jk 991215 - Added
+  */
+-void SDL_CheckKeyRepeat(void)
++int SDL_CheckKeyRepeat(void)
+ {
++	int enabled = 0;
+ 	if ( SDL_KeyRepeat.timestamp ) {
+ 		Uint32 now, interval;
+ 
++		enabled = 1;
+ 		now = SDL_GetTicks();
+ 		interval = (now - SDL_KeyRepeat.timestamp);
+ 		if ( SDL_KeyRepeat.firsttime ) {
+@@ -591,6 +593,8 @@
+ 			}
+ 		}
+ 	}
++
++	return(enabled);
+ }
+ 
+ int SDL_EnableKeyRepeat(int delay, int interval)
+--- SDL-1.2.15.org/src/video/SDL_sysvideo.h
++++ SDL-1.2.15/src/video/SDL_sysvideo.h
+@@ -255,8 +255,14 @@
+ 	/* Initialize keyboard mapping for this driver */
+ 	void (*InitOSKeymap)(_THIS);
+ 
+-	/* Handle any queued OS events */
+-	void (*PumpEvents)(_THIS);
++	/* Handle any queued OS events
++	   wait_for_event is an optimization...drivers can ignore it and return
++	   immediately even if no new events are available, but if the system
++	   can put the process to sleep until an event arrives, they should
++	   do so if this variable is non-zero. Otherwise, SDL_WaitEvent() will
++	   poll and sleep in a loop to simulate the behaviour.
++     */
++	void (*PumpEvents)(_THIS, int wait_for_event);
+ 
+ 	/* * * */
+ 	/* Data common to all drivers */
+--- SDL-1.2.15.org/src/video/aalib/SDL_aaevents.c
++++ SDL-1.2.15/src/video/aalib/SDL_aaevents.c
+@@ -39,7 +39,7 @@
+ static SDL_keysym *TranslateKey(int scancode, SDL_keysym *keysym);
+ 
+ 
+-void AA_PumpEvents(_THIS)
++void AA_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	int posted = 0;
+ 	int mouse_button, mouse_x, mouse_y;
+--- SDL-1.2.15.org/src/video/aalib/SDL_aaevents_c.h
++++ SDL-1.2.15/src/video/aalib/SDL_aaevents_c.h
+@@ -32,4 +32,4 @@
+ extern void AA_keyboardcallback(int scancode, int pressed);
+ 
+ extern void AA_InitOSKeymap(_THIS);
+-extern void AA_PumpEvents(_THIS);
++extern void AA_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_atarievents.c
++++ SDL-1.2.15/src/video/ataricommon/SDL_atarievents.c
+@@ -160,12 +160,12 @@
+ 	keymap[SCANCODE_CAPSLOCK] = SDLK_CAPSLOCK;
+ }
+ 
+-void Atari_PumpEvents(_THIS)
++void Atari_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	Atari_InitializeEvents(this);
+ 
+ 	/* Call choosen routine */
+-	this->PumpEvents(this);
++	this->PumpEvents(this, wait_for_event);
+ }
+ 
+ /* Atari to Unicode charset translation table */
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_atarievents_c.h
++++ SDL-1.2.15/src/video/ataricommon/SDL_atarievents_c.h
+@@ -40,7 +40,7 @@
+ extern void (*Atari_ShutdownEvents)(void);
+ 
+ extern void Atari_InitOSKeymap(_THIS);
+-extern void Atari_PumpEvents(_THIS);
++extern void Atari_PumpEvents(_THIS, int wait_for_event);
+ 
+ extern void SDL_Atari_InitInternalKeymap(_THIS);
+ 
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_biosevents.c
++++ SDL-1.2.15/src/video/ataricommon/SDL_biosevents.c
+@@ -66,7 +66,7 @@
+ 	SDL_AtariXbios_InstallVectors(vectors_mask);
+ }
+ 
+-void AtariBios_PumpEvents(_THIS)
++void AtariBios_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	int i;
+ 	SDL_keysym keysym;
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_biosevents_c.h
++++ SDL-1.2.15/src/video/ataricommon/SDL_biosevents_c.h
+@@ -36,7 +36,7 @@
+ #define _THIS	SDL_VideoDevice *this
+ 
+ extern void AtariBios_InitOSKeymap(_THIS);
+-extern void AtariBios_PumpEvents(_THIS);
++extern void AtariBios_PumpEvents(_THIS, int wait_for_event);
+ extern void AtariBios_ShutdownEvents(void);
+ 
+ #endif /* _SDL_ATARI_BIOSEVENTS_H_ */
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_gemdosevents.c
++++ SDL-1.2.15/src/video/ataricommon/SDL_gemdosevents.c
+@@ -67,7 +67,7 @@
+ 	SDL_AtariXbios_InstallVectors(vectors_mask);
+ }
+ 
+-void AtariGemdos_PumpEvents(_THIS)
++void AtariGemdos_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	int i;
+ 	SDL_keysym keysym;
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_gemdosevents_c.h
++++ SDL-1.2.15/src/video/ataricommon/SDL_gemdosevents_c.h
+@@ -36,7 +36,7 @@
+ #define _THIS	SDL_VideoDevice *this
+ 
+ extern void AtariGemdos_InitOSKeymap(_THIS);
+-extern void AtariGemdos_PumpEvents(_THIS);
++extern void AtariGemdos_PumpEvents(_THIS, int wait_for_event);
+ extern void AtariGemdos_ShutdownEvents(void);
+ 
+ #endif /* _SDL_ATARI_GEMDOSEVENTS_H_ */
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_ikbdevents.c
++++ SDL-1.2.15/src/video/ataricommon/SDL_ikbdevents.c
+@@ -68,7 +68,7 @@
+ 	}
+ }
+ 
+-void AtariIkbd_PumpEvents(_THIS)
++void AtariIkbd_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	int i;
+ 	SDL_keysym keysym;
+--- SDL-1.2.15.org/src/video/ataricommon/SDL_ikbdevents_c.h
++++ SDL-1.2.15/src/video/ataricommon/SDL_ikbdevents_c.h
+@@ -36,7 +36,7 @@
+ #define _THIS	SDL_VideoDevice *this
+ 
+ extern void AtariIkbd_InitOSKeymap(_THIS);
+-extern void AtariIkbd_PumpEvents(_THIS);
++extern void AtariIkbd_PumpEvents(_THIS, int wait_for_event);
+ extern void AtariIkbd_ShutdownEvents(void);
+ 
+ #endif /* _SDL_ATARI_IKBDEVENTS_H_ */
+--- SDL-1.2.15.org/src/video/bwindow/SDL_sysevents.cc
++++ SDL-1.2.15/src/video/bwindow/SDL_sysevents.cc
+@@ -38,7 +38,7 @@
+ #include "SDL_sysevents_c.h"
+ #include "../SDL_cursor_c.h"
+ 
+-void BE_PumpEvents(_THIS)
++void BE_PumpEvents(_THIS, int wait_for_event)
+ {
+ }
+ 
+--- SDL-1.2.15.org/src/video/bwindow/SDL_sysevents_c.h
++++ SDL-1.2.15/src/video/bwindow/SDL_sysevents_c.h
+@@ -28,4 +28,4 @@
+ */
+ 
+ extern void BE_InitOSKeymap(_THIS);
+-extern void BE_PumpEvents(_THIS);
++extern void BE_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/dc/SDL_dcevents.c
++++ SDL-1.2.15/src/video/dc/SDL_dcevents.c
+@@ -137,7 +137,7 @@
+ 	old_state = *state;
+ }
+ 
+-void DC_PumpEvents(_THIS)
++void DC_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	keyboard_update();
+ 	mouse_update();
+--- SDL-1.2.15.org/src/video/dc/SDL_dcevents_c.h
++++ SDL-1.2.15/src/video/dc/SDL_dcevents_c.h
+@@ -27,7 +27,7 @@
+    of the native video subsystem (SDL_sysvideo.c)
+ */
+ extern void DC_InitOSKeymap(_THIS);
+-extern void DC_PumpEvents(_THIS);
++extern void DC_PumpEvents(_THIS, int wait_for_event);
+ 
+ /* end of SDL_dcevents_c.h ... */
+ 
+--- SDL-1.2.15.org/src/video/dga/SDL_dgaevents.c
++++ SDL-1.2.15/src/video/dga/SDL_dgaevents.c
+@@ -37,7 +37,7 @@
+ #include "../x11/SDL_x11dyn.h"
+ 
+ /* Heheh we're using X11 event code */
+-extern int X11_Pending(Display *display);
++extern int X11_Pending(Display *display, int wait_for_event);
+ extern void X11_InitKeymap(void);
+ extern SDLKey X11_TranslateKeycode(Display *display, KeyCode kc);
+ 
+@@ -134,7 +134,7 @@
+ 	return(posted);
+ }
+ 
+-void DGA_PumpEvents(_THIS)
++void DGA_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	/* Keep processing pending events */
+ 	LOCK_DISPLAY();
+@@ -149,8 +149,9 @@
+ 		}
+ 	}
+ 
+-	while ( X11_Pending(DGA_Display) ) {
++	while ( X11_Pending(DGA_Display, wait_for_event) ) {
+ 		DGA_DispatchEvent(this);
++		wait_for_event = 0;  /* don't wait for more events if none left. */
+ 	}
+ 
+ 	UNLOCK_DISPLAY();
+--- SDL-1.2.15.org/src/video/dga/SDL_dgaevents_c.h
++++ SDL-1.2.15/src/video/dga/SDL_dgaevents_c.h
+@@ -24,5 +24,5 @@
+ #include "SDL_dgavideo.h"
+ 
+ /* Functions to be exported */
+-extern void DGA_PumpEvents(_THIS);
++extern void DGA_PumpEvents(_THIS, int wait_for_event);
+ extern void DGA_InitOSKeymap(_THIS);
+--- SDL-1.2.15.org/src/video/directfb/SDL_DirectFB_events.c
++++ SDL-1.2.15/src/video/directfb/SDL_DirectFB_events.c
+@@ -46,7 +46,7 @@
+ static int posted = 0;
+ 
+ 
+-void DirectFB_PumpEvents (_THIS)
++void DirectFB_PumpEvents (_THIS, int wait_for_event)
+ {
+   DFBInputEvent evt;
+ 
+--- SDL-1.2.15.org/src/video/directfb/SDL_DirectFB_events.h
++++ SDL-1.2.15/src/video/directfb/SDL_DirectFB_events.h
+@@ -25,5 +25,5 @@
+ 
+ /* Functions to be exported */
+ extern void DirectFB_InitOSKeymap(_THIS);
+-extern void DirectFB_PumpEvents(_THIS);
++extern void DirectFB_PumpEvents(_THIS, int wait_for_event);
+ 
+--- SDL-1.2.15.org/src/video/dummy/SDL_nullevents.c
++++ SDL-1.2.15/src/video/dummy/SDL_nullevents.c
+@@ -31,7 +31,7 @@
+ #include "SDL_nullvideo.h"
+ #include "SDL_nullevents_c.h"
+ 
+-void DUMMY_PumpEvents(_THIS)
++void DUMMY_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	/* do nothing. */
+ }
+--- SDL-1.2.15.org/src/video/dummy/SDL_nullevents_c.h
++++ SDL-1.2.15/src/video/dummy/SDL_nullevents_c.h
+@@ -27,7 +27,7 @@
+    of the native video subsystem (SDL_sysvideo.c)
+ */
+ extern void DUMMY_InitOSKeymap(_THIS);
+-extern void DUMMY_PumpEvents(_THIS);
++extern void DUMMY_PumpEvents(_THIS, int wait_for_event);
+ 
+ /* end of SDL_nullevents_c.h ... */
+ 
+--- SDL-1.2.15.org/src/video/fbcon/SDL_fbevents.c
++++ SDL-1.2.15/src/video/fbcon/SDL_fbevents.c
+@@ -1037,11 +1037,12 @@
+ 	}
+ }
+ 
+-void FB_PumpEvents(_THIS)
++void FB_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	fd_set fdset;
+ 	int max_fd;
+-	static struct timeval zero;
++	struct timeval zero = { 0, 0 };
++	struct timeval *timeout = ((wait_for_event) ? NULL : &zero);
+ 
+ 	do {
+ 		if ( switched_away ) {
+@@ -1072,7 +1073,7 @@
+ 				max_fd = mouse_fd;
+ 			}
+ 		}
+-		if ( select(max_fd+1, &fdset, NULL, NULL, &zero) > 0 ) {
++		if ( select(max_fd+1, &fdset, NULL, NULL, timeout) > 0 ) {
+ 			if ( keyboard_fd >= 0 ) {
+ 				if ( FD_ISSET(keyboard_fd, &fdset) ) {
+ 					handle_keyboard(this);
+--- SDL-1.2.15.org/src/video/fbcon/SDL_fbevents_c.h
++++ SDL-1.2.15/src/video/fbcon/SDL_fbevents_c.h
+@@ -35,4 +35,4 @@
+ extern void FB_LeaveGraphicsMode(_THIS);
+ 
+ extern void FB_InitOSKeymap(_THIS);
+-extern void FB_PumpEvents(_THIS);
++extern void FB_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/gem/SDL_gemevents.c
++++ SDL-1.2.15/src/video/gem/SDL_gemevents.c
+@@ -66,7 +66,7 @@
+ 	SDL_Atari_InitInternalKeymap(this);
+ }
+ 
+-void GEM_PumpEvents(_THIS)
++void GEM_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	short prevkc, prevks;
+ 	static short maskmouseb=0;
+--- SDL-1.2.15.org/src/video/gem/SDL_gemevents_c.h
++++ SDL-1.2.15/src/video/gem/SDL_gemevents_c.h
+@@ -27,7 +27,7 @@
+    of the native video subsystem (SDL_sysvideo.c) */
+ 
+ extern void GEM_InitOSKeymap(_THIS);
+-extern void GEM_PumpEvents(_THIS);
++extern void GEM_PumpEvents(_THIS, int wait_for_event);
+ 
+ /* end of SDL_gemevents_c.h */
+ 
+--- SDL-1.2.15.org/src/video/ggi/SDL_ggievents.c
++++ SDL-1.2.15/src/video/ggi/SDL_ggievents.c
+@@ -46,17 +46,16 @@
+ 
+ static int posted = 0;
+ 
+-void GGI_PumpEvents(_THIS)
++void GGI_PumpEvents(_THIS, int wait_for_event)
+ {
+-	struct timeval *tvp, tv = { 0, 0 };
+ 	ggi_event ev;
++	struct timeval zero = { 0, 0 };
++	struct timeval *timeout = ((wait_for_event) ? NULL : &zero);
+ 
+-	tvp = &tv;
+-	
+ /*	ggiFlush(VIS); */
+ 	
+-	while (ggiEventPoll(VIS, emAll, tvp))
+-/*	while (ggiEventPoll(VIS, (emKeyboard | emPointer | emCommand), tvp)) */
++	while (ggiEventPoll(VIS, emAll, timeout))
++/*	while (ggiEventPoll(VIS, (emKeyboard | emPointer | emCommand), timeout)) */
+ 	{
+ 		int queueevent_mouse = 0, queueevent_kbd = 0;
+ 		static int buttons = 0;
+--- SDL-1.2.15.org/src/video/ggi/SDL_ggievents_c.h
++++ SDL-1.2.15/src/video/ggi/SDL_ggievents_c.h
+@@ -25,5 +25,5 @@
+ 
+ /* Functions to be exported */
+ extern void GGI_InitOSKeymap(_THIS);
+-extern void GGI_PumpEvents(_THIS);
++extern void GGI_PumpEvents(_THIS, int wait_for_event);
+ 
+--- SDL-1.2.15.org/src/video/ipod/SDL_ipodvideo.c
++++ SDL-1.2.15/src/video/ipod/SDL_ipodvideo.c
+@@ -51,7 +51,7 @@
+ static int iPod_SetColors (_THIS, int firstcolor, int ncolors, SDL_Color *colors);
+ static void iPod_UpdateRects (_THIS, int nrects, SDL_Rect *rects);
+ static void iPod_VideoQuit (_THIS);
+-static void iPod_PumpEvents (_THIS);
++static void iPod_PumpEvents (_THIS, int wait_for_event);
+ 
+ static long iPod_GetGeneration();
+ 
+@@ -466,12 +466,13 @@
+     }
+ }
+ 
+-static void iPod_PumpEvents (_THIS) 
++static void iPod_PumpEvents (_THIS, int wait_for_event) 
+ {
+     fd_set fdset;
+     int max_fd = 0;
+-    static struct timeval zero;
+     int posted;
++	struct timeval zero = { 0, 0 };
++	struct timeval *timeout = ((wait_for_event) ? NULL : &zero);
+ 
+     do {
+ 	posted = 0;
+@@ -482,7 +483,7 @@
+ 	    max_fd = kbfd;
+ 	}
+ 	if (dbgout) fprintf (dbgout, "Selecting");
+-	if (select (max_fd + 1, &fdset, 0, 0, &zero) > 0) {
++	if (select (max_fd + 1, &fdset, 0, 0, timeout) > 0) {
+ 	    if (dbgout) fprintf (dbgout, " -> match!\n");
+ 	    iPod_keyboard();
+ 	    posted++;
+--- SDL-1.2.15.org/src/video/maccommon/SDL_macevents.c
++++ SDL-1.2.15/src/video/maccommon/SDL_macevents.c
+@@ -445,10 +445,10 @@
+ }
+ 
+ 
+-void Mac_PumpEvents(_THIS)
++void Mac_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	/* Process pending MacOS events */
+-	while ( Mac_HandleEvents(this, 0) ) {
++	while ( Mac_HandleEvents(this, wait_for_event) ) {
+ 		/* Loop and check again */;
+ 	}
+ }
+--- SDL-1.2.15.org/src/video/maccommon/SDL_macevents_c.h
++++ SDL-1.2.15/src/video/maccommon/SDL_macevents_c.h
+@@ -29,4 +29,4 @@
+ extern void Mac_QuitEvents(_THIS);
+ 
+ extern void Mac_InitOSKeymap(_THIS);
+-extern void Mac_PumpEvents(_THIS);
++extern void Mac_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/nanox/SDL_nxevents.c
++++ SDL-1.2.15/src/video/nanox/SDL_nxevents.c
+@@ -170,7 +170,7 @@
+     return 1 ;
+ }
+ 
+-void NX_PumpEvents (_THIS)
++void NX_PumpEvents (_THIS, int wait_for_event)
+ {
+     GR_EVENT         event ;
+     static GR_BUTTON last_button_down = 0 ;
+--- SDL-1.2.15.org/src/video/nanox/SDL_nxevents_c.h
++++ SDL-1.2.15/src/video/nanox/SDL_nxevents_c.h
+@@ -29,4 +29,4 @@
+ 
+ // Functions to be exported
+ extern void NX_InitOSKeymap (_THIS) ;
+-extern void NX_PumpEvents (_THIS) ;
++extern void NX_PumpEvents (_THIS, int wait_for_event) ;
+--- SDL-1.2.15.org/src/video/os2fslib/SDL_os2fslib.c
++++ SDL-1.2.15/src/video/os2fslib/SDL_os2fslib.c
+@@ -1540,7 +1540,7 @@
+ {
+ }
+ 
+-static void os2fslib_PumpEvents(_THIS)
++static void os2fslib_PumpEvents(_THIS, int wait_for_event)
+ {
+   // Notify SDL that if window has been resized!
+   if (
+--- SDL-1.2.15.org/src/video/photon/SDL_ph_events.c
++++ SDL-1.2.15/src/video/photon/SDL_ph_events.c
+@@ -434,7 +434,7 @@
+     return(0);
+ }
+ 
+-void ph_PumpEvents(_THIS)
++void ph_PumpEvents(_THIS, int wait_for_event)
+ {
+     /* Flush the display connection and look to see if events are queued */
+     PgFlush();
+--- SDL-1.2.15.org/src/video/photon/SDL_ph_events_c.h
++++ SDL-1.2.15/src/video/photon/SDL_ph_events_c.h
+@@ -32,6 +32,6 @@
+ 
+ /* Functions to be exported */
+ extern void ph_InitOSKeymap(_THIS);
+-extern void ph_PumpEvents(_THIS);
++extern void ph_PumpEvents(_THIS, int wait_for_event);
+ 
+ #endif /* __SDL_PH_EVENTS_H__ */
+--- SDL-1.2.15.org/src/video/picogui/SDL_pgevents.c
++++ SDL-1.2.15/src/video/picogui/SDL_pgevents.c
+@@ -80,7 +80,7 @@
+ 	return 0;
+ }
+ 
+-void PG_PumpEvents(_THIS)
++void PG_PumpEvents(_THIS, int wait_for_event)
+ {
+         /* Process all pending events */
+         pgEventPoll();
+--- SDL-1.2.15.org/src/video/picogui/SDL_pgevents_c.h
++++ SDL-1.2.15/src/video/picogui/SDL_pgevents_c.h
+@@ -29,7 +29,7 @@
+ /* Variables and functions exported by SDL_sysevents.c to other parts 
+    of the native video subsystem (SDL_sysvideo.c)
+ */
+-extern void PG_PumpEvents(_THIS);
++extern void PG_PumpEvents(_THIS, int wait_for_event);
+ extern void PG_InitEvents(_THIS);
+ extern void PG_InitOSKeymap(_THIS);
+ 
+--- SDL-1.2.15.org/src/video/ps2gs/SDL_gsevents.c
++++ SDL-1.2.15/src/video/ps2gs/SDL_gsevents.c
+@@ -778,11 +778,12 @@
+ 	}
+ }
+ 
+-void GS_PumpEvents(_THIS)
++void GS_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	fd_set fdset;
+ 	int max_fd;
+-	static struct timeval zero;
++	struct timeval zero = { 0, 0 };
++	struct timeval *timeout = ((wait_for_event) ? NULL : &zero);
+ 
+ 	do {
+ 		posted = 0;
+@@ -801,7 +802,7 @@
+ 				max_fd = mouse_fd;
+ 			}
+ 		}
+-		if ( select(max_fd+1, &fdset, NULL, NULL, &zero) > 0 ) {
++		if ( select(max_fd+1, &fdset, NULL, NULL, timeout) > 0 ) {
+ 			if ( keyboard_fd >= 0 ) {
+ 				if ( FD_ISSET(keyboard_fd, &fdset) ) {
+ 					handle_keyboard(this);
+--- SDL-1.2.15.org/src/video/ps2gs/SDL_gsevents_c.h
++++ SDL-1.2.15/src/video/ps2gs/SDL_gsevents_c.h
+@@ -35,4 +35,4 @@
+ extern void GS_LeaveGraphicsMode(_THIS);
+ 
+ extern void GS_InitOSKeymap(_THIS);
+-extern void GS_PumpEvents(_THIS);
++extern void GS_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/qtopia/SDL_sysevents.cc
++++ SDL-1.2.15/src/video/qtopia/SDL_sysevents.cc
+@@ -41,7 +41,7 @@
+    thread.  Normally this function should loop as long as there are input
+    states changing, i.e. new events arriving.
+ */
+-void QT_PumpEvents(_THIS)
++void QT_PumpEvents(_THIS, int wait_for_event)
+ {
+   if(!qApp) {
+     return; 
+--- SDL-1.2.15.org/src/video/qtopia/SDL_sysevents_c.h
++++ SDL-1.2.15/src/video/qtopia/SDL_sysevents_c.h
+@@ -28,4 +28,4 @@
+ */
+ 
+ extern void QT_InitOSKeymap(_THIS);
+-extern void QT_PumpEvents(_THIS);
++extern void QT_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/quartz/SDL_QuartzEvents.m
++++ SDL-1.2.15/src/video/quartz/SDL_QuartzEvents.m
+@@ -795,11 +795,11 @@
+ }
+ 
+ 
+-void QZ_PumpEvents (_THIS)
++void QZ_PumpEvents (_THIS, int wait_for_event)
+ {
+     int32_t dx, dy;
+ 
+-    NSDate *distantPast;
++    NSDate *until;
+     NSEvent *event;
+     NSRect winRect;
+     NSAutoreleasePool *pool;
+@@ -819,8 +819,13 @@
+     }
+ 
+     pool = [ [ NSAutoreleasePool alloc ] init ];
+-    distantPast = [ NSDate distantPast ];
+ 
++    if (wait_for_event) {
++        until = [ NSDate distantFuture ];
++    } else {
++        until = [ NSDate distantPast ];
++    }
++
+     winRect = NSMakeRect (0, 0, SDL_VideoSurface->w, SDL_VideoSurface->h);
+     
+     /* while grabbed, accumulate all mouse moved events into one SDL mouse event */
+@@ -829,9 +834,9 @@
+     
+     do {
+     
+-        /* Poll for an event. This will not block */
++        /* Poll for an event. This may block */
+         event = [ NSApp nextEventMatchingMask:NSAnyEventMask
+-                                    untilDate:distantPast
++                                    untilDate:until
+                                     inMode: NSDefaultRunLoopMode dequeue:YES ];
+         if (event != nil) {
+ 
+--- SDL-1.2.15.org/src/video/quartz/SDL_QuartzVideo.h
++++ SDL-1.2.15/src/video/quartz/SDL_QuartzVideo.h
+@@ -209,7 +209,7 @@
+ 
+ /* Event functions */
+ void         QZ_InitOSKeymap     (_THIS);
+-void         QZ_PumpEvents       (_THIS);
++void         QZ_PumpEvents       (_THIS, int wait_for_event);
+ 
+ /* Window Manager functions */
+ void         QZ_SetCaption       (_THIS, const char *title, const char *icon);
+--- SDL-1.2.15.org/src/video/riscos/SDL_riscosevents.c
++++ SDL-1.2.15/src/video/riscos/SDL_riscosevents.c
+@@ -85,7 +85,7 @@
+ 
+ #endif
+ 
+-void FULLSCREEN_PumpEvents(_THIS)
++void FULLSCREEN_PumpEvents(_THIS, int wait_for_event)
+ {
+     /* Current implementation requires keyboard and mouse polling */
+ 	RISCOS_PollKeyboard();
+--- SDL-1.2.15.org/src/video/riscos/SDL_riscosevents_c.h
++++ SDL-1.2.15/src/video/riscos/SDL_riscosevents_c.h
+@@ -27,8 +27,8 @@
+    of the native video subsystem (SDL_sysvideo.c)
+ */
+ extern void RISCOS_InitOSKeymap(_THIS);
+-extern void FULLSCREEN_PumpEvents(_THIS);
+-extern void WIMP_PumpEvents(_THIS);
++extern void FULLSCREEN_PumpEvents(_THIS, int wait_for_event);
++extern void WIMP_PumpEvents(_THIS, int wait_for_event);
+ 
+-/* end of SDL_nullevents_c.h ... */
++/* end of SDL_riscosevents_c.h ... */
+ 
+--- SDL-1.2.15.org/src/video/riscos/SDL_wimppoll.c
++++ SDL-1.2.15/src/video/riscos/SDL_wimppoll.c
+@@ -79,9 +79,10 @@
+ /* Flag to ensure window is correct size after a mode change */
+ static int resizeOnOpen = 0;
+ 
+-void WIMP_PumpEvents(_THIS)
++void WIMP_PumpEvents(_THIS, int wait_for_event)
+ {
+-	WIMP_Poll(this, 0);
++	/* block for up to 24 hours if wait_for_event. */
++	WIMP_Poll(this, ((wait_for_event) ? 144000 : 0));
+ 	if (hasFocus) RISCOS_PollKeyboard();
+ 	if (mouseInWindow) WIMP_PollMouse(this);
+ #if SDL_THREADS_DISABLED
+--- SDL-1.2.15.org/src/video/riscos/SDL_wimpvideo.c
++++ SDL-1.2.15/src/video/riscos/SDL_wimpvideo.c
+@@ -50,7 +50,7 @@
+ 
+ 
+ extern unsigned char *WIMP_CreateBuffer(int width, int height, int bpp);
+-extern void WIMP_PumpEvents(_THIS);
++extern void WIMP_PumpEvents(_THIS, int wait_for_event);
+ extern void WIMP_PlotSprite(_THIS, int x, int y);
+ extern void WIMP_SetupPlotInfo(_THIS);
+ extern void WIMP_SetFocus(int win);
+--- SDL-1.2.15.org/src/video/svga/SDL_svgaevents.c
++++ SDL-1.2.15/src/video/svga/SDL_svgaevents.c
+@@ -197,7 +197,7 @@
+ 	}
+ }
+ 
+-void SVGA_PumpEvents(_THIS)
++void SVGA_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	do {
+ 		posted = 0;
+--- SDL-1.2.15.org/src/video/svga/SDL_svgaevents_c.h
++++ SDL-1.2.15/src/video/svga/SDL_svgaevents_c.h
+@@ -32,4 +32,4 @@
+ extern void SVGA_keyboardcallback(int scancode, int pressed);
+ 
+ extern void SVGA_InitOSKeymap(_THIS);
+-extern void SVGA_PumpEvents(_THIS);
++extern void SVGA_PumpEvents(_THIS, int wait_for_event);
+--- SDL-1.2.15.org/src/video/vgl/SDL_vglevents.c
++++ SDL-1.2.15/src/video/vgl/SDL_vglevents.c
+@@ -130,7 +130,7 @@
+ }
+ 	
+ 
+-void VGL_PumpEvents(_THIS)
++void VGL_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	do {
+ 		posted = 0;
+--- SDL-1.2.15.org/src/video/vgl/SDL_vglevents_c.h
++++ SDL-1.2.15/src/video/vgl/SDL_vglevents_c.h
+@@ -31,7 +31,7 @@
+ extern void VGL_keyboardcallback(int scancode, int pressed);
+ 
+ extern void VGL_InitOSKeymap(_THIS);
+-extern void VGL_PumpEvents(_THIS);
++extern void VGL_PumpEvents(_THIS, int wait_for_event);
+ 
+ /* Mouse buttons */
+ #define MOUSE_LEFTBUTTON        0x01
+--- SDL-1.2.15.org/src/video/windib/SDL_dibevents.c
++++ SDL-1.2.15/src/video/windib/SDL_dibevents.c
+@@ -357,9 +357,13 @@
+ 	}
+ }
+ 
+-void DIB_PumpEvents(_THIS)
++void DIB_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	MSG msg;
++
++	if (wait_for_event) {
++		WaitMessage();
++	}
+ 
+ 	while ( PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE) ) {
+ 		if ( GetMessage(&msg, NULL, 0, 0) > 0 ) {
+--- SDL-1.2.15.org/src/video/windib/SDL_dibevents_c.h
++++ SDL-1.2.15/src/video/windib/SDL_dibevents_c.h
+@@ -31,5 +31,5 @@
+ extern int DIB_CreateWindow(_THIS);
+ extern void DIB_DestroyWindow(_THIS);
+ 
+-extern void DIB_PumpEvents(_THIS);
++extern void DIB_PumpEvents(_THIS, int wait_for_event);
+ extern void DIB_InitOSKeymap(_THIS);
+--- SDL-1.2.15.org/src/video/windx5/SDL_dx5events.c
++++ SDL-1.2.15/src/video/windx5/SDL_dx5events.c
+@@ -653,6 +653,11 @@
+ 	HRESULT  result;
+ 	DWORD    event;
+ 
++	/* !!! FIXME: timeout variable is useless, since we can't block on
++	 * !!! FIXME:  both the windows event queue and DX5 objects...can
++	 * !!! FIXME:  we do both in one Win32 API call?
++	 */
++
+ 	/* Check the normal windows queue (highest preference) */
+ 	posted = 0;
+ 	while ( ! posted &&
+@@ -760,9 +765,10 @@
+ 	DX5_CheckInput(this, 0, FALSE);
+ }
+ 
+-void DX5_PumpEvents(_THIS)
++void DX5_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	/* Wait for messages and DirectInput */
++	/* !!! FIXME: honor wait_for_event (see DX5_CheckInput notes first!) */
+ 	while ( DX5_CheckInput(this, 0, TRUE) > 0 ) {
+ 		/* Loop and check again */;
+ 	}
+--- SDL-1.2.15.org/src/video/windx5/SDL_dx5events_c.h
++++ SDL-1.2.15/src/video/windx5/SDL_dx5events_c.h
+@@ -31,7 +31,7 @@
+ extern int DX5_CreateWindow(_THIS);
+ extern void DX5_DestroyWindow(_THIS);
+ 
+-extern void DX5_PumpEvents(_THIS);
++extern void DX5_PumpEvents(_THIS, int wait_for_event);
+ extern void DX5_InitOSKeymap(_THIS);
+ extern void DX5_DInputReset(_THIS, int fullscreen);
+ 
+--- SDL-1.2.15.org/src/video/wscons/SDL_wsconsevents.c
++++ SDL-1.2.15/src/video/wscons/SDL_wsconsevents.c
+@@ -127,7 +127,7 @@
+   }
+ }
+ 
+-void WSCONS_PumpEvents(_THIS)
++void WSCONS_PumpEvents(_THIS, int wait_for_event)
+ {
+   do {
+     posted = 0;
+--- SDL-1.2.15.org/src/video/wscons/SDL_wsconsevents_c.h
++++ SDL-1.2.15/src/video/wscons/SDL_wsconsevents_c.h
+@@ -30,7 +30,7 @@
+    of the native video subsystem (SDL_sysvideo.c)
+ */
+ extern void WSCONS_InitOSKeymap(_THIS);
+-extern void WSCONS_PumpEvents(_THIS);
++extern void WSCONS_PumpEvents(_THIS, int wait_for_event);
+ 
+ /* end of SDL_wsconsevents_c.h ... */
+ 
+--- SDL-1.2.15.org/src/video/x11/SDL_x11events.c
++++ SDL-1.2.15/src/video/x11/SDL_x11events.c
+@@ -903,7 +903,7 @@
+ }
+ 
+ /* Ack!  XPending() actually performs a blocking read if no events available */
+-int X11_Pending(Display *display)
++int X11_Pending(Display *display, int wait_for_event)
+ {
+ 	/* Flush the display connection and look to see if events are queued */
+ 	XFlush(display);
+@@ -913,14 +913,15 @@
+ 
+ 	/* More drastic measures are required -- see if X is ready to talk */
+ 	{
+-		static struct timeval zero_time;	/* static == 0 */
++		struct timeval zero = { 0, 0 };
++		struct timeval *timeout = ((wait_for_event) ? NULL : &zero);
+ 		int x11_fd;
+ 		fd_set fdset;
+ 
+ 		x11_fd = ConnectionNumber(display);
+ 		FD_ZERO(&fdset);
+ 		FD_SET(x11_fd, &fdset);
+-		if ( select(x11_fd+1, &fdset, NULL, NULL, &zero_time) == 1 ) {
++		if ( select(x11_fd+1, &fdset, NULL, NULL, timeout) == 1 ) {
+ 			return(XPending(display));
+ 		}
+ 	}
+@@ -929,7 +930,7 @@
+ 	return(0);
+ }
+ 
+-void X11_PumpEvents(_THIS)
++void X11_PumpEvents(_THIS, int wait_for_event)
+ {
+ 	int pending;
+ 
+@@ -945,8 +946,14 @@
+ 
+ 	/* Keep processing pending events */
+ 	pending = 0;
+-	while ( X11_Pending(SDL_Display) ) {
++
++	if ( switch_waiting ) {
++		wait_for_event = 0;  /* just flush out what's waiting this time. */
++	}
++
++	while ( X11_Pending(SDL_Display, wait_for_event) ) {
+ 		X11_DispatchEvent(this);
++		wait_for_event = 0;  /* don't wait for more events if none left. */
+ 		++pending;
+ 	}
+ 	if ( switch_waiting ) {
+--- SDL-1.2.15.org/src/video/x11/SDL_x11events_c.h
++++ SDL-1.2.15/src/video/x11/SDL_x11events_c.h
+@@ -25,7 +25,7 @@
+ 
+ /* Functions to be exported */
+ extern void X11_InitOSKeymap(_THIS);
+-extern void X11_PumpEvents(_THIS);
++extern void X11_PumpEvents(_THIS, int wait_for_event);
+ extern void X11_SetKeyboardState(Display *display, const char *key_vec);
+ 
+ /* Variables to be exported */
