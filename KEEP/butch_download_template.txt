@@ -124,7 +124,7 @@ else
 	   "$butch_cache_dir"/"$tarball"
 	check_tarball "$butch_cache_dir"/"$tarball"
 	rc=$?
-	break
+	test $rc = 0 && break
 fi
 done
 cleanup
