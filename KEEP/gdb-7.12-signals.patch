@@ -1,0 +1,20 @@
+from https://raw.githubusercontent.com/smaeul/portage/7d7bdaa41e30a2ac8c1ae38d21c8d55126c1b078/patches/sys-devel/gdb/gdb-7.12-signals.patch -O KEEP/gdb-7.12-signals.patch
+
+diff --git gdb-7.12/gdb/common/signals.c gdb-fixed/gdb/common/signals.c
+index f84935d..413ff1d 100644
+--- gdb-7.12/gdb/common/signals.c
++++ gdb-fixed/gdb/common/signals.c
+@@ -31,6 +31,13 @@ struct gdbarch;
+    _available_ realtime signal, not the lowest supported; glibc takes
+    several for its own use.  */
+
++#ifndef __SIGRTMIN
++# define __SIGRTMIN 32
++#endif
++#ifndef __SIGRTMAX
++# define __SIGRTMAX _NSIG
++#endif
++
+ #ifndef REALTIME_LO
+ # if defined(__SIGRTMIN)
+ #  define REALTIME_LO __SIGRTMIN

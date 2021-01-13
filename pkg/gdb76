@@ -6,7 +6,7 @@ http://ftp.gnu.org/gnu/gdb/gdb-7.6.2.tar.bz2
 filesize=24269334
 sha512=e72e9c2abb58cc08c38841380270fe783f26baf62798171d21cf0843e6c9a81d285f424dc6229ea7b1c6c957d999c8aa75c2bd15076817abb9caab28c4eb7666
 desc='the GNU debugger. debug applications created in asm, C, C++'
-pkgver=2
+pkgver=3
 gdb_major=7
 gdb_minor=6
 
@@ -57,6 +57,8 @@ patch -p1 < "$K"/gdb-76-debuglink-dir.patch
 else # for all gdb versions > 7.6
 patch -p1 < "$K"/gdb-77-debuglink-dir.patch
 fi
+# these apply to all versions supported
+patch -p1 < "$K"/gdb-7.12-signals.patch
 patch -p1 < "$K"/gdb-linux_nat.patch
 patch -p1 < "$K"/gdb-76-dynamic-libc-step.patch
 

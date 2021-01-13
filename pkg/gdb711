@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/gdb/gdb-7.11.1.tar.xz
 [vars]
 filesize=18947760
 sha512=f80ec6c8a0f0b54c8b945666e875809174402b7e121efb378ebac931a91f9a1cc0048568f8e2f42ae8ae2392ff8d144c2e51d41c7398935017450aaf29838360
-pkgver=1
+pkgver=2
 desc='the GNU debugger. debug applications created in asm, C, C++'
 gdb_major=7
 gdb_minor=11
