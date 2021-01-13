@@ -63,6 +63,11 @@ butch_do_cleanup_builddir_prebuild=true
 [ -z "$butch_do_cleanup_builddir_postbuild" ] && butch_do_cleanup_builddir_postbuild=false
 
 [ -z "$butch_do_custom_destdir" ] && butch_do_custom_destdir=true
+# tardir_create can be set to true in a package's var section if the tarball/zip
+# extracts to the current directory. this allows to first create the tardir and
+# cleanly unpack into that.
+butch_tardir_create=false
+[ "$tardir_create" = 1 ] && butch_tardir_create=true
 
 if $butch_do_custom_destdir ; then
 	butch_do_cleanup_custom_destdir=true
@@ -177,6 +182,9 @@ cleanup_builddir() {
 }
 $butch_do_cleanup_builddir_prebuild && cleanup_builddir
 
+if $butch_tardir_create ; then
+butch_build_root="$butch_build_dir"
+fi
 [ -d "$butch_build_root" ] || mkdir -p "$butch_build_root"
 cd "$butch_build_root"
 
