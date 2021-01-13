@@ -1,0 +1,24 @@
+[mirrors]
+https://www.quaddicted.com/files/idgames/music/dgguspat.zip
+https://youfailit.net/pub/idgames/music/dgguspat.zip
+https://ftpmirror1.infania.net/pub/idgames/music/dgguspat.zip
+http://www.gamers.org/pub/idgames/music/dgguspat.zip
+ftp://mirrors.syringanetworks.net/idgames/music/dgguspat.zip
+ftp://ftp.fu-berlin.de/pc/games/idgames/music/dgguspat.zip
+
+[vars]
+filesize=5308541
+sha512=6809901031ec53f94cea9f624d37795b0b56346519ec328210150e6b455323217d171352c67f760f1ffd4a38e874d23b29cc45b627a5a0b391d0e4220be3adf0
+pkgver=1
+tardir_create=1
+desc='timidity compatible set of gravis ultrasound patches'
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+for x in * ; do install -Dm 644 "$x" "$dest"/share/midi/doomgus/"$x" ; done
+cat << EOF > doomgus.cfg
+source $butch_prefix/share/midi/doomgus/timidity.cfg
+dir $butch_prefix/share/midi/doomgus/
+
+EOF
+install -Dm 644 doomgus.cfg "$dest"/etc/doomgus.cfg
