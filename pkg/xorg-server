@@ -20,6 +20,7 @@ libxdmcp
 libxfont
 mesalib
 libressl
+libnettle
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
