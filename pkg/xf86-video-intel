@@ -1,13 +1,14 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.99.917.tar.bz2
+https://github.com/freedesktop/xorg-xf86-video-intel/archive/31486f40f8e8f8923ca0799aea84b58799754564.tar.gz
 
 [vars]
-filesize=2259040
-sha512=cbf4d46ad1ad5e5587c0f1f620ff534ef0645270517b60056b9f03e83d8216e2f456de46352a06c37c0c46963cc4ed20b71b815b20ec1bf680ff046e535f580f
-pkgver=2
+filesize=1696795
+sha512=54c4adad9d42dd6f0350d6b41f972c1ec013690d470ec2eddf6c505a8bb989e3806c48ad117f945be023cf54991368ee9edffb53d4a44396de4078acec00bdc4
+tarball=xf86-video-intel-2.99.917_git20210116-31486f4.tar.gz
+tardir=xorg-xf86-video-intel-31486f40f8e8f8923ca0799aea84b58799754564
+pkgver=3
 
 [deps]
-xf86-video-intel-git-patch
 xproto
 libx11
 xorg-server
@@ -20,19 +21,17 @@ automake
 libtool
 
 [build]
-patch -p1 < "$C"/xf86-video-intel-git.patch
-
 autoreconf -vif
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-include sys/sysmacros.h" \
 LDFLAGS="-Wl,-z,lazy" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
   --enable-xvmc \
   --enable-dri2 \
+  --enable-dri3 \
   --disable-selective-werror
 #  --with-default-dri=3
 #  --enable-glamor \

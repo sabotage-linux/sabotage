@@ -1,9 +1,0 @@
-[mirrors]
-https://git.alpinelinux.org/cgit/aports/plain/main/xf86-video-intel/git.patch?id=3a329ef78935857e218db6e81db502df98759feb
-
-[vars]
-filesize=1261990
-sha512=0fe4e455dcbc4ae6622dca483ef3ddc765c43009fdb0fef82bdaa835a737796a6caf8afa9c6630919f43c977a6f736770c3779f04d8c823da4fc9cee17d16f19
-tarball=xf86-video-intel-git.patch
-pkgver=1
-
