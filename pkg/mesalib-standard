@@ -1,10 +1,10 @@
 [mirrors]
-https://mesa.freedesktop.org/archive/older-versions/13.x/13.0.6/mesa-13.0.6.tar.xz
+https://archive.mesa3d.org//older-versions/17.x/mesa-17.3.9.tar.xz
 
 [vars]
-filesize=9179236
-sha512=2455e044647f674c2f1dd524143b61b8630713fa929bbf6fe1c981436a9c08dc933553d638a22b32d2799afb77be746355b48b1b20af172141c5b63891e94441
-pkgver=3
+filesize=10660456
+sha512=83deffbc6b9823b8e93cccf57d7952106f3d55fea881e3924f9f9586f0e9347a6e3a1a36cc19c24af819f2fde3af9496652a6ff56132511a5618d5774404f63f
+pkgver=4
 option_radeon=false
 desc='mesalib opengl drivers. this version features intel and nouveau'
 
