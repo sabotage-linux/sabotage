@@ -42,10 +42,6 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 mkdir netinet
 touch netinet/in_systm.h
 
-for i in ARC4RANDOM ARC4RANDOM_BUF ARC4RANDOM_UNIFORM ; do
-sed -i '/HAVE_'$i' /d' config.h
-done
-
 sed -i '/USE_BTMP/d' config.h
 sed -i '/USE_UTMP/d' config.h
 sed -i 's@HAVE_DECL_HOWMANY 1@HAVE_DECL_HOWMANY 0@' config.h
