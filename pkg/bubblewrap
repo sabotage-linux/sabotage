@@ -1,0 +1,27 @@
+[mirrors]
+https://github.com/containers/bubblewrap/releases/download/v0.4.1/bubblewrap-0.4.1.tar.xz
+
+[vars]
+filesize=214496
+sha512=0ff46dc0fda2d0cffbb36cc52ff43951b30cbd835a42cc56806acbbbd827796bfadbb1cfafc84d6b47a72c031ca44abe1c377acc0cc25fe3b33e854f5f687d35
+pkgver=1
+
+[deps]
+libc
+libcap2
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-man \
+  --localstatedir="$butch_prefix"/var \
+  --with-priv-mode=none \
+  --enable-require-userns=yes
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
