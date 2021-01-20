@@ -20,6 +20,9 @@ CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
 LDFLAGS="$optldflags -static" \
  ./configure -C --prefix="$butch_prefix" $xconfflags \
   --sbindir="$butch_prefix"/bin \
+  --localstatedir="$butch_prefix"/var \
+  --runstatedir="$butch_prefix"/var/run \
+  --with-xt-lock-name="$butch_prefix"/var/run/xtables.lock \
   --disable-shared \
   --disable-nftables
 make V=1 -j$MAKE_THREADS
