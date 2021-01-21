@@ -1,0 +1,39 @@
+[mirrors]
+https://samba.org/ftp/talloc/talloc-2.3.1.tar.gz
+
+[vars]
+filesize=638878
+sha512=064fc39a9aaace6e0209f3251c8ff198d8a318b4cf4198006ff9892ca6e15e7d817b2fda43e0444fbbf04d2c3e70d06523dff5d57cbb796d27317ef4759e062e
+pkgver=1
+
+[deps.host]
+python
+
+[build]
+mkdir fakebin
+printf '#!/bin/sh\npython2 "$@"\n' > fakebin/python3
+chmod +x fakebin/python3
+export PATH="$PWD/fakebin:$PATH"
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --bundled-libraries=NONE \
+  --builtin-libraries=replace \
+  --disable-rpath \
+  --disable-rpath-install \
+  --disable-python \
+  --without-gettext
+
+make V=1 -j$MAKE_THREADS
+
+ar qf libtalloc.a bin/default/talloc.c*.o
+
+make DESTDIR="$butch_install_dir" install
+install -Dm 644 libtalloc.a "$butch_install_dir""$butch_prefix"/lib/libtalloc.a
