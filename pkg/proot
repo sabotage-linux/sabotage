@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/proot-me/proot/archive/v5.2.0-alpha.tar.gz
+
+[vars]
+filesize=234324
+sha512=13215070ca9decc5e0396a9e996536b7ea42746bae2197ab7cd06c516eac732d804f6378987cb68325388fea1f2a5a997cea0f70a630a31ace1c7c7526bd096c
+tarball=proot-5.2.0-alpha.tar.gz
+desc='allows to chroot without root privs and userns support in the kernel'
+pkgver=1
+
+[deps]
+talloc
+libarchive
+queue-h
+
+[build]
+cd src
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -larchive -ltalloc" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  PYTHON=/dev/null/foobar \
+  "$1"
+}
+mk_target loader.elf loader-m32.elf build.h
+mk_target proot care
+mk_target install
