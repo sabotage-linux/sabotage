@@ -1,12 +1,13 @@
 [mirrors]
-https://raw.githubusercontent.com/freebsd/freebsd/0647fdddb3df86e40812519e4913a3f61d94c95c/sys/sys/queue.h
+https://raw.githubusercontent.com/void-linux/void-packages/7223431d4fb5155d23cc9707f3cef9440476dca8/srcpkgs/musl-legacy-compat/files/queue.h
 
 [vars]
-filesize=25249
-sha512=4532bd619e20f9495e36deb09ca084eb757996900c4de277c071015eff5c2a7b0595d579f056779b27683d2d3e460921ab88e0d00039ce29ef38db102c3d81d7
-tarball=bsd_queue.h
+filesize=30107
+sha512=19cec4d39310285eb49ad1beae86884080e0152f9477757513050211b31f95ee7283a64ae95939683df09231cfb021ace816b26981ad05f4fff0a39519f935fe
+tarball=netbsd_queue.h
+pkgver=2
 
 [build]
 dest="$butch_install_dir""$butch_prefix"
-install -Dm 644 "$C"/bsd_queue.h "$dest"/include/sys/queue.h
+install -Dm 644 "$C"/netbsd_queue.h "$dest"/include/sys/queue.h
 sed -i '/^.*cdefs\.h.*$/d' "$dest"/include/sys/queue.h
