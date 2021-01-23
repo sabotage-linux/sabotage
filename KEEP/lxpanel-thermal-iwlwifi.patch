@@ -1,0 +1,13 @@
+--- lxpanel-0.8.2.org/plugins/thermal/thermal.c
++++ lxpanel-0.8.2/plugins/thermal/thermal.c
+@@ -347,7 +347,9 @@
+                 continue;
+         }
+         snprintf(sensor_path,sizeof(sensor_path),"%s%s/", directory, sensor_name);
+-        add_sensor(th, sensor_path, sensor_name, get_temp, get_crit);
++        if(get_temp(sensor_path) > 0) { // make sure sensor works: https://bugzilla.kernel.org/show_bug.cgi?id=201761
++            add_sensor(th, sensor_path, sensor_name, get_temp, get_crit);
++        }
+     }
+     g_dir_close(sensorsDirectory);
+ }

@@ -4,6 +4,7 @@ http://downloads.sourceforge.net/project/lxde/LXPanel%20%28desktop%20panel%29/LX
 [vars]
 filesize=1488548
 sha512=abab9175c4a4e591a33c39fbc41754e458eea60c79f5a40d56848338b910a867bafed09b4d1f2596a588beb79bfb5efe54c798ff5f7b0ee74f6245a1b0417918
+pkgver=2
 
 [deps]
 gtk+2
@@ -19,6 +20,7 @@ libfm
 
 patch -p1 < "$K"/lxpanel-linux.patch
 patch -p1 < "$K"/lxpanel-cpufreq.patch
+patch -p1 < "$K"/lxpanel-thermal-iwlwifi.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
