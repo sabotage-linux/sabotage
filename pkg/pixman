@@ -1,16 +1,16 @@
 [mirrors]
-http://cairographics.org/releases/pixman-0.36.0.tar.gz
-http://distfiles.lesslinux.org/pixman-0.36.0.tar.gz
-http://cairographics.org/releases/pixman-0.36.0.tar.gz
-http://www.x.org/releases/individual/lib/pixman-0.36.0.tar.gz
+http://cairographics.org/releases/pixman-0.40.0.tar.gz
+http://distfiles.lesslinux.org/pixman-0.40.0.tar.gz
+http://cairographics.org/releases/pixman-0.40.0.tar.gz
+http://www.x.org/releases/individual/lib/pixman-0.40.0.tar.gz
 
 [vars]
-filesize=881544
-sha512=227d2d9bbebe20c87e4e5008791516afabaa54cb26f8658beac8e80710671f11cd5391e7d4d910b8450f6c0f7413dfca514e4a175a3b05b305186e8d427ce4d6
-pkgver=2
+filesize=913976
+sha512=063776e132f5d59a6d3f94497da41d6fc1c7dca0d269149c78247f0e0d7f520a25208d908cf5e421d1564889a91da44267b12d61c0bd7934cd54261729a7de5f
+pkgver=3
 
-[deps.host]
-perl
+[deps]
+libpng
 
 [build]
 cp -f "$K"/config.sub .
@@ -19,8 +19,9 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
   xconfflags="--host=$($CC -dumpmachine) \
   --disable-sse2 --disable-mmx --disable-arm-neon --disable-arm-simd --disable-arm-iwmmxt"
 
-CFLAGS="-DPIXMAN_NO_TLS $optcflags" ./configure -C --prefix="$butch_prefix" \
+CFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-z,stack-size=2097152" \
+./configure -C --prefix="$butch_prefix" \
   --disable-loongson-mmi $xconfflags
-sed -i -e '/TOOLCHAIN_SUPPORTS_ATTRIBUTE_CONSTRUCTOR/d' -e '/TOOLCHAIN_SUPPORTS__THREAD/d' config.h
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
