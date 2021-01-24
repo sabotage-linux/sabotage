@@ -1,11 +1,11 @@
 [mirrors]
-ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.16.3.tar.bz2
-http://ftp.x.org/pub/individual/xserver/xorg-server-1.16.3.tar.bz2
+http://ftp.x.org/pub/individual/xserver/xorg-server-1.18.4.tar.bz2
+ftp://ftp.x.org/pub/individual/xserver/xorg-server-1.18.4.tar.bz2
 
 [vars]
-filesize=5806406
-sha512=c0459ed95a6682b2094340b6b8fc7b59fcda5227ee2f13e87f68eb5c29b91cd3f05c5fc2126e33d6303beb3ad04d19466951ef4eb53f2e9918684cdaf3692c5a
-pkgver=3
+filesize=6009508
+sha512=2055948caa1437547ea823a70d8b24584b65338bb9f1bbf75e3ad7fd60ec9684378facaffa05b7ce496d904213cd192085a43ba889a1476d5fbc813b7e41b56b
+pkgver=4
 
 [deps]
 util-macros
@@ -27,6 +27,9 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > test/Makefile.in
 sed -i 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h
 patch -p0 < "$K"/xorg-server-musl-arm.patch
 patch -p1 < "$K"/xorg-server-gcc5.patch
+patch -p1 < "$K"/xorg-server-modesetting-drm.patch
+patch -p1 < "$K"/xorg-server-pci.patch
+patch -p1 < "$K"/xorg-server-cve-2020-14347.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
@@ -34,10 +37,26 @@ patch -p1 < "$K"/xorg-server-gcc5.patch
 
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Wl,-z,lazy" \
 CPPFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE \
-          -I$butch_root_dir$butch_prefix/include/pixman-1" \
+          -I$butch_root_dir$butch_prefix/include/pixman-1 \
 CFLAGS=" $optcflags -include sys/sysmacros.h" \
   ./configure -C --prefix="$butch_prefix" \
+    --localstatedir="$butch_prefix"/var \
     --enable-kdrive --enable-kdrive-evdev $xconfflags \
+    --enable-aiglx \
+    --enable-composite \
+    --enable-dri \
+    --enable-dri2 \
+    --enable-config-udev \
+    --enable-glx-tls \
+    --enable-xfbdev \
+    --enable-xnest \
+    --enable-xorg \
+    --enable-xres \
+    --enable-xv \
+    --disable-config-hal \
+    --disable-dmx \
+    --disable-tslib \
+    --disable-systemd-logind \
     --disable-xephyr
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
@@ -48,11 +67,15 @@ mkdir -p "$dest"/etc
 ln -s ../share/X11 "$dest"/etc/
 
 #copy our hacky X launcher script to /bin...
-dest="${butch_prefix}${butch_install_dir}"/bin
-mkdir -p "$dest"
-cp "$K"/X "$dest"/
+dest="${butch_prefix}${butch_install_dir}"
+install -Dm 755 "$K"/X "$dest"/bin/X
 
 # FIXME starting X as non-root needs suid bit on the "server"
 for i in Xfbdev Xorg ; do
-	[ -e "$dest"/"$i" ] && chmod +s "$dest"/"$i"
+	[ -e "$dest"/bin/"$i" ] && chmod +s "$dest"/bin/"$i"
 done
+
+# FIXME: our /etc/X11/xorg.conf.d is actually a link to /share, which causes
+# these files to be overwritten by butch (we protect /etc files from that)
+install -Dm 644 "$K"/xorg-10-evdev.conf "$dest"/etc/X11/xorg.conf.d/10-evdev.conf
+install -Dm 644 "$K"/xorg-20-modules.conf "$dest"/etc/X11/xorg.conf.d/20-modules.conf

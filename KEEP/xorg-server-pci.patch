@@ -1,0 +1,13 @@
+diff --git a/hw/xfree86/common/xf86platformBus.c b/hw/xfree86/common/xf86platformBus.c
+index cef47da03d0e91e6a56a5e3cb14a51d931633eff..dadbac6c8f0ae6f3d636fdfe245e61bc0c98581d 100644
+--- a/hw/xfree86/common/xf86platformBus.c
++++ b/hw/xfree86/common/xf86platformBus.c
+@@ -289,7 +289,7 @@ xf86platformProbe(void)
+     for (i = 0; i < xf86_num_platform_devices; i++) {
+         char *busid = xf86_platform_odev_attributes(i)->busid;
+ 
+-        if (pci && (strncmp(busid, "pci:", 4) == 0)) {
++        if (pci && busid && (strncmp(busid, "pci:", 4) == 0)) {
+             platform_find_pci_info(&xf86_platform_devices[i], busid);
+         }
+ 
