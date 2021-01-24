@@ -6,7 +6,7 @@ filesize=1696795
 sha512=54c4adad9d42dd6f0350d6b41f972c1ec013690d470ec2eddf6c505a8bb989e3806c48ad117f945be023cf54991368ee9edffb53d4a44396de4078acec00bdc4
 tarball=xf86-video-intel-2.99.917_git20210116-31486f4.tar.gz
 tardir=xorg-xf86-video-intel-31486f40f8e8f8923ca0799aea84b58799754564
-pkgver=3
+pkgver=4
 
 [deps]
 xproto
@@ -32,6 +32,7 @@ LDFLAGS="-Wl,-z,lazy" \
   --enable-xvmc \
   --enable-dri2 \
   --enable-dri3 \
+  --disable-sna \
   --disable-selective-werror
 #  --with-default-dri=3
 #  --enable-glamor \
