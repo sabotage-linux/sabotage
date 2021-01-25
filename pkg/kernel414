@@ -43,6 +43,7 @@ xzcat "$kpatch" | patch -p 1
 LINUX_VER="$LINUX_VER"."$patchver"
 
 grep offsetof include/uapi/linux/wireless.h >/dev/null && \
+[ "$k_major" -lt 5 ] && \
 	dopatch linux-stddef-breakage.patch
 
 dopatch linux-timeconst-nobc-kbuild$k_major.patch
