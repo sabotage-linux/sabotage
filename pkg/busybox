@@ -36,6 +36,8 @@ dopatch "$K"/busybox-ping.patch
 #__inline seems to get activated when -std=gnu99 is used, causing havoc
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
 
+sed -i 's/-DBB_BT=AUTOCONF_TIMESTAMP/-DBB_BT=\\"2021-00-00\\ 00:00:00\\ UTC\\"/' Makefile.flags
+
 cp "$K/"busybox.stage1.config config.stage1
 
 if [ "$DEBUGBUILD" = "1" ] ; then
