@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/aquynh/capstone/archive/3722c74.tar.gz
+https://github.com/aquynh/capstone/archive/4.0.2.tar.gz
 
 [vars]
-filesize=3186302
-sha512=7854d6365c19d3ff9a65882bd34a247085746b4854940471dbdf62f23119a37569f123f3b6ced5a2f74782f2188bf8a3b5c7aff6beb063b44fdf9a1b44f90ad1
-tarball=capstone-3722c74.tar.gz
-tardir=capstone-3722c74f69ffa5b705d36cd49c19acdf958a9b7a
+filesize=3439542
+sha512=7f93534517307b737422a8825b66b2a1f3e1cca2049465d60ab12595940154aaf843ba40ed348fce58de58b990c19a0caef289060eb72898cb008a88c470970e
+tarball=capstone-4.0.2.tar.gz
+pkgver=2
 
 [deps]
 
