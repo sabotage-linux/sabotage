@@ -10,10 +10,17 @@ pkgver=2
 [deps]
 
 [build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" LD="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -static" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  Q= V=1 HAVE_LLVM=no HAVE_GTK=no \
+  "$@"
+}
 cat <<EOF > local.mk
 PREFIX = $butch_prefix
 CFLAGS += -D_GNU_SOURCE $optcflags
 EOF
-LDFLAGS="-static $optldflags" \
-make Q= V=1 CC="$CC" LD="$CC" AR="$CROSS_COMPILE"ar -j$MAKE_THREADS HAVE_GTK=no
-make HAVE_GTK=no V=1 DESTDIR="$butch_install_dir" install
+mk_target all
+mk_target install
