@@ -6,7 +6,7 @@ make -j$MAKE_THREADS \
   CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
   LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
-  "$1"
+  "$@"
 }
 mk_target all
 mk_target install
