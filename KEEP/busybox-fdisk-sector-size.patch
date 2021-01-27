@@ -1,6 +1,6 @@
---- a/util-linux/fdisk.c
-+++ b/util-linux/fdisk.c
-@@ -166,17 +166,8 @@
+--- busybox-1.33.0.org/util-linux/fdisk.c	2021-01-27 05:41:05.320303095 +0000
++++ busybox-1.33.0/util-linux/fdisk.c	2021-01-27 05:42:16.374299684 +0000
+@@ -164,17 +164,8 @@
  
  
  typedef unsigned long long ullong;
@@ -8,9 +8,9 @@
 - * do not support more than 2^32 sectors
 - */
 -typedef uint32_t sector_t;
--#if UINT_MAX == 4294967295
+-#if UINT_MAX == 0xffffffff
 -# define SECT_FMT ""
--#elif ULONG_MAX == 4294967295
+-#elif ULONG_MAX == 0xffffffff
 -# define SECT_FMT "l"
 -#else
 -# error Cant detect sizeof(uint32_t)
