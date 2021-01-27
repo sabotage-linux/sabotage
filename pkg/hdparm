@@ -9,7 +9,7 @@ http://downloads.sourceforge.net/hdparm/hdparm-9.48.tar.gz
 
 [build]
 make CC="$CC" V=1 STRIP=true \
- CFLAGS="$optcflags" \
+ CFLAGS="$optcflags -include sys/sysmacros.h" \
  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   -j$MAKE_THREADS
 make binprefix="$butch_prefix" manprefix="$butch_prefix" \
