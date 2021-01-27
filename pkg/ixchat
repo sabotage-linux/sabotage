@@ -21,6 +21,8 @@ perl
 python
 
 [build]
+sed -i 's/local l=/l=/' configure
+patch -p1 < "$K"/ixchat-configure.patch
 #PERL_CFLAGS="-D_BSD_SOURCE -I$butch_root_dir$butch_prefix/lib/perl5/core_perl/CORE" \
 #PERL_LDFLAGS="-lperl -L$butch_root_dir$butch_prefix/lib/perl5/core_perl/CORE" \
 #PY_CFLAGS="-I$butch_root_dir$butch_prefix/include/python2.7" \
