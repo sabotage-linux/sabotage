@@ -1,9 +1,10 @@
 [mirrors]
-http://he.fi/bchunk/bchunk-1.2.0.tar.gz
+http://he.fi/bchunk/bchunk-1.2.2.tar.gz
 
 [vars]
-filesize=15078
-sha512=0e1f9daa2dfeff58e2c65ac2767bff804811fa22f70a220747aa873cb01b77b4c6a809736483aa22fb3f2d2a88885469d10fb45af4626069e992a0763a5fcc2d
+filesize=15359
+sha512=94fcc1dea3a38a907b3f209c20f3de54028cc34bf8964d1dccf94faf3ca3851270cc8e052c29a3f04c60e525c029ebfb1c3c04fa85525e20273ac8d72cb317c8
+pkgver=2
 desc='conversion of .cue/.bin cd image files into .iso format'
 
 [build]
