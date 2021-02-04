@@ -8,6 +8,7 @@ fi
 [ -z "$butch_do_filelists" ] && butch_do_filelists=true
 [ "$R" = "/" ] && R=
 [ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
+BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
 	cat <<- EOF
 	butch unpack : install binary package.
@@ -25,6 +26,9 @@ usage() {
 
 print_pkg_and_ver() {
 	printf "%s %s\n" "$pkg" "$ver"
+}
+dont_unlink() {
+	awk -f $BINDIR/butch-printsec "$1" vars | grep -x 'no_unlink=1' >/dev/null 2>&1
 }
 
 [ -z "$1" ] && usage
@@ -45,7 +49,7 @@ esac
 fn=$(readlink -f "$1")
 
 set -e
-[ -e "$R$butch_staging_dir/$pkg" ] && {
+[ ! dont_unlink "$pkg" ] && [ -e "$R$butch_staging_dir/$pkg" ] && {
 	butch unlink "$pkg" || true
 	rm -rf "$R$butch_staging_dir/$pkg"
 }
