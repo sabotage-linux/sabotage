@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
+http://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz
 
 [vars]
-filesize=10135110
-sha512=bb4519f06e278f271d08722b531e49d2e842cc3e0b02a6b3eee422e2efcb5b6226111af43f5e5eae56beb85ac8bfebcd6a4aacbabb8f609e529aa4d571890864
-pkgver=4
+filesize=10458638
+sha512=c44a0ce381469219548a3a27589af3fea4f22eda1ca4e9434b59fc16da81b471c29ce18e31590e0860a6a251a664b68c2b45e3a17d22cfc02799ffd9a208390c
+pkgver=5
 desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
 
 [deps]
@@ -24,5 +24,7 @@ CFLAGS="$optcflags" LDFLAGS="$optldflags -static" \
   --enable-job-control bash_cv_sys_named_pipes=yes \
   --disable-nls
 #  --with-installed-readline ac_cv_rl_version=5.0 \
+# fix undocumented dependency for bashline.o
+make builtins/builtext.h
 make -j$MAKE_THREADS READLINE_LIB=lib/readline/libreadline.a
 make DESTDIR="$butch_install_dir" install
