@@ -4,7 +4,7 @@ https://archive.mesa3d.org//older-versions/17.x/mesa-17.3.9.tar.xz
 [vars]
 filesize=10660456
 sha512=83deffbc6b9823b8e93cccf57d7952106f3d55fea881e3924f9f9586f0e9347a6e3a1a36cc19c24af819f2fde3af9496652a6ff56132511a5618d5774404f63f
-pkgver=4
+pkgver=5
 option_radeon=false
 desc='mesalib opengl drivers. this version features intel and nouveau'
 
@@ -44,7 +44,7 @@ archflags=
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
-gallium_drivers=nouveau
+gallium_drivers=nouveau,virgl
 gallium_llvm=no
 std_flags="--enable-gallium-egl=no --enable-gallium-gbm=no \
  --enable-gallium-g3dvl=no --enable-sysfs"
