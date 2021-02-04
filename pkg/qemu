@@ -4,11 +4,12 @@ http://wiki.qemu-project.org/download/qemu-2.8.1.1.tar.xz
 [vars]
 filesize=22532960
 sha512=10e3fcd515b746be2af55636a6dd9334706cc21ab2bb8b2ba38fe342ca51b072890fd1ae2cd8777006036b0a08122a621769cb5903ab16cfbdcc47c9444aa208
-pkgver=5
+pkgver=6
 
 [deps]
 glib
-sdl
+sdl2
+virglrenderer
 libx11
 pixman
 libcap2
@@ -50,6 +51,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --disable-bluez \
   --disable-gtk \
   --enable-sdl \
+  --with-sdlabi=2.0 \
+  --enable-virglrenderer \
   $alsalib
 
 make -j$MAKE_THREADS V=1
