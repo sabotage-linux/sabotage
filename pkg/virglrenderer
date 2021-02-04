@@ -1,0 +1,34 @@
+[mirrors]
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/virglrenderer-0.7.0/virglrenderer-virglrenderer-0.7.0.tar.bz2
+
+[vars]
+filesize=269075
+sha512=5306ef87987ece38dbbffcb4fb21e1b0c60c3342d7ac57ffc96d7db6033ec198de3c88ecb3c63704c5acfe0701d4ac2ad29ea0ed245769e774009eb7e1aa4dd1
+pkgver=1
+
+[deps]
+libdrm
+libepoxy
+
+[deps.host]
+autoconf
+
+[build]
+sed -i 's/^PKG_CHECK_VAR.*/epoxy_has_egl=1/' configure.ac
+
+autoreconf -i
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -include string.h -include sys/select.h" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-autotools
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
