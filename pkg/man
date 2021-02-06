@@ -1,5 +1,5 @@
 [vars]
-pkgver=2
+pkgver=3
 
 [build]
 $CC $optcflags -std=gnu99 -o man "$K"/man.c -static $optldflags

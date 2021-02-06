@@ -106,19 +106,56 @@ function update_var(var_name, complete_line) {
 	}
 }
 
-function replace_vars(line,   var, p) {
+function replace_vars(line,   var, p, c, start, len) {
 	# match(s,r) test whether s contains a substring matched by r
 	# return index or 0, sets RSTART and RLENGTH
-	while((p = match(line, /\\\*\(([A-Za-z0-9_]+)/))) {
-		var = substr(line, RSTART+3, RLENGTH-3)
+	while((p = match(line, /\\\*([\(\[]{0,1}[A-Za-z0-9_]+)/))) {
+		c = substr(line, RSTART+2, 1)
+		if(c == "[" || c == "(") {
+			start = 1
+			if(c == "(") len = 2
+			else len = RLENGTH-3
+		} else {
+			start = 0
+			len = 1
+		}
+		var = substr(line, RSTART+2+start, len)
+		len += start
+		if(c == "[") {
+			if(substr(line, RSTART+2+len, 1) != "]")
+				print "ERROR: expected ']'"
+			len++
+		}
 		if(!var in groff_vars) print "ERROR: $var not in groff_vars"
-		if(groff_vars[var] ~ /\\\*\(([A-Za-z0-9_]+)/) {
-			print "ERROR: groff variable substitution attempts infite loop"
+		if(groff_vars[var] ~ /\\\*/) {
+			print "ERROR: groff variable recursion"
 			exit 1
 		}
-		line = substr(line, 0, RSTART-1) groff_vars[var] substr(line, RSTART+RLENGTH)
+		line = substr(line, 0, RSTART-1) groff_vars[var] substr(line, RSTART+2+len)
 	}
 	return line
+}
+function groff_escape(line,   nr, repl, p) {
+	# replace \N'34' with "
+	while((p = match(line, /\\N\'([0-9]+)\'/))) {
+		nr = 0+substr(line, RSTART+3, RLENGTH-4)
+		if(nr < 32 || nr > 127) {
+			print("ERROR: escapes < 32 || > 127 not implemented");
+			repl = " "
+		} else if(nr == 34) {
+			repl = "\\\""
+		} else
+			repl = sprintf("%c", nr)
+		line = substr(line, 0, RSTART-1) repl substr(line, RSTART+RLENGTH)
+	}
+	return line
+}
+function shift(n,   k) {
+	while (n > 0) {
+		k += length($n) + length(FS)
+		n--
+	}
+	$0 = substr($0, k + 1)
 }
 function print_error(lineno, text) {
 	print "ERROR: @" lineno ": " text
@@ -135,14 +172,48 @@ BEGIN {
 	}
 
 	if(!current_var) {
-		$0 = replace_vars($0)
-		sub(/^\.[ ]+/, ".")
+		if($1 != ".ds") {
+			$0 = groff_escape(replace_vars($0))
+			sub(/^\.[ ]+/, ".")
+		}
+		if(!in_macro) {
+		if($1 == ".ie" && substr($0, length($0) - 2) != "\\{\\") {
+			if($2 == "n" || $2 == "!t" || $2 == "e" || $2 == "!o") {
+				ie_taken = 1
+				$0 = substr($0, length($1 FS $2 FS)+1)
+			} else {
+				ie_taken = 0
+				$0 = ""
+			}
+		} else if($1 == ".el" && substr($0, length($0) - 2) != "\\{\\") {
+			if(ie_taken) $0 = "";
+			else $0 = substr($0, length($1 FS)+1)
+			ie_taken = 0
+		} else if($1 == ".if" && substr($0, length($0) - 2) != "\\{\\") {
+			if($2 == "n" || $2 == "!t" || $2 == "e" || $2 == "!o")
+				$0 = substr($0, length($1 FS $2 FS)+1);
+			else
+				$0 = ""
+		}
+		}
 	}
 
-	if(0) ;
-	else if(current_var) {
+	if(0) {
+	} else if($1 == ".EX") {
+		example_block = 1;
+		$0 = ".sp\n.RS\n.nf\n\\fB"
+	} else if(example_block) {
+		if($1 == ".EE") {
+			example_block = 0;
+			$0 = "\\fP\n.fi\n.RE";
+		}
+	} else if(current_var) {
 		#process multiline groff string vars.
 		update_var(current_var, $0)
+		$0 = ""
+	} else if(ignore_until != "") {
+		if($0 == ignore_until)
+			ignore_until = ""
 		$0 = ""
 # troff macro
 # https://www.lemoda.net/unix/troff-dictionary/index.html
@@ -194,7 +265,7 @@ BEGIN {
 	} else if($1 == ".Dt") {
 		trigger_header("", $3, $2)
 		$0 = ""
-	} else if($1 == ".Dq") {
+	} else if($1 == ".Dq" || $1 == ".Ql") {
 		if ($NF == "." || $NF == ",") {
 			safe = $NF;
 			$0 = substr($0, 0, length($0) - 2)
@@ -426,7 +497,7 @@ BEGIN {
 			$0 = "Version 3 of the Single UNIX Specification"
 		else if($2 == "-svid4")
 			$0 = "System V Interface Definition, Fourth Edition (“SVID4”)"
-	} else if($1 == ".Pa" || $1 == ".Em") {
+	} else if($1 == ".Pa" || $1 == ".Em" || $1 == ".Vt") {
 		$0 = italify($0, 0)
 	} else if($1 == ".Bk" || $1 == ".Ek" || $1 == ".Xc" || $1 == ".Os") {
 		# comments go here
@@ -457,9 +528,24 @@ BEGIN {
 # http://web.cecs.pdx.edu/~trent/gnu/groff/groff.html
 # lowercase stuff supported by man.c:
 # nh hy nf fi sp br bp ad na ta 
+	} else if($1 == ".ig") {
+		if($2 != "")
+			ignore_until = $2
+		else
+			ignore_until = ".."
+		$0 = 0
 	} else if($1 == ".ds") { #set a string variable.
 		update_var($2, $0)
 		$0 = ""
+	} else if($1 == ".UR") {
+		url = $2
+		gsub(":", "", url)
+		sub("//", "://", url)
+		$0 = ""
+	} else if($1 == ".UE") {
+		shift(1)
+		$0 = "<" url ">" $0
+		url = ""
 	} else if($1 == ".ds" ||
 	          $1 == ".ce" ||
 	          $1 == ".ll" ||
@@ -474,6 +560,7 @@ BEGIN {
 	          $1 == ".nr" ||
 	          $1 == ".ns" ||
 	          $1 == ".ne" ||
+	          $1 == ".rr" || #remove number register ident
 	          0) { #other groff junk
 		$0 = ""
 	} else if($1 == ".KS" ||
