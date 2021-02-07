@@ -5,7 +5,7 @@ ftp://ftp.invisible-island.net/xterm/xterm-362.tgz
 [vars]
 filesize=1436334
 sha512=fddfa689fe948245964b347f27c8c66b28eee82cb78062f0e296053a5db9a20f74786b34058512b109064628992db94e87bc12c79f2db4a50acb79e408173168
-pkgver=6
+pkgver=7
 desc='old school X terminal emulator'
 
 [deps]
@@ -15,6 +15,9 @@ libxft
 curses
 
 [build]
+# recent xterm turns a pasted tab into a space, we don't want that
+sed -i 's/BS,HT,DEL,ESC/BS,DEL,ESC/' main.h
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 # Gleiches mit gleichem vergelten.
