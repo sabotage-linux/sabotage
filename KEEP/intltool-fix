@@ -3,4 +3,5 @@ for i in merge update extract perl ; do
 ln -sf "$K"/intltool intltool-fake/intltool-"$i"
 done
 export INTLTOOL_PERL="$PWD"/intltool-fake/intltool-perl
+export INTLTOOL_MERGE="$PWD"/intltool-fake/intltool-merge
 export PATH="$PATH:$PWD/intltool-fake"
