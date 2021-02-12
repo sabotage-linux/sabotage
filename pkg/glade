@@ -11,22 +11,10 @@ desc='gtk gui designer'
 gtk+2
 
 [build]
-patch -p1 < "$K"/glade-no-scrollkeeper.patch
+. "$K"/intltool-fix
+sed -i 's/INTLTOOL_MERGE=/#INTLTOOL_MERGE=/' configure
 
-cat << EOF > glade-2.desktop
-[Desktop Entry]
-Encoding=UTF-8
-Name=Glade Interface Designer
-Comment=Design user interfaces
-Exec=glade-2 %F
-Terminal=false
-Type=Application
-Icon=glade-2.png
-Categories=Application;Development;
-X-GNOME-Bugzilla-Bugzilla=GNOME
-X-GNOME-Bugzilla-Product=glade
-X-GNOME-Bugzilla-Component=general
-EOF
+patch -p1 < "$K"/glade-no-scrollkeeper.patch
 
 #cp -f "$K"/config.sub .
 [ -n "$CROSS_COMPILE" ] && \
