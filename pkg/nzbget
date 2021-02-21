@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/nzbget/nzbget/releases/download/v21.0/nzbget-21.0-src.tar.gz
+
+[vars]
+filesize=1988902
+sha512=bbee5073a2788a17d78009b7ae0c41473aa4d8424301e7e62b2544dc8993e1e3b6e1026dd9f71af5627293d2113d8637a4a6138eee0a328554df298117dd6bb3
+pkgver=1
+tardir=nzbget-21.0
+desc='usenet downloader'
+
+[deps]
+libxml2
+libressl
+curses
+zlib
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-tlslib=OpenSSL
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
