@@ -1,11 +1,10 @@
 [mirrors]
-http://ftp.mutt.org/pub/mutt/mutt-1.10.1.tar.gz
+http://ftp.mutt.org/pub/mutt/mutt-2.0.5.tar.gz
 
 [vars]
-filesize=4255890
-sha512=13509ff159c65e23614696967b4bd8baf7b8e16c0e85cfd89e2df8201de2dc97e6c4a426f5919f05051dee2b14f847c7203e0b236931d3cdf81dbbb221551726
-pkgver=4
-tardir=mutt-1.10.1
+filesize=5294710
+sha512=41849d700b88e1b28b51fb90be2a9f6b639e8b111dce914073b66327e4655b5d4ca04dc3aedf2d44a0aa1a80ac3c4fcca6058eae7fb4f71f6b506fbe00a2a740
+pkgver=5
 desc='terminal email client'
 
 [deps]
@@ -17,6 +16,8 @@ cyrus-sasl
 perl
 
 [build]
+patch -p1 < "$K"/mutt-netbsd-curses.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

@@ -1,0 +1,16 @@
+--- mutt-2.0.5.orig/color.c
++++ mutt-2.0.5/color.c
+@@ -119,10 +119,10 @@
+ 
+ #define COLOR_QUOTE_INIT	8
+ 
+-#ifdef NCURSES_VERSION
+-#define ATTR_MASK (A_ATTRIBUTES ^ A_COLOR)
+-#elif defined (USE_SLANG_CURSES)
++#if defined (USE_SLANG_CURSES)
+ #define ATTR_MASK (~(unsigned int)A_NORMAL ^ (A_CHARTEXT | A_UNUSED | A_COLOR))
++#else /* (n)curses */
++#define ATTR_MASK (A_ATTRIBUTES ^ A_COLOR)
+ #endif
+ 
+ static COLOR_LINE *mutt_new_color_line (void)
