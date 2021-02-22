@@ -14,3 +14,16 @@
  #endif
  
  static COLOR_LINE *mutt_new_color_line (void)
+--- mutt-2.0.5.orig/mutt_curses.h
++++ mutt-2.0.5/mutt_curses.h
+@@ -52,6 +52,10 @@
+ # include <curses.h>
+ #endif
+ 
++// #include <term.h> - can't include term.h, because it defines macro columns which clashes
++// with variable name used in mutt, so just define the prototype for tigetstr()
++char *tigetstr(const char *capname);
++
+ #define MUTT_ENTER_C '\n'
+ #define MUTT_ENTER_S "\n"
+ 
