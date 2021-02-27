@@ -1,0 +1,21 @@
+[mirrors]
+https://pypi.python.org/packages/source/p/pyglet/pyglet-1.4.10.zip
+
+[vars]
+filesize=5121084
+sha512=89e23752a92be1138c8a3f5c9958149be7473d3812218dabe1f9478270579d9af065215b9884e3ee3bb1e8f04f00423b41575fdee774368b8182424910a7b0cf
+pkgver=1
+desc='pygame-like multimedia framework for python'
+
+[deps.run]
+python
+
+[deps.host]
+python
+python-setuptools
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
