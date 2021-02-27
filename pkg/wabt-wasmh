@@ -1,0 +1,8 @@
+[mirrors]
+https://raw.githubusercontent.com/WebAssembly/wasm-c-api/d9a80099d/include/wasm.h
+
+[vars]
+filesize=22153
+sha512=1ce566db24700d35b590816975b4dcce4173958c303727d9143d477b4504c083e7878728e36231f109e4353f4f28518899715f21c252e693f6a243fd1aae24d4
+pkgver=1
+
