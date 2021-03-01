@@ -1,10 +1,10 @@
 [mirrors]
-http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.46.tar.xz
+http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.59.tar.xz
 
 [vars]
-filesize=702884
-sha512=6ab9f705a2cdc5003a14bf0bab7a91c55ba001e6f51b3d78a2e43aee2360a2328c8680c3c546411e25f5d9c05e1b798ac84ba7ccf2bb697d754509dcd2987462
-pkgver=8
+filesize=968352
+sha512=94d312f6ac65c32057018b749c4865220b43b3e4b7fe9396848aa403ea7fdc2ccbf3f4f91daf281b754cf272a52a8bcdc689502773ea33cae36eead2785daa0f
+pkgver=9
 desc='http daemon which is supposedly lightweight (in comparison with apache)'
 
 [deps]
