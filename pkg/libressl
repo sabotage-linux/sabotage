@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.1.4.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.1.5.tar.gz
 
 [vars]
-filesize=3767238
-sha512=77a53c4294fc332006502dc3af069346e2c9efc9240de7f91eb48e89043525900b5b23652cfd159221c3a482cc01e263611adb752e23b707f965156e3a7cd895
-pkgver=10
+filesize=3767605
+sha512=b1e576a654d4f740ef466e5291344ee9a65276f2a1d4975bf93c407b8b51d78dd99f381f1d14162ed1f6b6e7f14a67ccdd377e7d9f71ef2875cc8cf17f580c51
+pkgver=11
 desc="tls and crypto library. replaces openssl"
 
 [deps]
