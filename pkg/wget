@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.20.1.tar.gz
+http://ftp.gnu.org/gnu/wget/wget-1.21.1.tar.gz
 
 [vars]
-filesize=4392853
-sha512=855c7e3c45f9020a9fdb30e286ee6a0bdcaa780be3d0dda9ffdae73b562ae1012d4550242f66240407a28076a7054328d4f08a469a0da227a9e3410b8d5f46dc
-pkgver=9
+filesize=4884887
+sha512=784efbf9fe43a1671109e32a9c36237eb2d5c19cf756bf6f6e65517fb21464d3d94b1d6f491852d23b3ddff63e38fe6b60df9125c91b139993af59875e3a0712
+pkgver=10
 desc='command line program for file downloads supporting various protocols'
 
 [deps]
@@ -15,7 +15,7 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CPPFLAGS="$("$K"/gnulibfix lib) -Dgnu_getpass=getpass" \
-CFLAGS="-D_GNU_SOURCE $optcflags -std=gnu89" \
+CFLAGS="-D_GNU_SOURCE $optcflags -std=gnu99" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
   --disable-nls \
