@@ -1,10 +1,10 @@
 [mirrors]
-http://www.dest-unreach.org/socat/download/socat-1.7.3.2.tar.bz2
+http://www.dest-unreach.org/socat/download/socat-1.7.4.1.tar.bz2
 
 [vars]
-filesize=493324
-sha512=9ed4911deb09c36955b62a2efbcdfdff0e9d963fa30110e32396e49133d395afd7e61a19ca6a1a23e6e98ded4f603bcbb68c8eb3da4ce870f1450b8b6f7dd293
-pkgver=5
+filesize=510101
+sha512=7fa069bff294a01baebfd790faed027391ab1f47f09f0990e6dcb1c7cce5f3cdc20638fecb10e82c10b6342d903de9481f6d85a0debcc0368c882417dafbc756
+pkgver=6
 desc='swiss army knife of dealing with sockets, pipes and other byte streams'
 
 [deps]
