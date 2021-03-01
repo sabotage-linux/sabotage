@@ -1,10 +1,10 @@
 [mirrors]
-http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.11.2.tar.gz
+http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.11.3.tar.gz
 
 [vars]
-filesize=244475
-sha512=2f846c26f3722ea3315aae73461f9c21a0a8a9ac712e1caf8dd9993e34729227c7648bf6f72fad8488247986e560298f95aa2411bd4e395410565c0b527b9db4
-pkgver=4
+filesize=244507
+sha512=ffe69b8de3586aba298d936168c329524e385252e12979aa1db28761e882048eb5a80673e93a2a2227f61b52fd8b56546b78c5db9c21a022072f536267f8bc20
+pkgver=5
 desc="debian almquist shell, a strictly POSIX conforming shell"
 no_unlink=1
 
