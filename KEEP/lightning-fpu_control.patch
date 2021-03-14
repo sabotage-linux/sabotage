@@ -1,0 +1,34 @@
+From 3bf2887b0bc95a3a2488d32008fd8bb52c57b134 Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Sat, 6 Mar 2021 20:28:24 +0000
+Subject: [PATCH] lightning: fpu_control.h is GLIBC, not linux
+
+---
+ check/lightning.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/check/lightning.c b/check/lightning.c
+index e60ef05..517ca18 100644
+--- a/check/lightning.c
++++ b/check/lightning.c
+@@ -31,7 +31,7 @@
+ #include <lightning.h>
+ #include <dlfcn.h>
+ 
+-#if defined(__linux__) && (defined(__i386__) || defined(__x86_64__))
++#if defined(__GLIBC__) && (defined(__i386__) || defined(__x86_64__))
+ #  include <fpu_control.h>
+ #endif
+ 
+@@ -4289,7 +4289,7 @@ main(int argc, char *argv[])
+     parser.line = 1;
+     parser.string = (char *)xmalloc(parser.length = 4096);
+ 
+-#if defined(__linux__) && (defined(__i386__) || defined(__x86_64__))
++#if defined(__GLIBC__) && (defined(__i386__) || defined(__x86_64__))
+     /*	double precision		0x200
+      *	round nearest			0x000
+      *	invalid operation mask		0x001
+-- 
+2.29.2
+

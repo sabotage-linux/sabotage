@@ -1,0 +1,25 @@
+[mirrors]
+https://ftp.gnu.org/gnu/lightning/lightning-2.1.3.tar.gz
+
+[vars]
+filesize=1074303
+sha512=c38b202b25838648ad49bbf7c21fc7790bad6a89f85273ac5242e74099bc5a1a1a6999a376374115585105b63dd6dd6be243dd6e460f0f944807cbc50cab0cc7
+pkgver=1
+
+[deps]
+
+[build]
+patch -p1 < "$K"/lightning-fpu_control.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
