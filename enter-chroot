@@ -37,6 +37,7 @@ if [ -d /proc/self/ns ] ; then
 			exit 1
 		fi
 	fi
+	CHROOT="./super_chroot -b $C:./src/tarballs"
 else
 	if [ "$uid" != "0" ]; then
 	    printf -- "need to be root. please enter password.\n"
@@ -62,7 +63,7 @@ set_title() {
 }
 
 if [ -n "$1" ]; then
-    $linux32 "$CHROOT" "$R" /bin/env -i \
+    $linux32 $CHROOT "$R" /bin/env -i \
         HOME=/root PATH="/local/bin:/bin" TERM="$TERM" PS1='\u:\w$ ' \
 	"$@"
 	ret=$?
@@ -71,7 +72,7 @@ else
 
     echo "Entering chroot..."
 
-    $linux32 "$CHROOT" "$R" /bin/env -i \
+    $linux32 $CHROOT "$R" /bin/env -i \
         HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
         /bin/ash --login
 	ret=$?
