@@ -27,7 +27,8 @@ mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 
 cd "$R"
 mkdir -p boot bin dev etc home lib mnt proc root share srv src sys tmp var
-mkdir -p src/logs src/build var/log/sshd var/log/crond var/log/dmesg
+mkdir -p src/logs src/build src/tarballs src/pkg src/KEEP
+mkdir -p var/log/sshd var/log/crond var/log/dmesg
 mkdir -p var/empty var/service var/lib var/run var/spool/cron/crontabs
 
 # usr and sbin are a mistake
