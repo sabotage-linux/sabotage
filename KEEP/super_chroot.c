@@ -42,6 +42,11 @@ static int usage(void) {
 }
 
 #define MAXBINDS 16
+#ifdef __GLIBC__
+#define CRUX "+"
+#else
+#define CRUX ""
+#endif
 
 int main(int argc, char **argv)
 {
@@ -49,7 +54,7 @@ int main(int argc, char **argv)
 	static char* binds[MAXBINDS];
 	int bindc = 0;
 
-	while((c = getopt(argc, argv, ":b:")) != -1) switch (c) {
+	while((c = getopt(argc, argv, CRUX ":b:")) != -1) switch (c) {
 	case 'b':
 		binds[bindc++] = optarg;
 		if(bindc == MAXBINDS) {
