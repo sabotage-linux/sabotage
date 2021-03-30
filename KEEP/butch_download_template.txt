@@ -82,32 +82,42 @@ eval "$1=\"\${$1} \$2\""
 eval "$1=\${$1# }"
 }
 
+download_curl() {
+	curl -c /dev/null -C - --retry $retries -k -L "$1" -o "$2"
+}
+
+download_bb_wget() {
+	busybox wget -O "$2" -c "$1"
+}
+
+download_wget() {
+	wget --tries=$retries --no-check-certificate -O "$2" -c "$1"
+}
+
 download() {
-	local url="$1"
-	local out="$2"
-	if [ "$USE_CURL" = 1 ] ; then
-		curl -c /dev/null -C - --retry $retries -k -L "$url" -o "$out"
+	case $method in
+		curl) download_curl "$1" "$2" ;;
+		wget) download_wget "$1" "$2" ;;
+		bb_wget) download_bb_wget "$1" "$2" ;;
+	esac
+}
+
+set_method() {
+	# if available prefer curl as it *always* properly supports https
+	if [ "$USE_CURL" = 1 ] || curl --help >/dev/null 2>&1 ; then
+		method=curl
+	elif wget --help 2>&1 | grep BusyBox > /dev/null ; then
+		method=bb_wget
 	else
-		WGET=wget
-		is_bb=false
-		$WGET --help 2>&1 | grep BusyBox > /dev/null && is_bb=true
-		if ! $is_bb && ! $WGET --help >/dev/null 2>&1 ; then
-			# appears it is GNU wget and it is broken, eventually
-			# through a libressl soname bump. fall back to busybox.
-			WGET="busybox wget"
-			is_bb=true
-		fi
-		if ! $is_bb ; then
-			append wgetflags "--tries=$retries"
-			append wgetflags --no-check-certificate
-		fi
-		$WGET $wgetflags -O "$out" -c "$url"
+		method=wget
 	fi
 }
 
 cleanup() {
 	[ -e "$tmp" ] && { cat $tmp ; rm $tmp ; }
 }
+
+set_method
 
 FALLBACK_MIRROR=http://tar.sabo.xyz
 FALLBACK=$FALLBACK_MIRROR/%BUTCH_PACKAGE_NAME/$tarball
