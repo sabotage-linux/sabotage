@@ -2,8 +2,8 @@
 export SABOTAGE_BUILDDIR="/tmp/sabotage"
 
 ## set your arch, or try `uname -m`
-export A=i486
-#export A=x86_64
+#export A=i486
+export A=x86_64
 #export A=mips
 #export A=powerpc
 #export A=arm
