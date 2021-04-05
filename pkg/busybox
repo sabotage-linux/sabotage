@@ -62,19 +62,6 @@ CFLAGS_busybox="$debugcflags -Wl,-z,muldefs -Werror-implicit-function-declaratio
 HOSTCC="$HOSTCC -static" CC="$CC -static" HOSTCFLAGS=-D_GNU_SOURCE  -j$MAKE_THREADS
 echo busybox build complete
 
-# make true and false binaries so scripts using it are faster
-# than when using several layers of indirection including a shell
-# script
-cat << EOF > true.c
-int main() { return 0; }
-EOF
-cat << EOF > false.c
-int main() { return 1; }
-EOF
-
-for p in true false ; do
-$CC -static $optcflags "$p".c -o "$p" $optldflags
-done
 # done, continue with "make install" equivalent
 
 dest=$butch_install_dir$butch_prefix
@@ -117,11 +104,3 @@ ln -sf busybox "$dest"/bin/sh
 
 echo symlinks done.
 
-for p in true false ; do
-	# in case a symlink from one of the above program names to busybox
-	#  already exists, we need to delete it
-	# before copying. otherwise the *busybox binary* gets replaced
-	# through the symlink...
-	rm -f "$dest"/bin/"$p"
-	cp -f "$p" "$dest"/bin/
-done
