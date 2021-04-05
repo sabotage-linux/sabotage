@@ -1,7 +1,6 @@
 [deps]
 base-sys
 kbd
-9base
 e2fsprogs
 gcc6
 stage1-gmp
