@@ -29,8 +29,9 @@ zlib
 libelf
 
 [build]
-VERSION=$gcc_major.$gcc_minor.0
-VERSION_REMOVE='s,'$gcc_major'\.'$gcc_minor'\.0.*,,'
+test -z $gcc_patchver && gcc_patchver=0
+VERSION=$gcc_major.$gcc_minor.$gcc_patchver
+VERSION_REMOVE='s,'$gcc_major'\.'$gcc_minor'\.'$gcc_patchver'.*,,'
 ECJ_VERSION=4.9
 # check that libc.so is available, otherwise we'll get a libstdc++.so
 # that is statically linked against musls libc.a.
@@ -78,6 +79,18 @@ patch -p1 < "$K"/gcc-gcj-stdgnu14-link.patch
 patch -p1 < "$K"/gcc4-boehm-gc.patch
 patch -p1 < "$K"/gcc4-gcj-musl.patch
 patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
+fi
+if test $gcc_major = 4 && test $gcc_minor = 7 ; then
+# sabotage-only patches
+patch -p1 < "$K"/gcc4-boehm-gc.patch
+patch -p1 < "$K"/gcc4-gcj-musl.patch
+patch -p1 < "$K"/gcc4-gcj-iconv-musl.patch
+# patches in common with musl-cross as of 2019
+patch -p1 < "$K"/gcc-474-gperf.patch
+patch -p1 < "$K"/gcc474-libgcc_fixver.patch
+patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
+# musl-cross patch which includes gcc474-libssp_nonshared.patch gcc473-config-sub.patch gcc473-arm-hwcap.patch and adds more musl support.
+patch -p1 < "$K"/gcc-4.7.4-musl-cross-musl.patch
 fi
 
 "$K"/libibertyfix libiberty
