@@ -83,7 +83,7 @@ eval "$1=\${$1# }"
 }
 
 download_curl() {
-	curl -c /dev/null -C - --retry $retries -k -L "$1" -o "$2"
+	curl -C - --retry $retries -k -L "$1" -o "$2"
 }
 
 download_bb_wget() {
