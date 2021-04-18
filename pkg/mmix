@@ -21,7 +21,7 @@ mv * "$dir"/ 2>/dev/null || true
 cd "$dir"
 cp "$K"/mmix-mmoimg.ch mmoimg.ch
 ctangle mmotype.w mmoimg.ch mmoimg.c
-$CC $optcflags mmoimg.c -o mmoimg
+$CC $optcflags $optldflags mmoimg.c -o mmoimg
 make -j$MAKE_THREADS mmix-sim.c mmix-arith.c mmixal.c mmix-io.c mmix-pipe.c mmix-config.c mmix-mem.c
 if test "$DEBUGBUILD" = 1 ; then
 # remove references to the original .w documents, which prevents C-level debugging
@@ -31,7 +31,7 @@ for i in tetra int mem byte long char unsigned mmix_opcode bool ; do
 	sed "s/register $i/$i/" -i mmix-sim.c
 done
 fi
-make CC="$CC" CFLAGS="$optcflags" all
+make CC="$CC" CFLAGS="$optcflags $optldflags" all
 
 dest="$butch_install_dir""$butch_prefix"
 for i in mmix mmixal mmotype mmmix mmoimg ; do
