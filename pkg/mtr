@@ -1,14 +1,14 @@
 [mirrors]
-https://github.com/traviscross/mtr/archive/v0.93.tar.gz
+https://github.com/traviscross/mtr/archive/v0.94.tar.gz
 
 [vars]
-filesize=142148
-sha512=865c394d8dfa234c472832dc205ddc9ec3cf0552475f565782fd4f4e878251c03f1473e2d28d6799e59da4fcb33c5355049f1e6f02e8610c6bbf681ffb78f53e
-pkgver=1
-tardir=mtr-0.93
-desc="mtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool. "
+filesize=143616
+sha512=0e58bd79562ff80f9308135562ab22aa1f1eea686aefd3aef07bac05e661e34b60fde7c66c96bf4f0919f546376fbd6106ecd8fa92328c24f6f903097496bf11
+tarball=mtr-0.94.tar.gz
+pkgver=2
+desc='functionality of the traceroute and ping programs in a single tool'
 
-[deps]
+[deps.host]
 automake
 
 [build]
