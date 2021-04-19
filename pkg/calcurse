@@ -1,10 +1,10 @@
 [mirrors]
-https://calcurse.org/files/calcurse-4.5.0.tar.gz
+https://calcurse.org/files/calcurse-4.7.1.tar.gz
 
 [vars]
-filesize=657976
-sha512=795eae7c62b89c733049f0c137da398ce3dd5fba78f9a2c323aacdf8b176cf37bd9d0768dbdac0bb1cb64cd248b1d851efd059836fbbbdd9665fa47beff3b872
-pkgver=1
+filesize=701563
+sha512=8b5574d2909128c745b2d6367b517c5fb04a1c451e666dc9ee0652b3793b519576af5700d4fd073de0ccd5e5dced6b69c45dbfaf98b35a99784093208512b68e
+pkgver=2
 desc='calcurse is a calendar and scheduling application for the command line.'
 
 [deps]
