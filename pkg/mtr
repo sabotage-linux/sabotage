@@ -1,18 +1,13 @@
 [mirrors]
-https://github.com/traviscross/mtr/archive/v0.94.tar.gz
+https://www.bitwizard.nl/mtr/files/mtr-0.94.tar.gz
 
 [vars]
-filesize=143616
-sha512=0e58bd79562ff80f9308135562ab22aa1f1eea686aefd3aef07bac05e661e34b60fde7c66c96bf4f0919f546376fbd6106ecd8fa92328c24f6f903097496bf11
-tarball=mtr-0.94.tar.gz
+filesize=293952
+sha512=c6e219c0eabf9a9977849c0bdc527df37af8188df690f1d9ad6a189cdb5292c4889a0a91c5703d958f279113e68741d7851a61a636f344d66f09e8040f078e9a
 pkgver=2
 desc='functionality of the traceroute and ping programs in a single tool'
 
-[deps.host]
-automake
-
 [build]
-./bootstrap.sh
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
