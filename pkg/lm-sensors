@@ -7,6 +7,8 @@ sha512=993064bd14b855c1ae8c057e89313df5b3d5efe441fb2e8c3e508f42bb15658564df2563f
 tardir=lm_sensors-3.4.0
 
 [deps]
+bison
+flex
 
 [build]
 patch -p1 < "$K"/lm_sensors.patch
