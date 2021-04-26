@@ -8,6 +8,10 @@ tardir=lm_sensors-3.4.0
 
 [deps]
 
+[deps.host]
+bison
+flex
+
 [build]
 patch -p1 < "$K"/lm_sensors.patch
 # avoid compiler ICE
