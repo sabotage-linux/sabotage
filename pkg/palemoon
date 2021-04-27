@@ -43,6 +43,7 @@ test -d "$UXPDIR" || UXPDIR=uxp
 mv "$UXPDIR"/* platform/
 patch -p1 < "$K"/palemoon-no-xz.patch
 patch -p1 < "$K"/palemoon-cpu-usage.patch
+patch -p1 < "$K"/palemoon-network-changed-cpu-use.patch
 
 # install ancient autoconf version firefox wants into src tree
 mkdir AC213
