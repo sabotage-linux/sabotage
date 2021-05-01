@@ -1,0 +1,16 @@
+[mirrors]
+http://lkml.iu.edu/hypermail/linux/kernel/0210.2/att-0093/01-rpm2cpio
+
+[vars]
+filesize=1417
+sha512=b3d0c27af9434ccbc4038b1b076c3a24a68ccaf27bf3490c1678ba4d0188383de660f19d93367d2ae1173e5978256370c15e58fe8cbe26b7939c4f7a01f0a0bb
+tarball=rpm2cpio-att-0093.pl
+pkgver=1
+
+[deps.run]
+perl
+
+[build]
+install -Dm 755 "$C"/rpm2cpio-att-0093.pl \
+  "$butch_install_dir""$butch_prefix"/bin/rpm2cpio
+
