@@ -18,6 +18,7 @@ MANDIR="${PREFIX}/share/man"
 SBINDIR="${PREFIX}/bin"
 MANPATH_DEFAULT="${PREFIX}/share/man:${PREFIX}/local/share/man"
 MANPATH_BASE="${PREFIX}/share/man"
+LN="ln -sf"
 UTF8_LOCALE=en_US.UTF-8
 OSNAME="sabotage"
 CFLAGS="$optcflags"
@@ -29,10 +30,3 @@ EOF
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-
-# replace hardlinks with symlinks
-dest="$butch_install_dir""$butch_prefix"
-for i in apropos makewhatis man whatis; do
-	rm "$dest"/bin/"$i"
-	ln -sf mandoc "$dest"/bin/"$i"
-done
