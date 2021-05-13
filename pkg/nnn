@@ -1,11 +1,12 @@
 [mirrors]
-https://github.com/jarun/nnn/releases/download/v2.4/nnn-v2.4.tar.gz
+https://github.com/jarun/nnn/releases/download/v4.0/nnn-v4.0.tar.gz
 
 [vars]
-filesize=62704
-sha512=c487fce96c99afe542eeb825cd991c268dc215e676ddf6dfc5ae655598bfbd8eafb45e594172ca54dcde313c9c54cacd2e2d09e1d9c3b235ce5f9ff52c76b2fb
-tardir=nnn
-pkgver=1
+filesize=214555
+sha512=fde552a31674c9bf50a2e98de4456621bdc97aee36cd5efd7ad0cc33959965d01469fb20b12868ebffd4c8da79990b502e26895cb5b047ac8821e2ca09b0a234
+pkgver=2
+tarball=nnn-4.0.tar.gz
+desc='terminal file manager'
 
 [deps]
 curses
