@@ -1,0 +1,40 @@
+don't segfault if SHELL environment var isn't set.
+
+--- lxterminal-0.2.0.org/src/lxterminal.c
++++ lxterminal-0.2.0/src/lxterminal.c
+@@ -32,6 +32,8 @@
+ #include <langinfo.h>
+ #include <locale.h>
+ #include <sys/stat.h>
++#include <pwd.h>
++#include <unistd.h>
+ 
+ #include "lxterminal.h"
+ #include "setting.h"
+@@ -1139,9 +1141,16 @@
+     if (exec == NULL)
+     {
+             exec = g_getenv("SHELL");
++            if (exec == NULL)
++            {
++                    char *lgn = getlogin();
++                    struct passwd *pw;
++                    if(lgn && (pw = getpwnam(lgn)))
++                            exec = pw->pw_shell;
++            }
+     }
+ 
+-    gchar ** command;
++    gchar ** command = 0;
+     g_shell_parse_argv(exec, NULL, &command, NULL);
+ 
+     vte_terminal_fork_command_full(
+@@ -1155,7 +1164,7 @@
+                     NULL,
+                     &term->pid,
+                     NULL);
+-    g_strfreev(command);
++    if(command) g_strfreev(command);
+ 
+     /* Connect signals. */
+     g_signal_connect(G_OBJECT(term->tab), "button-press-event", G_CALLBACK(terminal_tab_button_press_event), term);

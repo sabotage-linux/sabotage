@@ -4,6 +4,7 @@ http://downloads.sourceforge.net/project/lxde/LXTerminal%20%28terminal%20emulato
 [vars]
 filesize=248698
 sha512=5bec0e16fa4d929203e4c206fb59fb0c88e02f29adbf527c31fa2a0007d3dddbdf12f2219e204360b5dd95a68a89410fcf937325f3a7eb1229b568c9c10c0e78
+pkgver=2
 desc='GTK+ terminal emulator'
 
 [deps]
@@ -11,6 +12,8 @@ vte2
 
 [build]
 . "$K"/intltool-fix
+
+patch -p1 < "$K"/lxterminal-segv.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
