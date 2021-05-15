@@ -1,14 +1,13 @@
 [mirrors]
-https://github.com/ngircd/ngircd/releases/download/rel-25/ngircd-25.rc1.tar.xz
+https://github.com/ngircd/ngircd/releases/download/rel-26.1/ngircd-26.tar.xz
 
 [vars]
-filesize=350300
-sha512=4a8fbf14a0e0e3a128f97ee5c440dd52a7d02e1b518833870dce7894649faad397112f4a60629d3b10d9c62fc7a783498109406116a3adb35cfd6cadf3b16cbc
-pkgver=1
+filesize=371716
+sha512=5fe052096994d0cb9488962a9c8e0602442536454dba9aa3922903aa3c07e612fd125bc6dfb0717e575aeb327c87f6d690982fa4744def7b6b95320324a93a17
+pkgver=2
 desc="ngIRCd - Next Generation IRC Server"
 service=ngircd
 serviceflags="--down --log"
-tardir=ngircd-25~rc1
 
 [deps]
 libressl
