@@ -276,7 +276,7 @@ Archives available: http://openwall.com/lists/sabotage/
 
 **The mailing list is currently unmaintained. please use IRC.**
 
-/join #sabotage on irc.freenode.net for real time help.
+/join #sabotage on irc.libera.chat for real time help.
 
 **READ THE COOKBOOK FIRST BEFORE POSTING**.
 
