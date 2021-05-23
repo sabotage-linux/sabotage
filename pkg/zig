@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/ziglang/zig-bootstrap/archive/refs/tags/0.7.1.tar.gz
+
+[vars]
+filesize=56987297
+sha512=8b7bfd1cf049878939453149c84894d36f1b11947302cbb4e475ab93dfeace7f5f8334b43bd210e1b728146da1171079f82f46bf05d06499a86ae16895d6b4a9
+pkgver=1
+tarball=zig-0.7.1.tar.gz
+tardir=zig-bootstrap-0.7.1
+
+[deps]
+stage1
+cmake
+python
+
+[build]
+target=""
+[ "$A" = "i386" ] && target="i386-linux-musl"
+[ "$A" = "i486" ] && target="i386-linux-musl"
+[ "$A" = "i586" ] && target="i386-linux-musl"
+[ "$A" = "i686" ] && target="i386-linux-musl"
+[ "$A" = "x86_64" ] && target="x86_64-linux-musl"
+[ "$A" = "arm" ] && target="arm-linux-musleabihf"
+[ "$A" = "aarch64" ] && target="aarch64-linux-musl"
+./build -j$MAKE_THREADS $target native
+dest="$butch_install_dir$butch_prefix"
+cp -rf "out/zig-$target-native/bin" "$dest"
+cp -rf "out/zig-$target-native/lib" "$dest"
