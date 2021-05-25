@@ -1,0 +1,30 @@
+From 3ec7d87e9f76fbf097917508c9531521c6c3ea06 Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Wed, 27 Jan 2021 03:03:12 +0000
+Subject: [PATCH] configure: fix bug when one of libsexy/gtkspell is either
+ found or desired
+
+---
+ configure | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 5fdcc05..df4f02b 100755
+--- a/configure
++++ b/configure
+@@ -180,7 +180,11 @@ for i in libsexy gtkspell ; do
+ 			add_cflags "$spell_flags"
+ 			spell_flags=$(get_pkgconf_ldflags $i)
+ 			add_ldflags "$spell_flags"
+-			[ "$i" = "libsexy" ] add_cflags "-DUSE_LIBSEXY" || add_cflags "-DUSE_GTKSPELL"
++			if [ "$i" = "libsexy" ] ; then
++				add_cflags "-DUSE_LIBSEXY"
++			else
++				add_cflags "-DUSE_GTKSPELL"
++			fi
+ 			printf "yes\n"
+ 		else
+ 			printf "no\n"
+-- 
+2.29.2
+
