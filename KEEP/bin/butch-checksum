@@ -107,7 +107,7 @@ printf("\n");return 0;
 EOF
 test -z "$CC" && CC=cc
 ret=0
-if ! $CC /tmp/xor.$$.c -O1 -o /tmp/xor.$$.elf && ! gcc /tmp/xor.$$.c -o /tmp/xor.$$.elf ; then
+if ! cc /tmp/xor.$$.c -o /tmp/xor.$$.elf ; then
 	ret=1
 fi
 rm /tmp/xor.$$.c
