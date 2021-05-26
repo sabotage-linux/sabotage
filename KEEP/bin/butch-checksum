@@ -1,9 +1,9 @@
 #!/bin/sh
 check_config(){
 	if [ -z "$S" ] ; then
-		echo 'S not set, did you source config ?'
-		exit 1
+		return 1
 	fi
+	return 0
 }
 BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
@@ -58,7 +58,10 @@ done
 pkg=$1
 
 if ! $dirmode ; then
-	check_config
+	if ! check_config ; then
+		test -n "$CONFIG" && . "$CONFIG"
+	fi
+	check_config || { echo 'S not set, did you source config ?' ; exit 1 ; }
 	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
 	[ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 
