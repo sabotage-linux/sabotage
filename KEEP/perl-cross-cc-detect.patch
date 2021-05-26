@@ -1,0 +1,17 @@
+--- perl-5.34.0/cnf/configure_tool.sh.orig
++++ perl-5.34.0/cnf/configure_tool.sh
+@@ -6,6 +6,14 @@
+ 		define "$1" "$2"
+ 		result "$2"
+ 		return 0
++	elif [ "$1" = cc ] ; then
++		if $2 -E - </dev/null >/dev/null 2>&1 ; then
++			define "$1" "$2"
++			result "$2"
++			return 0
++		else
++			return 1
++		fi
+ 	else
+ 		return 1
+ 	fi

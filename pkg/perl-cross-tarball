@@ -1,0 +1,8 @@
+[mirrors]
+https://github.com/arsv/perl-cross/releases/download/1.3.6/perl-cross-1.3.6.tar.gz
+
+[vars]
+filesize=110210
+sha512=d394fbd75d890442aa599eae8893a26540c8b7af966583ad1c3213c3fe0e074415cfed8814de8f397830833fd78267bdc55adc5267168198f269634c2ef3b982
+pkgver=1
+
