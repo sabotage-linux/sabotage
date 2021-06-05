@@ -1,17 +1,16 @@
 [mirrors]
-https://github.com/ziglang/zig-bootstrap/archive/refs/tags/0.7.1.tar.gz
+https://github.com/ziglang/zig-bootstrap/archive/refs/tags/0.8.0.tar.gz
 
 [vars]
-filesize=56987297
-sha512=8b7bfd1cf049878939453149c84894d36f1b11947302cbb4e475ab93dfeace7f5f8334b43bd210e1b728146da1171079f82f46bf05d06499a86ae16895d6b4a9
-pkgver=1
-tarball=zig-0.7.1.tar.gz
-tardir=zig-bootstrap-0.7.1
+filesize=62487949
+sha512=953165e56775555d6125459af7a8d06bff022c5627826a34e99c5d934ed39bacd8ffd5f725189367b0d6382e56a6b6826e00f0e142ddb5fa841060018465b171
+pkgver=2
+tarball=zig-0.8.0.tar.gz
+tardir=zig-bootstrap-0.8.0
 
-[deps]
-stage1
+[deps.host]
 cmake
-python
+python3
 
 [build]
 target=""
