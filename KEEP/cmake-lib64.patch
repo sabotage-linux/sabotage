@@ -1,20 +1,20 @@
 if sizeof void* is 33, then we deserve that our libs will be put into /lib64
 instead of /lib where they belong.
 
---- cmake-3.9.3.orig/Modules/GNUInstallDirs.cmake
-+++ cmake-3.9.3/Modules/GNUInstallDirs.cmake
-@@ -235,7 +235,7 @@
-           "Unable to determine default CMAKE_INSTALL_LIBDIR directory because no target architecture is known. "
-           "Please enable at least one language before including GNUInstallDirs.")
-       else()
--        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-+        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "33")
-           set(_LIBDIR_DEFAULT "lib64")
-           if(DEFINED _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX)
-             set(__LAST_LIBDIR_DEFAULT "lib64")
---- cmake-3.9.3.orig/Modules/Platform/Linux.cmake
-+++ cmake-3.9.3/Modules/Platform/Linux.cmake
-@@ -50,9 +50,6 @@
+--- a/Modules/GNUInstallDirs.cmake
++++ b/Modules/GNUInstallDirs.cmake
+@@ -251,7 +251,7 @@
+         endif()
+       endif()
+     else() # not debian, rely on CMAKE_SIZEOF_VOID_P:
+-      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
++      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "33")
+         set(_LIBDIR_DEFAULT "lib64")
+         if(DEFINED _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX)
+           set(__LAST_LIBDIR_DEFAULT "lib64")
+--- a/Modules/Platform/Linux.cmake
++++ b/Modules/Platform/Linux.cmake
+@@ -51,9 +51,6 @@
  
  include(Platform/UnixPaths)
  

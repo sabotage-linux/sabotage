@@ -1,9 +1,9 @@
 --- a/Modules/Compiler/Clang.cmake
 +++ b/Modules/Compiler/Clang.cmake
-@@ -20,7 +20,8 @@
-   macro(__compiler_clang lang)
-     __compiler_gnu(${lang})
-     set(CMAKE_${lang}_COMPILE_OPTIONS_PIE "-fPIE")
+@@ -32,7 +32,8 @@
+       set(CMAKE_${lang}_LINK_OPTIONS_PIE ${CMAKE_${lang}_COMPILE_OPTIONS_PIE} -Xlinker -pie)
+       set(CMAKE_${lang}_LINK_OPTIONS_NO_PIE -Xlinker -no_pie)
+     endif()
 -    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
 +    set(CMAKE_INCLUDE_SYSTEM_FLAG_C)
 +    set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX)
@@ -12,7 +12,7 @@
        set(CMAKE_${lang}_COMPILE_OPTIONS_TARGET "-target ")
 --- a/Modules/Compiler/GNU.cmake
 +++ b/Modules/Compiler/GNU.cmake
-@@ -44,9 +44,8 @@
+@@ -59,9 +59,8 @@
    string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g -DNDEBUG")
    set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
    set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
