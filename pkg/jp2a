@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/cslarsen/jp2a/archive/refs/tags/v1.0.7.tar.gz
+
+[vars]
+filesize=113008
+sha512=28bde9ee2c1a67d548275c36c3f958e3760e94f2dc03ab7cefeccf8bc0ac19978c46fddefd82b460554d3fefb092386426253114766de48ef32444e7cf20b44a
+pkgver=1
+tarball=jp2a-1.0.7.tar.gz
+desc='small utility to convert jpg images to ascii'
+
+[deps.host]
+autoconf
+
+[build]
+autoreconf -i
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+FLAGS="-D_GNU_SOURCE -DSTDC_HEADERS $optcflags" \
+LDFLAGS="$optldflags -static" \
+ ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
