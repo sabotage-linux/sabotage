@@ -1,0 +1,20 @@
+[mirrors]
+https://files.pythonhosted.org/packages/3d/ee/2d9d9fe7fbdcbe19fb4a89b3e8d09f0387bcec4626b40bd8a3f878fffe37/cobe-3.0.1.tar.gz
+
+[vars]
+filesize=17115
+sha512=f2479b29311845b98bb399664f9d2e1ba0fc8b90e31a34827849887ff0dd34192680054580943d7579377abd87911f0eeb2be1a0429252ad0db5f2deb84a8b6f
+pkgver=1
+desc='Markov chain based text generator library and chatbot'
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
+
