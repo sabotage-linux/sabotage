@@ -1,0 +1,7 @@
+#!/bin/sh
+[ "$1" = "--prereqs" ] && exit 0
+randword() {
+  dd if=/dev/urandom bs=4 count=1 2>/dev/null | od -t u4 | head -n 1 | \
+  awk '{print $2}'
+}
+exec oidentd --error --user nobody --group nobody --reply `randword` --other --foreground --nosyslog 2>&1

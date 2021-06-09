@@ -1,0 +1,21 @@
+[mirrors]
+https://files.janikrabe.com/pub/oidentd/releases/2.5.1/oidentd-2.5.1.tar.gz
+
+[vars]
+filesize=282317
+sha512=ca587bb3ae03d114ff4fe2caa10b4a163749dae360f500ab14cc69a28499eaf03912caa699bcc93ded6f7ec9ef8a20b78fd16338c0b16464d8e58d56dde76cdc
+pkgver=1
+service=oidentd
+serviceflags="--down --log"
+desc='Flexible, RFC 1413 compliant Ident daemon with NAT support.'
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine)"
+CFLAGS="$optcflags -D_GNU_SOURCE" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+make -j$MAKE_THREADS
+make install DESTDIR="$butch_install_dir"
