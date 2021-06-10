@@ -1,0 +1,17 @@
+[mirrors]
+https://files.pythonhosted.org/packages/88/fc/d17731c0cc67a5a8e385e4f47c3b0b186720e198b70f076ccb4676804a8f/setuptools-57.0.0.tar.gz
+
+[vars]
+filesize=2144749
+sha512=5277d8630367d6b16a49e36ed84d8cc6abfaedf87dac3f795b204626a8f15ca9fd80d158a465d8bcabe9c074c76b87c3378d82a4ba5feee1ac6a5f2c91db061e
+pkgver=1
+
+[deps.run]
+python3
+
+[deps.host]
+python3
+
+[build]
+python3 bootstrap.py
+python3 setup.py install --prefix="$butch_prefix" --root="$butch_install_dir"
