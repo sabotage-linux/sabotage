@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.netfilter.org/pub/iptables/iptables-1.6.2.tar.bz2
+http://ftp.netfilter.org/pub/iptables/iptables-1.8.7.tar.bz2
 
 [vars]
-filesize=639785
-sha512=04f22e969c794246b9aa28055b202638081cfb0bb4a5625c049a30c48ac84cdd41db12a53c5831398cfe47c8f5691aa02b30b0ae3b5afe0f20ec48cf86a799c0
-pkgver=3
+filesize=717862
+sha512=c0a33fafbf1139157a9f52860938ebedc282a1394a68dcbd58981159379eb525919f999b25925f2cb4d6b18089bd99a94b00b3e73cff5cb0a0e47bdff174ed75
+pkgver=4
 
 [deps]
 libc
