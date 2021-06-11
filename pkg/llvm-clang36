@@ -1,9 +1,10 @@
 [mirrors]
-http://llvm.org/releases/3.6.0/llvm-3.6.0.src.tar.xz
+http://llvm.org/releases/3.6.2/llvm-3.6.2.src.tar.xz
 
 [vars]
-filesize=12750908
-sha512=ca492b7d86333f05930dc849c7a8beff981da51ca174cd844650b516d0a592a2c3837d5a8a9b62713c0f29292b845f27ef0ec361809e325c6b60cbbcd3f20357
+filesize=12802380
+sha512=42b44ce69cfb96e2dc12dc2246f0de8ff983a99741206e2c46ccf074b3248aaab9c0f22c6baad802de851d06f202f40db9dd62fe38aab4479b3f70026c936b36
+pkgver=2
 
 [deps.host]
 cmake
@@ -14,13 +15,14 @@ clang36
 compiler-rt36
 
 [build]
-tar xf "$C"/cfe-3.6.0.src.tar.xz
-mv ./cfe-3.6.0.src ./tools/clang
-tar xf "$C"/compiler-rt-3.6.0.src.tar.xz
-mv ./compiler-rt-3.6.0.src ./projects/compiler-rt
+tar xf "$C"/cfe-3.6.2.src.tar.xz
+mv ./cfe-3.6.2.src ./tools/clang
+tar xf "$C"/compiler-rt-3.6.2.src.tar.xz
+mv ./compiler-rt-3.6.2.src ./projects/compiler-rt
 
 patch -p1 < "$K"/llvm36.patch
 patch -p1 < "$K"/llvm36-dynlinker.patch
+patch -p1 < "$K"/llvm36-compiler-rt.patch
 
 conflags='--enable-libffi --enable-optimized --enable-shared
 	--disable-docs --enable-targets=all --prefix='"$butch_prefix"
