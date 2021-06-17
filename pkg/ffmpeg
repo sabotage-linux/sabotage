@@ -13,14 +13,10 @@ libflac
 libopus
 libressl
 
-[deps.host]
-bash
-
 [build]
 # note: FFPLAY tool will only be built if SDL2 is installed!
 
 [ -z "$butch_prefix" ] && butch_prefix=/
-sed -i 's@/bin/sh@/bin/bash@' configure
 sed -i 's@openssl_init;@openssl_init;\n#undef OPENSSL_VERSION_NUMBER\n#define OPENSSL_VERSION_NUMBER 1\n@' libavformat/tls_openssl.c
 [ -n "$CROSS_COMPILE" ] && xconfflags="--enable-cross-compile --target-os=linux --arch=$A"
 
@@ -37,6 +33,8 @@ libx264=
 testlib x264 && libx264=--enable-libx264
 yasm=--disable-yasm
 type yasm >/dev/null 2>&1 && yasm=--enable-yasm
+
+case "$A" in i[3-6]86) optldflags="$optldflags -Wl,-z,notext" ;; esac
 
 CFLAGS="-D_BSD_SOURCE $optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
