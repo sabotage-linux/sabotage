@@ -1,0 +1,15 @@
+[vars]
+pkgver=1
+desc='meta package for intel va-api driver'
+
+[deps.intel-vaapi-driver.default]
+intel-vaapi-driver-std
+
+[deps.intel-vaapi-driver.std]
+intel-vaapi-driver-std
+
+[deps.intel-vaapi-driver.g45]
+intel-vaapi-driver-g45
+
+[deps.intel-vaapi-driver.ihd]
+intel-media-driver
