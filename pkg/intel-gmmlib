@@ -1,0 +1,51 @@
+[mirrors]
+https://github.com/intel/gmmlib/archive/refs/tags/intel-gmmlib-21.1.1.tar.gz
+
+[vars]
+filesize=737024
+sha512=06becc986eb04c5243389686121bcc597ab16620fcb47943de14f901938dd906ad884b132da0e46ff939e7e599899d4262006efe19d14b3ed87b6f799ca40787
+desc='Intel Graphics Memory Management Library'
+pkgver=1
+tardir=gmmlib-intel-gmmlib-21.1.1
+
+[deps]
+libc
+
+[deps.host]
+cmake
+
+[build]
+sed -i 's/-fstack-protector//g' Source/GmmLib/Linux.cmake
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=ON \
+  -DRUN_TEST_SUITE=OFF \
+  -Wno-dev \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
