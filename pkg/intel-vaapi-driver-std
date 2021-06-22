@@ -1,0 +1,26 @@
+[mirrors]
+https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
+
+[vars]
+filesize=2889762
+sha512=1e9dc81ecd0b3640fccd1fb827a0ade0a1e5bbabe375130df159849e47ce98c8e879c65ddaaae11d16e916be76b507be69bc0c813494e37e7fca86b0b897a94f
+desc='intel vaapi driver for everything from ironlake to cannonlake'
+pkgver=1
+
+[deps]
+libva
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
