@@ -1,0 +1,58 @@
+[mirrors]
+https://github.com/SoftEtherVPN/SoftEtherVPN/releases/download/5.02.5180/SoftEtherVPN-5.02.5180.tar.xz
+
+[vars]
+filesize=8651244
+sha512=e08de17009d40eb182602cb9a243c387fa90990769822b3e0c004b50a2a0163cbbfad18dbc4cd2a3ed30a64b82d99a8127f004ea703ab262712cdae5ce60eae0
+pkgver=1
+desc='softether vpn client and server'
+
+[deps]
+libressl
+libsodium
+curses
+readline
+
+[deps.host]
+cmake
+
+[build]
+sed -i 's#mayaqua SHARED#mayaqua STATIC#' src/Mayaqua/CMakeLists.txt
+sed -i 's#cedar SHARED#cedar STATIC#' src/Cedar/CMakeLists.txt
+sed -i 's#${CURSES_LIBRARIES} ${LIB_READLINE}#${LIB_READLINE} ${CURSES_LIBRARIES}#' src/Cedar/CMakeLists.txt
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  ..
+test "$STATICBUILD" = 1 && {
+sed -e 's#libcurses.so#libcurses.so;/lib/libterminfo.so#g' -i CMakeCache.txt
+sed \
+  -e 's#/usr/lib/lib\(.*\)\.so#'$butch_root_dir$butch_prefix/lib/lib'\1.a#g' \
+  -e 's#/lib/lib\(.*\)\.so#'$butch_root_dir$butch_prefix/lib/lib'\1.a#g' \
+  -i CMakeCache.txt
+}
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
