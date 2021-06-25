@@ -18,6 +18,8 @@ patch -p1 < "$K"/openssh-proxychains-ipcheck.patch
 
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in
+# prevent OpenSSH to leak it's version
+sed -i 's/SSH_VERSION.*/SSH_VERSION "OpenSSH"/' version.h
 
 [ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) \
