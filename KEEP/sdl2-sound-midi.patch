@@ -1,0 +1,78 @@
+Author: rofl0r
+
+this fixes several issues with modplug patch loading / processing of
+timidity.cfg:
+
+  - skips leading whitespace
+  - detect bank directive
+  - warn on soundfont directive
+  - implement support for dir directive
+  - only appends .pat extension if isn't already there
+
+--- SDL_sound-997e90562b35/src/libmodplug/load_pat.c	2020-12-02 16:30:27.000000000 +0000
++++ SDL_sound-997e90562b35.patched/src/libmodplug/load_pat.c	2021-01-13 21:36:36.842470383 +0000
+@@ -312,10 +312,10 @@
+ 			isdrumset = 0;
+ 			_mm_fgets(mmcfg, line, PATH_MAX);
+ 			while( !_mm_feof(mmcfg) ) {
+-			if( SDL_isdigit(line[0]) || (IsBlank(line[0]) && SDL_isdigit(line[1])) ) {
+-				p = line;
++			p = line;
++			while ( SDL_isspace(*p) ) p ++;
++			if( SDL_isdigit(p[0]) ) {
+ 				// get pat number
+-				while ( SDL_isspace(*p) ) p ++;
+ 				i = SDL_atoi(p);
+ 				while ( SDL_isdigit(*p) ) p ++;
+ 				while ( SDL_isspace(*p) ) p ++;
+@@ -343,10 +343,24 @@
+ 					*q++ = '\0';
+ 				}
+ 			}
+-			if( !SDL_strncmp(line,"drumset",7) ) isdrumset = 1;
+-			if( !SDL_strncmp(line,"source",6) && nsources < 5 ) {
++			else if( !SDL_strncmp(p,"bank",4) ) isdrumset = 0;
++			else if( !SDL_strncmp(p,"drumset",7) ) isdrumset = 1;
++			else if( !SDL_strncmp(p,"soundfont",9) ) {
++				SDL_LogInfo(SDL_LOG_CATEGORY_AUDIO, "warning: soundfont directive unsupported!\n");
++			}
++			else if( !SDL_strncmp(p,"dir",3) )  {
++				p += 3;
++				while ( SDL_isspace(*p) ) p ++;
++				q = p + strlen(p);
++				if(q > p) {
++					--q;
++					while ( q > p && SDL_isspace(*q) ) *(q--) = 0;
++					SDL_strlcpy(pathforpat, p, PATH_MAX);
++				}
++			}
++			else if( !SDL_strncmp(p,"source",6) && nsources < 5 ) {
+ 				q = cfgsources[nsources];
+-				p = &line[7];
++				p += 6;
+ 				while ( SDL_isspace(*p) ) p ++;
+ 				pfnlen = 0;
+ 				while ( *p && *p != '#' && !SDL_isspace(*p) && pfnlen < 128 ) {
+@@ -384,9 +398,9 @@
+ 
+ static char *pat_build_path(char *fname, const size_t fnamelen, int pat)
+ {
+-	char *ps;
++	char *ps, *p;
+ 	char *patfile = midipat[pat];
+-	int isabspath = (patfile[0] == '/');
++	int has_ext = 0, isabspath = (patfile[0] == '/');
+ 	if ( isabspath ) patfile ++;
+ 	ps = SDL_strrchr(patfile, ':');
+ 	if( ps ) {
+@@ -397,7 +411,9 @@
+ 		SDL_strlcat(fname, ".pat", fnamelen);
+ 		return ps;
+ 	}
+-	SDL_snprintf(fname, fnamelen, "%s%c%s.pat", isabspath ? "" : pathforpat, DIRDELIM, patfile);
++	p = strrchr(patfile, '.');
++	if(p && !SDL_strcasecmp(p, ".pat")) has_ext = 1;
++	SDL_snprintf(fname, fnamelen, "%s%c%s%s", isabspath ? "" : pathforpat, DIRDELIM, patfile, has_ext ? "" : ".pat");
+ 	return 0;
+ }
+ 

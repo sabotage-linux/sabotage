@@ -1,12 +1,11 @@
 [mirrors]
-https://hg.icculus.org/icculus/SDL_sound/archive/9262f9205898.tar.bz2
+https://github.com/icculus/SDL_sound/archive/c2aeae538ab47877916b5c8569a3525ef179acef.tar.gz
 
 [vars]
-filesize=331268
-sha512=0e26515bd1c08252cddd35e2e708618936b21951ee2b0c8291596682a60fb490583d31b6952e34755c6036cd9beeca40d6f7b2483efaf3152c8a43f98d73d3dc
-tarball=SDL2_sound_9262f9205898.tar.bz2
-tardir=SDL_sound-9262f9205898
-pkgver=1
+filesize=391025
+sha512=cfa6e27b9a2c945edb7076e8b3cf92957fa252128506dac5f59b46ac58f9ec5ccee876f25760c40c780256ccc149da2adf47d96f448bf3d1f2548689a23e8c77
+tarball=SDL_sound-c2aeae538ab47877916b5c8569a3525ef179acef.tar.gz
+pkgver=2
 
 [deps]
 sdl2
@@ -16,6 +15,7 @@ alsa-lib
 cmake
 
 [build]
+patch -p1 < "$K"/sdl2-sound-midi.patch
 sed 's|FILES SDL_sound.h DESTINATION include|FILES src/SDL_sound.h DESTINATION include/SDL2|' -i CMakeLists.txt
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
