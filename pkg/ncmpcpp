@@ -1,0 +1,39 @@
+[mirrors]
+http://github.com/arybczak/ncmpcpp/archive/b7da5d1b9af1f3b0022c1f7daa0c7d12ae72a21d.tar.gz
+
+[vars]
+filesize=219516
+sha512=8dd78f463811826729cb1498a7ccc4bff49393e88adb80260ad499623cf4ecdce5b405c1d91ca03f0b34bb7f5329124cb7a0541dbb880be2a634b057af93b9aa
+pkgver=1
+tarball=ncmpcpp-b7da5d1b9af1f3b0022c1f7daa0c7d12ae72a21d.tar.gz
+tardir=ncmpcpp-b7da5d1b9af1f3b0022c1f7daa0c7d12ae72a21d
+
+[deps]
+boost
+gnu-readline
+libmpdclient
+
+[deps.host]
+automake
+
+[build]
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+# --------------------------------------------------------
+# NOTE TO USERS: clock and visualizer are enabled by default
+# on most distros, so they are to be expected. If you don't
+# wish to use them, these flags can be deleted:
+ADD_ONS="--enable-clock --enable-visualizer"
+# --------------------------------------------------------
+
+./autogen.sh
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+    ./configure -C $ADD_ONS --with-boost=/opt/boost \
+    --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
