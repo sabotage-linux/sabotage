@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/icculus/SDL_sound/archive/c2aeae538ab47877916b5c8569a3525ef179acef.tar.gz
+https://github.com/icculus/SDL_sound/archive/da0cecd33a39a16a84fb860e538e76e270589167.tar.gz
 
 [vars]
-filesize=391025
-sha512=cfa6e27b9a2c945edb7076e8b3cf92957fa252128506dac5f59b46ac58f9ec5ccee876f25760c40c780256ccc149da2adf47d96f448bf3d1f2548689a23e8c77
-tarball=SDL_sound-c2aeae538ab47877916b5c8569a3525ef179acef.tar.gz
-pkgver=2
+filesize=394668
+sha512=b37ec7cc265a0242ec01982f0a63f641f27ff6c389cd71a9a435047ba9269807967f88b38fd5e6c5589ab1797e833cf7cd109c00b927408a095bd200b2ec734f
+tarball=SDL_sound-da0cecd33a39a16a84fb860e538e76e270589167.tar.gz
+pkgver=3
 
 [deps]
 sdl2
