@@ -1,0 +1,9 @@
+[mirrors]
+https://repo.or.cz/pcc-libs.git/snapshot/97ec0ddc608fca714c896c54a213b92c4d85005c.tar.gz
+
+[vars]
+filesize=192734
+sha512=ab8ce1a213336854b5a5faa70b5afc876f516d44990635579817b7af0ce8eacb082e3e62d760cb178c9576e2f1c22bdcc10c55ff7793b22f751001e1bece878f
+tarball=pcc-libs-97ec0ddc608fca714c896c54a213b92c4d85005c.tar.gz
+pkgver=1
+

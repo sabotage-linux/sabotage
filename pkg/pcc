@@ -1,16 +1,65 @@
-[vars]
-filesize=781298
-sha512=55b45e9456c4b790137671570ba83fb34df7dfb4429b97a0d1517dd35172b51e96ca349d5eb7ce543d79961ce8628700e5c92ffb147644c780f27b0dde8b06e2
-
 [mirrors]
-http://pcc.ludd.ltu.se/ftp/pub/pcc/pcc-20130319.tgz
+http://pcc.ludd.ltu.se/ftp/pub/pcc/pcc-20210711.tgz
+
+[vars]
+filesize=970021
+sha512=72ad8188877bf7ec522c949e3efb623780f17338aeccb6bb52ea52580c92b0525432230d703a6235778ac166a8fe22a6566e9a5a6cd64525455ab1a29badcd52
+pkgver=2
 
 [deps]
-yasm
+pcc-libs
+
+[deps.host]
 bison
 flex
 
 [build]
-CFLAGS=-D_BSD_SOURCE ./configure -C --prefix="$butch_prefix" --with-yasm
+patch -p1 < "$K"/pcc-yasm-x64.patch
+patch -p1 < "$K"/pcc-libdir.patch
+patch -p1 < "$K"/pcc-mtune-ignore.patch
+patch -p1 < "$K"/pcc-static-libgcc.patch
+patch -p1 < "$K"/pcc-cpp-realloc-ub.patch
+
+tar xf $C/pcc-libs-97ec0ddc608fca714c896c54a213b92c4d85005c.tar.gz
+
+triple=$($CC -dumpmachine)
+cat << EOF > hack.h
+#include <stdlib.h>
+#define realloc(A, B) my_realloc(A, B)
+static inline void* my_realloc(void *p, size_t n) {
+	return p?(realloc)(p,n):calloc(1, n);
+}
+EOF
+
+CFLAGS="-D_BSD_SOURCE $optcflags" \
+LDFLAGS="$optldflags" \
+CPPFLAGS="-DRCRT0=\\\"Scrt1.o\\\" -include $PWD/hack.h" \
+  ./configure -C --prefix="$butch_prefix" \
+    --enable-tls \
+    --disable-multiarch \
+    --enable-native \
+    --with-incdir="$butch_prefix"/include \
+    --with-libdir="$butch_prefix"/lib \
+    --target="$triple" \
+    --disable-stripping \
+#    --with-yasm
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+dest="$butch_install_dir""$butch_prefix"
+mv "$dest"/share/man/man1/cpp.1 "$dest"/share/man/man1/pcc-cpp.1
+
+cd pcc-libs-*
+export PATH="$dest"/bin:"$dest"/libexec:"$PATH"
+CFLAGS=-D_BSD_SOURCE \
+CC="$dest"/bin/pcc \
+  ./configure --prefix="$butch_prefix" \
+    --target="$triple" \
+
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+# pcc includes its own limits.h first instead of musl's
+find "$dest"/lib/pcc -name limits.h -delete

@@ -1,0 +1,18 @@
+musl doesn't use /usr/lib64 or /lib64; respect libdir that was set
+at configure time.
+
+--- a/os/linux/ccconfig.h
++++ b/os/linux/ccconfig.h
+@@ -72,6 +72,12 @@
+  * code to construct the dynamic linker name at runtime
+  */
+ #ifdef USE_MUSL
++#undef DEFLIBDIRS
++#ifdef LIBDIR
++#define DEFLIBDIRS      { LIBDIR, 0 }
++#else
++#define DEFLIBDIRS      { "/usr/lib", 0 }
++#endif
+ #ifdef MUSL_DYLIB
+ #define DYNLINKLIB MUSL_DYLIB
+ #else
