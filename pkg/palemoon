@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/29.2.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/29.3.0_Release.tar.gz
 
 [vars]
-filesize=8527118
-sha512=aeb115fb99bdc87af8347a902f4032b8545fc297161baa818e635faa3b945690c86e0be8e96ed3a17d3c14aebb871bbb0b32413a789a7e40d98f950ab25fd1e9
-tarball=Pale-Moon-29.2.1_Release.tar.gz
+filesize=4520504
+sha512=132e769ead218b68ecbce5b65efdb8c2b1b8c938dd473dbf92911c2fabf59c0585e9a22f546bc7cf360c445e6e9bcf849a6bf1315de8a3fa14d239c8f71bfb12
+tarball=Pale-Moon-29.3.0_Release.tar.gz
 tardir=pale-moon
-pkgver=36
-BROWSER_VERSION=29.2.1
-UXP_VERSION=20210608
+pkgver=37
+BROWSER_VERSION=29.3.0
+UXP_VERSION=20210719
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
 
 [deps]
@@ -74,7 +74,6 @@ PATCH palemoon28_8-xul-order.patch
 # below patches apply, so supposedly it's OK to keep them
 
 PATCH firefox-getprotobyname_r.patch
-PATCH firefox-finite.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox45-mallinfo.patch
