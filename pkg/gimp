@@ -4,7 +4,7 @@ http://download.gimp.org/pub/gimp/v2.8/gimp-2.8.22.tar.bz2
 [vars]
 filesize=20873278
 sha512=84a78d428282538b606b3cd1ff571e52c3d828fceade171b2012bc1cdcb85919fc7734e7e6c45ed3a8683657fa580412b32c1b511b8a512172a8c1df930493e6
-pkgver=3
+pkgver=4
 desc='GNOME image manipulation program'
 
 [deps]
@@ -26,15 +26,20 @@ shared-mime-info
 # with empty prefix, gimp references share/... instead of /share/...
 [ -z "$butch_prefix" ] && butch_prefix=/
 
+patch -p1 < "$K"/gimp-always_load_system_fonts.patch
+
 # disable the gimp head in the toolbox by default
 patch -p1 < "$K"/gimp-toolbox-wilber.patch
+
 sed -i 's@^[[:space:]]*-I$(includedir)@@' $(find . -name Makefile.in)
 sed -i 's@^libgimpui = .*$@libgimpui = $(top_builddir)/libgimp/libgimpui-$(GIMP_API_VERSION).la $(top_builddir)/libgimpmodule/libgimpmodule-$(GIMP_API_VERSION).la@' $(find plug-ins/ -name Makefile.in)
 printf "#!/bin/sh\necho -lfreetype -I$butch_root_dir$butch_prefix/include/freetype2\n" > freetype-config
 chmod +x freetype-config
 export PATH="$PWD:$PATH"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags -Wno-deprecated-declarations" \
+CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags\
   --mandir="$butch_prefix"/share/man \
