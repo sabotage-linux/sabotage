@@ -1,10 +1,10 @@
 [mirrors]
-https://downloads.sourceforge.net/enlightenment/imlib2-1.6.1.tar.bz2
+https://downloads.sourceforge.net/enlightenment/imlib2-1.7.2.tar.bz2
 
 [vars]
-filesize=893119
-sha512=ecdbdbfe8767ec2b1f22ce664cbab5e1d3f75be7a3c8f37488f5243b3c31dbc433414b8d50d2d1b70c67a80e31e42cc5398161991ce3955e991c114c82ddd58f
-pkgver=3
+filesize=894731
+sha512=e8a42c91e4b50ab2fc249798a58e9562068ac7d48da4e9660263fc1ce1180e7e80cc7fdeaa0a3a0b6145bc857109b5dd650a5a01bc51797473759ca13be7fba5
+pkgver=4
 uchkurl=https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 [deps]
