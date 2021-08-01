@@ -1,0 +1,22 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz
+
+[vars]
+filesize=237881
+sha512=fd046d775214bdca42f868557559595360b069121a75fc119f45e064091000968d9d84154f8a0f06072ecff169dccecf68be58f99a7196932fcb4ffcbd678608
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+

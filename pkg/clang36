@@ -1,5 +1,7 @@
 [mirrors]
-http://llvm.org/releases/3.6.0/cfe-3.6.0.src.tar.xz
+http://llvm.org/releases/3.6.2/cfe-3.6.2.src.tar.xz
+
 [vars]
-filesize=8640776
-sha512=dc137bdf9c2c5adb25498c995f0b944016699267156a595cc1fe6127f6961d45162275023d194db42691d80fa8fc74f56abad9c145ef1ff492881f547ca76cfe
+filesize=8617576
+sha512=ed837c48f38d8998efd675b56477c8681dcedfcf3f71bba65930f145501289bebb6fe6a6d9de336548f94c381d016b99f10c58e046b885449755d44ac782de03
+pkgver=2

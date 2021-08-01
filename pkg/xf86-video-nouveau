@@ -1,10 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.15.tar.bz2
+http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.17.tar.bz2
 
 [vars]
-filesize=584998
-sha512=69a8f8e7920d893f17d14fd9f05e35de246d980a243f3b3b00c05deae7f6bd97e0f51e6ddfa322b4d0815233fe5f656d4e55f54461249f3f24c3bc025a682285
-pkgver=4
+filesize=632535
+sha512=adba58ba5298d1a5b3f9f8540f9ef2cb2e10e47bba8e374103ec2e1f92e915f5f4393ed0021168cd649646e12315135a1efcdf77e8fb1648e1295914d87279b2
+pkgver=5
 
 [deps]
 xproto
@@ -18,7 +18,6 @@ xorg-server
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Wl,-z,lazy" \
 ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
-

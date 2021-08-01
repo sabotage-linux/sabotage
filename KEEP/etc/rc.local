@@ -92,7 +92,7 @@ if $do_kmap ; then
 	#kmap=/share/kmap/dvorak-r.kmap
 	#kmap=/share/kmap/dvorak.kmap
 	#kmap=/share/kmap/es.kmap
-	#kmap=/share/kmap/fi-latin1.kmap
+	#kmap=/share/kmap/fi.kmap
 	#kmap=/share/kmap/fr-latin1.kmap
 	#kmap=/share/kmap/fr_CH-latin1.kmap
 	#kmap=/share/kmap/hu.kmap

@@ -1,0 +1,28 @@
+[mirrors]
+https://bitbucket.org/alium/g45-h264/downloads/intel-driver-g45-h264-2.4.1.tar.gz
+
+[vars]
+filesize=4985013
+sha512=0cae7323689ca44e652fcaff1e7f246b028a7710c9b170dabd6ca9b38b3deecc17bb7dd1b0bf346dea30c63f9a95843851055f20096ad5e32034b57513ee2412
+desc='experimental h264 enabled vaapi driver for intel gma 4500mhd'
+pkgver=1
+tarball="intel-vaapi-driver-g45-2.4.1.tar.gz"
+tardir="intel-vaapi-driver"
+
+[deps]
+libva
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

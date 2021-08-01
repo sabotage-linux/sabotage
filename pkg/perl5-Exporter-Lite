@@ -1,0 +1,22 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/N/NE/NEILB/Exporter-Lite-0.08.tar.gz
+
+[vars]
+filesize=6271
+sha512=8c6ff5a88c1b810d74156c5d84695cfde6f555e0fc663804123e2a96f5e2235a5adeebbf24b18301ed2c3fb57f76788ecfdf301b26263279e92a88a9143b8953
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+

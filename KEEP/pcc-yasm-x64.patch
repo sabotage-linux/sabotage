@@ -1,0 +1,21 @@
+yasm, even if built for amd64, defaults to i386 codegen; if amd64
+code is to be assembled it needs to be explicitly specified on
+the command line.
+
+--- a/cc/cc/cc.c
++++ b/cc/cc/cc.c
+@@ -1963,6 +1963,14 @@
+ 	{ &one, 1, "macho" },
+ #else
+ 	{ &one, 1, "elf" },
++	{ &one, 1, "-m" },
++#if mach_amd64
++	{ &amd64_i386, 1, "x86" },
++	{ &amd64_i386, 0, "amd64" },
++// FIXME: x32 how ? yasm -m x32
++#else
++	{ &one, 1, "x86" },
++#endif
+ #endif
+ #endif
+ #if defined(os_sunos) && defined(mach_sparc64)

@@ -1,0 +1,22 @@
+[mirrors]
+https://cpan.metacpan.org/authors/id/G/GW/GWARD/Getopt-Tabular-0.3.tar.gz
+
+[vars]
+filesize=26453
+sha512=a289d4861538ae542f7549364573cadd740538f73862d89dd49eaf6bed6f787ba2848246add171aed6aef4d7d36411d00bef70b76885aa948ce0e7fc8801652b
+pkgver=1
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+[ -z "$CROSS_COMPILE" ] && make test
+make DESTDIR="$butch_install_dir" install
+

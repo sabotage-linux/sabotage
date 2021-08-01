@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.6p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-8.6p1.tar.gz
 
 [vars]
-filesize=1742201
-sha512=d65275b082c46c5efe7cf3264fa6794d6e99a36d4a54b50554fc56979d6c0837381587fd5399195e1db680d2a5ad1ef0b99a180eac2b4de5637906cb7a89e9ce
-pkgver=10
+filesize=1786328
+sha512=9854eda0b773c64c9f1f74844ce466b2b42ee8845f58ad062b73141d617af944fa4ebafdf72069f400106d2c2bd0a69c92fe805ec1fc26d4f0faadf06c3fbbe6
+pkgver=11
 service=openssh
 serviceflags="--down --log"
 
@@ -18,6 +18,8 @@ patch -p1 < "$K"/openssh-proxychains-ipcheck.patch
 
 # prevent from installing some things (keysign and maybe others) setuid.
 sed -i 's@-m 4711@-m 0750@g' Makefile.in
+# prevent OpenSSH to leak it's version
+sed -i 's/SSH_VERSION.*/SSH_VERSION "OpenSSH"/' version.h
 
 [ -n "$CROSS_COMPILE" ] && {
   xconfflags="--host=$($CC -dumpmachine) \

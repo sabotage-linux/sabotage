@@ -1,0 +1,17 @@
+if -mtune isn't handled here, it is later wrongly treated as a linker
+flag and passed to ld which breaks the link.
+
+--- a/cc/cc/cc.c
++++ b/cc/cc/cc.c
+@@ -686,6 +686,11 @@
+ 				strlist_append(&compiler_flags, argp);
+ 				break;
+ 			}
++
++			if (strncmp(argp, "-mtune=", 6) == 0) {
++				/* ignore */
++				break;
++			}
+ #ifdef mach_amd64
+ 			if (strncmp(argp, "-mcmodel=", 9) == 0) {
+ 				strlist_append(&compiler_flags, argp);

@@ -12,6 +12,7 @@ python
 
 [deps.host]
 python
+python-setuptools
 
 [build]
 python setup.py build

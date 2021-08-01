@@ -1,0 +1,19 @@
+code assumes realloc() returns zero-initialized memory, which is not
+guaranteed and not the case with musl libc.
+this bug caused makefile-dependency files to contain random junk that
+happened to be in the memory returned by calloc; and therefore breaking
+automake builds depending on those dependency files.
+
+--- a/cc/cpp/cpp.c
++++ b/cc/cpp/cpp.c
+@@ -292,8 +292,9 @@
+ 					for (cp = optarg+3; *cp; cp++)
+ 						if (*cp == '$')
+ 							l++;
++				Mxfile = cp = Mxlen ? realloc(Mxfile, Mxlen+l) : calloc(1, l);
+ 				Mxlen += l;
+-				Mxfile = cp = realloc(Mxfile, Mxlen);
++
+ 				for (up = Mxfile; *up; up++)
+ 					;
+ 				if (up != Mxfile)

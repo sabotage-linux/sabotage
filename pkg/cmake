@@ -4,10 +4,11 @@ https://github.com/Kitware/CMake/releases/download/v3.20.3/cmake-3.20.3.tar.gz
 [vars]
 filesize=9440009
 sha512=ed2b8b04c759c4f7c5c363be33bf08e6677c710c1f937050a378ab5539136b919531e1c927b117b3d8d68d4bb613de8d92a3d4d50f3ab3bc98355febca779a1b
-pkgver=3
+pkgver=4
 desc='immensely bloated build tool mostly used by windows and C++ folks'
 
 [deps]
+curses
 bzip2
 curl
 expat
@@ -18,6 +19,7 @@ libarchive
 patch -p1 < "$K"/cmake-isystem.patch
 patch -p1 < "$K"/cmake-lib64.patch
 
+sed -i 's,curses_version,baudrate,' Source/Checks/Curses/CheckCurses.c
 sed -i 's,defined(HAVE_LIBCRYPTO),0,' Utilities/cmlibarchive/libarchive/archive_hmac.c
 
 if [ -z "$CROSS_COMPILE" ] ; then

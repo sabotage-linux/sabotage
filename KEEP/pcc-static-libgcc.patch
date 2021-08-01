@@ -1,0 +1,21 @@
+ignore -static-libgcc and -static-libstdc++
+
+-static-libgcc can safely be ignored as libpcc is always static.
+
+-static-libstdc++ actually doesn't make sense in C context, but gcc swallows
+it silently, and some misbehaving configure scripts pass it to $CC.
+encountered with libdecnumber as integrated into gdb 7.8-7.11.
+
+--- a/cc/cc/cc.c
++++ b/cc/cc/cc.c
+@@ -812,6 +812,10 @@
+ 			} else if (match(argp, "-symbolic")) {
+ 				strlist_append(&middle_linker_flags,
+ 				    "-Bsymbolic");
++			} else if (match(argp, "-static-libgcc")) {
++				/* ignore */
++			} else if (match(argp, "-static-libstdc++")) {
++				/* ignore */
+ 			} else if (strncmp(argp, "-std=", 5) == 0) {
+ 				if (strcmp(&argp[5], "c11") == 0)
+ 					cstd = SC11;

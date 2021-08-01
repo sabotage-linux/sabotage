@@ -1,0 +1,26 @@
+[mirrors]
+https://github.com/intel/libva-utils/releases/download/2.11.1/libva-utils-2.11.1.tar.bz2
+
+[vars]
+filesize=1040253
+sha512=df21f91452abdd3ebcdd99f88d50a20b4572de5327c281cdecc45f91ed814aa4d63a877e8951bc586eaf4103196ef17c30ec4e34e59e19669bbbdd4ba9faf567
+desc='implementation for video acceleration api aka vaapi - utils'
+pkgver=1
+
+[deps]
+libva
+
+[build]
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" $xconfflags
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
