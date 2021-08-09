@@ -6,7 +6,7 @@ filesize=4520504
 sha512=132e769ead218b68ecbce5b65efdb8c2b1b8c938dd473dbf92911c2fabf59c0585e9a22f546bc7cf360c445e6e9bcf849a6bf1315de8a3fa14d239c8f71bfb12
 tarball=Pale-Moon-29.3.0_Release.tar.gz
 tardir=pale-moon
-pkgver=37
+pkgver=38
 BROWSER_VERSION=29.3.0
 UXP_VERSION=20210719
 uchkurl=https://github.com/MoonchildProductions/UXP/releases
@@ -203,6 +203,8 @@ find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@
 #sed -i 's@-Wl,--build-id@@' old-configure
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
+# increase default stack size as palemoon uses a recursive js parser
+reqldf="$reqldf -Wl,-z,stack-size=524288"
 allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 # on arm binutils 2.24 assertion failure is triggered due to some of the cflags
 # in the default butch config. see issue #186
