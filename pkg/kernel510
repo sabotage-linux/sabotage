@@ -1,0 +1,17 @@
+[deps]
+kernel510-tarball
+kernel510-patch
+
+[deps.host]
+bison
+flex
+
+[vars]
+LINUX_VER=5.10
+tarball=linux-"$LINUX_VER".tar.xz
+patchver=57
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%

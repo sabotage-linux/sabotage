@@ -12,7 +12,6 @@ cfg80211: reg: update Kconfig description and documentation
 
 cfg80211: reg: make Kconfig entry more inline with other options
 ---
- Documentation/networking/regulatory.txt |  22 +++-
  net/wireless/.gitignore                 |   1 +
  net/wireless/Kconfig                    |  30 ++++-
  net/wireless/Makefile                   |   7 +-
@@ -25,37 +24,6 @@ cfg80211: reg: make Kconfig entry more inline with other options
  create mode 100644 net/wireless/genregdb.awk
  create mode 100644 net/wireless/regdb.h
 
-diff --git a/Documentation/networking/regulatory.txt b/Documentation/networking/regulatory.txt
-index 381e5b23d61d..dba96b50388c 100644
---- a/Documentation/networking/regulatory.txt
-+++ b/Documentation/networking/regulatory.txt
-@@ -200,5 +200,25 @@ Then in some part of your code after your wiphy has been registered:
- Statically compiled regulatory database
- ---------------------------------------
- 
--When a database should be fixed into the kernel, it can be provided as a
-+In most situations the userland solution using CRDA as described
-+above is the preferred solution.  However in some cases a set of
-+rules built into the kernel itself may be desirable.  To account
-+for this situation, a configuration option has been provided
-+(i.e. CONFIG_CFG80211_INTERNAL_REGDB).  With this option enabled,
-+the wireless database information contained in net/wireless/db.txt is
-+used to generate a data structure encoded in net/wireless/regdb.c.
-+That option also enables code in net/wireless/reg.c which queries
-+the data in regdb.c as an alternative to using CRDA. Another alternative
-+when a database should be fixed into the kernel, is to provide it as a
- firmware file at build time that is then linked into the kernel.
-+
-+The file net/wireless/db.txt should be kept up-to-date with the db.txt
-+file available in the git repository here:
-+
-+    git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git
-+
-+Again, most users in most situations should be using the CRDA package
-+provided with their distribution, and in most other situations users
-+should be building and using CRDA on their own rather than using
-+this option.  If you are not absolutely sure that you should be using
-+CONFIG_CFG80211_INTERNAL_REGDB then _DO_NOT_USE_IT_.
 diff --git a/net/wireless/.gitignore b/net/wireless/.gitignore
 index 61cbc304a3d3..844f86d886e9 100644
 --- a/net/wireless/.gitignore
@@ -76,7 +44,7 @@ index 41722046b937..3a082a53f12e 100644
 +	bool "use statically compiled regulatory rules database" if CFG80211_CERTIFICATION_ONUS
 +	default n
 +	depends on CFG80211_CERTIFICATION_ONUS
-+	---help---
++	help
 +	  This option generates an internal data structure representing
 +	  the wireless regulatory rules described in net/wireless/db.txt
 +	  and includes code to query that database. This is an alternative

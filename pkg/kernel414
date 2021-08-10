@@ -53,6 +53,17 @@ if [ "$k_major" -ge 5 ] || { [ "$k_major" -eq 4 ] && [ "$k_minor" -ge 19 ];}; th
 	dopatch kernel419-revert-remove-support-for-built-in-regdb.patch
 fi
 
+if [ "$k_major" -eq 5 ] && [ "$k_minor" -ge 10 ]; then
+mv tools/objtool/objtool.c tools/objtool/objtool.c.orig
+cat << EOFX > tools/objtool/objtool.c
+int main(int argc, char**argv){return 0;}
+int master(int argc, const char **argv);
+#define main master
+EOFX
+cat tools/objtool/objtool.c.orig >> tools/objtool/objtool.c
+fi
+
+
 # install regulatory domain database into kernel tree
 # we build it fixed into the kernel so we don't need the bloated "crda" tool
 # to change regulatory domains with iw set reg.
