@@ -31,6 +31,11 @@ cflags_speed="-O3 -fstrength-reduce -fthread-jumps -fcse-follow-jumps -fcse-skip
 ldflags_base="-Wl,-z,relro,-z,now -Wl,-z,text"
 ldflags_size="-Wl,--gc-sections"
 
+if [ "$STAGE" = 0 ] ; then
+cflags_base="$cflags_base -Wa,--compress-debug-sections=none"
+ldflags_base="$ldflags_base -Wl,--compress-debug-sections=none"
+fi
+
 if [ "$OPT_KEEP_DEBUG" = 1 ] ; then
 	cflags_base="$cflags_base -g"
 else
