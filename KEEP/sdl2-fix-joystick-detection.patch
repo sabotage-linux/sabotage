@@ -1,0 +1,40 @@
+--- SDL2-2.0.14.org/src/joystick/linux/SDL_sysjoystick.c	2021-08-28 05:54:34.324192127 +0000
++++ SDL2-2.0.14/src/joystick/linux/SDL_sysjoystick.c	2021-08-28 06:02:36.891238608 +0000
+@@ -606,7 +606,7 @@
+             if (folder) {
+                 while ((dent = readdir(folder))) {
+                     int len = SDL_strlen(dent->d_name);
+-                    if (len > 5 && SDL_strncmp(dent->d_name, "event", 5) == 0) {
++                    if ((len > 2 && !SDL_strncmp(dent->d_name, "js", 2)) || (len > 5 && SDL_strncmp(dent->d_name, "event", 5) == 0)) {
+                         char path[PATH_MAX];
+                         SDL_snprintf(path, SDL_arraysize(path), "/dev/input/%s", dent->d_name);
+                         MaybeAddDevice(path);
+@@ -626,6 +626,7 @@
+ static void
+ LINUX_JoystickDetect(void)
+ {
++    int fallback_used = 0;
+ #if SDL_USE_LIBUDEV
+     if (enumeration_method == ENUMERATION_LIBUDEV) {
+         SDL_UDEV_Poll();
+@@ -640,8 +641,12 @@
+ #endif
+     {
+         LINUX_FallbackJoystickDetect();
++        fallback_used = 1;
+     }
+ 
++    if (numjoysticks == 0 && !fallback_used)
++        LINUX_FallbackJoystickDetect();
++
+     HandlePendingRemovals();
+ 
+     SDL_UpdateSteamControllers();
+@@ -994,6 +999,7 @@
+                                      &joystick->nhats);
+     } else {
+         int fd = open(item->path, O_RDWR, 0);
++        if (fd < 0) fd = open(item->path, O_RDONLY, 0);
+         if (fd < 0) {
+             SDL_free(joystick->hwdata);
+             joystick->hwdata = NULL;

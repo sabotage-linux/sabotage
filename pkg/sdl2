@@ -4,12 +4,13 @@ https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
 [vars]
 filesize=6089974
 sha512=ebc482585bd565bf3003fbcedd91058b2183e333b9ea566d2f386da0298ff970645d9d25c1aa4459c7c96e9ea839fd1c5f2da0242a56892865b2e456cdd027ee
-pkgver=9
+pkgver=10
 
 [deps]
 
 [build]
 patch -p1 < "$K"/sdl2-poll.patch
+patch -p1 < "$K"/sdl2-fix-joystick-detection.patch
 
 sed -i 's/-Werror=/-W/g' configure
 [ -n "$CROSS_COMPILE" ] && \
