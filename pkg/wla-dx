@@ -1,0 +1,49 @@
+[mirrors]
+https://github.com/vhelin/wla-dx/archive/refs/tags/v10.0.tar.gz
+
+[vars]
+filesize=704553
+sha512=cd7bb4dca7dcce2db64a86e8bfbb89b133a48592ca1f90696741ab1ff23cc452a99e0dce9e4da92ae10c9c0b17908994a04ccee2b3d7bdbcf8f3a994ef8396c6
+tarball=wla-dx-10.0.tar.gz
+pkgver=1
+desc='assembler and linker for a number of 8/16 bit cpus and retro consoles'
+
+[deps]
+
+[deps.host]
+cmake
+
+[build]
+
+sed -e 's/SI_OP_MINUS/SI_OP_SUB/' -e 's/SI_OP_PLUS/SI_OP_ADD/' -i wlalink/main.c
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE -DNDEBUG $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  -DGDB_DEBUGGING=OFF \
+  -DGEN_DOC=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
