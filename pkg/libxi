@@ -1,14 +1,15 @@
+[mirrors]
+https://www.x.org/releases/individual/lib/libXi-1.7.10.tar.bz2
+
+[vars]
+filesize=484519
+sha512=591f0860bf5904897587c4990d6c852f3729a212d1ef390362d41242440e078221877c31db2232d5cc81727fe97f4e194b077f7de917e251e60641bbd06ee218
+pkgver=2
+
 [deps]
 libxext
 inputproto
 libxfixes
-
-[vars]
-filesize=440969
-sha512=f419a30711220f51bc77ba4cd2759e565d4f8ba9960c3bcce3ec80ab84389fe220e4276887b125ec105810bd219698fb3a22ec4b9d91eab7235ed9a3ca6925c3
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXi-1.7.2.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
