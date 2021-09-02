@@ -1,15 +1,14 @@
 [mirrors]
-https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
+https://www.libsdl.org/release/SDL2-2.0.16.tar.gz
 
 [vars]
-filesize=6089974
-sha512=ebc482585bd565bf3003fbcedd91058b2183e333b9ea566d2f386da0298ff970645d9d25c1aa4459c7c96e9ea839fd1c5f2da0242a56892865b2e456cdd027ee
-pkgver=10
+filesize=7227262
+sha512=ec75ef8526792650c2647b78bb0244f973774418aeae33a2182d90ce696b30acb652f8be9c2012a16c1c5d5622f7630ff2e1eadae27ea3dc78ab47730cf5e62f
+pkgver=11
 
 [deps]
 
 [build]
-patch -p1 < "$K"/sdl2-poll.patch
 patch -p1 < "$K"/sdl2-fix-joystick-detection.patch
 
 sed -i 's/-Werror=/-W/g' configure
