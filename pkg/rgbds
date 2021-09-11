@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/gbdev/rgbds/releases/download/v0.5.1/rgbds-0.5.1.tar.gz
+
+[vars]
+filesize=7938330
+sha512=dc29a94291a137a45bd6af45afaf7d98d29c16bbb66794b36236f53f4604ec0e4688e6542c80990e6e794d94e8fa5de13813d9764efe34e5a79fe68a66ce592c
+pkgver=1
+tardir=rgbds
+desc='rednex gameboy development system assembly toolchain'
+
+[deps.host]
+bison
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS Q= \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+dos2unix src/asm/parser.y
+patch -p1 < "$K"/rgbds-bison.patch
+mk_target all
+mk_target install
