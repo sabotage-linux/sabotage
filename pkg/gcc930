@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz
 [vars]
 filesize=70533868
 sha512=4b9e3639eef6e623747a22c37a904b4750c93b6da77cf3958d5047e9b5ebddb7eebe091cc16ca0a227c0ecbd2bf3b984b221130f269a97ee4cc18f9cf6c444de
-pkgver=1
+pkgver=2
 desc="the GNU compiler collection, v9.3.0"
 no_unlink=1
 gcc_major=9

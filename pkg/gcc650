@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz
 [vars]
 filesize=74355588
 sha512=ce046f9a50050fd54b870aab764f7db187fe7ea92eb4aaffb7c3689ca623755604e231f2af97ef795f41c406bb80c797dd69957cfdd51dfa2ba60813f72b7eac
-pkgver=1
+pkgver=2
 desc="the GNU compiler collection, v6.5.0"
 no_unlink=1
 gcc_major=6
@@ -160,6 +160,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --disable-mudflap \
   --disable-libmudflap \
   --enable-libssp \
+  --enable-initfini-array \
   --disable-libgomp \
   --disable-debug \
   --disable-bootstrap \

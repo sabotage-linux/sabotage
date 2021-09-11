@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-8.4.0/gcc-8.4.0.tar.xz
 [vars]
 filesize=63713440
 sha512=6de904f552a02de33b11ef52312bb664396efd7e1ce3bbe37bfad5ef617f133095b3767b4804bc7fe78df335cb53bc83f1ac055baed40979ce4c2c3e46b70280
-pkgver=1
+pkgver=2
 desc="the GNU compiler collection, v8.4.0"
 no_unlink=1
 gcc_major=8
