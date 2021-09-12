@@ -1,9 +1,9 @@
 [mirrors]
-https://github.com/richfelker/musl-cross-make/archive/b12ded507831d0cac2dabd869aef14f3822a8770.tar.gz
+https://github.com/richfelker/musl-cross-make/archive/0f22991b8d47837ef8dd60a0c43cf40fcf76217a.tar.gz
 
 [vars]
-filesize=167438
-sha512=014a25cda3a0ac7018883b75b71c6414edc017a6554795595366467a135d1e4e65b26a9640ef83c1e2ea5503aa7878a34f8e1b956589e87f682ea8e3edd52811
-tarball=musl-cross-make-b12ded507831d0cac2dabd869aef14f3822a8770.tar.gz
-pkgver=1
+filesize=185034
+sha512=961671b6464c947b4b24be5985133fb6427f115d2a873bdd0d20f8be6130535d8d3ee61892491d33bfdd12b644a338a63c087de750f37841d5b53b733bcd5f2c
+tarball=musl-cross-make-0f22991b8d47837ef8dd60a0c43cf40fcf76217a.tar.gz
+pkgver=2
 

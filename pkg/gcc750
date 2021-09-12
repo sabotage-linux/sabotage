@@ -4,12 +4,12 @@ http://ftp.gnu.org/gnu/gcc/gcc-7.5.0/gcc-7.5.0.tar.xz
 [vars]
 filesize=62783088
 sha512=fe716cc19f2e3255d3a8b1b8290777bf769c6d98e6e0b07b81a3d6ad43f8af74cb170dfa18b1555dbfcd3f55ae582b91a286ccef496b9b65c1579902f96a1f60
-pkgver=2
+pkgver=3
 desc="the GNU compiler collection, v7.5.0"
 no_unlink=1
 gcc_major=7
 gcc_minor=5
-mcm_version=b12ded507831d0cac2dabd869aef14f3822a8770
+mcm_version=0f22991b8d47837ef8dd60a0c43cf40fcf76217a
 
 [deps.stage1]
 stage1-g++
