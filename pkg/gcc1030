@@ -1,0 +1,25 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz
+
+[vars]
+filesize=76692288
+sha512=2b2dd7453d48a398c29eaebd1422b70341001b8c90a62aee51e83344e7fdd8a8e45f82a4a9165bd7edc76dada912c932f4b6632c5636760fec4c5d7e402b3f86
+pkgver=1
+desc="the GNU compiler collection, v10.3.0"
+no_unlink=1
+gcc_major=10
+gcc_minor=3
+mcm_version=0f22991b8d47837ef8dd60a0c43cf40fcf76217a
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%

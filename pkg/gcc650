@@ -4,7 +4,7 @@ http://ftp.gnu.org/gnu/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz
 [vars]
 filesize=74355588
 sha512=ce046f9a50050fd54b870aab764f7db187fe7ea92eb4aaffb7c3689ca623755604e231f2af97ef795f41c406bb80c797dd69957cfdd51dfa2ba60813f72b7eac
-pkgver=1
+pkgver=2
 desc="the GNU compiler collection, v6.5.0"
 no_unlink=1
 gcc_major=6
@@ -45,15 +45,6 @@ fi
 if test $gcc_major -gt 6 ; then
 tar xf "$C"/musl-cross-make-$mcm_version.tar.gz
 mv musl-cross-make-$mcm_version/patches .
-if test $gcc_major = 7 && test $gcc_minor = 5 ; then
-mv patches/gcc-7.3.0 patches/gcc-7.5.0
-elif test $gcc_major = 8 && test $gcc_minor = 4 ; then
-mv patches/gcc-8.3.0 patches/gcc-8.4.0
-rm -f patches/gcc-8.4.0/0017-pr93402.diff
-elif test $gcc_major = 9 && test $gcc_minor = 3 ; then
-mv patches/gcc-9.2.0 patches/gcc-9.3.0
-rm -f patches/gcc-9.3.0/0017-pr93402.diff
-fi
 for p in patches/gcc-$gcc_major.$gcc_minor.0/*.diff ; do
 	echo "applying $p"
 	patch -p1 < "$p"
@@ -160,6 +151,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --disable-mudflap \
   --disable-libmudflap \
   --enable-libssp \
+  --enable-initfini-array \
   --disable-libgomp \
   --disable-debug \
   --disable-bootstrap \

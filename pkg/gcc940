@@ -1,0 +1,25 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz
+
+[vars]
+filesize=72411232
+sha512=dfd3500bf21784b8351a522d53463cf362ede66b0bc302edf350bb44e94418497a8b4b797b6af8ca9b2eeb746b3b115d9c3698381b989546e9151b4496415624
+pkgver=1
+desc="the GNU compiler collection, v9.4.0"
+no_unlink=1
+gcc_major=9
+gcc_minor=4
+mcm_version=0f22991b8d47837ef8dd60a0c43cf40fcf76217a
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%
