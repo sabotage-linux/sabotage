@@ -1,10 +1,10 @@
 [mirrors]
-https://www.cgsecurity.org/testdisk-7.1-WIP.tar.bz2
+https://www.cgsecurity.org/testdisk-7.1.tar.bz2
 
 [vars]
-filesize=707602
-sha512=e1399994c1a7fd77d7fdf48a34bb5a33cb1cc6ab968fdd17e6ba21e99950ed7a7b5b727916dcfa61162f2fc700e6922ae6d78d33e61e95238c9bedf6963e1562
-pkgver=1
+filesize=742006
+sha512=ad6531eec45c1ed8d4a0ce6132692bb609c4c269fbca57f788ce808214e0b00b5fb1187745a859c5da8a3cb8de18b29904792d3246b15cedfa24bf24cbfe3df5
+pkgver=2
 desc='testdisk partition recovery and photorec file recovery tools'
 
 [deps]
@@ -22,3 +22,5 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+rm -rf "$dest"/share/man/zh_CN
