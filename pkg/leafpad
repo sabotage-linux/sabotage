@@ -1,9 +1,10 @@
 [mirrors]
-http://download.savannah.gnu.org/releases/leafpad/leafpad-0.8.18.tar.gz
+http://download.savannah.gnu.org/releases/leafpad/leafpad-0.8.18.1.tar.gz
 
 [vars]
-filesize=289079
-sha512=315f5541dfe8d519ea832ad8b13b034a5ac173f8b9c0de7e3f774780b4ef42f2fab29e3ef847a1c15daf544f85308b14f53a79d568ca4e89f5840ce8bd675bc4
+filesize=289117
+sha512=1caad712967f634f585ab32e406534b5ce2c5621008c1eb5b2b48f17ca0f48cd834ea2ea1c67eda4053fa84e8727ff0e708e99d3b5dad838dcf0701389788257
+pkgver=2
 desc='minimalistic GTK+ text editor. useful to copy text terminal <-> GUI apps'
 
 [deps]
@@ -12,7 +13,6 @@ gtk+2
 [build]
 . "$K"/intltool-fix
 
-patch -p1 < "$K"/leafpad-savebug.patch
 patch -p1 < "$K"/leafpad-taskbar-icon.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
