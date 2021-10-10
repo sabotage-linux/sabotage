@@ -1,0 +1,19 @@
+this patch fixes the bug that clicking on the X in modal info dialogs, such as
+"Search string not found" doesn't have any effect.
+
+--- leafpad-0.8.18.org/src/dialog.c	2021-10-09 12:58:10.359921223 +0000
++++ leafpad-0.8.18/src/dialog.c	2021-10-10 14:41:42.087908603 +0000
+@@ -41,10 +41,10 @@
+ 	gtk_dialog_add_buttons(GTK_DIALOG(dialog),
+ 		GTK_STOCK_OK, GTK_RESPONSE_CANCEL, NULL);
+ 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL);
+-	g_free(str);
++	g_signal_connect(GTK_DIALOG(dialog), "response", G_CALLBACK (gtk_widget_destroy), dialog);
+ 	
+-	gtk_dialog_run(GTK_DIALOG(dialog));
+-	gtk_widget_destroy(dialog);
++	gtk_widget_show_all(GTK_DIALOG(dialog));
++	g_free(str);
+ }
+ 
+ GtkWidget *create_dialog_message_question(GtkWidget *window, gchar *message, ...)

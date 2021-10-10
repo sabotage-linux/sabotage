@@ -14,6 +14,7 @@ gtk+2
 . "$K"/intltool-fix
 
 patch -p1 < "$K"/leafpad-taskbar-icon.patch
+patch -p1 < "$K"/leafpad-dialog_react_on_x_click.patch
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
