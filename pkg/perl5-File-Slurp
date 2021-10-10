@@ -11,6 +11,5 @@ http://search.cpan.org/CPAN/authors/id/U/UR/URI/File-Slurp-9999.19.tar.gz
 [build]
 perl Makefile.PL
 make -j$MAKE_THREADS
-[ -z "$CROSS_COMPILE" ] && make test
 make DESTDIR="$butch_install_dir" install
 
