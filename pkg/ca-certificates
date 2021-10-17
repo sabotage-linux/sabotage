@@ -4,7 +4,7 @@ http://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_2021101
 [vars]
 filesize=239608
 sha512=bedf072c8aa1b05b249ea272f5cecfe16bdcd762c02c712323f12ac7a278e8814453f5f3caad86a2581e451788b292ed3a76a6a81620926459bb890133cffde1
-pkgver=10
+pkgver=11
 tardir=work
 
 [deps]
@@ -35,6 +35,8 @@ install:
 	done
 EOF
 sed -i 's@/usr@'"$butch_prefix"'@g' sbin/update-ca-certificates
+sed -i 's@mktemp --tmpdir@mktemp@' sbin/update-ca-certificates
+sed -i 's@/usr@'"$butch_prefix"'@g' Makefile
 make CERTSDIR="$butch_prefix"/share/ca-certificates
 make CERTSDIR="$butch_prefix"/share/ca-certificates \
      DESTDIR="$butch_install_dir" sbindir="$butch_prefix"/bin install
