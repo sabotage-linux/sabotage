@@ -1,9 +1,10 @@
-[vars]
-filesize=465710
-sha512=3a431e038db2961612bd22ba632a60618a72a62bb724a1e603adf670711ea389d9e0b6233017b1394d8ebf8b372dc250fc6958f026df225911b901179ea24e6b
-
 [mirrors]
-http://www.ivmaisoft.com/_bin/atomic_ops//libatomic_ops-7.4.2.tar.gz
+https://github.com/ivmai/libatomic_ops/releases/download/v7.6.12/libatomic_ops-7.6.12.tar.gz
+
+[vars]
+filesize=506313
+sha512=bbf98a38a80c8fe6b7eab773967edc55b8d48be32b36ed827fb835ee3dcd96d5ec1dc97149714e015e93a0a5b9fc03595797663fdb5a0f673869ea8bfe640df5
+pkgver=2
 
 [build]
 sed -i 's#pkgdata#doc#g' doc/Makefile.in Makefile.in
@@ -16,7 +17,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
             --enable-shared  \
             --disable-static \
-            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.4.2
+            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.6.12
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
