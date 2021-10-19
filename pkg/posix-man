@@ -1,15 +1,15 @@
-[deps]
-less
-
 [mirrors]
-ftp://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2013-a.tar.xz
 http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2013-a.tar.xz
 http://mirror.anl.gov/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-2013-a.tar.xz
 
 [vars]
 filesize=930736
 sha512=e6ec8eb57269fadf368aeaac31b5a98b9c71723d4d5cc189f9c4642d6e865c88e44f77481dccbdb72e31526488eb531f624d455016361687a834ccfcac19fa14
+pkgver=1
 desc='POSIX manpages - _the_ guide for system (libc) APIs and std utilities'
+
+[deps.run]
+less
 
 [build]
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
