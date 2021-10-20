@@ -4,15 +4,21 @@ http://xcb.freedesktop.org/dist/xcb-proto-1.11.tar.bz2
 [vars]
 filesize=139213
 sha512=13c228d974f99e2f17a7352629b85c76674e395567474997015941780df123f9c809a76935242aaf31b7836b0478bd557e3cc9161dd4880b4fb8eb576216dbc1
-pkgver=2
+pkgver=3
 
 [deps.host]
 python
 
 [build]
-# xcb-proto will create ${destdir}lib when prefix is empty (missing slash)
-[ -z "$butch_prefix" ] && butch_prefix=/
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
 
-./configure -C --prefix="$butch_prefix"
-make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  am_cv_python_pythondir="$butch_prefix"/lib/python2.7/site-packages \
+  am_cv_python_pyexecdir="$butch_prefix"/lib/python2.7/site-packages \
 
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
