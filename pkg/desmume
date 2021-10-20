@@ -1,0 +1,34 @@
+[mirrors]
+https://github.com/TASEmulators/desmume/archive/89f5e500393145b07a7d186ce974b0663c38ddf8.tar.gz
+
+[vars]
+filesize=10810618
+sha512=1a78fd412fb0fcb60509130dd9aeb437f64b749a80ed01276580b6a25ca9789556156c8ada7447e583d06270fb64abed7a3a11f4a9cb8aa26eae34f14e3d64f9
+tarball=desmume-89f5e500393145b07a7d186ce974b0663c38ddf8.tar.gz
+pkgver=1
+desc='emulator for nintendo ds. offering both gtk and sdl frontends.'
+
+[deps]
+gtk+2
+sdl
+libpcap
+
+[deps.host]
+automake
+autoconf
+
+[build]
+cd desmume/src/frontend/posix
+autoreconf -i
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-wifi --enable-glx --disable-dependency-tracking --enable-gdb-stub
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
