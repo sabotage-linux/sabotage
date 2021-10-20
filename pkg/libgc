@@ -1,13 +1,13 @@
 [mirrors]
-http://www.hboehm.info/gc/gc_source/gc-7.2d.tar.gz
+https://github.com/ivmai/bdwgc/releases/download/v7.2o/gc-7.2o.tar.gz
 
 [vars]
-filesize=1263064
-sha512=5b342754a1efeef0cf78983b7a0e48a36495beac04fc881ab356b26dc153b343e940ec7af070f4fc875be44adc559f7be995919fe9229f68d2e0237cdbeaabcc
+filesize=1386073
+sha512=681433ca6f8f1198c9388b93c7a7f8c8dd42242b65fe6c28ebeda1e2e02649eff051fca4c5013054bcd76e3eded23815df23ef4c59132e3a3e4d29ebbe78358e
+pkgver=2
 tardir=gc-7.2
 
 [build]
-patch -p0 < "$K"/libgc-configure.patch
 patch -p1 < "$K"/libgc-os_dep.patch
 
 # -DUSE_PROC_FOR_LIBRARIES
