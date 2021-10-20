@@ -22,5 +22,6 @@ xf86bigfontproto
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
   --with-keysymdefdir="$butch_root_dir""$butch_prefix"/include/X11 \
-  --disable-loadable-xcursor $xconfflags
+  --disable-loadable-xcursor $xconfflags \
+  xorg_cv_malloc0_returns_null=false
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
