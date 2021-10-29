@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config ?'
+	exit 1
+fi
+
+case $1 in
+	all)
+		rm -rf "$S"/tarballs/* "$S"/build/* "$S"/logs/*
+		;;
+	log)
+		rm -f "$S"/logs/*
+		;;
+	build)
+		rm -rf "$S"/build/*
+		;;
+	tarball)
+		rm -f "$S"/tarballs/*
+		;;
+	*|--help)
+		printf 'usage:\n\tbutch clean [all|log|build|tarball]\n'
+		exit 1
+		;;
+esac
