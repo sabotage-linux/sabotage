@@ -1,10 +1,10 @@
 [mirrors]
-https://swupdate.openvpn.org/community/releases/openvpn-2.5.3.tar.xz
+https://swupdate.openvpn.org/community/releases/openvpn-2.5.4.tar.xz
 
 [vars]
-filesize=1149004
-sha512=bde61a12cef76c54a8d120e2bf3dfd04b9b76f28180bb8b9a496f27ad9cb545cf1137aa2751df5944e81356899b3824f06b8cfd777496212768e2b9aecf7bf6d
-pkgver=7
+filesize=1150604
+sha512=747876f56f0983520d8bce04cf76b05df8fbb9ff7f2091cbbaf22f230397721b929fb6b7d7060f1f898ebc0142fdb82c4ccc19405aa0622db8cc9351997d858f
+pkgver=8
 
 [deps]
 libressl
