@@ -1,9 +1,11 @@
 [mirrors]
-http://hisham.hm/htop/releases/2.0.1/htop-2.0.1.tar.gz
+http://hisham.hm/htop/releases/2.2.0/htop-2.2.0.tar.gz
 
 [vars]
-filesize=477196
-sha512=57991a55b69028c01549b067ec749099466df5b08a0ed9a65dd779e6d2c8ee0a5d9c330bb6c727b04a349146ad441b7115718e433d1f8232f74b28903fb351ff
+filesize=308109
+sha512=ec1335bf0e3e0387e5e50acbc508d0effad19c4bc1ac312419dc97b82901f4819600d6f87a91668f39d429536d17304d4b14634426a06bec2ecd09df24adc62e
+pkgver=2
+desc="htop is an interactive system-monitor process-viewer and process-manager."
 
 [deps]
 curses
