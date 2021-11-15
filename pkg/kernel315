@@ -1,0 +1,102 @@
+[deps.host]
+gcc4
+
+[deps]
+kernel315-tarball
+
+[vars]
+LINUX_VER=3.15.10
+tarball=linux-"$LINUX_VER".tar.xz
+pkgver=1
+no_unlink=1
+
+[build]
+
+rm -rf linux-"$LINUX_VER" || true
+tar xf "$C"/linux-"$LINUX_VER".tar.xz
+cd linux-"$LINUX_VER"
+
+# get into menuconfig using
+# make HOSTCFLAGS="-D_GNU_SOURCE" HOSTLDFLAGS=-lncurses menuconfig
+
+dopatch() {
+	echo "applying patch $1"
+	if ! patch -p1 < "$1" ; then
+		echo "patch failed!"
+		exit 1
+	fi
+}
+
+
+
+#noperl and qemu patches from landley.net/aboriginal
+#dopatch "$K"/linux-noperl-timeconst.patch
+
+# work around mismatch between devicename and channel name in 9p virtfs code
+# p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
+dopatch "$K"/linux-virtio9p.patch
+
+# patches to support busybox trap and sed with strict musl BRE engine
+dopatch "$K"/linux-3.8-trap.patch
+dopatch "$K"/linux-3.18-posix_sed.patch
+#dopatch "$K"/linux-3.18-posix_sh.patch
+
+export ARCH=$A
+linux_config="$K"/linux.config
+
+if [ -z "$HOSTCC" ] ; then
+	HOSTCC="$CC"
+fi
+
+if [ "$A" = arm ] ; then
+	[ -z "$ARM_ARCH" ] && (echo "error: need to set ARM_ARCH to 4-7" ; exit 1)
+	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
+fi
+
+if [ -r "$C"/"$wiipatch" ]; then
+	xzcat "$C"/"$wiipatch" > "$wiipatch"
+	dopatch "$wiipatch"
+	linux_config="arch/powerpc/configs/wii-mini-mode_defconfig" # Change this if you're booting from IOS instead (why would you?)
+	if [ -n "$wiiroot" ]; then
+		# if you set this envvar you can have the script replace the root= flag for you
+		sed -i "s#root=LABEL=WIILINUXNGX#root=$wiiroot#" arch/powerpc/boot/dts/wii.dts 
+	fi
+fi
+
+cat "$linux_config"
+
+cat "$linux_config" > my.config
+
+make V=1 ARCH=$A allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" \
+  KCONFIG_ALLCONFIG=my.config DISABLE_PAX_PLUGINS=y
+
+#let make create dependencies, otherwise parallel build wont work
+make v=1 CC="$CC" HOSTCC="$HOSTCC" ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE \
+  DISABLE_PAX_PLUGINS=y dep
+
+make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$A HOSTCC="$HOSTCC" \
+  HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y
+
+[ -z "$wiipatch" ] && { make INSTALL_MOD_PATH=$butch_root_dir DISABLE_PAX_PLUGINS=y modules_install ; }
+
+mkdir -p $butch_root_dir/boot $butch_root_dir/lib/modules $butch_root_dir/lib/firmware
+cp System.map $butch_root_dir/boot/
+
+case $A in
+	x86*)
+		kpath="arch/x86/boot/*zImage"
+		;;
+	arm)
+		kpath="arch/arm/boot/*zImage"
+		;;
+	powerpc)
+		kpath="arch/powerpc/boot/*zImage"
+		;;
+	*)
+		kpath="arch/*/boot/*zImage"
+		;;
+esac
+
+cp -r $kpath $butch_root_dir/boot/vmlinuz
+
+exit 0
