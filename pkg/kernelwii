@@ -1,0 +1,24 @@
+[deps.host]
+gcc4
+
+[deps]
+kernel315-tarball
+kernelwii-patch
+
+[vars]
+LINUX_VER=3.15.10
+patchver=936e0a8
+wiipatch="wiilinux-"$LINUX_VER"-"$patchver".patch.xz"
+no_unlink=1
+pkgver=1
+
+[build]
+
+[ ! "$A" = "powerpc" ] && { printf 'You have tried to apply the WiiLinux patch but your build target is not PowerPC.\n'; exit 1; }
+
+cat << EOF
+WARNING: This kernel comes with patches exclusive to the Nintendo Wii!
+Please use a different kernel package if your build target is not the Wii.
+EOF
+
+%include kernel315%
