@@ -1,0 +1,16 @@
+[mirrors]
+https://bues.ch/b43/fwcutter/b43-fwcutter-019.tar.bz2
+
+[vars]
+filesize=46769
+sha512=2a439d1583d1ee7b13dd6a7526b78b216073e044c3934adf6615b8d2ca9a4b8c74db9791182d27baf1690b5c5ff6ce1a9c8dd4fb796e47939d055fef5bb37960
+pkgver=1
+
+[deps]
+
+[build]
+install_prefix="$butch_install_dir$butch_prefix"
+mkdir -p "$install_prefix"/bin "$install_prefix"/share/man/man1
+make -j$MAKE_THREADS
+install -m 755 ./b43-fwcutter "$install_prefix"/bin/
+install -m 644 ./b43-fwcutter.1 "$install_prefix"/share/man/man1/
