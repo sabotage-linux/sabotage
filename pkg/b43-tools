@@ -1,0 +1,18 @@
+[mirrors]
+https://borntofrag.xyz/files/wiilinux/b43-tools.tar.xz
+
+[vars]
+filesize=108160
+sha512=fbe93fcc0b2263a977b39dcf71d5f6adbf6bc221959f2a7bf98a15a0754966fbf51c2f8a36c185af230a27eefe7e847055a634b055ff499ada785eefad5561f4
+pkgver=1
+
+[deps]
+
+[deps.host]
+bison
+flex
+
+[build]
+cd assembler/
+mkdir "$butch_install_dir$butch_prefix"/bin
+make PREFIX="$butch_install_dir$butch_prefix" -j$MAKE_THREADS install
