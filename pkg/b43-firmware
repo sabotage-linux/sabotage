@@ -1,0 +1,25 @@
+[mirrors]
+http://www.lwfinger.com/b43-firmware/broadcom-wl-6.30.163.46.tar.bz2
+https://www.retroimages.net/bin/broadcom-wl-6.30.163.46.tar.bz2
+
+[vars]
+filesize=7684610
+sha512=0144894fbbb5e8ebab6c423d9bd0f3249be94f2f468a50b8bf721a3b17f1f6e57467c79e87abc8d136bfc92e701ed046885fead892e9a73efa5217d710311ae9
+pkgver=1
+
+[deps]
+openfwwf
+
+[deps.host]
+b43-fwcutter
+
+[build]
+install_prefix="$butch_install_dir$butch_prefix"
+firmware_dir="$install_prefix/lib/firmware"
+mkdir -p "$firmware_dir"
+blobtar="$(basename ${tarball} .tar.bz2).wl_apsta.o"
+
+b43-fwcutter -w "$firmware_dir" "$blobtar" || b43-fwcutter -w "$firmware_dir" "linux/$blobtar" || exit 1
+chmod 755 "$firmware_dir"/b43
+#rm "$firmware_dir"/b43/b0g0bsinitvals5.fw "$firmware_dir"/b43/b0g0initvals5.fw "$firmware_dir"/b43/ucode5.fw # provided by openfwwf
+
