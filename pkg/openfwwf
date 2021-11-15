@@ -1,0 +1,19 @@
+[mirrors]
+http://netweb.ing.unibs.it/~openfwwf/firmware/openfwwf-5.2.tar.gz
+https://www.retroimages.net/bin/openfwwf-5.2.tar.gz
+
+[vars]
+filesize=48525
+sha512=17c2332dea6d0e49a3916bcf46394cb81d9bfa7c2bee56c16267c9b2919f079c240617549f0998acd53a5b63b61a3b04ea1af84b304977c061eff508feaf4bf5
+pkgver=1
+
+[deps]
+b43-tools
+
+[build]
+
+install_prefix="$butch_install_dir$butch_prefix"
+mkdir -p "$install_prefix"/lib/firmware/b43-open
+
+make -j$MAKE_THREADS
+install -m 0644 -t "$install_prefix"/lib/firmware/b43-open b0g0bsinitvals5.fw b0g0initvals5.fw ucode5.fw
