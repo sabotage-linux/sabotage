@@ -1,0 +1,11 @@
+--- linux/scripts/link-vmlinux.sh
++++ linux/scripts/link-vmlinux.sh
+@@ -104,7 +104,7 @@
+ }
+ 
+ # Delete output files in case of error
+-trap cleanup SIGHUP SIGINT SIGQUIT SIGTERM ERR
++trap cleanup SIGHUP SIGINT SIGQUIT SIGTERM
+ cleanup()
+ {
+ 	rm -f .old_version
