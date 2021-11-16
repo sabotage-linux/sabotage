@@ -1,0 +1,7 @@
+[mirrors]
+https://www.retroimages.net/bin/wiilinux-3.15.10-936e0a8.patch.xz
+
+[vars]
+filesize=202020
+sha512=6f91396445553232b19b88bfee451989edcefc51c97094ccc7ad04da29dcf18ed6b16fea6804a9d40734252e0e9b469da1ed45422d90f62a8d7d7ef929617aad
+pkgver=1
