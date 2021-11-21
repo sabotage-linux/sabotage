@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz
+https://ftp.gnu.org/gnu/bash/bash-5.1.8.tar.gz
 
 [vars]
-filesize=10458638
-sha512=c44a0ce381469219548a3a27589af3fea4f22eda1ca4e9434b59fc16da81b471c29ce18e31590e0860a6a251a664b68c2b45e3a17d22cfc02799ffd9a208390c
-pkgver=5
+filesize=10533715
+sha512=74e0f73bf9231b51ae6ddecf33d9242b339cabbb859e6b54bf0c71eeac76a798e1f067482c19e1bf153f4eb8246e4522890fd65c0879081afa25d607bfc03ded
+pkgver=6
 desc="the bourne again shell. prerequisite to build lots of linux-centric sw."
 
 [deps]
