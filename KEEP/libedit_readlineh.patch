@@ -11,14 +11,3 @@
  #ifndef CTRL
  #define CTRL(c)		((c) & 037)
  #endif
-@@ -106,6 +104,10 @@
- extern int		 rl_point, rl_end;
- extern int		 history_base, history_length;
- extern int		 max_input_history;
-+/* compatibility fix: max_input_history was renamed to 
-+   history_max_entries in readline 4.2, this is required
-+   to build gdb 7.6 against libedit */
-+#define history_max_entries max_input_history
- extern const char	*rl_basic_word_break_characters;
- extern char		*rl_completer_word_break_characters;
- extern const char	*rl_completer_quote_characters;
