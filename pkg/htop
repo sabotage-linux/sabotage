@@ -1,10 +1,10 @@
 [mirrors]
-http://hisham.hm/htop/releases/2.0.1/htop-2.0.1.tar.gz
+https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
 
 [vars]
-filesize=477196
-sha512=57991a55b69028c01549b067ec749099466df5b08a0ed9a65dd779e6d2c8ee0a5d9c330bb6c727b04a349146ad441b7115718e433d1f8232f74b28903fb351ff
-pkgver=1
+filesize=399428
+sha512=0e32c0c613dbb6028ebf53b61bd8f4070f0ea80b1e52f6bb60aa0ea1450b5274dc69bf11adf8c1e096c750b659a2400d13accdec4dc48be8abaf59d42816019e
+pkgver=3
 
 [deps]
 curses
