@@ -1,10 +1,10 @@
 [mirrors]
-http://www.cabextract.org.uk/cabextract-1.6.tar.gz
+http://www.cabextract.org.uk/cabextract-1.9.1.tar.gz
 
 [vars]
-filesize=241731
-sha512=d1c71c0292e3d73d8edbff5f5230b3127c63028f5aba1d0cad968bc945202fb9c0773327affce3d28466068377f029c80735adbabe0929d29b2204dea73738f8
-pkgver=1
+filesize=469369
+sha512=c354a4b20a222b40813f01baf8311c9a76611da427f9f44e977a3fd09508e24a18b486e3eef889a9debdca459f1b0c28d5d25429ccd555d3a2e4ff92d91cec14
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
