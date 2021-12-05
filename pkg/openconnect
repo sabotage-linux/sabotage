@@ -1,5 +1,5 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/distfiles/openconnect-8.04.tar.gz
+https://www.infradead.org/openconnect/download/openconnect-8.04.tar.gz
 ftp://ftp.infradead.org/pub/openconnect/openconnect-8.04.tar.gz
 https://fossies.org/linux/privat/legacy/openconnect-8.04.tar.gz
 
