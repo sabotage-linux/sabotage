@@ -1,11 +1,11 @@
 [mirrors]
-http://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.63.orig.tar.xz
+http://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.65.orig.tar.xz
 
 [vars]
-filesize=80468
-sha512=71bd5ec4d265dff708db372189146acb067c4edaf62888755d245ccb3f4b5bb54f6c31bda68991f78c27ab231de8ea7126f947834f3604b60d7142d0357cb66b
-tardir=moreutils-0.63
-pkgver=1
+filesize=80972
+sha512=0a0b0d828671c45b9e62c045fac19ad2660b2469d0b7a4e203bd2567b0ec89e54d82d9a93a759fa4f8550eb72912fd12ef351bd5ea584b0a4c8f1c9cbc02ee9d
+tardir=moreutils-0.65
+pkgver=2
 
 [deps]
 
