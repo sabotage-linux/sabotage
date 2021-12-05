@@ -1,18 +1,16 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/29.3.0_Release.tar.gz
+http://archive.palemoon.org/source/palemoon-29.4.2.1.source.tar.xz
 
 [vars]
-filesize=4520504
-sha512=132e769ead218b68ecbce5b65efdb8c2b1b8c938dd473dbf92911c2fabf59c0585e9a22f546bc7cf360c445e6e9bcf849a6bf1315de8a3fa14d239c8f71bfb12
-tarball=Pale-Moon-29.3.0_Release.tar.gz
-tardir=pale-moon
-pkgver=38
-BROWSER_VERSION=29.3.0
+filesize=200849300
+sha512=0d91cfee8b36b287b14eda61419bf597f4f7130cc09f2a8b5f6489562959ab24050ec315c3197ac195e5cb0d1952af72082a58fb5c164571e0cea5f9dac9f0a5
+tardir=palemoon-source
+pkgver=39
+BROWSER_VERSION=29.4.2.1
 UXP_VERSION=20210719
-uchkurl=https://github.com/MoonchildProductions/UXP/releases
+uchkurl=http://archive.palemoon.org/source/
 
 [deps]
-palemoon-uxp-tarball
 autoconf213-tarball
 gtk+2
 alsa-lib
@@ -35,12 +33,20 @@ zip
 BROWSER_NAME=palemoon
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
+
+if false ; then
 # extract uxp tarball
 tar xf "$C"/UXP-RELBASE_${UXP_VERSION}.tar.gz
 # github uxp tarballs extract to UXP-RELBASE..., repo.pm.org ones to "uxp"
 UXPDIR=UXP-RELBASE_${UXP_VERSION}
 test -d "$UXPDIR" || UXPDIR=uxp
 mv "$UXPDIR"/* platform/
+fi
+cat << EOF > mach
+#!/bin/sh
+platform/mach "\$@"
+EOF
+
 patch -p1 < "$K"/palemoon-no-xz.patch
 patch -p1 < "$K"/palemoon-cpu-usage.patch
 
