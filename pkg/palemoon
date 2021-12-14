@@ -48,7 +48,6 @@ platform/mach "\$@"
 EOF
 
 patch -p1 < "$K"/palemoon-no-xz.patch
-patch -p1 < "$K"/palemoon-cpu-usage.patch
 
 # install ancient autoconf version firefox wants into src tree
 mkdir AC213
