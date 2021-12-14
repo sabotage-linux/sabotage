@@ -1,23 +1,23 @@
 [mirrors]
-https://www.libsdl.org/release/SDL2-2.0.16.tar.gz
+https://www.libsdl.org/release/SDL2-2.0.18.tar.gz
 
 [vars]
-filesize=7227262
-sha512=ec75ef8526792650c2647b78bb0244f973774418aeae33a2182d90ce696b30acb652f8be9c2012a16c1c5d5622f7630ff2e1eadae27ea3dc78ab47730cf5e62f
-pkgver=13
+filesize=7294032
+sha512=8688b855ce15d574fb0726dd2a44109bb7b34d81c652c51025a32bf7eb7015ceb685834cf9fc3f97a2f5f5a3203f548ce6845420fafae7e5dc6bb9d11ce1740d
+pkgver=14
 
 [deps]
 
 [build]
 patch -p1 < "$K"/sdl2-fix-joystick-detection.patch
-patch -p1 < "$K"/sdl2-fix-alsa-shutdown.patch
 
 sed -i 's/-Werror=/-W/g' configure
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -DSDL_ALSA_HOTPLUG_THREAD=0" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 
