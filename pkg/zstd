@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-1.5.0.tar.gz
+
+[vars]
+filesize=1851389
+sha512=b322fc1b89a556827b7fece2fb0f34c83bf65bb85b2468c791d6d9178a65c81e21f4171b7533cbf12bc1dfb2fd323d3e8c34d86167b157645c27f65186eec659
+pkgver=1
+desc='high-speed compression utilites/library by facebook inc'
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS V=1 \
+  CC="$CC $optcflags $optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target -C lib HAVE_PTHREAD=1 HAVE_ZLIB=0 HAVE_LZMA=0 HAVE_LZ4=0 lib-mt
+mk_target -C programs HAVE_PTHREAD=1 HAVE_ZLIB=0 HAVE_LZMA=0 HAVE_LZ4=0
+mk_target -C contrib/pzstd
+mk_target install
+mk_target -C contrib/pzstd install
