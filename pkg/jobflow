@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/jobflow-1.2.2.tar.bz2
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/jobflow-1.2.2.tar.bz2
+http://ftp.barfooze.de/pub/sabotage/tarballs/jobflow-1.3.1.tar.bz2
+http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/jobflow-1.3.1.tar.bz2
 
 [vars]
-filesize=35736
-sha512=864473c15c65e95f292dba0df74a96a8ec2e4765f1c94908ef72d25a48c0253396c2b5a2de220333599e6f5b8b900f50296b9d803efe108d21c30fd3d736ab8d
-pkgver=4
+filesize=24154
+sha512=b59866f844235520ddc3ca92864ffe3a1d4ad54a8c85b74d3da56f9cb230218954a117f3afedd82ddf8b5c2b169cd14e739f09f7c87dca0a08fc9ee20bf36d2d
+pkgver=5
 desc='parallel execution of command line tasks'
 
 [deps.stage0]
@@ -14,7 +14,7 @@ stage0-musl
 [build]
 # prepare build config...
 printf "LDFLAGS += -static %s\n" "$optldflags" > config.mak
-printf "CFLAGS += %s\n" "$optcflags" >> config.mak
+printf "CFLAGS += %s\n" "$optcflags -std=gnu99" >> config.mak
 
 # and build
 [ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
