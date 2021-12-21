@@ -1,0 +1,35 @@
+[mirrors]
+https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2021.8.22.tgz
+
+[vars]
+filesize=1317499
+sha512=e0544df78a6c352999e1206d7b5d71c56e39396b7a0936a261d728c2ac9d61c6b95ef297f8529ac2a5146f31c1c9e43066d3e281064d4f5d781a04eba51f536d
+pkgver=1
+desc='fuse driver for NTFS filesystem'
+
+[deps]
+fuse
+kernel-headers
+libuuid
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -include sys/sysmacros.h" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-fuse=external \
+  --sbindir="$butch_prefix"/bin
+
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+# https://github.com/tuxera/ntfs-3g/issues/21
+dest="$butch_install_dir""$butch_prefix"
+mv "$dest"/sbin/* "$dest"/bin/
+rm -rf "$dest"/sbin
