@@ -1,10 +1,11 @@
 [mirrors]
-https://github.com/transmission/transmission-releases/raw/master/transmission-2.92.tar.xz
+https://github.com/transmission/transmission/releases/download/3.00/transmission-3.00.tar.xz
 
 [vars]
-filesize=3378116
-sha512=4d99476bee88cedcc4238a0eee64a4089016933cbfc1cfb1cca023ad4ebcfe46375c9e7651a17af4aeaaf1feb19cbd8166aa56ef7992d9e745a7bbcbe8efca11
-pkgver=4
+filesize=3329220
+sha512=eeaf7fe46797326190008776a7fa641b6341c806b0f1684c2e7326c1284832a320440013e42a37acda9fd0ee5dca695f215d6263c8acb39188c5d9a836104a61
+pkgver=5
+desc='transmission command line bittorrent client'
 
 [deps]
 curl
