@@ -19,6 +19,7 @@ do_disable_ipv6=false
 do_disable_ipv6_accept_ra=true
 do_cleanup_x11=true
 do_user_cpufreq=false
+do_user_fuse=false
 do_all_ports_unprivileged=false
 
 if $do_allow_user_ping ; then
@@ -148,6 +149,10 @@ if $do_user_cpufreq ; then
 		chown root:cpufreq "$i"
 		chmod 664 "$i"
 	done
+fi
+if $do_user_fuse ; then
+	# allow wheel users to access fuse (sshfs, ...)
+	chown root:wheel /dev/fuse
 fi
 if $do_all_ports_unprivileged ; then
 	# on single user machines, it doesn't really make sense to require
