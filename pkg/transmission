@@ -4,7 +4,7 @@ https://github.com/transmission/transmission/releases/download/3.00/transmission
 [vars]
 filesize=3329220
 sha512=eeaf7fe46797326190008776a7fa641b6341c806b0f1684c2e7326c1284832a320440013e42a37acda9fd0ee5dca695f215d6263c8acb39188c5d9a836104a61
-pkgver=5
+pkgver=6
 desc='transmission command line bittorrent client'
 
 [deps]
@@ -14,6 +14,8 @@ libressl
 libevent
 
 [build]
+patch -p1 < "$K"/transmission-dht-spam.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

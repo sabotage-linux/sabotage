@@ -1,0 +1,28 @@
+From d2c81375187fdaf88583aeab1bdf2b2d0096ea37 Mon Sep 17 00:00:00 2001
+From: Norbert Papke <npapke@acm.org>
+Date: Sat, 6 Feb 2021 10:56:09 -0800
+Subject: [PATCH] Fixes transmission/transmission#564
+
+Per analysis by cfpp2p
+(https://github.com/transmission/transmission/issues/564#issuecomment-377612224),
+a duplicate search is not an error.
+---
+ libtransmission/tr-dht.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libtransmission/tr-dht.c b/libtransmission/tr-dht.c
+index a9fe53e1c..ca5f5f01e 100644
+--- a/libtransmission/tr-dht.c
++++ b/libtransmission/tr-dht.c
+@@ -729,7 +729,7 @@ static int tr_dhtAnnounce(tr_torrent* tor, int af, bool announce)
+     {
+         rc = dht_search(tor->info.hash, announce ? tr_sessionGetPeerPort(session_) : 0, af, callback, NULL);
+ 
+-        if (rc >= 1)
++        if (rc >= 0)
+         {
+             tr_logAddTorInfo(tor, "Starting %s DHT announce (%s, %d nodes)", af == AF_INET6 ? "IPv6" : "IPv4",
+                 tr_dhtPrintableStatus(status), numnodes);
+-- 
+2.25.0
+
