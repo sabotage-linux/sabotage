@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/asottile-archive/future-fstrings/archive/9b8bea12280dbc8776ef3094e98659e29be0bd9d.tar.gz
+
+[vars]
+filesize=8219
+sha512=31581a29a83b8cfa3a68cbad245622557f69aa9442fa626aaeb55f971eedf63157af37480d5f4b3d6567e06f250ae4b3a30aad87ef5abee581c34ef1353b3d9e
+tarball=future-fstrings-9b8bea12280dbc8776ef3094e98659e29be0bd9d.tar.gz
+pkgver=1
+desc='python utility/hook to use f-format strings in python lt 3.6'
+
+[deps.run]
+python
+python-tokenize-rt
+
+[deps.host]
+python
+
+[build]
+# this allows to run py3 scripts using 3.6 f'' format strings with py2
+# to use, put
+# -*- coding: future_fstrings -*-
+# as top line in your script, replacing eventually existing utf-8 hint.
+# or run the command future-fstrings-show foo.py and save output.
+
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"

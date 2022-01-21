@@ -1,0 +1,20 @@
+[mirrors]
+https://github.com/asottile/tokenize-rt/archive/refs/tags/v3.1.0.tar.gz
+
+[vars]
+filesize=6451
+sha512=e43f64aad2adc0772ae0f0f2eeb42882af3f93a1d7cac5ad7f8aefc9ac937c48ff83ab7e79344b6a5668ddbfa19f556205501bb31543780733460d0fd46c08c6
+tarball=tokenize-rt-3.1.0.tar.gz
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
