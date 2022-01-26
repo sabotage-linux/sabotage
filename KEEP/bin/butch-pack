@@ -40,21 +40,19 @@ pack(){
 	me="$PWD"
 
 	tarflags=cf
-	test $comp = gz && tarflags=czf
-	test $comp = xz && tarflags=cJf
+	xz_opt=-T0
+	case "$comp" in
+		xz)  tarflags=cJf ;;
+		xze) tarflags=cJf ; xz_opt="-9 -e -T0" ;;
+		gz)  tarflags=czf ;;
+	esac
 	[ "$R" = "/" ] && R=
 	cd "$R"$butch_staging_dir
 	[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; cd "$me" ; return 1 ; }
 	ver=$(get_pkgver $pkg)
 	out=$me/${pkg}_${A}_${ver}.$ext
-	tar $tarflags "$out" "$pkg"
+	XZ_OPT="$xz_opt" tar $tarflags "$out" "$pkg"
 	[ -e "$out" ] || { cd "$me" ; return 1 ; }
-	if test $comp = xze ; then
-		tr=$me/${pkg}_$A.tar
-		mv "$out" "$tr"
-		xz -z -9 -e "$tr"
-		[ -e "$out" ] || { cd "$me" ; return 1 ; }
-	fi
 	echo "$(basename $out) created."
 	cd "$me"
 }
