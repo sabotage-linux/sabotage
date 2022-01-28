@@ -237,7 +237,7 @@ Space considerations are a top issue, both bandwidth and HD image size.
 Sabotage ISOs and images ship with all tarballs to fulfill the GPL.
 ALWAYS USE a TAR.XZ (preferred) or TAR.BZ2 download URL.
 
-Please do not use FTP mirrors. FTP is a broken, ancient protocol.
+Please do not use FTP mirrors. FTP is a [broken, ancient protocol](http://mywiki.wooledge.org/FtpMustDie).
 
 Downloads from git or other source repositories are not desired.
 This would add an internet connection as a build-time dependency.
