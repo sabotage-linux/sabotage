@@ -10,7 +10,7 @@ Part 2/2 for Linux 5.4
  
 -filechk_gentimeconst = echo $(CONFIG_HZ) | bc -q $<
 +targets += $(timeconst-file)
-+hostprogs-always-y += mktimeconst
++hostprogs-y += mktimeconst
 +mktimeconst-objs = kernel/time/mktimeconst.o
  
 -$(timeconst-file): kernel/time/timeconst.bc FORCE

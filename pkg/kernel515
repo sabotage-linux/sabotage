@@ -1,0 +1,17 @@
+[deps]
+kernel515-tarball
+kernel515-patch
+
+[deps.host]
+bison
+flex
+
+[vars]
+LINUX_VER=5.15
+tarball=linux-"$LINUX_VER".tar.xz
+patchver=19
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%

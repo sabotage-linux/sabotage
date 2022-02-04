@@ -46,13 +46,24 @@ grep offsetof include/uapi/linux/wireless.h >/dev/null && \
 [ "$k_major" -lt 5 ] && \
 	dopatch linux-stddef-breakage.patch
 
+if [ "$k_major" -eq 5 ] && [ "$k_minor" -eq 4 ] ; then
+dopatch linux-timeconst-nobc-kbuild54.patch
+else
 dopatch linux-timeconst-nobc-kbuild$k_major.patch
+fi
+
 cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c
 
 if [ "$k_major" -ge 5 ] || { [ "$k_major" -eq 4 ] && [ "$k_minor" -ge 19 ];}; then
 	dopatch kernel419-revert-remove-support-for-built-in-regdb.patch
 fi
 
+if [ "$k_major" -eq 5 ] && [ "$k_minor" -ge 15 ]; then
+# prevent inclusion of incompatible host linux headers in objtool build
+for i in byteorder swab ; do
+cp arch/x86/include/uapi/asm/"$i".h tools/arch/x86/include/asm/
+done
+fi
 if [ "$k_major" -eq 5 ] && [ "$k_minor" -ge 10 ]; then
 mv tools/objtool/objtool.c tools/objtool/objtool.c.orig
 cat << EOFX > tools/objtool/objtool.c
