@@ -8,6 +8,7 @@ sha512=a269f9487e67243a8bd24b70b0bafc7130de817ee5d925a1611a455135fe7fff3ed58860c
 [deps]
 gtk+2
 mpg123
+libglade
 
 [build]
 sed -i 's@sys/errno@errno@' beep/playlist.c
