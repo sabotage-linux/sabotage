@@ -18,7 +18,8 @@ desc="automatically restarts ssh connections"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  ac_cv_path_ssh="$butch_prefix"/bin/ssh
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
