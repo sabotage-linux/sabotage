@@ -13,6 +13,10 @@ python
 [deps.host]
 python
 
+[deps]
+python-pytest-runner
+python-setuptools-scm
+
 [build]
 python setup.py build
 python setup.py install --prefix="$butch_prefix" \
