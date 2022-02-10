@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.sourceforge.net/project/glew/glew/1.10.0/glew-1.10.0.tgz
+http://downloads.sourceforge.net/project/glew/glew/1.13.0/glew-1.13.0.tgz
 
 [vars]
-filesize=567605
-sha512=0c998fda9fe01c9296a3453966c0449c9968f4f5f989065ca65f0da3830ae8d805699d0ee0362c3b18765420222ba18842b9db20986212afceb36c971ae1bdca
+filesize=616070
+sha512=8fc8d7c0d2cd9235ea51db9972f492701827bff40642fdb3cc54c10b0737dba8e6d8d0dcd8c5aa5bfaaae39c6198ba3d4292cd1662fbe1977eb9a5d187ba635f
+pkgver=2
 
 [deps]
 libx11
@@ -11,6 +12,7 @@ libxmu
 libxi
 libxext
 mesalib
+glu
 
 [build]
 sed -i 's:lib64:lib:g' ./config/Makefile.linux
