@@ -49,10 +49,10 @@ esac
 fn=$(readlink -f "$1")
 
 set -e
-[ ! dont_unlink "$pkg" ] && [ -e "$R$butch_staging_dir/$pkg" ] && {
+if ! dont_unlink "$pkg" && [ -e "$R$butch_staging_dir/$pkg" ] ; then
 	butch unlink "$pkg" || true
 	rm -rf "$R$butch_staging_dir/$pkg"
-}
+fi
 
 (
 	cd $R$butch_staging_dir || {
