@@ -1,0 +1,35 @@
+[mirrors]
+https://sourceforge.net/projects/sdcc/files/sdcc/4.2.0/sdcc-src-4.2.0-rc2.tar.bz2
+
+[vars]
+filesize=19662258
+sha512=007fafa0f67e8483a159f49af1feea9332ae20042c4fdacb54376cbbe0bf472a0f6d9d1632a37a69ecc13cde0d63b3cdfdfc39b04aa7852bc9ba7b167f4f5477
+tardir=sdcc-4.2.0-rc2
+pkgver=1
+desc='small device C compiler, targetting 8bit cpus like Z80'
+
+[deps]
+boost
+
+[build]
+#fix missing "makeinfo" requirement...
+find . -name 'configure' -exec sed -i 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=true,' '{}' \;
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  ac_cv_prog_STRIP=true \
+  --disable-pic14-port --disable-pic16-port \
+  --disable-ucsim --disable-sdcdb \
+  --disable-doc
+
+# pic14/16 disabled because they require an additional gputils package.
+# sdcdb (which requires ucsim) is disabled because ucsim is 100% c++
+# and sdcdb is buggy and doesn't work: https://sourceforge.net/p/sdcc/bugs/3337/
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
