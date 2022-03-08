@@ -5,8 +5,8 @@ kernel49-patch
 [vars]
 LINUX_VER=4.9
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=246
-pkgver=49
+patchver=305
+pkgver=50
 no_unlink=1
 
 [build]
