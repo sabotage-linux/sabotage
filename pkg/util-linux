@@ -1,5 +1,6 @@
 [vars]
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+pkgver=2
 
 [deps]
 util-linux-tarball
@@ -19,7 +20,7 @@ LDFLAGS="--static $optldflags" \
   --without-ncurses \
   --disable-shared  \
   --disable-silent-rules \
-  --disable-nls --disable-libuuid --disable-mount           \
+  --disable-nls --disable-mount           \
   --disable-fsck --disable-uuidd --disable-libblkid         \
   --disable-mountpoint --disable-fdformat --disable-hwclock \
   --disable-switch_root --disable-kill --disable-login      \
@@ -31,5 +32,8 @@ sed -i 's,/sbin,/bin,' config.status
 ./config.status
 
 "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+#sed -i 's/allow_libtool_libs_with_static_runtimes=no/allow_libtool_libs_with_static_runtimes=yes/' libtool
+sed -i 's/prefer_static_libs=no/prefer_static_libs=yes/' libtool
+
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
