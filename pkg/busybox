@@ -4,7 +4,7 @@ https://busybox.net/downloads/busybox-1.33.0.tar.bz2
 [vars]
 filesize=2448841
 sha512=20f8f5197c5cbc8b244f69d82d6628066296c7306a9736ee1344cb555882854412cf7f264490f9a735251c139b9621004f48e972d06ef2623a3c99278f8e765a
-pkgver=7
+pkgver=8
 no_unlink=1
 
 [deps]
@@ -30,7 +30,6 @@ dopatch() {
 
 dopatch "$K"/busybox-1.28-break-build-system.patch
 dopatch "$K"/busybox-blowfish.patch
-dopatch "$K"/busybox-fdisk-sector-size.patch
 dopatch "$K"/busybox-libbb-make-unicode-printable.patch
 dopatch "$K"/busybox-ping.patch
 
