@@ -4,7 +4,6 @@ syslinux6
 squashfs-tools
 dosfstools
 libblkid
-kernel
 cpio
 
 [build]
