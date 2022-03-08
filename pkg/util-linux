@@ -1,16 +1,12 @@
 [vars]
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
-pkgver=2
+pkgver=3
 
 [deps]
 util-linux-tarball
 termcap
 
 [build]
-patch -p1 < "$K"/util-linux.patch
-patch -p1 < "$K"/util-linux-hexdump.patch
-patch -p1 < "$K"/util-linux-cal.patch
-
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CPPFLAGS="-include sys/sysmacros.h" \
 LDFLAGS="--static $optldflags" \
@@ -27,13 +23,22 @@ LDFLAGS="--static $optldflags" \
   --disable-sulogin --disable-su --disable-more             \
   --disable-pg \
   --disable-wall --disable-use-tty-group \
+  --disable-symvers \
+  --disable-gtk-doc \
+  --disable-rpath \
+  --without-systemd \
+  --without-econf \
+  --without-python \
+  --without-cap-ng \
+  --disable-asciidoc \
+
 
 sed -i 's,/sbin,/bin,' config.status
 ./config.status
 
 "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-#sed -i 's/allow_libtool_libs_with_static_runtimes=no/allow_libtool_libs_with_static_runtimes=yes/' libtool
 sed -i 's/prefer_static_libs=no/prefer_static_libs=yes/' libtool
+sed -i 's/build_libtool_libs=yes/build_libtool_libs=no/' libtool
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

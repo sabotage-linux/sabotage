@@ -1,11 +1,11 @@
 [vars]
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+pkgver=2
 
 [deps]
 util-linux-tarball
 
 [build]
-patch -p1 < "$K"/util-linux.patch
 cp -f "$K"/config.sub config/
 
 [ -n "$CROSS_COMPILE" ] && \

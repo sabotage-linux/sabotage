@@ -1,12 +1,11 @@
 [vars]
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
+pkgver=2
 
 [deps]
 util-linux-tarball
 
 [build]
-patch -p1 < "$K"/util-linux.patch
-
 cp -f "$K"/config.sub config/
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
@@ -32,6 +31,5 @@ CFLAGS="-D_GNU_SOURCE $optcflags -include sys/sysmacros.h" LDFLAGS="-static $opt
 make -j$MAKE_THREADS libblkid.la libblkid/blkid.pc
 dest="$butch_install_dir""$butch_prefix"
 install -D -m 644 .libs/libblkid.a "$dest"/lib/libblkid.a
-install -D -m 644 .libs/libblkid.la "$dest"/lib/libblkid.la
 install -D -m 644 libblkid/blkid.pc "$dest"/lib/pkgconfig/blkid.pc
 install -D -m 644 libblkid/src/blkid.h "$dest"/include/blkid/blkid.h
