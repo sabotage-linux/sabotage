@@ -1,6 +1,6 @@
 [vars]
 tarball=util-linux-$(cat "$K"/util-linux.version).tar.xz
-pkgver=3
+pkgver=4
 
 [deps]
 util-linux-tarball
@@ -16,13 +16,15 @@ LDFLAGS="--static $optldflags" \
   --without-ncurses \
   --disable-shared  \
   --disable-silent-rules \
-  --disable-nls --disable-mount           \
-  --disable-fsck --disable-uuidd --disable-libblkid         \
+  --disable-nls \
+  --disable-uuidd \
+  --disable-fsck \
   --disable-mountpoint --disable-fdformat --disable-hwclock \
   --disable-switch_root --disable-kill --disable-login      \
   --disable-sulogin --disable-su --disable-more             \
   --disable-pg \
-  --disable-wall --disable-use-tty-group \
+  --disable-wall \
+  --disable-use-tty-group \
   --disable-symvers \
   --disable-gtk-doc \
   --disable-rpath \
@@ -30,8 +32,9 @@ LDFLAGS="--static $optldflags" \
   --without-econf \
   --without-python \
   --without-cap-ng \
+  --without-udev \
   --disable-asciidoc \
-
+  --disable-bash-completion \
 
 sed -i 's,/sbin,/bin,' config.status
 ./config.status
@@ -42,3 +45,8 @@ sed -i 's/build_libtool_libs=yes/build_libtool_libs=no/' libtool
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+if test -n "$dest" && test $(printf "%s\n" "$dest" | sed -E -e 's;^[/]+;/;') != '/'; then
+rm -rf "$dest"/lib
+rm -rf "$dest"/include
+fi
