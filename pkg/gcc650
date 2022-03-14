@@ -132,7 +132,11 @@ extrainst=
 [ "$gcc_major" -lt 7 -a "$option_java" = 1 ] && extralangs=,java && extrainst=install-target-libjava \
 && cp -f "$C"/ecj-"$ECJ_VERSION".jar ./ecj.jar
 
-
+extralibs=--disable-libgomp
+if [ "$option_openmp" = 1 ] ; then
+  extralibs=--enable-libgomp
+  extrainst="install-target-libgomp $extrainst"
+fi
 static_ccflags=-static
 if [ "$GCC_DYNAMIC" = 1 ] ; then
 	static_ccflags=
@@ -152,7 +156,6 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --disable-libmudflap \
   --enable-libssp \
   --enable-initfini-array \
-  --disable-libgomp \
   --disable-debug \
   --disable-bootstrap \
   --disable-libsanitizer \
@@ -163,6 +166,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --disable-decimal-float \
   --enable-libstdcxx-time \
   --enable-lto \
+  $extralibs \
   --with-system-zlib \
   --with-target-libiberty=no --with-target-zlib=no \
   --enable-languages=c,c++,lto$extralangs --enable-clocale=generic \
