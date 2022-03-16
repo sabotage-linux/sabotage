@@ -4,12 +4,13 @@ http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.1.5.tar.gz
 [vars]
 filesize=3767605
 sha512=b1e576a654d4f740ef466e5291344ee9a65276f2a1d4975bf93c407b8b51d78dd99f381f1d14162ed1f6b6e7f14a67ccdd377e7d9f71ef2875cc8cf17f580c51
-pkgver=11
+pkgver=12
 desc="tls and crypto library. replaces openssl"
 
 [deps]
 
 [build]
+patch -p1 < "$K"/libressl-bn_sqrt.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
