@@ -1,5 +1,5 @@
---- pale-moon.org/platform/toolkit/mozapps/installer/packager-uxp.mk
-+++ pale-moon/platform/toolkit/mozapps/installer/packager-uxp.mk
+--- pale-moon.org/platform/system/installer/packager-uxp.mk
++++ pale-moon/platform/system/installer/packager-uxp.mk
 @@ -18,6 +18,8 @@
  ifeq (WINNT,$(OS_ARCH))
  	cd $(DIST); $(CYGWIN_WRAPPER) 7z a -t7z -m0=lzma2 -mx=9 -aoa -bb3 $(PKG_BASENAME).7z $(MOZ_PKG_DIR)

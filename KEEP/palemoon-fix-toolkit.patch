@@ -1,7 +1,7 @@
 diff --git a/toolkit/mozapps/update/updater/updater.cpp b/toolkit/mozapps/update/updater/updater.cpp
 index 257ccb4..01314e4 100644
---- a/toolkit/mozapps/update/updater/updater.cpp
-+++ b/toolkit/mozapps/update/updater/updater.cpp
+--- a/system/updater/app/updater.cpp
++++ b/system/updater/app/updater.cpp
 @@ -3737,6 +3737,7 @@ int add_dir_entries(const NS_tchar *dirpath, ActionList *list)
  int add_dir_entries(const NS_tchar *dirpath, ActionList *list)
  {
