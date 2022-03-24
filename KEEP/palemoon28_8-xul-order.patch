@@ -1,5 +1,5 @@
---- a/system/evil/libxul.mk
-+++ b/system/evil/libxul.mk
+--- a/toolkit/library/libxul.mk
++++ b/toolkit/library/libxul.mk
 @@ -52,8 +52,9 @@
  get_first_and_last = $(TOOLCHAIN_PREFIX)nm -g $1 | grep _NSModule$$ | grep -vw refptr | sort | sed -n 's/^.* _*\([^ ]*\)$$/\1/;1p;$$p'
  endif

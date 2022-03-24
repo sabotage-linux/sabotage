@@ -1,18 +1,16 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/30.0.0_Release.tar.gz
+http://archive.palemoon.org/source/palemoon-29.4.4.source.tar.xz
 
 [vars]
-filesize=4355584
-sha512=cbc5f139c91bea7b1b82b1a7ba52d8885920d7fef8028d3e9493cf964a86d77270083379bd83d31135d884051d29bdcfae0db0e88de8a1a930d4b1dc80634dae
-tarball=Pale-Moon-30.0.0_Release.tar.gz
-tardir=pale-moon
-pkgver=42
-BROWSER_VERSION=30.0.0
-UXP_VERSION=20220310
-uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
+filesize=201099664
+sha512=946cc703a29bb459c9ea885691a0fbb41941e402bdc940e4d9da875896c0329fd32b153c49fce6477be4d13221c02b9600b9e6d75b3628befb1f2b58f498e0ba
+tardir=palemoon-source
+pkgver=41
+BROWSER_VERSION=29.4.4
+UXP_VERSION=20210719
+uchkurl=http://archive.palemoon.org/source/
 
 [deps]
-palemoon-uxp-tarball
 autoconf213-tarball
 gtk+2
 alsa-lib
@@ -36,20 +34,18 @@ BROWSER_NAME=palemoon
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
 
+if false ; then
 # extract uxp tarball
 tar xf "$C"/UXP-RELBASE_${UXP_VERSION}.tar.gz
 # github uxp tarballs extract to UXP-RELBASE..., repo.pm.org ones to "uxp"
 UXPDIR=UXP-RELBASE_${UXP_VERSION}
-test -d "$UXPDIR" || UXPDIR=gre
+test -d "$UXPDIR" || UXPDIR=uxp
 mv "$UXPDIR"/* platform/
-
+fi
 cat << EOF > mach
 #!/bin/sh
 platform/mach "\$@"
 EOF
-
-# ERROR: Only GCC 7.1 or newer is supported
-sed -i 's/7\.1\.0/1.0.0/' platform/build/moz.configure/toolchain.configure
 
 patch -p1 < "$K"/palemoon-no-xz.patch
 
@@ -68,7 +64,7 @@ cd platform
 touch .gdbinit
 
 # fix usage of inflateValidate in libpng code which is only in latest zlib
-sed -i 's@0x1281@0x1290@' libs/libpng/pngrutil.c
+sed -i 's@0x1281@0x1290@' media/libpng/pngrutil.c
 
 PATCH() {
 	echo "***** $1 *****"
@@ -82,14 +78,14 @@ PATCH palemoon28_8-xul-order.patch
 # above 3 patches are required to get it building.
 # below patches apply, so supposedly it's OK to keep them
 
-PATCH palemoon30_0-getprotobyname_r.patch
+PATCH firefox-getprotobyname_r.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox45-mallinfo.patch
-PATCH palemoon30_0-libavutil.patch
+PATCH firefox45-libavutil.patch
 #PATCH firefox45-seccomp-bpf.patch
 PATCH firefox45-7-psutil.patch
-PATCH palemoon30_0-disable-moz-stackwalk.patch
+PATCH firefox-disable-moz-stackwalk.patch
 PATCH palemoon-fix-toolkit.patch
 #PATCH firefox-fix-tools.patch
 PATCH firefox-disable-hunspell_hooks.patch
@@ -139,7 +135,7 @@ ac_add_options --enable-system-hunspell
 
 # If you have not installed Yasm then uncomment these 3 lines:
 #ac_add_options --disable-webm
-#ac_add_options --disable-webrtc
+ac_add_options --disable-webrtc
 ac_add_options --disable-libjpeg-turbo
 
 ac_add_options --disable-pulseaudio
@@ -161,8 +157,7 @@ ac_add_options --disable-pulseaudio
 
 # It is recommended not to touch anything below this line
 ac_add_options --prefix=/$butch_prefix
-ac_add_options --enable-application=browser
-#ac_add_options --enable-application=$BROWSER_NAME
+ac_add_options --enable-application=$BROWSER_NAME
 
 ac_add_options --disable-crashreporter
 #ac_add_options --disable-installer
@@ -175,8 +170,8 @@ ac_add_options --disable-strip
 ac_add_options --disable-install-strip
 ac_add_options --enable-gio
 ac_add_options --enable-official-branding
-#ac_add_options --enable-safe-browsing
-#ac_add_options --enable-url-classifier
+ac_add_options --enable-safe-browsing
+ac_add_options --enable-url-classifier
 
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman

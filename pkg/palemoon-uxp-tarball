@@ -1,9 +1,9 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/GRE/archive/RELBASE_20220310.tar.gz
+https://github.com/MoonchildProductions/UXP/archive/refs/tags/RELBASE_20210719.tar.gz
 
 [vars]
-filesize=270693223
-sha512=1548c7188648dd4155c8e70aed2c3135081c91345795af621fc8f918d14e12963d25b6552dee3ebfa65a94d5b873adbac3f66633970fc6ef1b5a60d7950dd176
-tarball=UXP-RELBASE_20220310.tar.gz
-pkgver=18
+filesize=275403529
+sha512=24e785df8c902c96fe0d82c1dd83fe23adfef8301a1429d3534ab5ecda0eea169514a9629ec4eff99a3767f0fa77389218d22950d1134a2eb32e26b9108d762c
+tarball=UXP-RELBASE_20210719.tar.gz
+pkgver=17
 
