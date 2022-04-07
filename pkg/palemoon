@@ -1,12 +1,12 @@
 [mirrors]
-http://archive.palemoon.org/source/palemoon-29.4.5.source.tar.xz
+http://archive.palemoon.org/source/palemoon-29.4.5.1.source.tar.xz
 
 [vars]
-filesize=201085920
-sha512=f110d57827654deae7a49f8c906f74c6aca8b7a55e80d152c93acc510d0f6b1d518089a1ae722df4322839365eab764154c746d163e91745336737d939914731
+filesize=201100164
+sha512=4332053fa202eee3687c16927c34baded42ab55dbd5fd5c56b83771f0573f772ac43670f3e9066bb5cba81dfee6780ba447900f90b730c2d460b4a5a61925614
 tardir=palemoon-source
-pkgver=43
-BROWSER_VERSION=29.4.5
+pkgver=44
+BROWSER_VERSION=29.4.5.1
 UXP_VERSION=20210719
 uchkurl=http://archive.palemoon.org/source/
 
