@@ -22,6 +22,7 @@ CFLAGS="-D_GNU_SOURCE $optcflags" \
 CXXFLAGS="$optcflags -std=gnu++03" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
+   --disable-static \
    --disable-default-plugins
 [ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 patch -p1 < "$K"/abiword-makefile.patch
