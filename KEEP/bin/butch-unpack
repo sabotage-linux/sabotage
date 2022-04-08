@@ -59,7 +59,10 @@ fi
 		echo "error: could not cd to $R$butch_staging_dir"
 		exit 1
 	}
-	tar xf "$fn"
+	case "$fn" in
+	*.zst) zstd -d -q -c --no-progress -f "$fn" | tar xf - ;;
+	*) tar xf "$fn" ;;
+	esac
 )
 
 butch relink "$pkg"
