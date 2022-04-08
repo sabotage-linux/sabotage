@@ -1,10 +1,10 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.1.24.tar.gz
+http://www.musl-libc.org/releases/musl-1.2.3.tar.gz
 
 [vars]
-filesize=1024988
-sha512=8987f1e194ea616f34f4f21fe9def28fb7f81d7060e38619206c6349f79db3bbb76bae8b711f5f9b8ed038799c9aea1a4cbec69e0bc4131e246203e133149e77
-pkgver=13
+filesize=1058642
+sha512=9332f713d3eb7de4369bc0327d99252275ee52abf523ee34b894b24a387f67579787f7c72a46cf652e090cffdb0bc3719a4e7b84dca66890b6a37f12e8ad089c
+pkgver=14
 desc='the musl C standard library (libc)'
 no_unlink=1
 
@@ -18,8 +18,6 @@ if test "$STAGE" = "0" ; then
 fi
 
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
-cp -f "$K"/musl-wcsnrtombs.c src/multibyte/wcsnrtombs.c
-patch -p1 < "$K"/musl-realpath.patch
 
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib $cfgflags
