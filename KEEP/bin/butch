@@ -46,6 +46,7 @@ usage() {
 	pack [--method] <package> # create a binary archive of <package>
 	unpack <filename>         # install binary archive <filename> created with pack
 	builddeps <package>       # build and install dependencies of package
+	packapp <package>         # packs rarely used app for smaller storage
 
 	list                      # list installed packages
 	unused                    # list installed pkgs not required by other installed pkgs
@@ -81,6 +82,7 @@ case $1 in
 	download) shift ; set -- prefetch "$@";;
 	pack) shift; prog=butch-pack;;
 	unpack) shift; prog=butch-unpack;;
+	packapp) shift; prog=butch-packapp;;
 	genfilelist) shift; prog=butch-genfilelist;;
 	builddeps) shift; prog=butch-builddeps;;
 	list) shift; prog=butch-list;;

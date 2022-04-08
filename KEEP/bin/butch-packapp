@@ -1,0 +1,100 @@
+#!/bin/sh
+if [ -z "$S" ] ; then
+	echo 'S not set, did you source config?'
+	exit 1
+fi
+
+usage() {
+	cat <<- EOF
+	butch packapp : compresses rarely used applications
+
+	this allows to reduce storage cost, at some startup overhead.
+
+	the targeted application will be butch-pack'd, butch-rm'd,
+	and wrappers for all binaries the application provided in /bin created.
+	if a wrapped application is started, it will be unpacked to /dev/shm
+	and started from there; after use it will be deleted.
+
+	may require root.
+	zstd package needs to be installed.
+	using this for packages that provide libraries or files used by
+	third parties, using this will likely break those third parties.
+
+	butch packapp pkgname
+
+	EOF
+	exit 1
+}
+
+add_list() {
+	local mylist
+	eval mylist='$'"$1"
+	test -z "$mylist" && mylist="$2" || mylist="$mylist $2"
+	eval "$1"=\""$mylist"\"
+}
+
+get_pkgver() {
+	grep "^$1 " "$BUTCHDB" | cut -d " " -f 2
+}
+
+BINDIR=$(dirname $(readlink -f "$0"))
+[ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
+[ -z "$1" ] && usage
+[ "$1" = --help ] && usage
+
+me="$PWD"
+[ "$R" = "/" ] && R=
+pkg="$1"
+set -e
+pkgver=$(get_pkgver "$pkg")
+test -z "$pkgver" && { echo "package $pkg not installed, aborting">&2 ; exit 1; }
+PACKDIR="$R"/var/lib/butch_packed_apps
+test -d "$PACKDIR" || mkdir -p "$PACKDIR"
+cd "$PACKDIR"
+set +e
+fn=$("$BINDIR"/butch-pack --zstd "$pkg")
+test $? = 0 || { echo "butch pack failed">&2 ; exit 1; }
+set -e
+fn=$(printf "%s\n" "$fn" | cut -d " " -f1)
+
+[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+cd "$R"$butch_staging_dir/"$pkg"/bin
+binlist=
+for x in * ; do add_list binlist "$x" ; done
+if test -z "$binlist" ; then
+	echo "no binaries in $pkg found, packapp aborted">&2
+	exit 1
+fi
+cd "$me"
+"$BINDIR"/butch-rm "$pkg"
+printf "%s %s\n" "$pkg" "$pkgver" >> $BUTCHDB
+mkdir -p "$R"$butch_staging_dir/"$pkg"/bin
+cd "$R"$butch_staging_dir/"$pkg"/bin
+for bin in $binlist ; do
+echo "creating wrapper for bin/$bin..."
+cat << EOF > "$bin"
+#!/bin/sh
+pack="$PACKDIR/$fn"
+pkg="$pkg"
+bin="$bin"
+me="\$PWD"
+cd /dev/shm
+need_del=false
+if ! test -d "\$pkg" ; then
+	need_del=true
+	zstd -d -q -c --no-progress -f "\$pack" | tar xf -
+fi
+cd "\$me"
+LD_LIBRARY_PATH=/dev/shm/"\$pkg"/lib /dev/shm/"\$pkg"/bin/"\$bin" "\$@"
+ret=\$?
+if \$need_del ; then
+	rm -rf /dev/shm/"$pkg"
+fi
+exit \$ret
+EOF
+chmod +x "$bin"
+done
+cd "$me"
+"$BINDIR"/butch-relocate "$pkg"
+echo "all done, if the packed app doesn't work, you can restore it from $PACKDIR/$fn"
+exit 0
