@@ -33,7 +33,7 @@ pack(){
 
 	fl=$S/pkg/$pkg
 	if [ ! -e "$fl" ] ; then
-		echo "package $fl does not exist!"
+		echo "package $fl does not exist!">&2
 		return 1
 	fi
 
@@ -42,7 +42,7 @@ pack(){
 
 	[ "$R" = "/" ] && R=
 	cd "$R"$butch_staging_dir
-	[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found" ; cd "$me" ; return 1 ; }
+	[ -d "$pkg" ] || { echo "error: $PWD/$pkg not found">&2 ; cd "$me" ; return 1 ; }
 	ver=$(get_pkgver $pkg)
 	out=$me/${pkg}_${A}_${ver}.tar
 	tar cf "$out" "$pkg"
