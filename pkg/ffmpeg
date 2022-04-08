@@ -46,6 +46,7 @@ LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --enable-libvorbis \
   --enable-libopus \
   --enable-openssl --enable-nonfree \
+  --disable-static \
   --disable-stripping
 
 make V=1 -j$MAKE_THREADS
