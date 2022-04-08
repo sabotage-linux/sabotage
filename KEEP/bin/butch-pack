@@ -68,6 +68,7 @@ comp=none
 ext=tar
 case $1 in
 	--none) shift ;;
+	--help) usage ;;
 	--gz) comp=gz ; ext=gz ; shift ;;
 	--xz) comp=xz ; ext=xz ; shift ;;
 	--xze) comp=xze ; ext=xz ; shift ;;

@@ -10,11 +10,13 @@ fi
 [ -z "$BUTCHDB" ] && BUTCHDB=/var/lib/butch.db
 BINDIR=$(dirname $(readlink -f "$0"))
 usage() {
+	root=$R
+	test -z "$root" && root=/
 	cat <<- EOF
 	butch unpack : install binary package.
 	- unpacks a distributable binary archive of a pkg
 	- installs it into $R$butch_staging_dir
-	- links it into $R
+	- links it into $root
 	- creates butch.db entry in $BUTCHDB
 	may require root access.
 
