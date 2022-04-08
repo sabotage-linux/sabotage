@@ -27,6 +27,21 @@ CFLAGS="$optcflags" \
 [ ! -z "$DEBUGBUILD" ] && echo "CFLAGS_ALL_SHARED += -O0 -g" >> config.mak
 
 make -j$MAKE_THREADS
+
+if test "$A" = x86_64 && test "$option_amd_memcpy" = 1 ; then
+# use AMD memcpy with AVX. this is the fastest memcpy impl i've seen for x86_64
+# use this option with consideration, because it has several issues:
+# this will make all your static linked binaries GPL2+ instead of MIT,
+# considerably bigger, and your static binaries won't work on CPUs without AVX.
+# therefore we put this only into libc.so, but not libc.a
+# ref: https://github.com/rofl0r/memcpy-test/commit/fe1016aedcfd117aebc2193eba3184cc2023eac9
+patch -p1 < "$K"/musl-improved-memcpy.patch
+touch obj/src/string/x86_64/memcpy.o
+touch obj/src/string/x86_64/memmove.o
+touch lib/libc.a
+make lib/libc.so
+fi
+
 make DESTDIR="$butch_install_dir" install
 
 [ "$butch_prefix" = "/" ] && butch_prefix=
