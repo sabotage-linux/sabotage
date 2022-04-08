@@ -251,7 +251,8 @@ test "$DEBUGBUILD" = 1 ||
 rm -f "$browser_libdir"/"$BROWSER_NAME"
 cat << EOF > "$dest"/bin/"$BROWSER_NAME"
 #!/bin/sh
-FFDIR="$butch_prefix/lib/"$BROWSER_NAME"-${BROWSER_VERSION}"
+BINDIR=\$(dirname \$(readlink -f "\$0"))
+FFDIR="\$BINDIR/../lib/"$BROWSER_NAME"-${BROWSER_VERSION}"
 LD_LIBRARY_PATH="\$FFDIR" \
 "\$FFDIR"/"$BROWSER_NAME"-bin "\$@"
 EOF
