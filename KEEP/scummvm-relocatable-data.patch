@@ -1,0 +1,97 @@
+--- scummvm-2.5.1/backends/platform/sdl/sdl.cpp
++++ scummvm-2.5.1_patched/backends/platform/sdl/sdl.cpp
+@@ -22,6 +22,11 @@
+ 
+ #define FORBIDDEN_SYMBOL_ALLOW_ALL
+ 
++extern "C" {
++char* getrelativedatadir(void);
++}
++
++
+ #include "backends/platform/sdl/sdl.h"
+ #include "common/config-manager.h"
+ #include "gui/EventRecorder.h"
+@@ -469,15 +474,23 @@
+ void OSystem_SDL::addSysArchivesToSearchSet(Common::SearchSet &s, int priority) {
+ 
+ #ifdef DATA_PATH
++{
+ 	// Add the global DATA_PATH to the directory search list
+ 	// FIXME: We use depth = 4 for now, to match the old code. May want to change that
+ 	Common::FSNode dataNode(DATA_PATH);
+ 	if (dataNode.exists() && dataNode.isDirectory()) {
+ 		s.add(DATA_PATH, new Common::FSDirectory(dataNode, 4), priority);
+ 	}
++}
+ #endif
++{
++	Common::FSNode dataNode(getrelativedatadir());
++	if (dataNode.exists() && dataNode.isDirectory()) {
++		s.add(getrelativedatadir(), new Common::FSDirectory(dataNode, 4), priority);
++	}
+ 
+ }
++}
+ 
+ void OSystem_SDL::setWindowCaption(const Common::U32String &caption) {
+ 	Common::String cap = caption.encode();
+@@ -918,3 +931,58 @@
+ 	}
+ }
+ #endif
++
++extern "C" {
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <string.h>
++
++static int search_path_bin(const char *bin, char *buf, size_t buflen) {
++	char *p = getenv("PATH"), *o;
++	size_t l;
++	if(!p) {
++		return 0;
++	}
++	for(;;) {
++		o = buf;
++		l = buflen;
++		while(l && *p && *p != ':') {
++			*(o++) = *(p++);
++			l--;
++		}
++		snprintf(o, l, "/%s", bin);
++		if(access(buf, X_OK) == 0) return 1;
++		if(*p == ':') p++;
++		else if(!p) break;
++	}
++	return 0;
++}
++
++static char* mydirname(char* in) {
++	char *p = strrchr(in, '/');
++	*p = 0;
++	return in;
++}
++
++static char* getprogpath(char* pathbuf) {
++	extern char *__progname_full;
++	if(__progname_full[0] == '/') {
++		strcpy(pathbuf, __progname_full);
++	} else
++	if(__progname_full[0] == '.' || strrchr(__progname_full, '/')) {
++		realpath(__progname_full, pathbuf);
++	} else
++		search_path_bin(__progname_full, pathbuf, 1024);
++	return mydirname(pathbuf);
++}
++
++char *getrelativedatadir(void) {
++	static char pathbuf[1024];
++	getprogpath(pathbuf);
++	strcat(pathbuf, "/../share/scummvm");
++	return pathbuf;
++}
++
++}
