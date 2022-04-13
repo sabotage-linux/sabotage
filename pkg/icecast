@@ -1,0 +1,26 @@
+[mirrors]
+https://downloads.xiph.org/releases/icecast/icecast-2.4.4.tar.gz
+
+[vars]
+filesize=2360592
+sha512=e9ffb478cac2570891787455591d881a59185e067bb36f51706a7070cd9d82d80425ec8cf151f5ebb17d1b75654449fc760f8b82a1bb05f020b47ec09e46b4d0
+pkgver=1
+desc='audio/video streaming server'
+
+[deps]
+curl
+libogg
+libvorbis
+libxslt
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
