@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/yt-dlp/yt-dlp/archive/refs/tags/2022.04.08.tar.gz
+
+[vars]
+filesize=2037140
+sha512=dbe647da8f7181fe6a9b369458bca4f9081f7096a2844211ff9bb32b62582106b25888704d2770f6dd97458c870d2682aa3e758cf022b2b5b47844636cc9abe5
+pkgver=1
+tarball=yt-dlp-2022.04.08.tar.gz
+desc='download videos from youtube and other sites. requires python3'
+
+[deps.host]
+make
+zip
+
+[deps.run]
+python3
+
+[build]
+make yt-dlp
+dest="$butch_install_dir""$butch_prefix"/bin
+install -Dm755 yt-dlp "$dest"/yt-dlp
