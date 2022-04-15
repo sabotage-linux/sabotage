@@ -1,10 +1,10 @@
 [mirrors]
-https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tar.xz
+https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tar.xz
 
 [vars]
-filesize=17389636
-sha512=e4217b25529b5336e43b63d17f3758a8177a58184564cf02bd92a312f58dba9e096485c9e3cb3544f966e847ea15b3ab30ed065d28a6ca52a6d7e0faddf7d9f9
-pkgver=3
+filesize=18027980
+sha512=e95366b68c1bc1dc1cfb2d956f1f49c5d0f620b4780d03002b3c321d2788108eb4e51d224cfa6bcecf7d780e9024ab0ef88b422d6d25e983dbc56b2a89b7dce9
+pkgver=4
 desc='interpreter for the python 3.x scripting language'
 
 [deps]
