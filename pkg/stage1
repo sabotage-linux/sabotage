@@ -13,6 +13,7 @@ binutils
 join
 libressl
 ca-certificates
+curl
 
 [deps.host]
 base-dev
