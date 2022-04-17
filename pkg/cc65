@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/cc65/cc65/archive/945291fd69d9eed21a4ccd1b1859423222d0a250.tar.gz
+
+[vars]
+filesize=2467438
+sha512=6df8cfee00c1f3f3d6b1b82ae2c00930e1a603eec83235f25f04df14ac3b3322d3d31dfad0035f42a586f5cb1d00359c6d2c7d7bebba67e7673024284a6f8d8c
+tarball=cc65-2.19.945291f.tar.gz
+tardir=cc65-945291fd69d9eed21a4ccd1b1859423222d0a250
+pkgver=1
+desc='C compiler, assembler and linker for 6502 based chips'
+
+[deps]
+
+[build]
+test -z "$butch_prefix" && butch_prefix=/
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar USER_CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target all
+mk_target install
