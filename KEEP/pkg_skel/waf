@@ -1,0 +1,8 @@
+[deps.host]
+python
+
+[build]
+python ./waf configure --prefix="$butch_prefix"
+python ./waf -v build -j$MAKE_THREADS
+python ./waf install --destdir="$butch_install_dir"
+
