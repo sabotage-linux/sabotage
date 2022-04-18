@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/tomszilagyi/zutty/archive/refs/tags/0.11.tar.gz
+
+[vars]
+filesize=343469
+sha512=84e8402a310adc80c698ded38fa3eb8ba44034f391e2538bccbdbc4082e239dc0d6ceb20504eeab4e5d2499ded55ef0941ae2e5d07eeb809d1059e5449cdb708
+tarball=zutty-0.11.tar.gz
+pkgver=1
+desc='opengl accelerated terminal with bitmap fonts, xrdb, and x11 selection'
+
+[deps]
+libxmu
+
+[deps.host]
+python
+
+[build]
+python ./waf configure --prefix="$butch_prefix"
+python ./waf -v build -j$MAKE_THREADS
+python ./waf install --destdir="$butch_install_dir"
+
