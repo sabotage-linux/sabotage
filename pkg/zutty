@@ -5,7 +5,7 @@ https://github.com/tomszilagyi/zutty/archive/refs/tags/0.11.tar.gz
 filesize=343469
 sha512=84e8402a310adc80c698ded38fa3eb8ba44034f391e2538bccbdbc4082e239dc0d6ceb20504eeab4e5d2499ded55ef0941ae2e5d07eeb809d1059e5449cdb708
 tarball=zutty-0.11.tar.gz
-pkgver=1
+pkgver=2
 desc='opengl accelerated terminal with bitmap fonts, xrdb, and x11 selection'
 
 [deps]
@@ -19,3 +19,13 @@ python ./waf configure --prefix="$butch_prefix"
 python ./waf -v build -j$MAKE_THREADS
 python ./waf install --destdir="$butch_install_dir"
 
+dest="$butch_install_dir""$butch_prefix"
+
+install -Dm 644 icons/zutty.desktop "$dest"/share/applications/zutty.desktop
+install -Dm 644 icons/zutty.svg "$dest"/share/icons/hicolor/scalable/apps/zutty.svg
+for i in icons/*.png ; do
+r=$(printf "%s\n" "$i" | sed -E 's;.*_([0-9]*x[0-9]*).*;\1;')
+install -Dm 644 "$i" "$dest"/share/icons/hicolor/$r/apps/zutty.png
+done
+# you may need to run gtk-update-icon-cache -f /share/icons/hicolor to get
+# the icon ...
