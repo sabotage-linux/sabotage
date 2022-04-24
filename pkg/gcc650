@@ -29,6 +29,7 @@ zlib
 libelf
 
 [build]
+mcm_version=fe915821b652a7fa37b34a596f47d8e20bc72338
 test -z $gcc_patchver && gcc_patchver=0
 VERSION=$gcc_major.$gcc_minor.$gcc_patchver
 VERSION_REMOVE='s,'$gcc_major'\.'$gcc_minor'\.'$gcc_patchver'.*,,'
@@ -45,6 +46,7 @@ fi
 if test $gcc_major -gt 6 ; then
 tar xf "$C"/musl-cross-make-$mcm_version.tar.gz
 mv musl-cross-make-$mcm_version/patches .
+mv patches/gcc-11.2.0 patches/gcc-11.3.0
 for p in patches/gcc-$gcc_major.$gcc_minor.0/*.diff ; do
 	echo "applying $p"
 	patch -p1 < "$p"

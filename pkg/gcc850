@@ -9,7 +9,6 @@ desc="the GNU compiler collection, v8.5.0"
 no_unlink=1
 gcc_major=8
 gcc_minor=5
-mcm_version=0f22991b8d47837ef8dd60a0c43cf40fcf76217a
 
 [deps.stage1]
 stage1-g++

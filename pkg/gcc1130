@@ -1,0 +1,24 @@
+[mirrors]
+http://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz
+
+[vars]
+filesize=81141364
+sha512=f0be5ad705c73b84477128a69c047f57dd47002f375eb60e1e842e08cf2009a509e92152bca345823926d550b7395ae6d4de7db51d1ee371c2dc37313881fca7
+pkgver=1
+desc="the GNU compiler collection, v11.3.0"
+no_unlink=1
+gcc_major=11
+gcc_minor=3
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%

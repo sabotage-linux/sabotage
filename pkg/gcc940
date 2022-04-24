@@ -9,7 +9,6 @@ desc="the GNU compiler collection, v9.4.0"
 no_unlink=1
 gcc_major=9
 gcc_minor=4
-mcm_version=0f22991b8d47837ef8dd60a0c43cf40fcf76217a
 
 [deps.stage1]
 stage1-g++
