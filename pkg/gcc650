@@ -53,6 +53,9 @@ for p in patches/gcc-$gcc_major.$gcc_minor.0/*.diff ; do
 done
 fi
 
+if test $gcc_major = 6 || test $gcc_major = 7 ; then
+patch -p1 < "$K"/gcc-boolean_null_to_zero.patch
+fi
 if test $gcc_major = 6 && test $gcc_minor = 5 ; then
 patch -p1 < "$K"/gcc-650-revert-staticpie.patch #required for gcc630-mcm.patch
 patch -p1 < "$K"/gcc-650-c++-abi-break.patch

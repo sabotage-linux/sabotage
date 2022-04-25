@@ -34,6 +34,7 @@ patch -p1 < "$K"/gcc520-unwind-dliterate.patch
 patch -p1 < "$K"/gcc473-dliterate-configure-var.patch
 patch -p1 < "$K"/gcc473-arm-hwcap.patch
 patch -p1 < "$K"/gcc520-libssp_nonshared.patch
+patch -p1 < "$K"/gcc-474-gperf.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
@@ -85,6 +86,7 @@ sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
 
 patch -p1 < "$K"/gcc-453-patch0.patch
+patch -p1 < "$K"/gcc-boolean_null_to_zero.patch
 
 config_arch_flags=
 config_arch_target_cflags=
