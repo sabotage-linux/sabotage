@@ -56,7 +56,7 @@ std_flags=
 fi
 
 CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11 -include sys/sysmacros.h" \
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -fcommon" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --sysconfdir="$butch_prefix"/etc \
   --with-gallium-drivers="$gallium_drivers" \

@@ -12,7 +12,8 @@ libpng
 libressl
 
 [build]
-CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix" \
+CFLAGS="-D_GNU_SOURCE $optcflags -fcommon" \
+  ./configure -C --prefix="$butch_prefix" \
   --enable-ssl
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

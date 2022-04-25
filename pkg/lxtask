@@ -13,7 +13,7 @@ gtk+2
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
-CFLAGS="$optcflags -D_GNU_SOURCE" \
+CFLAGS="$optcflags -D_GNU_SOURCE -fcommon" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 

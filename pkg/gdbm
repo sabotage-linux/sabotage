@@ -12,7 +12,7 @@ desc='gnu dbm key/value database library'
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -fcommon" LDFLAGS="$optldflags" \
 CPPFLAGS=-D_GNU_SOURCE \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-nls

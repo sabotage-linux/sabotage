@@ -14,6 +14,8 @@ gtk+2
 [build]
 . "$K"/intltool-fix
 
+sed -i 's@GList \*_tab_page_modules;@extern GList *_tab_page_modules;@' src/tab-page.h
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" \

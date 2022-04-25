@@ -14,6 +14,7 @@ poppler
 gnome-icon-theme-fake
 shared-mime-info
 libsm
+libice
 
 [deps.host]
 glib
@@ -32,8 +33,8 @@ patch -p1 < "$K"/evince-segfault2.patch
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags -std=gnu++03" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lICE" \
 ./configure -C --prefix="$butch_prefix" $xconfflags \
 --without-keyring \
 --without-gconf \

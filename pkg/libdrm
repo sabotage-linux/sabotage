@@ -11,6 +11,8 @@ libpciaccess
 libpthread-stubs
 
 [build]
+sed -i 's/drm_private uint32_t nouveau_debug/extern drm_private uint32_t nouveau_debug/' nouveau/private.h
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags -include sys/sysmacros.h" LDFLAGS="$optldflags" \
