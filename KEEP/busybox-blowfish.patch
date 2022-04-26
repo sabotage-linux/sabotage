@@ -29,7 +29,7 @@
  
 +static char *bf_crypt(const char *key, const char *salt) {
 +	// use musl-builtin crypt
-+	return crypt(key, salt);
++	return xstrdup(crypt(key, salt));
 +}
 +
  static struct const_des_ctx *des_cctx;
