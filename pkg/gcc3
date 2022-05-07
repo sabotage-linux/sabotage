@@ -116,15 +116,19 @@ is_ubuntu_or_debian() {
 
 if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
 	echo debian/ubuntu detected!
-	if [ -d /usr/include/"$A"-linux-gnu/bits ] ; then
+	case "$A" in
+		i?86) debarch=i386 ;;
+		*) debarch=$A ;;
+	esac
+	if [ -d /usr/include/"$debarch"-linux-gnu/bits ] ; then
 		for i in sys bits asm gnu ; do
-			ln -sf /usr/include/"$A"-linux-gnu/"$i" include/
+			ln -sf /usr/include/"$debarch"-linux-gnu/"$i" include/
 		done
 	fi
-	[ -d /usr/lib/"$A"-linux-gnu ] && ubuntulibdir="-B /usr/lib/$A-linux-gnu"
+	[ -d /usr/lib/"$debarch"-linux-gnu ] && ubuntulibdir="-B /usr/lib/${debarch}-linux-gnu"
 fi
 
-export gcc_cv_ld_hidden=yes 
+export gcc_cv_ld_hidden=yes
 export gcc_cv_as_hidden=yes
 
 CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
