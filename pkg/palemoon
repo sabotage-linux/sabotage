@@ -1,16 +1,18 @@
 [mirrors]
-http://archive.palemoon.org/source/palemoon-29.4.6.source.tar.xz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/31.0.0_Release.tar.gz
 
 [vars]
-filesize=201086560
-sha512=b6652018ab76e1913bde97b40e36aa7056b41877baa2912026e6abe735648cb543e124303ac6625de552ef05156a9b91e66ca0f14819a81be91ebba1be24badc
-tardir=palemoon-source
-pkgver=45
-BROWSER_VERSION=29.4.6
-UXP_VERSION=20210719
-uchkurl=http://archive.palemoon.org/source/
+filesize=4525153
+sha512=8c86c04c7a732b2624fbbddf9c409d35d59d2766d5e56211d80860647daa817c25b1e01a639573f6cde74e191ea8e2d0d69e1ef18ec077bd73050aceb6086b1d
+tarball=Pale-Moon-31.0.0_Release.tar.gz
+tardir=pale-moon
+pkgver=46
+BROWSER_VERSION=31.0.0
+UXP_VERSION=20220510
+uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
+palemoon-uxp-tarball
 autoconf213-tarball
 gtk+2
 alsa-lib
@@ -34,18 +36,27 @@ BROWSER_NAME=palemoon
 export SHELL=/bin/sh
 export MC_PRIVATE_BUILD=true
 
-if false ; then
 # extract uxp tarball
 tar xf "$C"/UXP-RELBASE_${UXP_VERSION}.tar.gz
 # github uxp tarballs extract to UXP-RELBASE..., repo.pm.org ones to "uxp"
 UXPDIR=UXP-RELBASE_${UXP_VERSION}
 test -d "$UXPDIR" || UXPDIR=uxp
 mv "$UXPDIR"/* platform/
-fi
+
 cat << EOF > mach
 #!/bin/sh
 platform/mach "\$@"
 EOF
+
+# ERROR: Only GCC 7.1 or newer is supported
+sed -i 's/7\.1\.0/1.0.0/' platform/build/moz.configure/toolchain.configure
+
+# error: Unsupported GCC version.
+sed -i 's/ | 6\.\*//' platform/build/autoconf/compiler-opts.m4
+
+# error "mfbt (and Goanna) require at least gcc 7.1 to build."
+sed -i 's/MOZ_GCC_VERSION_AT_LEAST(7, 1, 0)/MOZ_GCC_VERSION_AT_LEAST(6, 0, 0)/' \
+  platform/mfbt/Compiler.h
 
 patch -p1 < "$K"/palemoon-no-xz.patch
 
