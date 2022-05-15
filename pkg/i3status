@@ -1,10 +1,10 @@
 [mirrors]
-https://i3wm.org/i3status/i3status-2.11.tar.bz2
+http://i3wm.org/i3status/i3status-2.12.tar.bz2
 
 [vars]
-filesize=54970
-sha512=37d2549649178122fab7411a3c714ae041d9c726c140002ec6ccd1a4f2e28af618ca28af9aa3bc45d0cafda0b25dd438c9ed4c3739ddcc0511e19305657730f0
-pkgver=1
+filesize=57162
+sha512=687a880a65cb8df46f5e9d2256b59724ba3424c502e9a0fb3ca71b070875df5f4008ee501c554bc716f2d728a5cf813a36d22d7377d42c3c46b14381d385bab3
+pkgver=2
 
 [deps]
 libconfuse
