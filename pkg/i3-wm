@@ -1,10 +1,10 @@
 [mirrors]
-http://i3wm.org/downloads/i3-4.13.tar.bz2
+http://i3wm.org/downloads/i3-4.18.3.tar.bz2
 
 [vars]
-filesize=1121298
-sha512=1bb1044e8d86e78d3ccb79d49f0eb26665dcd05a348058a5e57138151d74f57d77830efc3025893170fe1b8ec612f739f75247a427410f96286b09afd2c5f14c
-pkgver=2
+filesize=1218766
+sha512=61599b79247ec546819bab22666a78fc8dc77eecbcf6055efb6b52720290fa7f72719ac6670396a6dfb54858781e438b5207c15fdf2cf9e2424a1b84ffeb749c
+pkgver=3
 
 [deps]
 dmenu
@@ -31,6 +31,6 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
-cd "$A"-pc-linux-gnu
+cd "$A"-pc-linux-musl
 CPPFLAGS="-DGLOB_TILDE=0" make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
