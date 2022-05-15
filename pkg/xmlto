@@ -9,6 +9,9 @@ sha512=53d99619f4c067dc72c0ccf32c85a4efa21d25666c4ed984c63a99ec2291c0264ea05ad79
 [deps]
 libxslt
 
+[deps.run]
+bash
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
