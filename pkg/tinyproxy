@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/tinyproxy/tinyproxy/releases/download/1.11.0/tinyproxy-1.11.0.tar.xz
+https://github.com/tinyproxy/tinyproxy/releases/download/1.11.1/tinyproxy-1.11.1.tar.xz
 
 [vars]
-filesize=177664
-sha512=c0ff2a90da2352e6021efc87d1293b85f2a7588b2a1ab13bd96d906382eda8188b22b01f9acb2d200fd570bf3ec9484fa370cae6834d1f055c0af1631d22ae9d
-pkgver=2
+filesize=182080
+sha512=2e3435bbfece3797c11ccce222eef494ed92e00dd82bea2c40a54e454b7e03c8abc8e09b244f2da7192209c39047369439d08974b79eebc996fb3095230d0374
+pkgver=3
 desc="lightweight HTTP proxy"
 
 [deps]
