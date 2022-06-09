@@ -1,10 +1,10 @@
 [mirrors]
-https://nodejs.org/dist/v12.7.0/node-v12.7.0.tar.gz
+https://nodejs.org/download/release/v14.19.3/node-v14.19.3.tar.gz
 
 [vars]
-filesize=49510408
-sha512=8d85130f5a08fd63be0da7c23c8848b592e98ac42fbebccd51ed0852598dcb2a015da3b1ab7e8fef2ba0d3fd0d17325d7159137895b52ede5f88adc440db1f7f
-pkgver=8
+filesize=64983615
+sha512=a0a794291197deb2cbf8c1887ccc8a122f1b11ebfe2078cd7fd186ff481335651237720b0f53d5bb855875f65da6815f1ed5164e58362a74b537f0432e7530a5
+pkgver=9
 uchkurl=https://nodejs.org/download/release/
 
 [deps.host]
