@@ -1,0 +1,52 @@
+[mirrors]
+https://github.com/hrydgard/ppsspp/releases/download/v1.13/ppsspp-1.13.tar.xz
+
+[vars]
+filesize=40359080
+sha512=3fb3aca31eb999c671d33d21a0cbe8d39fa912a04fa9b31788c882e86eb97ca34adf336ccffd6ef0a71dc277eb5f08a5c08fefbbceb71b7b38e3c627745e2e8f
+pkgver=1
+desc='an emulator for sony(r) psp(tm) aka playstation portable(tm)'
+
+[deps]
+ffmpeg
+sdl2
+glew
+glu
+
+[deps.host]
+cmake
+
+[build]
+# checks for python3, fails without, then doesnt even use it...
+sed -i 's@find_package(PythonInterp 3 REQUIRED)@# find_package(PythonInterp 3 REQUIRED)@' \
+  ext/glslang/CMakeLists.txt
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  -DUSE_SYSTEM_FFMPEG=ON \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make -j$MAKE_THREADS VERBOSE=1 DESTDIR="$butch_install_dir" install
