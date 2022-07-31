@@ -2,9 +2,9 @@
 https://github.com/hrydgard/ppsspp/releases/download/v1.13/ppsspp-1.13.tar.xz
 
 [vars]
-filesize=40359080
-sha512=3fb3aca31eb999c671d33d21a0cbe8d39fa912a04fa9b31788c882e86eb97ca34adf336ccffd6ef0a71dc277eb5f08a5c08fefbbceb71b7b38e3c627745e2e8f
-pkgver=1
+filesize=40365108
+sha512=719527e664a2468b9561b419a27b4b135354932f7434184f2a3a9d96424ecfe3dbbb75fcd28b4d34c58ccb77f804ed95720803a42c2df8136efb266c885b57de
+pkgver=2
 desc='an emulator for sony(r) psp(tm) aka playstation portable(tm)'
 
 [deps]
