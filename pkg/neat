@@ -1,0 +1,30 @@
+[mirrors]
+https://github.com/Neat-Lang/neat/releases/download/v0.1.7/neat-v0.1.7-gcc.tar.xz
+
+[vars]
+filesize=1626412
+sha512=c2bf4de77935fd24bb91c096cea4aa535679e58cf7bb628f5d1fe2c6995280c3c62f5f7ad455539e224d358d0a85ac2de035142799084fed8472cbf45561b3ea
+pkgver=1
+desc='compiler for the neat programming language'
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar USER_CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+cat << 'EOF' > Makefile
+SRCS = $(sort $(wildcard intermediate/*.c))
+OBJS= $(SRCS:%.c=%.o)
+CFLAGS = $(USER_CFLAGS) -fpic -fno-strict-aliasing -pthread
+
+all: neat
+neat: $(OBJS)
+	gcc -fpic -rdynamic $^ src/runtime.c -o neat -ldl -lm $(CFLAGS) $(LDFLAGS)
+EOF
+mk_target all
+install -Dm 755 neat "$butch_install_dir$butch_prefix"/bin/neat
