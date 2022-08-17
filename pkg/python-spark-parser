@@ -9,6 +9,7 @@ uchkurl=https://pypi.org/project/spark-parser/
 
 [deps.run]
 python
+python-click
 
 [deps.host]
 python
