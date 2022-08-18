@@ -1,0 +1,41 @@
+fix SIGBUS error from imlib2 using apps like sxiv when hdd is full
+
+due to a weird interaction of AVX instructions used in amd memcpy, and a
+deleted shm mapping on /tmp if the hdd is full, sxiv crashed whenever there
+wasnt enough space to write to temporary files.
+
+mapping:
+7ffff2c74000-7ffff2d4f000 rw-s 00000000 fc:00 10811223 /tmp/#10811223 (deleted)
+=> 0x00007ffff7db68f7 <+519>:   vmovdqa %ymm0,(%rdi)
+(gdb) p/x $rdi
+$22 = 0x7ffff2c74020
+address is aligned to 32 so it shouldnt be due to alignment issues.
+the memory at that address can be accessed just fine via gdb:
+(gdb) x/32xb 0x7ffff2c74020
+0x7ffff2c74020: 0x00 ....
+
+the fix is to call posix_fallocate with the desired size on the mapping received
+from xcb_shm_... before calling mmap.
+
+--- imlib2-1.9.1/src/lib/x11_ximage.c	2022-05-13 19:44:31.000000000 +0000
++++ imlib2-1.9.1-p/src/lib/x11_ximage.c	2022-08-18 19:34:52.193163541 +0000
+@@ -1,5 +1,6 @@
+ #include "common.h"
+ 
++#include <fcntl.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+@@ -147,8 +148,11 @@
+                 xcb_shm_create_segment_reply_fds(c, reply) : NULL;
+              if (fds)
+                {
+-                  si->shmaddr = mmap(0, segment_size, PROT_READ | PROT_WRITE,
++                  if (posix_fallocate(fds[0], 0, segment_size) == 0)
++                     si->shmaddr = mmap(0, segment_size, PROT_READ | PROT_WRITE,
+                                      MAP_SHARED, fds[0], 0);
++                  else
++                     si->shmaddr = MAP_FAILED;
+                   close(fds[0]);
+                   if (si->shmaddr == MAP_FAILED)
+                      si->shmaddr = NULL;

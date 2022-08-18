@@ -1,10 +1,10 @@
 [mirrors]
-https://downloads.sourceforge.net/enlightenment/imlib2-1.7.2.tar.bz2
+https://downloads.sourceforge.net/enlightenment/imlib2-1.9.1.tar.xz
 
 [vars]
-filesize=894731
-sha512=e8a42c91e4b50ab2fc249798a58e9562068ac7d48da4e9660263fc1ce1180e7e80cc7fdeaa0a3a0b6145bc857109b5dd650a5a01bc51797473759ca13be7fba5
-pkgver=4
+filesize=813104
+sha512=00eb8804a32e1403614e9f899f358dd9797f4bcfa7e9fdecd37992731019933e39834a60bd20be8fb69a35161ba1e784bd638b5ecb626d01a4f69c70c330e5f1
+pkgver=5
 uchkurl=https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 [deps]
@@ -16,6 +16,7 @@ libjpeg
 giflib
 
 [build]
+patch -p1 < "$K"/imlib2-dont_crash_on_hdd_full.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
