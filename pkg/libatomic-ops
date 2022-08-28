@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ivmai/libatomic_ops/releases/download/v7.6.12/libatomic_ops-7.6.12.tar.gz
+https://github.com/ivmai/libatomic_ops/releases/download/v7.6.14/libatomic_ops-7.6.14.tar.gz
 
 [vars]
-filesize=506313
-sha512=bbf98a38a80c8fe6b7eab773967edc55b8d48be32b36ed827fb835ee3dcd96d5ec1dc97149714e015e93a0a5b9fc03595797663fdb5a0f673869ea8bfe640df5
-pkgver=2
+filesize=500006
+sha512=da83886b4d766da64b27672eede40bd5787523a4c308ac7bd3f03ac831ae1a141ba21e5f5ada27bfcf811b9fb04d8a519331ea2573af036f8791958668dad851
+pkgver=3
 
 [build]
 sed -i 's#pkgdata#doc#g' doc/Makefile.in Makefile.in
@@ -17,7 +17,7 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
             --enable-shared  \
             --disable-static \
-            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.6.12
+            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.6.14
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
