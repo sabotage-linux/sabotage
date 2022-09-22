@@ -12,6 +12,8 @@ libepoxy
 
 [deps.host]
 autoconf
+automake
+libtool
 
 [build]
 sed -i 's/^PKG_CHECK_VAR.*/epoxy_has_egl=1/' configure.ac
