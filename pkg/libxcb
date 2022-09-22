@@ -36,5 +36,7 @@ patch_status XCBPROTO_XCBPYTHONDIR "$butch_root_dir""$butch_prefix"/lib/python2.
 sh config.status
 fi
 
+[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
