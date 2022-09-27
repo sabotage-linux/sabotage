@@ -1,0 +1,23 @@
+[mirrors]
+https://downloads.sourceforge.net/project/ophcrack/samdump2/3.0.0/samdump2-3.0.0.tar.bz2
+
+[vars]
+filesize=32784
+sha512=57ff1f761e833346887ac7fdbc76e202822b306ce0a35af2a491dafc7b277836f3f113be6703c71be82828e8442e6ecd320cb88f4dcc7c5fbf7f2ca257abea95
+pkgver=1
+
+[deps]
+libressl
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+patch -p1 < $K/samdump2-libressl.patch
+sed -e 's/lssl/lssl -lcrypto/g' -e 's/build infos/build/' -i Makefile
+mk_target all
+mk_target install
