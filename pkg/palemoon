@@ -6,7 +6,7 @@ filesize=4527195
 sha512=7b64e14a94dd902aed1f13e11cbfc5584222290d8e8f5f54dc2d25fba700975802b765de71e7ec7bd852d87ce55b4c1cff65cebc6a9767de039f1e113d7736d0
 tarball=Pale-Moon-31.3.0.1_Release.tar.gz
 tardir=pale-moon
-pkgver=51
+pkgver=52
 BROWSER_VERSION=31.3.0.1
 UXP_VERSION=20220928
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
@@ -102,6 +102,9 @@ PATCH palemoon-fix-toolkit.patch
 PATCH firefox-disable-hunspell_hooks.patch
 PATCH firefox-fix-arm-atomics-grsec.patch
 PATCH firefox-fix-arm-version-detect.patch
+
+# set max stack size to 2MB, https://repo.palemoon.org/MoonchildProductions/UXP/commit/00f22ddbe62f9ab4cf314b1beb18b7f9a91edae2
+sed -i 's;8 \* 1024 \* 1024;2 * 1024 * 1024;' js/xpconnect/src/XPCJSContext.cpp
 
 cd ..
 
@@ -220,7 +223,7 @@ find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 # increase default stack size as palemoon uses a recursive js parser
-reqldf="$reqldf -Wl,-z,stack-size=524288"
+reqldf="$reqldf -Wl,-z,stack-size=2097152"
 allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 # on arm binutils 2.24 assertion failure is triggered due to some of the cflags
 # in the default butch config. see issue #186
