@@ -35,9 +35,6 @@ export R=$HOME/x-prefix/$A
 # set number of parallel make processes
 export MAKE_THREADS=1
 
-# set BRUTE to 1 to enable LTO in the standard etc/butch-optflags profile
-# (slow to compile, but results in minimal binary size and very fast code)
-#export BRUTE=1
 # set TESTBUILD to 1 to build everything without optimization/debug (much faster)
 #export TESTBUILD=1
 
