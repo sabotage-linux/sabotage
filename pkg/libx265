@@ -4,7 +4,7 @@ https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz
 [vars]
 filesize=1537044
 sha512=230e683239c3e262096ba96246c6f67229a1625d163f86647a411733bb1cf349685858aee3017bce818bb6992448d0abaa9241615a5b620561ce47ecb164f997
-pkgver=1
+pkgver=2
 
 [deps]
 
@@ -54,4 +54,5 @@ Version: 3.5
 Libs: -lx265 -lstdc++
 Libs.private:
 EOF
+dest="$butch_install_dir""$butch_prefix"
 install -Dm 644 x265.pc "$dest"/lib/pkgconfig/x265.pc
