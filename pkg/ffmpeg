@@ -1,10 +1,10 @@
 [mirrors]
-http://ffmpeg.org/releases/ffmpeg-4.3.2.tar.xz
+http://ffmpeg.org/releases/ffmpeg-4.3.5.tar.xz
 
 [vars]
-filesize=9391100
-sha512=c85e2ecdd397389da2d7ab9e0d1fa23994931d4ad171a551b0d4863154d7daf42e51de747ec5c6d939ebd668817099bbbd272fa709f20093000376e26597becf
-pkgver=21
+filesize=9397740
+sha512=e251291344dad0d916f3a1585f2db642668e1bbd95849d4eadafd44403652896ffe178a05ed02ff85824d85ac277a14184d980178ca8ea72742d8c99f0633ac7
+pkgver=22
 
 [deps]
 alsa-lib
@@ -31,8 +31,12 @@ libv4l2=
 testlib v4l2 && libv4l2=--enable-libv4l2
 libx264=
 testlib x264 && libx264=--enable-libx264
+libx265=
+testlib x265 && libx265=--enable-libx265
 yasm=--disable-yasm
 type yasm >/dev/null 2>&1 && yasm=--enable-yasm
+static_flags="--disable-static --enable-shared"
+test "$STATICBUILD" = 1 && static_flags="--enable-static --disable-shared --pkg-config-flags=--static"
 
 case "$A" in i[3-6]86) optldflags="$optldflags -Wl,-z,notext" ;; esac
 
@@ -41,12 +45,11 @@ LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" --disable-debug \
   --logfile=config.log \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
-  --enable-shared --enable-postproc --enable-gpl \
-  $libvpx $libv4l2 $libx264 $yasm \
+  --enable-postproc --enable-gpl \
+  $libvpx $libv4l2 $libx264 $libx265 $yasm  $static_flags \
   --enable-libvorbis \
   --enable-libopus \
   --enable-openssl --enable-nonfree \
-  --disable-static \
   --disable-stripping
 
 make V=1 -j$MAKE_THREADS
