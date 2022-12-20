@@ -1,0 +1,10 @@
+--- ppsspp-1.14.1/Common/VR/VRBase.cpp
++++ ppsspp-1.14.1-patched/Common/VR/VRBase.cpp
+@@ -3,6 +3,7 @@
+ #include <assert.h>
+ #include <stdio.h>
+ #include <string.h>
++#include <stdlib.h>
+ #include <vector>
+ 
+ #ifndef _WIN32
