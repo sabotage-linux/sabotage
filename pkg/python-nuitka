@@ -1,0 +1,21 @@
+[mirrors]
+https://nuitka.net/releases/Nuitka-1.1.7.tar.bz2
+
+[vars]
+filesize=2851601
+sha512=25cf27780330d01833e61147127af45a00b682602930ac6740431c590cc2550572197b061510ae144a298df7658e9b3200d0ee8aebd20f053679e9cf6a90c9ae
+pkgver=1
+desc='python to C compiler'
+
+[deps.run]
+python
+
+[deps.host]
+python
+python-setuptools
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
