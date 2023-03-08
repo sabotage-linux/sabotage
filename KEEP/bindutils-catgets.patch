@@ -1,0 +1,11 @@
+--- bind-9.10.2.orig/lib/isc/nls/msgcat.c	2023-03-08 14:33:34.782758290 +0000
++++ bind-9.10.2/lib/isc/nls/msgcat.c	2023-03-08 14:34:27.195760500 +0000
+@@ -122,7 +122,7 @@
+ 	REQUIRE(default_text != NULL);
+ 
+ #ifdef HAVE_CATGETS
+-	if (msgcat == NULL)
++	if (msgcat == NULL || msgcat->catalog == (nl_catd)(-1))
+ 		return (default_text);
+ 	return (catgets(msgcat->catalog, set, message, default_text));
+ #else
