@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/ivmai/libatomic_ops/releases/download/v7.6.14/libatomic_ops-7.6.14.tar.gz
+https://github.com/ivmai/libatomic_ops/releases/download/v7.8.0/libatomic_ops-7.8.0.tar.gz
 
 [vars]
-filesize=500006
-sha512=da83886b4d766da64b27672eede40bd5787523a4c308ac7bd3f03ac831ae1a141ba21e5f5ada27bfcf811b9fb04d8a519331ea2573af036f8791958668dad851
-pkgver=3
+filesize=526300
+sha512=b0d2b3c6f8672d599e05087688e7793a3c648c1728f48b27bffecc95b70afd5921ed36ec016985b2e22b82de7b7013bf5ebbb8b434a736d3fd680310b7af903d
+pkgver=4
 
 [build]
 sed -i 's#pkgdata#doc#g' doc/Makefile.in Makefile.in
@@ -12,12 +12,12 @@ sed -i 's#pkgdata#doc#g' doc/Makefile.in Makefile.in
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
             --enable-shared  \
             --disable-static \
-            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.6.14
+            --docdir="$butch_prefix"/share/doc/libatomic_ops-7.8.0
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
