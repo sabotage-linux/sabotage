@@ -1,10 +1,10 @@
 [mirrors]
-http://ftp.gnu.org/gnu/wget/wget-1.21.2.tar.gz
+http://ftp.gnu.org/gnu/wget/wget-1.21.3.tar.gz
 
 [vars]
-filesize=5004576
-sha512=3e35f92604486ca459f26df97d392579f1d83a9254519e8ce249b410bacf70dddf716d6caa3b29fd4865163f60410b2b8ad1ca1f7bb3dbb2456386b7647b988d
-pkgver=11
+filesize=5079864
+sha512=29889ecbf590dff0f39183d9e0621741d731a554d990e5c995a4644725dca62e8e19601d40db0ef7d62ebf54e5457c7409965e4832b6e60e4ccbc9c8caa30718
+pkgver=12
 desc='command line program for file downloads supporting various protocols'
 
 [deps]
