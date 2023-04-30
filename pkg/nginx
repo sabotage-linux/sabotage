@@ -1,10 +1,10 @@
 [mirrors]
-https://nginx.org/download/nginx-1.21.4.tar.gz
+https://nginx.org/download/nginx-1.24.0.tar.gz
 
 [vars]
-filesize=1070260
-sha512=8f0be700bbec70abdb9902c27044334038087d03bdf07b9bdf1520f416edd12ca504bdd0244b34c542b222c28d5bd2d0add54dcb04b235e763d088fa3e2cee6e
-pkgver=3
+filesize=1112471
+sha512=1114e37de5664a8109c99cfb2faa1f42ff8ac63c932bcf3780d645e5ed32c0b2ac446f80305b4465994c8f9430604968e176ae464fd80f632d1cb2c8f6007ff3
+pkgver=4
 service=nginx
 serviceflags="--down --log"
 
