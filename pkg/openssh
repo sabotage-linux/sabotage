@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.9p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-8.9p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
 
 [vars]
-filesize=1820282
-sha512=04bd38ea6fe4be31acc8c4e83de7d3dda66fb7207be2e4ba25d3b8118d13d098a283769da9e8ce1fc4fba7edf739c14efcc6c9137132919261a7f882314b0f6b
-pkgver=14
+filesize=1856839
+sha512=087ff6fe5f6caab4c6c3001d906399e02beffad7277280f11187420c2939fd4befdcb14643862a657ce4cad2f115b82a0a1a2c99df6ee54dcd76b53647637c19
+pkgver=15
 service=openssh
 serviceflags="--down --log"
 
