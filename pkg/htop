@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
+https://github.com/htop-dev/htop/releases/download/3.2.2/htop-3.2.2.tar.xz
 
 [vars]
-filesize=399428
-sha512=0e32c0c613dbb6028ebf53b61bd8f4070f0ea80b1e52f6bb60aa0ea1450b5274dc69bf11adf8c1e096c750b659a2400d13accdec4dc48be8abaf59d42816019e
-pkgver=3
+filesize=384820
+sha512=59f3f06677076262e25a478552e4438ce37028e2f064d3fb78653d3213b48ae4d78c7e0d62ee785a4ed3c6c99b7faafd9afab94c4350a4e5c5843cef81aaf489
+pkgver=4
 
 [deps]
 curses
