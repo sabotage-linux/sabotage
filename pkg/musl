@@ -49,6 +49,9 @@ dest=$butch_install_dir$butch_prefix
 mkdir -p "$dest"/bin
 ln -sf  ../lib/libc.so "$dest"/bin/ldd
 
+# turn absolute path in ld-musl-xxx.so.1 symlink into relative
+ln -sf libc.so "$dest"/lib/ld-musl-*.so.1
+
 musl_gcc="$dest/bin/musl-gcc"
 
 if test "$STAGE" = "0" ; then
