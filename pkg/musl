@@ -1,10 +1,10 @@
 [mirrors]
-http://www.musl-libc.org/releases/musl-1.2.3.tar.gz
+http://www.musl-libc.org/releases/musl-1.2.4.tar.gz
 
 [vars]
-filesize=1058642
-sha512=9332f713d3eb7de4369bc0327d99252275ee52abf523ee34b894b24a387f67579787f7c72a46cf652e090cffdb0bc3719a4e7b84dca66890b6a37f12e8ad089c
-pkgver=14
+filesize=1063758
+sha512=498ec5d7941194a8806f4d42f0f6d218c862996ef1398b737d0d06995e0b7a6574b240a48088f6b84016b14b2776fe463f829dcb11149cdfc1023d496b235c55
+pkgver=15
 desc='the musl C standard library (libc)'
 no_unlink=1
 
