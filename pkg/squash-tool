@@ -1,5 +1,5 @@
 [deps]
-partx
+util-linux
 syslinux6
 squashfs-tools
 dosfstools
