@@ -71,6 +71,10 @@ PATCH firefox-fix-tools.patch
 PATCH firefox-disable-hunspell_hooks.patch
 PATCH firefox-fix-arm-atomics-grsec.patch
 PATCH firefox-fix-arm-version-detect.patch
+if grep gettid "$butch_root_dir$butch_prefix"/include/unistd.h>/dev/null ; then
+# compat fix for musl >= 1.2.x only
+PATCH firefox-52.9.0-gettid.patch
+fi
 
 cat << EOF > mozconfig
 mk_add_options MOZ_MAKE_FLAGS="-j$MAKE_THREADS"

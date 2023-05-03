@@ -1,0 +1,11 @@
+--- a/tools/profiler/core/platform.h
++++ b/tools/profiler/core/platform.h
+@@ -65,7 +65,7 @@
+ // provide a wrapper for it (except for Bionic)
+ #if defined(__linux__)
+ #include <unistd.h>
+-#if !defined(__BIONIC__)
++#if 0 && !defined(__BIONIC__)
+ #include <sys/syscall.h>
+ static inline pid_t gettid()
+ {
