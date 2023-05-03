@@ -161,6 +161,11 @@ or an older binutils version as in our `binutils` package.
 newer binutils often immediately default to new features that the older versions
 can't deal with (e.g. https://github.com/richfelker/musl-cross-make/pull/73 )
 
+The cross-compile setup of sabotage can be used to either build individual
+packages for a different architecture, or a complete sabotage environment.
+If using the former, you may want to export STATICBUILD=1 to build the packages
+statically, if possible (some packages depend on dynamic linking to work
+correctly, for example to load modules/plugins at runtime).
 
 ## Cross-Compile Instructions:
 
@@ -179,7 +184,7 @@ it.
 Unlike native compilation, you don't have to build any stages, you can
 immediately start compiling the packages you're interested in. If you intend
 to use the resulting rootfs to boot into, you should however start with building
-`stage1`, and if you want to use the resulting rootfs as a full sabotage
+`musl`, `stage1`, and if you want to use the resulting rootfs as a full sabotage
 installation with development tools, also the package `base-dev`.
 
 
