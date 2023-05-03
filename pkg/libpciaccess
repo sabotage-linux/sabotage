@@ -13,7 +13,7 @@ patch -p1 < "$K"/libpciaccess_PATH_MAX.patch
 patch -p1 < "$K"/libpciaccess-arm.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
-CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
+CFLAGS="$optcflags -D_GNU_SOURCE -D_LARGEFILE64_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install

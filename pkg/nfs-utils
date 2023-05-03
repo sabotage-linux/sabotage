@@ -28,7 +28,7 @@ patch -p1 < "$K"/nfs-utils-idmapd-dnotify-to-inotify.patch
 
 # fix test for socklen_t w/o including /include/sys/socket.h
 # ac_cv_sizeof_socklen_t=4
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
     ac_cv_sizeof_socklen_t=4 \

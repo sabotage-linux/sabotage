@@ -216,7 +216,7 @@ find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@
 sed -i 's@-Wl,--build-id@@' old-configure
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
-allflags="-D_GNU_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
+allflags="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 # on arm binutils 2.24 assertion failure is triggered due to some of the cflags
 # in the default butch config. see issue #186
 [ "$A" = arm ] && \

@@ -38,7 +38,7 @@ testlib() {
 alsalib=
 testlib asound && alsalib=--audio-drv-list=alsa
 
-CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
+CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 # F_EXLCK is 4; F_SHLCK 8 on all archs except alpha
 CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8 -DXATTR_SIZE_MAX=65536"
 CFLAGS="$CFLAGS $optcflags" \

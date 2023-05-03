@@ -91,9 +91,9 @@ case "$A" in
 	*) echo "oops, unknown arsch!" ; exit 1 ;;
 esac
 
-CFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-CXXFLAGS="$optcflags" \
+CXXFLAGS="$optcflags -D_LARGEFILE64_SOURCE" \
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
