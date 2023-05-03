@@ -14,7 +14,7 @@ mv Makefile.gnu Makefile
 sed -i -e's@$(DESTDIR)/usr/lib@$(DESTDIR)/lib@' Makefile
 sed -i -e's@$(DESTDIR)/usr/include@$(DESTDIR)/include@' Makefile
 
-make -j$MAKE_THREADS  CC="$CC" AR="$CROSS_COMPILE"ar \
+make -j$MAKE_THREADS  CC="$CC" CXX="$CXX -std=gnu++03" AR="$CROSS_COMPILE"ar \
   PREFIX="$butch_prefix" DESTDIR="$butch_install_dir"
 
 PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" make install
