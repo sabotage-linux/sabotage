@@ -1,11 +1,18 @@
 #!/bin/sh
+all=false
+test "$1" = "--all" && {
+all=true
+shift
+}
+
 if [ -n "$1" ] ; then
-	echo "$0 - list 'unused' packages"
+	echo "$0 [--all] - list 'unused' packages"
 	echo
 	echo "this does not necessarily mean that *you* do not use that package,"
 	echo "it just means that no other package you have installed depends on it."
 	echo
 	echo "can be helpful to spot orphaned libraries or no longer needed apps."
+	echo "with --all, all packages are searched, regardless of whether installed."
 	exit 1
 fi
 
@@ -25,12 +32,18 @@ is_meta_pkg() {
 	! grep '\[build\]'<"$pkgdir"/"$1">/dev/null
 }
 
+if $all ; then
+installed=$(ls -1 "$pkgdir")
+uopt=
+else
 installed=$($BINDIR/butch-list)
+uopt="--installed"
+fi
 
 for i in $installed ; do
 	is_meta_pkg "$i" && continue
 	needed=false
-	for j in $($BINDIR/butch-users --installed $i) ; do
+	for j in $($BINDIR/butch-users $uopt $i) ; do
 		test "$j" = "$i" && continue
 		for k in $installed ; do
 			test "$k" = "$i" && continue
