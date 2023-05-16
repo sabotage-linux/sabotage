@@ -1,15 +1,14 @@
-
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.1.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.2.0_Release.tar.gz
 
 [vars]
-filesize=8495754
-sha512=09c38e51799d984c696801960fa8cf300d550adea2fae1c6bcdc9c0773541c10f5530a0ebb17fb5bf0042729814f72720b830ee9765cb5daa0f03e056f2d6fcc
-tarball=Pale-Moon-32.1.1_Release.tar.gz
+filesize=8495880
+sha512=9eb020675a5027ff4881272b225616563ed89094e8411f3bd4ff6d3147c7552da48ad50b871ddf31777eebbdce3c41e37dcca8443300601d6b67656f532ba070
+tarball=Pale-Moon-32.2.0_Release.tar.gz
 tardir=pale-moon
-pkgver=61
-BROWSER_VERSION=32.1.1
-UXP_VERSION=20230417
+pkgver=62
+BROWSER_VERSION=32.2.0
+UXP_VERSION=20230515
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
@@ -70,6 +69,13 @@ make && make install
 cd ..
 export PATH="$PATH":"$PWD"/AC213/bin
 
+PATCH() {
+	echo "***** $1 *****"
+	patch -p1 < "$K"/"$1"
+}
+
+PATCH palemoon-32.2.0-system_hunspell.patch
+
 # apply patches in XUL directory
 cd platform
 
@@ -78,10 +84,6 @@ touch .gdbinit
 # fix usage of inflateValidate in libpng code which is only in latest zlib
 sed -i 's@0x1281@0x1290@' media/libpng/pngrutil.c
 
-PATCH() {
-	echo "***** $1 *****"
-	patch -p1 < "$K"/"$1"
-}
 
 PATCH firefox-virtualenv.patch
 PATCH firefox-virtualenv2.patch
