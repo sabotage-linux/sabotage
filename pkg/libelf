@@ -16,7 +16,7 @@ pkgver=2
 # ^ tls is not crucial for libelf, as gcc is single threaded and the only user of it
 # having it there makes the build fail with gcc 3.4.6 mips
 
-echo "CFLAGS += $optcflags -fPIC" > config.mak
+echo "CFLAGS += $optcflags -fPIC -D_LARGEFILE64_SOURCE" > config.mak
 sed -i 's@HEADERS = src/libelf.h@HEADERS = src/libelf.h src/gelf.h@' Makefile
 make -j$MAKE_THREADS
 make prefix="$butch_prefix" DESTDIR="$butch_install_dir" install
