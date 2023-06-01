@@ -1,3 +1,11 @@
+[mirrors]
+https://www.x.org/releases/individual/app/twm-1.0.12.tar.xz
+
+[vars]
+filesize=262624
+sha512=f3d68df7e06516f6b74f19181efcfd9db2479c8ea0c72c3a6ed0dc1b222405b40d81a2dea17b662955e0c1783e87d0d3eb067c3b6e7c6eed8c0d38d03d362260
+pkgver=2
+
 [deps.host]
 bison
 
@@ -8,13 +16,6 @@ libxext
 libice
 libsm
 libxt
-
-[vars]
-filesize=266272
-sha512=9326ab5687734e09cf36f1993d085fb72ed24efefaa9e426f8adc10ae4bdbccc7bff741622beac7284c2b8c0b56b79e9b0172d4f149f660d5524c05104eb670a
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/twm-1.0.6.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
