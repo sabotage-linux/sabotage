@@ -1,14 +1,15 @@
+[mirrors]
+https://www.x.org/releases/individual/app/xrdb-1.2.1.tar.bz2
+
+[vars]
+filesize=143216
+sha512=d88135cdfea8536523dfb986249ee42761d5363c936352f12f55b4d0c849f21236f7d74d39869c5ec5b549019d6ed89d9096cde4b3c2b4816c2778a8e370b5c9
+pkgver=2
+
 [deps]
 libx11
 libxext
 libxmu
-
-[vars]
-filesize=138035
-sha512=8e2a177653d5aa895c71ed3640e0f1dd9fe8bf5cd6f0c6ff7e372394a2a41c3aa2286905fd9c69e3d140024d235b81a1f32b5d4012b1ac5ac1ed945599dee407
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xrdb-1.1.0.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
