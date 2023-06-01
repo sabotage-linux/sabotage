@@ -41,6 +41,7 @@ usage() {
 	relink-one <pkg> <file>   # create symlink for <file> of <pkg> into rootfs
 	unlink <package>          # remove symlinks to a specific <package>
 	rm [<package> ... ]       # completely remove installed <packages>
+	clean <args>              # remove specified build artifacts
 	genfilelist <package>     # create filelist for <package>
 
 	pack [--method] <package> # create a binary archive of <package>
@@ -104,6 +105,7 @@ case $1 in
 	install-service) shift; prog=butch-install-service;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	rm) shift; prog=butch-rm;;
+	clean) shift; prog=butch-clean;;
 	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	relink-one|relocate-one) shift; prog=butch-relocate-one;;
 	install|prefetch|rebuild|update|outdated) : ;;
