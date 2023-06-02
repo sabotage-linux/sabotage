@@ -1,10 +1,10 @@
 [mirrors]
-http://wiki.qemu-project.org/download/qemu-2.8.1.1.tar.xz
+https://download.qemu.org/qemu-5.0.1.tar.xz
 
 [vars]
-filesize=22532960
-sha512=10e3fcd515b746be2af55636a6dd9334706cc21ab2bb8b2ba38fe342ca51b072890fd1ae2cd8777006036b0a08122a621769cb5903ab16cfbdcc47c9444aa208
-pkgver=7
+filesize=62430168
+sha512=8e41649d60aaa4dcac59aaf790a9a1782768fec858cbbf8043c8264d3efff606b01b846d0842c67805265bcbd4d4c402e44ecdcfd0bd74b207692b34a429595d
+pkgver=8
 
 [deps]
 glib
@@ -13,6 +13,8 @@ virglrenderer
 libx11
 pixman
 libcap2
+attr
+libcap-ng
 
 [deps.host]
 python
@@ -20,13 +22,17 @@ python
 [build]
 
 # WARNING this package needs more than 512 MB ram to build
-
-patch -p1 < "$K"/qemu22-fix-sigevent-and-sigval_t.patch
-patch -p1 < "$K"/qemu-262-powerpc.patch
-patch -p1 < "$K"/qemu-2811-memfd.patch
-patch -p1 < "$K"/qemu-sysmacros.patch
-patch -p1 < "$K"/qemu-gettid_syscall.patch
-patch -p1 < "$K"/qemu-msghdr.patch
+patch -p1 < "$K"/qemu5-0006-linux-user-signal.c-define-__SIGRTMIN-MAX-for-non-GN.patch
+patch -p1 < "$K"/qemu5-0001-linux-user-fix-build-with-musl-on-aarch64.patch
+patch -p1 < "$K"/qemu5-musl-F_SHLCK-and-F_EXLCK.patch
+patch -p1 < "$K"/qemu5-fix-sigevent-and-sigval_t.patch
+patch -p1 < "$K"/qemu5-xattr_size_max.patch
+patch -p1 < "$K"/qemu5-ncurses.patch
+patch -p1 < "$K"/qemu5-ignore-signals-33-and-64-to-allow-golang-emulation.patch
+patch -p1 < "$K"/qemu5-0001-linux-user-fix-build-with-musl-on-ppc64le.patch
+patch -p1 < "$K"/qemu5-MAP_SYNC-fix.patch
+patch -p1 < "$K"/qemu5-fix-sockios-header.patch
+patch -p1 < "$K"/qemu5-guest-agent-shutdown.patch
 
 sed -i 's,curses_version,"foo";//,' configure
 
@@ -50,10 +56,8 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --enable-virtfs \
   --disable-werror \
   --disable-vnc \
-  --disable-bluez \
   --disable-gtk \
   --enable-sdl \
-  --with-sdlabi=2.0 \
   --enable-virglrenderer \
   $alsalib
 
