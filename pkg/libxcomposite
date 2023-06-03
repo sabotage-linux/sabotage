@@ -1,22 +1,25 @@
+[mirrors]
+https://www.x.org/releases/individual/lib/libXcomposite-0.4.6.tar.xz
+
+[vars]
+filesize=265596
+sha512=f35a0da8f9f22fd788eee01209557fe3a1b1abdc9744f76330ba42b21b6e3af5464ca4451c33415856417c30da5aa5624e3707980c644327249bfeda5a62a59b
+pkgver=2
+
 [deps]
 compositeproto
 xproto
 libx11
 libxfixes
 
-[vars]
-filesize=283746
-sha512=b15f8fdbe4cb7488bdad161d73ef8e59ef603c5af92d7b573110ba136d7d4ce3749aac45972bce87662b0310b67e831cffad72c45c15bfff988b5b555d4c884b
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.4.tar.bz2
-
 [build]
-cp -f "$K"/config.sub .
-xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
-CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-./configure -C --prefix="$butch_prefix" $xconfflags
-make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
 
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
