@@ -1,0 +1,22 @@
+[mirrors]
+https://www.thrysoee.dk/xtermcontrol/xtermcontrol-3.8.tar.gz
+
+[vars]
+filesize=181399
+sha512=9dacddc57c31705d00f52753f906cd83ae4b7ae34ff2e712869becc452535dbce9fb3e0e9aaf689b55edd34889d9e37553e3702c26ccbd136f544016fcfedbf1
+pkgver=1
+
+[deps]
+xterm
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
