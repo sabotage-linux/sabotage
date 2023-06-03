@@ -1,0 +1,61 @@
+[mirrors]
+http://wiki.qemu-project.org/download/qemu-2.8.1.1.tar.xz
+
+[vars]
+filesize=22532960
+sha512=10e3fcd515b746be2af55636a6dd9334706cc21ab2bb8b2ba38fe342ca51b072890fd1ae2cd8777006036b0a08122a621769cb5903ab16cfbdcc47c9444aa208
+pkgver=7
+
+[deps]
+glib
+sdl2
+virglrenderer
+libx11
+pixman
+libcap2
+
+[deps.host]
+python
+
+[build]
+
+# WARNING this package needs more than 512 MB ram to build
+
+patch -p1 < "$K"/qemu22-fix-sigevent-and-sigval_t.patch
+patch -p1 < "$K"/qemu-262-powerpc.patch
+patch -p1 < "$K"/qemu-2811-memfd.patch
+patch -p1 < "$K"/qemu-sysmacros.patch
+patch -p1 < "$K"/qemu-gettid_syscall.patch
+patch -p1 < "$K"/qemu-msghdr.patch
+
+sed -i 's,curses_version,"foo";//,' configure
+
+testlib() {
+	printf "int main() {}\n" > test_lib.c
+	$CC test_lib.c -l$1 >/dev/null 2>&1
+}
+
+alsalib=
+testlib asound && alsalib=--audio-drv-list=alsa
+
+CFLAGS="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
+# F_EXLCK is 4; F_SHLCK 8 on all archs except alpha
+CFLAGS="$CFLAGS -DF_EXLCK=4 -DF_SHLCK=8 -DXATTR_SIZE_MAX=65536"
+CFLAGS="$CFLAGS $optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+./configure --prefix="$butch_prefix" \
+  --host-cc="$HOSTCC" \
+  --disable-strip \
+  --enable-kvm \
+  --enable-virtfs \
+  --disable-werror \
+  --disable-vnc \
+  --disable-bluez \
+  --disable-gtk \
+  --enable-sdl \
+  --with-sdlabi=2.0 \
+  --enable-virglrenderer \
+  $alsalib
+
+make -j$MAKE_THREADS V=1
+make DESTDIR="$butch_install_dir" install
