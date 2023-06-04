@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/baskerville/sxhkd/archive/0.5.9.tar.gz
+https://github.com/baskerville/sxhkd/archive/refs/tags/0.6.2.tar.gz
 
 [vars]
-filesize=34649
-sha512=32ee7261b4fa10d5a62a7fa61e689977d12afd654e81123711bda1f006e4b6baa7524352086037594e6ef1989dd8fcb6eddc1114085ee91546a69f6d1146924e
-tarball=sxhkd-0.5.9.tar.gz
+filesize=35711
+sha512=3f758aec3de76c6336a9008e997317ed7a05db0fcd81025d8f856694c2b8162022e25d9a48876de99056748a2dbe6a561a0e1594973c854ac2c98d44af6b03aa
+tarball=sxhkd-0.6.2.tar.gz
 desc='simple hotkey daemon for x11'
 
 [deps]
