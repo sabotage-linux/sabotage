@@ -1,9 +1,10 @@
-[vars]
-filesize=1929630
-sha512=eb26f1dfb6c6e3757a408a98e0f4012eda926e2f8ee7a2356ebd567a2e4a7d96effca7cec6e6b4f9e7bc578cbdd7b703d00158343a260859aff0718c76f296b0
-
 [mirrors]
-http://dbus.freedesktop.org/releases/dbus/dbus-1.6.8.tar.gz
+https://dbus.freedesktop.org/releases/dbus/dbus-1.15.4.tar.xz
+
+[vars]
+filesize=1404576
+sha512=53a5b7161940c5d4432b902c3c0ac1f1965978e3791a640d1a71f2d819474b727497f7a13c95d7c5850baef659062f1434296a3f5e56701383cc573dfbf187ee
+pkgver=2
 
 [deps]
 libx11
