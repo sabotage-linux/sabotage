@@ -1,13 +1,15 @@
 [mirrors]
-http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-9.22.tar.bz2
+http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-9.31.tar.bz2
 
 [vars]
-filesize=931198
-sha512=b39f1b2cbe6dd3fbd2a0ad6a9d391a2b6f49d7c5e67bc65fe44a9c86937f8db379572c67564c6e21ff6e09b447cdfd4e540544e486179e94da0e0db679c04dd9
+filesize=880148
+sha512=4d14ecbbb62de1b1c717277f5aae5cfb536e11392f2d4b82c884c1713f437fce8e9dd69a328fa353a55d068d8ee4121a31900f45191acec172d5dc76652b6255
+pkgver=2
 
 [deps]
 xorg-proto-headers
 xorg-libraries
+libptytty
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
@@ -19,7 +21,9 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
   --enable-xft --disable-font-styles --disable-perl \
   --disable-utmp --disable-wtmp --disable-pixbuf \
-  --disable-startup-notification --disable-transparency
+  --disable-startup-notification --disable-transparency \
+  --disable-fading --disable-frills --enable-smart-resize \
+  --disable-text-blink --enable-256-color --with-term=urxvt-256color
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
