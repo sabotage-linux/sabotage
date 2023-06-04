@@ -1,9 +1,10 @@
-[vars]
-filesize=314429
-sha512=9142896f02801c78748bc1107b9b547506d61bda737b945bd691ebf10cc6c20511ea896b9c22893a36b97a52b2d5e5c4dd35a7501fca6a65f5b33879a0c0ae37
-
 [mirrors]
-http://www.libssh.org/files/0.5/libssh-0.5.0.tar.gz
+https://www.libssh.org/files/0.5/libssh-0.5.3.tar.gz
+
+[vars]
+filesize=369344
+sha512=67cc023a9c5f7da02af378e9be14b720a81074dfff3a9115a061925ba2244a7f508e122c10b229dc831fc8015e3d58616284f3c46d7060721d61d49a3ca94d7e
+pkgver=2
 
 [build]
 cp $K/libssh-Makefile ./Makefile
