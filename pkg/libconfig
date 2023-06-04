@@ -1,24 +1,24 @@
 [mirrors]
-http://downloads.sourceforge.net/project/libconfig/libconfig/0.2/libconfig-0.2.tgz
+http://hyperrealm.github.io/libconfig/dist/libconfig-1.7.3.tar.gz
 
 [vars]
-filesize=254936
-sha512=e6c09c74623254682c8b348d669532c92d37bf23e09623e802a376706ac4d25f079a05d8121fadd63d296ac57328509241c211c6ca69bd2a44e806f514000019
-pkgver=1
+filesize=730800
+sha512=5c4dd6e85242760c666d00edb031c66ed5c9c402ce191ae691639f9c48e546f4ed2242bcd035d8c430d838cae2b2feb636c4661dded21948e0ed1c8c5990ce4b
+pkgver=2
 
 [deps]
 
 [build]
-cp -f "$K"/config.sub .
-patch -p1 < "$K"/libconfig-patch.patch
-
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-tests \
+  --disable-doc \
+  --disable-examples
 
 
 make V=1 -i -j$MAKE_THREADS
