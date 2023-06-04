@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/yt-dlp/yt-dlp/archive/refs/tags/2022.04.08.tar.gz
+https://github.com/yt-dlp/yt-dlp/archive/refs/tags/2023.03.04.tar.gz
 
 [vars]
-filesize=2037140
-sha512=dbe647da8f7181fe6a9b369458bca4f9081f7096a2844211ff9bb32b62582106b25888704d2770f6dd97458c870d2682aa3e758cf022b2b5b47844636cc9abe5
-pkgver=1
-tarball=yt-dlp-2022.04.08.tar.gz
+filesize=2321926
+sha512=b956d1316d41efa8c8d3604cff22c3ff0ed4b9e01ceb85b8880a2b2616fdfc95ed42ae6448c968fb217b50c0a3a1d5de0f9ff448281a7efeafb3a6fe1819b4e6
+pkgver=2
+tarball=yt-dlp-2023.03.04.tar.gz
 desc='download videos from youtube and other sites. requires python3'
 
 [deps.host]
