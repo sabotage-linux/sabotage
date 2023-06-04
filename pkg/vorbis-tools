@@ -1,9 +1,10 @@
 [mirrors]
-http://downloads.xiph.org/releases/vorbis/vorbis-tools-1.4.0.tar.gz
+http://downloads.xiph.org/releases/vorbis/vorbis-tools-1.4.2.tar.gz
 
 [vars]
-filesize=1346532
-sha512=d2473f2e8e6726b5a5083f567797ae42bbb7fa3f26aec3f7b83e641e028c64726299f71a9d75258595a53cf29c18acb84841bcbc39509258d2c8df859e4e3b99
+filesize=1389947
+sha512=31681560434054706981aef64406975295eb405a9d2d7c0468af789d6c23edb7cfc1c19d26a28fa7061835524289cdc6d217a4669c43a2eb828189370cc6fcaf
+pkgver=2
 
 [deps]
 libogg
