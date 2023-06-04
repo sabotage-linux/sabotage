@@ -1,10 +1,10 @@
 [mirrors]
-http://www.x.org/archive/individual/app/xinput-1.6.2.tar.bz2
+https://www.x.org/archive/individual/app/xinput-1.6.4.tar.xz
 
 [vars]
-filesize=158061
-sha512=dbef3a87dd47bb8c593f1305bea7978697a12434a4992584e4124d745bb366812366b44fc205159137a3db6f7b8338effd1b90641a194497b19159b9fd91939e
-pkgver=1
+filesize=153160
+sha512=6734860852715e5cb9d26259a173e42413fc037546ed7fa4173ffa802c2619ee0322bed228a28cd1911be759d860070867d9b89b115f37323cca1c9ef75354b9
+pkgver=2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
