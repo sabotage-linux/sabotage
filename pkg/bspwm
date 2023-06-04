@@ -1,0 +1,21 @@
+[mirrors]
+https://github.com/baskerville/bspwm/archive/refs/tags/0.9.10.tar.gz
+
+[vars]
+filesize=114099
+sha512=9ccb98c4e80635a781b3f889d8c3ae621c0926a79e9607268924b78bd11137caf70ee9a1edf5bc137d362d2acbe2984645f58ba31c586e6b017797758a66f9cf
+pkgver=1
+tarball=bspwm-0.9.10.tar.gz
+
+[deps]
+sxhkd
+
+[build]
+mkt() {
+make -j$MAKE_THREADS \
+  CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX=$butch_install_prefix DESTDIR=$butch_install_dir $1
+}
+mkt all
+mkt install
