@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/AO-Yumi/vorbis_aotuv/archive/beta6.03-2018.tar.gz
+https://github.com/AO-Yumi/vorbis_aotuv/archive/refs/tags/beta6.03-2020.tar.gz
 
 [vars]
-filesize=1634602
-sha512=ebe0886b657c91b1fffe27acc05c11b381293071eea273bae709ca1f2a29d170cb271849417e00cbded80019986cf1e032ad82033bc888db3394e6615f07fcb9
-tarball=vorbis_aotuv-beta6.03-2018.tar.gz
-pkgver=2
+filesize=1659126
+sha512=ecfa1b23392ab2213f90f14fa99dbdbc36f43c81765a6f5f2f253eb61ec25fec5676454afcb7c6b96548ce49b152f5efad06fbe9d1c916a45ae60b13e39990cd
+tarball=vorbis_aotuv-beta6.03-2020.tar.gz
+pkgver=3
 
 [deps]
 libogg
