@@ -15,8 +15,10 @@ no_unlink=1
 k_major=$(echo "$LINUX_VER" | cut -d . -f 1)
 k_minor=$(echo "$LINUX_VER" | cut -d . -f 2)
 k_base=kernel$k_major$k_minor
+# turn kernel version into a number
+k_num=$(printf "%d%02d\n" "$k_major" "$k_minor")
 
-if test "$k_major" -gt 4 || (test "$k_major" == 4 && test "$k_minor" -gt 18)
+if test "$k_num" -gt 418
 then
 # install awk script to remove perl dependency
 cp -f "$K"/build_OID_registry ./lib/
@@ -42,25 +44,26 @@ kpatch="$C"/kernel-patch-"$LINUX_VER"."$patchver".xz
 xzcat "$kpatch" | patch -p 1
 LINUX_VER="$LINUX_VER"."$patchver"
 
-if [ "$k_major" -eq 5 ] && [ "$k_minor" -eq 4 ] ; then
-dopatch linux-timeconst-nobc-kbuild54.patch
-else
-dopatch linux-timeconst-nobc-kbuild$k_major.patch
-fi
+case "$k_num" in
+	504) kbuild=54 ;;
+	4*) kbuild=4 ;;
+	*) kbuild=5 ;;
+esac
+dopatch linux-timeconst-nobc-kbuild$kbuild.patch
 
 cp -f "$K"/linux-mktimeconst.c kernel/time/mktimeconst.c
 
-if [ "$k_major" -ge 5 ] || { [ "$k_major" -eq 4 ] && [ "$k_minor" -ge 19 ];}; then
+if [ "$k_num" -ge 419 ] ; then
 	dopatch kernel419-revert-remove-support-for-built-in-regdb.patch
 fi
 
-if [ "$k_major" -eq 5 ] && [ "$k_minor" -ge 15 ]; then
+if [ "$k_num" -ge 515 ]; then
 # prevent inclusion of incompatible host linux headers in objtool build
 for i in byteorder swab ; do
 cp arch/x86/include/uapi/asm/"$i".h tools/arch/x86/include/asm/
 done
 fi
-if [ "$k_major" -eq 5 ] && [ "$k_minor" -ge 10 ]; then
+if [ "$k_num" -ge 510 ] ; then
 mv tools/objtool/objtool.c tools/objtool/objtool.c.orig
 cat << EOFX > tools/objtool/objtool.c
 int main(int argc, char**argv){return 0;}
@@ -76,7 +79,7 @@ fi
 # to change regulatory domains with iw set reg.
 cp -f "$K"/linux-regdb.txt net/wireless/db.txt
 
-if [ "$k_major" -eq 4 ] && [ "$k_minor" -eq 4 ] ; then
+if [ "$k_num" -eq 404 ] ; then
 # work around mismatch between devicename and channel name in 9p virtfs code
 # p9_virtio_create gets something like "/dev/chan" and the channel name is "chan"
 	dopatch linux-virtio9p.patch
@@ -148,7 +151,7 @@ make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$ARCH HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y \
   KBUILD_BUILD_USER=user \
   KBUILD_BUILD_HOST=sabotage \
-  KBUILD_BUILD_TIMESTAMP="2017-00-00" \
+  KBUILD_BUILD_TIMESTAMP="2023-00-00" \
   KBUILD_BUILD_VERSION=0
 
 
