@@ -1,0 +1,9 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.1.32.xz
+
+[vars]
+filesize=1805328
+sha512=426887b2d9a0700d59c67bcc74f9059738069cc66ff2823467633a9b82fc4b21b73d92c882f8e9b69056aea9246980b0aa2d3c9548a0f0eb5ee73471513ed6ea
+tarball=kernel-patch-6.1.32.xz
+pkgver=1
+

@@ -1,0 +1,7 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.tar.xz
+
+[vars]
+filesize=134728520
+sha512=6ed2a73c2699d0810e54753715635736fc370288ad5ce95c594f2379959b0e418665cd71bc512a0273fe226fe90074d8b10d14c209080a6466498417a4fdda68
+pkgver=1
