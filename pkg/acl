@@ -1,10 +1,10 @@
 [mirrors]
-http://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz
+http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
 
 [vars]
-filesize=524300
-sha512=176b7957fe0e7618e0b7bf2ac5071f7fa29417df718cce977661a576fa184e4af9d303b591c9d556b6ba8923e799457343afa401f5a9f7ecd9022185a4e06716
-pkgver=2
+filesize=355676
+sha512=7d02f05d17305f8587ab485395b00c7fdb8e44c1906d0d04b70a43a3020803e8b2b8c707abb6147f794867dfa87bd51769c2d3e11a3db55ecbd2006a6e6231dc
+pkgver=3
 
 [deps]
 attr
