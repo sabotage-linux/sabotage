@@ -1,0 +1,676 @@
+--- a/configure	2023-06-05 20:59:09.718875856 +0000
++++ b/configure	2023-06-05 20:59:40.247195726 +0000
+@@ -1924,7 +1924,7 @@
+ 
+ # Note that if the Python conditional here evaluates True we will exit
+ # with status 1 which is a shell 'false' value.
+-if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
++if false ; then
+   error_exit "Cannot use '$python', Python >= 3.5 is required." \
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
+--- a/scripts/minikconf.py	2023-06-05 21:35:19.385855653 +0000
++++ b/scripts/minikconf.py	2023-06-05 21:38:09.055655165 +0000
+@@ -20,6 +20,9 @@
+             'KconfigData', 'KconfigParser' ,
+             'defconfig', 'allyesconfig', 'allnoconfig', 'randconfig' ]
+ 
++def fprint(s, file=sys.stdout):
++    file.write(s + '\n')
++
+ def debug_print(*args):
+     #print('# ' + (' '.join(str(x) for x in args)))
+     pass
+@@ -114,7 +117,7 @@
+             if self.has_value() and self.value != val:
+                 print("The following clauses were found for " + self.name)
+                 for i in self.clauses_for_var:
+-                    print("    " + str(i), file=sys.stderr)
++                    fprint("    " + str(i), file=sys.stderr)
+                 raise KconfigDataError('contradiction between clauses when setting %s' % self)
+             debug_print("=> %s is now %s" % (self.name, val))
+             self.value = val
+@@ -213,7 +216,7 @@
+         undef = False
+         for i in self.referenced_vars:
+             if not (i in self.defined_vars):
+-                print("undefined symbol %s" % (i), file=sys.stderr)
++                fprint("undefined symbol %s" % (i), file=sys.stderr)
+                 undef = True
+         return undef
+ 
+@@ -679,11 +682,11 @@
+             del argv[1]
+ 
+     if len(argv) == 1:
+-        print ("%s: at least one argument is required" % argv[0], file=sys.stderr)
++        fprint ("%s: at least one argument is required" % argv[0], file=sys.stderr)
+         sys.exit(1)
+ 
+     if argv[1].startswith('-'):
+-        print ("%s: invalid option %s" % (argv[0], argv[1]), file=sys.stderr)
++        fprint ("%s: invalid option %s" % (argv[0], argv[1]), file=sys.stderr)
+         sys.exit(1)
+ 
+     data = KconfigData(mode)
+@@ -707,5 +710,5 @@
+ 
+     deps = open(argv[2], 'w')
+     for fname in data.previously_included:
+-        print ('%s: %s' % (argv[1], fname), file=deps)
++        fprint ('%s: %s' % (argv[1], fname), file=deps)
+     deps.close()
+--- qemu-5.0.1/scripts/qapi-gen.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi-gen.py	2023-06-05 21:47:52.157836715 +0000
+@@ -35,15 +35,14 @@
+ 
+     match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', args.prefix)
+     if match.end() != len(args.prefix):
+-        print("%s: 'funny character '%s' in argument of --prefix"
+-              % (sys.argv[0], args.prefix[match.end()]),
+-              file=sys.stderr)
++        sys.stderr.write("%s: 'funny character '%s' in argument of --prefix\n"
++              % (sys.argv[0], args.prefix[match.end()]))
+         sys.exit(1)
+ 
+     try:
+         schema = QAPISchema(args.schema)
+     except QAPIError as err:
+-        print(err, file=sys.stderr)
++        sys.stderr.write("%s\n"%err)
+         exit(1)
+ 
+     gen_types(schema, args.output_dir, args.prefix, args.builtins)
+--- qemu-5.0.1/scripts/qapi/common.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/common.py	2023-06-05 21:52:56.325057597 +0000
+@@ -12,7 +12,7 @@
+ # See the COPYING file in the top-level directory.
+ 
+ import re
+-
++import string
+ 
+ # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
+ # ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
+@@ -42,7 +42,7 @@
+     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
+ 
+ 
+-c_name_trans = str.maketrans('.-', '__')
++c_name_trans = string.maketrans('.-', '__')
+ 
+ 
+ # Map @name to a valid C identifier.
+--- qemu-5.0.1/scripts/qapi/parser.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/parser.py	2023-06-05 21:58:23.056509484 +0000
+@@ -16,6 +16,7 @@
+ 
+ import os
+ import re
++import encodings
+ from collections import OrderedDict
+ 
+ from qapi.error import QAPIParseError, QAPISemError
+@@ -29,7 +30,7 @@
+         previously_included.add(os.path.abspath(fname))
+ 
+         try:
+-            fp = open(fname, 'r', encoding='utf-8')
++            fp = open(fname, 'r') #encodings.codecs.open(fname, 'r', encoding='utf-8')
+             self.src = fp.read()
+         except IOError as e:
+             raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
+--- qemu-5.0.1/scripts/qapi/error.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/error.py	2023-06-05 22:07:21.978202119 +0000
+@@ -35,9 +35,9 @@
+                 col = (col + 7) % 8 + 1
+             else:
+                 col += 1
+-        super().__init__(parser.info, col, msg)
++        super(QAPIParseError, self).__init__(parser.info, col, msg)
+ 
+ 
+ class QAPISemError(QAPIError):
+     def __init__(self, info, msg):
+-        super().__init__(info, None, msg)
++        super(QAPISemError, self).__init__(info, None, msg)
+--- qemu-5.0.1/scripts/modules/module_block.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/modules/module_block.py	2023-06-05 22:10:29.888187478 +0000
+@@ -90,7 +90,7 @@
+         if os.path.isfile(filename):
+             process_file(fheader, filename)
+         else:
+-            print("File " + filename + " does not exist.", file=sys.stderr)
++            sys.stderr.write("File " + filename + " does not exist.\n")
+             sys.exit(1)
+ 
+     print_bottom(fheader)
+--- qemu-5.0.1/scripts/qapi/parser.py	2023-06-05 22:11:37.612903315 +0000
++++ qemu-5.0.1.patched/scripts/qapi/parser.py	2023-06-05 22:15:43.939508299 +0000
+@@ -63,7 +63,7 @@
+                 if len(expr) != 1:
+                     raise QAPISemError(info, "invalid 'include' directive")
+                 include = expr['include']
+-                if not isinstance(include, str):
++                if False and not isinstance(include, str):
+                     raise QAPISemError(info,
+                                        "value of 'include' must be a string")
+                 incl_fname = os.path.join(os.path.dirname(fname),
+--- qemu-5.0.1/scripts/qapi/parser.py	2023-06-05 22:16:51.732225232 +0000
++++ qemu-5.0.1.patched/scripts/qapi/parser.py	2023-06-05 22:21:40.439279111 +0000
+@@ -127,15 +127,15 @@
+                                    "pragma 'doc-required' must be boolean")
+             info.pragma.doc_required = value
+         elif name == 'returns-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
++            if (not isinstance(value, list)):
++                #    or any([not isinstance(elt, str) for elt in value])):
+                 raise QAPISemError(
+                     info,
+                     "pragma returns-whitelist must be a list of strings")
+             info.pragma.returns_whitelist = value
+         elif name == 'name-case-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
++            if (not isinstance(value, list)):
++                #    or any([not isinstance(elt, str) for elt in value])):
+                 raise QAPISemError(
+                     info,
+                     "pragma name-case-whitelist must be a list of strings")
+--- qemu-5.0.1/scripts/qapi/parser.py	2023-06-05 23:18:07.247190206 +0000
++++ qemu-5.0.1.patched/scripts/qapi/parser.py	2023-06-05 23:19:07.659830517 +0000
+@@ -308,7 +308,7 @@
+     Free-form documentation blocks consist only of a body section.
+     """
+ 
+-    class Section:
++    class Section(object):
+         def __init__(self, name=None):
+             # optional section name (argument/member or section name)
+             self.name = name
+@@ -320,7 +320,7 @@
+ 
+     class ArgSection(Section):
+         def __init__(self, name):
+-            super().__init__(name)
++            super(QAPIDoc.ArgSection, self).__init__(name)
+             self.member = None
+ 
+         def connect(self, member):
+--- qemu-5.0.1/scripts/qapi/expr.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/expr.py	2023-06-05 23:32:46.748507405 +0000
+@@ -29,7 +29,7 @@
+ 
+ def check_name_is_str(name, info, source):
+     if not isinstance(name, str):
+-        raise QAPISemError(info, "%s requires a string name" % source)
++        raise QAPISemError(info, "%s requires a string name but is %s" % (source, str(type(name))))
+ 
+ 
+ def check_name_str(name, info, source,
+@@ -118,6 +118,7 @@
+         for elt in ifcond:
+             check_if_str(elt, info)
+     else:
++        if not isinstance(ifcond, str): ifcond = str(ifcond)
+         check_if_str(ifcond, info)
+         expr['if'] = [ifcond]
+ 
+@@ -303,6 +304,7 @@
+             raise QAPISemError(info, "expression is missing metatype")
+ 
+         name = expr[meta]
++        if not isinstance(name, str): name = str(name)
+         check_name_is_str(name, info, "'%s'" % meta)
+         info.set_defn(meta, name)
+         check_defn_name_str(name, info, meta)
+--- qemu-5.0.1/scripts/qapi/schema.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/schema.py	2023-06-05 23:51:47.796554149 +0000
+@@ -24,7 +24,7 @@
+ from qapi.parser import QAPISchemaParser
+ 
+ 
+-class QAPISchemaEntity:
++class QAPISchemaEntity(object):
+     meta = None
+ 
+     def __init__(self, name, info, doc, ifcond=None, features=None):
+@@ -89,7 +89,7 @@
+         return "%s '%s'" % (self.meta, self.name)
+ 
+ 
+-class QAPISchemaVisitor:
++class QAPISchemaVisitor(object):
+     def visit_begin(self, schema):
+         pass
+ 
+@@ -135,7 +135,7 @@
+         pass
+ 
+ 
+-class QAPISchemaModule:
++class QAPISchemaModule(object):
+     def __init__(self, name):
+         self.name = name
+         self._entity_list = []
+@@ -152,11 +152,11 @@
+ 
+ class QAPISchemaInclude(QAPISchemaEntity):
+     def __init__(self, sub_module, info):
+-        super().__init__(None, info, None)
++        super(QAPISchemaInclude, self).__init__(None, info, None)
+         self._sub_module = sub_module
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaInclude, self).visit(visitor)
+         visitor.visit_include(self._sub_module.name, self.info)
+ 
+ 
+@@ -208,7 +208,7 @@
+     meta = 'built-in'
+ 
+     def __init__(self, name, json_type, c_type):
+-        super().__init__(name, None, None)
++        super(QAPISchemaBuiltinType, self).__init__(name, None, None)
+         assert not c_type or isinstance(c_type, str)
+         assert json_type in ('string', 'number', 'int', 'boolean', 'null',
+                              'value')
+@@ -233,7 +233,7 @@
+         return self.json_type()
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaBuiltinType, self).visit(visitor)
+         visitor.visit_builtin_type(self.name, self.info, self.json_type())
+ 
+ 
+@@ -241,7 +241,7 @@
+     meta = 'enum'
+ 
+     def __init__(self, name, info, doc, ifcond, features, members, prefix):
+-        super().__init__(name, info, doc, ifcond, features)
++        super(QAPISchemaEnumType, self).__init__(name, info, doc, ifcond, features)
+         for m in members:
+             assert isinstance(m, QAPISchemaEnumMember)
+             m.set_defined_in(name)
+@@ -250,13 +250,13 @@
+         self.prefix = prefix
+ 
+     def check(self, schema):
+-        super().check(schema)
++        super(QAPISchemaEnumType, self).check(schema)
+         seen = {}
+         for m in self.members:
+             m.check_clash(self.info, seen)
+ 
+     def connect_doc(self, doc=None):
+-        super().connect_doc(doc)
++        super(QAPISchemaEnumType, self).connect_doc(doc)
+         doc = doc or self.doc
+         for m in self.members:
+             m.connect_doc(doc)
+@@ -275,7 +275,7 @@
+         return 'string'
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaEnumType, self).visit(visitor)
+         visitor.visit_enum_type(
+             self.name, self.info, self.ifcond, self.features,
+             self.members, self.prefix)
+@@ -285,13 +285,13 @@
+     meta = 'array'
+ 
+     def __init__(self, name, info, element_type):
+-        super().__init__(name, info, None)
++        super(QAPISchemaArrayType, self).__init__(name, info, None)
+         assert isinstance(element_type, str)
+         self._element_type_name = element_type
+         self.element_type = None
+ 
+     def check(self, schema):
+-        super().check(schema)
++        super(QAPISchemaArrayType, self).check(schema)
+         self.element_type = schema.resolve_type(
+             self._element_type_name, self.info,
+             self.info and self.info.defn_meta)
+@@ -321,7 +321,7 @@
+         return 'array of ' + elt_doc_type
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaArrayType, self).visit(visitor)
+         visitor.visit_array_type(self.name, self.info, self.ifcond,
+                                  self.element_type)
+ 
+@@ -336,7 +336,7 @@
+         # struct has local_members, optional base, and no variants
+         # flat union has base, variants, and no local_members
+         # simple union has local_members, variants, and no base
+-        super().__init__(name, info, doc, ifcond, features)
++        super(QAPISchemaObjectType, self).__init__(name, info, doc, ifcond, features)
+         self.meta = 'union' if variants else 'struct'
+         assert base is None or isinstance(base, str)
+         for m in local_members:
+@@ -363,7 +363,7 @@
+             raise QAPISemError(self.info,
+                                "object %s contains itself" % self.name)
+ 
+-        super().check(schema)
++        super(QAPISchemaObjectType, self).check(schema)
+         assert self._checked and self.members is None
+ 
+         seen = OrderedDict()
+@@ -399,7 +399,7 @@
+             m.check_clash(info, seen)
+ 
+     def connect_doc(self, doc=None):
+-        super().connect_doc(doc)
++        super(QAPISchemaObjectType, self).connect_doc(doc)
+         doc = doc or self.doc
+         if self.base and self.base.is_implicit():
+             self.base.connect_doc(doc)
+@@ -426,7 +426,7 @@
+ 
+     def c_name(self):
+         assert self.name != 'q_empty'
+-        return super().c_name()
++        return super(QAPISchemaObjectType, self).c_name()
+ 
+     def c_type(self):
+         assert not self.is_implicit()
+@@ -439,7 +439,7 @@
+         return 'object'
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaObjectType, self).visit(visitor)
+         visitor.visit_object_type(
+             self.name, self.info, self.ifcond, self.features,
+             self.base, self.local_members, self.variants)
+@@ -452,7 +452,7 @@
+     meta = 'alternate'
+ 
+     def __init__(self, name, info, doc, ifcond, features, variants):
+-        super().__init__(name, info, doc, ifcond, features)
++        super(QAPISchemaAlternateType, self).__init__(name, info, doc, ifcond, features)
+         assert isinstance(variants, QAPISchemaVariants)
+         assert variants.tag_member
+         variants.set_defined_in(name)
+@@ -460,7 +460,7 @@
+         self.variants = variants
+ 
+     def check(self, schema):
+-        super().check(schema)
++        super(QAPISchemaAlternateType, self).check(schema)
+         self.variants.tag_member.check(schema)
+         # Not calling self.variants.check_clash(), because there's nothing
+         # to clash with
+@@ -498,7 +498,7 @@
+                 types_seen[qt] = v.name
+ 
+     def connect_doc(self, doc=None):
+-        super().connect_doc(doc)
++        super(QAPISchemaAlternateType, self).connect_doc(doc)
+         doc = doc or self.doc
+         for v in self.variants.variants:
+             v.connect_doc(doc)
+@@ -510,12 +510,12 @@
+         return 'value'
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaAlternateType, self).visit(visitor)
+         visitor.visit_alternate_type(
+             self.name, self.info, self.ifcond, self.features, self.variants)
+ 
+ 
+-class QAPISchemaVariants:
++class QAPISchemaVariants(object):
+     def __init__(self, tag_name, info, tag_member, variants):
+         # Flat unions pass tag_name but not tag_member.
+         # Simple unions and alternates pass tag_member but not tag_name.
+@@ -606,7 +606,7 @@
+             v.type.check_clash(info, dict(seen))
+ 
+ 
+-class QAPISchemaMember:
++class QAPISchemaMember(object):
+     """ Represents object members, enum members and features """
+     role = 'member'
+ 
+@@ -675,7 +675,7 @@
+ 
+ class QAPISchemaObjectTypeMember(QAPISchemaMember):
+     def __init__(self, name, info, typ, optional, ifcond=None, features=None):
+-        super().__init__(name, info, ifcond)
++        super(QAPISchemaObjectTypeMember, self).__init__(name, info, ifcond)
+         assert isinstance(typ, str)
+         assert isinstance(optional, bool)
+         for f in features or []:
+@@ -695,7 +695,7 @@
+             f.check_clash(self.info, seen)
+ 
+     def connect_doc(self, doc):
+-        super().connect_doc(doc)
++        super(QAPISchemaObjectTypeMember, self).connect_doc(doc)
+         if doc:
+             for f in self.features:
+                 doc.connect_feature(f)
+@@ -705,7 +705,7 @@
+     role = 'branch'
+ 
+     def __init__(self, name, info, typ, ifcond=None):
+-        super().__init__(name, info, typ, False, ifcond)
++        super(QAPISchemaVariant, self).__init__(name, info, typ, False, ifcond)
+ 
+ 
+ class QAPISchemaCommand(QAPISchemaEntity):
+@@ -714,7 +714,7 @@
+     def __init__(self, name, info, doc, ifcond, features,
+                  arg_type, ret_type,
+                  gen, success_response, boxed, allow_oob, allow_preconfig):
+-        super().__init__(name, info, doc, ifcond, features)
++        super(QAPISchemaCommand, self).__init__(name, info, doc, ifcond, features)
+         assert not arg_type or isinstance(arg_type, str)
+         assert not ret_type or isinstance(ret_type, str)
+         self._arg_type_name = arg_type
+@@ -728,7 +728,7 @@
+         self.allow_preconfig = allow_preconfig
+ 
+     def check(self, schema):
+-        super().check(schema)
++        super(QAPISchemaCommand, self).check(schema)
+         if self._arg_type_name:
+             self.arg_type = schema.resolve_type(
+                 self._arg_type_name, self.info, "command's 'data'")
+@@ -757,14 +757,14 @@
+                         % self.ret_type.describe())
+ 
+     def connect_doc(self, doc=None):
+-        super().connect_doc(doc)
++        super(QAPISchemaCommand, self).connect_doc(doc)
+         doc = doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
+                 self.arg_type.connect_doc(doc)
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaCommand, self).visit(visitor)
+         visitor.visit_command(
+             self.name, self.info, self.ifcond, self.features,
+             self.arg_type, self.ret_type, self.gen, self.success_response,
+@@ -775,14 +775,14 @@
+     meta = 'event'
+ 
+     def __init__(self, name, info, doc, ifcond, features, arg_type, boxed):
+-        super().__init__(name, info, doc, ifcond, features)
++        super(QAPISchemaEvent, self).__init__(name, info, doc, ifcond, features)
+         assert not arg_type or isinstance(arg_type, str)
+         self._arg_type_name = arg_type
+         self.arg_type = None
+         self.boxed = boxed
+ 
+     def check(self, schema):
+-        super().check(schema)
++        super(QAPISchemaEvent, self).check(schema)
+         if self._arg_type_name:
+             self.arg_type = schema.resolve_type(
+                 self._arg_type_name, self.info, "event's 'data'")
+@@ -798,20 +798,20 @@
+                     % self.arg_type.describe())
+ 
+     def connect_doc(self, doc=None):
+-        super().connect_doc(doc)
++        super(QAPISchemaEvent, self).connect_doc(doc)
+         doc = doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
+                 self.arg_type.connect_doc(doc)
+ 
+     def visit(self, visitor):
+-        super().visit(visitor)
++        super(QAPISchemaEvent, self).visit(visitor)
+         visitor.visit_event(
+             self.name, self.info, self.ifcond, self.features,
+             self.arg_type, self.boxed)
+ 
+ 
+-class QAPISchema:
++class QAPISchema(object):
+     def __init__(self, fname):
+         self.fname = fname
+         parser = QAPISchemaParser(fname)
+--- qemu-5.0.1/scripts/qapi/types.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/types.py	2023-06-05 23:54:07.326027163 +0000
+@@ -241,7 +241,7 @@
+ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisitor):
+ 
+     def __init__(self, prefix):
+-        super().__init__(
++        super(QAPISchemaGenTypeVisitor, self).__init__(
+             prefix, 'qapi-types', ' * Schema-defined QAPI types',
+             ' * Built-in QAPI types', __doc__)
+ 
+--- qemu-5.0.1/scripts/qapi/gen.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/gen.py	2023-06-05 23:57:54.516415755 +0000
+@@ -21,7 +21,7 @@
+ from qapi.schema import QAPISchemaVisitor
+ 
+ 
+-class QAPIGen:
++class QAPIGen(object):
+ 
+     def __init__(self, fname):
+         self.fname = fname
+@@ -87,7 +87,7 @@
+ class QAPIGenCCode(QAPIGen):
+ 
+     def __init__(self, fname):
+-        super().__init__(fname)
++        super(QAPIGenCCode, self).__init__(fname)
+         self._start_if = None
+ 
+     def start_if(self, ifcond):
+@@ -107,13 +107,13 @@
+ 
+     def get_content(self):
+         assert self._start_if is None
+-        return super().get_content()
++        return super(QAPIGenCCode, self).get_content()
+ 
+ 
+ class QAPIGenC(QAPIGenCCode):
+ 
+     def __init__(self, fname, blurb, pydoc):
+-        super().__init__(fname)
++        super(QAPIGenC, self).__init__(fname)
+         self._blurb = blurb
+         self._copyright = '\n * '.join(re.findall(r'^Copyright .*', pydoc,
+                                                   re.MULTILINE))
+@@ -146,7 +146,7 @@
+ class QAPIGenH(QAPIGenC):
+ 
+     def _top(self):
+-        return super()._top() + guardstart(self.fname)
++        return super(QAPIGenH, self)._top() + guardstart(self.fname)
+ 
+     def _bottom(self):
+         return guardend(self.fname)
+@@ -181,7 +181,7 @@
+ class QAPIGenDoc(QAPIGen):
+ 
+     def _top(self):
+-        return (super()._top()
++        return (super(QAPIGenDoc, self)._top()
+                 + '@c AUTOMATICALLY GENERATED, DO NOT MODIFY\n\n')
+ 
+ 
+--- qemu-5.0.1/scripts/qapi/gen.py	2023-06-06 12:23:08.601111591 +0000
++++ qemu-5.0.1.patched/scripts/qapi/gen.py	2023-06-06 12:22:28.908691295 +0000
+@@ -58,7 +58,7 @@
+                 if e.errno != errno.EEXIST:
+                     raise
+         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        f = open(fd, 'r+', encoding='utf-8')
++        f = os.fdopen(fd, 'r+') #, encoding='utf-8')
+         text = self.get_content()
+         oldtext = f.read(len(text) + 1)
+         if text != oldtext:
+--- qemu-5.0.1/scripts/qapi/visit.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/visit.py	2023-06-06 12:26:26.007201915 +0000
+@@ -283,7 +283,7 @@
+ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
+ 
+     def __init__(self, prefix):
+-        super().__init__(
++        super(QAPISchemaGenVisitVisitor, self).__init__(
+             prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
+             ' * Built-in QAPI visitors', __doc__)
+ 
+--- qemu-5.0.1/scripts/qapi/commands.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/commands.py	2023-06-06 12:28:58.072812145 +0000
+@@ -237,7 +237,7 @@
+ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
+ 
+     def __init__(self, prefix):
+-        super().__init__(
++        super(QAPISchemaGenCommandVisitor, self).__init__(
+             prefix, 'qapi-commands',
+             ' * Schema-defined QAPI/QMP commands', None, __doc__)
+         self._regy = QAPIGenCCode(None)
+--- qemu-5.0.1/scripts/qapi/events.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/events.py	2023-06-06 12:32:00.778746841 +0000
+@@ -138,7 +138,7 @@
+ class QAPISchemaGenEventVisitor(QAPISchemaModularCVisitor):
+ 
+     def __init__(self, prefix):
+-        super().__init__(
++        super(QAPISchemaGenEventVisitor, self).__init__(
+             prefix, 'qapi-events',
+             ' * Schema-defined QAPI/QMP events', None, __doc__)
+         self._event_enum_name = c_name(prefix + 'QAPIEvent', protect=False)
+--- qemu-5.0.1/scripts/qapi/introspect.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/qapi/introspect.py	2023-06-06 12:34:10.976125486 +0000
+@@ -87,7 +87,7 @@
+ class QAPISchemaGenIntrospectVisitor(QAPISchemaMonolithicCVisitor):
+ 
+     def __init__(self, prefix, unmask):
+-        super().__init__(
++        super(QAPISchemaGenIntrospectVisitor, self).__init__(
+             prefix, 'qapi-introspect',
+             ' * QAPI/QMP schema introspection', __doc__)
+         self._unmask = unmask
+--- qemu-5.0.1/scripts/signrom.py	2020-09-15 16:31:14.000000000 +0000
++++ qemu-5.0.1.patched/scripts/signrom.py	2023-06-06 12:39:17.967391476 +0000
+@@ -45,6 +45,7 @@
+ 
+ checksum = 0
+ for b in data:
++    if isinstance(b, str): b = ord(b)
+     checksum = (checksum - b) & 255
+ 
+ fout.write(struct.pack('B', checksum))

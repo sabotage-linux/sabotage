@@ -33,6 +33,7 @@ patch -p1 < "$K"/qemu5-0001-linux-user-fix-build-with-musl-on-ppc64le.patch
 patch -p1 < "$K"/qemu5-MAP_SYNC-fix.patch
 patch -p1 < "$K"/qemu5-fix-sockios-header.patch
 patch -p1 < "$K"/qemu5-guest-agent-shutdown.patch
+type python3 >/dev/null 2>&1 || patch -p1 < "$K"/qemu5-py3.patch
 
 sed -i 's,curses_version,"foo";//,' configure
 
