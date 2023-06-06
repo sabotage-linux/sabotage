@@ -19,6 +19,8 @@ attr
 libblkid
 
 [build]
+patch -p1 < "$K"/btrfs-progs-fallthru.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"

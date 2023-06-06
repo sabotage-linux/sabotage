@@ -1,0 +1,11 @@
+--- a/include/kerncompat.h	2023-06-06 13:21:45.915365882 +0000
++++ b/include/kerncompat.h	2023-06-06 13:22:27.551846769 +0000
+@@ -232,6 +232,8 @@
+ #if defined __has_attribute
+ # if __has_attribute(__fallthrough__)
+ #  define fallthrough			__attribute__((__fallthrough__))
++# else
++#  define fallthrough                    do {} while (0)  /* fallthrough */
+ # endif
+ #else
+ # define fallthrough			do {} while (0)  /* fallthrough */
