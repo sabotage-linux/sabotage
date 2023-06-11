@@ -13,6 +13,10 @@ python
 [deps.host]
 python
 
+[deps]
+python-pytest-runner
+python-setuptools-scm
+
 [build]
 sed -e "s/\['pytest-runner'\]/None/" -e "s/'pytest', //" -i __pkginfo__.py
 python setup.py build

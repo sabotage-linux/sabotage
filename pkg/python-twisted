@@ -15,6 +15,7 @@ python
 
 [deps]
 libtirpc
+python-cryptography
 
 [build]
 export CFLAGS="$optcflags"

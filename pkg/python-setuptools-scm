@@ -1,0 +1,21 @@
+[mirrors]
+https://files.pythonhosted.org/packages/56/c9/09f4a531720b1bf54f316fdff926fbb937c59a9c4a34e3a533b26e501898/setuptools_scm-5.0.2.tar.gz
+
+[vars]
+filesize=52273
+sha512=1e92d03e2d8473425c146a885eb641e98895c43afebcd3c66c1455ace2d81f187b87681072f8aacc5e8be166577f00138cc7c53e4b7d77cb1b598f835b72b010
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[deps]
+python
+
+[build]
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+        --root="$butch_install_dir"
