@@ -163,6 +163,14 @@ test "$USE_CCACHE" = 1 && type ccache >/dev/null 2>&1 && {
 	CXX="ccache $CXX"
 }
 
+if test -n "$SECURE_PACKAGES"; then
+	SECURE=0
+	for pkg in $SECURE_PACKAGES; do
+		test "$pkg" = "$butch_package_name" && SECURE=1 && break
+	done
+	export SECURE
+fi
+
 debug_build=false
 if [ -f "$butch_root_dir"/etc/butch-optflags.sh ] ; then
 	user_optimizations_file="$butch_root_dir"/etc/butch-optflags.sh
