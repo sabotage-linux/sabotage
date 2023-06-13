@@ -1,11 +1,11 @@
 [mirrors]
-https://sourceforge.net/projects/sdcc/files/sdcc/4.2.0/sdcc-src-4.2.0-rc2.tar.bz2
+https://sourceforge.net/projects/sdcc/files/sdcc/4.2.0/sdcc-src-4.2.0.tar.bz2
 
 [vars]
-filesize=19662258
-sha512=007fafa0f67e8483a159f49af1feea9332ae20042c4fdacb54376cbbe0bf472a0f6d9d1632a37a69ecc13cde0d63b3cdfdfc39b04aa7852bc9ba7b167f4f5477
-tardir=sdcc-4.2.0-rc2
-pkgver=1
+filesize=19662367
+sha512=7ca4037d526b5fed7bbca4433835d0299ced7315dd69c1ec66cff873ec7caa41b69927363bf5850e2ad4f27ef6286e57f9ccd40bb6792308be6c3073c5238cba
+tardir=sdcc-4.2.0
+pkgver=2
 desc='small device C compiler, targetting 8bit cpus like Z80'
 
 [deps]
