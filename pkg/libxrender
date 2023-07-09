@@ -1,13 +1,14 @@
+[mirrors]
+https://www.x.org/releases/individual/lib/libXrender-0.9.11.tar.xz
+
+[vars]
+filesize=302900
+sha512=2327cc1b530382d81df29b8d579f801f1f990202107cc84506986bcf5d15010d414e9418987b200e3f222d188afce46f0d7754febcdca62a5fc1e541b3bb82de
+pkgver=2
+
 [deps]
 renderproto
 libx11
-
-[vars]
-filesize=306121
-sha512=111a0ec4e19932a50da4914d9112b0a16c1d9c800e2b8398ddaf9ed70dae1a4eb75860282ca62d023e78957bbc3f015cb80d91ba76a24595df9f8a2b7e055b58
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.8.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
