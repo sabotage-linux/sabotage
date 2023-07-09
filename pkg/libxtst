@@ -1,14 +1,15 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXtst-1.2.4.tar.xz
+
+[vars]
+filesize=287636
+sha512=f2f4e01239b892b8e26284cede90feb4fe7738beb243bca0f6adb349029f8bf87b5a482911edcd2401733c92ef78eec07fcd455b92e5b8c4828374769e60098d
+pkgver=2
+
 [deps]
 recordproto
 xproto
 libx11
-
-[vars]
-filesize=321784
-sha512=1cf040f16d426e6a6d1cf8c0f966c171418c082165ae6e9bed6285cd45f144e4ef58bf74c6d34fd81e6894534d21df55efe5d0bc0b2a28f9bb9d74e168dd7369
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXtst-1.2.2.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
