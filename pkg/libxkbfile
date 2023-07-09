@@ -1,12 +1,13 @@
-[deps]
-libx11
+[mirrors]
+http://www.x.org/releases/individual/lib/libxkbfile-1.1.2.tar.xz
 
 [vars]
-filesize=335788
-sha512=1d8766db2a15fe0a1f3775d38422eabd572ec8ba8417cde9f1ec95b0065e1acb6036fcf9a8e54f2e0517b358f9f3fe6f8b419554ec7688c24ec4072939c5e099
+filesize=311428
+sha512=0639fad7b64b36a85f8d24cdd40085e0ec18d7a671793b8b5c26449e9cc5a84c37117e7757fb1238ac353044935dd00013e42166de5af9dec428e873a47e598d
+pkgver=2
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libxkbfile-1.0.8.tar.bz2
+[deps]
+libx11
 
 [build]
 cp -f "$K"/config.sub .
@@ -15,6 +16,5 @@ xconfflags="--build=$($CC -dumpmachine)"
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
-patch -p1 < "$K"/libtool-sysroot.patch
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
