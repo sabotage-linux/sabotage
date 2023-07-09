@@ -1,9 +1,10 @@
-[vars]
-filesize=256988
-sha512=3cef1df57138264dac9802cc4074bc58f82609c6ef859e238108d9ad1ac3a720b991d91f61ca47ea48c56019b465e7e6b37bcbe0b519d1999126255a7d879d54
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/kbproto-1.0.6.tar.bz2
+http://www.x.org/archive//individual/proto/kbproto-1.0.7.tar.gz
+
+[vars]
+filesize=325858
+sha512=a86408518892b0a01162dd7e2fbf8dc4c040a103b95d4f603d97de540faf2bfb180b661e480109344f54c87beb8d2befbf0174f4eab77f7db91d560b9a4be69e
+pkgver=2
 
 [build]
 cp -f "$K"/config.sub .
