@@ -1,15 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXcursor-1.2.1.tar.xz
+
+[vars]
+filesize=280352
+sha512=ebb42a39855aab86d0c11fe6ad33d011cf56a6dc5c309bef643460319c03df239b7e09fe88777bb25c0e9ff8aceac6bf66e51cc04a2d5ee463b3bc3bbf1674e3
+pkgver=2
+
 [deps]
 xproto
 libx11
 libxrender
 libxfixes
-
-[vars]
-filesize=311896
-sha512=687963b54da66be25371f64a88f91812b38de4ffc3b806070f3aeb1da379df16ede819201a352b3fb66efc6b40a36a22770add3ae464f2008aff3e23cb60a8e6
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXcursor-1.1.14.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
