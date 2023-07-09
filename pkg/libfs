@@ -1,13 +1,14 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libFS-1.0.9.tar.xz
+
+[vars]
+filesize=287416
+sha512=7d012e62736c6d567931bad982eec221199d296f0fe41e1e7fde5575b8b928e9a8c644aa8746242bdfe72393635320b58774d9a519285765bd26d633588092b8
+pkgver=2
+
 [deps]
 xproto
 libx11
-
-[vars]
-filesize=303806
-sha512=21d3ba66b33eeffdcbe4e963235dcab1cc510686f9f2f616c25b44028faee66f1a12e087f27c53a4bc495f34c60949dfe834977a14ca12ec48c5be818abe1f94
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libFS-1.0.5.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
