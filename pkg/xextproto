@@ -1,9 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.99.901.tar.bz2
+http://www.x.org/archive/individual/proto/xextproto-7.3.0.tar.bz2
 
 [vars]
-filesize=229097
-sha512=e2695da13b80e6a182fe5451838af868c4b65f4d99df38d00f746be31865bb251887471823902ca9219ff78dbde0094e84a71b88b17956783c82cd9684cfbabd
+filesize=229310
+sha512=238beed85fcf6fe5b0809e52814dd44fa45fe6868239990086cb8dd2c446292dd4794698abd07ed10bd146a7096c1679f7160da226f9e861dfaf6c8e22315d61
+pkgver=2
 
 [build]
 cp -f "$K"/config.sub .
