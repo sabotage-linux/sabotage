@@ -1,9 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xmodmap-1.0.7.tar.gz
+http://www.x.org/releases/individual/app/xmodmap-1.0.11.tar.xz
 
 [vars]
-filesize=167787
-sha512=b9cdc91d6d40015076593db3e8050cbdd127834cba3f8b1703949eec259ad4ae90f5170520c22ec919c41150ac475317558658aaee70e4cd30494f4b43e1d63b
+filesize=139532
+sha512=a78f916f048d2017f079733becc99232c087c360ece61ec6c4fa4b5b130b96a1b10c4ce1b64a15bdcab7ea05de3c7f16035503d5be6f8ce1a7612ce71d558510
+pkgver=2
 
 [deps]
 libx11
