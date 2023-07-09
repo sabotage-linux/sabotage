@@ -1,9 +1,10 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/app/setxkbmap-1.3.0.tar.gz
+http://www.x.org/releases/individual/app/setxkbmap-1.3.4.tar.xz
 
 [vars]
-filesize=155404
-sha512=c9bb05031f34f0e17c0868b1725bd2a135477edf04a94c1dea7d76ebb032bbecfb2f73e6923d1fd81f1e1cc97fc02816f436ae6d891c3dbdfad26ef969e63600
+filesize=132300
+sha512=f4d026e7707656173f54d79b95ff3370ae06eaf252b89b79bc7175edeaf3ef79073d4d7d8a35fdee95608bf85d7d23514d74f00e55b613810ef6c3ccc0cf498b
+pkgver=2
 
 [deps]
 libxkbfile
