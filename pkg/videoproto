@@ -1,12 +1,13 @@
-[deps]
-util-macros
+[mirrors]
+http://www.x.org/archive/individual/proto/videoproto-2.3.3.tar.gz
 
 [vars]
-filesize=118862
-sha512=57ca8981b217724e4e0599624e6d8077aca0f2568855c54b74dbf5e03d25864eb114540b02a49c11487beb03d55d52efc09d8a7fb86a3078a4d52f4a3042ef36
+filesize=147674
+sha512=e6605296e56a6378ecb2acf25c163044342a10883a10f9c612f0b0e9f45236ff020185e5108508250aa1e5a051896653396b7e7724f45e93317bc2b81bb90767
+pkgver=2
 
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.2.tar.bz2
+[deps]
+util-macros
 
 [build]
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
