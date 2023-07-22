@@ -1,0 +1,17 @@
+[mirrors]
+https://github.com/rofl0r/pyhttpd/archive/36582a9.tar.gz
+
+[vars]
+filesize=45291
+sha512=355f4166751ad2042a63399d61b27c94b302490f91a153937fa45463011e16abce0e28d1b6886d61696a22af9625772f28bbec7685265f936048064079d0b5e9
+tardir=pyhttpd-36582a9bae124ae1c69ce919aa11b56f005b2fb0
+tarball=pyhttpd-36582a9.tar.gz
+pkgver=1
+desc='tiny multithreaded httpd serving directory contents'
+
+[deps.run]
+python
+
+[build]
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 pyhttpd.py "$dest"/bin/pyhttpd
