@@ -1,16 +1,17 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libfontenc-1.1.7.tar.xz
+
+[vars]
+filesize=272752
+sha512=fd8578a81090fa938dd75ad9081ab62c6c54fa2535d1c6291afd799ac8dc7c344a43f07cea5cd4433af16df0d926c22e7c169877bc8b13d92584e7dec173d701
+pkgver=2
+
 [deps.host]
 pkgconf
 
 [deps]
 xproto
 zlib
-
-[vars]
-filesize=294884
-sha512=e0905592b7ef65acb8298b9807f90e68d18eddf3112c6232c1c774603c95ca7ec7f6db161e133dadc00d8791c5f76d4c3d65aa95544a1500c0767b88fdb52f45
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libfontenc-1.1.2.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .

@@ -1,5 +1,12 @@
 [mirrors]
-ftp://ftp.x.org/pub/individual/proto/inputproto-2.3.tar.bz2
+http://www.x.org/archive//individual/proto/inputproto-2.3.2.tar.gz
+
+[vars]
+filesize=244334
+sha512=1d335cc4f76ac4d23d17cdf7585583adf9e91c46cda50f3eb07ca7d29a50c7589fb7b0fb338814949adeb63bd280ab5eae92a45b9a30906e71b58b4654bb8f49
+pkgver=2
+
+[mirrors]
 http://ftp.x.org/pub/individual/proto/inputproto-2.3.tar.bz2
 
 [vars]

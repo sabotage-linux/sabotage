@@ -1,15 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXScrnSaver-1.2.4.tar.xz
+
+[vars]
+filesize=264384
+sha512=e4395af85f8496618afb23ffdaca1a75f5e3d213478d8dc73249cbc9840d7b993ba7513dbf6015cb38b48fe3f2223496365158a148dd5e1ac7475c5ee569e28c
+pkgver=2
+
 [deps]
 xproto
 libx11
 xextproto
 scrnsaverproto
-
-[vars]
-filesize=290437
-sha512=973aed3ad296c7160b66fccd4fff7375afc4332239acbe0ae1644fed9c453de69040f8174882ba264c731448edba9b499d398d013d556aea72434339399ed29f
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXScrnSaver-1.2.2.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
@@ -19,8 +20,6 @@ xconfflags="--build=$($CC -dumpmachine)"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --disable-static
-
-patch -p1 < "$K"/libtool-sysroot.patch
 
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 

@@ -1,9 +1,10 @@
-[vars]
-filesize=278026
-sha512=c9f059697c04fdc600d9e63873e924032d6cff456674ee28a885270c54722d96df0ef7a78432c2bdc0844241f115e00ad730c29d84681efc1c45a2e1acb3288c
-
 [mirrors]
-http://xorg.freedesktop.org//releases/individual/lib/libXinerama-1.1.3.tar.bz2
+http://www.x.org/releases/individual/lib/libXinerama-1.1.5.tar.xz
+
+[vars]
+filesize=260272
+sha512=735b5320de4782005b379e409bf2f976131c17d496b297d33a0e127ca1443034778586b6b25c077b2ad73a4ab34d440d7510475e0041f38202bb40f15fb08ff7
+pkgver=2
 
 [deps]
 libxext

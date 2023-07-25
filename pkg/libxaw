@@ -1,14 +1,15 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXaw-1.0.15.tar.xz
+
+[vars]
+filesize=589832
+sha512=8edbf280b7b24b9040c291545053c1251d6af7e7f56da43a6065a1848245863eb52bdfc28c2f18dbb6597a4064394a44f4df5d8596a1a467549ccc9ce50a7821
+pkgver=2
+
 [deps]
 libxext
 libxmu
 libxpm
-
-[vars]
-filesize=677147
-sha512=baf11625a20b89f08747e25dff6755ab796c8a5a91341d3cb21f85780733c4a3c25bbf134ac6259982207067d0a617f83f516c48aef6f57cbab14c8a9862944d
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXaw-1.0.12.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
