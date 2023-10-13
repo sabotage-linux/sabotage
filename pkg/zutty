@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/tomszilagyi/zutty/archive/refs/tags/0.11.tar.gz
+https://github.com/tomscii/zutty/archive/refs/tags/0.14.tar.gz
 
 [vars]
-filesize=343469
-sha512=84e8402a310adc80c698ded38fa3eb8ba44034f391e2538bccbdbc4082e239dc0d6ceb20504eeab4e5d2499ded55ef0941ae2e5d07eeb809d1059e5449cdb708
-tarball=zutty-0.11.tar.gz
-pkgver=2
+filesize=351015
+sha512=d73894feefa1fb58c76aa5f9d68a47b9871ab8d02eb5dd2575769c4f082a65cb9df2bdb2478e5aa54d121eb19a16269f169e79d72f0df779760520f2d501c086
+tarball=zutty-0.14.tar.gz
+pkgver=3
 desc='opengl accelerated terminal with bitmap fonts, xrdb, and x11 selection'
 
 [deps]
@@ -15,7 +15,9 @@ libxmu
 python
 
 [build]
-python ./waf configure --prefix="$butch_prefix"
+patch -p1 < "$K"/zutty-respect-compileflags.patch
+CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  python ./waf configure --prefix="$butch_prefix"
 python ./waf -v build -j$MAKE_THREADS
 python ./waf install --destdir="$butch_install_dir"
 

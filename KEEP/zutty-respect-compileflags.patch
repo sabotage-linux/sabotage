@@ -1,0 +1,18 @@
+--- a/wscript	2023-07-10 18:07:07.856235908 +0000
++++ b/wscript	2023-07-10 18:10:29.207249851 +0000
+@@ -67,7 +67,14 @@
+         Logs.error ('Unknown platform: {}'.format (platform))
+         sys.exit (1)
+ 
+-    if cfg.options.debug:
++    if 1:
++        import os
++        cfg.env.target = 'zutty'
++        cfg.env.append_value('CXXFLAGS',
++          os.environ["CXXFLAGS"].split(' '))
++        cfg.env.append_value('LINKFLAGS',
++          os.environ["LDFLAGS"].split(' '))
++    elif cfg.options.debug:
+         cfg.env.target = 'zutty.dbg'
+         cfg.env.append_value('CXXFLAGS',
+            ['-DDEBUG', '-Og', '-g', '-ggdb'])
