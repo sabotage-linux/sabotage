@@ -1,11 +1,14 @@
+modified for 32.4.1
 --- a/palemoon/installer/package-manifest.in	2023-05-16 22:31:05.109176813 +0000
 +++ b/palemoon/installer/package-manifest.in	2023-05-16 22:33:32.422983330 +0000
-@@ -74,9 +74,6 @@
+@@ -74,11 +74,6 @@
  #ifdef GKMEDIAS_SHARED_LIBRARY
  @BINPATH@/@DLL_PREFIX@gkmedias@DLL_SUFFIX@
  #endif
 -#ifndef MOZ_SYSTEM_HUNSPELL
+-#ifndef XP_SOLARIS
 -@BINPATH@/@DLL_PREFIX@hunspell@DLL_SUFFIX@
+-#endif
 -#endif
  #ifndef MOZ_SYSTEM_NSPR
  #ifndef MOZ_FOLD_LIBS
