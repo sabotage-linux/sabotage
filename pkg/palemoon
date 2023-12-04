@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.4.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.5.1_Release.tar.gz
 
 [vars]
-filesize=8496119
-sha512=d172de02cbc806b09cb722c42327563e7e3f8211061b7dcd6ba6ee0abe89842c3d724d836926666998e95975e157ead1334546ce8f41c51e3cc12f0b425f4be5
-tarball=Pale-Moon-32.4.1_Release.tar.gz
+filesize=8567269
+sha512=ef33212fa9564b6aebcdb2e3d9a5cdb7cdf23243727d435e47de594819167f73964e3fae9ad230d4b97bfec624dbf36eaf635a54b715143986e9a39101c390c0
+tarball=Pale-Moon-32.5.1_Release.tar.gz
 tardir=pale-moon
-pkgver=65
-BROWSER_VERSION=32.4.1
-UXP_VERSION=20231002
+pkgver=66
+BROWSER_VERSION=32.5.1
+UXP_VERSION=20231128
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
@@ -96,7 +96,7 @@ PATCH firefox-getprotobyname_r.patch
 
 PATCH firefox38-BLOCK_SIZE.patch
 PATCH firefox45-mallinfo.patch
-PATCH firefox45-libavutil.patch
+#PATCH firefox45-libavutil.patch
 #PATCH firefox45-seccomp-bpf.patch
 PATCH firefox45-7-psutil.patch
 PATCH firefox-disable-moz-stackwalk.patch
