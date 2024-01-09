@@ -171,10 +171,16 @@ int main(int argc, char** argv) {
 	char* pass = 0;
 
 	if(!is_root) {
-		time_t mtime = get_mtime(uidfn);
-		if(mtime != -1 && mtime + LOGIN_DELAY_SECS > time(0)) {
+		time_t mtime = get_mtime(uidfn), now = time(0);
+		if(mtime != -1 && mtime + LOGIN_DELAY_SECS > now) {
+			if(now < mtime)
+				dprintf(2, "warning: your system clock is in the past, check your CMOS battery.\n");
+
 			dprintf(2, "you need to wait for " LOGIN_DELAY_SECS_STR
 			           " seconds before retrying.\n");
+
+			if(now < mtime)	goto failed;
+
 			return 1;
 		}
 		pass = getpass("enter password:");

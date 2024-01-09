@@ -1,3 +1,6 @@
+[vars]
+pkgver=2
+
 [build]
 $CC -std=gnu99 -fstack-protector-all -Wa,--noexecstack -s -Os -o su "$K"/su.c -static -lcrypt
 
