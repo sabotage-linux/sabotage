@@ -4,7 +4,7 @@ http://downloads.sourceforge.net/project/dosbox/dosbox/0.74-3/dosbox-0.74-3.tar.
 [vars]
 filesize=1326339
 sha512=3770f1578e71730168fba01809585f2a05cf8c4d420524687ba28791d242faad294401bb9cd268bba725798e1db853551f274dc00a4024331f5dcef9f87f8f5f
-pkgver=4
+pkgver=5
 desc='x86/DOS emulator to play the good old games'
 
 [deps]
@@ -16,6 +16,7 @@ mesalib
 
 [build]
 patch -p1 < "$K"/dosbox-dro-capture.patch
+patch -p1 < "$K"/dosbox-cache.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
