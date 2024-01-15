@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.5.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/32.5.2_Release.tar.gz
 
 [vars]
-filesize=8567269
-sha512=ef33212fa9564b6aebcdb2e3d9a5cdb7cdf23243727d435e47de594819167f73964e3fae9ad230d4b97bfec624dbf36eaf635a54b715143986e9a39101c390c0
-tarball=Pale-Moon-32.5.1_Release.tar.gz
+filesize=8567286
+sha512=6c402625b95a56b0ba9d3808d6b4ad9e547751661d84fd73cd07a0222a937fe6655f41e3b785b72c339419378ae04f98000be250afc8bcdbc13eace614f296f5
+tarball=Pale-Moon-32.5.2_Release.tar.gz
 tardir=pale-moon
-pkgver=66
-BROWSER_VERSION=32.5.1
-UXP_VERSION=20231128
+pkgver=67
+BROWSER_VERSION=32.5.2
+UXP_VERSION=20231221-2
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
