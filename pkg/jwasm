@@ -1,0 +1,23 @@
+[mirrors]
+https://github.com/Baron-von-Riedesel/JWasm/archive/2ac301944f3186bbda69fd0865b4657e6676d144.tar.gz
+
+[vars]
+filesize=1163129
+sha512=054ab387b87e4d71507f753f1805012573f14c75c94d08316d1f28abf1f56bb9e3904826a83a2ac8df67d96ee489d5fd0cd75b4e3868df8008e6e78749384d64
+tarball=JWasm-2ac301944f3186bbda69fd0865b4657e6676d144.tar.gz
+pkgver=1
+desc='MASM compatible assembler'
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar c_flags="-D__UNIX__ $optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+cat GccUnix.mak | sed 's@-s -o@$(LDFLAGS) -o@' > GNUmakefile
+mk_target all
+install -Dm 755 build/GccUnixR/jwasm "$butch_install_dir""$butch_prefix"/bin/jwasm
