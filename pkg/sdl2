@@ -1,10 +1,11 @@
 [mirrors]
-https://www.libsdl.org/release/SDL2-2.0.22.tar.gz
+https://www.libsdl.org/release/SDL2-2.28.5.tar.gz
 
 [vars]
-filesize=7250633
-sha512=ca4b690433cd4d9d73b797da98666317128e7e817ab60e874a49d94791ea41e8a6b4fc43649593120daa0702190c0f8a6ed326c908d87375c8da9f369d994f6a
-pkgver=15
+filesize=7345355
+sha512=12593eb78fcca877a8dfb78cf21a4e6feba7dc87c964de378ac462b36d8e41ecb587222cb41d5f56dd35b838e1b9867b8ae0cf2f4d2a01afaf23ac8c11edc84d
+pkgver=16
+desc='game-focused library to access input and output devices on various platforms'
 
 [deps]
 

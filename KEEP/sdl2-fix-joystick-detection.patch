@@ -1,37 +1,31 @@
-From 09385e4ffd41936dea786e5aa19fd9f83c0b407c Mon Sep 17 00:00:00 2001
 From: rofl0r <rofl0r@users.noreply.github.com>
 Date: Mon, 15 Nov 2021 19:00:56 +0000
 Subject: [PATCH] linux: always accept classic joystick regardless of whether
  hint is set
 
 the hint in question is SDL_LINUX_JOYSTICK_CLASSIC.
----
- src/joystick/linux/SDL_sysjoystick.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
 
-diff --git a/src/joystick/linux/SDL_sysjoystick.c b/src/joystick/linux/SDL_sysjoystick.c
-index 56019cc8f..6eef83c58 100644
 --- a/src/joystick/linux/SDL_sysjoystick.c
 +++ b/src/joystick/linux/SDL_sysjoystick.c
-@@ -269,15 +269,6 @@ static void joystick_udev_callback(SDL_UDEV_deviceevent udev_type, int udev_clas
-             if (!(udev_class & SDL_UDEV_DEVICE_JOYSTICK)) {
-                 return;
-             }
--            if (SDL_classic_joysticks) {
--                if (!IsJoystickJSNode(devpath)) {
--                    return;
--                }
--            } else {
--                if (IsJoystickJSNode(devpath)) {
--                    return;
--                }
+@@ -297,15 +297,6 @@
+         if (!(udev_class & SDL_UDEV_DEVICE_JOYSTICK)) {
+             return;
+         }
+-        if (SDL_classic_joysticks) {
+-            if (!IsJoystickJSNode(devpath)) {
+-                return;
 -            }
-             MaybeAddDevice(devpath);
-             break;
-             
-@@ -554,11 +545,7 @@ IsJoystickEventNode(const char *node)
- static SDL_bool
- IsJoystickDeviceNode(const char *node)
+-        } else {
+-            if (IsJoystickJSNode(devpath)) {
+-                return;
+-            }
+-        }
+ 
+         /* Wait a bit for the hidraw udev node to initialize */
+         SDL_Delay(10);
+@@ -561,11 +552,7 @@
+ 
+ static SDL_bool IsJoystickDeviceNode(const char *node)
  {
 -    if (SDL_classic_joysticks) {
 -        return IsJoystickJSNode(node);
@@ -41,7 +35,4 @@ index 56019cc8f..6eef83c58 100644
 +    return IsJoystickEventNode(node) || IsJoystickJSNode(node);
  }
  
- static void
--- 
-2.31.1
-
+ #ifdef HAVE_INOTIFY
