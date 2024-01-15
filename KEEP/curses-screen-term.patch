@@ -1,0 +1,19 @@
+diff --git a/libcurses/setterm.c b/libcurses/setterm.c
+index 5ba4735..d5028b1 100644
+--- a/libcurses/setterm.c
++++ b/libcurses/setterm.c
+@@ -63,8 +63,13 @@ _cursesi_setterm(char *type, SCREEN *screen)
+ 	if (screen->term)
+ 		del_curterm(screen->term);
+ 	(void)ti_setupterm(&screen->term, type, fileno(screen->outfd), &r);
++	if (screen->term == NULL && (p = strchr(type, '.'))) {
++		/* fix for screen setting TERM to screen.xterm */
++		type = p+1;
++		(void)ti_setupterm(&screen->term, type, fileno(screen->outfd), &r);
++	}
+ 	if (screen->term == NULL) {
+-		unknown++;
++		unknown++; /* FIXME: by setting this, the func always returns error even if the dumb term could be loaded. is that really desired ? */
+ 		(void)ti_setupterm(&screen->term, "dumb",
+ 		    fileno(screen->outfd), &r);
+ 		/* No dumb term? We can't continue */
