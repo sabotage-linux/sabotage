@@ -1,10 +1,10 @@
 [mirrors]
-http://thrysoee.dk/editline/libedit-20210910-3.1.tar.gz
+http://thrysoee.dk/editline/libedit-20230828-3.1.tar.gz
 
 [vars]
-filesize=524722
-sha512=b7361c277f971ebe87e0e539e5e1fb01a4ca1bbab61e199eb97774d8b60dddeb9e35796faf9cc68eb86d1890e8aac11db13b44b57ccc8302d559741fbe9d979e
-pkgver=7
+filesize=534072
+sha512=c7232376ef1bc128ed79f950a5f1f207f874011218682d7e6186f76443927df5483b46c4daa8cf02e327079259aee1a56e2b791aa682491eb802d90ff8940cca
+pkgver=8
 
 [deps]
 termcap
