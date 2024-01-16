@@ -1,7 +1,7 @@
 [vars]
 filesize=529996
 sha512=bd65358b59299de6b9879022842c7cd4fcdc1449b6bf7db5870a5fe0ffcc873f68da2bcf6b27bc231a956797377d66f56177178dad14304f332aaf924482ca90
-pkgver=9
+pkgver=10
 tarball=netbsd-curses-0.3.1.tar.xz
 desc='netbsd libcurses, lightweight replacement for ncurses'
 

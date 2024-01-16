@@ -1,19 +1,52 @@
-diff --git a/libcurses/setterm.c b/libcurses/setterm.c
-index 5ba4735..d5028b1 100644
---- a/libcurses/setterm.c
-+++ b/libcurses/setterm.c
-@@ -63,8 +63,13 @@ _cursesi_setterm(char *type, SCREEN *screen)
- 	if (screen->term)
- 		del_curterm(screen->term);
- 	(void)ti_setupterm(&screen->term, type, fileno(screen->outfd), &r);
-+	if (screen->term == NULL && (p = strchr(type, '.'))) {
-+		/* fix for screen setting TERM to screen.xterm */
-+		type = p+1;
-+		(void)ti_setupterm(&screen->term, type, fileno(screen->outfd), &r);
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Tue, 16 Jan 2024 19:25:09 +0000
+Subject: [PATCH] really fix termdb lookup when new GNU screen versions are
+ used
+
+newer versions of GNU screen (or at least the one shipped with ubuntu)
+set the TERM variable to screen.XXX, where XXX is the original TERM.
+
+--- a/libterminfo/setupterm.c
++++ b/libterminfo/setupterm.c
+@@ -35,6 +35,7 @@
+ #include <stdbool.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <strings.h>
+ #include <unistd.h>
+ #include <term_private.h>
+@@ -79,6 +80,7 @@ int
+ ti_setupterm(TERMINAL **nterm, const char *term, int fildes, int *errret)
+ {
+ 	int error;
++	char *p;
+ 	struct winsize win;
+ 
+ 	_DIAGASSERT(nterm != NULL);
+@@ -97,6 +99,13 @@ ti_setupterm(TERMINAL **nterm, const char *term, int fildes, int *errret)
+ 		reterr(-1, "not enough memory to create terminal structure");
+ 
+ 	error = _ti_getterm(*nterm, term, 0);
++	if (error != 1 && (p = strchr(term, '.'))) {
++		term = ++p;
++		/* assert assumption that we don't need to call del_curterm */
++		p = (void*) *nterm;
++		while(p < (char*)((*nterm)+1)) if(*(p++)) assert(0);
++		error = _ti_getterm(*nterm, term, 0);
 +	}
- 	if (screen->term == NULL) {
--		unknown++;
-+		unknown++; /* FIXME: by setting this, the func always returns error even if the dumb term could be loaded. is that really desired ? */
- 		(void)ti_setupterm(&screen->term, "dumb",
- 		    fileno(screen->outfd), &r);
- 		/* No dumb term? We can't continue */
+ 	if (error != 1) {
+ 		del_curterm(*nterm);
+ 		*nterm = NULL;
+@@ -132,8 +141,6 @@ ti_setupterm(TERMINAL **nterm, const char *term, int fildes, int *errret)
+ 
+ 	/* POSIX 1003.2 requires that the environment override. */
+ 	if (__use_env) {
+-		char *p;
+-
+ 		if ((p = getenv("LINES")) != NULL)
+ 			t_lines(*nterm) = (short)strtol(p, NULL, 0);
+ 		if ((p = getenv("COLUMNS")) != NULL)
+-- 
+2.31.1
+
