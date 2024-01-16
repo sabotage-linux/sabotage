@@ -1,0 +1,9 @@
+[vars]
+pkgver=1
+
+[build]
+echo $CC -std=gnu99 $optcflags -o nl "$K"/nl.c $optldflags
+$CC -std=gnu99 $optcflags -o nl "$K"/nl.c $optldflags
+
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 nl "$dest"/bin/nl
