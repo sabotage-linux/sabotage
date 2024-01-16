@@ -1,0 +1,59 @@
+[mirrors]
+https://github.com/dosemu2/dosemu2/archive/refs/tags/2.0pre9.tar.gz
+
+[vars]
+filesize=2517435
+sha512=b2bde6ab36131239ab5fbfef95a29e0a6ccd0efcfd5498504f65a6ff1e0858424bcf2cb4eacc1486bc8002b9f5348a04df316f65c126612fc289c4af3e605ee6
+tarball=dosemu2-2.0pre9.tar.gz
+pkgver=1
+desc='emulator for DOS, can run text apps in terminal, anything in SDL2 window'
+
+[deps.host]
+automake
+autoconf
+bdftopcf
+
+[deps]
+libedit
+alsa-lib
+sdl2
+sdl2-ttf
+
+[deps_unused]
+dosemu2-comcom32-tarball
+fdpp
+unzip
+
+[build]
+#author insists on using gawk so he can use the strtonum function in 2 snippets
+sed -i 's@gawk@awk@' configure.ac
+patch -p1 < "$K"/dosemu2-no-gawk.patch
+# by fixing C++ build, author breaks C build
+patch -p1 < "$K"/dosemu2-revert-fbbecb64b.patch
+# author assumes everything is glibc...
+patch -p1 < "$K"/dosemu2-flock64.patch
+
+sed -i 's@#define WANT_UCONTEXT 1@#define WANT_UCONTEXT 0@' src/base/lib/libpcl/pcl.h
+
+sh autogen.sh
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-fdpp
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+if false ; then  # comcom32 is only needed for fdpp
+unzip -o -q "$C"/comcom32-16012024.zip
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 644 comcom32.exe "$dest"/share/comcom32/comcom32.exe
+ln -sf comcom32.exe "$dest"/share/comcom32/command.com
+fi

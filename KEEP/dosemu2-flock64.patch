@@ -1,0 +1,13 @@
+--- dosemu2-2.0pre9.orig/src/dosext/mfs/mfs.c	2024-01-16 01:44:08.738333913 +0000
++++ dosemu2-2.0pre9/src/dosext/mfs/mfs.c	2024-01-16 03:10:33.791946737 +0000
+@@ -3425,8 +3425,8 @@
+   if (!lck)
+     dos_flush(fd);
+ 
+-#ifdef F_GETLK64	// 64bit locks are promoted automatically (e.g. glibc)
+-  static_assert(sizeof(struct flock) == sizeof(struct flock64), "incompatible flock64");
++#if 1	// 64bit locks are promoted automatically (e.g. glibc)
++  static_assert(sizeof(struct flock) == sizeof(struct flock), "incompatible flock64");
+ 
+   Debug0((dbg_fd, "Large file locking start=%llx, len=%lx\n", start, len));
+ #else			// 32bit locking only

@@ -1,0 +1,9 @@
+[mirrors]
+https://dosemu2.github.io/comcom32/files/comcom32.zip
+
+[vars]
+filesize=112317
+sha512=66c0b56d96d370ea2d255d22bb5992031dbd004dac7fd0296a0e4c6c068b9fa25bbf384ff2270080c91b9448d5504a94e24e6bb203b6c3c8369f43ed160d8805
+tarball=comcom32-16012024.zip
+pkgver=1
+

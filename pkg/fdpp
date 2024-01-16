@@ -1,0 +1,43 @@
+[mirrors]
+https://github.com/dosemu2/fdpp/archive/refs/tags/1.6.tar.gz
+
+[vars]
+filesize=314327
+sha512=834e31cd8cbe34c0393f9bf6a46f02c121285b70ce64e2ec9cc2c2cae579c05ef453a85f9c047cdf0901dd4c9582dc03188440aaba9ad46f157d9fddf98ae1fb
+tarball=fdpp-1.6.tar.gz
+pkgver=1
+desc='freedos plus plus, a dos bios hack for use in dosemu2 emulator'
+
+[deps.host]
+flex
+bison
+nasm
+llvm-clang601
+nl
+
+[deps]
+
+[build]
+# warning: builds, but something is wrong in the generated bios elf file
+# its string section has invalid offsets, causing dosemu2 to segfault on start
+# regardless whether fdpp is about to be used or not.
+# most likely candidates to look for the bug are the various shell scripts/
+# commands transforming filenames, C headers, asm includes using standard tools
+# but most likely assuming GNU-specific behaviour.
+sed -i 's@lex @flex @' fdpp/parsers/makefile
+#sed -i 's@^CC = clang++@CC = $(CXX)@' fdpp/clang.mak
+
+#patch -p1 < "$K"/some.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS PREFIX="$butch_prefix" CXX="$CXX"
+make PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" install
