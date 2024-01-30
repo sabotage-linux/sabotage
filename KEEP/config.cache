@@ -1250,7 +1250,7 @@ ac_cv_struct_addrinfo=${ac_cv_struct_addrinfo='yes'}
 ac_cv_struct_option_getopt_h=${ac_cv_struct_option_getopt_h='yes'}
 ac_cv_struct_pr_syscall=${ac_cv_struct_pr_syscall='no'}
 ac_cv_struct_sockaddr_storage=${ac_cv_struct_sockaddr_storage='yes'}
-ac_cv_struct_st_mtim_nsec=${ac_cv_struct_st_mtim_nsec='tv_nsec'}
+ac_cv_struct_st_mtim_nsec=${ac_cv_struct_st_mtim_nsec='st_mtim.tv_nsec'}
 ac_cv_struct_tm=${ac_cv_struct_tm='time.h'}
 ac_cv_struct_tm_isdst=${ac_cv_struct_tm_isdst='yes'}
 ac_cv_struct_tm_zone=${ac_cv_struct_tm_zone='no'}
