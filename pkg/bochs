@@ -1,0 +1,37 @@
+[mirrors]
+https://github.com/bochs-emu/Bochs/archive/437ddc96fc0a14308586fbb390c934c1c405e284.tar.gz
+
+[vars]
+filesize=5633723
+sha512=9caef6d4717611eed6ac79a314de85da5824e9739893d348f962d36f5fbb26039399aa593067145ad35b9ab7c934505185b58c3cb2b7ef0335d34209ab40d63a
+tarball=Bochs-437ddc96fc0a14308586fbb390c934c1c405e284.tar.gz
+pkgver=1
+desc='x86 emulator'
+
+[deps]
+wxgtk
+sdl2
+libxrandr
+libxpm
+libx11
+
+[build]
+cd bochs
+patch -p1 < "$K"/bochs-bximage-flush.patch
+patch -p1 < "$K"/bochs-xinitthreads.patch
+#cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags -DwxSB_SUNKEN=0" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lX11" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --enable-sb16 \
+  --with-wx --with-sdl2 \
+  --enable-debugger --enable-x86-debugger
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install

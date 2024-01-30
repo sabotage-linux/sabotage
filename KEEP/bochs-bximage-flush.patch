@@ -1,0 +1,42 @@
+--- a/misc/bximage.cc
++++ b/misc/bximage.cc
+@@ -211,6 +211,7 @@
+   while (1) {
+     printf("%s", prompt);
+     printf("[%d] ", the_default);
++    fflush(stdout);
+     if (!fgets(buffer, sizeof(buffer), stdin))
+       return -1;
+     clean = clean_string(buffer);
+@@ -240,6 +241,7 @@
+   while(1) {
+     printf("%s", prompt);
+     printf("[%s] ", choice[the_default]);
++    fflush(stdout);
+     if (!fgets(buffer, sizeof(buffer), stdin))
+       return -1;
+     clean = clean_string(buffer);
+@@ -261,6 +263,7 @@
+       printf("%s", choice[i]);
+     }
+     printf("\n");
++    fflush(stdout);
+   }
+ }
+ 
+@@ -272,6 +275,7 @@
+   while (1) {
+     printf("%s", prompt);
+     printf("[%s] ", the_default?"yes":"no");
++    fflush(stdout);
+     if (!fgets(buffer, sizeof(buffer), stdin))
+       return -1;
+     clean = clean_string(buffer);
+@@ -294,6 +298,7 @@
+   char *clean;
+   printf("%s", prompt);
+   printf("[%s] ", the_default);
++  fflush(stdout);
+   if (!fgets(buffer, sizeof(buffer), stdin))
+     return -1;
+   clean = clean_string(buffer);

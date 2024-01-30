@@ -1,0 +1,15 @@
+--- a/main.cc
++++ b/main.cc
+@@ -522,10 +522,12 @@
+ #endif
+ 
+ #if !defined(__WXMSW__)
++extern "C" void XInitThreads(void);
+ // normal main function, presently in for all cases except for
+ // wxWidgets under win32.
+ int CDECL main(int argc, char *argv[])
+ {
++  XInitThreads();
+   bx_startup_flags.argc = argc;
+   bx_startup_flags.argv = argv;
+ #ifdef WIN32
