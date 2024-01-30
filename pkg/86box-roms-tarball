@@ -1,0 +1,9 @@
+[mirrors]
+https://github.com/86Box/roms/archive/refs/tags/v3.11.tar.gz
+
+[vars]
+filesize=39720454
+sha512=1be53a31a2067a078801cc552d967855e2642248c596dfbb2622900fb347f0382209514015df85525e507ae38afe7f5aa96c3fd40a61a8e310ccceb203d0228f
+tarball=86box-roms-3.11.tar.gz
+pkgver=1
+
