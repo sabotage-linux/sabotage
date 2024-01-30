@@ -1,32 +1,28 @@
 [mirrors]
-https://github.com/schismtracker/schismtracker/releases/download/20181223/schismtracker-20181223.source.tar.gz
+https://github.com/schismtracker/schismtracker/releases/download/20240129/schismtracker-20240129.source.tar.gz
 
 [vars]
-filesize=1074485
-sha512=d2ba655e127376b33be9b6b674bfd6dc3413b89b01915aec7c514a25edc462fefcf9976c916ae3c2ea492b4c4f6ebdb236ff405a18470a6533b0add94944085f
-pkgver=1
+filesize=1400110
+sha512=fa80ec394fa3fd603dd0ef4703edff2fda0ce8f8100343dbf3bdfb7fc48e2633b42ac3a6205fb5c08873a217f0eb301b6b529b540b96ce5d685c5aa3dd082707
+pkgver=2
 tardir=schismtracker
 
 [deps.host]
-autoconf
-automake
 python
 
 [deps]
-sdl
+sdl2
 
 [build]
-printf '#!/bin/sh\nif test x$1 = x--version ; then echo 1.2.15 ; else echo -lSDL -I%s/include/SDL ; fi\n' "$butch_root_dir""$butch_prefix" > sdl-config
-chmod +x sdl-config
+printf '#!/bin/sh\nif test x$1 = x--version ; then echo 2.0.15 ; else echo -lSDL2 -I%s/include/SDL2 ; fi\n' "$butch_root_dir""$butch_prefix" > sdl2-config
+chmod +x sdl2-config
 export PATH="$PWD:$PATH"
-
-autoreconf -i
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
-SDL_CONFIG="$PWD"/sdl-config \
+SDL_CONFIG="$PWD"/sdl2-config \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
