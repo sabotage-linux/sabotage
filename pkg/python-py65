@@ -1,0 +1,19 @@
+[mirrors]
+https://files.pythonhosted.org/packages/2b/9f/dba963d029488a26e3c7aa0a629505b203f995e7b70bc624c097bd64e1f1/py65-1.1.0.tar.gz
+
+[vars]
+filesize=77995
+sha512=f52b0cd6fdb792b1c93f83fccbdc1076e8d8b16c2690cd6fb81d5e0bf0db0148c83916db283bce9f839e61c78d0c8d2d1b8ecddcc539b7487c1bd85f8e4db9aa
+pkgver=1
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
