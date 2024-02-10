@@ -1,0 +1,79 @@
+--- binutils-2.27.org/binutils/winduni.c
++++ binutils-2.27/binutils/winduni.c
+@@ -762,6 +762,7 @@
+ 					    mb, -1, u, u_len);
+   /* Convert to bytes. */
+   ret *= sizeof (unichar);
++  return ret;
+ 
+ #elif defined (HAVE_ICONV)
+   int first = 1;
+@@ -772,8 +773,10 @@
+   if (!mb || !iconv_name)
+     return 0;
+   iconv_t cd = iconv_open ("UTF-16LE", iconv_name);
++  if (cd == (iconv_t) -1 && !strcmp(iconv_name, "MS-ANSI"))
++    cd = iconv_open ("UTF-16LE", "windows-1252");
+ 
+-  while (1)
++  if (cd != (iconv_t) -1) { while (1)
+     {
+       int iret;
+       const char *n_mb = "";
+@@ -807,7 +810,9 @@
+       mb = n_mb;
+     }
+   iconv_close (cd);
+-#else
++  return ret; }
++#endif
++/* fallback if iconv_open() fails */
+   if (cp)
+     ret = 0;
+   ret = strlen (mb) + 1;
+@@ -823,7 +828,6 @@
+     }
+   if (u != NULL && u_len != 0)
+     *u = 0;
+-#endif
+   return ret;
+ }
+ 
+@@ -836,6 +840,7 @@
+ 
+   ret = (rc_uint_type) WideCharToMultiByte (cp, 0, u, -1, mb, mb_len,
+ 				      	    NULL, & used_def);
++  return ret;
+ #elif defined (HAVE_ICONV)
+   int first = 1;
+   char tmp[32];
+@@ -845,8 +850,10 @@
+   if (!u || !iconv_name)
+     return 0;
+   iconv_t cd = iconv_open (iconv_name, "UTF-16LE");
++  if (cd == (iconv_t) -1 && !strcmp(iconv_name, "MS-ANSI"))
++    cd = iconv_open ("windows-1252", "UTF-16LE");
+ 
+-  while (1)
++  if (cd != (iconv_t) -1) { while (1)
+     {
+       int iret;
+       const char *n_u = "";
+@@ -880,7 +887,9 @@
+       u = (const unichar *) n_u;
+     }
+   iconv_close (cd);
+-#else
++  return ret; }
++#endif
++  /* fallback in case iconv_open fails, or not HAVE_ICONV */
+   if (cp)
+     ret = 0;
+ 
+@@ -902,6 +911,5 @@
+       if (mb_len != 0)
+ 	*mb = 0;
+     }
+-#endif
+   return ret;
+ }

@@ -1,0 +1,178 @@
+[mirrors]
+https://github.com/mingw-w64/mingw-w64/archive/refs/tags/v6.0.1.tar.gz
+
+[vars]
+filesize=12468366
+sha512=6bfdf9ee19f8240028e58031bbcef72cabb043f86f426051878ef32ef535dc3a8c9360d2fa9a77fdee61a59e135d46961774568a43f7d1adef9dbaa33676ad5c
+tarball=mingw-w64-6.0.1.tar.gz
+pkgver=1
+desc='toolchain to create win32 PE binaries'
+
+[deps]
+binutils
+gcc650
+
+[build]
+target=i686-w64-mingw32
+thisarch=$($CC -dumpmachine)
+fsroot=/libexec
+
+tar xf "$C"/binutils-2.27.tar.bz2
+mv binutils-2.27 src_binutils
+cd src_binutils
+patch -p1 < "$K"/binutils-winduni-iconv.patch
+cp -f "$K"/config.sub .
+sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+"$K"/libibertyfix libiberty
+cd ..
+mkdir obj_binutils
+cd obj_binutils
+CFLAGS="-Os -g0" \
+CXXFLAGS="-Os -g0" \
+LDFLAGS="-s -Wl,--no-keep-memory" \
+../src_binutils/configure -C --prefix= --libdir=/lib --disable-multilib \
+  --with-sysroot=$(SYSROOT) \
+  --enable-deterministic-archives \
+  --target=$target --build=$thisarch --host=$thisarch \
+  --with-sysroot=/$target \
+  --disable-nls
+make -j$MAKE_THREADS
+echo ==== BINUTILS BUILT ====
+cd ..
+
+tar xf "$C"/gcc-6.5.0.tar.xz
+mv gcc-6.5.0 src_gcc
+cd src_gcc
+cp -f "$K"/config.sub .
+patch -p1 < "$K"/gcc-boolean_null_to_zero.patch
+cd ..
+mkdir -p obj_sysroot/include obj_sysroot/lib
+ln -sf . obj_sysroot/usr
+ln -sf . obj_sysroot/mingw
+ln -sf lib obj_sysroot/lib32
+ln -sf lib obj_sysroot/lib64
+mkdir obj_gcc
+cd obj_gcc
+# need to set CPP, else libgcc/configure sets it to /lib/cpp
+export CPP="$CC -E"
+
+CFLAGS="-Os -g0" \
+CXXFLAGS="-Os -g0" \
+LDFLAGS="-s -Wl,--no-keep-memory" \
+CFLAGS_FOR_TARGET="-Os -g0 $config_arch_target_cflags" \
+LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
+../src_gcc/configure -C --prefix= --libdir=/lib \
+  --with-sysroot=/$target \
+  --target=$target --build=$thisarch --host=$thisarch \
+  --with-build-sysroot="$PWD"/../obj_sysroot \
+  --disable-bootstrap \
+  --disable-assembly \
+  --disable-werror \
+  --disable-multilib \
+  --with-multilib-list= \
+  --enable-tls \
+  --disable-nls \
+  --disable-mudflap \
+  --disable-libmudflap \
+  --enable-libssp \
+  --disable-debug \
+  --disable-libsanitizer \
+  --disable-vtable-verify \
+  --disable-gnu-indirect-function \
+  --disable-libmpx \
+  --disable-libquadmath \
+  --disable-isl \
+  --disable-decimal-float \
+  --disable-libgomp \
+  --enable-lto \
+  --with-system-zlib \
+  --with-target-libiberty=no --with-target-zlib=no \
+  --enable-languages=c,lto \
+  --enable-clocale=generic \
+  AR_FOR_TARGET="$PWD"/../obj_binutils/binutils/ar \
+  AS_FOR_TARGET="$PWD"/../obj_binutils/gas/as-new \
+  LD_FOR_TARGET="$PWD"/../obj_binutils/ld/ld-new \
+  NM_FOR_TARGET="$PWD"/../obj_binutils/binutils/nm-new \
+  OBJCOPY_FOR_TARGET="$PWD"/../obj_binutils/binutils/objcopy \
+  OBJDUMP_FOR_TARGET="$PWD"/../obj_binutils/binutils/objdump \
+  RANLIB_FOR_TARGET="$PWD"/../obj_binutils/binutils/ranlib \
+  READELF_FOR_TARGET="$PWD"/../obj_binutils/binutils/readelf \
+  STRIP_FOR_TARGET="$PWD"/../obj_binutils/binutils/strip-new
+
+make -j$MAKE_THREADS all-gcc
+echo ==== GCC CORE BUILD OK ===
+cd ..
+
+cd mingw-w64-headers
+./configure -C --prefix= \
+  --with-sysroot=/$target \
+  --target=$target \
+  --disable-lib64
+make -j$MAKE_THREADS
+make DESTDIR="$PWD"/../obj_sysroot install
+echo ==== HEADERS INSTALLED ==
+cd ..
+
+XGCC_DIR="$PWD"/obj_gcc/gcc
+XGCC="$XGCC_DIR/xgcc -B $XGCC_DIR"
+cd mingw-w64-crt
+CC="$XGCC -isystem $PWD/../obj_sysroot/include" \
+AR="$PWD"/../obj_binutils/binutils/ar \
+AS="$PWD"/../obj_binutils/gas/as-new \
+LD="$PWD"/../obj_binutils/ld/ld-new \
+RANLIB="$PWD"/../obj_binutils/binutils/ranlib \
+DLLTOOL="$PWD"/../obj_binutils/binutils/dlltool \
+./configure -C --prefix= \
+  --with-sysroot=/$target \
+  --host=$target \
+  --disable-lib64
+make -j$MAKE_THREADS
+make DESTDIR="$PWD"/../obj_sysroot install
+echo === CRT INSTALLED ===
+
+cd ../obj_gcc
+make -j$MAKE_THREADS enable-shared=no all-target-libgcc
+echo === LIBGCC BUILT ===
+
+cd ..
+# need this file to link the dll
+cp obj_sysroot/lib/dllcrt2.o obj_gcc/gcc
+cd mingw-w64-libraries/winpthreads
+CC="$XGCC -isystem $PWD/../../obj_sysroot/include -L$PWD/../../obj_sysroot/lib" \
+AR="$PWD"/../../obj_binutils/binutils/ar \
+AS="$PWD"/../../obj_binutils/gas/as-new \
+LD="$PWD"/../../obj_binutils/ld/ld-new \
+RANLIB="$PWD"/../../obj_binutils/binutils/ranlib \
+DLLTOOL="$PWD"/../../obj_binutils/binutils/dlltool \
+RC="$PWD/../../obj_binutils/binutils/windres --preprocessor=$XGCC_DIR/cpp --preprocessor-arg=-B$XGCC_DIR -I $PWD/../../obj_sysroot/include" \
+ac_cv_prog_RC="$RC" \
+./configure -C --prefix= \
+  --with-sysroot="/$target" \
+  --host=$target \
+  am_cv_ar_interface=ar
+
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir$butch_prefix$fsroot/$target" install
+echo === libpthread INSTALLED ===
+cd ../../obj_gcc
+
+CPP="$CC -E" make -j8
+make DESTDIR="$butch_install_dir$butch_prefix$fsroot/$target" install-gcc install-target-libgcc install-lto-plugin install-target-libssp
+echo === complete GCC INSTALLED ===
+
+cd ../obj_binutils
+make DESTDIR="$butch_install_dir$butch_prefix$fsroot/$target" install
+echo === complete binutils installed ===
+
+cd ../obj_sysroot
+cp -a lib/* "$butch_install_dir$butch_prefix$fsroot/$target"/lib
+cp -a include/* "$butch_install_dir$butch_prefix$fsroot/$target"/include
+# required so gcc finds the mingw headers
+ln -s .. "$butch_install_dir$butch_prefix$fsroot/$target/$target"/mingw
+# link the mingw executable components into /bin
+mkdir -p "$butch_install_dir$butch_prefix/bin"
+for i in "$butch_install_dir$butch_prefix$fsroot/$target/bin/"$target* ; do
+x=$(basename "$i")
+ln -sf ..$fsroot/$target/bin/"$x" "$butch_install_dir$butch_prefix/bin"/"$x"
+done
+
