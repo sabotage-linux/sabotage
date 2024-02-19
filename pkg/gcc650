@@ -239,15 +239,3 @@ if test "$gcc_major" -lt 7 -a "$option_java" = 1 ; then
 	--main=org.eclipse.jdt.internal.compiler.batch.Main "$C"/ecj-"$ECJ_VERSION".jar \
 	-lgcj || echo "WARNING: optimized javac not created" >&2
 fi
-
-# rename gcc to rawcc so musl-gcc can call the *right* gcc
-mv "$dest"/bin/gcc "$dest"/bin/rawcc
-ln -sf "rawcc" "$dest"/bin/gcc
-
-ln -sf ar "$dest"/bin/gcc-ar
-ln -sf ranlib "$dest"/bin/gcc-ranlib
-ln -sf nm "$dest"/bin/gcc-nm
-
-ln -sf rawcc "$dest"/bin/gcc-$VERSION
-test "$option_cplusplus" = 1 && ln -sf g++ "$dest"/bin/g++-$VERSION
-

@@ -5,15 +5,12 @@ https://github.com/Yelp/dumb-init/archive/refs/tags/v1.2.5.tar.gz
 filesize=26199
 sha512=b2822f8d80050edd03495acb74c3087a9d4bbadd0250ea0166d67799d4308a2e29e1f08c404c232a418c6f09cfdd8ccb4fed1b29395e1b670965b770b9f310cf
 tarball=dumb-init-1.2.5.tar.gz
-#tardir=dumb-init-1.2.5
 pkgver=1
 
 [deps]
 
 [build]
-
-CC=musl-gcc
-make V=1 -j$MAKE_THREADS CC="$CC" \
+make V=1 -j$MAKE_THREADS \
   CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
   LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 
