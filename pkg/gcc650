@@ -239,3 +239,4 @@ if test "$gcc_major" -lt 7 -a "$option_java" = 1 ; then
 	--main=org.eclipse.jdt.internal.compiler.batch.Main "$C"/ecj-"$ECJ_VERSION".jar \
 	-lgcj || echo "WARNING: optimized javac not created" >&2
 fi
+
