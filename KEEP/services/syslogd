@@ -1,0 +1,3 @@
+#!/bin/sh
+[ "$1" = "--prereqs" ] && exit 0
+exec /bin/syslogd -s -m0 2>&1
