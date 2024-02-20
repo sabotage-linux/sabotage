@@ -7,11 +7,17 @@ make_key_if_needed() {
 	if [ ! -f "$filename" ] ; then
 		local bits=1024
 		[ "$key" = "rsa" ] && bits=2048
-		dropbearkey -s $bits -t $key -f "$filename" | tail -n2 > ${filename}.pub
+		[ "$key" = "ecdsa" ] && bits=384
+		[ "$key" = "ed25519" ] && unset bits
+
+		[ ! "$key" = "ed25519" ] && dropbearkey -s $bits -t $key -f "$filename" | tail -n2 > ${filename}.pub
+		[ "$key" = "ed25519" ] && dropbearkey -t $key -f "$filename" | tail -n2 > ${filename}.pub
 	fi
 }
 make_key_if_needed rsa
 make_key_if_needed dss
+make_key_if_needed ecdsa
+make_key_if_needed ed25519
 [ "$1" = "--prereqs" ] && exit 0
 
 exec /bin/dropbear -F 2>&1
