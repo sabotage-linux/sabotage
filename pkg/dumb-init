@@ -11,7 +11,7 @@ desc='an init for containers'
 [deps]
 
 [build]
-sed -i 's/SHELL=bash/SHELL=ash/' Makefile
+sed -i 's/SHELL=bash/SHELL=sh/' Makefile
 
 make V=1 -j$MAKE_THREADS \
   CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
