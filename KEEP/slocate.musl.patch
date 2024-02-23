@@ -1,0 +1,47 @@
+diff -Naur src.orig/Makefile src/Makefile
+--- src.orig/Makefile	2024-02-23 04:45:00.546374260 +0000
++++ src/Makefile	2024-02-23 04:44:26.708506530 +0000
+@@ -5,6 +5,7 @@
+ CFLAGS+=-O2
+ #CFLAGS+=-g3
+ #LDFLAGS+=-lefence
++LDFLAGS+=-lfts
+ 
+ PROG=slocate
+ CC=gcc
+diff -Naur src.orig/utils.c src/utils.c
+--- src.orig/utils.c	2024-02-23 04:44:52.817947631 +0000
++++ src/utils.c	2024-02-23 04:44:08.303490872 +0000
+@@ -14,6 +14,7 @@
+  *****************************************************************************/
+ 
+ #define _LARGEFILE64_SOURCE
++#define _GNU_SOURCE
+ 
+ #include <stdio.h>
+ #include <stdarg.h>
+@@ -37,10 +38,12 @@
+ 
+ #define RAND_MAX 9999
+ 
++char *nocase_str = NULL;
++char *nocase_path = NULL;
++
+ /* Duplicate string and make all characters lowercase */
+ char * tolower_strdup(char *str)
+ {
+-	char *nocase_str = NULL;
+ 	char *ptr = NULL;
+ 	
+ 	if (!(nocase_str = strdup(str)))
+@@ -61,10 +64,6 @@
+ 	int ret = 0;
+ 	int nmatch = 32;
+ 	regmatch_t pmatch[32];
+-#ifndef FNM_CASEFOLD
+-	char *nocase_str = NULL;
+-	char *nocase_path = NULL;
+-#endif
+ 
+ 	/* If searching with regular expressions */
+ 	if (g_data->regexp_data) {

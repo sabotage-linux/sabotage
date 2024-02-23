@@ -1,0 +1,49 @@
+[mirrors]
+https://mirrors.slackware.com/slackware/slackware64-14.2/source/a/slocate/slocate-3.1.tar.gz
+
+[vars]
+filesize=37748
+sha512=faea4c1ec63d4d318340021e0d946dac6fb6d48273c557dfc6165c9850d9fd5a290b57b8a87a18dd0d521a84fcafbc739f4a86997dd92bff665b183ffa23aa1a
+pkgver=1
+desc='secure locate from the past'
+
+[deps]
+musl-fts
+
+[build]
+# https://web.archive.org/web/20090917012042/http://slocate.trakker.ca/
+# https://mirrors.slackware.com/slackware/slackware64-14.2/source/a/slocate/
+patch -p0 < $K/slocate.bigfile.patch
+patch -p0 < $K/slocate.cve.patch
+patch -p0 < $K/slocate.musl.patch
+
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS \
+  CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -lfts"
+
+dest=$butch_install_dir$butch_prefix
+
+install -D -m 644 doc/slocate.1 $dest/share/man/man1/slocate.1
+install -D -m 644 doc/updatedb.1 $dest/share/man/man1/updatedb.1
+install -D -m 755 src/slocate $dest/bin/slocate
+ln -s $dest/bin/slocate $dest/bin/locate
+ln -s $dest/bin/slocate $dest/bin/updatedb
+install -D -m 644 debian/updatedb.conf /etc/updatedb.conf
+
+# system-wide index
+#
+#       addgroup -S -g 21 slocate
+#       chgrp slocate /opt/slocate/bin/slocate
+#       mkdir -p /var/lib/slocate/
+#       chown root:slocate /var/lib/slocate/
+#       chmod 750 /var/lib/slocate/
+
+# per-user index
+#
+#       updatedb --output=$HOME/.slocate.db
+#       locate --database=$HOME/.slocate.db
+
