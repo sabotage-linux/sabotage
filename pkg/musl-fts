@@ -1,0 +1,28 @@
+[mirrors]
+https://github.com/void-linux/musl-fts/archive/refs/tags/v1.2.7.tar.gz
+
+[vars]
+filesize=19336
+sha512=949f73b9406b06bd8712c721b4ec89afcb37d4eaef5666cccf3712242d3a57fc0acf3ca994934e0f57c1e92f40521a9370132a21eb6d1957415a83c76bf20feb
+tarball=musl-fts-1.2.7.tar.gz
+pkgver=1
+
+[deps]
+libtool
+automake
+autoconf
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+./bootstrap.sh
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
