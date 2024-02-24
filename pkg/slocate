@@ -13,7 +13,6 @@ musl-fts
 [build]
 # https://web.archive.org/web/20090917012042/http://slocate.trakker.ca/
 # https://mirrors.slackware.com/slackware/slackware64-14.2/source/a/slocate/
-patch -p0 < $K/slocate.bigfile.patch
 patch -p0 < $K/slocate.cve.patch
 patch -p0 < $K/slocate.musl.patch
 
