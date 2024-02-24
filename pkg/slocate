@@ -36,7 +36,10 @@ install -D -m 644 debian/updatedb.conf /etc/updatedb.conf
 # system-wide index
 #
 #       addgroup -S -g 21 slocate
+#
 #       chgrp slocate /opt/slocate/bin/slocate
+#       chmod g+s /opt/slocate/bin/slocate
+#
 #       mkdir -p /var/lib/slocate/
 #       chown root:slocate /var/lib/slocate/
 #       chmod 750 /var/lib/slocate/
