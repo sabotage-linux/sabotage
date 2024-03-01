@@ -1,15 +1,19 @@
 [mirrors]
-http://sourceforge.net/projects/lame/files/lame/3.99/lame-3.99.5.tar.gz
+https://sourceforge.net/projects/lame/files/lame/3.100/lame-3.100.tar.gz
 
 [vars]
-filesize=1445348
-sha512=ce62d7eb9fc8c53c343374ded30f11153a296910f0be7e649197bca7412c6660aad1aa6143d56b750f866229eb492cf7bb4f682535c383fb4aa57d7077d8b4d8
+filesize=1524133
+sha512=0844b9eadb4aacf8000444621451277de365041cc1d97b7f7a589da0b7a23899310afd4e4d81114b9912aa97832621d20588034715573d417b2923948c08634b
+pkgver=2
 
 [deps]
 curses
 
 [build]
 cp -f "$K"/config.sub .
+# fix failure to accept any ID3 tags due to glibc-specific iconv cargoculting
+sed -i 's@//TRANSLIT@@g' frontend/parse.c
+
 xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
