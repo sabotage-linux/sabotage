@@ -6,17 +6,28 @@ http://switch.dl.sourceforge.net/project/mad/libmad/0.15.1b/libmad-0.15.1b.tar.g
 [vars]
 filesize=502379
 sha512=2cad30347fb310dc605c46bacd9da117f447a5cabedd8fefdb24ab5de641429e5ec5ce8af7aefa6a75a3f545d3adfa255e3fa0a2d50971f76bc0c4fc0400cc45
+pkgver=2
 
-[deps]
+[deps.host]
+autoconf
+automake
 
 [build]
-# patch from debian: http://patch-tracker.debian.org/package/libmad
+# patches from debian rev -10
 patch -p1 < "$K"/libmad-mips-asm.patch
-cp -f "$K"/config.sub .
+patch -p1 < "$K"/libmad-thumb.patch
+patch -p1 < "$K"/libmad-md_size.patch
+patch -p1 < "$K"/libmad-lencheck.patch
+patch -p1 < "$K"/libmad-optimize.patch
+patch -p1 < "$K"/libmad-amd64-64bit.patch
 
-# there are other debian patches that may be interesting, also:
+# other maybe interesting patches:
 # http://m.baert.free.fr/contrib/docs/libmad/ (documentation patch)
 # AVR32 patch http://www.mars.org/pipermail/mad-dev/2010-March/001410.html
+
+cp -f "$K"/config.sub .
+
+AUTOMAKE="automake --foreign" autoreconf -vif
 
 xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
