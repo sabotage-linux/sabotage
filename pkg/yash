@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/magicant/yash/releases/download/2.51/yash-2.51.tar.xz
+https://github.com/magicant/yash/releases/download/2.55/yash-2.55.tar.xz
 
 [vars]
-filesize=753880
-sha512=53f85f98dfd66c8937db292694da05fb7fdc8d270fc4811d7ec4d2787ab56600eca8e44379ef349755ec5fb739af3b32036a588ac35be810108ccc388be122e6
-pkgver=2
+filesize=761184
+sha512=9e92fc86884b0b315a98fcb5da0f319f431515185a970762946b919ccccc72aa8756e337dfa7cec763a7d8496bf4838eb9ef88664b35512180f13cc4146e9816
+pkgver=3
 desc='lightweight but powerful posix-compliant shell'
 
 [deps]
