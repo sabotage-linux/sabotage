@@ -4,7 +4,7 @@ https://github.com/hrydgard/ppsspp/releases/download/v1.14.1/ppsspp-1.14.1.tar.x
 [vars]
 filesize=46414036
 sha512=b33e43e14eafeea54d40f4f0d332d4f683b80ef6dace66e6101199e7141829b7858c7f94d5a4696393022c0453fcd7ce77858279a31b2ffba5bfcaa72e675b18
-pkgver=4
+pkgver=5
 desc='an emulator for sony(r) psp(tm) aka playstation portable(tm)'
 
 [deps]
@@ -17,10 +17,16 @@ glu
 cmake
 
 [build]
+# disable "calling home" to report.ppsspp.org
+sed -e 's/report.ppsspp.org//g' -i Core/WebServer.cpp -i UI/ReportScreen.cpp \
+ -i UI/RemoteISOScreen.cpp -i UI/GameSettingsScreen.cpp
+
 patch -p1 < "$K"/ppsspp-1.14.1-exit.patch
+patch -p1 < "$K"/ppsspp-fs-crash.patch
 # checks for python3, fails without, then doesnt even use it...
 sed -i 's@find_package(PythonInterp 3 REQUIRED)@# find_package(PythonInterp 3 REQUIRED)@' \
   ext/glslang/CMakeLists.txt
+sed -i 's@-O2 -D_NDEBUG@@g' CMakeLists.txt
 
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
