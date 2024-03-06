@@ -1,0 +1,12 @@
+--- a/Core/FileSystems/DirectoryFileSystem.cpp
++++ b/Core/FileSystems/DirectoryFileSystem.cpp
+@@ -1048,6 +1048,9 @@
+ 	EntryMap::iterator iter = entries.find(handle);
+ 	if (iter != entries.end())
+ 	{
++		if(iter->second.seekPos + size > iter->second.size)
++			size = iter->second.size - iter->second.seekPos;
++		if(size < 0) size = 0;
+ 		size_t bytesRead = size;
+ 		memcpy(pointer, iter->second.fileData + iter->second.seekPos, size);
+ 		iter->second.seekPos += size;

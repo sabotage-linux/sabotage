@@ -1,0 +1,27 @@
+[mirrors]
+https://github.com/troglobit/sysklogd/releases/download/v2.5.2/sysklogd-2.5.2.tar.gz
+
+[vars]
+filesize=459292
+sha512=0c160236d0f5ec31d0c5679c04b6f0f40a35af2b5b159af8b2b9dd2d37f5959efbe550dfc50c0b0419bea702b91a6594f2e141c2fbb78fdb20715ee8b2d27805
+pkgver=1
+service=syslogd
+serviceflags="--down --log"
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
+install -Dm640 syslog.conf "$butch_install_dir""$butch_prefix"/etc/syslog.conf
+
