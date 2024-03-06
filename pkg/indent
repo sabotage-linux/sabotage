@@ -1,10 +1,11 @@
 [mirrors]
-ftp://mirrors.kernel.org/gnu/indent/indent-2.2.10.tar.gz
 http://mirrors.kernel.org/gnu/indent/indent-2.2.10.tar.gz
 
 [vars]
 filesize=702667
 sha512=a90faf1bf855ecc1e0b0f47f4133e4a46be8b2c42bd0aa7f6cf6d764b7883b34b558e3ca443b193b1a747f64cd2653640f1aecbc8a17265c66260f6d6d621e19
+pkgver=2
+desc='source code indentation tool'
 
 [deps]
 
@@ -18,7 +19,14 @@ CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
 
+$HOSTCC man/texinfo2man.c -o man/texinfo2man
+
 #[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 
 make V=1 -j$MAKE_THREADS
+man/texinfo2man man/indent.1.in doc/indent.texinfo > man/indent.1
 make DESTDIR="$butch_install_dir" install
+# texinfo2man, while potentially useful, lacks usage text and crashes
+# immediately upon usage with wrong argument count or order.
+# apart from that it's built for the host in our case.
+rm -f "$butch_install_dir$butch_prefix"/bin/texinfo2man

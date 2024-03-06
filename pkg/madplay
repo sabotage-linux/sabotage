@@ -1,0 +1,29 @@
+[mirrors]
+https://sourceforge.net/projects/mad/files/madplay/0.15.2b/madplay-0.15.2b.tar.gz
+
+[vars]
+filesize=590929
+sha512=0e79cdf0c32f48599083ec7a0716d816e3f03254705b7225b1ea9008d53eefd48342dd687b0507f0ff15942218fc07ad1e38c4172508c27755f3e9a0e5412f34
+pkgver=1
+
+[deps]
+libmad
+libid3tag
+alsa-lib
+
+[build]
+patch -p1 < "$K"/madplay-alsa-new.patch
+cp -f "$K"/config.sub .
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --with-alsa
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
