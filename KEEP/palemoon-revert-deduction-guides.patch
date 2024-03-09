@@ -1,0 +1,52 @@
+From 41803e9ab3f4a0c431c60d28fc3f45f131a63bce Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Sat, 9 Mar 2024 18:52:43 +0000
+Subject: [PATCH] Revert "Issue #2281 - Add some deduction guides for class
+ template arguments."
+
+This reverts commit c87116b33267a8df388ca3652d211b7f8254a98d.
+---
+ mfbt/Span.h           | 9 ---------
+ xpcom/glue/nsTArray.h | 6 ------
+ 2 files changed, 15 deletions(-)
+
+diff --git a/mfbt/Span.h b/mfbt/Span.h
+index fe679aa8bf..e71e068c60 100644
+--- a/mfbt/Span.h
++++ b/mfbt/Span.h
+@@ -810,15 +810,6 @@ private:
+   storage_type<span_details::extent_type<Extent>> storage_;
+ };
+ 
+-template <typename T, size_t Extent>
+-Span(T (&aArr)[Extent]) -> Span<T, Extent>;
+-
+-template <class Container>
+-Span(Container&) -> Span<typename Container::value_type>;
+-
+-template <class Container>
+-Span(const Container&) -> Span<const typename Container::value_type>;
+-
+ // [Span.comparison], Span comparison operators
+ template<class ElementType, size_t FirstExtent, size_t SecondExtent>
+ inline bool
+diff --git a/xpcom/glue/nsTArray.h b/xpcom/glue/nsTArray.h
+index 9604c54dd9..505cd9f628 100644
+--- a/xpcom/glue/nsTArray.h
++++ b/xpcom/glue/nsTArray.h
+@@ -2466,12 +2466,6 @@ MakeSpan(const nsTArray_Impl<ElementType, TArrayAlloc>& aTArray)
+   return aTArray;
+ }
+ 
+-template <typename E, class Alloc>
+-Span(nsTArray_Impl<E, Alloc>&) -> Span<E>;
+-
+-template <typename E, class Alloc>
+-Span(const nsTArray_Impl<E, Alloc>&) -> Span<const E>;
+-
+ } // namespace mozilla
+ 
+ // Assert that AutoTArray doesn't have any extra padding inside.
+-- 
+2.34.1
+

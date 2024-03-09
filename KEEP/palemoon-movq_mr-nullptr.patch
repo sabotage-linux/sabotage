@@ -1,0 +1,18 @@
+--- a/js/src/jit/x86-shared/Constants-x86-shared.h
++++ b/js/src/jit/x86-shared/Constants-x86-shared.h
+@@ -61,6 +61,7 @@
+ #ifdef JS_CODEGEN_X64
+        ,"%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15"
+ #endif
++       ,"invalid"
+     };
+     MOZ_ASSERT(size_t(reg) < mozilla::ArrayLength(names));
+     return names[reg];
+@@ -74,6 +75,7 @@
+ #ifdef JS_CODEGEN_X64
+        ,"%r8d", "%r9d", "%r10d", "%r11d", "%r12d", "%r13d", "%r14d", "%r15d"
+ #endif
++       ,"invalid"
+     };
+     MOZ_ASSERT(size_t(reg) < mozilla::ArrayLength(names));
+     return names[reg];

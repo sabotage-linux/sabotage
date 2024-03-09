@@ -1,0 +1,17 @@
+platform/nsprpub/pr/src/misc/prnetdb.c: In functi...
+:19: warning: cast from pointer to integer of different size [-Wpointer-to-int...
+     PRIntn iter = (PRIntn) iterPtr;
+                   ^
+fix by disabling codepath which is most likely unneeded.
+
+--- a/nsprpub/pr/src/misc/prnetdb.c
++++ b/nsprpub/pr/src/misc/prnetdb.c
+@@ -2272,7 +2272,7 @@
+ {
+ #if defined(_PR_HAVE_GETADDRINFO)
+     PRADDRINFO *ai;
+-#if defined(_PR_INET6_PROBE)
++#if 0 && defined(_PR_INET6_PROBE)
+     if (!_pr_ipv6_is_present()) {
+         /* using PRAddrInfoFB */
+         PRIntn iter = (PRIntn)(PRPtrdiff) iterPtr;
