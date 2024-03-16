@@ -1,13 +1,13 @@
 [vars]
 desc='profiling tool using instrumentation facilities provided by the kernel'
-LINUX_VER=4.19
+LINUX_VER=5.4
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=233
-pkgver=3
+patchver=183
+pkgver=4
 
 [deps]
-kernel419-tarball
-kernel419-patch
+kernel54-tarball
+kernel54-patch
 libelf
 
 [deps.host]
