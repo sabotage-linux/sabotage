@@ -1,9 +1,9 @@
 [mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v4.x/patch-4.19.233.xz
+https://cdn.kernel.org/pub/linux/kernel/v4.x/patch-4.19.310.xz
 
 [vars]
-filesize=4512676
-sha512=ed5e0090e1bceccb14212fe6ee7328b3f18dafd020b83db2fdfcbb93f6cbe1242f72a33e0dbd69b3b1b96c97d0c588d07b516c7ee75ccc7672ee8248f0325ae0
-tarball=kernel-patch-4.19.233.xz
-pkgver=4
+filesize=5937952
+sha512=1c848488bb0d904347339b7ab29d4089edc6d624309d01e610af0156ba0e308a4d46e3887ef63f69471e4adc25a4136f3437ec15aa90253dce3ca800902c990c
+tarball=kernel-patch-4.19.310.xz
+pkgver=5
 

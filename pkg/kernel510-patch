@@ -1,9 +1,9 @@
 [mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-5.10.104.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-5.10.213.xz
 
 [vars]
-filesize=2824840
-sha512=6c07224bacba801dc37045abf9cc0174abbd5786ecb7a945e01d1344fa193f927abe80ff74a561dae00500cb0c8500f72cc94c4fd3ece14831ed174662790403
-tarball=kernel-patch-5.10.104.xz
-pkgver=2
+filesize=5657864
+sha512=0c1b51312aa6e6afa048cbde5c89cbd5c5095ce17b398265c1b91788f26d9cdad5408adec3cd76deefe4221cb84c3453e1c68c9af59a634285de0f6bde5b1cd8
+tarball=kernel-patch-5.10.213.xz
+pkgver=3
 

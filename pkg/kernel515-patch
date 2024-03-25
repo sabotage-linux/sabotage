@@ -1,9 +1,9 @@
 [mirrors]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-5.15.27.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-5.15.152.xz
 
 [vars]
-filesize=1175432
-sha512=f78dab17c6c25331f8da0b7102e42fea17e0d4346d1c6e3d64c5a33f9848f1ca16e699954c22f122cd3da82e2231e001766fa95039d2d2b839391c034232a944
-tarball=kernel-patch-5.15.27.xz
-pkgver=2
+filesize=5508472
+sha512=b37435009b2e5280dbccda2912dcdf28cd6aadc4e4c15bd89601d8cdf4103ac9e9da1a69c3a272693a6a1ae9bf59628ac2fd876bdfea0a70c5d502ca0876bc9c
+tarball=kernel-patch-5.15.152.xz
+pkgver=3
 
