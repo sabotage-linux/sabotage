@@ -3,21 +3,16 @@
 [ ! -d /etc/dropbear ] && mkdir -p /etc/dropbear
 make_key_if_needed() {
 	local key=$1
+	local bits=$2
 	local filename=/etc/dropbear/dropbear_${key}_host_key
 	if [ ! -f "$filename" ] ; then
-		local bits=1024
-		[ "$key" = "rsa" ] && bits=2048
-		[ "$key" = "ecdsa" ] && bits=384
-		[ "$key" = "ed25519" ] && unset bits
-
-		[ ! "$key" = "ed25519" ] && dropbearkey -s $bits -t $key -f "$filename" | tail -n2 > ${filename}.pub
-		[ "$key" = "ed25519" ] && dropbearkey -t $key -f "$filename" | tail -n2 > ${filename}.pub
+		dropbearkey -s $bits -t $key -f "$filename" | tail -n2 > ${filename}.pub
 	fi
 }
-make_key_if_needed rsa
-make_key_if_needed dss
-make_key_if_needed ecdsa
-make_key_if_needed ed25519
+make_key_if_needed rsa 2048
+make_key_if_needed dss 1024
+make_key_if_needed ecdsa 384
+make_key_if_needed ed25519 256
 [ "$1" = "--prereqs" ] && exit 0
 
 exec /bin/dropbear -F 2>&1
