@@ -2,8 +2,8 @@
 desc='profiling tool using instrumentation facilities provided by the kernel'
 LINUX_VER=5.10
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=104
-pkgver=5
+patchver=213
+pkgver=6
 
 [deps]
 kernel510-tarball
