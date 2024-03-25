@@ -7,7 +7,7 @@ sha512=949f73b9406b06bd8712c721b4ec89afcb37d4eaef5666cccf3712242d3a57fc0acf3ca99
 tarball=musl-fts-1.2.7.tar.gz
 pkgver=1
 
-[deps]
+[deps.host]
 libtool
 automake
 autoconf
