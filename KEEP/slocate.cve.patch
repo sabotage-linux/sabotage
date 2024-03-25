@@ -1,0 +1,42 @@
+--- src/utils.c.orig	2024-02-23 03:42:05.118962679 +0000
++++ src/utils.c	2024-02-23 03:47:11.118831726 +0000
+@@ -524,6 +524,7 @@
+ {
+ 	struct stat path_stat;
+ 	int ret = 0;
++	char *path_copy = NULL;
+ 	char *ptr = NULL;
+ 
+ 	if (lstat(path, &path_stat) == -1)
+@@ -532,15 +533,25 @@
+ 	if (!S_ISLNK(path_stat.st_mode)) {
+ 		if (access(path, F_OK) != 0)
+ 		    goto EXIT;
+-	} else if ((ptr = rindex(path, '/'))) {
+-		*ptr = 0;
+-		if (access(path, F_OK) == 0)
+-		    ret = 1;
+-		*ptr = '/';
+-		goto EXIT;
+ 	}
+ 
++	/* "path" is const, so we shouldn't modify it.  Also, for speed,
++	* I suspect strdup/free is less expensive than the deep access
++	* checks... */
++	if (!(path_copy = strdup(path)))
++		goto EXIT;
++
+ 	ret = 1;
++
++	/* Each directory leading to the file (symlink or not) must be
++	* readable for us to allow it to be listed in search results. */
++	while (ret && (ptr=rindex(path_copy,'/'))) {
++	       *ptr=0;
++	       if (*path_copy && access(path_copy, R_OK) != 0)
++		   ret = 0;
++	}
++	free(path_copy);
++
+ EXIT:
+ 	return ret;
+ }

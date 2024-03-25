@@ -1,0 +1,18 @@
+--- src/utils.c.orig	2024-02-23 12:13:58.756158460 +0000
++++ src/utils.c	2024-02-23 12:14:28.003159694 +0000
+@@ -139,6 +139,7 @@
+ 	    ret = 1;		
+ 
+ EXIT:
++#ifndef FNM_CASEFOLD
+ 	if (nocase_str)
+ 	    free(nocase_str);
+ 	nocase_str = NULL;
+@@ -147,7 +148,7 @@
+ 	    free(nocase_path);
+ 	
+ 	nocase_path = NULL;
+-	
++#endif
+ 	return ret;
+ }
