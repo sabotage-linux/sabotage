@@ -4,7 +4,7 @@ http://downloads.sourceforge.net/project/p7zip/p7zip/16.02/p7zip_16.02_src_all.t
 [vars]
 filesize=4239909
 sha512=d2c4d53817f96bb4c7683f42045198d4cd509cfc9c3e2cb85c8d9dc4ab6dfa7496449edeac4e300ecf986a9cbbc90bd8f8feef8156895d94617c04e507add55f
-pkgver=2
+pkgver=3
 tardir=p7zip_16.02
 desc='extractor for 7zip compression format'
 
@@ -23,8 +23,12 @@ make DEST_HOME="$dest" \
      DEST_MAN="$dest"/share/man \
      DEST_SHARE_DOC="$dest"/share/doc/p7zip-9.20.1 install
 
-# fix absolute paths in shell script wrappers
-for x in "$dest"/bin/* ; do
+# 7z binaries expect to dlopen 7z.so from the same location the binary is run
+for x in "$dest"/lib/p7zip/7z* ; do
 y="$(basename "$x")"
-ln -sf ../lib/p7zip/"$y" "$x"
+printf "%s\n" "$y" | grep '\.' >/dev/null 2>&1 && continue
+b="$dest"/bin/"$y"
+rm -f "$b"
+printf '#!/bin/sh\n"%s" "$@"\n' "$x" >"$b"
+chmod +x "$b"
 done
