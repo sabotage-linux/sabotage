@@ -1,10 +1,13 @@
+[mirrors]
+https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.4.0.tar.gz
+http://downloads.webmproject.org/releases/webp/libwebp-1.4.0.tar.gz
+
 [vars]
-filesize=990904
-sha512=4975c055e94668cc3b8198443d141de91db6c9d99a79164631854b9b91eea2d9d92aefa361cb8e0fa8963a3deeb5ba6cc6ab55db1d7b038ae495b7e7cf5b2572
-pkgver=2
+filesize=4281370
+sha512=1217363fbb5c860b17c2ba4612f240f121c74ced6e3e58e8aa61252a9022f59893c5874bfa433cc50a7e65bac1ae2bfa99fa2cede070183b7a467f148cebb0bd
+pkgver=3
 
 [mirrors]
-http://downloads.webmproject.org/releases/webp/libwebp-0.4.3.tar.gz
 
 [deps]
 libjpeg
