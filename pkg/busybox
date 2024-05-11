@@ -48,13 +48,13 @@ if [ "$DEBUGBUILD" = "1" ] ; then
 	    -i config.stage1
 fi
 
-make KCONFIG_ALLCONFIG=config.stage1 allnoconfig
+[ -z "$HOSTCC" ] && HOSTCC="$CC"
+
+make HOSTCC="$HOSTCC" KCONFIG_ALLCONFIG=config.stage1 allnoconfig
 
 # alternative:
 # make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
 # HOSTCFLAGS=-D_GNU_SOURCE -j$MAKE_THREADS
-
-[ -z "$HOSTCC" ] && HOSTCC="$CC"
 
 make V=1 LDFLAGS=-static HOSTLDFLAGS=-static \
 CFLAGS_busybox="$debugcflags -Wl,-z,muldefs -Werror-implicit-function-declaration" \
