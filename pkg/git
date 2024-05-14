@@ -1,11 +1,11 @@
 [mirrors]
-https://cdn.kernel.org/pub/software/scm/git/git-2.31.1.tar.xz
-https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.31.1.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.45.1.tar.xz
+https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.45.1.tar.xz
 
 [vars]
-filesize=6413368
-sha512=9aa334a3e8519700ff5d112153ec42677722980094caa9d22aa91afdb65166bd9a98fa445c0d327c428ebfa73bf4832e9b3836109a1d9319feafe3191cfd170e
-pkgver=23
+filesize=7490268
+sha512=28461855e03f3dd5af73a1c6d26cc3e2b7b71f5eb90852f1daf582d24503b4dd5c4e4dac359e9eba1c2ba542aeb0940e0482506f19d02a354654b181c56c5317
+pkgver=24
 desc='tools to work with the git distributed version control system'
 
 [deps]
