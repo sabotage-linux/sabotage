@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+[ -z "$CONFIG" ] && CONFIG=./config
+. "$CONFIG"
+export H="$PWD"
+
+mkdir -p "$R"/dev "$R"/proc "$R"/sys "$R"/src
+utils/update-chroot.sh
+
+CONFIG="$H"/config BUTCHDB="$R"/tmp/butch.db DEPS=build:stage0 "$K"/bin/butch install bootsh
+
+mv "$R"/opt/bootsh/* "$R"/
+rm -rf "$R"/opt "$R"/src/build
+
+printf '#!/bin/sh\nexec env "$@"' > "$R"/bin/env
+chmod +x "$R"/bin/env

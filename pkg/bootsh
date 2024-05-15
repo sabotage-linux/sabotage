@@ -1,0 +1,23 @@
+[mirrors]
+https://github.com/davidar/bootsh/archive/refs/tags/v0.3.0.tar.gz
+
+[vars]
+filesize=5650281
+sha512=58a844f3db16fe0fa9839037c9191348ef91113e7e0e407e7f12dc060960781cb5cc78e9d66a3038a3f3d1f18db586af1153b2e06ffeeb7a09f9ac0b446741a0
+tarball=bootsh-0.3.0.tar.gz
+pkgver=5
+
+[deps.stage0]
+musl-tarball
+
+[build]
+if ! ./configure; then
+    echo "Building musl sysroot"
+    tar xf $C/musl-1.2.5.tar.gz && cd musl-1.2.5 && \
+        ./configure --prefix="$PWD/../sysroot" --enable-wrapper=gcc && \
+        make -j$MAKE_THREADS CFLAGS="-Os" && make install && cd ..
+    ./configure
+fi
+make -j$MAKE_THREADS
+make install DESTDIR="$butch_install_dir" PREFIX="$butch_prefix"
+butch_do_relocate=false
