@@ -19,7 +19,7 @@ patch -p1 < "$K"/mdadm-use-after-free.patch
 make -j$MAKE_THREADS LDFLAGS="-static $optldflags" STRIP= \
   CHECK_RUN_DIR=0 \
   CC="$CC" \
-  CXFLAGS="-include sys/sysmacros.h $optcflags" \
+  CXFLAGS="-include sys/sysmacros.h -Doff64_t=off_t $optcflags" \
   CWFLAGS=-Wall \
   MANDIR="$butch_prefix"/share/man \
   BINDIR="$butch_prefix"/bin \
