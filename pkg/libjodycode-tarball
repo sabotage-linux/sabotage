@@ -1,0 +1,9 @@
+[mirrors]
+https://codeberg.org/jbruchon/libjodycode/archive/v3.1.tar.gz
+
+[vars]
+filesize=27339
+sha512=6de2185210e696eb91bb4e054d2b73dadf25e6e22b67ab9fe90c627f3735306d5c14f7975933dfef8b1e056b4113759db0c50c28f176f86a4d73bbd8593c5ce2
+tarball=libjodycode-3.1.tar.gz
+pkgver=1
+
