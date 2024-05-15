@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+[ -z "$CONFIG" ] && CONFIG=./config
+. "$CONFIG"
+export H="$PWD"
+
+mkdir -p "$R"/bin
+cp -f ../bootsh/bootsh "$R"/bin/sh
+cp -r ../bootsh/root "$R"/
+
+mkdir -p "$R"/dev "$R"/proc "$R"/sys
+
+printf '#!/bin/sh\nexec env "$@"' > "$R"/bin/env
+chmod +x "$R"/bin/env
+
+mkdir -p "$R"/src
+utils/update-chroot.sh
+
+du -h "$R"
