@@ -9,6 +9,12 @@ tardir=attr-2.4.47
 [deps]
 
 [build]
+add_include() {
+        printf "#include <%s>\n" "$2" > tmp.$$.h
+        cat "$1" >> tmp.$$.h
+        mv tmp.$$.h "$1"
+}
+add_include attr/attr.c libgen.h
 sed -i 's@-o $(PKG_USER) -g $(PKG_GROUP)@@' include/buildmacros
 sed -i 's@CHOWN=_chown@CHOWN=true@' include/install-sh
 patch -p1 < "$K"/attr-cdefs.patch
