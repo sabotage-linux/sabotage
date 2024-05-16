@@ -5,8 +5,7 @@ set -e
 ARCH=$(uname -m)
 MAKE_THREADS=$(nproc)
 
-cd /root
-
+cd /tmp
 make -s gawk binutils bzip2 curl linux-headers
 
 mkdir -p /sabotage

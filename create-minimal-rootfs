@@ -6,9 +6,11 @@ set -e
 . "$CONFIG"
 export H="$PWD"
 
-mkdir -p "$R"/bin
+mkdir -p "$R"/bin "$R"/tmp
 cp -f ../bootsh/bootsh "$R"/bin/sh
-cp -r ../bootsh/root "$R"/
+cp -f ../bootsh/boot.sh "$R"/bin/boot.sh
+cp -f ../bootsh/wak.c "$R"/bin/awk
+cp -f ../bootsh/Makefile.packages "$R"/tmp/Makefile
 
 mkdir -p "$R"/dev "$R"/proc "$R"/sys
 
@@ -17,5 +19,3 @@ chmod +x "$R"/bin/env
 
 mkdir -p "$R"/src
 utils/update-chroot.sh
-
-du -h "$R"
