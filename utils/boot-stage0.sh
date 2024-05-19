@@ -43,3 +43,6 @@ rmdir /sabotage/bin /sabotage/etc /sabotage/dev /sabotage/proc /sabotage/sys
 
 mv -f /sabotage/* /
 rmdir /sabotage
+
+cd
+exec sh

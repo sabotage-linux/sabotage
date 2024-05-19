@@ -1,0 +1,32 @@
+[mirrors]
+https://github.com/davidar/bootsh/archive/refs/tags/v0.1.0.tar.gz
+
+[vars]
+filesize=4523640
+sha512=a3f00b9e30eace3050b3cb4699331160a4bfd9df47283b335fc83d9fe00e1a82786c1c93ea87303da66f5f2a692d85680aeadc6a55fa06554cc9d024efe46c3b
+tarball=bootsh-0.1.0.tar.gz
+pkgver=1
+
+[deps.host]
+bash
+nl
+
+[deps.stage0]
+musl-dl
+
+[build]
+if ! ./configure; then
+    echo "Building musl sysroot"
+    tar xf $C/musl-1.2.4.tar.gz && cd musl-1.2.4 && \
+        ./configure --prefix="$PWD/../sysroot" --enable-wrapper=gcc && \
+        make -j$MAKE_THREADS CFLAGS="-Os" && make install && cd ..
+    ./configure
+fi
+make -j$MAKE_THREADS
+DESTDIR="$butch_install_dir""$butch_prefix"
+mkdir -p "$DESTDIR"/bin "$DESTDIR"/tmp
+cp -f bootsh "$DESTDIR"/bin/sh
+cp -f boot.sh "$DESTDIR"/bin/boot.sh
+cp -f wak.c "$DESTDIR"/bin/awk
+cp -f Makefile.packages "$DESTDIR"/tmp/Makefile
+butch_do_relocate=false
