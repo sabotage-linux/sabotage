@@ -107,6 +107,22 @@ Run `butch` and look at the usage information for further options.
 It provides a tuned `config.cache` for faster configure runs.
 It also installs packages into `/opt`, creates file lists, etc.
 
+An alternative bootstrap path is also available (for x86_64 and i386)
+which minimises the influence of the host system on the stage0 build.
+It builds a small chroot containing [bootsh](https://github.com/davidar/bootsh)
+and the sabotage sources, which can then bootstrap itself into the stage0
+build in an isolated environment.
+This effectively reduces the binary seed provided by the host system from
+around 50MB to under 1MB. The procedure differs slightly from above:
+
+	$ ./create-minimal-rootfs   # ~10s on 3GHz 16-core
+	$ ./enter-chroot boot.sh
+
+Once inside the chroot:
+
+	$ /src/utils/boot-stage0.sh
+	$ butch install stage1
+
 ## After Compiling
 
 When finished compiling, exit the chroot and either:
