@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/davidar/bootsh/archive/refs/tags/v0.1.0.tar.gz
+https://github.com/davidar/bootsh/archive/refs/tags/v0.2.0.tar.gz
 
 [vars]
-filesize=4523640
-sha512=a3f00b9e30eace3050b3cb4699331160a4bfd9df47283b335fc83d9fe00e1a82786c1c93ea87303da66f5f2a692d85680aeadc6a55fa06554cc9d024efe46c3b
-tarball=bootsh-0.1.0.tar.gz
-pkgver=1
+filesize=4532947
+sha512=baeca05aec3cffcda50f86195e34aeda573b5f90d5d1195ba3ab6511f31f8aacad69bed1e633ba9e24b5d6cf51e041f8ffc119328b484403c16021247828c1c0
+tarball=bootsh-0.2.0.tar.gz
+pkgver=2
 
 [deps.host]
 bash

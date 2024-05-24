@@ -17,6 +17,7 @@ sed -e "s@SABOTAGE_BUILDDIR=.*@SABOTAGE_BUILDDIR=/sabotage@" \
     -e "s@CC=.*@CC=cc@" -e "s@HOSTCC=.*@HOSTCC=cc@" \
     -e "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" \
     -i config
+echo "export GCC_ARCH_CONFIG_FLAGS='--host=$ARCH-unknown-linux-gnu'" >> config
 
 utils/setup-rootfs.sh
 
