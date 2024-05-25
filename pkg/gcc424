@@ -146,7 +146,7 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 --disable-multilib \
 --disable-bootstrap \
 --disable-nls \
---disable-mudflap --disable-libmudflap --enable-libssp \
+--disable-mudflap --disable-libmudflap --disable-libssp \
 --disable-libgomp \
 --with-target-libiberty=no --with-target-zlib=no \
 $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
