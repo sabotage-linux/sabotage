@@ -38,7 +38,15 @@ patch -p1 < "$K"/gcc-4.2.1-musl.patch
 # fix for latest GLIBC
 sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux-unwind.h
 
+intel32=false
+case "$A" in i[3-6]86) intel32=true ;; esac
+if $intel32 && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
+        printf '#!/bin/sh\necho $A-unknown-linux-gnu\n' > config.guess
+fi
+
+# remove fix-includes
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
