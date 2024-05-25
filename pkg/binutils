@@ -25,7 +25,7 @@ sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
 "$K"/libibertyfix libiberty
 
-[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+[ "$STAGE" = "0" ] && [ -x "$butch_root_dir"/bin/musl-gcc ] && CC="$butch_root_dir"/bin/musl-gcc
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
         machine=$($CC -dumpmachine)

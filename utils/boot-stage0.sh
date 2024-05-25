@@ -6,22 +6,27 @@ ARCH=$(uname -m)
 MAKE_THREADS=$(nproc)
 
 cd /tmp
-make -s gawk binutils bzip2 curl linux-headers
+make -s gawk curl
 
 mkdir -p /sabotage
-ln -s /src /sabotage/src
+ln -sf /src /sabotage/
 cd /sabotage/src
 
 cp KEEP/config.stage0 config
+# Need to identify as GNUC as otherwise libtool gets confused and screws up linker flags
 sed -e "s@SABOTAGE_BUILDDIR=.*@SABOTAGE_BUILDDIR=/sabotage@" \
-    -e "s@CC=.*@CC=cc@" -e "s@HOSTCC=.*@HOSTCC=cc@" \
+    -e "s@CC=.*@CC='cc -D__GNUC__'@" -e "s@HOSTCC=.*@HOSTCC=cc@" \
     -e "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" \
     -i config
 echo "export GCC_ARCH_CONFIG_FLAGS='--host=$ARCH-unknown-linux-gnu'" >> config
 
 utils/setup-rootfs.sh
 
-CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db DEPS=build:stage0 KEEP/bin/butch install stage0
+export CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db
+DEPS=build KEEP/bin/butch install binutils
+ln -sf /sabotage/opt/binutils/bin/* /bin/
+DEPS=build:stage0 KEEP/bin/butch install stage0
+unset CONFIG BUTCHDB
 
 echo "export A=$ARCH" > config && cat KEEP/config.stage1 >> config
 sed -i "s@MAKE_THREADS=1@MAKE_THREADS=$MAKE_THREADS@" config
