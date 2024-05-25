@@ -12,7 +12,7 @@ bash
 nl
 
 [deps.stage0]
-musl-dl
+musl-tarball
 
 [build]
 if ! ./configure; then
