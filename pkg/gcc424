@@ -18,6 +18,7 @@ VERSION=4.2.4
 
 cp -f "$K"/config.sub .
 
+test -n "$CROSS_COMPILE" && exit 0
 test "$STAGE" = 0 || option_cplusplus=1
 
 if test "$option_cplusplus" = 1 ; then
