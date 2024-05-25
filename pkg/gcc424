@@ -127,6 +127,30 @@ fi
 config_stage0_flags=--enable-shared
 test "$STAGE" = 0 && config_stage0_flags=--disable-shared
 
+# workaround for debian idiocy: they put bits/ into an arch-specific
+# sysdir in /usr/include, so the bootstrap compiler (xgcc), which
+# uses the host headers, will use a broken set of headers.
+is_ubuntu_or_debian() {
+        grep Ubuntu /etc/lsb-release >/dev/null 2>&1  || \
+        grep Debian /etc/lsb-release >/dev/null 2>&1  || \
+        test -f /etc/debian_version
+}
+
+if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
+        echo debian/ubuntu detected!
+        case "$A" in
+                i?86) debarch=i386 ;;
+                *) debarch=$A ;;
+        esac
+        if [ -d /usr/include/"$debarch"-linux-gnu/bits ] ; then
+                for i in sys bits asm gnu ; do
+                        ln -sf /usr/include/"$debarch"-linux-gnu/"$i" include/
+                done
+        fi
+        [ -d /usr/lib/"$debarch"-linux-gnu ] && ubuntulibdir="-B /usr/lib/${debarch}-linux-gnu"
+fi
+
+
 # FIXME: find out why libtool thinks it cannot build shared libs
 # maybe one -static too much ?
 # below hacks cause libtool to misbehave when making .la files
@@ -152,8 +176,11 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
 
 gcc_cv_libc_provides_ssp=yes \
-make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
- -DHAVE_GETRLIMIT -O0 -g0" LDFLAGS="-static" BOOT_LDFLAGS="-static" \
+make \
+ CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
+ -DHAVE_GETRLIMIT -O0 -g0" \
+ LDFLAGS="-static" \
+ BOOT_LDFLAGS="-static $ubuntulibdir" \
  -j$MAKE_THREADS
 
 make DESTDIR="$butch_install_dir" install-gcc  \
