@@ -73,7 +73,7 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 		if (/\[/) {
 			inDepsSection=0
 		}
-		if (/^\s*$/ || !inDepsSection) {
+		if (/^[[:space:]]*$/ || !inDepsSection) {
 			continue
 		}
 		if(recursion == 1 || dorecurse) print_build_order(dep)

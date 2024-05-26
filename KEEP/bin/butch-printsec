@@ -30,7 +30,7 @@ function print_sec(pkg, sec,		r, insect, pkgFile, isbuild) {
 			continue
 		}
 		if(insect) {
-			if(/^\s*$/ && !isbuild) continue
+			if(/^[[:space:]]*$/ && !isbuild) continue
 			if(isbuild && /^%include .*%$/) {
 				print_sec(substr($0, 10, length($0)-10), "build")
 			} else {
