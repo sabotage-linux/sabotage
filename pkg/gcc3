@@ -29,6 +29,7 @@ patch -p1 < "$K"/gcc-346-unwind2.patch
 patch -p1 < "$K"/gcc-346-unlink.patch
 patch -p1 < "$K"/gcc-346-libgcc-visibility.patch
 patch -p1 < "$K"/gcc-346-no-target-libs.patch
+patch -p1 < "$K"/gcc-346-weakalias.patch
 
 # fix for latest GLIBC
 sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux.h
