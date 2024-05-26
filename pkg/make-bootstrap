@@ -1,0 +1,19 @@
+[mirrors]
+http://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz
+
+[vars]
+filesize=2348200
+sha512=145260cbd6a8226cef3dfef0c8baba31847beaebc7e6b65d39d02715fd4f4cab9b139b6c3772e550088d4f9ae80c6d3ed20b9a7664c693644dfb96b4cb60e67c
+pkgver=1
+
+[build]
+xconfflags="--build=$($CC -dumpmachine)"
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine)"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
+./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls --disable-dependency-tracking
+
+./build.sh
+./make MAKEINFO=echo -j$MAKE_THREADS
+./make MAKEINFO=echo DESTDIR="$butch_install_dir" install

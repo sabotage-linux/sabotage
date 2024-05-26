@@ -22,6 +22,9 @@ utils/setup-rootfs.sh
 
 export CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db
 
+KEEP/bin/butch install make-bootstrap
+ln -sf /sabotage/opt/make-bootstrap/bin/* /bin/
+
 KEEP/bin/butch install bearssl
 ln -sf /sabotage/opt/bearssl/include/* /include/
 ln -sf /sabotage/opt/bearssl/lib/* /lib/
