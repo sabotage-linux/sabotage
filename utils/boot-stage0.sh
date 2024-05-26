@@ -22,18 +22,8 @@ utils/setup-rootfs.sh
 
 export CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db
 
-KEEP/bin/butch install make-bootstrap
-ln -sf /sabotage/opt/make-bootstrap/bin/* /bin/
-
-KEEP/bin/butch install bearssl
-ln -sf /sabotage/opt/bearssl/include/* /include/
-ln -sf /sabotage/opt/bearssl/lib/* /lib/
-
-KEEP/bin/butch install curl-bearssl
-ln -sf /sabotage/opt/curl-bearssl/bin/* /bin/
-
-KEEP/bin/butch install binutils
-ln -sf /sabotage/opt/binutils/bin/* /bin/
+PATH=/sabotage/bin:/local/bin:/bin KEEP/bin/butch install make-bootstrap curl-bearssl binutils
+ln -sf /sabotage/bin/make /sabotage/bin/curl /sabotage/opt/binutils/bin/* /bin/
 
 DEPS=build:stage0 KEEP/bin/butch install stage0
 

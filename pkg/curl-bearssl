@@ -16,8 +16,8 @@ bearssl
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
 CPPFLAGS="-D_GNU_SOURCE" \
-CFLAGS="$optcflags -I$butch_install_dir$butch_prefix/include" \
-LDFLAGS="$optldflags -L$butch_install_dir$butch_prefix/lib" \
+CFLAGS="$optcflags -I$butch_root_dir/include" \
+LDFLAGS="$optldflags -L$butch_root_dir/lib" \
 ./configure -C \
   --prefix="$butch_prefix" \
   --disable-docs --disable-manual --disable-shared --with-bearssl \
