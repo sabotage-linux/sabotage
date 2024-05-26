@@ -6,9 +6,6 @@ set -e
 ARCH=$(uname -m)
 MAKE_THREADS=$(nproc)
 
-cd /tmp
-make -s gawk
-
 mkdir -p /sabotage
 ln -sf /src /sabotage/
 cd /sabotage/src
