@@ -90,6 +90,10 @@ download_bb_wget() {
 	busybox wget -O "$2" -c "$1"
 }
 
+download_toy_wget() {
+	wget -O "$2" "$1"
+}
+
 download_wget() {
 	wget --tries=$retries --no-check-certificate -O "$2" -c "$1"
 }
@@ -99,6 +103,7 @@ download() {
 		curl) download_curl "$1" "$2" ;;
 		wget) download_wget "$1" "$2" ;;
 		bb_wget) download_bb_wget "$1" "$2" ;;
+		toy_wget) download_toy_wget "$1" "$2" ;;
 	esac
 }
 
@@ -108,6 +113,8 @@ set_method() {
 		method=curl
 	elif wget --help 2>&1 | grep BusyBox > /dev/null ; then
 		method=bb_wget
+	elif wget --version 2>&1 | grep toybox > /dev/null ; then
+		method=toy_wget
 	else
 		method=wget
 	fi

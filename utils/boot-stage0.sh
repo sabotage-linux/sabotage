@@ -1,4 +1,5 @@
 #!/bin/sh
+# /src/utils/boot-stage0.sh
 
 set -e
 
@@ -6,7 +7,7 @@ ARCH=$(uname -m)
 MAKE_THREADS=$(nproc)
 
 cd /tmp
-make -s gawk curl
+make -s gawk
 
 mkdir -p /sabotage
 ln -sf /src /sabotage/
@@ -23,9 +24,19 @@ echo "export GCC_ARCH_CONFIG_FLAGS='--host=$ARCH-unknown-linux-gnu'" >> config
 utils/setup-rootfs.sh
 
 export CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db
-DEPS=build KEEP/bin/butch install binutils
+
+KEEP/bin/butch install bearssl
+ln -sf /sabotage/opt/bearssl/include/* /include/
+ln -sf /sabotage/opt/bearssl/lib/* /lib/
+
+KEEP/bin/butch install curl-bearssl
+ln -sf /sabotage/opt/curl-bearssl/bin/* /bin/
+
+KEEP/bin/butch install binutils
 ln -sf /sabotage/opt/binutils/bin/* /bin/
+
 DEPS=build:stage0 KEEP/bin/butch install stage0
+
 unset CONFIG BUTCHDB
 
 echo "export A=$ARCH" > config && cat KEEP/config.stage1 >> config

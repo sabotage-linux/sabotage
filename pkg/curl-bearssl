@@ -1,0 +1,30 @@
+[mirrors]
+https://curl.se/download/curl-8.0.1.tar.xz
+http://tar.sabo.xyz/curl/curl-8.0.1.tar.xz
+
+[vars]
+filesize=2575544
+sha512=3bb777982659ed697ae90f113ff7b65d6ce8ba9fe6a8984cfd6769d2f051a72ba953c911abe234c204ec2cc5a35d68b4d033037fad7fba31bb92a52543f8d13d
+pkgver=22
+desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
+
+[deps]
+bearssl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" \
+CFLAGS="$optcflags -I$butch_install_dir$butch_prefix/include" \
+LDFLAGS="$optldflags -L$butch_install_dir$butch_prefix/lib" \
+./configure -C \
+  --prefix="$butch_prefix" \
+  --disable-docs --disable-manual --disable-shared --with-bearssl \
+  --enable-ipv6 \
+  --without-librtmp \
+  --with-random=/dev/urandom $xconfflags
+
+sed -i -e '/SUBDIRS/s:scripts::' Makefile
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
