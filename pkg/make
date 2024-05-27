@@ -15,6 +15,7 @@ http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 patch -p1 < "$K"/make-3.82-upstream_fixes-3.patch
 patch -p1 < "$K"/make-3.82-stack_limit.patch
 patch -p1 < "$K"/make-glob.patch
+patch -p1 < "$K"/make-3.82-vfork-ub.patch
 cp -f "$K"/config.sub config/
 
 xconfflags="--build=$($CC -dumpmachine)"
