@@ -1,0 +1,12 @@
+--- a/make-3.82/job.c
++++ b/make-3.82/job.c
+@@ -1322,7 +1322,8 @@
+ 
+ #else  /* !__EMX__ */
+ 
+-      child->pid = vfork ();
++      pid_t pid = vfork ();
++      child->pid = pid;
+       environ = parent_environ;        /* Restore value child may have clobbered.  */
+       if (child->pid == 0)
+        {

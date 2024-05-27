@@ -11,10 +11,11 @@ stage0-musl
 http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 
 [build]
-[ "$STAGE" = "0" ] && CC="$butch_root_dir"/bin/musl-gcc
+[ "$STAGE" = "0" ] && [ -x "$butch_root_dir"/bin/musl-gcc ] && CC="$butch_root_dir"/bin/musl-gcc
 patch -p1 < "$K"/make-3.82-upstream_fixes-3.patch
 patch -p1 < "$K"/make-3.82-stack_limit.patch
 patch -p1 < "$K"/make-glob.patch
+patch -p2 < "$K"/make-3.82-vfork-ub.patch
 cp -f "$K"/config.sub config/
 
 xconfflags="--build=$($CC -dumpmachine)"
@@ -24,5 +25,11 @@ xconfflags="--build=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
 ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
 
-make -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+if which make >/dev/null 2>&1; then
+  make -j$MAKE_THREADS
+  make DESTDIR="$butch_install_dir" install
+else
+  ./build.sh
+  ./make MAKEINFO=echo -j$MAKE_THREADS
+  ./make MAKEINFO=echo DESTDIR="$butch_install_dir" install
+fi
