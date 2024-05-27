@@ -1,6 +1,5 @@
 [mirrors]
 https://www.bearssl.org/bearssl-0.6.tar.gz
-http://tar.sabo.xyz/bearssl/bearssl-0.6.tar.gz
 
 [vars]
 filesize=765094
