@@ -17,7 +17,7 @@ musl-tarball
 [build]
 if ! ./configure; then
     echo "Building musl sysroot"
-    tar xf $C/musl-1.2.4.tar.gz && cd musl-1.2.4 && \
+    tar xf $C/musl-1.2.5.tar.gz && cd musl-1.2.5 && \
         ./configure --prefix="$PWD/../sysroot" --enable-wrapper=gcc && \
         make -j$MAKE_THREADS CFLAGS="-Os" && make install && cd ..
     ./configure
