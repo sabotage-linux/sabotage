@@ -97,7 +97,7 @@ Description:             Several bug fixes from upstream cvs.
 +#ifndef PAGE_SIZE
 +#define PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 +#endif
-+#include <linux/binfmts.h>
++#define MAX_ARG_STRLEN (PAGE_SIZE * 32)
 +#endif
 +
  /* Default shell to use.  */
