@@ -16,12 +16,23 @@ alsa-lib
 
 # WARNING this package needs more than 512 MB ram to build
 
+add_include() {
+        printf "#include <%s>\n" "$2" > tmp.$$.h
+        cat "$1" >> tmp.$$.h
+        mv tmp.$$.h "$1"
+}
+for i in fsdev/virtfs-proxy-helper.c linux-user/elfload.c hw/vfio_pci.c ; do
+add_include "$i" libgen.h
+done
+
 patch -p1 < "$K"/qemu-syscall.patch
 patch -p1 < "$K"/qemu-mmap.patch
 patch -p1 < "$K"/qemu-arm-user-exec.patch
+patch -p1 < "$K"/qemu-13-gettid.patch
 
 CFLAGS="-D_GNU_SOURCE -Dflock64=flock -D__SIGRTMIN=32 -D__SIGRTMAX=\(NSIG-1\)"
 CFLAGS="$CFLAGS -DF_SETLKW64=F_SETLKW -DF_GETLK64=F_GETLK -DF_SETLK64=F_SETLK"
+CFLAGS="$CFLAGS -Dftruncate64=ftruncate -Dtruncate64=truncate -Dpread64=pread -Dpwrite64=pwrite -Doff64_t=off_t"
 CFLAGS="$CFLAGS -O2 -g0 -include sys/sysmacros.h" \
 ./configure --prefix="$butch_prefix" \
   --enable-kvm \

@@ -13,7 +13,9 @@ kernel-headers
 popt
 
 [build]
-make CXX="${CXX:-g++}" CFLAGS="$optcflags" LDFLAGS="$optldflags -lcurses -lterminfo"
+make CXX="${CXX:-g++}" \
+CXXFLAGS="$optcflags -D_FILE_OFFSET_BITS=64 -Dfstat64=fstat -Dstat64=stat -Dlseek64=lseek" \
+LDFLAGS="$optldflags -lcurses -lterminfo"
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/bin "$dest"/share/man/man8
 for i in gdisk cgdisk sgdisk fixparts; do

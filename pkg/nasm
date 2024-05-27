@@ -14,5 +14,6 @@ pkgver=2
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
-
-make PREFIX="$butch_prefix" INSTALLROOT="$butch_install_dir" -j$MAKE_THREADS all install
+# nasm's makefile is buggy and using parallel make sometimes fails
+# as it uses libnasm.a while it's still being written to
+make PREFIX="$butch_prefix" INSTALLROOT="$butch_install_dir" -j1 all install

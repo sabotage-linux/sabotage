@@ -16,6 +16,17 @@ libcap2
 
 # WARNING this package needs more than 512 MB ram to build
 
+add_include() {
+        printf "#include <%s>\n" "$2" > tmp.$$.h
+        cat "$1" >> tmp.$$.h
+        mv tmp.$$.h "$1"
+}
+for i in hw/misc/vfio.c fsdev/virtfs-proxy-helper.c linux-user/elfload.c ; do
+add_include "$i" libgen.h
+done
+add_include util/qemu-openpty.c pty.h
+add_include tests/qemu-iotests/socket_scm_helper.c string.h
+
 patch -p1 < "$K"/qemu-170-openpty.patch
 patch -p1 < "$K"/qemu-170-sigset_t.patch
 patch -p1 < "$K"/qemu-170-gettid.patch

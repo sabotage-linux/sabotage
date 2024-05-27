@@ -17,7 +17,7 @@ fi
 is_gcc3() {
 	local mycc="$CC"
 	[ -z "$mycc" ] && mycc=gcc
-	$mycc --version | grep "3.4.6" >/dev/null
+	$mycc --version | grep -e "3.4.6" -e "4.2.4" >/dev/null
 }
 isx86=0
 case $A in i?86) isx86=1;; esac

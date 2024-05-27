@@ -1,17 +1,17 @@
-[mirrors]
-http://www.musl-libc.org/releases/musl-1.2.4.tar.gz
-
 [vars]
-filesize=1063758
-sha512=498ec5d7941194a8806f4d42f0f6d218c862996ef1398b737d0d06995e0b7a6574b240a48088f6b84016b14b2776fe463f829dcb11149cdfc1023d496b235c55
-pkgver=15
+pkgver=16
 desc='the musl C standard library (libc)'
 no_unlink=1
+
+[deps]
+musl-tarball
 
 [deps.stage1]
 gcc6
 
 [build]
+tar xf "$C"/musl-1.2.5.tar.gz && cd musl-1.2.5
+
 if test "$STAGE" = "0" ; then
 	export CC=$R/bin/gcc
 	cfgflags=--enable-gcc-wrapper

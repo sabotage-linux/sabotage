@@ -1,0 +1,29 @@
+[mirrors]
+https://codeberg.org/jbruchon/jdupes/archive/v1.27.3.tar.gz
+
+[vars]
+filesize=174779
+sha512=ee2d60a922558e2aa819f9074fb0b3b38cc93ddc4f6ca3a1d0dd8731c4ecf72d1b6cbb0bc85be7cd63b21f7d9138efadfb64208122a4eebd4e55756a3edd5bcc
+tarball=jdupes-1.27.3.tar.gz
+tardir=jdupes
+pkgver=1
+desc='tool to find duplicate files and delete or replace them with links'
+
+[deps]
+libjodycode-tarball
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags -Ilibjodycode" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Llibjodycode" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+tar xf "$C"/libjodycode-3.1.tar.gz
+cd libjodycode
+mk_target all
+rm libjodycode.so
+cd ..
+mk_target all
+mk_target install

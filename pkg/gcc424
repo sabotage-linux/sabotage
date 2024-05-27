@@ -18,6 +18,7 @@ VERSION=4.2.4
 
 cp -f "$K"/config.sub .
 
+test -n "$CROSS_COMPILE" && exit 0
 test "$STAGE" = 0 || option_cplusplus=1
 
 if test "$option_cplusplus" = 1 ; then
@@ -37,7 +38,15 @@ patch -p1 < "$K"/gcc-4.2.1-musl.patch
 # fix for latest GLIBC
 sed -i 's/struct ucontext/ucontext_t/' gcc/config/i386/linux-unwind.h
 
+intel32=false
+case "$A" in i[3-6]86) intel32=true ;; esac
+if $intel32 && [ "$(./config.guess)" = "i686-pc-linux-gnulibc1" ] ; then
+        printf '#!/bin/sh\necho $A-unknown-linux-gnu\n' > config.guess
+fi
+
+# remove fix-includes
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux.h
 sed -i 's@/lib/ld-linux.so.[12]@/lib/ld-musl-i386.so.1@' gcc/config/i386/linux64.h
 sed -i 's@/lib64/ld-linux-x86-64.so.2@/lib/ld-musl-x86_64.so.1@' gcc/config/i386/linux64.h
@@ -118,6 +127,30 @@ fi
 config_stage0_flags=--enable-shared
 test "$STAGE" = 0 && config_stage0_flags=--disable-shared
 
+# workaround for debian idiocy: they put bits/ into an arch-specific
+# sysdir in /usr/include, so the bootstrap compiler (xgcc), which
+# uses the host headers, will use a broken set of headers.
+is_ubuntu_or_debian() {
+        grep Ubuntu /etc/lsb-release >/dev/null 2>&1  || \
+        grep Debian /etc/lsb-release >/dev/null 2>&1  || \
+        test -f /etc/debian_version
+}
+
+if [ "$STAGE" = "0" ] && is_ubuntu_or_debian ; then
+        echo debian/ubuntu detected!
+        case "$A" in
+                i?86) debarch=i386 ;;
+                *) debarch=$A ;;
+        esac
+        if [ -d /usr/include/"$debarch"-linux-gnu/bits ] ; then
+                for i in sys bits asm gnu ; do
+                        ln -sf /usr/include/"$debarch"-linux-gnu/"$i" include/
+                done
+        fi
+        [ -d /usr/lib/"$debarch"-linux-gnu ] && ubuntulibdir="-B /usr/lib/${debarch}-linux-gnu"
+fi
+
+
 # FIXME: find out why libtool thinks it cannot build shared libs
 # maybe one -static too much ?
 # below hacks cause libtool to misbehave when making .la files
@@ -137,14 +170,17 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 --disable-multilib \
 --disable-bootstrap \
 --disable-nls \
---disable-mudflap --disable-libmudflap --enable-libssp \
+--disable-mudflap --disable-libmudflap --disable-libssp \
 --disable-libgomp \
 --with-target-libiberty=no --with-target-zlib=no \
 $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
 
 gcc_cv_libc_provides_ssp=yes \
-make CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
- -DHAVE_GETRLIMIT -O0 -g0" LDFLAGS="-static" BOOT_LDFLAGS="-static" \
+make \
+ CFLAGS="-D_GNU_SOURCE -DSTDC_HEADERS -DHAVE_STRSIGNAL -DHAVE_GETRLIMIT \
+ -DHAVE_GETRLIMIT -O0 -g0" \
+ LDFLAGS="-static" \
+ BOOT_LDFLAGS="-static $ubuntulibdir" \
  -j$MAKE_THREADS
 
 make DESTDIR="$butch_install_dir" install-gcc  \
@@ -167,11 +203,9 @@ rm -f "$dest"/lib/libssp.*
 
 if [ "$A" = x86_64 ] ; then
   mv "$dest"/lib64/* "$dest"/lib/ || true
-  if test "$option_cplusplus" = 1 ; then
-    sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libstdc++.la
-    sed -i 's,/lib/../lib64,/lib,' "$dest"/lib/libsupc++.la
-  fi
 fi
+
+rm -f "$butch_install_dir""$butch_prefix"/lib/*.la || true
 
 # rename gcc to rawcc so musl-gcc can call the *right* gcc
 mv "$dest"/bin/gcc "$dest"/bin/rawcc

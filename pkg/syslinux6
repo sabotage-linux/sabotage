@@ -20,6 +20,13 @@ http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/sys
 http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
 
 [build]
+add_include() {
+        printf "#include <%s>\n" "$2" > tmp.$$.h
+        cat "$1" >> tmp.$$.h
+        mv tmp.$$.h "$1"
+}
+add_include com32/lib/syslinux/debug.c stdio.h
+
 isx86=0
 case "$A" in
   i[3-6]86) isx86=1 ;;
