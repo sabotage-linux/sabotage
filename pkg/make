@@ -25,7 +25,7 @@ xconfflags="--build=$($CC -dumpmachine)"
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags -static" \
 ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
 
-if which make >/dev/null 2>&1; then
+if type make >/dev/null 2>&1; then
   make -j$MAKE_THREADS
   make DESTDIR="$butch_install_dir" install
 else
