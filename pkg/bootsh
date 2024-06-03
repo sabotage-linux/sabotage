@@ -1,14 +1,11 @@
 [mirrors]
-https://github.com/davidar/bootsh/archive/refs/tags/v0.2.2.tar.gz
+https://github.com/davidar/bootsh/archive/refs/tags/v0.3.0.tar.gz
 
 [vars]
-filesize=4533225
-sha512=294843d04837ea7db528879a1f2a7876316a826ce77047da02f01210a97911de9200dfd85894558585276d8975a04dd4f2667d5cf580ed8c629e6802c30523d9
-tarball=bootsh-0.2.2.tar.gz
-pkgver=4
-
-[deps.host]
-nl
+filesize=5650281
+sha512=58a844f3db16fe0fa9839037c9191348ef91113e7e0e407e7f12dc060960781cb5cc78e9d66a3038a3f3d1f18db586af1153b2e06ffeeb7a09f9ac0b446741a0
+tarball=bootsh-0.3.0.tar.gz
+pkgver=5
 
 [deps.stage0]
 musl-tarball
@@ -22,10 +19,5 @@ if ! ./configure; then
     ./configure
 fi
 make -j$MAKE_THREADS
-DESTDIR="$butch_install_dir""$butch_prefix"
-mkdir -p "$DESTDIR"/bin "$DESTDIR"/tmp
-cp -f bootsh "$DESTDIR"/bin/sh
-cp -f boot.sh "$DESTDIR"/bin/boot.sh
-cp -f wak.c "$DESTDIR"/bin/awk
-cp -f Makefile.packages "$DESTDIR"/tmp/Makefile
+make install DESTDIR="$butch_install_dir" PREFIX="$butch_prefix"
 butch_do_relocate=false

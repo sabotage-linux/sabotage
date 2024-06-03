@@ -6,13 +6,12 @@ set -e
 . "$CONFIG"
 export H="$PWD"
 
-mkdir -p "$R"/bin "$R"/tmp "$R"/dev "$R"/proc "$R"/sys "$R"/src
+mkdir -p "$R"/dev "$R"/proc "$R"/sys "$R"/src
 utils/update-chroot.sh
 
 CONFIG="$H"/config BUTCHDB="$R"/tmp/butch.db DEPS=build:stage0 "$K"/bin/butch install bootsh
 
-mv -f "$R"/opt/bootsh/bin/* "$R"/bin
-mv -f "$R"/opt/bootsh/tmp/Makefile "$R"/tmp
+mv "$R"/opt/bootsh/* "$R"/
 rm -rf "$R"/opt "$R"/src/build
 
 printf '#!/bin/sh\nexec env "$@"' > "$R"/bin/env
