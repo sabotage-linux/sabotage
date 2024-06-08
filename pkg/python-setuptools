@@ -13,5 +13,9 @@ uchkurl=https://pypi.org/project/setuptools/
 python
 
 [build]
+# if the _locale module isn't installed:
+# with io.open('setuptools.egg-info/entry_points.txt', 'w') as ep:
+# IOError: could not determine default encoding
+sed -i "s;'w';'wb';" bootstrap.py
 python bootstrap.py
 python setup.py install --prefix="$butch_prefix" --root="$butch_install_dir" --optimize=1
