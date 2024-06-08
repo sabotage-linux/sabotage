@@ -1,12 +1,12 @@
 [mirrors]
-https://github.com/ytdl-org/youtube-dl/releases/download/2021.06.06/youtube-dl-2021.06.06.tar.gz
+https://github.com/ytdl-org/ytdl-nightly/releases/download/2024.05.31/youtube-dl-2024.05.31.tar.gz
 
 [vars]
-filesize=3336227
-sha512=7b4d453723d03c3fde46451277d5c44be01469ed1b414ce94e782d6228c132c982835805207222862d0d7b8ba162157196f976400fd15cea7ea513e3595aeea3
-pkgver=37
+filesize=3603549
+sha512=075ea6ed2bd20d9fb07aaf443d8826bf8d63390e93e7776675e511f2d53de15493c871c7cb13a7a9fb48e9d11e92cbb7e60d739a90a25754158cfecc9b0e9822
+pkgver=38
 tardir=youtube-dl
-uchkurl=http://youtube-dl.org/downloads/
+uchkurl=https://github.com/ytdl-org/ytdl-nightly/releases
 desc='command line tool to download videos from youtube, vimeo, twitter etc'
 
 [deps]
