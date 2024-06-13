@@ -22,7 +22,8 @@ utils/setup-rootfs.sh
 
 export CONFIG=/sabotage/src/config BUTCHDB=/sabotage/var/lib/butch.db
 
-PATH=/sabotage/bin:/local/bin:/bin KEEP/bin/butch install make curl-bearssl binutils
+PATH=/sabotage/bin:/local/bin:/bin DEPS=build:curl.bearssl \
+  KEEP/bin/butch install make curl binutils
 ln -sf /sabotage/bin/make /sabotage/bin/curl /sabotage/opt/binutils/bin/* /bin/
 
 DEPS=build:stage0 KEEP/bin/butch install stage0

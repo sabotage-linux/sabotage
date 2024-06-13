@@ -7,26 +7,39 @@ sha512=3bb777982659ed697ae90f113ff7b65d6ce8ba9fe6a8984cfd6769d2f051a72ba953c911a
 pkgver=22
 desc='tool and library for client-side URL transfers: HTTP, FTP, TELNET, etc.'
 
-[deps]
+[deps.curl.default]
 libressl
 ca-certificates
 zlib
+
+[deps.curl.bearssl]
+bearssl
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
+if printf "%s\n" "$DEPS" | grep 'curl.bearssl' >/dev/null 2>&1 ; then
+  ssl_confflags=--with-bearssl
+  test "$STAGE" = 0 && {
+    # needed for bootsh bootstrap
+    optcflags="$optcflags -I$butch_root_dir/include"
+    optldflags="$optldflags -L$butch_root_dir/lib"
+  }
+else
+  ssl_confflags="--with-ssl --with-ca-path=$butch_prefix/etc/ssl/certs"
+  export LIBS="-lssl -lcrypto -lz"
+fi
+
+
 CPPFLAGS="-D_GNU_SOURCE" \
 CFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
-LIBS="-lssl -lcrypto -lz" \
 ./configure -C \
   --prefix="$butch_prefix" \
-  --with-ssl \
   --enable-ipv6 \
   --without-librtmp \
-  --with-ca-path="$butch_prefix"/etc/ssl/certs \
-  --with-random=/dev/urandom $xconfflags
+  --with-random=/dev/urandom $ssl_confflags $xconfflags
 
 sed -i -e '/SUBDIRS/s:scripts::' Makefile
 make -j$MAKE_THREADS
