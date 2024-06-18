@@ -19,5 +19,6 @@ dest="$butch_install_dir""$butch_prefix"
 #fix ext2 header...
 install -Dm 644 "$K"/ext2_fs.h "$dest"/include/linux/
 #fix swab header
-sed -i '4a\\n#include <linux/stddef.h>\n' "$dest"/include/linux/swab.h
+sed -i '4a\
+\n#include <linux/stddef.h>\n' "$dest"/include/linux/swab.h
 
