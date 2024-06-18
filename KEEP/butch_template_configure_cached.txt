@@ -366,7 +366,7 @@ if $have_files ; then
 			compressor="gzip"
 			ext=.gz
 		fi
-		if type xz >/dev/null 2>&1 && ! xz --help 2>&1 | grep BusyBox>/dev/null 2>&1 ; then
+		if type xz >/dev/null 2>&1 && ! xz --help 2>&1 | grep BusyBox>/dev/null 2>&1 && xz -z </dev/null >/dev/null 2>&1 ; then
 			compressor="xz -z"
 			ext=.xz
 		fi
