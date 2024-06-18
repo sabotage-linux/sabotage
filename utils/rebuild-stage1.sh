@@ -33,6 +33,7 @@ e2fsprogs
 man
 libressl
 ca-certificates
+curl
 '
 
 pkg="$base_pkg"
