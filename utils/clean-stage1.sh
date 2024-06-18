@@ -11,7 +11,7 @@ export CONFIG
 [ "$R" = "/" ] && R=
 [ -z "$BUTCHDB" ] && BUTCHDB=$R/var/lib/butch.db
 
-for pkg in gcc3 gcc424 stage0-gcc424 stage1-gcc424 stage0-gcc3 stage1-gcc3 stage0-musl; do
+for pkg in gcc3 gcc424 stage0-gcc424 stage1-gcc424 stage0-gcc3 stage1-gcc3 stage0-musl bearssl; do
 	"$K"/bin/butch-rm "$pkg" > /dev/null
 done
 
