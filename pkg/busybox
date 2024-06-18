@@ -50,7 +50,7 @@ fi
 
 [ -z "$HOSTCC" ] && HOSTCC="$CC"
 
-make HOSTCC="$HOSTCC" KCONFIG_ALLCONFIG=config.stage1 allnoconfig
+make HOSTCC="$HOSTCC" KCONFIG_ALLCONFIG=config.stage1 KCONFIG_NOTIMESTAMP=1 allnoconfig
 
 # alternative:
 # make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" \
