@@ -1,0 +1,18 @@
+[mirrors]
+https://www.retroimages.net/bin/b43-tools-27892ef.tar.xz
+
+[vars]
+filesize=108144
+sha512=f461f589b50e6c9a152d9ae4f8178bb0dddca90b5818ffd0e0904919ed7f333e6425425b9d756e2af00856e8777654978b9354c83a36e6d27e080727eaa7509b
+pkgver=1
+
+[deps]
+
+[deps.host]
+bison
+flex
+
+[build]
+cd assembler/
+mkdir "$butch_install_dir$butch_prefix"/bin
+make PREFIX="$butch_install_dir$butch_prefix" -j$MAKE_THREADS install
