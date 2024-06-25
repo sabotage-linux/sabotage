@@ -1,0 +1,24 @@
+pm now uses some c++14 stuff that gcc6 already provides in
+include/c++/6.5.0/experimental/type_traits but encapsulated
+in an experimental namespace.
+due to toddler C++ skills, we just copy the needed bits.
+
+--- a/platform/mfbt/FunctionRef.h
++++ b/platform/mfbt/FunctionRef.h
+@@ -16,6 +16,16 @@
+ 
+ #include <cstddef>      // std::nullptr_t
+ #include <type_traits>  // std::{declval,integral_constant}, std::is_{convertible,same,void}_v, std::{enable_if,remove_reference,remove_cv}_t
++#if __GNUC__ +0 < 7
++namespace std {
++template <typename _Tp>
++  constexpr bool is_void_v = is_void<_Tp>::value;
++template <typename _From, typename _To>
++  constexpr bool is_convertible_v = is_convertible<_From, _To>::value;
++template <typename _Tp, typename _Up>
++  constexpr bool is_same_v = is_same<_Tp, _Up>::value;
++}
++#endif
+ 
+ // This concept and its implementation are substantially inspired by foonathan's prior art:
+ //
