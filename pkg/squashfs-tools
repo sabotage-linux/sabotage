@@ -1,12 +1,14 @@
-[vars]
-filesize=133173
-sha512=4b69c5d3008803347d0ce7628957e3873c9ebd799662b25dfb739afb6a1ce97bdd02b0465ac4d949bc38af2155880ac068209dc638b94e5c86a8011ec3a00de0
-
 [mirrors]
 http://freefr.dl.sourceforge.net/project/squashfs/squashfs/squashfs4.2/squashfs4.2.tar.gz
 
+[vars]
+filesize=133173
+sha512=4b69c5d3008803347d0ce7628957e3873c9ebd799662b25dfb739afb6a1ce97bdd02b0465ac4d949bc38af2155880ac068209dc638b94e5c86a8011ec3a00de0
+pkgver=2
+
 [deps]
 zlib
+xz
 
 [build]
 patch -p1 < "$K"/squashfs-tools.patch
@@ -16,4 +18,5 @@ cd squashfs-tools
 make INSTALL_DIR="$butch_install_dir""$butch_prefix""/bin"\
      EXTRA_LDFLAGS="$optldflags"\
      EXTRA_CFLAGS="-include sys/sysmacros.h -D_GNU_SOURCE -DFNM_EXTMATCH=0 $optcflags"\
+     XZ_SUPPORT=1 \
      -j$MAKE_THREADS all install
