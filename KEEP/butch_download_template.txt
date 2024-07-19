@@ -131,6 +131,7 @@ FALLBACK=$FALLBACK_MIRROR/%BUTCH_PACKAGE_NAME/$tarball
 echo "in case the download process was killed, see $tmp for wget/curl output"
 
 for url in %BUTCH_MIRROR_URLS $FALLBACK ; do
+echo "trying dl via $method from mirror $url"
 if ! download "$url" "$butch_cache_dir/$tarball".wip >$tmp 2>&1 ; then
 	rc=1
 	grep 404 < $tmp > /dev/null && { rc=44 ; fail "HTTP 404 FILE NOT FOUND" ; }
