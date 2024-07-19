@@ -1,25 +1,5 @@
-[mirrors]
-http://www.lysator.liu.se/~nisse/misc/argp-standalone-1.3.tar.gz
-http://ftp.freebsd.org/pub/FreeBSD/ports/local-distfiles/sem/argp-standalone-1.3.tar.gz
-
 [vars]
-filesize=130255
-sha512=58c3feb8852b90248fff39e49b5019bd0dcf646790c3eaf70c3262eb81dda31a61dc0a45963c7b4a010e80fc14b37288dcb3b3ef48d02f2d33dd72c1c62e62d9
+pkgver=2
 
 [deps]
-
-[build]
-sed 's/#ifdef __OPTIMIZE__/#if 0/g' -i argp-fmtstream.h
-
-[ -n "$CROSS_COMPILE" ] && \
-  xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
-  --with-sysroot=$butch_root_dir"
-
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
-
-make V=1 -j$MAKE_THREADS
-dest="$butch_install_dir""$butch_prefix"
-install -D -m 644 libargp.a "$dest"/lib/libargp.a
-install -D -m 644 argp.h "$dest"/include/argp.h
+libuargp

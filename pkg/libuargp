@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/xhebox/libuargp/archive/1f92296a97ef8fcfeb5e2440f5a62081fe654f75.tar.gz
+
+[vars]
+filesize=54163
+sha512=a0ca826e26cad9fcd078cd4348ca37e89cb553564792c5bd172f688c678c0a066fea6562392219440b7f8d919a4f4ba401d48d03c9843328995ab817876c7711
+tarball=libuargp-1f92296a97ef8fcfeb5e2440f5a62081fe654f75.tar.gz
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  prefix="$butch_prefix" DESTDIR="$butch_install_dir" \
+  ALL_LIBS=libargp.a \
+  "$@"
+}
+mk_target all
+mk_target install
