@@ -1,0 +1,37 @@
+[mirrors]
+http://ftpmirror.gnu.org/ccd2cue/ccd2cue-0.5.tar.gz
+https://ftp.gnu.org/gnu/ccd2cue/ccd2cue-0.5.tar.gz
+
+[vars]
+filesize=626071
+sha512=bcba8bee17a9d02011a4f74fdcb3e98a67632634d4bef014a5cf873ce694d614b7190176a54e328c5ccdad438a319bbb06d1c69628a43fbe2b9f457cf673151d
+pkgver=1
+desc='converter for cd image ccd/sub/img format to cue/bin'
+
+[deps]
+argp
+
+[build]
+cat << EOF > src/error.h
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#define error(S, E, ...) do{\
+fflush(stdout);fprintf(stderr, __VA_ARGS__);\
+if(E)fprintf(stderr, "\t%s", strerror(E));fprintf(stderr, "\n");\
+if(S!=0)exit(S);}while(0)
+EOF
+
+sed 's/FLAGS = %a/FLAGS = %m/' -i src/ccd.c
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE -include libgen.h -D__va_copy=va_copy" \
+CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LIBS=-largp \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
