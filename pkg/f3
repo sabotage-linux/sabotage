@@ -1,0 +1,22 @@
+[mirrors]
+https://github.com/AltraMayor/f3/archive/refs/tags/v8.0.tar.gz
+
+[vars]
+filesize=71493
+sha512=4c929eb3ad56ffefff7ae3266148e2000e14f01553c1960ddbe77a164df18dda6f32980140b7568e32a3165f9362e4f43c990a946a62b15b06720d6f8b87f924
+tarball=f3-8.0.tar.gz
+desc='utility to check flash media for fraud and integrity'
+
+[deps]
+argp
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -largp" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target all ARGP=
+mk_target install
