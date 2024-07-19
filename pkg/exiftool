@@ -1,0 +1,22 @@
+[mirrors]
+https://exiftool.org/Image-ExifTool-12.89.tar.gz
+
+[vars]
+filesize=7129475
+sha512=da0293ec8a1953a763220be12123596974e7a3d69c5ac3228238886f3703634feec1d0bfaa3ee2a2f2bf4e43ee00f12174cd931aa2f548af5fcf7571b89dff49
+pkgver=1
+desc='tool to view and edit exif metadata'
+
+[deps.host]
+perl
+
+[deps.run]
+perl
+
+[deps]
+
+[build]
+perl Makefile.PL
+make -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
+
