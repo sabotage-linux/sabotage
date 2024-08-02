@@ -1,8 +1,11 @@
+[mirrors]
+https://www-cs-faculty.stanford.edu/~knuth/programs/mmix-20170917.tgz
+
 [vars]
 filesize=308423
 sha512=b79ad02107c3c1d0ea27ee199ce42e2392ad72ca120d0dd195604b861a4082c8a09155debc116d4cd495d21df82bcac5052243f42d181f81d892fa7eaf90eb9b
 tarball=mmix-2017-17-09.tar.gz
-tardir=.
+tardir_create=1
 pkgver=2
 desc="simulator and utils for donald knuth's MMIX architecture"
 
@@ -31,7 +34,7 @@ for i in tetra int mem byte long char unsigned mmix_opcode bool ; do
 	sed "s/register $i/$i/" -i mmix-sim.c
 done
 fi
-make CC="$CC" CFLAGS="$optcflags $optldflags" all
+make CC="$CC" CFLAGS="$optcflags -fcommon $optldflags" all
 
 dest="$butch_install_dir""$butch_prefix"
 for i in mmix mmixal mmotype mmmix mmoimg ; do
