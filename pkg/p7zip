@@ -11,12 +11,14 @@ desc='extractor for 7zip compression format'
 [deps]
 
 [build]
+export CXX="$CXX -std=gnu++03"
 sed -i 's/-pipe -s//' makefile.machine &&
 sed -i \
 -e 's/strip /#strip /' \
 -e 's/chmod 555/chmod 755/' \
 -e 's/chmod 444/chmod 644/' install.sh &&
-make all3 -j$MAKE_THREADS OPTFLAGS="$optcflags" LDFLAGS="$optldflags"
+make all3 -j$MAKE_THREADS CC="$CC" CXX="$CXX" \
+ OPTFLAGS="$optcflags" LDFLAGS="$optldflags"
 
 dest="$butch_install_dir""$butch_prefix"
 make DEST_HOME="$dest" \
