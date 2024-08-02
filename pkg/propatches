@@ -5,7 +5,7 @@ http://www.thierryb.net/site/IMG/zip/ProPatchesLite1.61.zip
 [vars]
 filesize=6309158
 sha512=5cf3e5bd1d0c6d3b05d69f8178e6b5e87b6fbf3fd0f87d6b25b0f4f07f49d74f4f132f0767202d186f907690ab7cd7368d5aca7a99f52c7351f4a7209542ceb0
-tardir=.
+tardir_create=1
 pkgver=1
 desc='gravis ultrasound compatible patches for midi programs'
 
