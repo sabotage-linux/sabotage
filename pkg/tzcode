@@ -5,7 +5,7 @@ http://www.iana.org/time-zones/repository/releases/tzcode2018i.tar.gz
 filesize=242962
 sha512=1a3d53043f20b8252f7598f547d78e7294d9e0cf1fcdd2159354d9769f824c8c8a03cef9cbb7fa579345fdb41372335117d2ef782ecd9c107dd0526e59492d9d
 pkgver=3
-tardir=.
+tardir_create=1
 
 [deps]
 
