@@ -1,0 +1,31 @@
+[mirrors]
+https://github.com/ip7z/7zip/releases/download/24.07/7z2407-src.tar.xz
+
+[vars]
+filesize=1488556
+sha512=0299e5c1e1dfd33ecf22077f812da1f25bf2146a713c7a7e2498d639520f21f029e853914e66a84d1edfc5d721e1f3d914a3171ab336a406a94bc82d5b2d8e5d
+tardir_create=1
+pkgver=1
+desc='official 7zip command line utility - (de)packer for various formats'
+
+[deps]
+
+[build]
+mk_target() {
+make -f makefile.gcc -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  CFLAGS="$optcflags -c -o \$@" CXXFLAGS="$optcflags -c -o \$@" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+# disable CPU-specific optimizations that fail at assembly time because
+# of requiring a newer binutils package. apart from that it would likely
+# also break cross-compilation.
+sed -e 's/define MY_CPU_X86_OR_AMD64/undef MY_CPU_X86_OR_AMD64/' \
+    -e 's/define MY_CPU_ARM_OR_ARM64/undef MY_CPU_ARM_OR_ARM64/' -i C/CpuArch.h
+cd CPP/7zip/Bundles/Alone2
+mk_target all
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 _o/7zz "$dest"/bin/7zz
+ln -s 7zz "$dest"/bin/7z
