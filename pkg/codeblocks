@@ -1,0 +1,23 @@
+[mirrors]
+https://sourceforge.net/projects/codeblocks/files/Sources/20.03/codeblocks-20.03.tar.xz
+
+[vars]
+filesize=11799264
+sha512=f97c1a02d31f0be4dc08b1f19b57bd0d3cba375ab5f33ab91b2a2df7817018f5b3e3063ed07199a3970644f1caa7c7e511db2034c73264f5f4963046d65b0097
+pkgver=1
+desc='relatively lightweight IDE for C/C++ with code completion etc'
+
+[deps]
+wxgtk
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
