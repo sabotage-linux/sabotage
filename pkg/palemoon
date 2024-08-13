@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/33.2.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/33.3.0_Release.tar.gz
 
 [vars]
-filesize=8567974
-sha512=72e6a4858af679a88fd079ed28020a8d845366d0b3ea5cb00b5a17dd9d6b7a4171397ceaa156b3e9f1d185e39e7ba8c82864641bd21f704350ef4b6473cc693d
-tarball=Pale-Moon-33.2.1_Release.tar.gz
+filesize=8568229
+sha512=71630be50196b53e8ab79f709747e1ea0ac80c343bc9b129130054d6dacfc381800bf54c880e854d2c2dfd4294f0d394ab6e684c62c454a8ac41cc9bcd32c1c4
+tarball=Pale-Moon-33.3.0_Release.tar.gz
 tardir=pale-moon
-pkgver=72
-BROWSER_VERSION=33.2.1
-UXP_VERSION=20240715
+pkgver=73
+BROWSER_VERSION=33.3.0
+UXP_VERSION=20240812
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
