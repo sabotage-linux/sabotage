@@ -141,9 +141,16 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
   --with-target-libiberty=no --with-target-zlib=no \
   $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
 
+GCC14_FIX=""
+if cc --version |grep -q GCC ; then
+  gcc_ver="$(cc --version |head -n1 |awk '{print $3}' |cut -d '.' -f1)"
+  if [ "$gcc_ver" -ge 14 ] ; then
+    GCC14_FIX="-Wno-implicit-int -Wno-incompatible-pointer-types"
+  fi
+fi
 
 make \
-  CFLAGS="-DSTDC_HEADERS -Werror-implicit-function-declaration" \
+  CFLAGS="-DSTDC_HEADERS -Werror-implicit-function-declaration $GCC14_FIX" \
   LDFLAGS="-static" \
   LDFLAGS_FOR_TARGET="-static $ubuntulibdir" \
   -j$MAKE_THREADS
