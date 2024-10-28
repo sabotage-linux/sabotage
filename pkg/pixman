@@ -23,5 +23,5 @@ CFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-z,stack-size=2097152" \
 ./configure -C --prefix="$butch_prefix" \
   --disable-loongson-mmi $xconfflags
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
