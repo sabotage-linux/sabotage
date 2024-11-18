@@ -1,0 +1,23 @@
+[mirrors]
+https://www.cs.kent.ac.uk/~djb/pgn-extract/pgn-extract-24-11.tgz
+
+[vars]
+filesize=478474
+sha512=b9ec6f3c5735a94d61c9fed56bfb130dff7e35c74ff92b0cf335ce11876f57946af26ff52796a77fe8d41578c5d54e051e41755c5098e542c3b88ae58487ba8d
+pkgver=1
+tardir=pgn-extract
+desc='command line tool for pgn file manipulation'
+
+[deps]
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags -std=gnu99 -c" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target pgn-extract
+dest="$butch_install_dir""$butch_prefix"
+install -Dm 755 pgn-extract "$dest"/bin/pgn-extract
