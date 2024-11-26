@@ -1,0 +1,41 @@
+[mirrors]
+https://sourceforge.net/projects/scidvspc/files/source/scid_vs_pc-4.25.tgz
+
+[vars]
+filesize=27354999
+sha512=6bcac9a96360acdbac70b8228c288744f038472fea762c7444f42f4658670a85d3bf8084ba49983e0059b0d68455019c2df72d26e19d47aa9649685658f95499
+pkgver=1
+desc='chess gui'
+
+[deps]
+scid-vs-pc-sa-database
+tk
+libx11
+
+[deps.host]
+tcl
+
+[build]
+[ -n "$CROSS_COMPILE" ] && {
+  echo "error: program uses custom configuration script incompatible with x-compile!"
+  exit 1
+}
+sed 's;/usr/local;'"$butch_prefix"';g' -i configure
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure --prefix="$butch_prefix" $xconfflags
+
+sed \
+ -e 's;which fc-cache;type true;' \
+ -e 's;fc-cache -fv;echo after install run fc-cache -fv;' -i Makefile
+
+make V=1 -j$MAKE_THREADS WARNINGS="$optcflags $optldflags" CC="$CC" CXX="$CXX"
+make DESTDIR="$butch_install_dir" FONTDIR="$butch_prefix"/share/scid/fonts \
+ install
+
+# install sa game database with ~80k games.
+# another good alternative is http://caissabase.co.uk/ though it weighs
+# a few 100 mb
+dest="$butch_install_dir""$butch_prefix"
+tar xf "$C"/scid-sa-database.tgz
+for i in sa.s*4 ; do install -Dm 644 "$i" "$dest"/share/scid/bases/"$i" ; done

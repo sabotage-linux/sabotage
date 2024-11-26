@@ -1,0 +1,9 @@
+[mirrors]
+https://sourceforge.net/projects/scidvspc/files/support%20files/sa_database.tar.bz2
+
+[vars]
+filesize=9207075
+sha512=f1c7cddce3d94024ffd318026fd6453698a3a565033104c1b6d9b25b80f7e6abeb4abc4a04cc49b665109d518da503cda58a0543f76b810726898b80a1b19282
+tarball=scid-sa-database.tgz
+pkgver=1
+
