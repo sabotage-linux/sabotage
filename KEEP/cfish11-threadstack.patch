@@ -1,0 +1,24 @@
+--- a/src/thread.c
++++ b/src/thread.c
+@@ -141,13 +141,20 @@
+ #ifndef _WIN32
+ 
+   pthread_t thread;
++  pthread_attr_t *a = 0, attr;
+ 
+   Threads.initializing = 1;
++  if (pthread_attr_init(&attr) == 0) {
++    a = &attr;
++    /* our threads may recurse very deep, so ensure sufficient stack alloc */
++    pthread_attr_setstacksize(a, 512*1024);
++  }
+   pthread_mutex_lock(&Threads.mutex);
+-  pthread_create(&thread, NULL, thread_init, (void *)(intptr_t)idx);
++  pthread_create(&thread, a, thread_init, (void *)(intptr_t)idx);
+   while (Threads.initializing)
+     pthread_cond_wait(&Threads.sleepCondition, &Threads.mutex);
+   pthread_mutex_unlock(&Threads.mutex);
++  if (a) pthread_attr_destroy(a);
+ 
+ #else
+ 

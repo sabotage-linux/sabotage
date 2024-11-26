@@ -1,0 +1,39 @@
+[mirrors]
+https://github.com/syzygy1/Cfish/archive/refs/tags/cfish_11a.tar.gz
+
+[vars]
+filesize=152457
+sha512=237f90a51754b841fe9f9c63f409f87f9bc53e2449d561cfa703c991191b41ab3105f43825286840a09d76adbec2cce53da6a04f36d755a3a3f7b8e5ab0d2345
+tardir=Cfish-cfish_11a
+pkgver=1
+desc='stockfish 11 chess engine ported to C, about 40% faster than sf11'
+
+[deps]
+
+[build]
+mk_target() {
+ARCH=
+test "$A" = x86_64 && ARCH=x86-64-modern
+make -j$MAKE_THREADS \
+  numa=no native=no lto=yes extra=no \
+  CC="$CC" AR="$CROSS_COMPILE"ar CXXFLAGS="$optcflags -O3 -flto -msse3 -mavx2 -mpopcnt -DUSE_POPCNT" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" ARCH="$ARCH" \
+  "$@"
+#  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Wl,-z,stack-size=2097152"
+}
+if true ; then
+ patch -p1 < "$K"/cfish11-threadstack.patch
+else
+ # experiment with crashing engine
+ cp "$K"/cfish11-threadstack.patch 1.patch
+ sed 's/512/40/' -i 1.patch
+ patch -p1 < 1.patch
+fi
+
+cd src
+# fix bug https://github.com/okuhara/Cfish/commit/f8304e8ed890908f8ecbe4377fae7e71c6561d9d
+sed 's@SQUARE_FLIP(s)@SQUARE_FLIP(sq)@' -i types.h
+# remove explicit -m32/m64 from build
+sed 's@-m\$(bits)@@g' -i Makefile
+mk_target all
+install -Dm 755 cfish "$butch_install_dir""$butch_prefix"/bin/cfish11a
