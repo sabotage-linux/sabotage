@@ -1,0 +1,62 @@
+fix segfault on quit and segfault during uci execution due to excessive
+(and undeclared) stack usage.
+
+--- a/src/components.cc
++++ b/src/components.cc
+@@ -66,6 +66,19 @@
+ int pipefd_a2e[2];
+ int pipefd_e2a[2];
+ 
++#include <errno.h>
++
++void newthread(pthread_t *tp, void *(*entry)(void *), unsigned stacksz) {
++	pthread_attr_t *a = 0, attr;
++	if (stacksz && pthread_attr_init(&attr) == 0) {
++		a = &attr;
++		pthread_attr_setstacksize(a, stacksz);
++	}
++	if(pthread_create(tp, a, entry, NULL) != 0)
++		fprintf(stderr, "error: pthread_create failed: %s\n", strerror(errno));
++	if(a) pthread_attr_destroy(&attr);
++}
++
+ /*
+  * Entry point for the input thread
+  */
+@@ -87,7 +100,7 @@
+   }
+ 
+   /* Start input thread */
+-  pthread_create(&input_thread, NULL, input_func, NULL);
++  newthread(&input_thread, input_func, 0);
+ }
+ 
+ /*
+@@ -122,7 +135,7 @@
+    * and the main thread will be waiting forever. */
+   pthread_mutex_lock( &adapter::adapter_init_mutex );
+   /* Start adapter thread */
+-  pthread_create(&adapter_thread, NULL, adapter_func, NULL);
++  newthread(&adapter_thread, adapter_func, 0);
+   /* Wait until the adapter is initialized and unlock mutex */
+   pthread_cond_wait( &adapter::adapter_init_cond, &adapter::adapter_init_mutex );
+   pthread_mutex_unlock( &adapter::adapter_init_mutex );
+@@ -150,8 +163,8 @@
+     exit( 1 );
+   }
+ 
+-  /* Start engine thread */
+-  pthread_create(&engine_thread, NULL, engine_func, NULL);
++  /* Start engine thread, with sufficient stacksize */
++  newthread(&engine_thread, engine_func, 2*1024*1024);
+ }
+ 
+ int SendToEngine( char msg[] );
+@@ -171,6 +184,7 @@
+ 
+ void TerminateInput()
+ {
++  if( ! input_thread ) return;
+   pthread_cancel( input_thread );
+   pthread_join( input_thread, NULL );
+ }
