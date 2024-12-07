@@ -5,7 +5,7 @@ https://github.com/mingw-w64/mingw-w64/archive/refs/tags/v6.0.1.tar.gz
 filesize=12468366
 sha512=6bfdf9ee19f8240028e58031bbcef72cabb043f86f426051878ef32ef535dc3a8c9360d2fa9a77fdee61a59e135d46961774568a43f7d1adef9dbaa33676ad5c
 tarball=mingw-w64-6.0.1.tar.gz
-pkgver=1
+pkgver=2
 desc='toolchain to create win32 PE binaries'
 
 [deps]
@@ -87,7 +87,7 @@ LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
   --enable-lto \
   --with-system-zlib \
   --with-target-libiberty=no --with-target-zlib=no \
-  --enable-languages=c,lto \
+  --enable-languages=c,c++,lto \
   --enable-clocale=generic \
   AR_FOR_TARGET="$PWD"/../obj_binutils/binutils/ar \
   AS_FOR_TARGET="$PWD"/../obj_binutils/gas/as-new \
@@ -157,7 +157,7 @@ echo === libpthread INSTALLED ===
 cd ../../obj_gcc
 
 CPP="$CC -E" make -j8
-make DESTDIR="$butch_install_dir$butch_prefix$fsroot/$target" install-gcc install-target-libgcc install-lto-plugin install-target-libssp
+make DESTDIR="$butch_install_dir$butch_prefix$fsroot/$target" install-gcc install-target-libgcc install-lto-plugin install-target-libssp install-target-libstdc++-v3
 echo === complete GCC INSTALLED ===
 
 cd ../obj_binutils
