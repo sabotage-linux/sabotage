@@ -20,7 +20,7 @@ STATIC=-static
 test "$GIT_DYNAMIC" = 1 && STATIC=
 
 make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $butch_root_dir/lib/libcrypto.a" \
-  CC="$CC" HOSTCC="$HOSTCC" \
+  CC="$CC -std=gnu99" HOSTCC="$HOSTCC" \
   prefix="$butch_prefix" gitexecdir="$butch_prefix"/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
   CFLAGS="$optcflags" LDFLAGS="$optldflags $STATIC" \
