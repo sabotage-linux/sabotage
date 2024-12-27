@@ -56,7 +56,7 @@ BUTCH_TARDIR="$tardir"
 
 # some settings to influence this script...
 # note that you could set similar stuff using env variables.
-butch_do_config_cache=true
+[ -z "$butch_do_config_cache" ] && butch_do_config_cache=true
 butch_do_cleanup_builddir_prebuild=true
 [ -z "$butch_do_delete_libtool_archives" ] && butch_do_delete_libtool_archives=true
 [ -z "$butch_do_compress_manpages" ] && butch_do_compress_manpages=true
