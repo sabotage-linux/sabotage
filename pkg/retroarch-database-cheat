@@ -1,0 +1,34 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/libretro-database/-/archive/7c8a7888/libretro-database-7c8a7888.tar.bz2?path=cht
+
+[vars]
+filesize=14623198
+sha512=c5b6823d6bf92ac29164c74f7ce252c8c2fb1c555f2ea95c3cd0561a40f16a9e508caeb82d8d4d995afa3cdcb53d09b03deac73e64be28384670c92fb38dcba1
+tarball=retroarch-database-cheat-7c8a7888.tar.bz2
+pkgver=1
+dbver=7c8a7888
+
+[build]
+
+dest="$butch_install_dir""$butch_prefix"
+( cd "$dest"
+  # without the rdb database containing hashes of all known no-intro
+  # and similar romsets, the frontend actually doesn't detect that
+  # "pokemon firered.gba" is actually a gba title, so without the
+  # db you'll never get a gba game list, instead you have create
+  # a manual playlist and associate it with a core.
+
+  # since we already download all other junk, let's just download
+  # the cheats too, so at least *something* useful is actually
+  # being installed.
+  mkdir -p share/libretro/database
+  cd share/libretro/database
+  for i in cheat ; do
+   mkdir -p $i
+   cd $i
+   tar xf "$C"/retroarch-database-$i-$dbver.tar.bz2
+   mv libretro-database-$dbver-*/*/* .
+   rm -rf libretro-database-$dbver-*
+   cd ..
+  done
+)

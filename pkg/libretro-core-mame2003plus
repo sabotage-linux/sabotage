@@ -1,0 +1,23 @@
+[mirrors]
+https://git.libretro.com/libretro/mame2003-plus-libretro/-/archive/b37ce123/mame2003-plus-libretro-b37ce123.tar.bz2
+
+[vars]
+filesize=26457465
+sha512=6126add6e6d919913c8877bf062d287b1d8a6c3e7ccf3bd7fab735c317c2814336ea2cd8a2d6b183e173eba6a7d0666d3ea0ac1f9bdc5f0c5ecdea0d54585c72
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+# CFLAGS="$optcflags" \
+# LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make -j$MAKE_THREADS V=1 \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target all
+install -Dm 644 mame2003_plus_libretro.so \
+ "$butch_install_dir""$butch_prefix"/lib/libretro/mame2003_plus_libretro.so

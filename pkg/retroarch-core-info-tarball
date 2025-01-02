@@ -1,0 +1,9 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/libretro-super/-/archive/e23f59ea/libretro-super-e23f59ea.tar.bz2?path=dist/info
+
+[vars]
+filesize=61948
+sha512=e33096c3daacbc21a173ad695bde6745e1c0f7835b4c6d0847095ba8b0ba7faae41e9d779c09c8ba4cda96cfe0101b0999d6b3a25bce4b7d770b3764ac6d8597
+tarball=retroarch-core-info-e23f59ea.tar.bz2
+pkgver=1
+

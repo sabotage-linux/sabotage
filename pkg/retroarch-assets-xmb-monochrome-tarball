@@ -1,0 +1,8 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/retroarch-assets/-/archive/v1.18.0/retroarch-assets-v1.18.0.tar.bz2?path=xmb/monochrome
+
+[vars]
+filesize=2793933
+sha512=c167f31283bb34dc4a8bdf539c1106e716a8c09645f9a6df44659d3c3a98a004bc538abdb2f704658ce9c61a1d26a8645d1efae070f8749d5b59e5963f48354c
+tarball=retroarch-assets-xmb-monochrome.tar.bz2
+pkgver=1

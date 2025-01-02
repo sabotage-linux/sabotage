@@ -1,0 +1,24 @@
+[mirrors]
+https://git.libretro.com/libretro/beetle-pce-fast-libretro/-/archive/414149d3/beetle-pce-fast-libretro-414149d3.tar.bz2
+
+[vars]
+filesize=710137
+sha512=cf4cd9c91ebc0b714e9ce87048a5aa0ace34537831a2dd56c3904538826cd94a6ffcc10f85839d23d2e44db61c8496cdd27d7550cad119815fbc046d779fe428
+pkgver=1
+desc='mednafen aka beetle pc-engine fast core for retroarch'
+
+[deps]
+
+[build]
+mk_target() {
+# CFLAGS="$optcflags" \
+# LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target all
+install -Dm 644 mednafen_pce_fast_libretro.so \
+ "$butch_install_dir""$butch_prefix"/lib/libretro/mednafen_pce_fast_libretro.so

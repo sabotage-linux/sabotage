@@ -1,0 +1,26 @@
+[mirrors]
+https://git.libretro.com/libretro/snes9x2010/-/archive/d8b10c4c/snes9x2010-d8b10c4c.tar.bz2
+
+[vars]
+filesize=382569
+sha512=e5b1ac8a31c0470ef9a0a1e87ea095d8624674549b7d3baa43b6877cf05f6fd26f209936344640df5ea9abc33c69bd8447d8f41eb1c910112a8fa312fd348cd9
+tarball=libretro-snes9x2010-d8b10c4c.tar.bz2
+tardir=snes9x2010-d8b10c4c
+pkgver=1
+desc='snes9x 2010 core for retroarch'
+
+[deps]
+
+[build]
+mk_target() {
+# CFLAGS="$optcflags" \
+# LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@" -f Makefile.libretro
+}
+mk_target all
+install -Dm 644 snes9x2010_libretro.so \
+ "$butch_install_dir""$butch_prefix"/lib/libretro/snes9x2010_libretro.so

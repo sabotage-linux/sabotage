@@ -1,0 +1,26 @@
+[mirrors]
+https://git.libretro.com/libretro/Genesis-Plus-GX/-/archive/d2f1241b/Genesis-Plus-GX-d2f1241b.tar.bz2
+
+[vars]
+filesize=13904022
+sha512=c1f3c92e7c7866d74c34f8506fb0ce8ee5d18b486a0fcb2d663f8107cdcb95236261607315d9220f0c71d8760c35fe98da359853d4462475d8ab8f104ea29a26
+tarball=libretro-Genesis-Plus-GX-d2f1241b.tar.bz2
+tardir=Genesis-Plus-GX-d2f1241b
+pkgver=1
+desc='genesis plus gx core for retroarch'
+
+[deps]
+
+[build]
+mk_target() {
+# CFLAGS="$optcflags" \
+# LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@" -f Makefile.libretro
+}
+mk_target all
+install -Dm 644 genesis_plus_gx_libretro.so \
+ "$butch_install_dir""$butch_prefix"/lib/libretro/genesis_plus_gx_libretro.so

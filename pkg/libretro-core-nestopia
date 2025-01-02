@@ -1,0 +1,27 @@
+[mirrors]
+https://git.libretro.com/libretro/nestopia/-/archive/b99ede35/nestopia-b99ede35.tar.bz2
+
+[vars]
+filesize=803916
+sha512=f7bbc65a06a599dc9b0d079ce188e6214ddf1f07d26f7b0d5d6840e93dc1099dfde4efdaf06bef05dcf94ad53d5be622a8d5017ca7f6a3311ced1142b5b4b59e
+tarball=libretro-nestopia-b99ede35.tar.bz2
+tardir=nestopia-b99ede35
+pkgver=1
+desc='nestopia core for retroarch'
+
+[deps]
+
+[build]
+mk_target() {
+# CFLAGS="$optcflags" \
+# LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+cd libretro
+mk_target all
+install -Dm 644 nestopia_libretro.so \
+ "$butch_install_dir""$butch_prefix"/lib/libretro/nestopia_libretro.so

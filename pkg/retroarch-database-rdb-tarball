@@ -1,0 +1,9 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/libretro-database/-/archive/7c8a7888/libretro-database-7c8a7888.tar.bz2?path=rdb
+
+[vars]
+filesize=30615681
+sha512=93f96be74193c9752e5e74de8f2e546a6d857cf63e495c45a1c03083bd0a2bada0e916e09439352cfa3bee4f9a2fedcea0bd6e993050bf2603600721599038c3
+tarball=retroarch-database-rdb-7c8a7888.tar.bz2
+pkgver=1
+

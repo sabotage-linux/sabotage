@@ -1,0 +1,9 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/glsl-shaders/-/archive/d51ba7af/glsl-shaders-d51ba7af.tar.bz2
+
+[vars]
+filesize=22044961
+sha512=22756706814d1aec601ac703976b13a1976c6d83a8a6189ce5fdfc132a825169f98ecbb87d2543ea9fe0ca9d5e4d8c26c0923b4c4f1a8d7e9236e381d8e53c52
+tarball=retroarch-glsl-shaders-d51ba7af.tar.bz2
+pkgver=1
+

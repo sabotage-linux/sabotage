@@ -1,0 +1,23 @@
+[mirrors]
+https://github.com/libretro/mgba/archive/b2564482c86378581a7a43ef4e254b2a75167bc7.tar.gz
+
+[vars]
+filesize=14975218
+sha512=d71bc0e2d7a6fe4d662fea45a4986d6c1998286728e78620c4008900e1c74fed52e0fb8687242b72a3722dc118c85b3838dc9e84bace8d4b076656853c43c6c9
+tarball=libretro-mgba-b256448.tar.gz
+tardir=mgba-b2564482c86378581a7a43ef4e254b2a75167bc7
+pkgver=1
+
+[deps]
+
+[build]
+mk_target() {
+#CFLAGS="$optcflags -DHAVE_LOCALE"
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  prefix="$butch_prefix" DESTDIR="$butch_install_dir" \
+  -f Makefile.libretro "$@"
+}
+mk_target all
+mk_target install

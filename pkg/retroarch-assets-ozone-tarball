@@ -1,0 +1,8 @@
+[mirrors]
+https://git.libretro.com/libretro-assets/retroarch-assets/-/archive/v1.18.0/retroarch-assets-v1.18.0.tar.bz2?path=ozone
+
+[vars]
+filesize=3412116
+sha512=6110707ed52ccce0f6728b3d4cf54bc45d8f907be4432004677dbc17db977bc6ae4c28383e9aee35a1d8561c42c7dc7f71fd37b51e768c76ea4487e69d784271
+tarball=retroarch-assets-ozone.tar.bz2
+pkgver=1

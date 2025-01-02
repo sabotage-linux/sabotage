@@ -1,0 +1,12 @@
+--- retroarch-sourceonly-9.99.999-orig/retroarch.c
++++ retroarch-sourceonly-9.99.999/retroarch.c
+@@ -5842,6 +5842,9 @@
+  **/
+ int rarch_main(int argc, char *argv[], void *data)
+ {
++#ifdef HAVE_X11
++   extern void XInitThreads(void); XInitThreads();
++#endif
+    struct rarch_state *p_rarch         = &rarch_st;
+    runloop_state_t *runloop_st         = runloop_state_get_ptr();
+    video_driver_state_t *video_st      = video_state_get_ptr();
