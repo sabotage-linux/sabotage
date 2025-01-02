@@ -67,8 +67,8 @@ fi
 	esac
 )
 
-butch relink "$pkg"
+$BINDIR/butch relink "$pkg"
 sed -i '/^'"$pkg"' /d' "$BUTCHDB" || true
 print_pkg_and_ver >> "$BUTCHDB"
-$butch_do_filelists && butch genfilelist "$pkg"
+$butch_do_filelists && $BINDIR/butch genfilelist "$pkg"
 echo "successfully installed $pkg"
