@@ -12,10 +12,10 @@ if type awk >/dev/null 2>&1 ; then
 fi
 
 relocate() {
-	local dir=$1
+	local dir="$1"
 	local backlinks=$2
 	local do_copy=$3
-	mkdir -p "$butch_root"/$dir
+	mkdir -p "$butch_root"/"$dir"
 	[ -d "$butch_root""$butch_install_dir/$dir" ] || return 0
 	cd "$butch_root""$butch_install_dir/$dir" || return 1
 	[ -n "$V" ] && echo "relocating $butch_root$butch_install_dir/$dir"
