@@ -42,7 +42,10 @@ relocate() {
 						exit 1
 					fi
 				fi
-				ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target"
+				if ! ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target" ; then
+					echo "ERROR: could not create symlink"
+					exit 1
+				fi
 			fi
 		else
 			[ -n "$V" ] && echo "UNKNOWN object $i"
