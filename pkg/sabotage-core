@@ -1,5 +1,5 @@
 [vars]
-pkgver=24
+pkgver=25
 no_unlink=1
 
 [build]
