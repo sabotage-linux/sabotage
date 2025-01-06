@@ -1,9 +1,9 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/UXP/archive/RB_20241105.tar.gz
+https://repo.palemoon.org/MoonchildProductions/UXP/archive/RB_20241204.tar.gz
 
 [vars]
-filesize=264088044
-sha512=9aeed20fa2b65eb2f0a600d996ff3b8a9fa00538e49aac1d73d4ab63af3a7e896d7f22ed3d687d2b015bc1617f00d99261bca1e99127cb535b2ab5f0a7978f2a
-tarball=UXP-RELBASE_20241105.tar.gz
-pkgver=46
+filesize=264062755
+sha512=31fc9342547a5094232034674dad53ad13e9863725556adfc60c77392fbca98b28e1f88cabec484b9fccea958e588ee43b627a0a64ed7cf880978a12287e9b1f
+tarball=UXP-RELBASE_20241204.tar.gz
+pkgver=47
 
