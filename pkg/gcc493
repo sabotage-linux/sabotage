@@ -117,8 +117,18 @@ if [ -n "$CROSS_COMPILE" ] ; then
 fi
 export CC="$CC -static -D_GNU_SOURCE"
 
-CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" \
+# fix build with compilers defaulting to C++ > 11
+# we can't just unconditionally set this because it would choke pre-C++11
+# compilers such as gcc 4.7.4 - and apparently CXXFLAGS_FOR_TARGET
+# isn't a thing (c++11 is needed for libstdc++3, but not for the rest)
+cxx_std=
+if test $($CXX -x c++ -dM -E - < /dev/null | grep __cplusplus | awk '{print $3}' | sed s_L__) -gt 201199 ; then
+  cxx_std=-std=gnu++11
+fi
+
+CFLAGS="-O2 -s" LDFLAGS="-Wl,--no-keep-memory" \
 CFLAGS_FOR_TARGET="$config_arch_target_cflags" \
+CXXFLAGS="-O2 -s $cxx_std" \
 LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 ./configure -C --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib \
