@@ -16,7 +16,6 @@ zlib
 [deps.host]
 m4
 zlib
-libelf
 
 [build]
 VERSION=5.3.0

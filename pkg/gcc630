@@ -22,7 +22,6 @@ zlib
 [deps.host]
 m4
 zlib
-libelf
 
 [build]
 %include gcc650%

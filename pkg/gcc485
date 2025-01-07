@@ -7,7 +7,6 @@ zlib
 [deps.host]
 m4
 zlib
-libelf
 
 [mirrors]
 http://ftpmirror.gnu.org/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2

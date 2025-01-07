@@ -4,7 +4,6 @@ gmp
 mpfr
 mpc
 zlib
-libelf
 g++464
 
 [mirrors]
