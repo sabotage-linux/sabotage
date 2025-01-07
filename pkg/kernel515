@@ -3,6 +3,7 @@ kernel515-tarball
 kernel515-patch
 
 [deps.host]
+libelf
 bison
 flex
 

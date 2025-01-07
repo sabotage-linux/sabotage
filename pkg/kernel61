@@ -3,6 +3,7 @@ kernel61-tarball
 kernel61-patch
 
 [deps.host]
+libelf
 bison
 flex
 
