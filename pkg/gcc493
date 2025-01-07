@@ -34,6 +34,7 @@ patch -p1 < "$K"/gcc473-dliterate-configure-var.patch
 patch -p1 < "$K"/gcc473-arm-hwcap.patch
 patch -p1 < "$K"/gcc485-universal-initializer-no-warning.patch
 patch -p1 < "$K"/gcc474-libssp_nonshared.patch
+patch -p1 < "$K"/gcc-474-gperf.patch
 
 # fix specs file generation. this prevents libgcc_s from being used.
 # not only is it slower, it'll cause assertion errors in ld.
