@@ -19,6 +19,6 @@ desc="lightweight HTTP proxy"
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
-    --sbindir="$butch_prefix"/bin
+    --sbindir="$butch_prefix"/bin --sysconfdir=/etc
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
