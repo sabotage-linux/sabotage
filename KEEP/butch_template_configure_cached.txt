@@ -382,7 +382,7 @@ if $have_files ; then
 		fi
 		if [ -n "$compressor" ] ; then
 			printf "%s: compressing manpages with %s...\n" "$(timestamp)" "$compressor"
-			for i in share/man/man*/* ; do
+			for i in ."$butch_prefix"/share/man/man*/* ; do
 				case "$i" in
 					*.gz) continue ;;
 					*.bz2) continue ;;
@@ -418,7 +418,7 @@ if $have_files ; then
 		if $butch_do_strip_comments ; then
 			printf "%s: stripping comment section of binaries...\n" "$(timestamp)"
 		fi
-		for i in lib/*.so* bin/* ; do
+		for i in ."$butch_prefix"/lib/*.so* ."$butch_prefix"/bin/* ; do
 			printf "%s" "$i" | grep '\*'>/dev/null && continue
 			[ -L "$i" ] || [ -d "$i" ] && continue
 			case "$i" in bin*)
@@ -446,7 +446,7 @@ if $have_files ; then
 
 	if $butch_do_delete_libtool_archives ; then
 		# remove libtool .la files
-		for i in lib/*.la ; do
+		for i in ."$butch_prefix"/lib/*.la ; do
 			echo "removing .la file $i"
 			rm -f "$i"
 		done
