@@ -11,48 +11,119 @@ if type awk >/dev/null 2>&1 ; then
 }
 fi
 
-relocate() {
-	local dir="$1"
-	local backlinks=$2
-	local do_copy=$3
-	mkdir -p "$butch_root"/"$dir"
-	[ -d "$butch_root""$butch_install_dir/$dir" ] || return 0
-	cd "$butch_root""$butch_install_dir/$dir" || return 1
-	[ -n "$V" ] && echo "relocating $butch_root$butch_install_dir/$dir"
-        for i in * ; do
-		if [ ! -L "$i" ] && [ -d "$i" ] ; then
-			local save="$PWD"
-			relocate "$dir/$i" "$backlinks/.." $do_copy
-			cd "$save"
-		elif [ -f "$i" ] || [ -L "$i" ] ; then
-			target="$butch_root/$dir/$i"
-			if $do_copy ; then
-				if $butch_do_overwrite_on_copy || [ ! -e "$target" ] ; then
-					echo cp -a "$butch_root$butch_install_dir/$dir/$i" "$target"
-					cp -a "$butch_root$butch_install_dir/$dir/$i" "$target"
-				fi
-			else
-				echo "ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" $target"
-				if [ -d "$target" ] ; then
-					echo "WARNING_LN_OVER_DIR $target"
-					if [ -L "$target" ] ; then
-						unlink "$target" || rm -f "$target"
-					else
-						echo "WARNING_SUPRESSED_RM_RF"
-						exit 1
-					fi
-				fi
-				if ! ln -sf "$backlinks""$butch_install_dir"/"$dir"/"$i" "$target" ; then
-					echo "ERROR: could not create symlink"
-					exit 1
-				fi
-			fi
-		else
-			[ -n "$V" ] && echo "UNKNOWN object $i"
-                fi
-	done
-	[ -n "$V" ] && echo "relocation done"
+linkdir() {
+ local src="$1"
+ local dst="$2"
+ local back_src="$3"
+ test -d "$dst" || mkdir -p "$dst"
+ for i in "$src"/* ; do
+  local srcbas="$(basename "$src")"
+  local ibas="$(basename "$i")"
+  local target="${dst}/${ibas}"
+  if [ "$ibas" = '*' ] ; then :
+  elif [ ! -L "$i" ] && [ -d "$i" ] ; then
+   linkdir "$i" "$target" "../${back_src}/${srcbas}"
+  elif [ -f "$i" ] || [ -L "$i" ] ; then
+   if [ -d "$target" ] ; then
+    if [ -L "$target" ] ; then
+     unlink "$target"
+    else
+     echo "WARNING: LN OVER DIR" ; exit 1
+    fi
+   fi
+   ln -sf "${back_src}/${srcbas}/${ibas}" "$target"
+  else
+   [ -n "$V" ] && echo "ignoring unknown file $target"
+  fi
+ done
 }
+
+copydir() {
+ # we can't just cp -a the entire basedir and be done because
+ # sabotage's default is to not overwrite existing files in the
+ # locations where we use copies instead of links.
+ local src="$1"
+ local dst="$2"
+ test -d "$dst" || mkdir -p "$dst"
+ for i in "$src"/* ; do
+  local ibas="$(basename "$i")"
+  local target="${dst}/${ibas}"
+  if [ "$ibas" = '*' ] ; then :
+  elif [ ! -L "$i" ] && [ -d "$i" ] ; then
+   copydir "$i" "$target"
+  elif [ -f "$i" ] || [ -L "$i" ] ; then
+   if $butch_do_overwrite_on_copy || [ ! -e "$target" ] ; then
+    echo cp -a "$i" "$target"
+    cp -a "$i" "$target"
+   fi
+  else
+   [ -n "$V" ] && echo "ignoring unknown file $target"
+  fi
+ done
+}
+path_count() {
+ printf "%s\n" "$1" | awk '{n=split($0,a,"/"); print n-1;}'
+}
+path_comp() {
+ # +2 because awk is 1-based and first array entry is empty
+ printf "%s\n" "$1" | awk -v i=$2 '{n=split($0,a,"/"); print a[i+2];}'
+}
+
+linktree_i() {
+ src=$(readlink -f "$1")
+ dst=$(readlink -f "$2")
+ [ -z "$src" ] && return 1
+ if [ -z "$dst" ] ; then
+	echo "warning: creating base directory $2">&2
+	echo "this directory is supposed to exist already.">&2
+	echo "fix its permissions after this task.">&2
+	mkdir -p "$2" || return 1
+	dst=$(readlink -f "$2")
+	[ -z "$dst" ] && return 1
+ fi
+ if "$3" ; then
+   copydir "$src" "$dst"
+   return "$?"
+ fi
+ cnt_src=$(path_count "$src")
+ cnt_dst=$(path_count "$dst")
+ if test $cnt_src -gt $cnt_dst ; then
+  n=$cnt_dst
+ else
+  n=$cnt_src
+ fi
+ i=0
+ while test $i -lt $n ; do
+  test "$(path_comp "$src" $i)" != "$(path_comp "$dst" $i)" && break
+  i=$((i + 1))
+ done
+ ncommon=$i
+ back_src=
+ while test $i -lt $cnt_dst ; do
+  if test -z "$back_src" ; then
+   back_src=..
+  else
+   back_src="../${back_src}"
+  fi
+  i=$((i + 1))
+ done
+ i=$ncommon
+ while test $i -lt $((cnt_src - 1)) ; do
+  back_src="${back_src}/$(path_comp "$src" $((i)))"
+  i=$((i + 1))
+ done
+ linkdir "$src" "$dst" "$back_src"
+}
+
+linktree() {
+ linktree_i "$1" "$2" false
+}
+
+copytree() {
+ linktree_i "$1" "$2" true
+}
+
+#  cd "$butch_root""$butch_install_dir/$dir" || return 1
 
 if [ -z "$1" ] ; then
 	echo "tool to manually symlink a built package"
@@ -67,24 +138,28 @@ ec=0
 
 for pkg ; do
 	[ "$R" = "/" ] && R=
-	butch_root=$R
-	butch_install_dir="$butch_staging_dir"/"$pkg"
-	if [ -d "$R""$butch_install_dir" ] ; then
-		for loc in bin sbin include lib libexec share ; do
-			relocate $loc .. false
-		done
-		for loc in etc var boot ; do
-			if test $loc = boot ; then
-				save_do_ow=$butch_do_overwrite_on_copy
-				butch_do_overwrite_on_copy=true
-			fi
-			relocate $loc .. true
-			test $loc = boot && butch_do_overwrite_on_copy=$save_do_ow
-		done
-	else
+	butch_install_dir="$R""$butch_staging_dir"/"$pkg"
+	if ! [ -d "$butch_install_dir" ] ; then
 		echo "warning: package $pkg does not seem to be installed" >&2
 		ec=1
+		continue
 	fi
+	for loc in bin sbin include lib libexec share ; do
+		sourcedir="$butch_install_dir""$butch_prefix"/"$loc"
+		[ -d "$sourcedir" ] || continue
+		linktree "$sourcedir" "$R""$butch_prefix"/"$loc" || ec=1
+	done
+	for loc in etc var boot ; do
+		# no butch_prefix here because these are always in /
+		sourcedir="$butch_install_dir"/"$loc"
+		[ -d "$sourcedir" ] || continue
+		if test $loc = boot ; then
+			save_do_ow=$butch_do_overwrite_on_copy
+			butch_do_overwrite_on_copy=true
+		fi
+		copytree "$sourcedir" "$R"/"$loc" || ec=1
+		test $loc = boot && butch_do_overwrite_on_copy=$save_do_ow
+	done
 done
 
 exit $ec
