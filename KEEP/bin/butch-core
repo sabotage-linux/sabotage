@@ -269,10 +269,8 @@ launch_build() {
 }
 
 [ -z "$AWKPROG" ] && AWKPROG=awk
-if [ "$STAGE" = 0 ] ; then
-	$AWKPROG -W version 2>/dev/null | $GREP "mawk" > /dev/null && \
-	AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
-fi
+$AWKPROG -W version 2>/dev/null | $GREP "mawk" > /dev/null && \
+AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
 setup_pipe "3"
 setup_pipe "4"
 (BUTCHBINDIR=$BINDIR $AWKPROG -f $BINDIR/butch-core-helper <&4 >&3) &
