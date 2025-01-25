@@ -90,7 +90,7 @@ butch_package_name=%BUTCH_PACKAGE_NAME
 	echo "ERROR: butch_package_name missing">&2
 	exit 1
 }
-butch_prefix=/
+[ -z "$butch_prefix" ] && butch_prefix=/
 
 filelist="$butch_filelists/$butch_package_name.txt"
 
@@ -339,7 +339,7 @@ fi
 
 cd "$butch_install_dir"
 [ `ls | wc -l` = "0" ] && have_files=false || have_files=true
-[ -d share/pkgconfig ] && {
+[ -d ."$butch_prefix"/share/pkgconfig ] && {
 echo "error: package installed pkgconfig files into /share"
 echo "please fix package (examples: xtrans eudev libyajl usbutils shared-mime-info)"
 exit 1
@@ -348,6 +348,16 @@ exit 1
 echo "error: package installed binaries into /sbin instead of /bin"
 echo "please fix package (examples: openvpn rtmpdump iotop)"
 exit 1
+}
+[ -n "$butch_prefix" ] && [ "$butch_prefix" != '/' ] && {
+for loc in etc var boot ; do
+	if test -d ."$butch_prefix"/$loc ; then
+	echo "error: package installed files into $butch_prefix/$loc"
+	echo "please fix package to install them into /$loc instead"
+	echo "e.g. using --sysconfdir=/etc or similar."
+	exit 1
+	fi
+done
 }
 add_joblist() {
         test -z "$joblist" && joblist="$1" || joblist="$joblist $1"
