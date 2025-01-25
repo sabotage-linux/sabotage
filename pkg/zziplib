@@ -1,18 +1,37 @@
 [mirrors]
-http://heanet.dl.sourceforge.net/project/zziplib/zziplib13/0.13.62/zziplib-0.13.62.tar.bz2
+http://downloads.sourceforge.net/project/zziplib/zziplib13/0.13.68/zziplib-0.13.68.tar.bz2
 
 [vars]
-filesize=685770
-sha512=fd3b9e9015ba7603bdebd8f6a2ac6d11003705bfab22f3a0025f75455042664aea69440845b59e6f389417dff5ac777f49541d8cbacb2a220e67d20bb6973e25
+filesize=718954
+sha512=100558afcfc4ed341283d33974f4eb934d898e15960746c2594bab8012aab29f33affa35dff3d2b4b9ec1f1197e25bd8a6fac39a334c1529dda455da80d39f2c
+pkgver=2
 
 [deps]
+zlib
 
 [build]
+# fix bashism
+sed 's@== "\.yes"@= ".yes"@' -i configure
+#fix use of non-existing type off64_t
+sed 's@define _zzip_off64_t off64_t@define _zzip_off64_t off_t@' -i zzip/conf.h
+# fix implementation defined use of echo "\\1"
+cat configure | awk '{ if(/echo .*\\\\[12].* conftest.prefix/) {gsub("echo ", "printf "); gsub("\"_\\\\\\\\1 \\\\\\\\2 \\\\\\\\\"", "'"'"'_\\\\1 \\\\2 \\\\\\n'"'"'"); gsub("\"_\\\\\\\\1 \\\\\\\\\"", "'"'"'_\\\\1 \\\\\\n'"'"'"); gsub("\"_\\\\\\\\1/\"", "'"'"'_\\\\1/\\n'"'"'");} print $0; }' > configure.fixed
+mv configure.fixed configure
+chmod +x configure
+printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > docs/Makefile.in
+sed -e 's,#define PAGESIZE,//#define PAGESIZE,' -i zzip/fseeko.c
+sed -e 's,unable to load disk fd %s,unable to load disk fd %d,' -i zzip/memdisk.c
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
-CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags -std=gnu99 -fno-strict-aliasing" \
+CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+#fix use of non-existing type off64_t
+#sed 's@define _zzip_off64_t off64_t@define _zzip_off64_t off_t@' \
+#  -i "$dest"/include/zzip/conf.h
