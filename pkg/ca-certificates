@@ -70,4 +70,4 @@ for i in  etc/ssl/certs/* ; do
 done
 )
 # make sure everything in /etc gets overwritten
-butch_do_overwrite_on_copy=true
+export butch_do_overwrite_on_copy=true
