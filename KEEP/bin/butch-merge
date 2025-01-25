@@ -32,10 +32,11 @@ hasbuild=false
 $GREP -x '\[build\]' "$S/pkg/$pkg" >/dev/null 2>&1 && hasbuild=true
 mirrors=$($AWK -f $BINDIR/butch-printsec "$pkg" mirrors | sed 's/\n/ /g')
 while read -r line ; do
-if printf "%s\n" "$line" | $GREP -x "%BUTCH_CONFIG">/dev/null 2>&1 ; then
-if [ -n "$CONFIG" ] ; then
-$GREP -v '^#' < "$CONFIG"
-else
+case "$line" in
+%BUTCH_CONFIG*)
+ if [ -n "$CONFIG" ] ; then
+  $GREP -v '^#' < "$CONFIG"
+ else
 cat << EOF
 export A=$A
 export R=$R
@@ -44,22 +45,25 @@ export C=$C
 export K=$K
 export B=$B
 EOF
-fi
-$hasbuild || echo 'skip_build=true'
-$AWK -f $BINDIR/butch-printsec "$pkg" vars
-cat << EOF
+ fi
+ $hasbuild || echo 'skip_build=true'
+ $AWK -f $BINDIR/butch-printsec "$pkg" vars
+ cat << EOF
 BUTCH_PACKAGE_NAME=$pkg
 BUTCH_MIRROR_URLS="$mirrors"
 EOF
-elif printf "%s\n" "$line" | $GREP -x "%BUTCH_BUILDSCRIPT">/dev/null 2>&1 ; then
-if $hasbuild ; then
+;;
+%BUTCH_BUILDSCRIPT*)
+ if $hasbuild ; then
 	$AWK -f $BINDIR/butch-printsec "$pkg" build
-else
+ else
 	echo "exit 0"
-fi
-else
+ fi
+;;
+*%BUTCH_MIRROR_URLS*|*%BUTCH_PACKAGE_NAME*)
 	printf "%s\n" "$line" | sed -e 's/%BUTCH_MIRROR_URLS/$BUTCH_MIRROR_URLS/g' \
 	-e 's/%BUTCH_PACKAGE_NAME/$BUTCH_PACKAGE_NAME/g'
-
-fi
+;;
+*) printf "%s\n" "$line" ;;
+esac
 done < "$template"
