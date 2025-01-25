@@ -1,14 +1,13 @@
 #!/bin/sh
 #set -x
+echo() { printf "%s\n" "$*" ; }
+# use own pure shell basename impl to avoid forking overhead
+basename() { echo "${1##*/}" ; }
 [ -z "$butch_do_overwrite_on_copy" ] && butch_do_overwrite_on_copy=false
 [ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
-if type awk >/dev/null 2>&1 ; then
-[ 1 = $(printf "%s" "$butch_staging_dir" | awk '{n=split($0,a,"/"); print n-1;}') ] || {
-	echo "error: butch_staging_dir may contain only one slash"
-	echo "good: /opt /pkgs /app"
-	echo "bad: /opt/ /var/pkgs /my/apps/"
+if ! type awk >/dev/null 2>&1 ; then
+	echo "error: this program requires a working awk installed."
 	exit 1
-}
 fi
 
 linkdir() {
@@ -122,8 +121,6 @@ linktree() {
 copytree() {
  linktree_i "$1" "$2" true
 }
-
-#  cd "$butch_root""$butch_install_dir/$dir" || return 1
 
 if [ -z "$1" ] ; then
 	echo "tool to manually symlink a built package"
