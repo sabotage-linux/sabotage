@@ -45,7 +45,7 @@ fi
 make DESTDIR="$butch_install_dir" install
 
 [ "$butch_prefix" = "/" ] && butch_prefix=
-dest=$butch_install_dir$butch_prefix
+dest="$butch_install_dir$butch_prefix"
 mkdir -p "$dest"/bin
 ln -sf  ../lib/libc.so "$dest"/bin/ldd
 
@@ -75,8 +75,8 @@ chmod +x "$musl_gcc"
 
 #create dynlinker path file which only contains /lib
 #this should speed up dynamic linker path search
-mkdir -p "$dest"/etc
-printf "%s\n" "$butch_prefix"/lib > "$dest"/etc/ld-musl-$A.path
+mkdir -p "$butch_install_dir"/etc
+printf "%s\n" "$butch_prefix"/lib > "$butch_install_dir"/etc/ld-musl-$A.path
 
 ## fix ssp on i?86
 case "$A" in
