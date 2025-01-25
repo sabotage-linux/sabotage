@@ -124,6 +124,9 @@ update_butchdb() {
 	test "$2" = installed && is_tarball_pkg "$1" && return 0
 	test "$2" != installed && dont_unlink "$1" && return 0
 	rm -f $BUTCHDB.tmp
+	# if only one entry was in butch.db, and it was removed, no tmp file is created
+	# therefore we just touch it before use.
+	touch $BUTCHDB.tmp
 	[ -e "$BUTCHDB" ] && while read pkg_ hash_ ; do
 	test "$pkg_" = "$1" || printf "%s %s\n" "$pkg_" "$hash_" >> $BUTCHDB.tmp
 	done < $BUTCHDB
