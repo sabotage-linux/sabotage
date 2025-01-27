@@ -37,7 +37,7 @@ CFLAGS="-D_GNU_SOURCE -I$butch_root_dir$butch_prefix/include/libnl-tiny \
 make BINDIR=/bin DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
-install -D -m 600 "$K"/wpa_supplicant.conf "$dest"/etc/wpa_supplicant.conf
+install -D -m 600 "$K"/wpa_supplicant.conf "$butch_install_dir"/etc/wpa_supplicant.conf
 for m in wpa_background.8 wpa_cli.8 wpa_passphrase.8 wpa_supplicant.8 ; do
 install -D -m 644 doc/docbook/$m "$dest"/share/man/man8/$m
 done
