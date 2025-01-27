@@ -46,9 +46,11 @@ done
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix"\
+./configure -C \
+ --prefix="$butch_prefix" --sysconfdir=/etc \
  --disable-rebuilds  --disable-glibtest \
  --disable-cups --disable-introspection $xconfflags
 
@@ -79,8 +81,8 @@ else
 	echo "XXXXXXX WARNING gtk-query-immodules-2.0 needs to be run on the target rootfs XXXXXXX"
 fi
 
-cat > "$dest"/etc/gtk-2.0/gtkrc << "EOF"
-include "/share/themes/Clearlooks/gtk-2.0/gtkrc"
+cat > "$butch_install_dir"/etc/gtk-2.0/gtkrc << "EOF"
+include "$butch_prefix/share/themes/Clearlooks/gtk-2.0/gtkrc"
 gtk-icon-theme-name = "elementary"
 EOF
 
