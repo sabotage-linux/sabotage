@@ -17,7 +17,8 @@ printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 CPPFLAGS="$("$K"/gnulibfix lib) -Dgnu_getpass=getpass -Drpl_strtoll=strtoll" \
 CFLAGS="-D_GNU_SOURCE $optcflags -std=gnu99" \
 LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" \
+  ./configure -C \
+  --prefix="$butch_prefix" --sysconfdir=/etc \
   --disable-nls \
   --with-ssl=openssl $xconfflags
 make -j$MAKE_THREADS V=1
