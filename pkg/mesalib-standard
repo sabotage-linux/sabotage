@@ -58,7 +58,7 @@ fi
 CPPFLAGS="-D_GNU_SOURCE -I $PWD/include/c11 -include sys/sysmacros.h" \
 CFLAGS="$optcflags -fcommon" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
-  --sysconfdir="$butch_prefix"/etc \
+  --sysconfdir=/etc \
   --with-gallium-drivers="$gallium_drivers" \
   --enable-gallium-llvm=$gallium_llvm \
   --enable-gallium-tests=no \
