@@ -20,6 +20,10 @@ curl
 [build]
 . "$K"/intltool-fix
 
+printf '#!/bin/sh\n[ x$1 = x--libs ] && printf "%%s\\n" "-lcurl" || true\n' > curl-config
+chmod +x curl-config
+export PATH="$PWD:$PATH"
+
 patch -p1 < "$K"/lxpanel-linux.patch
 patch -p1 < "$K"/lxpanel-cpufreq.patch
 patch -p1 < "$K"/lxpanel-thermal-iwlwifi.patch
