@@ -13,6 +13,8 @@ gtk+2
 libglade
 
 [build]
+cp -f "$K"/config.sub .
+
 patch -p1 < "$K"/obconf-git.patch
 patch -p1 < "$K"/obconf-implicit.patch
 
