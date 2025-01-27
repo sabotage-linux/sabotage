@@ -19,7 +19,7 @@ python
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 if [ -n "$CROSS_COMPILE" ] ; then
 	xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
-	export PYTHONHOME="$butch_root_dir$butch_prefix"
+#	export PYTHONHOME="$butch_root_dir$butch_prefix"
 fi
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
 ./configure -C --prefix="$butch_prefix" \
