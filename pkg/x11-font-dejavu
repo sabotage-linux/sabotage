@@ -9,7 +9,7 @@ sha512=67cb905c62f264267326f824be60c7a9f1d880ccc44b7ebc4acefe0f5ea4e89e82d3ad506
 
 [build]
 fontsdir="$butch_install_dir""$butch_prefix"/share/fonts/dejavu
-confddir="$butch_install_dir""$butch_prefix"/etc/fonts/conf.d
+confddir="$butch_install_dir"/etc/fonts/conf.d
 confadir="$butch_install_dir""$butch_prefix"/share/fontconfig/conf.avail
 
 mkdir -p "$fontsdir" "$confddir" "$confadir"
@@ -18,6 +18,6 @@ install -m 0644 ttf/*.ttf "$fontsdir/"
 cd fontconfig
 install -m644 *.conf "$confadir/"
 for x in *.conf; do
-  ln -s ../../../share/fontconfig/conf.avail/$x "$confddir/"
+  ln -s ../../.."$butch_prefix"/share/fontconfig/conf.avail/$x "$confddir/"
 done
 cd ..
