@@ -16,6 +16,7 @@ libxfixes
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-malloc0returnsnull=no \
   ac_cv_func__XEatDataWords=yes
 make V=1 DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
