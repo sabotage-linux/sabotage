@@ -18,8 +18,8 @@ perl
 [build]
 STATIC=-static
 test "$GIT_DYNAMIC" = 1 && STATIC=
-
-make CURL_LIBCURL="$butch_root_dir/lib/libcurl.a $butch_root_dir/lib/libssl.a $butch_root_dir/lib/libcrypto.a" \
+rlib="${butch_root_dir}${butch_prefix}/lib"
+make CURL_LIBCURL="$rlib/libcurl.a $rlib/libssl.a $rlib/libcrypto.a -static-libgcc" \
   CC="$CC -std=gnu99" HOSTCC="$HOSTCC" \
   prefix="$butch_prefix" gitexecdir="$butch_prefix"/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
