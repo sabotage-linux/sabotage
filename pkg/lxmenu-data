@@ -11,6 +11,8 @@ sha512=2aa8949504e981582b8e94d999a3f3e4876750ee6244d63b585bb0553c5f584401c952682
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 CFLAGS="$optcflags -D_GNU_SOURCE" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+./configure -C \
+  --prefix="$butch_prefix" --sysconfdir=/etc \
+  --disable-nls $xconfflags
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
