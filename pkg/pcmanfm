@@ -31,4 +31,5 @@ make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/share/lxde/pcmanfm
-cp -f "$dest"/etc/xdg/pcmanfm/default/pcmanfm.conf "$dest"/share/lxde/pcmanfm/
+cp -f "$butch_install_dir"/etc/xdg/pcmanfm/default/pcmanfm.conf \
+  "$dest"/share/lxde/pcmanfm/
