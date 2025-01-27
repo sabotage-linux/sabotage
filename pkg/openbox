@@ -27,7 +27,8 @@ cp -f "$K"/config.sub .
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="-lXext -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib $optldflags" \
   ./configure -C \
-  --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --prefix="$butch_prefix" --sysconfdir=/etc \
+  --disable-nls $xconfflags \
   --disable-imlib2 --disable-startup-notification
 echo true > missing
 
@@ -38,4 +39,4 @@ make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/share/lxde/openbox
-cp -f "$dest"/etc/xdg/openbox/menu.xml "$dest"/share/lxde/openbox/
+cp -f "$butch_install_dir"/etc/xdg/openbox/menu.xml "$dest"/share/lxde/openbox/
