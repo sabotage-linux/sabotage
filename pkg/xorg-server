@@ -40,7 +40,7 @@ CPPFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE \
           -I$butch_root_dir$butch_prefix/include/pixman-1" \
 CFLAGS=" $optcflags -include sys/sysmacros.h" \
   ./configure -C --prefix="$butch_prefix" \
-    --localstatedir="$butch_prefix"/var \
+    --localstatedir=/var \
     --enable-kdrive --enable-kdrive-evdev $xconfflags \
     --enable-aiglx \
     --enable-composite \
@@ -62,12 +62,12 @@ make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
 # make /etc/X11 a symlink to /share/X11, so the config can be found easily
-dest="${butch_prefix}${butch_install_dir}"
+dest="${butch_install_dir}"
 mkdir -p "$dest"/etc
-ln -s ../share/X11 "$dest"/etc/
+ln -s ..${butch_prefix}/share/X11 "$dest"/etc/
 
 #copy our hacky X launcher script to /bin...
-dest="${butch_prefix}${butch_install_dir}"
+dest="${butch_install_dir}${butch_prefix}"
 install -Dm 755 "$K"/X "$dest"/bin/X
 
 # FIXME starting X as non-root needs suid bit on the "server"
@@ -77,5 +77,6 @@ done
 
 # FIXME: our /etc/X11/xorg.conf.d is actually a link to /share, which causes
 # these files to be overwritten by butch (we protect /etc files from that)
+dest="${butch_install_dir}"
 install -Dm 644 "$K"/xorg-10-evdev.conf "$dest"/etc/X11/xorg.conf.d/10-evdev.conf
 install -Dm 644 "$K"/xorg-20-modules.conf "$dest"/etc/X11/xorg.conf.d/20-modules.conf
