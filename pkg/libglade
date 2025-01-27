@@ -10,6 +10,8 @@ gtk+2
 libxml2
 
 [build]
+cp -f "$K"/config.sub .
+
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/')"
