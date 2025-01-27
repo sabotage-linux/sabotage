@@ -31,7 +31,8 @@ patch -p1 < "$K"/lxpanel-thermal-iwlwifi.patch
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags -D_GNU_SOURCE" \
 LDFLAGS="$optldflags -lgmodule-2.0 -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags \
+./configure -C \
+  --prefix="$butch_prefix" --sysconfdir=/etc $xconfflags \
   --disable-silent-rules
 
 make -j$MAKE_THREADS
