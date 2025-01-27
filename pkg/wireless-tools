@@ -19,7 +19,7 @@ fi
 sed -i 's@sbin@bin@' Makefile
 make CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -include libgen.h $optcflags" \
      LDFLAGS="$optldflags -static" PREFIX="$butch_prefix" -j$MAKE_THREADS
-make DESTDIR="$butch_install_dir" install
+make DESTDIR="$butch_install_dir" PREFIX="$butch_prefix" install
 dest="$butch_install_dir""$butch_prefix"
 mv "$dest"/bin/iwlist "$dest"/bin/iwlist-verbose
 printf '#/bin/sh\niwlist-verbose "$@"|sed "/IE: Unknown/d"\n' > \
