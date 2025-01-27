@@ -22,7 +22,7 @@ done
 CFLAGS="-D_GNU_SOURCE $optcflags -D__uint64_t=u_int64_t -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" --with-root-prefix="$butch_prefix" \
-  --sbindir="$butch_prefix"/bin $xconfflags \
+  --sbindir="$butch_prefix"/bin --sysconfdir=/etc $xconfflags \
   --disable-nls --disable-libblkid \
   ac_cv_func_fallocate64=yes \
   ac_cv_path_mkdir="mkdir -p"
