@@ -37,8 +37,9 @@ ECJ_VERSION=4.9
 # that is statically linked against musls libc.a.
 # this will lead to random crashes in C++ apps since two concurrent
 # malloc implementations will call brk and mess up each other.
-if [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
+if [ -z "$CROSS_COMPILE" ] && [ ! -f "$butch_root_dir""$butch_prefix"/lib/libc.so ] ; then
 	echo "libc.so non-existing or symlink broken"
+	echo "expected in $butch_root_dir$butch_prefix/lib/libc.so"
 	exit 1
 fi
 
