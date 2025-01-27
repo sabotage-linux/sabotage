@@ -133,8 +133,12 @@ fi
 
 echo "XXX build config: dynamic: $GDB_DYNAMIC, tui: $WANT_TUI, gdbserver: $WANT_GDBSERVER, python: $WANT_PYTHON"
 
+export gl_cv_func_readlink_works=yes
+export gl_cv_have_raw_decl_gettimeofday=yes
+
 LDFLAGS="$static_ldflags $optldflags" \
 CFLAGS="-Dgnu_fnmatch=fnmatch -Drpl_strstr=strstr \
+ -Drpl_gettimeofday=gettimeofday \
  -Dhistory_max_entries=max_input_history \
  -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_rl_echoing_p=readline_echoing_p \
   -O0 $optcflags $archflags" \
