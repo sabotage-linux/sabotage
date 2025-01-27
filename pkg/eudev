@@ -26,6 +26,7 @@ CFLAGS="-D_GNU_SOURCE $optcflags -DUDEV_ROOT_RUN=\\\"$butch_prefix/var/run\\\" \
 LDFLAGS="$optldflags -lblkid" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --sbindir="$butch_prefix"/bin \
+  --sysconfdir=/etc \
   --disable-manpages \
   --disable-keymap \
   --disable-blkid \
@@ -37,11 +38,13 @@ patch -p1 < "$K"/libtool-sysroot.patch
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 
-dest="$butch_install_dir""$butch_prefix"
+dest="$butch_install_dir"
 # prevent renaming of ethernet interfaces
 ln -s /dev/null "$dest"/etc/udev/rules.d/80-net-name-slot.rules
 printf "%s\n" 'KERNEL=="kvm", NAME="%k", GROUP="kvm", MODE="0660"' \
  > "$dest"/etc/udev/rules.d/65-kvm.rules
+
+dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/lib/pkgconfig
 mv "$dest"/share/pkgconfig/* "$dest"/lib/pkgconfig/
 rm -rf "$dest"/share/pkgconfig
