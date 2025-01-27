@@ -31,7 +31,8 @@ sed -i 's/define ACCEPT_ALL_COOKIES FALSE/define ACCEPT_ALL_COOKIES TRUE/' userd
 CFLAGS="-D_GNU_SOURCE -I$butch_root_dir$butch_prefix/include/openssl $optcflags" \
 LDFLAGS="$optldflags" \
 LIBS="-lcurses -lterminfo -lssl -lcrypto -lz" \
-  ./configure -C --prefix="$butch_prefix" --sysconfdir="$butch_prefix"/etc --mandir="$butch_prefix"/share/man \
+./configure -C \
+  --prefix="$butch_prefix" --sysconfdir=/etc --mandir="$butch_prefix"/share/man \
   --with-ssl --disable-nls --enable-ipv6 \
   --enable-default-colors \
   $xconfflags
