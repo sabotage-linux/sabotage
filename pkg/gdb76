@@ -36,6 +36,9 @@ done
 if test $gdb_major = 7 && test $gdb_minor -lt 11 ; then
 patch -p1 < "$K"/gdb-76-aarch64-linux-nat.patch
 fi
+if test $gdb_major = 7 && test $gdb_minor = 11 ; then
+sed -e s_asm/ptrace_sys/ptrace_ -i gdb/nat/aarch64-linux.c -i gdb/aarch64-linux-nat.c
+fi
 if test $gdb_major = 7 && test $gdb_minor -lt 10 ; then
 # testme: it's unknown whether gdb >= 7.10 thread debugging works, as
 # the gdb-linux_nat_thread.patch patch doesn't apply anymore.
