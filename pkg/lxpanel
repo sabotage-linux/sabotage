@@ -15,6 +15,7 @@ libwnck
 wireless-tools
 keybinder
 libfm
+curl
 
 [build]
 . "$K"/intltool-fix
