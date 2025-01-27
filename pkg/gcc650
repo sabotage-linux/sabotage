@@ -96,13 +96,16 @@ config_arch_target_ldflags=
 
 machine=
 if [ -n "$CROSS_COMPILE" ] ; then
-	if test 0$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}') -lt $gcc_major ; then
+	crossver=$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}')
+	if test $crossver != $gcc_major ; then
 		cat << EOF >&2
 sorry: there's no way you can crosscompile gcc${gcc_major}'s libgcc or c++14 libstdc++ with
-a gcc4- or gcc5-based crosscompiler. that only works in a native build because
+a crosscompiler that's a different version.
+that only works in a native build because
 gcc will build those target libs with the freshly built native compiler.
 you need to get a $VERSION cross-compiler; check out
 https://github.com/richfelker/musl-cross-make to build one yourself.
+you currently use gcc version $crossver.
 EOF
 	fi
 	if [ -z "$GCC_ARCH_CONFIG_FLAGS" ] ; then
