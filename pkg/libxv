@@ -15,6 +15,7 @@ videoproto
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  ./configure -C --prefix="$butch_prefix" $xconfflags
+./configure -C --prefix="$butch_prefix" $xconfflags \
+  --enable-malloc0returnsnull=no
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 
