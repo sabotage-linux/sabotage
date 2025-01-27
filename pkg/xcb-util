@@ -9,6 +9,8 @@ sha512=977ce6867981c5fdc382917632c03e0298803b8aab110ef9bdbd3611ddfad6d7f8ad79a5d
 libxcb
 
 [build]
+cp -f "$K"/config.sub .
+
 cat << EOF > ./gperf
 #!/bin/sh
 printf %s "XXX called with $@"
