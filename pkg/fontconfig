@@ -28,3 +28,10 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 	
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
+
+# turn absolute symlinks into relative
+( cd "$butch_install_dir"/etc/fonts/conf.d
+  for x in *.conf ; do
+   ln -sf ../../.."$butch_prefix"/share/fontconfig/conf.avail/$x ./
+  done
+)
