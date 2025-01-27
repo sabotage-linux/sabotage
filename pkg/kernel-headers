@@ -1,17 +1,16 @@
 [mirrors]
-http://ftp.barfooze.de/pub/sabotage/tarballs/linux-headers-4.19.88.tar.xz
-http://foss.aueb.gr/mirrors/linux/sabotage/tarballs/linux-headers-4.19.88.tar.xz
-http://dl.2f30.org/mirrors/sabotage/tarballs/linux-headers-4.19.88.tar.xz
+http://ftp.barfooze.de/pub/sabotage/tarballs/linux-headers-4.19.88-2.tar.xz
 
 [vars]
-filesize=1052880
-sha512=5a975ba49b577869f2338aa80f44efd4e94f76e5b4bda11a6a1761a6d646848fdeaad7c820339b2c1c20d55f9bbf0e686121d621ac1cfa1dfc6cd71a166ade3a
-pkgver=4
+filesize=1081424
+sha512=e3d644642eac8d8e9e356a937a67a887d4b11700b59304b2d9bd1d7c27e1172982480f31342144abf4ab86a5ecb45dd4394d995ff3aae0586948fcf5fab73982
+pkgver=5
 
 [build]
 case "$A" in
 	i?86) A=i386 ;;
 	x86_64-x32) A=x32 ;;
+	aarch64) A=arm64 ;;
 esac
 make ARCH="$A" prefix="$butch_prefix" DESTDIR="$butch_install_dir" install \
 
