@@ -1,0 +1,10 @@
+[mirrors]
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20250109.tar.gz
+
+[vars]
+filesize=633680072
+sha512=c8f19378fa240799f7cc6ed05a0802c9fc7c3e1a3b65f7161cb532d34ace75aa8043393e405857b397b6307df1c9d14bcd65eb9cb373c7f953d5ac3fecd8cdb0
+pkgver=3
+
+[build]
+make DESTDIR="$butch_install_dir" install
