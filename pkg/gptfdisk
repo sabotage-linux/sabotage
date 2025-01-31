@@ -1,10 +1,12 @@
 [mirrors]
-http://downloads.sourceforge.net/project/gptfdisk/gptfdisk/1.0.1/gptfdisk-1.0.1.tar.gz
+http://downloads.sourceforge.net/project/gptfdisk/gptfdisk/1.0.10/gptfdisk-1.0.10.tar.gz
+http://www.rodsbooks.com/gdisk/gptfdisk-1.0.10.tar.gz
 
 [vars]
-filesize=195378
-sha512=6aa2ed6213183ea38ce7dd6e7f4f23b88cc56bed5a4d078f563b9e0a3c276eacf869e28a27ccb4e473753f7bced7ecb5de4535626f9ed22b7a59a39906d0419c
-desc="A text-mode partitioning tool that works on Globally Unique Identifier (GUID) Partition Table (GPT) disks"
+filesize=220787
+sha512=76764e176cd92470648a1d7a8d2570ebc41005204e73b0f2dd5a7aff2fc1981d3bec61a3bd68b855cc3474bcb7cf49c1cb2ea25843d4e7945bef7648d548383d
+pkgver=2
+desc='A text-mode partitioning tool that works on Globally Unique Identifier (GUID) Partition Table (GPT) disks'
 
 [deps.host]
 curses
@@ -13,6 +15,7 @@ kernel-headers
 popt
 
 [build]
+sed -e 's_ncursesw/ncurses.h_ncurses.h_' -i gptcurses.cc
 make CXX="${CXX:-g++}" \
 CXXFLAGS="$optcflags -D_FILE_OFFSET_BITS=64 -Dfstat64=fstat -Dstat64=stat -Dlseek64=lseek" \
 LDFLAGS="$optldflags -lcurses -lterminfo"
