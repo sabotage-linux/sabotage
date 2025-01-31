@@ -280,12 +280,43 @@ Install the `cryptsetup` package, then follow this guide to setup your partition
 
 http://wiki.centos.org/HowTos/EncryptedFilesystem
 
+The **tl;dr** is:
+
+    cryptsetup -y luksFormat PARTITION
+
+Where PARTITION is the partition to be used (e.g. /dev/sda5).
+It can also be a loop-mounted file, e.g. /dev/loop0.
+
+After entering your passphrase, you need to make the transparently de/encrypted
+blockdevice available in the /dev/mapper/ namespace by picking a unique name
+like "cryptpart", henceforth called NAME.
+
+    cryptsetup luksOpen PARTITION NAME # will ask for passphrase
+
+create a filesystem with the newly
+created mapper device, e.g.
+
+    mkfs.ext4 /dev/mapper/NAME
+
 Add appropriate entries in `/etc/crypttab` and `/etc/fstab`.
 On startup, Sabotage's `rc.boot` will mount them.
-By default, Sabotage does not use an initramfs, so if you require an encrypted
-root mount, you will have to customize your kernel build to piggyback a small
-initramfs to you kernel.
 
+To mount an encrypted parition directly you can use
+
+    cryptsetup luksOpen PARTITION NAME # will ask for passphrase
+    mount /dev/mapper/NAME /mnt/SOMEDIRECTORY
+
+and to unmount:
+
+    umount /mnt/SOMEDIRECTORY
+    cryptsetup luksClose NAME
+
+By default, Sabotage does not use an initramfs, so if you require an encrypted
+root mount, you will require a small initramfs that's loaded along with your
+kernel. That initramfs can be built using pkg/initramfs, then point your
+bootloader to it.
+Or use CONFIG_INITRAMFS_SOURCE during kernel build to have it built-in.
+see https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
 
 ## System Administration
 
