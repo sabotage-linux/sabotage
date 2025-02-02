@@ -7,6 +7,7 @@ util-linux-tarball
 termcap
 
 [build]
+patch -p1 < "$K"/util-linux-lsns.patch
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 CPPFLAGS="-include sys/sysmacros.h" \
 LDFLAGS="--static $optldflags" \
@@ -35,6 +36,8 @@ LDFLAGS="--static $optldflags" \
   --without-udev \
   --disable-asciidoc \
   --disable-bash-completion \
+  --disable-makeinstall-chown \
+  ac_cv_header_linux_net_namespace_h=no
 
 sed -i 's,/sbin,/bin,' config.status
 ./config.status

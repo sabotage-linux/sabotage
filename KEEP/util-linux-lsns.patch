@@ -1,0 +1,10 @@
+--- util-linux-2.37.4.orig/sys-utils/lsns.c	2024-05-28 00:38:42.799881636 +0000
++++ util-linux-2.37.4/sys-utils/lsns.c	2024-05-28 00:39:30.788883659 +0000
+@@ -41,6 +41,7 @@
+ #ifdef HAVE_LINUX_NSFS_H
+ #include <linux/nsfs.h>
+ #endif
++#include <linux/rtnetlink.h>
+ 
+ #include "pathnames.h"
+ #include "nls.h"
