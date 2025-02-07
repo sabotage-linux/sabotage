@@ -1,10 +1,10 @@
 [mirrors]
-https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.tar.gz
+https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.24.0.tar.gz
 
 [vars]
-filesize=4479718
-sha512=30d685932c3dd6f2c94e2778357a5c502f0421374293d7102a64d92f9c7861229bf36bedf51c1a698b296a58c858ca442d97afb908b7df1592fc8d4f8ae8ddfd
-pkgver=3
+filesize=13335900
+sha512=a0f94e26f0387385f13ec1eb08ddca677d4181969073a50af387a0dce9c7bdddf393c028c8084538e01f875e19790ef7ae9a00c5106bf7ca9d21f3fcf9eee885
+pkgver=4
 
 [deps]
 sdl2
