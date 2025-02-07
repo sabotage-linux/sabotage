@@ -1,0 +1,24 @@
+[mirrors]
+http://enet.bespin.org/download/enet-1.3.18.tar.gz
+
+[vars]
+filesize=737164
+sha512=d39b3bc78274ed4040580a0b13f7e628829d88993aa1bae15ab02afe64598badb2c6863b128f25234e27c3a8c4bcfbda360b3b237c92388675714549e9757bb5
+pkgver=1
+desc='high level wrapper on top of UDP networking'
+
+[deps]
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+#[ -n "$CROSS_COMPILE" ] && "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
