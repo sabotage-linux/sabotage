@@ -150,6 +150,9 @@ if [ "$GCC_DYNAMIC" = 1 ] ; then
 	static_ccflags=
 fi
 export CC="$CC $static_ccflags -D_GNU_SOURCE"
+# don't use latest dwarf format for gcc libs
+export gcc_cv_as_gdwarf_5_flag=no
+export libbacktrace_cv_lib_dwarf5=no
 
 CFLAGS="-Os -g0" \
 CXXFLAGS="-Os -g0" \
