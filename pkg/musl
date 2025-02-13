@@ -1,5 +1,5 @@
 [vars]
-pkgver=16
+pkgver=17
 desc='the musl C standard library (libc)'
 no_unlink=1
 
@@ -18,6 +18,8 @@ if test "$STAGE" = "0" ; then
 fi
 
 patch -p1 < "$K"/musl-1.1.18-armasm.patch
+patch -p1 < "$K"/musl-iconv-fix-erroneous-input-validation-in-EUC-KR-decod.patch
+patch -p1 < "$K"/musl-iconv-harden-UTF-8-output-code-path-against-input-de.patch
 
 CFLAGS="$optcflags" \
 ./configure --prefix=$butch_prefix --syslibdir=$butch_prefix/lib $cfgflags
