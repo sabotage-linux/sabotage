@@ -1,0 +1,24 @@
+[mirrors]
+https://github.com/Lekensteyn/dmg2img/archive/a3e413489ccdd05431401357bf21690536425012.tar.gz
+
+[vars]
+filesize=24904
+sha512=09da0c0d8680412801be6edccddc7ef588ea8ab0c0637e99652e34a387c1d456682b4881d329bed2ba0c76172b225441b6000cc73f5398853cbf34b1cb554d97
+tarball=dmg2img-a3e413489ccdd05431401357bf21690536425012.tar.gz
+pkgver=1
+desc='tool to convert apple compressed dmg archives to raw image files'
+
+[deps]
+libz
+bzip2
+
+[build]
+mk_target() {
+make -j$MAKE_THREADS \
+  CC="$CC" AR="$CROSS_COMPILE"ar CFLAGS="$optcflags" \
+  LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  PREFIX="$butch_prefix" DESTDIR="$butch_install_dir" \
+  "$@"
+}
+mk_target dmg2img
+install -Dm 755 dmg2img "$butch_install_dir""$butch_prefix"/bin/dmg2img
