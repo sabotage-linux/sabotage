@@ -1,0 +1,12 @@
+put cursor packs into ~/.icons, not ~/.local/share/icons
+--- a/src/utils.c
++++ b/src/utils.c
+@@ -117,7 +117,7 @@ static gboolean install_icon_theme_package(const char* package_path)
+ {
+     GPid pid = -1;
+     /* Use new XDG path $XDG_DATA_HOME/icons to install icons theme */
+-    char* user_icons_dir = g_build_filename(g_get_user_data_dir(), "icons", NULL);
++    char* user_icons_dir = g_build_filename(g_get_home_dir(), ".icons", NULL);
+     char* tmp_dir = g_build_filename(user_icons_dir, "tmp.XXXXXX", NULL);
+     const char* argv[]= {
+         "tar",

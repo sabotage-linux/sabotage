@@ -1,15 +1,17 @@
 [mirrors]
-http://downloads.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.6.2.tar.xz
+http://downloads.sourceforge.net/project/lxde/LXAppearance/lxappearance-0.6.3.tar.xz
 
 [vars]
-filesize=165788
-sha512=ddfd63045cae61f60e2745e7fbdafcf68cdc0443a7ff271ff11a40f39b2e08de902a980f6c68e1615a690690a3c33abc2de8ab854d08f7707be210b0addb67e7
+filesize=165656
+sha512=035cc952a33ac25408a4158cb4e745b17af3f29b5ceedfbe6b37235d16c801658403e862cd35ad7c8ca20fe6186fab1dce74a6e8d3b2eec12a30d532fc21662c
+pkgver=2
 
 [deps]
 gtk+2
 
 [build]
 . "$K"/intltool-fix
+patch -p1 < "$K"/lxappearance-cursor-dir.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
