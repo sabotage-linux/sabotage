@@ -429,7 +429,7 @@ if $have_files ; then
 				fi
 			esac
 			if $strip_debug ; then
-				name=$(printf "%s" "$i" | sed 's@/@_@')
+				name=$(printf "%s" "$i" | sed -e 's@^./@@' -e 's@/@_@g')
 				"$CROSS_COMPILE"objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
 				"$CROSS_COMPILE"strip --strip-debug --strip-unneeded "$i" &&
 				"$CROSS_COMPILE"objcopy --add-gnu-debuglink=lib/debug/"$name".dbg "$i"
