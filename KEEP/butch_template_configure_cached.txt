@@ -363,7 +363,7 @@ add_joblist() {
         test -z "$joblist" && joblist="$1" || joblist="$joblist $1"
 }
 has_bins() {
-	[ -d lib ] || [ -d bin ]
+	[ -d lib ] || [ -d bin ] || [ -n "$extrabins" ]
 }
 if $have_files ; then
 	if $butch_do_compress_manpages ; then
@@ -418,16 +418,26 @@ if $have_files ; then
 		if $butch_do_strip_comments ; then
 			printf "%s: stripping comment section of binaries...\n" "$(timestamp)"
 		fi
-		for i in ."$butch_prefix"/lib/*.so* ."$butch_prefix"/bin/* ; do
+		extrabins_add=
+		# extrabins is a colon-delimited list of paths that contain
+		# binaries that are not in bin or lib directly. example: git.
+		# paths in extrabins directive may not contain spaces!
+		if [ -n "$extrabins" ] ; then
+			for i in $(printf "%s\n" "$extrabins"|sed 's/:/ /g') ; do
+				extrabins_add=".$butch_prefix"/"$i""/* $extrabins_add"
+			done
+		fi
+		for i in ."$butch_prefix"/lib/*.so* ."$butch_prefix"/bin/* $extrabins_add ; do
 			printf "%s" "$i" | grep '\*'>/dev/null && continue
 			[ -L "$i" ] || [ -d "$i" ] && continue
-			case "$i" in bin*)
-				elf=$(dd if="$i" bs=1 skip=1 count=3 2>/dev/null)
-				[ "$elf" != "ELF" ] && continue
-				if $butch_do_strip_comments ; then
-					"$CROSS_COMPILE"strip --remove-section .comment "$i"
-				fi
-			esac
+			elf=$(dd if="$i" bs=1 skip=1 count=3 2>/dev/null)
+			[ "$elf" != "ELF" ] && continue
+			if $butch_do_strip_comments ; then
+				case "$i" in
+				*.so*) ;;
+				*) "$CROSS_COMPILE"strip --remove-section .comment "$i" ;;
+				esac
+			fi
 			if $strip_debug ; then
 				name=$(printf "%s" "$i" | sed -e 's@^./@@' -e 's@/@_@g')
 				"$CROSS_COMPILE"objcopy --only-keep-debug "$i" lib/debug/"$name".dbg &&
