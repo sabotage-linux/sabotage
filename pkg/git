@@ -25,6 +25,8 @@ make CURL_LIBCURL="$rlib/libcurl.a $rlib/libssl.a $rlib/libcrypto.a -static-libg
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
   CFLAGS="$optcflags" LDFLAGS="$optldflags $STATIC" \
   NO_REGEX=NeedsStartEnd \
+  NO_INSTALL_HARDLINKS=Yes \
+  INSTALL_SYMLINKS=Yes \
   DESTDIR="$butch_install_dir" -j$MAKE_THREADS V=1 all install
 
 dest="$butch_install_dir""$butch_prefix"
