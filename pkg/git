@@ -17,10 +17,15 @@ curl
 perl
 
 [build]
-STATIC=-static
-test "$GIT_DYNAMIC" = 1 && STATIC=
-rlib="${butch_root_dir}${butch_prefix}/lib"
-make CURL_LIBCURL="$rlib/libcurl.a $rlib/libssl.a $rlib/libcrypto.a -static-libgcc" \
+if [ "$STATICBUILD" = 1 ] ; then
+	STATIC=-static
+	rlib="${butch_root_dir}${butch_prefix}/lib"
+	# we abuse curllibs to put all static dependencies in
+	curllibs="$rlib/libcurl.a $rlib/libssl.a $rlib/libcrypto.a -static-libgcc"
+else
+	curllibs=-lcurl
+fi
+make CURL_LIBCURL="$curllibs" \
   CC="$CC -std=gnu99" HOSTCC="$HOSTCC" \
   prefix="$butch_prefix" gitexecdir="$butch_prefix"/lib/git-core \
   NO_TCLTK=1 NO_PYTHON=1 NO_EXPAT=1 NO_GETTEXT=1 \
