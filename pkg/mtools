@@ -1,13 +1,16 @@
 [mirrors]
-http://ftp.gnu.org/gnu/mtools/mtools-4.0.23.tar.bz2
+http://ftp.gnu.org/gnu/mtools/mtools-4.0.47.tar.bz2
 
 [vars]
-filesize=418592
-sha512=c8c48adedc3f3e4eeafead27ce80172c9cb9690b575618842001ed16aa0011dcd2bc517882ea4bf01a73810ba151aa4b86f8ce2f97d6e8a0177d09be71a6d1ed
-pkgver=2
+filesize=454971
+sha512=cae324034aad76ba91923bba1fa57bddd626548d69c83350e6973c138079f06a894ae7f570c92ec1a2f9e397d8a474e15c77603fd38c8219eb734a384b131779
+pkgver=3
 desc='collection of utilities to access MS-DOS disks'
 
 [build]
+# https://lists.gnu.org/archive/html/info-mtools/2025-02/msg00018.html
+sed -e 's/union bootsector boot;/union bootsector boot={0};/' -i mformat.c
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
