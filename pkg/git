@@ -7,6 +7,7 @@ filesize=7490268
 sha512=28461855e03f3dd5af73a1c6d26cc3e2b7b71f5eb90852f1daf582d24503b4dd5c4e4dac359e9eba1c2ba542aeb0940e0482506f19d02a354654b181c56c5317
 pkgver=24
 desc='tools to work with the git distributed version control system'
+extrabins='lib/git-core'
 
 [deps]
 libc
