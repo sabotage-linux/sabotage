@@ -47,6 +47,12 @@ done
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 
+# we need to set prefix to something containing a slash, otherwise
+# all code using g_build_filename (GTK_DATA_PREFIX ...) will wrongly return
+# a relative path!
+
+[ -z "$butch_prefix" ] && butch_prefix=/
+
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C \
@@ -66,6 +72,8 @@ done
 
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
+
+[ "$butch_prefix" = / ] && butch_prefix=
 
 dest="$butch_install_dir""$butch_prefix"
 mkdir -p "$dest"/share/doc/gtk+-2.24.10 &&
