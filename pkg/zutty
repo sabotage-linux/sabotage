@@ -5,7 +5,7 @@ https://github.com/tomscii/zutty/archive/refs/tags/0.14.tar.gz
 filesize=351015
 sha512=d73894feefa1fb58c76aa5f9d68a47b9871ab8d02eb5dd2575769c4f082a65cb9df2bdb2478e5aa54d121eb19a16269f169e79d72f0df779760520f2d501c086
 tarball=zutty-0.14.tar.gz
-pkgver=3
+pkgver=4
 desc='opengl accelerated terminal with bitmap fonts, xrdb, and x11 selection'
 
 [deps]
@@ -16,6 +16,7 @@ python
 
 [build]
 patch -p1 < "$K"/zutty-respect-compileflags.patch
+patch -p1 < "$K"/zutty-charclass.patch
 CXXFLAGS="$optcflags" LDFLAGS="$optldflags" \
   python ./waf configure --prefix="$butch_prefix"
 python ./waf -v build -j$MAKE_THREADS

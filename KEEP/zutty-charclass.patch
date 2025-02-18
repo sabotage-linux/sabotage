@@ -1,0 +1,144 @@
+From b55b3f4cad3ee6fe7b4db36ef2a23cb6385fcdf3 Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Tue, 11 Jul 2023 00:32:01 +0000
+Subject: [PATCH] implement support for zutty*charClass
+
+feature works identical to xterm's charClass.
+
+basically, it allows to set characters which are considered part of a
+"word", when doing double-click selection
+
+actually, i lied. it doesn't work identically: any numeric values supplied
+will be considered part of the word class. in other words, the :charclass
+is ignored except for parsing, and then treated as if it was 48.
+
+see man 1 xterm for details, here's an extract:
+> charClass (class CharClass)
+> Specifies comma-separated lists of character class bindings of the form
+> [low-]high:value. These are used in determining which sets of characters
+> should be treated the same when doing cut and paste.
+> See the CHARACTER CLASSES section.
+> For example, the string ``33:48,37:48,45-47:48,38:48'' indicates that the
+> exclamation mark, percent sign, dash, period, slash, and ampersand
+> characters should be treated the same way as characters and numbers.
+> This is useful for cutting and pasting electronic mailing addresses and
+> filenames.
+---
+ src/frame.cc   | 19 +++++++++++++++----
+ src/options.cc | 22 ++++++++++++++++++++++
+ src/options.h  |  2 ++
+ 3 files changed, 39 insertions(+), 4 deletions(-)
+
+diff --git a/src/frame.cc b/src/frame.cc
+index 9d87825..3016c1a 100644
+--- a/src/frame.cc
++++ b/src/frame.cc
+@@ -11,6 +11,7 @@
+ 
+ #include "frame.h"
+ #include "log.h"
++#include "options.h"
+ 
+ namespace zutty
+ {
+@@ -135,6 +136,15 @@ namespace zutty
+       }
+    }
+ 
++   std::string
++   allButSpace(void)
++   {
++      std::string (s);
++      for (int i = 0; i < 256; ++i)
++         if (i != ' ') s += static_cast<char>(i);
++      return s;
++   }
++
+    Rect
+    Frame::getSnappedSelection () const
+    {
+@@ -152,16 +162,17 @@ namespace zutty
+          break;
+       case SelectSnapTo::Word:
+       {
++         std::string cset (opts.charClass != nullptr ? opts.charClass : allButSpace());
+          const auto* cp = getViewRowPtr (ret.tl.y);
+-         while (ret.tl.x < nCols && cp [ret.tl.x].uc_pt == ' ')
++         while (ret.tl.x < nCols && cset.find(static_cast<char>(cp [ret.tl.x].uc_pt)) == std::string::npos)
+             ++ret.tl.x;
+-         while (ret.tl.x > 0 && cp [ret.tl.x - 1].uc_pt != ' ')
++         while (ret.tl.x > 0 && cset.find(static_cast<char>(cp [ret.tl.x - 1].uc_pt)) != std::string::npos)
+             --ret.tl.x;
+ 
+          cp = getViewRowPtr (ret.br.y);
+-         while (ret.br.x > 0 && cp [ret.br.x].uc_pt == ' ')
++         while (ret.br.x > 0 && cset.find(static_cast<char>(cp [ret.br.x].uc_pt)) == std::string::npos)
+             --ret.br.x;
+-         while (ret.br.x < nCols && cp [ret.br.x].uc_pt != ' ')
++         while (ret.br.x < nCols && cset.find(static_cast<char>(cp [ret.br.x].uc_pt)) != std::string::npos)
+             ++ret.br.x;
+       }
+          break;
+diff --git a/src/options.cc b/src/options.cc
+index 15b6494..72244a2 100644
+--- a/src/options.cc
++++ b/src/options.cc
+@@ -156,6 +156,27 @@ namespace
+       outFontsize = fs;
+    }
+ 
++   void
++   getCharClass(const char **out)
++   {
++      const char* opt = get ("charClass");
++      if (!opt)
++         return;
++      std::istringstream ss(opt);
++      std::string item, tokenx, tokeny, values;
++      while (std::getline (ss, item, ',')) {
++         std::istringstream iss (item);
++         std::getline (iss, tokenx, '-');
++         int x = std::stoi (tokenx);
++         std::getline (iss, tokeny, ':');
++         int y = tokeny != "" ? std::stoi (tokeny) : 0;
++         if (y < x) values += static_cast<char>(x);
++         else for (int i = x; i <= y; ++i) values += static_cast<char>(i);
++      }
++      values += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
++      *out = strdup (values.c_str ());
++   }
++
+    void
+    getGeometry (uint16_t& outCols, uint16_t& outRows)
+    {
+@@ -306,6 +327,7 @@ namespace zutty
+       try
+       {
+          getBorder (border);
++         getCharClass (&charClass);
+          getSaveLines (saveLines);
+          dwfontname = get ("dwfont");
+          fontname = get ("font");
+diff --git a/src/options.h b/src/options.h
+index 7bac116..6f9061f 100644
+--- a/src/options.h
++++ b/src/options.h
+@@ -55,6 +55,7 @@ namespace zutty
+       {"bg",          SepArg,   nullptr,   "#000",    "Background color"},
+       {"boldColors",  NoArg,    "true",    "true",    "Enable bright for bold"},
+       {"border",      SepArg,   nullptr,   "2",       "Border width in pixels"},
++      {"charClass",   SepArg,   nullptr,   nullptr,   "List of char values considered a word for selection"},
+       {"cr",          SepArg,   nullptr,   nullptr,   "Cursor color"},
+       {"display",     SepArg,   nullptr,   nullptr,   "Display to connect to"},
+       {"dwfont",      SepArg,   nullptr,   "18x18ja", "Double-width font to use"},
+@@ -117,6 +118,7 @@ namespace zutty
+       uint16_t nCols;
+       uint16_t nRows;
+       uint16_t saveLines;
++      const char* charClass;
+       const char* display;
+       const char* dwfontname;
+       const char* fontname;
+-- 
+2.31.1
+
