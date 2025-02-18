@@ -4,6 +4,8 @@ http://downloads.sourceforge.net/project/lxde/LXAppearance%20Obconf/lxappearance
 [vars]
 filesize=290204
 sha512=cec56238b2b8ea86ab310fdf3d9d43ef665aac7762018a296803ef7caccb6a5a7854c4b17e0028152b379a373602ede30edb02811a9a370ba369b62bb3caee09
+pkgver=1
+desc='plugin that opens obconf inside lxappearance'
 
 [deps]
 lxappearance
