@@ -81,7 +81,7 @@ else
 	echo "XXXXXXX WARNING gtk-query-immodules-2.0 needs to be run on the target rootfs XXXXXXX"
 fi
 
-cat > "$butch_install_dir"/etc/gtk-2.0/gtkrc << "EOF"
+cat << EOF > "$butch_install_dir"/etc/gtk-2.0/gtkrc
 include "$butch_prefix/share/themes/Clearlooks/gtk-2.0/gtkrc"
 gtk-icon-theme-name = "elementary"
 EOF
