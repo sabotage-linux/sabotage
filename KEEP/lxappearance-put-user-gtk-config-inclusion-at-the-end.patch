@@ -1,0 +1,47 @@
+From e256c7f50643165d3424965a9b212d46b5195b29 Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Tue, 18 Feb 2025 01:33:36 +0000
+Subject: [PATCH 2/2] put user gtk config inclusion at the end
+
+this allows the user to override the config, which is necessary
+for e.g. cursor-size, for which there is currently no way to
+change it using the gui.
+---
+ src/lxappearance.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/src/lxappearance.c b/src/lxappearance.c
+index 63a2af1..68c8764 100644
+--- a/src/lxappearance.c
++++ b/src/lxappearance.c
+@@ -265,12 +265,6 @@ static void lxappearance_save_gtkrc()
+         "# DO NOT EDIT! This file will be overwritten by LXAppearance.\n"
+         "# Any customization should be done in ~/.gtkrc-2.0.mine instead.\n\n");
+ 
+-    /* include ~/.gtkrc-2.0.mine first to be able to apply changes done
+-       by LXAppearance if the same settings exist in that file */
+-    g_string_append_printf(content,
+-        "include \"%s/.gtkrc-2.0.mine\"\n",
+-        g_get_home_dir());
+-
+     if(app.widget_theme)
+         g_string_append_printf(content,
+             "gtk-theme-name=\"%s\"\n", app.widget_theme);
+@@ -322,6 +316,14 @@ static void lxappearance_save_gtkrc()
+     if(app.modules && app.modules[0])
+         g_string_append_printf(content, "gtk-modules=\"%s\"\n", app.modules);
+ 
++    /* include ~/.gtkrc-2.0.mine last to be able to override changes done
++       by LXAppearance. */
++    g_string_append_printf(content,
++        "include \"%s/.gtkrc-2.0.mine\"\n",
++        g_get_home_dir());
++
++
++
+ #if 0
+     /* unfortunately we cannot set colors without XSETTINGS daemon,
+        themes will override any custom settings in .gtkrc-2.0 file */
+-- 
+2.45.1
+

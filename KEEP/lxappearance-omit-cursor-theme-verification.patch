@@ -1,0 +1,34 @@
+From bd9aa7bb2e52127f0a43925bec3b7540d129840f Mon Sep 17 00:00:00 2001
+From: rofl0r <rofl0r@users.noreply.github.com>
+Date: Tue, 18 Feb 2025 01:29:55 +0000
+Subject: [PATCH 1/2] omit cursor theme verification
+
+whatever the code here is trying to do, it doesn't work with
+cursor themes that are installed in one of the system paths,
+and therefore causes the selected theme to not get stored in
+~/.gtkrc-2.0, so the setting will disappear on next login.
+
+the verification is imo useless anyway, as themes that can be
+selected only show up in the list after they have been detected
+as valid in one of the standard icon theme locations.
+so they're already validated in the moment they can be selected.
+---
+ src/lxappearance.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/lxappearance.c b/src/lxappearance.c
+index a4b7db3..63a2af1 100644
+--- a/src/lxappearance.c
++++ b/src/lxappearance.c
+@@ -158,7 +158,7 @@ static void save_cursor_theme_name()
+     dir_path = g_build_filename(g_get_home_dir(), ".icons/default", NULL);
+     kf = g_key_file_new();
+     /* test if cursor theme isn't recursed and don't use it otherwise */
+-    if (!verify_cursor_theme(kf, app.cursor_theme, "default"))
++    if (0 && !verify_cursor_theme(kf, app.cursor_theme, "default"))
+     {
+         g_free(app.cursor_theme);
+         app.cursor_theme = NULL; /* FIXME: replace with "default"? */
+-- 
+2.45.1
+
