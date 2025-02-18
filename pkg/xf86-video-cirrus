@@ -1,14 +1,15 @@
+[mirrors]
+https://www.x.org/releases/individual/driver/xf86-video-cirrus-1.6.0.tar.xz
+
+[vars]
+filesize=303048
+sha512=d18260bdc486fbadf619e41a9e9d9ad08bda2434b877ab7504ba13aa1fdeb1f87bb397d9090d5cf0883325ad08799115d5f0ce098b5f75088a06b0a96894ed76
+pkgver=2
+
 [deps]
 xproto
 libx11
 xorg-server
-
-[vars]
-filesize=327547
-sha512=2af1b089527fb715b07b6d50da863972a1d063863e976c5e75576e70b502b74af43bc38adba917dc916f79d9d122ada41f49dcaf41b4b4289de012a4ef4be838
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/driver/xf86-video-cirrus-1.5.2.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
