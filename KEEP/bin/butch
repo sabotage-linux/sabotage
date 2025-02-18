@@ -34,6 +34,7 @@ usage() {
 	install [<package> ... ]  # build and install <packages>
 	download [<package> ... ] # download tarballs required by <packages>
 	rebuild [<package> ... ]  # rebuild already installed <packages>
+	get [<package> ... ]      # get/unpack <packages> and deps from binary repo
 
 	install-service <args>    # install runit system service
 
@@ -80,6 +81,7 @@ prog=butch-core
 case $1 in
 	build) shift ; set -- install "$@";;
 	download) shift ; set -- prefetch "$@";;
+	get) shift ; set -- get "$@";;
 	pack) shift; prog=butch-pack;;
 	unpack) shift; prog=butch-unpack;;
 	packapp) shift; prog=butch-packapp;;

@@ -1,5 +1,5 @@
 #!/bin/sh
-BUTCH_VERSION=0.7.8
+BUTCH_VERSION=0.7.9
 test -n "$CONFIG" && . $CONFIG
 BINDIR=$(dirname $(readlink -f "$0"))
 hlppid=
@@ -150,18 +150,32 @@ dl_one() {
 	chmod +x $scrname
 	$scrname > $logname 2>&1 && echo "OK $1" || echo "FAIL $1"
 }
-
+get_one() {
+	logname=$LOGPATH/dl_$1.log
+	info "downloading binary package $1 -> $logname"
+	fn=$(printf "%s_%s_%d\n" $1 $A $(get_pkgver $1))
+	yay=false
+	for ext in tar.xz tar.zstd tar.gz tar ; do
+		archive="$fn.$ext"
+		uarchive="$(printf "$archive\n" | sed 's/+/%2b/')"
+		wget "$BUTCH_BINARY_REPO"/"$uarchive" -O /tmp/"$archive" && yay=true
+		$yay && $BINDIR/butch-unpack /tmp/"$archive" || yay=false
+		rm -f /tmp/"$archive" || true
+		$yay && break
+	done > $logname 2>&1
+	$yay && echo "OK $1" || echo "FAIL $1"
+}
 start_dl() {
 	[ -z "$@" ] && echo "DONE DONE" && return 0
 	[ -z "$JOBFLOW" ] && type jobflow >/dev/null 2>&1 && JOBFLOW=jobflow
 	if [ -n "$JOBFLOW" ] && [ -x "$JOBFLOW" ] ; then
 	cat <<- EOF | sed 's/ /\n/g' | "$JOBFLOW" -threads=$BUTCH_DL_THREADS \
-		-delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 dl_one {}
+		-delayedspinup=$(($BUTCH_DL_THREADS * 2)) -exec $0 $dlmethod {}
 	$@
 	EOF
 	else
 		for p in $@ ; do
-			$0 dl_one "$p"
+			$0 $dlmethod "$p"
 		done
 	fi
 	echo DONE DONE
@@ -179,6 +193,11 @@ add_list() {
 	test -z "$mylist" && mylist="$2" || mylist="$mylist $2"
 	eval "$1"=\""$mylist"\"
 }
+setup_awk() {
+[ -z "$AWKPROG" ] && AWKPROG=awk
+$AWKPROG -W version 2>/dev/null | $GREP "mawk" > /dev/null && \
+AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
+}
 
 buildlist=
 dllist=
@@ -193,12 +212,21 @@ case $1 in
 	download) mode=download; force=true;;
 	prefetch) mode=download; force=true;;
 	dl_one) mode=download_one;;
+	get) mode=get;;
+	get_one) mode=get_one;;
 	outdated) mode=outdated;;
 	update) mode=update;;
 	*) usage ;;
 esac
 shift
 test $mode = download_one && { dl_one "$1" ; exit $? ; }
+
+setup_awk
+test $mode = get_one && { get_one "$1" ; exit $? ; }
+test $mode = get && test -z "$BUTCH_BINARY_REPO" && {
+	echo "error: need to set BUTCH_BINARY_REPO to repo base url!">&2
+	exit 1
+}
 check_config
 UNSHARECMD='unshare --net'
 $UNSHARECMD true >/dev/null 2>&1 || {
@@ -268,9 +296,6 @@ launch_build() {
 	return 1
 }
 
-[ -z "$AWKPROG" ] && AWKPROG=awk
-$AWKPROG -W version 2>/dev/null | $GREP "mawk" > /dev/null && \
-AWKPROG="$AWKPROG -W interactive" #work around mawk bug...
 # if TMPDIR is set, most mktemp impl's use that
 check_access /dev/shm w && export TMPDIR=/dev/shm
 setup_pipe "3"
@@ -329,7 +354,12 @@ if test $mode = outdated || test $mode = update ; then
 	force=true
 fi
 
-[ -z "$DEPS" ] && DEPS=build:host:run
+if [ -z "$DEPS" ] ; then
+	# if someone uses get mode we assume he wants only the packages
+	if [ $mode = get ] ; then DEPS=build:run
+	else DEPS=build:host:run
+	fi
+fi
 
 for x_ in $args ; do
 	test -r "$S"/pkg/"$x_" || die "$S/pkg/$x_ does not exist or no read permission!"
@@ -349,6 +379,8 @@ for p in $deps ; do
 		else
 			echo "package $p is already installed, skipping"
 		fi
+	elif test $mode = get ; then
+		has_section "$p" build && add_list dllist "$p"
 	else
 		test $mode != download && add_list buildlist "$p"
 		has_mirrors "$p" && add_list dllist "$p" || add_downloaded "$p"
@@ -361,6 +393,8 @@ echo "*** downloadqueue ***"
 for p in $dllist ; do printf "%s\n" "$p" ; done
 
 setup_pipe "5"
+dlmethod=dl_one
+test $mode = get && dlmethod=get_one
 start_dl "$dllist" >&5 &
 dlpid=$!
 
