@@ -11,6 +11,7 @@ desc='command line program for file downloads supporting various protocols'
 libressl
 
 [build]
+patch -p1 < "$K"/wget-percent.patch
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"

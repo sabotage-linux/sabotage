@@ -1,0 +1,24 @@
+diff --git a/src/retr.c b/src/retr.c
+index 615802f..3af4935 100644
+--- a/src/retr.c
++++ b/src/retr.c
+@@ -283,6 +283,9 @@ fd_read_body (const char *downloaded_filename, int fd, FILE *out, wgint toread,
+   wgint sum_written = 0;
+   wgint remaining_chunk_size = 0;
+ 
++  float max_percentage = 0.f;
++  if(getenv("WGET_PERCENTAGE")) max_percentage = atof(getenv("WGET_PERCENTAGE"));
++
+ #ifdef HAVE_LIBZ
+   /* try to minimize the number of calls to inflate() and write_data() per
+      call to fd_read() */
+@@ -367,6 +370,9 @@ fd_read_body (const char *downloaded_filename, int fd, FILE *out, wgint toread,
+       int rdsize;
+       double tmout = opt.read_timeout;
+ 
++      if (max_percentage > 0.f && ((double) (startpos+sum_read) / (double) (startpos+toread)) >= max_percentage/100.f)
++        exit(0);
++
+       if (chunked)
+         {
+           if (remaining_chunk_size == 0)
