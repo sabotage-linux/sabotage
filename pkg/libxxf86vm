@@ -1,9 +1,11 @@
-[vars]
-filesize=284279
-sha512=7cd5491b79920f9c1d134f2815f14d45b0a29cf5f99d866c35418b6f84ce6b48e702db3472bd7c6158804e573f2384ad4ebee78e5ea8f07afec2e34489d99ed4
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.3.tar.bz2
+http://www.x.org/releases/individual/lib/libXxf86vm-1.1.5.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.5.tar.xz
+
+[vars]
+filesize=265384
+sha512=68226fcb9773a583ea417ab413146203dd7db6ff8a4d388285da972353355e11e179861a77c9fa284aefac025bb3bbf5a9537fa0bf246c782e0116a667c9d9b6
+pkgver=2
 
 [deps]
 libxext

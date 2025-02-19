@@ -1,14 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXres-1.2.2.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXres-1.2.2.tar.xz
+
+[vars]
+filesize=261400
+sha512=897f2d426ea6f41169a5a52c356d1a1cb2ffb9144ae41b9fedd06455c3d81042930fe55be269ce4b8545ee65fcfe168101192a599053d810e8810f627c94f810
+pkgver=2
+
 [deps]
 resourceproto
 xproto
 libx11
-
-[vars]
-filesize=282925
-sha512=796a79ab694317910442cb10a936711df9dde95764eef11efb8dedc85114977e56409de2f640553f1ad492325df178b8cfbeaeec3f03bf084638c555e44292e0
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXres-1.0.7.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -1,13 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXmu-1.1.4.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXmu-1.1.4.tar.xz
+
+[vars]
+filesize=349264
+sha512=3cf90cb3ff380aafefbb39297bdd95b9e1e6d6618cecb53ff09faf38f9b9c54599d28367f07a9ec77a20214c6c3e661b8d0a12b38082556790a79a59942039c1
+pkgver=2
+
 [deps]
 libxext
 libxt
 
-[vars]
-filesize=396230
-sha512=eba4e3d10f7d75ba8464881fb69f295a89774a4b37793197d75f3312e3a342b2df8b7e13e3f5c887962704329b5347ff2f3395e229af9dadf46a93b1e8613cfc
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXmu-1.1.2.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

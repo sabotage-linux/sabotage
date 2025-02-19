@@ -1,19 +1,20 @@
+[mirrors]
+http://www.x.org/releases/individual/app/xauth-1.1.2.tar.xz
+http://xorg.freedesktop.org/releases/individual/app/xauth-1.1.2.tar.xz
+
+[vars]
+filesize=156960
+sha512=ac23fcd166b45abf7b030994ff3332c9906023dc1ddfa9b9d3000e6a914dc5e0213c4a2aa409cb3ddb93e1f9f4f6374376109241a95ef8c36af842de1f6f76e8
+pkgver=2
+
 [deps]
 libx11
 libxext
 libxmu
 libxau
 
-[vars]
-filesize=129568
-sha512=d459dc2b8e38ed46eb45075306edbe2cb5a927823944a693e44cb7ab63ed0c10a8a04aa4697dfa74b13240f5407191dfbc190515a8de00c16f7e207554a26b86
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xauth-1.0.5.tar.bz2
-
 [build]
 cp -f "$K"/config.sub .
-xconfflags="--build=$($CC -dumpmachine)"
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"
 LDFLAGS="$optldflags" \

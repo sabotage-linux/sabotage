@@ -1,10 +1,11 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.11.tar.bz2
+http://www.x.org/releases/individual/lib/libXpm-3.5.16.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.16.tar.xz
 
 [vars]
-filesize=443496
-sha512=c089056108d4598f6c4603d6440d9ef6216e87c5cf1e30d143b0e7abc9c5d6f40050c747a57a27d751bc80786ded0390d97cbe221be628241c881d21a3ce6024
-pkgver=1
+filesize=469020
+sha512=ee564311f8c1c9c08ed1035d55c287ecf7c20c6fee09ad448acfab59f38fd1ef381d4a24b4af2b581f3033730eebc7c690918e52ba706de689d1ef11085edac2
+pkgver=2
 
 [deps]
 libx11

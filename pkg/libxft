@@ -1,10 +1,10 @@
 [mirrors]
-https://www.x.org/releases/individual/lib/libXft-2.3.3.tar.bz2
+http://www.x.org/releases/individual/lib/libXft-2.3.8.tar.xz
 
 [vars]
-filesize=353465
-sha512=28fdaf3baa3b156a4a7fdd6e39c4d8026d7d21eaa9be27c9797c8d329dab691a1bc82ea6042f9d4729a9343d93787536fb7e4b606f722f33cbe608b2e79910e8
-pkver=2
+filesize=311664
+sha512=fc385d73e1acb701942c154ffb5a283d17891f21d3ac598c4a3fb375a7d6082734593062368c15cad67c1a94177dd15deed878ec5ea852188393b52e92c372c8
+pkgver=3
 
 [deps]
 fontconfig

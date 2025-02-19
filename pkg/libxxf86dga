@@ -1,9 +1,11 @@
-[vars]
-filesize=280216
-sha512=58d81a7850275fc8382018bcc56dbc65b4200828b1f1379dcee3da1878f12a83ee681a9d474bcd564d99bf93bedfeb7b243370e0ebb89177652b37cee158a3f2
-
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXxf86dga-1.1.4.tar.bz2
+http://www.x.org/releases/individual/lib/libXxf86dga-1.1.6.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXxf86dga-1.1.6.tar.xz
+
+[vars]
+filesize=267760
+sha512=61f7954471df63840ffb5e82347018e285d30d64d4d0a97770ca031c8554a0f52d1b007ab8342a283cd2f0d534f564fb59f57ec92515714f20a7d145912c65d9
+pkgver=2
 
 [deps]
 libxext

@@ -1,14 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libdmx-1.1.5.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libdmx-1.1.5.tar.xz
+
+[vars]
+filesize=266952
+sha512=55df45a06bddbf19e0253362853e2f979d736ba1f1fdec5d392c0f6c0dc72684e7b8df0f0a99ac96ce9d9d59bc6c25146086b18c054b4dbe6be9aa3166f23464
+pkgver=2
+
 [deps]
 dmxproto
 xproto
 libx11
-
-[vars]
-filesize=290859
-sha512=551cbba06e87ddc6f9a1f4567de4b8c592a4b6f6b6c27970c67c644ffe5c7f396e3c64c6df564d83a73f1b3842ba0a29a2463580fc0a264c552d76fbcba5a021
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libdmx-1.1.3.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -1,9 +1,11 @@
 [mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.5.1.tar.bz2
+http://www.x.org/releases/individual/lib/libXfont-1.5.4.tar.gz
+http://xorg.freedesktop.org/releases/individual/lib/libXfont-1.5.4.tar.gz
 
 [vars]
-filesize=502903
-sha512=3ca8f7c1c642072c9bf9a755b45857f77753111ce6f1f99bd804e0f1b90cf61259fbde609a5342cce9c1ac5431b093bf75febb68baff2f2688e0a5fe5864a666
+filesize=659706
+sha512=3627b6c767e028344b4ca11638538dc8c35548856031c4442c4d76423d068298caa2180d682e3f074d90145b9e7ea5d439a6ee9b4b6124e50dd660b88bb2ecbd
+pkgver=2
 
 [deps]
 util-macros
@@ -17,8 +19,9 @@ zlib
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
+
 LDFLAGS="$optldflags" \
-CFLAGS="$optcflags -D_GNU_SOURCE -DNOFILES_MAX=256 -Dfd_mask=long" \
+CFLAGS="$optcflags -D_GNU_SOURCE -DNOFILES_MAX=256" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 make DESTDIR="$butch_install_dir" -j$MAKE_THREADS install
 

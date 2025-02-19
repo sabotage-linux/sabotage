@@ -1,13 +1,15 @@
+[mirrors]
+http://www.x.org/releases/individual/app/xinit-1.4.2.tar.xz
+http://xorg.freedesktop.org/releases/individual/app/xinit-1.4.2.tar.xz
+
+[vars]
+filesize=156728
+sha512=4b62c2edd97b40133577cbba88b3f31b36c5634b4eb667ef0c302e8358dc1c55a255abe42aaadc910d8aa9ea0e3add157a12a301382f1cdbe091df4e1215fae0
+pkgver=2
+
 [deps]
 libx11
 libxdmcp
-
-[vars]
-filesize=138315
-sha512=afb525e8fce9e460f513926a7aeb3344b064834b1d5031ba30400fa2bcb5bddada57b4e42b49f839bbcd177b8ee8fd30b75844c69b5ec786508ab2b221fe528e
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/app/xinit-1.3.0.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .

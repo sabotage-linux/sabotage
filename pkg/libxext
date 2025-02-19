@@ -1,14 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXext-1.3.5.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXext-1.3.5.tar.xz
+
+[vars]
+filesize=340108
+sha512=fd9805982dabfb14b1526c0cb71f94508003fa3fcd60560d387465afd891c1dca61927ae86278436d53f4b840cacd1f412071fdc3dce1d6f730610a9c163d59b
+pkgver=2
+
 [deps]
 xproto
 libx11
 xextproto
-
-[vars]
-filesize=378901
-sha512=5ed612f2c5e902648eb0438bfb8d9d6440a5baa19d95eb1253b51fe9ad8dcf903a7ee68a9455044d17ce0d486e421df0f98a069ab5ad1a49364f157bdf64efe7
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXext-1.3.2.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

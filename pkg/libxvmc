@@ -1,14 +1,16 @@
+[mirrors]
+http://www.x.org/releases/individual/lib/libXvMC-1.0.13.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libXvMC-1.0.13.tar.xz
+
+[vars]
+filesize=274180
+sha512=c9d0f73884a586efb9ea4f77fc8555f60d940077d7dff8eaa765b86345c8b4e3d80b860f68191d2830c272b9e464c08450fbb51bb64819753a6f4228c71861ac
+pkgver=2
+
 [deps]
 xproto
 libx11
 libxv
-
-[vars]
-filesize=305234
-sha512=781a53ad1d60a06019ed24150b85a96f2608e6ca0d876de9f06511c0e086cdf837804994e33b51ee8b3714150dc1d6060449e89ab7458476c8535b5b336147bf
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libXvMC-1.0.8.tar.bz2
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

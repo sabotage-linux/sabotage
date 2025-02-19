@@ -1,16 +1,15 @@
-[deps.host]
-pkgconf
+[mirrors]
+http://www.x.org/releases/individual/lib/libICE-1.1.1.tar.xz
+http://xorg.freedesktop.org/releases/individual/lib/libICE-1.1.1.tar.xz
+
+[vars]
+filesize=335960
+sha512=2f7833a25f31cc743ca95cb88f9a8403b50e19ffb5bf43bfef87ba405857d359789daaa9ec2391351237d958f16d35dbf082adb76d301e46d3a54162a6b452d3
+pkgver=2
 
 [deps]
 xproto
 xtrans
-
-[vars]
-filesize=365762
-sha512=eac189813df84c0d1b5a4f59855a147c945cb6960bb91dd3d94b2fbe909609a3da1d250bea4a0c8090b4dc64b4f64eb548b67a39de719ebddce19c6c1394532e
-
-[mirrors]
-http://xorg.freedesktop.org/releases/individual/lib/libICE-1.0.8.tar.bz2
 
 [build]
 cp -f "$K"/config.sub .
