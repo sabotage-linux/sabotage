@@ -24,6 +24,8 @@ patch -p1 < "$K"/llvm36.patch
 patch -p1 < "$K"/llvm36-dynlinker.patch
 patch -p1 < "$K"/llvm36-compiler-rt.patch
 
+sed -e 's/off64_t/off_t/' -i projects/compiler-rt/lib/interception/interception_type_test.cc
+
 conflags='--enable-libffi --enable-optimized --enable-shared
 	--disable-docs --enable-targets=all --prefix='"$butch_prefix"
 if [ ! -z "$DEBUGBUILD" ] ; then
