@@ -28,7 +28,7 @@ m4
 zlib
 
 [build]
-mcm_version=fe915821b652a7fa37b34a596f47d8e20bc72338
+mcm_version=6f3701d08137496d5aac479e3a3977b5ae993c1f
 test -z $gcc_patchver && gcc_patchver=0
 VERSION=$gcc_major.$gcc_minor.$gcc_patchver
 VERSION_REMOVE='s,'$gcc_major'\.'$gcc_minor'\.'$gcc_patchver'.*,,'
