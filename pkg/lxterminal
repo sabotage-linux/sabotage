@@ -14,6 +14,7 @@ vte2
 . "$K"/intltool-fix
 
 patch -p1 < "$K"/lxterminal-segv.patch
+patch -p1 < "$K"/lxterminal-return.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
