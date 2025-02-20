@@ -1,0 +1,24 @@
+[mirrors]
+http://ftpmirror.gnu.org/gnu/gcc/gcc-11.5.0/gcc-11.5.0.tar.xz
+
+[vars]
+filesize=82399864
+sha512=88f17d5a5e69eeb53aaf0a9bc9daab1c4e501d145b388c5485ebeb2cc36178fbb2d3e49ebef4a8c007a05e88471a06b97cf9b08870478249f77fbfa3d4abd9a8
+pkgver=1
+desc="the GNU compiler collection, v11.5.0"
+no_unlink=1
+gcc_major=11
+gcc_minor=5
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%
