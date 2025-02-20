@@ -1,9 +1,10 @@
 [mirrors]
-http://openbox.org/dist/obconf/obconf-2.0.3.tar.gz
+http://openbox.org/dist/obconf/obconf-2.0.4.tar.gz
 
 [vars]
-filesize=267589
-sha512=6bfef2a2b9be7c921ae2717582f53bef74f232d6cd5fee7da2ee1c982bbb61e0b3bc3bcdd64909d78cf3d6ab5eb774eb60b26d28786e1efc4f6def0c25866965
+filesize=456523
+sha512=b8cf6f363fa8c2f1d21142a3f79687a72f683f564285b05751c822ddf7a421b09c3440cbc5b08eb09d151601c6ada835ff5cc940bf5abeec2210cca26b552294
+pkgver=2
 desc='configuration frontend for the openbox window manager'
 
 [deps]
@@ -15,7 +16,6 @@ libglade
 [build]
 cp -f "$K"/config.sub .
 
-patch -p1 < "$K"/obconf-git.patch
 patch -p1 < "$K"/obconf-implicit.patch
 
 [ -n "$CROSS_COMPILE" ] && \
