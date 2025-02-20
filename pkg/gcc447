@@ -66,6 +66,9 @@ sed -i 's@/lib/ld.so.1@/lib/ld-musl-powerpc.so.1@g' gcc/config/rs6000/linux64.h
 sed -i 's@/lib64/ld64.so.1@/lib/ld-musl-powerpc64.so.1@g' gcc/config/rs6000/linux64.h
 
 patch -p1 < "$K"/gcc-453-patch0.patch
+patch -p1 < "$K"/gcc-447-toplev-inline.patch
+patch -p1 < "$K"/gcc-447-implicit.patch
+patch -p1 < "$K"/gcc-346-gperf.patch
 
 config_arch_flags=
 config_arch_target_cflags=
@@ -81,7 +84,7 @@ fi
 
 export CC="$CC -static -D_GNU_SOURCE"
 
-CFLAGS="-O0 -s" LDFLAGS="-Wl,--no-keep-memory" \
+CFLAGS="-O2 -s -fcommon" LDFLAGS="-Wl,--no-keep-memory" \
 CFLAGS_FOR_TARGET="$config_arch_target_cflags" LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 ./configure -C --with-newlib --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib --disable-nls --disable-mudflap \

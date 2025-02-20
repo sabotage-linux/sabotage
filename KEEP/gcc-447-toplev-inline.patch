@@ -1,0 +1,54 @@
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -527,7 +527,7 @@
+    for floor_log2 and exact_log2; see toplev.h.  That construct, however,
+    conflicts with the ISO C++ One Definition Rule.   */
+ 
+-#if GCC_VERSION < 3004 || !defined (__cplusplus)
++#if GCC_VERSION < 3004
+ 
+ /* Given X, an unsigned number, return the largest int Y such that 2**Y <= X.
+    If X is 0, return -1.  */
+--- a/gcc/toplev.h
++++ a/gcc/toplev.h
+@@ -167,13 +167,7 @@
+ extern bool fast_math_flags_set_p	(void);
+ extern bool fast_math_flags_struct_set_p (struct cl_optimization *);
+ 
+-/* Return log2, or -1 if not exact.  */
+-extern int exact_log2                  (unsigned HOST_WIDE_INT);
+-
+-/* Return floor of log2, with -1 for zero.  */
+-extern int floor_log2                  (unsigned HOST_WIDE_INT);
+-
+-/* Inline versions of the above for speed.  */
++/* Inline versions for speed.  */
+ #if GCC_VERSION >= 3004
+ # if HOST_BITS_PER_WIDE_INT == HOST_BITS_PER_LONG
+ #  define CLZ_HWI __builtin_clzl
+@@ -186,17 +180,23 @@
+ #  define CTZ_HWI __builtin_ctz
+ # endif
+ 
+-extern inline int
++static inline int
+ floor_log2 (unsigned HOST_WIDE_INT x)
+ {
+   return x ? HOST_BITS_PER_WIDE_INT - 1 - (int) CLZ_HWI (x) : -1;
+ }
+ 
+-extern inline int
++static inline int
+ exact_log2 (unsigned HOST_WIDE_INT x)
+ {
+   return x == (x & -x) && x ? (int) CTZ_HWI (x) : -1;
+ }
++#else
++ /* Return log2, or -1 if not exact.  */
++extern int exact_log2                  (unsigned HOST_WIDE_INT);
++
++ /* Return floor of log2, with -1 for zero.  */
++extern int floor_log2                  (unsigned HOST_WIDE_INT);
+ #endif /* GCC_VERSION >= 3004 */
+ 
+ /* Functions used to get and set GCC's notion of in what directory

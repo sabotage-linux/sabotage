@@ -1,0 +1,28 @@
+libiberty/regex.c:2278:11: error: implicit declaration of function 'free'
+we declare it ourselves, in order to not have to fix the char*malloc()
+defined later...
+
+libiberty/md5.c:110:3: error: implicit declaration of function 'memcpy'
+--- gcc-4.4.7.orig/libiberty/md5.c
++++ gcc-4.4.7/libiberty/md5.c
+@@ -31,7 +31,9 @@
+ # include <stdlib.h>
+ # include <string.h>
+ #else
+-# ifndef HAVE_MEMCPY
++# ifdef HAVE_MEMCPY
++#  include <string.h>
++# else
+ #  define memcpy(d, s, n) bcopy ((s), (d), (n))
+ # endif
+ #endif
+--- gcc-4.4.7.orig/libiberty/regex.c
++++ gcc-4.4.7/libiberty/regex.c
+@@ -33,6 +33,7 @@
+ 
+ #undef	_GNU_SOURCE
+ #define _GNU_SOURCE
++extern void free(void*);extern void abort(void);
+ 
+ #ifndef INSIDE_RECURSION
+ # ifdef HAVE_CONFIG_H
