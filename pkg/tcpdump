@@ -1,12 +1,12 @@
 [mirrors]
-http://www.tcpdump.org/release/tcpdump-4.9.2.tar.gz
-http://www.uk.tcpdump.org/release/tcpdump-4.9.2.tar.gz
-http://tcpdump.cybermirror.org/release/tcpdump-4.9.2.tar.gz
+http://www.tcpdump.org/release/tcpdump-4.99.5.tar.xz
+http://www.uk.tcpdump.org/release/tcpdump-4.99.5.tar.xz
+http://tcpdump.cybermirror.org/release/tcpdump-4.99.5.tar.xz
 
 [vars]
-filesize=2298386
-sha512=e1bc19a5867d6e3628f3941bdf3ec831bf13784f1233ca1bccc46aac1702f47ee9357d7ff0ca62cddf211b3c8884488c21144cabddd92c861e32398cd8f7c44b
-pkgver=5
+filesize=1418476
+sha512=e0516eb5384371486388c8a458af2a81183a1275b2db5a79d54fe6bc892b32ae31b061e70554b10f649a3674517c14e35aea1aff67b662057eaff7a30989b420
+pkgver=6
 desc='sniff and dump network and usb traffic'
 
 [deps]
@@ -14,7 +14,7 @@ libc
 libpcap
 
 [build]
-TCPDUMP_VERSION=4.9.2
+TCPDUMP_VERSION=4.99.5
 if [ -n "$CROSS_COMPILE" ] ; then
   xconfflags="--host=$($CC -dumpmachine) ac_cv_linux_vers=3"
   tru=/usr/bin/true
