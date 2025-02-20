@@ -1,9 +1,10 @@
 [mirrors]
-http://www.greenwoodsoftware.com/less/less-471.tar.gz
+http://www.greenwoodsoftware.com/less/less-668.tar.gz
 
 [vars]
-filesize=316133
-sha512=4c6d43a031cea38eb79e88a1aa40f737869d2ab879bd6feb89adb8d2bdb6561471f9013aa083cdbbf142fcdbade367b1b4552ff26c0b710890c9be53815f75e9
+filesize=649770
+sha512=6527741a609849ec27b6ab35de46f2c5c2b2771391e3efe263207bee28915946f44331a42f832a7cb42231a19b135cbadc15ae02cd997b83a13cdfbc7213fc27
+pkgver=2
 
 [deps]
 termcap
