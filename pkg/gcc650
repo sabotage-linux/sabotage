@@ -89,6 +89,12 @@ patch -p1 < "$K"/gcc-474-universal-initializer-no-warning.patch
 patch -p1 < "$K"/gcc-4.7.4-musl-cross-musl.patch
 fi
 
+if test $gcc_major = 11 && test $gcc_minor = 3 ; then
+patch -p1 < "$K"/gcc1130-poisoned-calloc.patch
+elif test $gcc_major = 11 && test $gcc_minor = 5 ; then
+patch -p1 < "$K"/gcc1150-poisoned-calloc.patch
+fi
+
 "$K"/libibertyfix libiberty
 
 config_arch_flags=
