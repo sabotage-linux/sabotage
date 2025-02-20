@@ -13,7 +13,7 @@ shared-mime-info
 
 [build]
 . "$K"/intltool-fix
-
+patch -p1 < "$K"/gpicview-mainwin.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) --with-sysroot=$butch_root_dir"
 CFLAGS="-D_GNU_SOURCE $optcflags" \
