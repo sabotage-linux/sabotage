@@ -54,7 +54,7 @@ done
 
 [ -z "$butch_prefix" ] && butch_prefix=/
 
-CFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE $optcflags -Wno-incompatible-pointer-types" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C \
  --prefix="$butch_prefix" --sysconfdir=/etc \
