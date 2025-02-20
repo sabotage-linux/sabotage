@@ -38,7 +38,7 @@ patch -p1 < "$K"/xorg-server-cve-2020-14347.patch
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib -Wl,-z,lazy" \
 CPPFLAGS="-D__gid_t=gid_t -D__uid_t=uid_t -DNOFILES_MAX=256 -D_GNU_SOURCE \
           -I$butch_root_dir$butch_prefix/include/pixman-1" \
-CFLAGS=" $optcflags -include sys/sysmacros.h" \
+CFLAGS=" $optcflags -include sys/sysmacros.h -Wno-array-bounds" \
   ./configure -C --prefix="$butch_prefix" \
     --localstatedir=/var \
     --enable-kdrive --enable-kdrive-evdev $xconfflags \
