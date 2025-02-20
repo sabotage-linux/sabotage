@@ -1,0 +1,24 @@
+[mirrors]
+http://ftpmirror.gnu.org/gnu/gcc/gcc-12.4.0/gcc-12.4.0.tar.xz
+
+[vars]
+filesize=83377372
+sha512=5bd29402cad2deb5d9388d0236c7146414d77e5b8d5f1c6c941c7a1f47691c3389f08656d5f6e8e2d6717bf2c81f018d326f632fb468f42925b40bd217fc4853
+pkgver=1
+desc="the GNU compiler collection, v12.4.0"
+no_unlink=1
+gcc_major=12
+gcc_minor=4
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%
