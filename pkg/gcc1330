@@ -1,0 +1,24 @@
+[mirrors]
+http://ftpmirror.gnu.org/gnu/gcc/gcc-13.3.0/gcc-13.3.0.tar.xz
+
+[vars]
+filesize=87909952
+sha512=ed5f2f4c6ed2c796fcf2c93707159e9dbd3ddb1ba063d549804dd68cdabbb6d550985ae1c8465ae9a336cfe29274a6eb0f42e21924360574ebd8e5d5c7c9a801
+pkgver=1
+desc="the GNU compiler collection, v13.3.0"
+no_unlink=1
+gcc_major=13
+gcc_minor=3
+
+[deps.stage1]
+stage1-g++
+
+[deps]
+stage1-gmp
+stage1-mpfr
+stage1-mpc
+zlib
+musl-cross-make-tarball
+
+[build]
+%include gcc650%
