@@ -1,20 +1,24 @@
 [mirrors]
-http://ftp.gnu.org/gnu/screen/screen-4.8.0.tar.gz
+http://ftp.gnu.org/gnu/screen/screen-5.0.0.tar.gz
 
 [vars]
-filesize=854854
-sha512=770ebaf6ee9be711bcb8a6104b3294f2bf4523dae6683fdc5eac4b3aff7e511be2d922b6b2ad28ec241113c2e4fe0d80f9a482ae1658adc19c8c3a3680caa25c
-pkgver=7
+filesize=895882
+sha512=18a163313025c58950ec65fa83037ba1df0fa8e2346925593217fb0a6596f2f51914a4f0aec7f0e1c280d3d3ef964e7a886521f41f4b96f4ff08935be7f62117
+pkgver=8
 desc='terminal multiplexer'
 
 [deps]
 
 [build]
+sed -e 's;[-]chown;#-chown;' -i Makefile.in
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
+LIBS=-lterminfo \
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" \
-  --enable-colors256 \
+  --with-pty-mode=0620 \
+  --with-pty-rofs \
+  --disable-pam \
   --with-sys-screenrc="$butch_prefix"/etc/screenrc $xconfflags
 
 cat << EOF >> config.h
