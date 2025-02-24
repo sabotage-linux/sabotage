@@ -5,7 +5,7 @@ https://github.com/icculus/SDL_sound/archive/da0cecd33a39a16a84fb860e538e76e2705
 filesize=394668
 sha512=b37ec7cc265a0242ec01982f0a63f641f27ff6c389cd71a9a435047ba9269807967f88b38fd5e6c5589ab1797e833cf7cd109c00b927408a095bd200b2ec734f
 tarball=SDL_sound-da0cecd33a39a16a84fb860e538e76e270589167.tar.gz
-pkgver=3
+pkgver=4
 
 [deps]
 sdl2
@@ -16,6 +16,8 @@ cmake
 
 [build]
 patch -p1 < "$K"/sdl2-sound-midi.patch
+patch -p1 < "$K"/sdl2-sound-crash.patch
+
 sed 's|FILES SDL_sound.h DESTINATION include|FILES src/SDL_sound.h DESTINATION include/SDL2|' -i CMakeLists.txt
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
