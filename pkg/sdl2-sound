@@ -1,11 +1,10 @@
 [mirrors]
-https://github.com/icculus/SDL_sound/archive/da0cecd33a39a16a84fb860e538e76e270589167.tar.gz
+https://github.com/icculus/SDL_sound/releases/download/v2.0.4/SDL2_sound-2.0.4.tar.gz
 
 [vars]
-filesize=394668
-sha512=b37ec7cc265a0242ec01982f0a63f641f27ff6c389cd71a9a435047ba9269807967f88b38fd5e6c5589ab1797e833cf7cd109c00b927408a095bd200b2ec734f
-tarball=SDL_sound-da0cecd33a39a16a84fb860e538e76e270589167.tar.gz
-pkgver=4
+filesize=460808
+sha512=63bcd55498ab209b65c276ab450811e82a56ba8078d2ca895d69cb8b53524e588c1bfdfda71a43c1147eda1a577f46ff390bdc4f3a5a4a41aa0e123579d927d0
+pkgver=5
 
 [deps]
 sdl2
@@ -15,9 +14,6 @@ alsa-lib
 cmake
 
 [build]
-patch -p1 < "$K"/sdl2-sound-midi.patch
-patch -p1 < "$K"/sdl2-sound-crash.patch
-
 sed 's|FILES SDL_sound.h DESTINATION include|FILES src/SDL_sound.h DESTINATION include/SDL2|' -i CMakeLists.txt
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
@@ -47,3 +43,18 @@ cmake $xconfflags \
   ..
 make -j$MAKE_THREADS VERBOSE=1
 make DESTDIR="$butch_install_dir" install
+dest="$butch_install_dir""$butch_prefix"
+cat << EOF > s.pc
+prefix=$butch_prefix
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: SDL2_sound
+Description: sound loading library for Simple DirectMedia Layer
+Version: 2.0.4
+Requires: sdl2 >= 2.0.8
+Libs: -L\${libdir} -lSDL2_sound
+Cflags: -I\${includedir}/SDL2
+EOF
+install -Dm 644 s.pc "$dest"/lib/pkgconfig/SDL2_sound.pc
