@@ -5,9 +5,8 @@ BEGIN {
 	if (!ENVIRON["S"]) {
 		error("$S is not set. be sure to source config: . ./config")
 	}
-	if (ARGC<2) {
-		error("please provide one or more packages to print the build order for.")
-	}
+	if (ARGC<2) usage()
+
 	if(norecurse!=1) dorecurse=1
 	debugmode=ENVIRON["DEBUG"]
 	if(!ENVIRON["DEPS"]) ENVIRON["DEPS"]="all"
@@ -35,6 +34,20 @@ function error(msg) {
 	eprint("error: " msg)
 	exit 1
 }
+function usage() {
+	eprint("usage: butch-deps [OPTIONS] pkg [pkg2...pkgN]")
+	eprint("print dependencies for pkg(s) in build order")
+	eprint("")
+	eprint("options:")
+	eprint("-v exclusive=1 print deps, but not the pkg itself")
+	eprint("-v norecurse=1 don't recurse into deps")
+	eprint("")
+	eprint("influential environment variables:")
+	eprint("S   : sabotage source dir containing pkg/")
+	eprint("DEPS: colon-separated list of dependency sections")
+	exit 1
+}
+
 function has_alternative_provider_dep(pkg,         i,pd) {
 	pd = "deps." pkg ".";
 	for(i in DEPTYPES) {
@@ -84,8 +97,8 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 	if(SEEN[pkg]) {
 		error("circular dependency detected for " pkg ".")
 	}
-	print pkg
 	SEEN[pkg]=1
 	close(pkgFile)
 	recursion--
+	if(!(exclusive == 1 && recursion == 0)) print pkg
 }
