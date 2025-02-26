@@ -2,7 +2,7 @@
 # use: setup-rootfs.sh [no args, uses $H/config]
 # used for cross-compilation
 # this prepares a chroot-like directory containing the root file system
- 
+
 export H="$PWD"
 [ -z "$CONFIG" ] && CONFIG=./config
 . "$CONFIG"
@@ -26,7 +26,7 @@ set -e
 mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 
 cd "$R"
-mkdir -p boot bin dev etc home lib mnt proc root share srv src sys tmp var
+mkdir -p boot bin dev etc home lib libexec mnt proc root share srv src sys tmp var
 mkdir -p src/logs src/build src/tarballs src/pkg src/KEEP
 mkdir -p var/log/sshd var/log/crond var/log/dmesg
 mkdir -p var/empty var/service var/lib var/run var/spool/cron/crontabs
