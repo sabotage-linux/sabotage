@@ -1,5 +1,6 @@
 #define _GNU_SOURCE /* for struct dirent d_type values */
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -16,6 +17,9 @@ static char* staging_dir;
 static char* R;
 static char* prefix;
 
+#define errorp(F, FMT, ...) fprintf(stderr, F ": " FMT " (%s)\n", __VA_ARGS__, strerror(errno))
+#define makedir(X) mkdir(X, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)
+
 static int isdir(char*fn) {
 	DIR *d = opendir(fn);
 	if(!d) return 0;
@@ -24,8 +28,8 @@ static int isdir(char*fn) {
 }
 
 static int linkdir(char*src, char*dst, char*back_src) {
-	if(!isdir(dst) && mkdir(dst, 0644)) {
-		perror("mkdir");
+	if(!isdir(dst) && makedir(dst)) {
+		errorp("mkdir", "%s", dst);
 		return 1;
 	}
 	int ret = 0;
@@ -62,7 +66,7 @@ static int linkdir(char*src, char*dst, char*back_src) {
 			if(verbose) fprintf(stdout, "linking %s -> %s\n", bfull, dfull);
 
 			if(symlink(bfull, dfull)) {
-				perror("symlink");
+				errorp("symlink", "%s -> %s", bfull, dfull);
 				ret |= 1;
 			}
 		} else {
@@ -162,8 +166,8 @@ static int copylink(char* src, char* dst) {
 
 static int copydir(char *src, char *dst) {
 	int ret = 0;
-	if(!isdir(dst) && mkdir(dst, 0644)) {
-		perror("mkdir");
+	if(!isdir(dst) && makedir(dst)) {
+		errorp("mkdir", "%s", dst);
 		return 1;
 	}
 	DIR *dir = opendir(src);
@@ -222,12 +226,12 @@ static int linktree_i(char *srcp, char *dstp, int docopy) {
 	if(!(src = realpath(srcp, NULL))) return 1;
 	if(!(dst = realpath(dstp, NULL))) {
 		fprintf(stderr,
-			"warning: creating base directory %s"
-			"this directory is supposed to exist already."
-			"fix its permissions after this task."
+			"warning: creating base directory %s\n"
+			"this directory is supposed to exist already.\n"
+			"fix its permissions after this task.\n"
 			, dstp);
-		if(mkdir(dst, 0644)) {
-			perror("mkdir");
+		if(makedir(dstp)) {
+			errorp("mkdir", "%s", dstp);
 			return 1;
 		}
 		if(!(dst = realpath(dstp, NULL)))
