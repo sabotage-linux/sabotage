@@ -10,7 +10,7 @@ desc='terminal multiplexer'
 [deps]
 
 [build]
-sed -e 's;[-]chown;#-chown;' -i Makefile.in
+sed -e 's;[-]chown;#-chown;' -e 's;-std=c17;-std=gnu99;' -i Makefile.in
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 LIBS=-lterminfo \
