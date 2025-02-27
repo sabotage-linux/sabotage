@@ -472,7 +472,7 @@ if $have_files ; then
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into butch_prefix
 		printf "%s: linking into rootfs...\n" "$(timestamp)"
-		"$K"/bin/butch-relocate "$butch_package_name"
+		"$K"/bin/butch relocate "$butch_package_name"
 		printf "%s: done\n" "$(timestamp)"
 	fi
 
