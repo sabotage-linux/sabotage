@@ -26,7 +26,7 @@ set -e
 mkdir -p "$K" "$C" "$S" "$R" "$LOGPATH"
 
 cd "$R"
-mkdir -p boot bin dev etc home lib libexec mnt proc root share srv src sys tmp var
+mkdir -p boot bin dev etc home include lib libexec mnt proc root share srv src sys tmp var
 mkdir -p src/logs src/build src/tarballs src/pkg src/KEEP
 mkdir -p var/log/sshd var/log/crond var/log/dmesg
 mkdir -p var/empty var/service var/lib var/run var/spool/cron/crontabs
