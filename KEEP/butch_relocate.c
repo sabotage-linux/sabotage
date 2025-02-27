@@ -35,7 +35,7 @@ static int linkdir(char*src, char*dst, char*back_src) {
 	int ret = 0;
 	DIR *dir = opendir(src);
 	if(!dir) {
-		fprintf(stderr, "error: failed to open dir %s\n", src);
+		errorp("opendir", "%s", src);
 		return 1;
 	}
 	struct dirent *ent;
@@ -171,6 +171,10 @@ static int copydir(char *src, char *dst) {
 		return 1;
 	}
 	DIR *dir = opendir(src);
+	if(!dir) {
+		errorp("opendir", "%s", src);
+		return 1;
+	}
 	struct dirent *ent;
 	while((ent = readdir(dir))) {
 		char *ibas = ent->d_name;
