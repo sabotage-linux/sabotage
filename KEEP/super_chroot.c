@@ -21,7 +21,7 @@ static void bindmount2(char *src, char*dst, int flags) {
 static void bindmount1(char *exp, int flags) {
 	char *p = strchr(exp, ':');
 	if(!p) {
-		fprintf(stderr, "missing : char in expression\n");
+		fprintf(stderr, "missing : char in expression %s\n", exp);
 		exit(1);
 	}
 	*p = 0;
@@ -41,7 +41,6 @@ static int usage(void) {
 	return 1;
 }
 
-#define MAXBINDS 16
 #ifdef __GLIBC__
 #define CRUX "+"
 #else
@@ -51,16 +50,9 @@ static int usage(void) {
 int main(int argc, char **argv)
 {
 	int c, a;
-	static char* binds[MAXBINDS];
-	int bindc = 0;
 
 	while((c = getopt(argc, argv, CRUX ":b:")) != -1) switch (c) {
 	case 'b':
-		binds[bindc++] = optarg;
-		if(bindc == MAXBINDS) {
-			fprintf(stderr, "number of binds exceeds MAXBINDS\n");
-			exit(1);
-		}
 		break;
 	default:
 		return usage();
@@ -93,8 +85,11 @@ int main(int argc, char **argv)
 	bindmount2("/dev", "./dev", MS_REC);
 	bindmount2("/proc", "./proc", MS_REC);
 
-	for(c = 0; c < bindc; ++c)
-		bindmount1(binds[c], 0);
+	/* this is safe for as long as -b is the only option we support. */
+	for(c = 1; c < a; ++c) {
+		if(argv[c][0] == '-' && argv[c][1] == 'b') continue;
+		bindmount1(argv[c], 0);
+	}
 
 	chk(chroot("."));
 
