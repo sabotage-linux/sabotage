@@ -5,7 +5,8 @@ http://downloads.sourceforge.net/project/lxde/lxde-common%20%28default%20config%
 filesize=889656
 sha512=f5a14c44d827ba2355efd10c78732157f5645392ebbeb8e2a8126340a36eeba2842eff0c5338bb36623e5fe2da894c89d60a45c0b177704e2260413d63232b05
 
-[deps]
+[deps.host]
+gettext
 
 [build]
 . "$K"/intltool-fix

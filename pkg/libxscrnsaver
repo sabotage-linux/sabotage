@@ -10,6 +10,7 @@ pkgver=2
 [deps]
 xproto
 libx11
+libxext
 xextproto
 scrnsaverproto
 

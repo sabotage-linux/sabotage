@@ -11,6 +11,9 @@ pkgver=2
 xproto
 xtrans
 
+[deps.host]
+pkg-config
+
 [build]
 cp -f "$K"/config.sub .
 xconfflags="--build=$($CC -dumpmachine)"

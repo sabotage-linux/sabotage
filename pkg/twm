@@ -16,6 +16,7 @@ libxext
 libice
 libsm
 libxt
+libxdmcp
 
 [build]
 cp -f "$K"/config.sub .

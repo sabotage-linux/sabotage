@@ -10,6 +10,8 @@ desc='plugin that opens obconf inside lxappearance'
 [deps]
 lxappearance
 openbox
+libsm
+libice
 
 [build]
 . "$K"/intltool-fix

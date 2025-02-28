@@ -11,6 +11,7 @@ pkgver=3
 xproto
 libx11
 videoproto
+libxext
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

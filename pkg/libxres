@@ -11,6 +11,7 @@ pkgver=2
 resourceproto
 xproto
 libx11
+libxext
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -8,6 +8,9 @@ sha512=ed3aae4a44849c11ce041df53d47667606dba5357059c13d5c0989205df57dfa626598db6
 [deps]
 xproto
 
+[deps.host]
+pkg-config
+
 [build]
 
 [ -n "$CROSS_COMPILE" ] && \

@@ -11,6 +11,8 @@ pkgver=2
 recordproto
 xproto
 libx11
+libxext
+libxi
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

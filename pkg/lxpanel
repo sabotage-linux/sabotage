@@ -1,4 +1,3 @@
-
 [mirrors]
 http://downloads.sourceforge.net/project/lxde/LXPanel%20%28desktop%20panel%29/LXPanel%200.10.x/lxpanel-0.10.1.tar.xz
 
@@ -16,6 +15,7 @@ wireless-tools
 keybinder
 libfm
 curl
+libxres
 
 [build]
 . "$K"/intltool-fix

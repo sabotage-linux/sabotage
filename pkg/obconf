@@ -12,6 +12,8 @@ openbox
 libstartup-notification
 gtk+2
 libglade
+libsm
+libice
 
 [build]
 cp -f "$K"/config.sub .

@@ -9,6 +9,9 @@ pkgver=2
 [deps]
 libc
 
+[deps.host]
+m4
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

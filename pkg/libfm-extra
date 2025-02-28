@@ -3,9 +3,11 @@ tarball=libfm-1.2.4.tar.xz
 
 [deps]
 libfm-tarball
+glib
 
 [deps.host]
 pkgconf
+gettext
 
 [build]
 . "$K"/intltool-fix

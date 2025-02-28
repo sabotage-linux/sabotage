@@ -8,8 +8,12 @@ pkgver=2
 
 [deps]
 faenza-audio-icons
+gtk+2
 
 [build]
+# FIXME the gtk+2 dep is only due to gtk-update-icon-cache at the end
+# which should ideally be done as a post-install hook
+
 CFLAGS=-D_GNU_SOURCE ./configure -C --prefix="$butch_prefix"
 sed -i 's@--no-preserve=ownership@@g' Makefile
 

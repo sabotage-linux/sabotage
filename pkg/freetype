@@ -8,6 +8,7 @@ pkgver=8
 
 [deps]
 zlib
+bzip2
 libpng
 
 [build]

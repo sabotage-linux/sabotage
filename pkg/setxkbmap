@@ -10,6 +10,7 @@ pkgver=2
 [deps]
 libxkbfile
 libx11
+libxrandr
 
 [build]
 cp -f "$K"/config.sub .

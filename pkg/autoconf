@@ -8,6 +8,7 @@ desc="tool for producing configure scripts"
 
 [deps.host]
 perl
+m4
 
 [build]
 printf "all:\n\ttrue\n\ninstall:\n\ttrue\n\n" > tests/Makefile.in

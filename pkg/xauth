@@ -12,6 +12,7 @@ libx11
 libxext
 libxmu
 libxau
+libxdmcp
 
 [build]
 cp -f "$K"/config.sub .
