@@ -1,10 +1,11 @@
 [mirrors]
-http://www.dillo.org/download/dillo-3.0.3.tar.bz2
+https://github.com/dillo-browser/dillo/releases/download/v3.2.0/dillo-3.2.0.tar.bz2
 
 [vars]
-filesize=685824
-sha512=6feabc19b31deb099bc974be28e009b688338b7cf726e2c7d917cfa07e2c28bfba3ef09be9427e5156bf195623516ce81f8b8ef3c5c426bfac7de505c70a5ef8
-pkgver=3
+filesize=1093734
+sha512=d797dd24c7312ad607c1d8e7fe2153860eaf1bb2146108a183ad788ea59319ec11d2160b9a7cca673f3d04474121b57d8dfa73bf3921daebe601794b8cbdea09
+pkgver=4
+desc='lightweight browser for HTML4 websites'
 
 [deps]
 fltk13
@@ -19,7 +20,7 @@ libxinerama
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags -fcommon" \
   ./configure -C --prefix="$butch_prefix" \
-  --enable-ssl
+  --enable-tls
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
 
