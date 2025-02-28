@@ -10,6 +10,7 @@ pkgver=1
 gtk+2
 libxinerama
 libsm
+libxxf86vm
 
 [build]
 cp -f "$K"/config.sub .

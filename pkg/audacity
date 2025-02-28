@@ -10,8 +10,13 @@ desc="audio editor and recording app written in C++"
 [deps]
 libsndfile
 libsamplerate
+libogg
+libvorbis
 wxgtk
 expat
+
+[deps.host]
+pkg-config
 
 [build]
 for i in . lib-src/sbsms lib-src/portaudio-v19 lib-src/libresample ; do

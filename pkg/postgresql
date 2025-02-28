@@ -12,6 +12,7 @@ serviceflags="--down --log"
 
 [deps.host]
 python
+perl
 
 [deps]
 libressl

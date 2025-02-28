@@ -9,6 +9,7 @@ desc='library for r/w of structured files (filesystem-in-a-file)'
 
 [deps]
 libxml2
+bzip2
 glib
 gdk-pixbuf
 

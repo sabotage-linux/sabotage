@@ -11,6 +11,7 @@ pkgver=2
 [deps.host]
 autoconf
 automake
+libtool
 
 [build]
 # patches from debian rev -10

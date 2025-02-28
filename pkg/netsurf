@@ -20,6 +20,7 @@ liblcms
 perl
 perl5-HTML-Parser
 flex
+bison
 gperf
 
 [build]

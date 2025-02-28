@@ -10,6 +10,11 @@ pkgver=3
 fltk13
 libpng
 libressl
+freetype
+libxext
+libxft
+fontconfig
+libxinerama
 
 [build]
 CFLAGS="-D_GNU_SOURCE $optcflags -fcommon" \
