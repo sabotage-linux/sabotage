@@ -1,11 +1,11 @@
 [mirrors]
-http://fltk.org/pub/fltk/1.3.2/fltk-1.3.2-source.tar.gz
+https://github.com/fltk/fltk/releases/download/release-1.3.11/fltk-1.3.11-source.tar.bz2
 
 [vars]
-filesize=4260874
-sha512=9372a34d8dfc4b4ece7632683c1c92f9ea9e538ba6eec08bec69615e2b2c885957d229a5ec495830f673b6a059f55a94b61727e8eb1fb7b3bd37005dc0b8312e
-tardir=fltk-1.3.2
-pkgver=2
+filesize=4776421
+sha512=9d6a2248f39e2a0199e3fbf0eaae9b76515ebd915e93fd4cb4abaaece84bd005dc2ca39bb6ed9d7998e637f47169f5dff0a1d310cf92040ef645e4bc006ef4d3
+tardir=fltk-1.3.11
+pkgver=3
 
 [deps.host]
 libstdc++
@@ -17,7 +17,6 @@ alsa-lib
 libx11
 
 [build]
-patch -p1 < "$K"/fltk-fontcrash.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \
   --with-sysroot=$butch_root_dir"
