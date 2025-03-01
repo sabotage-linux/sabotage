@@ -12,6 +12,7 @@ queue-h
 
 [build]
 patch -p1 < "$K"/libtirpc-musl.patch
+sed -e 's;bits/endian.h;endian.h;' -i src/xdr_float.c
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
