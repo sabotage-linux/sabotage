@@ -4,7 +4,7 @@ https://github.com/dillo-browser/dillo/releases/download/v3.2.0/dillo-3.2.0.tar.
 [vars]
 filesize=1093734
 sha512=d797dd24c7312ad607c1d8e7fe2153860eaf1bb2146108a183ad788ea59319ec11d2160b9a7cca673f3d04474121b57d8dfa73bf3921daebe601794b8cbdea09
-pkgver=4
+pkgver=5
 desc='lightweight browser for HTML4 websites'
 
 [deps]
@@ -23,17 +23,3 @@ CFLAGS="-D_GNU_SOURCE $optcflags -fcommon" \
   --enable-tls
 make -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
-
-dest="$butch_install_dir""$butch_prefix"
-mkdir -p "$dest"/share/applications/
-cat << EOF > "$dest"/share/applications/dillo.desktop
-[Desktop Entry]
-Name=Dillo
-Comment=Web Browser
-Exec=dillo
-Icon=dillo
-MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
-Terminal=false
-Type=Application
-Categories=GTK;Network;WebBrowser;
-EOF
