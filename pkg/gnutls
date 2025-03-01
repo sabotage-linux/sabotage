@@ -13,6 +13,9 @@ desc='C library implementing the SSL, TLS and DTLS protocols'
 libnettle
 libtasn1
 
+[deps.host]
+pkg-config
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

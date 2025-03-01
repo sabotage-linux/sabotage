@@ -11,6 +11,10 @@ desc='small device C compiler, targetting 8bit cpus like Z80'
 [deps]
 boost
 
+[deps.host]
+bison
+flex
+
 [build]
 #fix missing "makeinfo" requirement...
 find . -name 'configure' -exec sed -i 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=true,' '{}' \;

@@ -1,16 +1,17 @@
+[mirrors]
+http://archive.apache.org/dist/apr/apr-util-1.4.1.tar.bz2
+
+[vars]
+filesize=635000
+sha512=2893c8fc14e35d8016c69d36c05712f6f67acade2cf3079954a5626a15ad50ccf88b6e5d9a7458479fea8dfc9f4c8eaf53e5c343c80692208a4edb768d45a9ba
+
 [deps]
 apr
 libc
 
 [deps.host]
 pkgconf
-
-[vars]
-filesize=635000
-sha512=2893c8fc14e35d8016c69d36c05712f6f67acade2cf3079954a5626a15ad50ccf88b6e5d9a7458479fea8dfc9f4c8eaf53e5c343c80692208a4edb768d45a9ba
-
-[mirrors]
-http://archive.apache.org/dist/apr/apr-util-1.4.1.tar.bz2
+bash
 
 [build]
 cat << EOF > apr-1-config
@@ -29,7 +30,8 @@ chmod +x apr-1-config
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --with-apr="$PWD/apr-1-config" \
-  --disable-util-dso
+  --disable-util-dso \
+  --without-pgsql
 echo '#define APR_HAVE_CRYPT_H 1' >> include/private/apu_config.h
 "$K"/libtool.cross.gen --sysroot="$butch_root_dir"
 make CC="$CC" -j$MAKE_THREADS LIBTOOL=$PWD/libtool

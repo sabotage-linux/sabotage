@@ -8,6 +8,7 @@ sha512=71d495c02ea478b8632c177cef8605d23377e2da2c56dd3a1fa59f9a2d01cc642d4d9dc38
 [deps]
 libpng
 fontconfig
+harfbuzz
 fribidi
 
 [build]

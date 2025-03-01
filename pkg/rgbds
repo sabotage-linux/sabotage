@@ -8,8 +8,12 @@ pkgver=1
 tardir=rgbds
 desc='rednex gameboy development system assembly toolchain'
 
+[deps]
+libpng
+
 [deps.host]
 bison
+pkg-config
 
 [build]
 mk_target() {

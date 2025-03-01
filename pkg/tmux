@@ -13,6 +13,9 @@ desc='terminal multiplexer, similar to GNU screen but with more features'
 libevent
 curses
 
+[deps.host]
+pkg-config
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"

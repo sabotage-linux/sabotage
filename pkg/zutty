@@ -11,6 +11,7 @@ desc='opengl accelerated terminal with bitmap fonts, xrdb, and x11 selection'
 [deps]
 libxmu
 freetype
+mesalib
 
 [deps.host]
 python

@@ -15,6 +15,7 @@ readline
 
 [deps.host]
 cmake
+pkg-config
 
 [build]
 sed -i 's;#include <fcntl.h>;#include <fcntl.h>\n#include <pthread.h>;' src/Mayaqua/Network.c

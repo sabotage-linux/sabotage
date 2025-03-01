@@ -7,7 +7,14 @@ sha512=c6031844d3a197b234cb1b22166c02fe8d03f8a8def836b8c974324a0b6b4538896800114
 pkgver=1
 
 [deps]
+libx11
+libxcb
+xcb-util
 queue-h
+
+[deps.host]
+m4
+pkg-config
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -6,6 +6,9 @@ filesize=45673
 sha512=9cca5fddbcc4025c2bbe043e3367ac902d0024a34301258dafcf0de70935c055279d88227168d112d0e4c0dc37f1f49e1ea587bd6bddf0b9d92400657bc7be08
 pkgver=1
 
+[deps.host]
+cmake
+
 [build]
 #mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do

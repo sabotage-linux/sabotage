@@ -11,6 +11,9 @@ desc='reverse engineering and (dis)assembling framework'
 [deps]
 capstone
 
+[deps.host]
+pkg-config
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

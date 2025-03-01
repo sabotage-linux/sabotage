@@ -13,6 +13,9 @@ libc
 libressl
 libevent
 
+[deps.host]
+pkg-config
+
 [build]
 patch -p1 < "$K"/transmission-dht-spam.patch
 

@@ -8,8 +8,12 @@ pkgver=1
 tarball=jp2a-1.0.7.tar.gz
 desc='small utility to convert jpg images to ascii'
 
+[deps]
+libjpeg
+
 [deps.host]
 autoconf
+automake
 
 [build]
 autoreconf -i

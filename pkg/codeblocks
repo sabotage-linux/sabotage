@@ -10,6 +10,9 @@ desc='relatively lightweight IDE for C/C++ with code completion etc'
 [deps]
 wxgtk
 
+[deps.host]
+zip
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

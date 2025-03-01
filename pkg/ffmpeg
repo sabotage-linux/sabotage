@@ -12,6 +12,12 @@ libvorbis
 libflac
 libopus
 libressl
+libxv
+sdl2
+xz
+
+[deps.host]
+pkg-config
 
 [build]
 # note: FFPLAY tool will only be built if SDL2 is installed!

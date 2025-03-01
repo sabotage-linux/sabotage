@@ -13,6 +13,9 @@ libyajl
 libcap2
 alsa-lib
 
+[deps.host]
+pkg-config
+
 [build]
 patch -p1 < "$K"/i3status.patch
 dest="$butch_install_dir""$butch_prefix"

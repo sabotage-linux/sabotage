@@ -7,6 +7,9 @@ sha512=e101147b496ae70118c2756bf120007d4748aad9d9917d9ebc0878ffaf35764500861c548
 pkgver=1
 
 [deps]
+libx11
+libxrandr
+libxcursor
 libtasn1
 gnutls
 

@@ -11,6 +11,7 @@ desc='interpreter for the ruby scripting language'
 zlib
 libressl
 gdbm
+gmp
 
 [build]
 patch -p0 < "$K"/ruby-libressl.patch

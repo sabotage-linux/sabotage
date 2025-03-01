@@ -8,6 +8,7 @@ desc="utilities shipped with bind, the most widely used DNS server"
 pkgver=2
 
 [deps]
+libressl
 
 [build]
 patch -p1 < "$K"/bindutils-catgets.patch
@@ -19,6 +20,7 @@ CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" $xconfflags \
   --without-readline \
+  --disable-symtable \
   --without-libjson \
   --with-openssl="$butch_root_dir""$butch_prefix" \
   --with-ecdsa=yes --with-gost=no --with-randomdev=/dev/urandom

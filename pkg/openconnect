@@ -11,6 +11,10 @@ desc="Open client for Cisco AnyConnect VPN, and more."
 
 [deps]
 vpnc-scripts-tarball
+libxml2
+
+[deps.host]
+pkg-config
 
 [build]
 patch -p1 < "$K"/openconnect-libressl.patch

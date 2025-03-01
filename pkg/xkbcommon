@@ -6,6 +6,13 @@ filesize=622384
 sha512=9f209214d5d7f9334cabb2cd7e0d9b9b0392c1fae06b60e92a03398875399fe48754b543389f78b8b06dd28a86dfd440720e534bae309ca8ef882eb874dce4e1
 pkgver=1
 
+[deps]
+libxcb
+util-macros
+
+[deps.host]
+bison
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

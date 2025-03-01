@@ -9,6 +9,8 @@ pkgver=1
 desc='freedos plus plus, a dos bios hack for use in dosemu2 emulator'
 
 [deps.host]
+autoconf
+bash
 flex
 bison
 nasm
@@ -16,6 +18,7 @@ llvm-clang601
 nl
 
 [deps]
+libelf
 
 [build]
 # warning: builds, but something is wrong in the generated bios elf file

@@ -8,6 +8,8 @@ pkgver=16
 desc='game-focused library to access input and output devices on various platforms'
 
 [deps]
+libx11
+libxext
 
 [build]
 patch -p1 < "$K"/sdl2-fix-joystick-detection.patch

@@ -17,6 +17,7 @@ lua52
 
 [deps.host]
 python
+pkg-config
 
 [build]
 patch -p1 < "$K"/mpv-29-alsa-spam.patch

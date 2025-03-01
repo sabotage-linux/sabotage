@@ -7,6 +7,7 @@ sha512=5025ccd7699ac1a0fdbd8b18ed8b33ea89230158320d809ec51e73f831100db75dceaddde
 pkgver=1
 
 [deps]
+libblkid
 libtirpc
 rpcsvc-proto
 

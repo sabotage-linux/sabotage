@@ -9,6 +9,7 @@ tarball=bspwm-0.9.10.tar.gz
 
 [deps]
 sxhkd
+xcb-util-wm
 
 [build]
 mkt() {

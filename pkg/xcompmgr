@@ -8,6 +8,10 @@ pkgver=1
 
 [deps]
 libxcomposite
+libxfixes
+libxdamage
+libxrender
+libxext
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

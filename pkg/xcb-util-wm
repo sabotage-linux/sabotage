@@ -8,6 +8,9 @@ http://xcb.freedesktop.org/dist/xcb-util-wm-0.3.9.tar.bz2
 [deps]
 libxcb
 
+[deps.host]
+m4
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine|sed 's/musl/gnu/') \

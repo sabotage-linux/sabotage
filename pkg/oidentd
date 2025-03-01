@@ -9,6 +9,10 @@ service=oidentd
 serviceflags="--down --log"
 desc='Flexible, RFC 1413 compliant Ident daemon with NAT support.'
 
+[deps.host]
+flex
+bison
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine)"

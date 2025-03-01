@@ -10,6 +10,7 @@ pkgver=2
 libx11
 libxext
 libxmu
+libxdmcp
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \

@@ -7,6 +7,7 @@ sha512=d2688b6777c09c213e1f6800c67bca6905ac9a0161480e7c167583322a64be086bb47f145
 pkgver=1
 
 [deps]
+alsa-lib
 
 [build]
 #patch -p1 < "$K"/some.patch

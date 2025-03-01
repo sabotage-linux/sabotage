@@ -6,6 +6,12 @@ filesize=121592
 sha512=5e46713653f1c50676381aebe6bcb0adaa4c5d51217f54a3e73fec69a3f201871f0d3b65759e30bd871f439eb3ccf037203d5efc9b26a60a4f6fa02d0ffdca41
 pkgver=1
 
+[deps]
+libx11
+
+[deps.host]
+pkg-config
+
 [build]
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \

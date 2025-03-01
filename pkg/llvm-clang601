@@ -8,12 +8,14 @@ pkgver=1
 
 [deps]
 libffi
+libxml2
 clang-tarball-601
 clang-tools-extra-tarball-601
 compiler-rt-tarball-601
 
 [deps.host]
 cmake
+python
 
 [build]
 VER=6.0.1

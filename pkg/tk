@@ -10,6 +10,10 @@ desc='graphical toolkit to create gui apps with the TCL scripting language'
 [deps]
 tcl
 libx11
+libxft
+fontconfig
+libxscrnsaver
+libxext
 
 [build]
 cd unix
