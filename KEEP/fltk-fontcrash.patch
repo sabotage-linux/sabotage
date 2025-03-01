@@ -1,0 +1,13 @@
+diff --git a/src/fl_set_fonts_xft.cxx b/src/fl_set_fonts_xft.cxx
+index dbaf1b9..8c13897 100644
+--- a/src/fl_set_fonts_xft.cxx
++++ b/src/fl_set_fonts_xft.cxx
+@@ -82,7 +82,7 @@ static void make_raw_name(char *raw, char *pretty)
+   //   italic, bold, bold italic or normal - this seems to be the fltk way...
+ 
+   char *style = strchr(pretty, ':');
+-  char *last = style + strlen(style) - 2;
++  char *last = style ? style + strlen(style) - 2 : 0;
+ 
+   if (style)
+   {
