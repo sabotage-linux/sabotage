@@ -8,7 +8,7 @@ pkgver=2
 desc='tool to manipulate iso filesystems and to burn cds, dvds, etc'
 
 [deps]
-libz
+zlib
 
 [build]
 cp -f "$K"/config.sub .

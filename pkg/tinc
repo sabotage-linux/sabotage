@@ -10,7 +10,7 @@ desc='vpn daemon using encrypted tunnelling'
 [deps]
 lzo
 libressl
-libz
+zlib
 
 [build]
 #patch -p1 < "$K"/some.patch

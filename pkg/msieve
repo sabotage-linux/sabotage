@@ -10,7 +10,7 @@ desc='program to factor big integers'
 
 [deps]
 gmp
-libz
+zlib
 
 [build]
 make CC="$CC" OPT_FLAGS="$optcflags -O3 -fomit-frame-pointer -DNDEBUG" \

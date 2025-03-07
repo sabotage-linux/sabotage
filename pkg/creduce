@@ -16,7 +16,7 @@ perl5-Regexp-Common
 flex
 
 [deps]
-libz
+zlib
 llvm-clang601
 perl
 

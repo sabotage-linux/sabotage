@@ -9,7 +9,7 @@ pkgver=1
 desc='tool to convert apple compressed dmg archives to raw image files'
 
 [deps]
-libz
+zlib
 bzip2
 
 [build]

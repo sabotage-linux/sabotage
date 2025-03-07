@@ -10,7 +10,7 @@ desc='truetype font editor'
 
 [deps]
 freetype
-libz
+zlib
 pango
 libxml2
 glib

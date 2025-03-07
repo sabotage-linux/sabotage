@@ -10,7 +10,7 @@ pkgver=2
 
 [deps]
 curses
-libz
+zlib
 libressl
 pcre
 
