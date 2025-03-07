@@ -1,9 +1,11 @@
 [mirrors]
-http://sortix.org/libz/release/libz-1.2.8.2015.12.26.tar.gz
+https://pub.sortix.org/libz/libz-1.2.8.2025.03.07.tar.gz
 
 [vars]
-filesize=135668
-sha512=20398a642acef402d59301dbffb7c1864d28214f8dddcb5403ae50071b1ebd3c0dc1df5b0e567443ad3813ba9d11bd0da1eeb36db3dcafc48f098a6dd6cd5a54
+filesize=136508
+sha512=810808baff6cb29442c29c66f548a0c489e54f4cc6e40b86de013eb3bd1fe7910e81a7fd170ac7506f72644738fa29561fc1c9383a85adf2dcebca658b893dd5
+pkgver=2
+desc='fork of zlib attempting to simplify and modernize the codebase'
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
