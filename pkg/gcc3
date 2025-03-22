@@ -142,8 +142,8 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
   $config_arch_flags $cplusplus_confflags $xconfflags $config_stage0_flags
 
 GCC14_FIX=""
-if cc --version |grep -q GCC ; then
-  gcc_ver="$(cc --version |head -n1 |awk '{print $3}' |cut -d '.' -f1)"
+if $CC --version | grep GCC >/dev/null 2>&1 ; then
+  gcc_ver="$($CC --version |head -n1 |awk '{print $3}' |cut -d '.' -f1)"
   if [ "$gcc_ver" -ge 14 ] ; then
     GCC14_FIX="-Wno-implicit-int -Wno-incompatible-pointer-types"
   fi
