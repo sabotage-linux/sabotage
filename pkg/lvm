@@ -1,7 +1,5 @@
 [mirrors]
-ftp://sources.redhat.com/pub/lvm2/releases/LVM2.2.02.168.tgz
 http://mirrors.kernel.org/sources.redhat.com/lvm2/releases/LVM2.2.02.168.tgz
-ftp://mirrors.kernel.org/sources.redhat.com/lvm2/releases/LVM2.2.02.168.tgz
 
 [vars]
 filesize=2159438
@@ -31,7 +29,7 @@ done
 
 # since musl's BRE regex engine is now sufficiently glibc-compatible,
 # the versioning nonsense in the .export.sym linker script is now correctly
-# generated. needs rebuild of busybox against latest musl.
+# generated.
 
 # there is something fishy with install-sh, however it seems to work anyway:
 # http://www.redhat.com/archives/linux-lvm/2013-January/msg00038.html
