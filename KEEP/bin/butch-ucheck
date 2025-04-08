@@ -26,7 +26,7 @@ get_filesize() {
 get_chkurl() {
 local chkurl=
 tmp=$(mktemp -u).$$
-trap "rm -f $tmp" SIGINT SIGHUP SIGTERM
+trap "rm -f $tmp" INT HUP TERM
 butch printsec "$1" vars > $tmp
 grep uchkurl= < $tmp >/dev/null && . $tmp
 rm -f $tmp
