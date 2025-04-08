@@ -53,7 +53,19 @@ else
 	echo "creating filelist $fl"
 	exec 3>"$fl"
 fi
-cd "$butch_install_dir"
-find . -type f -or -type l >&3
+
+cd "$butch_install_dir" || {
+	echo "error: could not cd to $butch_install_dir" >&2
+	exit 1
+}
+tmp=$(mktemp -u).$$
+trap "rm -f $tmp" INT HUP TERM
+rc=1
+if find . -type f -or -type l > "$tmp" ; then
+	rc=0
+	sort -u < "$tmp" >&3
+fi
+rm -f "$tmp"
+exit $rc
 
 
