@@ -12,9 +12,19 @@ fi
 
 [ -z "$butch_filelists" ] && butch_filelists="$S"/filelists
 fl="$butch_filelists"/"$pkg".txt
+tmp=
 if [ ! -e "$fl" ] ; then
-	echo "filelist $fl does not exist, probably the program is not installed"
-	exit 1
+	echo "warning: filelist $fl does not exist, trying to create one on the fly.">&2
+	[ -z "$butch_staging_dir" ] && butch_staging_dir=/opt
+	pd="$R$butch_staging_dir/$pkg"
+	tmp=$(mktemp -u).$$
+	trap "rm -f $tmp" INT HUP TERM
+	fl="$tmp"
+	"$K"/bin/butch-genfilelist -D "$pd" - > "$fl" || {
+		rm -f "$fl"
+		echo "error: failed to regenerate temp filelist $fl from $pd.">&2
+		exit 1
+	}
 fi
 
 while read f ; do
@@ -24,3 +34,5 @@ while read f ; do
 		rm -f "$fs" && echo "$fs removed successfully"
 	fi
 done < "$fl"
+test -n "$tmp" && rm -f "$tmp"
+exit 0
