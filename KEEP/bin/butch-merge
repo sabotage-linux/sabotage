@@ -1,6 +1,8 @@
 #!/bin/sh
-[ -n "$CONFIG" ] && . $CONFIG
-[ -z "$S" ] && { "error: S not set" ; exit 1; }
+[ -z "$S" ] && {
+ [ -n "$CONFIG" ] && . "$CONFIG"
+ [ -z "$S" ] && { "error: S not set" ; exit 1; }
+}
 AWK=awk
 type awk >/dev/null 2>&1 || AWK="busybox awk"
 BINDIR=$(dirname $(readlink -f "$0"))
