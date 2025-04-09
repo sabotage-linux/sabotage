@@ -3,10 +3,25 @@ if [ -z "$S" ] ; then
 	echo 'S not set, did you source config ?'
 	exit 1
 fi
+
+force=false
+test "$1" = "-f" && { force=true ; shift ; }
+
 pkg=$1
-if [ -z "$pkg" ] ; then
-	echo 'this script unlinks all files installed by a package.'
-	echo 'need package name as argv!'
+if [ -z "$pkg" ] || [ "$1" = '--help' ] ; then
+	echo 'usage: butch unlink [-f] PKG'
+	echo
+	echo 'removes rootfs filesystem links of all files in package PKG.'
+	echo 'for example butch unlink patch will remove the symlink'
+	echo '/bin/patch -> ../opt/patch/bin/patch (same for other files).'
+	echo
+	echo 'if a symlink expected to belong to PKG is actually pointing to a'
+	echo 'file owned by another package, it will not be unlinked, unless'
+	echo '-f is passed.'
+	echo
+	echo '-f: force removal of symlinks, even if from another owner.'
+	echo 'e.g. /bin/wget could be owned by either wget or busybox.'
+	echo "(note: force is automatically enabled if there's no readlink cmd)"
 	exit 1
 fi
 
@@ -27,12 +42,28 @@ if [ ! -e "$fl" ] ; then
 	}
 fi
 
+# check whether we can use readlink, if not, fall back to "force" method.
+if ! $force ; then
+	type readlink >/dev/null 2>&1 || force=true
+fi
+
 while read f ; do
 	# remove leading "."
-	fs="${f##.}"
+	fp="${f##.}"
+	fs="$fp"
 	[ "$R" = "/" ] || fs="$R""$fs"
-	if [ -L "$fs" ] ; then
-		rm -f "$fs" && echo "$fs removed successfully"
+	if $force ; then
+		if [ -L "$fs" ] ; then
+			rm -f "$fs" && echo "$fs removed successfully"
+		fi
+	else
+		# we use readlink to both check whether something is a link, and what it points to
+		lnk=$(readlink "$fs")
+		test $? = 0 || continue
+		case "$lnk" in
+		../*/${pkg}${fp}) rm -f "$fs" && echo "$fs removed successfully" ;;
+		*) echo "skipping $fs" ;;
+		esac
 	fi
 done < "$fl"
 test -n "$tmp" && rm -f "$tmp"

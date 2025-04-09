@@ -140,7 +140,8 @@ if $butch_do_custom_destdir ; then
 		esac
 		rm -rf "$butch_custom_destdir"
 		if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
-			"$K"/bin/butch-unlink "$butch_package_name"
+			# use -f force option since we'd overwrite all links anyway
+			"$K"/bin/butch-unlink -f "$butch_package_name"
 			rm -f "$filelist"
 		fi
 	else
@@ -343,7 +344,7 @@ if test -n "$butch_install_dir_final" ; then
 	done < "$fl"
 	# overwrite filelist with files only in old dir, so butch unlink can remove stale links.
 	mv "$fl" "$filelist"
-	"$K"/bin/butch-unlink "$butch_package_name"
+	"$K"/bin/butch-unlink -f "$butch_package_name"
 
 	rm -f "$flold" "$flnew" "$filelist"
 	rm -rf "$butch_install_dir"
