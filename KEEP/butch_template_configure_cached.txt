@@ -311,12 +311,12 @@ $butch_do_custom_destdir || exit 0
 if test -n "$butch_install_dir_final" ; then
 	# swap out temporary builddir after the build succeeded, in case of no_unlink package.
 	flnew=$(mktemp)
-	"$K"/bin/butch-genfilelist -D "$butch_install_dir" - | sort -u > "$flnew"
+	"$K"/bin/butch-genfilelist -D "$butch_install_dir" - > "$flnew"
 	flold=$(mktemp)
 	if [ "$butch_do_filelists" ] && [ -e "$filelist" ] ; then
 		sort -u < "$filelist" > "$flold"
 	else
-		"$K"/bin/butch-genfilelist -D "$butch_install_dir_final" - | sort -u > "$flold"
+		"$K"/bin/butch-genfilelist -D "$butch_install_dir_final" - > "$flold"
 	fi
 	fl=$(mktemp)
 
