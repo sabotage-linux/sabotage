@@ -5,7 +5,7 @@ check_config(){
 	fi
 	return 0
 }
-BINDIR=$(dirname $(readlink -f "$0"))
+BINDIR="$(dirname $(readlink -f "$0"))"
 usage() {
 	echo "$0 - creates a checksum over all of the files of one package" >&2
 	echo "this serves as a unique fingerprint of a package and is used to" >&2
