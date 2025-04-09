@@ -10,13 +10,24 @@ tryconfig() {
 tryconfig "/src/config"
 
 if [ -z "$CONFIG" ] ; then
-	echo "error: CONFIG not set, and/or no config found in default path"
-	echo "default path is /src/config"
-	exit 1
+ echo "error: CONFIG not set, and/or no config found in default path">&2
+ echo "default path is /src/config">&2
+ exit 1
 fi
 
+if test -e "$CONFIG" ; then
 export CONFIG
 . "$CONFIG"
+else
+ # config may contain a typo or point to some rel path that changed after cd
+ echo "warning: CONFIG $CONFIG doesn't exist">&2
+ # if the following CONFIG-sourced variables are exported, continue anyway
+ if test -n "$S" && test -n "${R+set}" && test -n "$K" ; then :
+ else
+ echo "required variables S,R,K, etc not sourced, aborting">&2
+ exit 1
+ fi
+fi
 
 BINDIR=$(dirname "$(readlink -f "$0")")
 
