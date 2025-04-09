@@ -29,7 +29,17 @@ else
  fi
 fi
 
-BINDIR=$(dirname "$(readlink -f "$0")")
+thisbin="$(readlink -f "$0")"
+if test -z "$butch_no_redirect_wrapper" && test "$thisbin" != "$(readlink -f "$K"/bin/butch)" && test -x "$K"/bin/butch ; then
+# execute the butch program in KEEP/bin instead of this one, as it's either
+# the same version, or newer. in any case, it's the exact version expected
+# by the packages and templates in the repo clone.
+# set butch_no_redirect_wrapper=true in your CONFIG if you want to suppress this
+# we're setting it here ourselves to prevent potential infinite loops in the
+# new instance.
+butch_no_redirect_wrapper=true exec "$K"/bin/butch "$@"
+fi
+BINDIR="$(dirname "$thisbin")"
 
 # butch-core requires these paths
 [ ! -d $C ] && mkdir -p $C
