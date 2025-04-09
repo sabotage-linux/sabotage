@@ -1,4 +1,17 @@
 #!/bin/sh
+
+# NOTE: this template should only ever use butch commands using $K/bin
+# and not from PATH, so the template always uses the butch command versions
+# that correspond to the git commit used by the template, as newer butch
+# commands may evolve over time and behave differently as was expected
+# in the specific template revision.
+# Additionally, butch commands shall NOT use the butch wrapper, but the
+# subcommands direcly: i.e. $K/bin/butch-relocate, not $K/bin/butch relocate.
+# This is required because it's the sole responsibility of the butch wrapper
+# to process CONFIG, and do it once - doing it over and over could result
+# in relative CONFIG paths to be non-reachable after directory changes, or
+# worse, point to a different CONFIG file than is expected.
+
 timestamp() {
         date '+%Y-%m-%d %H:%M:%S'
 }
@@ -472,7 +485,7 @@ if $have_files ; then
 	if $butch_do_relocate ; then
 		# now we make a symlink from each file into butch_prefix
 		printf "%s: linking into rootfs...\n" "$(timestamp)"
-		"$K"/bin/butch relocate "$butch_package_name" || {
+		"$K"/bin/butch-relocate "$butch_package_name" || {
 			printf "error: relocation failed\n">&2
 			exit 1
 		}
