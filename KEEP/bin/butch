@@ -117,10 +117,7 @@ case $1 in
 	install-service) shift; prog=butch-install-service;;
 	unlink) shift ; prog=butch-unlink;; #remove links of pkg
 	rm) shift; prog=butch-rm;;
-	relink|relocate) shift;
-		test -e "$BINDIR"/butch-relocate-c && prog=butch-relocate-c || \
-		prog=butch-relocate
-		;;
+	relink|relocate) shift; prog=butch-relocate;; #relinks the pkg into /
 	relink-one|relocate-one) shift; prog=butch-relocate-one;;
 	install|prefetch|rebuild|update|outdated) : ;;
 	*) usage && exit 1;;
