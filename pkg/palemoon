@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/33.6.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/33.7.0_Release.tar.gz
 
 [vars]
-filesize=5607474
-sha512=50bd70b4739673af8d56e2e5ec6e0add4b4e44df4f9404f29875fd6c75b87970e2085ad42caccb842a064eb4a30b980412a147e80c1d30a1b86ec88d903b0499
-tarball=Pale-Moon-33.6.1_Release.tar.gz
+filesize=5607495
+sha512=00e5315b8e4ac4bb437e99724b5b275419ebd3b72bf6ec1e8f0e2539014f36f5adad9689945749ed12240cda2ac3b43147fcc5b7b04a2cd262172ea07820122e
+tarball=Pale-Moon-33.7.0_Release.tar.gz
 tardir=pale-moon
-pkgver=80
-BROWSER_VERSION=33.6.1
-UXP_VERSION=20250310
+pkgver=81
+BROWSER_VERSION=33.7.0
+UXP_VERSION=20250408
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
@@ -48,15 +48,15 @@ cat << EOF > mach
 platform/mach "\$@"
 EOF
 
-# ERROR: Only GCC 7.1 or newer is supported
-sed -i 's/7\.1\.0/1.0.0/' platform/build/moz.configure/toolchain.configure
+# ERROR: Only GCC 9.1 or newer is supported
+sed -i 's/9\.1\.0/1.0.0/' platform/build/moz.configure/toolchain.configure
 sed -i 's/^        if info.flags:/        if 0 and info.flags:/' platform/build/moz.configure/toolchain.configure
 
 # error: Unsupported GCC version.
 sed -i 's/ | 6\.\*//' platform/build/autoconf/compiler-opts.m4
 
-# error "mfbt (and Goanna) require at least gcc 7.1 to build."
-sed -i 's/MOZ_GCC_VERSION_AT_LEAST(7, 1, 0)/MOZ_GCC_VERSION_AT_LEAST(6, 0, 0)/' \
+# error "mfbt (and Goanna) require at least gcc 9.1 to build."
+sed -i 's/MOZ_GCC_VERSION_AT_LEAST(9, 1, 0)/MOZ_GCC_VERSION_AT_LEAST(6, 0, 0)/' \
   platform/mfbt/Compiler.h
 
 patch -p1 < "$K"/palemoon-no-xz.patch
