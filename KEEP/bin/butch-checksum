@@ -86,11 +86,11 @@ gethash() {
 prepare_xor_func() {
 	make_xor_c && return 2
 	AWK=awk
-	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
-	AWK=gawk -n
-	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
-	AWK=busybox awk
-	test "$(xor_awk f0 0e 2>&1)" = fe && return 1
+	test "$(xor_awk f0 0e 2>/dev/null)" = fe && return 1
+	AWK="gawk -n"
+	test "$(xor_awk f0 0e 2>/dev/null)" = fe && return 1
+	AWK="busybox awk"
+	test "$(xor_awk f0 0e 2>/dev/null)" = fe && return 1
 	#it's probably mawk then...
 	return 0
 }
@@ -117,7 +117,7 @@ rm /tmp/xor.$$.c
 return $ret
 }
 xor_awk() {
-echo $1 $2 | $AWK '{n=split($1,a,"");split($2,b,"");for(i=1;i<=n;i++){x1="0x" a[i];x2="0x" b[i];x=xor(x1,x2);printf("%x", x);}printf("\n");}'
+printf "%s %s\n" "$1" "$2" | $AWK '{n=split($1,a,"");split($2,b,"");for(i=1;i<=n;i++){x1="0x" a[i];x2="0x" b[i];x=xor(x1,x2);printf("%x", x);}printf("\n");}'
 }
 hex_to_dec() {
 printf "%d" 0x$1
@@ -155,10 +155,9 @@ if ! $dirmode ; then
 else
 	dest_dir="$pkg"
 fi
-IFS='
-'
-for f in `cat "$fl" | sort` ; do
-	fs=$(printf "%s\n" "$f" | sed 's,^.,,g')
+
+while read f ; do
+	fs="${f##.}"
 	sha=$(gethash "$dest_dir""$fs") || continue
 	test -z "$sha" && continue
 	printf "%s %s\n" "$sha" "$fs" >> "$tmpf"
@@ -166,8 +165,8 @@ for f in `cat "$fl" | sort` ; do
 		res=$(xor $res $sha)
 		cnt=$(($cnt + 1))
 	}
-done
-$xorsum && test "$awk_works" = 2 && rm /tmp/xor.$$.elf
+done < "$fl"
+$xorsum && test "$awk_works" = 2 && rm -f /tmp/xor.$$.elf
 $details && cat "$tmpf"
 $xorsum && echo ${cnt}-${res}
 
