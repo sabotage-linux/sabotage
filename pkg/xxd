@@ -1,0 +1,16 @@
+[mirrors]
+https://github.com/ckormanyos/xxd/archive/refs/tags/v1.2.tar.gz
+
+[vars]
+filesize=66468
+sha512=8f3909da99fb9cc258cf766eefedbeb864597eb6cc87a59a89b48037037efc8a113d59fa24b1a925360d89d093a8cad60fda249ae84f2093440627b262ed438d
+tarball=xxd-1.2.tar.gz
+pkgver=1
+desc='hexdump utility'
+
+[deps]
+
+[build]
+cd src
+$CC $optcflags xxd.c -o xxd $optldflags
+install -Dm 755 xxd "$butch_install_dir""$butch_prefix"/bin/xxd
