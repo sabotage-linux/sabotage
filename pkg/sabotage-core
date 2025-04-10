@@ -1,5 +1,5 @@
 [vars]
-pkgver=27
+pkgver=28
 no_unlink=1
 
 [build]
@@ -9,8 +9,10 @@ for i in "$K"/bin/*; do
 done
 cp -rf "$K"/share "$dest"
 
-for i in unlink ; do
-$CC $optcflags -Wall -std=gnu99 -o $i "$K"/$i.c -static $optldflags
-install -D -m 755 $i "$butch_install_dir""$butch_prefix"/bin/$i
+for p in unlink:unlink butch_relocate:butch-relocate-c ; do
+i=$(echo $p|cut -d : -f 1)
+o=$(echo $p|cut -d : -f 2)
+$CC $optcflags -Wall -std=gnu99 -o $o "$K"/$i.c -static $optldflags
+install -D -m 755 $o "$butch_install_dir""$butch_prefix"/bin/$o
 done
 

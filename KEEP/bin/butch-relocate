@@ -131,6 +131,29 @@ if [ -z "$1" ] ; then
 	exit 1
 fi
 
+test -n "${R+set}" || {
+	echo "error: R not set. make sure to run this via the butch wrapper">&2
+	exit 1
+}
+
+BINDIR="$(dirname "$(readlink -f "$0")")"
+
+# butch_no_relocate_c: give the user an option to bail out from using the faster C binary.
+if test -z "$butch_no_relocate_c" && test -n "$K" && test -w "$BINDIR" ; then
+	expected_relcver=1
+	relcver=$("$BINDIR"/butch-relocate-c --version 2>/dev/null)
+	# compile the relocate-c binary: if it doesn't exist, can't be executed, or is of the wrong version.
+	if test $? != 0 || test "$relcver" != $expected_relcver ; then
+		test -z "$CC" && CC=cc
+		$CC -O1 "$K"/butch_relocate.c -o "$BINDIR"/butch-relocate-c -static -s
+		relcver=$("$BINDIR"/butch-relocate-c --version 2>/dev/null)
+	fi
+	if test "$relcver" = $expected_relcver ; then
+		exec "$BINDIR"/butch-relocate-c "$@"
+	fi
+	echo "warning: falling back to shell impl of butch-relocate">&2
+fi
+
 ec=0
 
 for pkg ; do

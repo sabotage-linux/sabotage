@@ -10,6 +10,12 @@
 #include <errno.h>
 #include <fcntl.h>
 
+/* we need a special version number for the relocate functionality, so
+   we can automatically recompile an existing binary from the wrapper calling it
+   in case the behaviour ever changes.
+   we just use a simple increasing integer for ease of parsing. */
+#define RELOCATE_VERSION 1
+
 #define ARRAY_SIZE(X) sizeof(X)/sizeof(X[0])
 
 static int overwrite_on_copy = 0, verbose = 0;
@@ -282,6 +288,8 @@ static int usage(void) {
 	"usage: butch-relocate-c pkg1 [...pkgN]\n"
 	"tool to symlink a built package from %s/pkgname to the fs root.\n"
 	"error: at least one package name is required.\n"
+	"WARNING: don't ever call this directly without sourcing a CONFIG\n"
+	"you should probably simply be using it via the butch wrapper.\n"
 	, staging_dir);
 	return 1;
 }
@@ -298,6 +306,13 @@ int main(int argc, char**argv) {
 	if(!prefix) prefix="";
 	if(getenv("V")) verbose = 1;
 	if(argc < 2) return usage();
+	if(argv[1][0] == '-') {
+		if(!strcmp(argv[1], "--version")) {
+			fprintf(stdout, "%d\n", RELOCATE_VERSION);
+			return 0;
+		}
+		return usage();
+	}
 	int ec = 0, i, loc;
 	for(i = 1; i < argc; ++i) {
 		char install_dir[512];
