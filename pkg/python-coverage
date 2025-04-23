@@ -1,0 +1,20 @@
+[mirrors]
+https://files.pythonhosted.org/packages/38/df/d5e67851e83948def768d7fb1a0fd373665b20f56ff63ed220c6cd16cb11/coverage-5.5.tar.gz
+
+[vars]
+filesize=691258
+sha512=fb78b4920a2f18afb9545a6f13910f491708443965881954fff6ee8553ab3d6bd898f7a95df1091435e8d5627ac850b880a6233e716a6acb934ecc195ec2ee52
+pkgver=1
+desc='coverage analysis for python. identify unused/untested code'
+
+[deps.run]
+python
+
+[deps.host]
+python
+
+[build]
+export CFLAGS="$optcflags"
+python setup.py build
+python setup.py install --prefix="$butch_prefix" \
+       --root="$butch_install_dir"
