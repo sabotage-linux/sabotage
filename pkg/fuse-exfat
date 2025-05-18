@@ -1,0 +1,23 @@
+[mirrors]
+https://github.com/relan/exfat/releases/download/v1.4.0/fuse-exfat-1.4.0.tar.gz
+
+[vars]
+filesize=167536
+sha512=9285d17786cdbb50f531a7f35795dbf3b650b33c6fd81619174791516c0ef5743fb6450d1d898900cfc142c088eccf8fc44ea1ccbbe1af07e2cbd1d65c73a174
+pkgver=1
+
+[deps]
+fuse
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --sbindir="$butch_prefix"/bin
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
