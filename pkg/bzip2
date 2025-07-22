@@ -1,5 +1,6 @@
 [mirrors]
-https://versaweb.dl.sourceforge.net/project/bzip2/bzip2-1.0.6.tar.gz
+https://sourceware.org/pub/bzip2/bzip2-1.0.6.tar.gz
+http://download.sourceforge.net/project/bzip2/bzip2-1.0.6.tar.gz
 
 [vars]
 filesize=782025

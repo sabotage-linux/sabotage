@@ -1,4 +1,5 @@
 [mirrors]
+https://ftp2.osuosl.org/pub/clfs/conglomeration/wireless_tools.29.tar.gz/wireless_tools.29.tar.gz
 http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz
 
 [vars]
