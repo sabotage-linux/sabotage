@@ -68,6 +68,10 @@ chroot on a 64-bit system.
 The `enter-chroot` script automatically handles this scenario.
 
 	$ ./build-stage0        # ~2min on 3GHz 8core, 75min on ARM A8 800Mhz
+        # since many stage1 packages migrated to https, we have to dl them
+        # with the host's curl/wget, as busybox wget is not https enabled.
+        # after we have stage1 built, a https-enabled curl is available.
+        $ CONFIG=./config KEEP/bin/butch download stage1
 	$ ./enter-chroot
 
 Once inside the chroot:
