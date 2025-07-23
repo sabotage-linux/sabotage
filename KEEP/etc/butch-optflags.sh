@@ -5,7 +5,8 @@
 
 if [ "$DEBUGBUILD" = "1" ] ; then
 	# use "DEBUGBUILD=1 butch install mypkg" to create debug version of mypkg
-	optcflags="-O0 -g3"
+        # we don't care to check for gcc3 here as this is likely only used after stage1 is ready
+	optcflags="-O0 -g3 -gdwarf-3"
 	optldflags=
 	return 0
 elif [ "$TESTBUILD" = "1" ] ; then
