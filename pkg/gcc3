@@ -145,7 +145,7 @@ LDFLAGS_FOR_TARGET="$config_arch_target_ldflags" \
 GCC14_FIX=""
 gcc_ver="$($CC -dM -E - < /dev/null | grep __GNUC__ | awk '{print $3}')"
 if [ "$gcc_ver" -ge 14 ] ; then
-  GCC14_FIX="-Wno-implicit-int -Wno-incompatible-pointer-types"
+  GCC14_FIX="-Wno-implicit-int -Wno-incompatible-pointer-types -std=gnu99"
 fi
 
 make \
