@@ -1,12 +1,12 @@
 [mirrors]
-https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tar.xz
+https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tar.xz
 
 [vars]
-filesize=18271948
-sha512=e7872a6767f9a8941e8fd76d384fc1a528bcee18514ad13fcb4d3d59f6075c6283e4c933a728b9ae68b9606da2f0a3ae0208e46fbefe3bd7899ced61da5dcf47
-pkgver=5
+filesize=19659284
+sha512=ad2eb2eebff286a16ad631339bc0890b0686cf5e669d28905a98f96e9b1af6673d255f36bf19e146aa4de8d012587dc6b3193e903718f9cdba4b97041318f418
+pkgver=6
 desc='interpreter for the python 3.x scripting language'
-python3_minor=8
+python3_minor=9
 
 [deps]
 libc
@@ -28,11 +28,11 @@ zlib
 # it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
 # we hardcode a check for $butch_staging_dir and skip to / if it's seen.
-patch -p1 < "$K"/python3.8-pathsearch.patch
+patch -p1 < "$K"/python3.9-pathsearch.patch
 patch -p1 < "$K"/python3.8-xcompile.patch
 patch -p1 < "$K"/python3.8-includedirs.patch
 #patch -p1 < "$K"/python3-UTF-8.patch # TODO
-patch -p1 < "$K"/python3-sysconfig-prefix.patch
+patch -p1 < "$K"/python3.9-sysconfig-prefix.patch
 
 # if PYTHON_SMALL_AND_SLOW is set, we disable automatic creation of .pyc and
 # .pyo bytecode files. the result is small delay on startup (up to 2.5x slower)

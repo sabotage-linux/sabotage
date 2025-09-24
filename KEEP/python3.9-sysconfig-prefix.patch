@@ -1,0 +1,65 @@
+this patch fixes 3 things:
+1) native: if prefix is empty, use "/" to construct the pathname, otherwise
+   we will end up with something like `-I include/python2.7`
+2) cross-compile: if we're cross-compiling, we're reusing the
+   PKG_CONFIG_SYSROOT_DIR environment variable to prefix the include/lib path.
+   this though helps only when the system doing the crosscompile uses the so-
+   patched python. we therefore assume a sabotage host system is used.
+3) previously, the right logic for selecting LD_SHARED was only used on Mac.
+   it should be done on any POSIX system (CC overrides).
+
+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+index 37feae5..b537aed 100644
+--- a/Lib/distutils/sysconfig.py
++++ b/Lib/distutils/sysconfig.py
+@@ -95,7 +95,7 @@ def get_python_inc(plat_specific=0, prefix=None):
+     If 'prefix' is supplied, use it instead of sys.base_prefix or
+     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+     if os.name == "posix":
+         if python_build:
+@@ -110,7 +110,8 @@ def get_python_inc(plat_specific=0, prefix=None):
+                 incdir = os.path.join(get_config_var('srcdir'), 'Include')
+                 return os.path.normpath(incdir)
+         python_dir = 'python' + get_python_version() + build_flags
+-        return os.path.join(prefix, "include", python_dir)
++        sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR', '')
++        return os.path.join(sysroot + prefix, "include", python_dir)
+     elif os.name == "nt":
+         if python_build:
+             # Include both the include and PC dir to ensure we can find
+@@ -138,7 +139,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
+     If 'prefix' is supplied, use it instead of sys.base_prefix or
+     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
+     """
+-    if prefix is None:
++    if prefix is None or prefix == '':
+         if standard_lib:
+             prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+         else:
+@@ -152,7 +153,11 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
+         else:
+             # Pure Python
+             libdir = "lib"
+-        libpython = os.path.join(prefix, libdir,
++        sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR', '')
++        # FIXME: check whether overriding the new libdir with "lib" below
++        # is correct in all cases.
++        libdir = "lib"
++        libpython = os.path.join(sysroot + prefix, libdir,
+                                  "python" + get_python_version())
+         if standard_lib:
+             return libpython
+@@ -199,7 +204,7 @@ def customize_compiler(compiler):
+ 
+         if 'CC' in os.environ:
+             newcc = os.environ['CC']
+-            if (sys.platform == 'darwin'
++            if ((sys.platform == 'darwin' or os.name == 'posix')
+                     and 'LDSHARED' not in os.environ
+                     and ldshared.startswith(cc)):
+                 # On OS X, if CC is overridden, use that as the default
+

@@ -1,0 +1,139 @@
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -128,6 +128,7 @@ typedef struct {
+     wchar_t *pythonpath_macro;         /* PYTHONPATH macro */
+     wchar_t *prefix_macro;             /* PREFIX macro */
+     wchar_t *exec_prefix_macro;        /* EXEC_PREFIX macro */
++    wchar_t *butch_staging_dir;        /* BUTCH_STAGING_DIR define */
+     wchar_t *vpath_macro;              /* VPATH macro */
+ 
+     wchar_t *lib_python;               /* <platlibdir> / "pythonX.Y" */
+@@ -170,10 +171,17 @@ static void
+ reduce(wchar_t *dir)
+ {
+     size_t i = wcslen(dir);
++    if (i == 1 && dir[0] == SEP) {
++        /* L"/" becomes L"" */
++        dir[0] = L'\0';
++        return;
++    }
+     while (i > 0 && dir[i] != SEP) {
+         --i;
+     }
+-    dir[i] = '\0';
++    if (i == 0 && dir[0] == SEP)
++        i = 1; /* L"/blah" becomes L"/" */
++    dir[i] = L'\0';
+ }
+ 
+ 
+@@ -513,6 +521,15 @@ search_for_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
+         }
+     }
+ 
++    /* If argv[0] appears to be in butch's staging directory,
++     * then skip to the following PREFIX check,
++     * otherwise proceed as normal to preserve virtual environments.
++     */
++    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
++                 wcslen(calculate->butch_staging_dir)) ||
++        !wcsncmp(calculate->argv0_path, L"/bin/../", 8))
++        goto skip_argv0_path;
++
+     /* Search from argv0_path, until root is found */
+     status = copy_absolute(prefix, calculate->argv0_path, prefix_len);
+     if (_PyStatus_EXCEPTION(status)) {
+@@ -539,11 +556,17 @@ search_for_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
+         prefix[n] = L'\0';
+         reduce(prefix);
+     } while (prefix[0]);
++    skip_argv0_path:
+ 
+     /* Look at configure's PREFIX.
+        Path: <PREFIX macro> / <lib_python> / LANDMARK */
+-    if (safe_wcscpy(prefix, calculate->prefix_macro, prefix_len) < 0) {
+-        return PATHLEN_ERR();
++    if (wcslen(calculate->prefix_macro)) {
++        if (safe_wcscpy(prefix, calculate->prefix_macro, prefix_len) < 0) {
++            return PATHLEN_ERR();
++        }
++    } else {
++        prefix[0] = '/';
++        prefix[1] = 0;
+     }
+     status = joinpath(prefix, calculate->lib_python, prefix_len);
+     if (_PyStatus_EXCEPTION(status)) {
+@@ -739,6 +762,15 @@ search_for_exec_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
+         return _PyStatus_OK();
+     }
+ 
++    /* If argv[0] appears to be in butch's staging directory,
++     * then skip to the following EXEC_PREFIX check,
++     * otherwise proceed as normal to preserve virtual environments.
++     */
++    if (!wcsncmp(calculate->butch_staging_dir, calculate->argv0_path,
++                 wcslen(calculate->butch_staging_dir)) ||
++        !wcsncmp(calculate->argv0_path, L"/bin/../", 8))
++        goto skip_argv0_path;
++
+     /* Search from argv0_path, until root is found */
+     status = copy_absolute(exec_prefix, calculate->argv0_path, exec_prefix_len);
+     if (_PyStatus_EXCEPTION(status)) {
+@@ -763,12 +795,18 @@ search_for_exec_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
+         exec_prefix[n] = L'\0';
+         reduce(exec_prefix);
+     } while (exec_prefix[0]);
++    skip_argv0_path:
+ 
+     /* Look at configure's EXEC_PREFIX.
+ 
+        Path: <EXEC_PREFIX macro> / <lib_python> / "lib-dynload" */
+-    if (safe_wcscpy(exec_prefix, calculate->exec_prefix_macro, exec_prefix_len) < 0) {
+-        return PATHLEN_ERR();
++    if (strlen(EXEC_PREFIX)) {
++        if (safe_wcscpy(exec_prefix, calculate->exec_prefix_macro, exec_prefix_len) < 0) {
++            return PATHLEN_ERR();
++        }
++    } else {
++        exec_prefix[0] = L'/';
++        exec_prefix[1] = L'\0';
+     }
+     status = joinpath(exec_prefix, calculate->lib_python, exec_prefix_len);
+     if (_PyStatus_EXCEPTION(status)) {
+@@ -1368,7 +1406,9 @@ calculate_module_search_path(PyCalculatePath *calculate,
+     }
+ 
+     bufsz += wcslen(calculate->zip_path) + 1;
+-    bufsz += wcslen(calculate->exec_prefix) + 1;
++    if (wcslen(calculate->exec_prefix)) {
++        bufsz += wcslen(calculate->exec_prefix) + 1;
++    }
+ 
+     /* Allocate the buffer */
+     wchar_t *buf = PyMem_RawMalloc(bufsz * sizeof(wchar_t));
+@@ -1419,7 +1459,10 @@ calculate_module_search_path(PyCalculatePath *calculate,
+     wcscat(buf, delimiter);
+ 
+     /* Finally, on goes the directory for dynamic-load modules */
+-    wcscat(buf, calculate->exec_prefix);
++    if (wcslen(calculate->exec_prefix)) {
++        wcscat(buf, delimiter);
++        wcscat(buf, calculate->exec_prefix);
++    }
+ 
+     pathconfig->module_search_path = buf;
+     return _PyStatus_OK();
+@@ -1452,6 +1495,10 @@ calculate_init(PyCalculatePath *calculate, const PyConfig *config)
+     if (!calculate->prefix_macro) {
+         return DECODE_LOCALE_ERR("PREFIX macro", len);
+     }
++    calculate->butch_staging_dir = Py_DecodeLocale(BUTCH_STAGING_DIR, &len);
++    if (!calculate->butch_staging_dir) {
++        return DECODE_LOCALE_ERR("BUTCH_STAGING_DIR define", len);
++    }
+     calculate->exec_prefix_macro = Py_DecodeLocale(EXEC_PREFIX, &len);
+     if (!calculate->exec_prefix_macro) {
+         return DECODE_LOCALE_ERR("EXEC_PREFIX macro", len);
+-- 
+2.45.1
+
