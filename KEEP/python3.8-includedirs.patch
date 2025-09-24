@@ -1,0 +1,19 @@
+diff --git a/setup.py b/setup.py
+index 6340669..e2f7a16 100644
+--- a/setup.py
++++ b/setup.py
+@@ -619,8 +619,12 @@ class PyBuildExt(build_ext):
+                                     add_dir_to_list(self.compiler.library_dirs,
+                                                     d)
+                         elif (is_gcc or is_clang) and in_incdirs and '/gcc/' not in line and '/clang/' not in line:
+-                            add_dir_to_list(self.compiler.include_dirs,
+-                                            line.strip())
++                            incdir = line.strip()
++                            add_dir_to_list(self.compiler.include_dirs, incdir)
++                            libdir = incdir.replace("/include", "/lib")
++                            if libdir != incdir:
++                                add_dir_to_list(self.compiler.library_dirs,
++                                                libdir)
+         finally:
+             os.unlink(tmpfile)
+ 

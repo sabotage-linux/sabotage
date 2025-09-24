@@ -1,11 +1,12 @@
 [mirrors]
-https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tar.xz
+https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tar.xz
 
 [vars]
-filesize=18027980
-sha512=e95366b68c1bc1dc1cfb2d956f1f49c5d0f620b4780d03002b3c321d2788108eb4e51d224cfa6bcecf7d780e9024ab0ef88b422d6d25e983dbc56b2a89b7dce9
-pkgver=4
+filesize=18271948
+sha512=e7872a6767f9a8941e8fd76d384fc1a528bcee18514ad13fcb4d3d59f6075c6283e4c933a728b9ae68b9606da2f0a3ae0208e46fbefe3bd7899ced61da5dcf47
+pkgver=5
 desc='interpreter for the python 3.x scripting language'
+python3_minor=8
 
 [deps]
 libc
@@ -27,9 +28,9 @@ zlib
 # it searches for stuff only relative to its own binary.
 # this doesn't work well with our symlink relocation strategy.
 # we hardcode a check for $butch_staging_dir and skip to / if it's seen.
-patch -p1 < "$K"/python3-pathsearch.patch
-patch -p1 < "$K"/python3-xcompile.patch
-patch -p1 < "$K"/python3-includedirs.patch
+patch -p1 < "$K"/python3.8-pathsearch.patch
+patch -p1 < "$K"/python3.8-xcompile.patch
+patch -p1 < "$K"/python3.8-includedirs.patch
 #patch -p1 < "$K"/python3-UTF-8.patch # TODO
 patch -p1 < "$K"/python3-sysconfig-prefix.patch
 
@@ -112,27 +113,28 @@ dest="$butch_install_dir""$butch_prefix"
 # removing tests
 for test in sqlite3/test email/test ctypes/test test unittest/test tkinter/test \
             bsddb/test json/tests lib2to3/tests distutils/tests tests ; do
-  rm -rf "$dest"/lib/python3.7/"$test"
+  rm -rf "$dest"/lib/python3.${python3_minor}/"$test"
 done
 
 # remove hardcoded CFLAGS interfering with cross builds
 # note: OPT is only used if CFLAGS are exported in environment.
-sed -i "s,'OPT': '.*','OPT': ''," "$dest"/lib/python3.7/_sysconfigdata_*.py
+sed -i "s,'OPT': '.*','OPT': ''," "$dest"/lib/python3.${python3_minor}/_sysconfigdata_*.py
 
 if test "$PYTHON_SMALL_AND_SLOW" = 1 ; then
   # removing precompiled python code, if any
-  find "$dest"/lib/python3.7/ -name '*.pyo' -or -name '*.pyc' -delete
+  find "$dest"/lib/python3.${python3_minor}/ -name '*.pyo' -or -name '*.pyc' -delete
 else
   # precompile all .pyc files now rather than on first use, so they're part of
   # the package directory
-  test -n "$CROSS_COMPILE" || ./python -E Lib/compileall.py "$dest"/lib/python3.7
+  test -n "$CROSS_COMPILE" || ./python -E Lib/compileall.py "$dest"/lib/python3.${python3_minor}
 fi
 
-# create symlinks without the major version number in them
+# create symlinks without the minor version number in them
 cd "$dest/bin"
-for bin in idle3.7 2to3-3.7 pip3.7 easy_install-3.7 \
-           python3.7 pyvenv-3.7 python3.7m pydoc3.7 python3.7m-config ; do
+for bin in idle3.${python3_minor} 2to3-3.${python3_minor} pip3.${python3_minor} easy_install-3.${python3_minor} \
+           python3.${python3_minor} pyvenv-3.${python3_minor} python3.${python3_minor}m pydoc3.${python3_minor} python3.${python3_minor}m-config ; do
   if [ -e "$bin" ]; then
-      ln -sf "$bin" "${bin/3.7/3}"
+      newbin=$(printf "%s\n" "$bin" | sed 's/3\.'"${python3_minor}"'/3/')
+      ln -sf "$bin" "${newbin}"
   fi
 done
