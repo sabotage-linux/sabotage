@@ -283,7 +283,7 @@ maintainership.
 
 ## THANKS
 
-Sabotage originally was a distribution curated by chris2, based around shell
+Sabotage originally was a distribution curated by leah2, based around shell
 scripts and Plan 9's mk.
 This was possible through the help and inspiration of
 dalias, niklata, garbeam, pikhq, xmw, gaf and Arch Linux.
