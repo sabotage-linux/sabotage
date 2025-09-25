@@ -1,0 +1,18 @@
+[mirrors]
+http://font.gohu.org/gohufont-2.1.tar.gz
+
+[vars]
+filesize=88915
+sha512=61715bc8fec90854458673fcba30e439798a5a68e488079ea3e8ba01144170d7fb37875f47dec21d0eeca094b3a6620ac8bb5e11aec127321bda9fd6b478145b
+pkgver=1
+
+[deps.host]
+mkfontdir
+
+[build]
+fontsdir="$butch_install_dir/share/fonts/gohufont"
+mkdir -p "$fontsdir"
+install -m 0644 *.pcf.gz "$fontsdir/"
+mkfontdir "$fontsdir"
+fc-cache
+
