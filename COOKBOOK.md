@@ -360,14 +360,21 @@ You can start services with `sv u $SERVICE` or take them down with
 `sv d $SERVICE`.
 By default, all services in `/var/service` start at boot time.
 If they have an empty `down` file in their directory, you'll have to start them
-manually.
+manually, or remove the `down` file to have it started automatically.
+
 If you don't want to use a service at all, best remove the symlink to
 `/etc/service`.
+This prevents runit from spawning a supervising `runsv` process for the service,
+saving resources (albeit few).
 
 Find out what's running with `sv s /var/service/*`.
 
 Look into the service directories to find out how to add your own services.
-Note that you must tell them not to daemonize!
+Note that you must tell them not to daemonize, runit services are supposed to
+run in foreground while runit captures their stdout output for logging.
+Sabotage provides a command `butch install-service` which makes it easy to
+set up the required directory structure to install custom services from nothing
+more than a simple script.
 
 For the rest of `runit`, refer to the documentation at:
 
