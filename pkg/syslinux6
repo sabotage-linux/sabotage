@@ -1,3 +1,15 @@
+[mirrors]
+https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
+http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
+http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+
+[vars]
+filesize=6855224
+sha512=dd2b2916962b9e93bc1e714182e3ca2a727a229b8afabe913050bcfdd43ee2af51ee3acf79121d8c20caf434583efaa7f3196871e0e07c04d82191323a50fe31
+pkgver=5
+
 [deps]
 kernel-headers
 gnu-efi-libs
@@ -6,18 +18,6 @@ mtools
 [deps.host]
 perl
 nasm
-
-[vars]
-filesize=6855224
-sha512=dd2b2916962b9e93bc1e714182e3ca2a727a229b8afabe913050bcfdd43ee2af51ee3acf79121d8c20caf434583efaa7f3196871e0e07c04d82191323a50fe31
-pkgver=4
-
-[mirrors]
-https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
-http://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
-http://ftp.wh2.tu-dresden.de/pub/mirrors/kernel.org/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
-http://ftp.hosteurope.de/mirror/ftp.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
-http://ftp.uni-ulm.de/pub/mirrors/kernel.org/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
 
 [build]
 add_include() {
@@ -77,6 +77,15 @@ sed "s,com32/lua/src/\*.c32,," -i Makefile
 sed "s,com32/gpllib/\*.c32,," -i Makefile
 sed "s,com32/cmenu/libmenu/\*.c32,," -i Makefile
 
+# make it so we can statically link extlinux and syslinux depending on user cfg
+# though syslinux binary will still depend on mcopy of mtools in PATH
+sed 's,LDFLAGS	 =,LDFLAGS  = $(OPTLDFLAGS),' -i mtools/Makefile
+sed 's,LDFLAGS	 =,LDFLAGS  = $(OPTLDFLAGS),' -i extlinux/Makefile
+
+# some makefiles uses -nostdinc, so we must prevent overriding its CFLAGS
+sed 's,OPTFLAGS = -g,override define OPTFLAGS\n-g\nendef,' -i dos/Makefile
+sed 's,OPTFLAGS,OPT_FLAGS,' -i mk/lib.mk
+
 # Exclude perl utils from being installed
 sed '/DIRS/ s/utils//' -i Makefile
 
@@ -105,15 +114,16 @@ EOF
 make \
 	$PREFIXED_PATHS \
 	OPTFLAGS="$optcflags -include sys/sysmacros.h" \
+	OPTLDFLAGS="$optldflags" \
 	INSTALLROOT="$butch_install_dir" \
 	"$@"
 }
 
-domake AUXDIR="$butch_prefix/lib/syslinux/bios" bios installer
-# can't call this one with domake as it uses -nostdlib
-make $PREFIXED_PATHS AUXDIR="$butch_prefix/lib/syslinux/bios" INSTALLROOT="$butch_install_dir" -j1 bios install
-
 target=efi64
 case "$A" in i[3-6]86) target=efi32 ;; esac
-domake AUXDIR="$butch_prefix/lib/syslinux" $target installer
-domake AUXDIR="$butch_prefix/lib/syslinux" -j1 $target install
+
+domake AUXDIR="$butch_prefix/lib/syslinux/bios" \
+  INSTALL_AUX_OPT=core/ldlinux.sys \
+  bios installer install
+
+domake AUXDIR="$butch_prefix/lib/syslinux" $target installer install
