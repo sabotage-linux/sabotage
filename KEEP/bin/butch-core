@@ -1,5 +1,5 @@
 #!/bin/sh
-BUTCH_VERSION=0.7.10
+BUTCH_VERSION=0.7.11
 test -n "$CONFIG" && . "$CONFIG"
 BINDIR="$(dirname $(readlink -f "$0"))"
 hlppid=
@@ -368,7 +368,7 @@ for x_ in $args ; do
 	fi
 done
 
-deps=$($AWKPROG -f "$BINDIR"/butch-deps $args)
+deps=$($AWKPROG -f "$BINDIR"/butch-deps -v omitinstalled=1 $args)
 test $? = 0 || die "butch deps failed"
 
 for p in $deps ; do

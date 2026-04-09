@@ -7,6 +7,15 @@ BEGIN {
 	}
 	if (ARGC<2) usage()
 
+	if (omitinstalled==1 && !ENVIRON["BUTCHDB"]) {
+		error("$BUTCHDB not set")
+	} else {
+		while ((r = getline < ENVIRON["BUTCHDB"]) == 1) {
+			INSTALLED[$1] = $2
+		}
+		close(ENVIRON["BUTCHDB"])
+	}
+
 	if(norecurse!=1) dorecurse=1
 	debugmode=ENVIRON["DEBUG"]
 	if(!ENVIRON["DEPS"]) ENVIRON["DEPS"]="all"
@@ -41,6 +50,7 @@ function usage() {
 	eprint("options:")
 	eprint("-v exclusive=1 print deps, but not the pkg itself")
 	eprint("-v norecurse=1 don't recurse into deps")
+	eprint("-v omitinstalled=1 don't recurse into installed deps (requires BUTCHDB env var)")
 	eprint("")
 	eprint("influential environment variables:")
 	eprint("S   : sabotage source dir containing pkg/")
@@ -89,7 +99,8 @@ function print_build_order(pkg,		inDepsSection, dep, pkgFile,i,foo) {
 		if (/^[ \t]*$/ || !inDepsSection) {
 			continue
 		}
-		if(recursion == 1 || dorecurse) print_build_order(dep)
+		if(!INSTALLED[dep] && (recursion == 1 || dorecurse))
+			print_build_order(dep)
 	}
 	if (r == -1) {
 		error("unable to read from " pkgFile)
