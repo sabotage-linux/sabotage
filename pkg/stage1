@@ -14,6 +14,7 @@ join
 libressl
 ca-certificates
 curl
+gcc1150
 
 [deps.host]
 base-dev

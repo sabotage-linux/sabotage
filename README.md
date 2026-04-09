@@ -2,16 +2,16 @@
 
 This is Sabotage, an experimental distribution based on musl libc and busybox.
 
-Currently Sabotage supports i386, x86_64, MIPS, PowerPC32 and ARM(v4t+).
-ARM hardfloat (hf) is supported via crosscompilation of stage1,
-since it requires a recent GCC which we can't easily bootstrap in stage0 due
-to library dependencies of GCC introduced with 4.3.
+Currently Sabotage supports native bootstrap on i386, x86_64, MIPS,
+PowerPC32 and ARM(v4t+).
+ARM hardfloat (hf), aarch64 and other newer archs are supported via
+crosscompilation of stage1, since they require newer GCC versions which we can't
+easily bootstrap in stage0 due to library dependencies of GCC introduced
+with 4.3.
 
 The preferred way to build Sabotage is using a native Linux environment for
-the desired architecture.
-It is now also possible to cross-compile large parts of it.
-As cross-compiling is hairy and support for it is quite new, expect breakage.
-Native builds are well tested and considered stable.
+the desired architecture if supported, else cross-compiling stage1 and then
+continuing from there with a native build is recommended.
 
 
 ## Requirements:
@@ -78,10 +78,6 @@ Once inside the chroot:
 
 	$ butch install stage1	# Installs core system + build chain
 
-ATTENTION: if you're using void or arch linux, building gcc630 in stage1 might
-fail due to a buggy ld. there's a workaround though:
-https://github.com/sabotage-linux/sabotage/issues/505
-
 At this point, stage1 is complete and your Sabotage chroot is set up. There are
 two optional steps to consider at this time:
 
@@ -96,13 +92,12 @@ You may also install optional packages:
 
 	$ butch install core    # base developer system
 	$ butch install xorg    # install everything needed for X11
-	$ butch install world   # almost everything
 
 You may list available packages by using `ls /src/pkg`.
 
 If you wish to build the default kernel:
 
-	$ butch install kernel
+	$ butch install kernel61
 
 Run `butch` and look at the usage information for further options.
 
@@ -161,18 +156,19 @@ Check `/etc/xinitrc` for X11 keyboard configuration.
 * `butch` installed for the build host in $PATH
    (since it lives in KEEP/bin, adding that to $PATH will also do).
 * `pkgconf` symlinked as pkg-config in $PATH, before other pkg-config versions.
-  a standard `pkg-config` installed on the host may also work, but is untested.
+  a standard `pkg-config` installed on the host also works.
 * Packages may have a `deps.host` section listing further packages required on
   the host.
 
-The only supported cross-compile setup is using a Sabotage host that has the
-same packages installed as the ones you wish to compile, but it was also
-successfully used on non-sabotage hosts.
+The only fully supported cross-compile setup is using a Sabotage host that has
+the same packages installed as the ones you wish to compile, but it was also
+successfully used on non-sabotage hosts, however some packages like `file` will
+fail as it requires the exact same version available on the host.
 
 If you intend to cross-compile only packages written in C, the choice of the
 version of your cross-compiler is not important. If you however intend to
 compile also C++ packages, you should use the same GCC version that is built
-as default during stage1 (currently GCC 6.5.0) from `musl-cross-make` repo.
+as default during stage1 (currently GCC 11.5.0) from `musl-cross-make` repo.
 that is necessary so the applications are built against the same libstdc++
 they'll be bundled together with (if they use dynamic linking).
 

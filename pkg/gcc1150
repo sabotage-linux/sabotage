@@ -11,7 +11,7 @@ gcc_major=11
 gcc_minor=5
 
 [deps.stage1]
-stage1-g++
+gcc6
 
 [deps]
 stage1-gmp

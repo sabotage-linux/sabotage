@@ -12,7 +12,7 @@ gmp
 mpfr
 mpc
 libelf
-gcc650
+gcc1150
 musl
 jobflow
 patch
