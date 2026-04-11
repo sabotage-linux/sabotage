@@ -1,0 +1,18 @@
+[deps]
+kernel66-tarball
+kernel66-patch
+
+[deps.host]
+libelf
+bison
+flex
+
+[vars]
+LINUX_VER=6.6
+tarball=linux-"$LINUX_VER".tar.xz
+patchver=134
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%

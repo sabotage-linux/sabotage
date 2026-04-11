@@ -18,13 +18,6 @@ k_base=kernel$k_major$k_minor
 # turn kernel version into a number
 k_num=$(printf "%d%02d\n" "$k_major" "$k_minor")
 
-if test "$k_num" -gt 418
-then
-# install awk script to remove perl dependency
-cp -f "$K"/build_OID_registry ./lib/
-sed -i -e 's@perl $(srctree)/$(src)/build_OID_registry@awk -f $(srctree)/$(src)/build_OID_registry@' ./lib/Makefile
-fi
-
 dopatch() {
 	echo "applying patch $1"
 	if ! patch -p1 < "$K"/"$1" ; then
@@ -42,6 +35,14 @@ kpatch="$C"/kernel-patch-"$LINUX_VER"."$patchver".xz
 	exit 1
 }
 xzcat "$kpatch" | patch -p 1
+
+if test "$k_num" -gt 418
+then
+# install awk script to remove perl dependency
+cp -f "$K"/build_OID_registry ./lib/
+sed -i -e 's@perl $(srctree)/$(src)/build_OID_registry@awk -f $(srctree)/$(src)/build_OID_registry@' ./lib/Makefile
+fi
+
 LINUX_VER="$LINUX_VER"."$patchver"
 
 case "$k_num" in
@@ -151,7 +152,7 @@ make V=1 -j$MAKE_THREADS CC="$CC" ARCH=$ARCH HOSTCC="$HOSTCC" \
   HOSTCFLAGS=-D_GNU_SOURCE DISABLE_PAX_PLUGINS=y \
   KBUILD_BUILD_USER=user \
   KBUILD_BUILD_HOST=sabotage \
-  KBUILD_BUILD_TIMESTAMP="2023-00-00" \
+  KBUILD_BUILD_TIMESTAMP="2026-00-00" \
   KBUILD_BUILD_VERSION=0
 
 

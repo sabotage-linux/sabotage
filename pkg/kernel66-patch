@@ -1,0 +1,9 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.6.134.xz
+
+[vars]
+filesize=5870752
+sha512=dfc23509991b9f5320d054f9b26cd5e30579399ceb3fe7e9dda994c4c3a35a48d75eb3dd1bbf332ea965d99d9a69faa337ba5ad1c49ab9bfd8c61e21f09672ea
+tarball=kernel-patch-6.6.134.xz
+pkgver=1
+
