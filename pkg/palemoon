@@ -111,9 +111,6 @@ PATCH firefox-disable-hunspell_hooks.patch
 PATCH firefox-fix-arm-atomics-grsec.patch
 PATCH firefox-fix-arm-version-detect.patch
 
-# set max stack size to 2MB, https://repo.palemoon.org/MoonchildProductions/UXP/commit/00f22ddbe62f9ab4cf314b1beb18b7f9a91edae2
-sed -i 's;8 \* 1024 \* 1024;2 * 1024 * 1024;' js/xpconnect/src/XPCJSContext.cpp
-
 cd ..
 
 cat << EOF > mozconfig
@@ -231,7 +228,7 @@ find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@
 
 reqldf="-Wl,--no-keep-memory -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib"
 # increase default stack size as palemoon uses a recursive js parser
-reqldf="$reqldf -Wl,-z,stack-size=2097152"
+reqldf="$reqldf -Wl,-z,stack-size=8388864"
 allflags="-D_GNU_SOURCE -D_LARGEFILE64_SOURCE $optcflags -I$PWD/include $optldflags $reqldf"
 # on arm binutils 2.24 assertion failure is triggered due to some of the cflags
 # in the default butch config. see issue #186
