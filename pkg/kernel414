@@ -58,6 +58,10 @@ if [ "$k_num" -ge 419 ] ; then
 	dopatch kernel419-revert-remove-support-for-built-in-regdb.patch
 fi
 
+if [ "$k_num" -ge 612 ] ; then
+	dopatch linux612-make4-revert.patch
+fi
+
 if [ "$k_num" -ge 515 ]; then
 # prevent inclusion of incompatible host linux headers in objtool build
 for i in byteorder swab ; do
@@ -73,7 +77,6 @@ int master(int argc, const char **argv);
 EOFX
 cat tools/objtool/objtool.c.orig >> tools/objtool/objtool.c
 fi
-
 
 # install regulatory domain database into kernel tree
 # we build it fixed into the kernel so we don't need the bloated "crda" tool

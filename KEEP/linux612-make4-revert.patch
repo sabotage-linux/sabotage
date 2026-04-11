@@ -1,0 +1,67 @@
+Subject: [PATCH] Revert "kbuild: raise the minimum GNU Make requirement to 4.0"
+
+This reverts commit 5f99665ee8f4335f334a5292b6d5b41a577fc2c0.
+
+diff --git a/Makefile b/Makefile
+index 7372ea45ed3f..b25b5b44af10 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,8 +11,8 @@ NAME = Baby Opossum Posse
+ # Comments in this file are targeted only to the developer, do not
+ # expect to learn how to build the kernel reading this file.
+ 
+-ifeq ($(filter output-sync,$(.FEATURES)),)
+-$(error GNU Make >= 4.0 is required. Your Make version is $(MAKE_VERSION))
++ifeq ($(filter undefine,$(.FEATURES)),)
++$(error GNU Make >= 3.82 is required. Your Make version is $(MAKE_VERSION))
+ endif
+ 
+ $(if $(filter __%, $(MAKECMDGOALS)), \
+@@ -93,7 +93,15 @@ endif
+ 
+ # If the user is running make -s (silent mode), suppress echoing of
+ # commands
+-ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
++# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
++
++ifeq ($(filter 3.%,$(MAKE_VERSION)),)
++short-opts := $(firstword -$(MAKEFLAGS))
++else
++short-opts := $(filter-out --%,$(MAKEFLAGS))
++endif
++
++ifneq ($(findstring s,$(short-opts)),)
+ quiet=silent_
+ override KBUILD_VERBOSE :=
+ endif
+@@ -193,6 +201,14 @@ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
+ $(error source directory cannot contain spaces or colons)
+ endif
+ 
++ifneq ($(filter 3.%,$(MAKE_VERSION)),)
++# 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
++# We need to invoke sub-make to avoid implicit rules in the top Makefile.
++need-sub-make := 1
++# Cancel implicit rules for this Makefile.
++$(this-makefile): ;
++endif
++
+ export sub_make_done := 1
+ 
+ endif # sub_make_done
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index ed8a7493524b..faf37bafa3f8 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -68,7 +68,7 @@ kbuild-file = $(or $(wildcard $(src)/Kbuild),$(src)/Makefile)
+ # Read a file, replacing newlines with spaces
+ #
+ # Make 4.2 or later can read a file by using its builtin function.
+-ifneq ($(filter-out 4.0 4.1, $(MAKE_VERSION)),)
++ifneq ($(filter-out 3.% 4.0 4.1, $(MAKE_VERSION)),)
+ read-file = $(subst $(newline),$(space),$(file < $1))
+ else
+ read-file = $(shell cat $1 2>/dev/null)
+-- 
+2.34.1
+

@@ -1,0 +1,7 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.tar.xz
+
+[vars]
+filesize=147906904
+sha512=a37b1823df7b4f72542f689b65882634740ba0401a42fdcf6601d9efd2e132e5a7650e70450ba76f6cd1f13ca31180f2ccee9d54fe4df89bc0000ade4380a548
+pkgver=1

@@ -1,0 +1,18 @@
+[deps]
+kernel612-tarball
+kernel612-patch
+
+[deps.host]
+libelf
+bison
+flex
+
+[vars]
+LINUX_VER=6.12
+tarball=linux-"$LINUX_VER".tar.xz
+patchver=81
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%
