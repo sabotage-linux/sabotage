@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/33.9.1_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/34.1.0_Release.tar.gz
 
 [vars]
-filesize=5607390
-sha512=37c8d46b9dd3c8050196bc0190464bd0e64f73cf318a75ecb0746823a88372e75f6aa2546fce018fa7d434f762bf3cb71d1e43acc05d00f7aa5020cd3554f76f
-tarball=Pale-Moon-33.9.1_Release.tar.gz
+filesize=5608394
+sha512=a279fcf17effc2f625cfb5e1b0bae3b05dc442534064361a1ee506b6f2e8dedd5de9d202538537e7f6c711d95fadf9be9191f59a7f2ee32e89fff68b367960c9
+tarball=Pale-Moon-34.1.0_Release.tar.gz
 tardir=pale-moon
-pkgver=88
-BROWSER_VERSION=33.9.1
-UXP_VERSION=20251019
+pkgver=89
+BROWSER_VERSION=34.1.0
+UXP_VERSION=20260301
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
@@ -136,7 +136,7 @@ ac_add_options --disable-elf-hack
 #ac_add_options --disable-ogg
 #ac_add_options --disable-opus
 #ac_add_options --disable-webgl
-ac_add_options --disable-gconf
+#ac_add_options --disable-gconf
 
 
 # GStreamer is necessary for H.264 video playback in HTML5 Video Player;
@@ -187,7 +187,7 @@ ac_add_options --disable-tests
 ac_add_options --enable-optimize
 ac_add_options --disable-strip
 ac_add_options --disable-install-strip
-ac_add_options --enable-gio
+#ac_add_options --enable-gio
 ac_add_options --enable-official-branding
 ac_add_options --enable-safe-browsing
 ac_add_options --enable-url-classifier
