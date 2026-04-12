@@ -8,6 +8,7 @@ desc='fork of GNU make with integrated debugger'
 
 [deps]
 kernel-headers
+readline
 
 [build]
 cp -f "$K"/config.sub config/
@@ -17,7 +18,7 @@ cp -f "$K"/config.sub config/
   --with-sysroot=$butch_root_dir"
 
 #patch -p1 < "$K"/make-3.82-upstream_fixes-3.patch
-CC="$CC -static" \
+CC="$CC -static -fcommon" \
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
 ./configure -C --prefix="$butch_prefix" $xconfflags --disable-nls
