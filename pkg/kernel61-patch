@@ -1,9 +1,9 @@
 [mirrors]
-http://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.1.127.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.1.168.xz
 
 [vars]
-filesize=5706356
-sha512=2add50b12ab2be39efe143d9ba62ff1c8121e9272113ffe40124f71e6d2fed31d6e19a2bbbe543e5efc10c5352650d3b407f1f58bee4d595f2618bf7b257faf5
-tarball=kernel-patch-6.1.127.xz
-pkgver=3
+filesize=7303464
+sha512=0a21c78fb7b84624ab3300c411d6c8d711206e7c92bd35ba1b5a2e2bca576349811c783d528191e21d0e43ee21e3ea8c804f6493dc696f1ecef806ea41673c05
+tarball=kernel-patch-6.1.168.xz
+pkgver=5
 
