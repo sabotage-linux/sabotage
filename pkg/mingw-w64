@@ -10,7 +10,8 @@ desc='toolchain to create win32 PE binaries'
 
 [deps]
 binutils
-gcc650
+gcc650-tarball
+binutils227-tarball
 
 [build]
 target=i686-w64-mingw32
