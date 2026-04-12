@@ -1,0 +1,7 @@
+[mirrors]
+http://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.tar.xz
+
+[vars]
+filesize=154309096
+sha512=88599ffdec96d150c1feb9b261ba93bb0301a9d0e1ad6bef7aeab1f5372cbfc57d8b43c7e902bd8f76921d1dbd8189663c142ea869e51d0e2b483b150ee00fe0
+pkgver=1

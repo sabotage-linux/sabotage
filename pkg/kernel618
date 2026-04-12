@@ -1,0 +1,18 @@
+[deps]
+kernel618-tarball
+kernel618-patch
+
+[deps.host]
+libelf
+bison
+flex
+
+[vars]
+LINUX_VER=6.18
+tarball=linux-"$LINUX_VER".tar.xz
+patchver=22
+pkgver=1
+no_unlink=1
+
+[build]
+%include kernel414%

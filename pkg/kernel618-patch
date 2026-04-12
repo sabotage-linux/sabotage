@@ -1,0 +1,9 @@
+[mirrors]
+https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.18.22.xz
+
+[vars]
+filesize=1461196
+sha512=8171287486899d50262df42cbbeda81db86c3245334799f5517cb4f01fb2095bf6e27ad95abe01be635bb9992b20647a5cdbc6e19cd8cdf9cc8bdc6aa62509e9
+tarball=kernel-patch-6.18.22.xz
+pkgver=1
+
