@@ -97,7 +97,10 @@ You may list available packages by using `ls /src/pkg`.
 
 If you wish to build the default kernel:
 
-	$ butch install kernel61
+	$ butch install kernel
+
+There are actually a number of available kernels, all LTS kernels from 4.4 - 6.18.
+kernel44 is the package name for kernel 4.4 (EOL), kernel618 6.18, etc. see pkg/.
 
 Run `butch` and look at the usage information for further options.
 
@@ -203,6 +206,12 @@ to use the resulting rootfs to boot into, you should however start with building
 `musl`, `stage1`, and if you want to use the resulting rootfs as a full sabotage
 installation with development tools, also the package `base-dev`.
 
+## Other resources
+
+There's a contributor-created wiki on github: https://github.com/sabotage-linux/sabotage/wiki
+
+And an AI-created one at https://deepwiki.com/sabotage-linux/sabotage . It even features
+an AI chatbot that can explain parts of the system.
 
 ## NOTES TO CONTRIBUTORS
 
