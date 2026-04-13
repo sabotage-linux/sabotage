@@ -1,9 +1,27 @@
 [vars]
-pkgver=58
+pkgver=59
 desc='meta package for linux kernel. choose the version suiting your taste.'
 
 [deps.kernel.default]
-kernel414
+kernel61
+
+[deps.kernel.618]
+kernel618
+
+[deps.kernel.612]
+kernel612
+
+[deps.kernel.66]
+kernel66
+
+[deps.kernel.61]
+kernel61
+
+[deps.kernel.515]
+kernel515
+
+[deps.kernel.510]
+kernel510
 
 [deps.kernel.54]
 kernel54
