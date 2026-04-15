@@ -67,14 +67,21 @@ NOTE: It is possible to build an i386 Sabotage from within an existing 32-bit
 chroot on a 64-bit system.
 The `enter-chroot` script automatically handles this scenario.
 
+We start by building stage0 directly on the host.
+
 	$ ./build-stage0        # ~2min on 3GHz 8core, 75min on ARM A8 800Mhz
-        # since many stage1 packages migrated to https, we have to dl them
-        # with the host's curl/wget, as busybox wget is not https enabled.
-        # after we have stage1 built, a https-enabled curl is available.
-        $ CONFIG=./config KEEP/bin/butch download stage1
+
+Since many stage1 packages migrated to https, we have to dl them with the
+host's curl/wget, as busybox wget is not https enabled (after we have stage1
+built, a https-enabled curl is available).
+
+	$ CONFIG=./config KEEP/bin/butch download stage1
+
+Finally, we enter the chroot containing our primary bootstrap environment.
+
 	$ ./enter-chroot
 
-Once inside the chroot:
+Inside the chroot:
 
 	$ butch install stage1	# Installs core system + build chain
 
@@ -92,6 +99,7 @@ You may also install optional packages:
 
 	$ butch install core    # base developer system
 	$ butch install xorg    # install everything needed for X11
+	$ butch install lxde    # install default desktop environment (startx after login) 
 
 You may list available packages by using `ls /src/pkg`.
 
@@ -100,14 +108,19 @@ If you wish to build the default kernel:
 	$ butch install kernel
 
 There are actually a number of available kernels, all LTS kernels from 4.4 - 6.18.
-kernel44 is the package name for kernel 4.4 (EOL), kernel618 6.18, etc. see pkg/.
+kernel44 is the package name for kernel 4.4 (EOL), kernel618 for 6.18, etc.
+see pkg/ - `ls pkg/kernel*` or look at the options pkg/kernel provides
+via *Alternative package providers* (see COOKBOOK.md for details).
 
-Run `butch` and look at the usage information for further options.
+For more information about possible ways to use the package manager,
+run `butch` without arguments and look at the usage information.
 
 `butch` uses build templates that allow for a high level of customization.
 `KEEP/butch_build_template.txt` is the base template used by Sabotage.
 It provides a tuned `config.cache` for faster configure runs.
 It also installs packages into `/opt`, creates file lists, etc.
+
+## Alternative Native Build Bootstrap:
 
 An alternative bootstrap path is also available (for x86_64 and i386)
 which minimises the influence of the host system on the stage0 build.
