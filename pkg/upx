@@ -1,10 +1,10 @@
 [mirrors]
-http://upx.sourceforge.net/download/upx-3.91-src.tar.bz2
+https://github.com/upx/upx/releases/download/v3.96/upx-3.96-src.tar.xz
 
 [vars]
-filesize=904747
-sha512=7e9a392fe11daf7baf9632f2c448ef9936da7dfab215f86ba417e9f097770949acb653aaabe6cc5ed812efc486cb35e0c1e128c80026b02825713d8b12251cf5
-pkgver=1
+filesize=792524
+sha512=2d4d1be21d274d9bfdee9b9815396f5e5ff0bcdfb781b7be5fafa4d1e224028e412ec5f5ba607c482671aae27ccf9069abb2db0fb58f78f3a102a51897df2b11
+pkgver=2
 uchkurl=https://github.com/upx/upx/releases
 
 [deps]
@@ -14,6 +14,6 @@ zlib
 [build]
 cd src
 
-make V=1 -j$MAKE_THREADS exeext= CXXFLAGS_WERROR="$optcflags"
+make V=1 -j$MAKE_THREADS exeext= CXXFLAGS_WERROR="$optcflags" CHECK_WHITESPACE=true
 dest="$butch_install_dir""$butch_prefix"
 install -Dm 755 upx "$dest"/bin/upx
