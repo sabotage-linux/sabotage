@@ -1,22 +1,28 @@
 [mirrors]
-http://freefr.dl.sourceforge.net/project/squashfs/squashfs/squashfs4.2/squashfs4.2.tar.gz
+https://github.com/plougher/squashfs-tools/releases/download/4.7.5/squashfs-tools-4.7.5.tar.gz
 
 [vars]
-filesize=133173
-sha512=4b69c5d3008803347d0ce7628957e3873c9ebd799662b25dfb739afb6a1ce97bdd02b0465ac4d949bc38af2155880ac068209dc638b94e5c86a8011ec3a00de0
-pkgver=2
+filesize=412571
+sha512=d24f1c8611dc7dcb17b81f3a34ee8c0d3484141c70ebe7c77c91c966e76cddc671e24d3f4a471ddc819c4708480cdd179168fe2bca8a09e97cebf0da9ef83b1c
+pkgver=3
 
 [deps]
 zlib
 xz
+zstd
 
 [build]
-patch -p1 < "$K"/squashfs-tools.patch
-
 cd squashfs-tools
 
-make INSTALL_DIR="$butch_install_dir""$butch_prefix""/bin"\
+sed -e 's/check_sed () {/check_sed () { return 0;/' \
+    -i generate-manpages/functions.sh
+
+dest="$butch_install_dir""$butch_prefix"
+
+make INSTALL_DIR="$dest"/bin \
+     INSTALL_MANPAGES_DIR="$dest"/share/man/man1 \
      EXTRA_LDFLAGS="$optldflags"\
-     EXTRA_CFLAGS="-include sys/sysmacros.h -D_GNU_SOURCE -DFNM_EXTMATCH=0 $optcflags"\
-     XZ_SUPPORT=1 \
+     EXTRA_CFLAGS="-DFNM_EXTMATCH=0 $optcflags"\
+     USE_PREBUILT_MANPAGES=y \
+     LZO_SUPPORT=0 LZ4_SUPPORT=0 \
      -j$MAKE_THREADS all install
