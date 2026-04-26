@@ -9,7 +9,7 @@ BEGIN {
 
 	if (omitinstalled==1 && !ENVIRON["BUTCHDB"]) {
 		error("$BUTCHDB not set")
-	} else {
+	} else if (omitinstalled==1) {
 		while ((r = getline < ENVIRON["BUTCHDB"]) == 1) {
 			INSTALLED[$1] = $2
 		}
