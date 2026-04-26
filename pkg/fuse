@@ -1,10 +1,10 @@
 [mirrors]
-https://github.com/libfuse/libfuse/releases/download/fuse-2.9.7/fuse-2.9.7.tar.gz
+https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz
 
 [vars]
-filesize=661138
-sha512=f47304d9c7a1815f7a2905b7bdb7785d4c10292a80c8dc1ec45d895af96bc6ffd6d84ff2617bd976a1d0867ab8ec1a404a5a05ace85a69ecca830f371d08f8e2
-pkgver=2
+filesize=1813177
+sha512=3d82fafd04f2924299bb09d2bb144935fa004a43fb9a6568e2e1cc5a60fded2efa1711029a0d7f12b3e6e4501f7217f2ee3545646d89da8dece083cb390f23e2
+pkgver=3
 
 [deps]
 
@@ -14,6 +14,10 @@ patch -p1 < "$K"/fuse-headers.patch
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
+
+# we dont want device nodes in DESTDIR...
+sed -e 's/mknod/false mknod/' -i util/Makefile.in
+
 MOUNT_FUSE_PATH="$butch_prefix"/bin \
 CFLAGS="-D_GNU_SOURCE $optcflags" LDFLAGS="$optldflags" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
