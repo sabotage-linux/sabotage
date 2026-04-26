@@ -1,0 +1,25 @@
+[mirrors]
+https://github.com/vasi/squashfuse/releases/download/0.6.1/squashfuse-0.6.1.tar.gz
+
+[vars]
+filesize=440684
+sha512=2e5083cbb86f4d6d1e1db39013d4d3233302494bb0cb5965eb74263a79fdcffc94963045254aa9818c56f4c9a8850568005bdd3872eb3729438fecd99cc112ce
+pkgver=1
+desc='lib and app to mount squashfs images from userspace'
+
+[deps]
+fuse
+xz
+zstd
+
+[build]
+[ -n "$CROSS_COMPILE" ] && \
+  xconfflags="--host=$($CC -dumpmachine) \
+  --with-sysroot=$butch_root_dir"
+
+CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
+LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+
+make V=1 -j$MAKE_THREADS
+make DESTDIR="$butch_install_dir" install
