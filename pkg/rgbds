@@ -1,11 +1,11 @@
 [mirrors]
-https://github.com/gbdev/rgbds/releases/download/v0.9.4/rgbds-source.tar.gz
+https://github.com/gbdev/rgbds/releases/download/v1.0.1/rgbds-source.tar.gz
 
 [vars]
-filesize=8125858
-sha512=f39bde359a4a8d2cf45c3ce4f0f125b572b620c14abc08355122eff0dd5d8ec447e52a13f53d9ae68c949699a00304344b7a200faad4bfc40fea36fb9372b2b5
-tarball=rgbds-0.9.4.tar.gz
-pkgver=2
+filesize=10556029
+sha512=d64a3efea078166d19a357f4ac1c20dc7b99d5b3e882066d92679866f5d2625f80b361ab6d8119a5cec0eebdd1181c75b1ab03d200fd4a145346d8aefffa8c31
+tarball=rgbds-1.0.1.tar.gz
+pkgver=3
 tardir=rgbds
 desc='rednex gameboy development system assembly toolchain'
 
