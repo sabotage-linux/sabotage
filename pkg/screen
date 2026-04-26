@@ -8,6 +8,7 @@ pkgver=8
 desc='terminal multiplexer'
 
 [deps]
+curses
 
 [build]
 sed -e 's;[-]chown;#-chown;' -e 's;-std=c17;-std=gnu99;' -i Makefile.in
