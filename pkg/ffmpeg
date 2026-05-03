@@ -20,6 +20,8 @@ xz
 pkg-config
 
 [build]
+patch -p1 < "$K"/ffmpeg-mathops.patch
+
 # note: FFPLAY tool will only be built if SDL2 is installed!
 
 [ -z "$butch_prefix" ] && butch_prefix=/
