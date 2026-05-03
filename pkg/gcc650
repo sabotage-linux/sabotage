@@ -143,8 +143,8 @@ export CC="$CC $static_ccflags -D_GNU_SOURCE"
 export gcc_cv_as_gdwarf_5_flag=no
 export libbacktrace_cv_lib_dwarf5=no
 
-CFLAGS="-Os -g0" \
-CXXFLAGS="-Os -g0" \
+CFLAGS="-O2 -g0" \
+CXXFLAGS="-O2 -g0" \
 LDFLAGS="-s -Wl,--no-keep-memory" \
 CFLAGS_FOR_TARGET="-Os -g0 $config_arch_target_cflags" \
 LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
