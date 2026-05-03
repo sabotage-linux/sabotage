@@ -17,9 +17,13 @@ zstd
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir"
 
+if test "$option_squashfuse_zstd_only" = 1 ; then
+  disable_flags="--without-zlib --without-lzo --without-lz4 --without-xz"
+fi
+
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags
+  ./configure -C --prefix="$butch_prefix" $disable_flags $xconfflags
 
 make V=1 -j$MAKE_THREADS
 make DESTDIR="$butch_install_dir" install
