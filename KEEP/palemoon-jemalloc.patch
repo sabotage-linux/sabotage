@@ -1,0 +1,29 @@
+--- a/platform/memory/mozjemalloc/jemalloc.c
++++ b/platform/memory/mozjemalloc/jemalloc.c
+@@ -494,7 +494,7 @@
+ /* No init lock for Windows nor FreeBSD. */
+ #elif defined(MOZ_MEMORY_DARWIN)
+ static malloc_mutex_t init_lock = {OS_SPINLOCK_INIT};
+-#elif defined(MOZ_MEMORY_LINUX)
++#elif 0 && defined(MOZ_MEMORY_LINUX)
+ static malloc_mutex_t init_lock = PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP;
+ #else
+ static malloc_mutex_t init_lock = PTHREAD_MUTEX_INITIALIZER;
+@@ -1400,7 +1400,7 @@
+     InitializeSRWLock(mutex);
+ #elif defined(MOZ_MEMORY_DARWIN)
+ 	mutex->lock = OS_SPINLOCK_INIT;
+-#elif defined(MOZ_MEMORY_LINUX)
++#elif 0 && defined(MOZ_MEMORY_LINUX)
+ 	pthread_mutexattr_t attr;
+ 	if (pthread_mutexattr_init(&attr) != 0)
+ 		return (true);
+@@ -1466,7 +1466,7 @@
+ 	InitializeSRWLock(lock);
+ #elif defined(MOZ_MEMORY_DARWIN)
+ 	lock->lock = OS_SPINLOCK_INIT;
+-#elif defined(MOZ_MEMORY_LINUX)
++#elif 0 && defined(MOZ_MEMORY_LINUX)
+ 	pthread_mutexattr_t attr;
+ 	if (pthread_mutexattr_init(&attr) != 0)
+ 		return (true);

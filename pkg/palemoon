@@ -60,6 +60,7 @@ sed -i 's/MOZ_GCC_VERSION_AT_LEAST(9, 1, 0)/MOZ_GCC_VERSION_AT_LEAST(6, 0, 0)/' 
   platform/mfbt/Compiler.h
 
 patch -p1 < "$K"/palemoon-no-xz.patch
+patch -p1 < "$K"/palemoon-jemalloc.patch
 
 # install ancient autoconf version firefox wants into src tree
 mkdir AC213
@@ -119,8 +120,8 @@ mk_add_options MOZ_GL_DEFAULT_PROVIDER=NONE
 ac_add_options --disable-dbus
 ac_add_options --disable-necko-wifi
 #ac_add_options --disable-libnotify
-ac_add_options --disable-jemalloc
-ac_add_options --disable-replace-malloc
+#ac_add_options --disable-jemalloc
+#ac_add_options --disable-replace-malloc
 #ac_add_options --disable-wrap-malloc
 
 ac_add_options --disable-profiling
