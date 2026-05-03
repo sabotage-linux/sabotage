@@ -146,7 +146,7 @@ export libbacktrace_cv_lib_dwarf5=no
 CFLAGS="-O2 -g0" \
 CXXFLAGS="-O2 -g0" \
 LDFLAGS="-s -Wl,--no-keep-memory" \
-CFLAGS_FOR_TARGET="-Os -g0 $config_arch_target_cflags" \
+CFLAGS_FOR_TARGET="-O2 -g0 $config_arch_target_cflags" \
 LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
 ./configure -C --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib \
