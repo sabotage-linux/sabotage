@@ -4,7 +4,7 @@ http://ffmpeg.org/releases/ffmpeg-4.3.5.tar.xz
 [vars]
 filesize=9397740
 sha512=e251291344dad0d916f3a1585f2db642668e1bbd95849d4eadafd44403652896ffe178a05ed02ff85824d85ac277a14184d980178ca8ea72742d8c99f0633ac7
-pkgver=22
+pkgver=23
 
 [deps]
 alsa-lib
@@ -33,6 +33,8 @@ testlib() {
 	$CC test_lib.c -l$1 >/dev/null 2>&1
 }
 
+libdav1d=
+testlib dav1d && libdav1d=--enable-libdav1d
 libvpx=
 testlib vpx && libvpx=--enable-libvpx
 libv4l2=
@@ -54,7 +56,7 @@ LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --logfile=config.log \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
   --enable-postproc --enable-gpl \
-  $libvpx $libv4l2 $libx264 $libx265 $yasm  $static_flags \
+  $libvpx $libv4l2 $libx264 $libx265 $libdav1d $yasm  $static_flags \
   --enable-libvorbis \
   --enable-libopus \
   --enable-openssl --enable-nonfree \
