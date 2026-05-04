@@ -1,0 +1,18 @@
+[mirrors]
+https://github.com/annacrombie/muon/archive/2b47a3c92f2b16f43f65d988b6301bbeb8ad59ce.tar.gz
+
+[vars]
+filesize=552921
+sha512=27175069febdf63bec14ca22384c13b57785d43d920a023774d8abd610d59138d432cd95fe6f1c2561dfaf32ee4d06a45befdacb4a39de603cb17c534b8a85c3
+tarball=muon-2b47a3c92f2b16f43f65d988b6301bbeb8ad59ce.tar.gz
+pkgver=1
+
+[deps.host]
+samurai
+
+[build]
+./bootstrap.sh build
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+  build/muon setup -Dprefix="$butch_prefix" build
+samu -v -j $MAKE_THREADS -C build
+DESTDIR="$butch_install_dir" build/muon -C build install
