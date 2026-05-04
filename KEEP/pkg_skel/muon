@@ -1,0 +1,16 @@
+[deps]
+
+[deps.host]
+samurai
+muon
+
+[build]
+mkdir build
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+muon setup \
+  -D prefix="$butch_prefix" \
+  -D buildtype=release \
+  build
+
+samu -v -j $MAKE_THREADS -C build
+DESTDIR="$butch_install_dir" muon -C build install
