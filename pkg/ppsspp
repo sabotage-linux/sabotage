@@ -1,15 +1,16 @@
 [mirrors]
-https://github.com/hrydgard/ppsspp/releases/download/v1.14.1/ppsspp-1.14.1.tar.xz
+https://github.com/hrydgard/ppsspp/releases/download/v1.19.1/ppsspp-1.19.1.tar.xz
 
 [vars]
-filesize=46414036
-sha512=b33e43e14eafeea54d40f4f0d332d4f683b80ef6dace66e6101199e7141829b7858c7f94d5a4696393022c0453fcd7ce77858279a31b2ffba5bfcaa72e675b18
-pkgver=5
+filesize=57832112
+sha512=46c8727d8c976f91914f395bd8cfbba6beef9f1c9602a54e194481ee3f2b6af03eb34932ed80686abfb14ed0cd2f1a313257eccc2f9230ebf5e87452c3cabffc
+pkgver=6
 desc='an emulator for sony(r) psp(tm) aka playstation portable(tm)'
 
 [deps]
 ffmpeg
 sdl2
+sdl2-ttf
 glew
 glu
 
@@ -22,11 +23,12 @@ sed -e 's/report.ppsspp.org//g' -i Core/WebServer.cpp -i UI/ReportScreen.cpp \
  -i UI/RemoteISOScreen.cpp -i UI/GameSettingsScreen.cpp
 
 patch -p1 < "$K"/ppsspp-1.14.1-exit.patch
-patch -p1 < "$K"/ppsspp-fs-crash.patch
 # checks for python3, fails without, then doesnt even use it...
-sed -i 's@find_package(PythonInterp 3 REQUIRED)@# find_package(PythonInterp 3 REQUIRED)@' \
+sed -i 's@find_host_package(PythonInterp 3 REQUIRED)@# find_host_package(PythonInterp 3 REQUIRED)@' \
   ext/glslang/CMakeLists.txt
 sed -i 's@-O2 -D_NDEBUG@@g' CMakeLists.txt
+
+sed -i /postproc/d cmake/Modules/FindFFmpeg.cmake
 
 mkdir -p build && cd build
 for i in ar ld nm objcopy objdump strip ; do
@@ -48,7 +50,7 @@ done
 
 CFLAGS="-D_GNU_SOURCE $optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-CXXFLAGS="$optcflags" \
+CXXFLAGS="$optcflags -fpermissive" \
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
