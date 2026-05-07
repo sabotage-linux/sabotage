@@ -1,10 +1,10 @@
 [mirrors]
-ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20170126-2245-stable.tar.bz2
+https://code.videolan.org/videolan/x264/-/archive/b35605ace3ddf7c1a5d67a2eb553f034aef41d55/x264-b35605ace3ddf7c1a5d67a2eb553f034aef41d55.tar.gz
 
 [vars]
-filesize=734068
-sha512=ed57527ffbca26f2b665c75095f8da67acb45b8b66f6cfa8c06320c3bc831b9c51557ac1b841becd7ff2254c8a2c619e2c786737808324861ef99dd136c59934
-pkgver=1
+filesize=1040327
+sha512=bfac118da55da2fcc4587b17a3184d9ed70d6e03188bc0497f5922df22b5685fa49fa4325f9c5196c76d03e6e3f56d5906475c540d0df7e1739dc4182816eebe
+pkgver=2
 desc='video encoder library for H.264/MPEG-4 AVC codec'
 
 [deps.host]
@@ -18,6 +18,9 @@ yasm
 CPPFLAGS="-D_GNU_SOURCE" CFLAGS="$optcflags" CXXFLAGS="$optcflags" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   sh ./configure -C --prefix="$butch_prefix" --disable-nls $xconfflags \
+  --disable-lavf \
+  --disable-swscale \
+  --disable-avs \
   --enable-shared --enable-static
 
 make V=1 -j$MAKE_THREADS
