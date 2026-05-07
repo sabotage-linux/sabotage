@@ -1,10 +1,10 @@
 [mirrors]
-https://code.videolan.org/videolan/dav1d/-/archive/0.9.2/dav1d-0.9.2.zip
+https://code.videolan.org/videolan/dav1d/-/archive/1.5.3/dav1d-1.5.3.tar.gz
 
 [vars]
-filesize=1395501
-sha512=3c4c4bab9ef8c955ba6e7cb015a4a175fef4879d445dba1d5550cba6a61085ab676fb6acdfa2c7845775f4bd8628d3a7dea4529146046e4025f30147dbfb2cbf
-pkgver=1
+filesize=1713950
+sha512=8d976b93135213d41385c20205475269a6826a68ebfd716c4d9a7a3ff2a79703e8df0573e43207c81b5db44807d2721db18ec84c0fc6bef98efab86a2cccb6cc
+pkgver=2
 desc='decoder for AV-1 video format'
 
 [deps]
