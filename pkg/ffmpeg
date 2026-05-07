@@ -1,9 +1,9 @@
 [mirrors]
-http://ffmpeg.org/releases/ffmpeg-4.3.5.tar.xz
+https://ffmpeg.org//releases/ffmpeg-7.1.4.tar.xz
 
 [vars]
-filesize=9397740
-sha512=e251291344dad0d916f3a1585f2db642668e1bbd95849d4eadafd44403652896ffe178a05ed02ff85824d85ac277a14184d980178ca8ea72742d8c99f0633ac7
+filesize=11043436
+sha512=f78122efff098fc75d0213021bfc5ddbf94dd993970cab846bd9e0dfa72564beeae5a65616e4394f1591e28472409ea404f1390fee2780ebddc39ba69a97f9a9
 pkgver=23
 
 [deps]
@@ -18,10 +18,9 @@ xz
 
 [deps.host]
 pkg-config
+nasm
 
 [build]
-patch -p1 < "$K"/ffmpeg-mathops.patch
-
 # note: FFPLAY tool will only be built if SDL2 is installed!
 
 [ -z "$butch_prefix" ] && butch_prefix=/
@@ -43,23 +42,24 @@ libx264=
 testlib x264 && libx264=--enable-libx264
 libx265=
 testlib x265 && libx265=--enable-libx265
-yasm=--disable-yasm
-type yasm >/dev/null 2>&1 && yasm=--enable-yasm
+
 static_flags="--disable-static --enable-shared"
 test "$STATICBUILD" = 1 && static_flags="--enable-static --disable-shared --pkg-config-flags=--static"
 
+nasm=
 case "$A" in i[3-6]86) optldflags="$optldflags -Wl,-z,notext" ;; esac
+case "$A" in i[3-6]86|x86_64) nasm=--enable-x86asm ;; esac
 
 CFLAGS="-D_BSD_SOURCE $optcflags" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure --prefix="$butch_prefix" --disable-debug \
   --logfile=config.log \
   --cc="$CC" --cxx="$CXX" --host-cc="$HOSTCC" $xconfflags \
-  --enable-postproc --enable-gpl \
-  $libvpx $libv4l2 $libx264 $libx265 $libdav1d $yasm  $static_flags \
+  --enable-gpl \
+  $libvpx $libv4l2 $libx264 $libx265 $libdav1d $nasm $static_flags \
   --enable-libvorbis \
   --enable-libopus \
-  --enable-openssl --enable-nonfree \
+  --enable-libtls --enable-nonfree \
   --disable-stripping
 
 make V=1 -j$MAKE_THREADS
