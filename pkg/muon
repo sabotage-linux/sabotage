@@ -1,18 +1,17 @@
 [mirrors]
-https://github.com/annacrombie/muon/archive/2b47a3c92f2b16f43f65d988b6301bbeb8ad59ce.tar.gz
+https://muon.build/releases/v0.5.0/muon-v0.5.0.tar.gz
 
 [vars]
-filesize=552921
-sha512=27175069febdf63bec14ca22384c13b57785d43d920a023774d8abd610d59138d432cd95fe6f1c2561dfaf32ee4d06a45befdacb4a39de603cb17c534b8a85c3
-tarball=muon-2b47a3c92f2b16f43f65d988b6301bbeb8ad59ce.tar.gz
-pkgver=1
+filesize=1262546
+sha512=1575aa928b88fd5f17c1cdf9f46359b4dde407ec11800813eb1c9d4b4a4d201f6ee0a715d2e6f693bf6dda63073980a7207086d4195e51eda96dd27af3319078
+pkgver=2
 
 [deps.host]
 samurai
 
 [build]
-./bootstrap.sh build
+CFLAGS=-DBOOTSTRAP_NO_SAMU ./bootstrap.sh build
 CFLAGS="$optcflags" LDFLAGS="$optldflags" \
-  build/muon setup -Dprefix="$butch_prefix" build
+  build/muon-bootstrap setup -Dprefix="$butch_prefix" -Dsamurai=disabled build
 samu -v -j $MAKE_THREADS -C build
 DESTDIR="$butch_install_dir" build/muon -C build install
