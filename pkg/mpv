@@ -1,12 +1,11 @@
 [mirrors]
-https://github.com/mpv-player/mpv/archive/v0.29.0.tar.gz
+https://github.com/mpv-player/mpv/archive/refs/tags/v0.36.0.tar.gz
 
 [vars]
-filesize=3057997
-sha512=77204218bd217ae1da4812b09e0509965a3ef102d3de5cd4360f007ccf3779e4cbde5cfd6adae9629ea39062bd365e847429bdf7f9a1ddebd0a67d267492b221
-tarball=mpv-0.29.0.tar.gz
-pkgver=11
-need_net=1
+filesize=3409178
+sha512=51f455a425ea5aac47acb3582d0f958a34248a2290a8d6887d22bcb9385fe8d1ab5d7f09d5408cfecfb73c1ec85d1b8ec8958e45a4941d3f711a2e580187472f
+tarball=mpv-0.36.0.tar.gz
+pkgver=12
 uchkurl=https://github.com/mpv-player/mpv/releases
 desc='media player forked from mplayer with major cleanups'
 
@@ -16,25 +15,28 @@ libass
 lua52
 
 [deps.host]
-python
 pkg-config
+samurai
+muon
 
 [build]
-patch -p1 < "$K"/mpv-29-alsa-spam.patch
+patch -p1 < "$K"/mpv-0.36.0-file2string.patch
+patch -p1 < "$K"/mpv-0.36.0-version.patch
 
-testlib() {
-	printf "int main() {}\n" > test_lib.c
-	$CC test_lib.c -l$1 >/dev/null 2>&1
-}
+sed -i 's@python3@python2@g' meson.build
+sed -i 's@python3@python2@g' version.py
+sed -i 's@python3@python2@g' TOOLS/file2string.py
+sed -i 's@python3@python2@g' TOOLS/matroska.py
+sed -i "s@, end=' '@@g" TOOLS/matroska.py
+sed -i s@AV_OPT_TYPE_CHANNEL_LAYOUT@AV_OPT_TYPE_CHLAYOUT@ filters/f_lavfi.c
 
-libgl=--disable-gl
-testlib GL && libgl=
+mkdir build
+CFLAGS="$optcflags" LDFLAGS="$optldflags" \
+muon setup \
+  -D prefix="$butch_prefix" \
+  -D buildtype=release \
+  build
 
-./bootstrap.py
+samu -v -j $MAKE_THREADS -C build
+DESTDIR="$butch_install_dir" muon -C build install
 
-CFLAGS="-D_GNU_SOURCE $optcflags" \
-LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-  ./waf configure --prefix="$butch_prefix" $libgl
-
-./waf -v build -j$MAKE_THREADS
-./waf install --destdir="$butch_install_dir"

@@ -1,0 +1,47 @@
+--- a/version.py
++++ b/version.py
+@@ -4,32 +4,17 @@
+ import sys
+ import time
+ 
+-from datetime import datetime,timezone
+-from shutil import which
+-from subprocess import check_output, DEVNULL
+-
+ srcdir = os.path.dirname(os.path.abspath(sys.argv[0]))
+-git_dir = os.path.join(srcdir, ".git")
+-git = which('git')
+ 
+-if git and os.path.exists(git_dir):
+-    # stdin is set to DEVNULL to workaround waf preforking issues
+-    version = check_output([git, "-C", srcdir, "describe", "--always", "--tags",
+-                            "--dirty"], stdin=DEVNULL, encoding="UTF-8")
+-    version = version[1:].strip()
+-else:
+-    version_path = os.path.join(srcdir, "VERSION")
+-    with open(version_path, "r") as f:
+-        version = f.readline().strip()
++version_path = os.path.join(srcdir, "VERSION")
++with open(version_path, "r") as f:
++    version = f.readline().strip()
+ 
+ if len(sys.argv) < 2:
+     print(version)
+     sys.exit()
+ 
+-date = datetime.utcfromtimestamp(int(os.environ.get('SOURCE_DATE_EPOCH', time.time())))
+-if date == "":
+-    date = datetime.now(timezone.utc).astimezone()
+-date_str = date.strftime("%a %b %d %I:%M:%S %Y")
++date_str = "2026-00-00"
+ 
+ NEW_REVISION = "#define VERSION \"" + version + "\"\n"
+ OLD_REVISION = ""
+@@ -41,6 +26,6 @@
+         OLD_REVISION = f.readline()
+ 
+ if NEW_REVISION != OLD_REVISION:
+-    with open(sys.argv[1], "w", encoding="utf-8") as f:
++    with open(sys.argv[1], "w") as f:
+         f.writelines([NEW_REVISION, BUILDDATE, MPVCOPYRIGHT])
+ 

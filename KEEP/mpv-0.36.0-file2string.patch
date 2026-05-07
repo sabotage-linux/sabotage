@@ -1,0 +1,11 @@
+--- a/TOOLS/file2string.py
++++ b/TOOLS/file2string.py
+@@ -36,7 +36,7 @@
+     for c, esc in ("\nn", "\tt", r"\\", '""'):
+         conv[ord(c)] = '\\' + esc
+     for line in infile:
+-        outfile.write('"' + ''.join(conv[c] for c in line) + '"\n')
++        outfile.write('"' + ''.join(conv[ord(c)] for c in line) + '"\n')
+ 
+ if __name__ == "__main__":
+     if len(sys.argv) < 2:
