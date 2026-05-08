@@ -13,6 +13,11 @@ desc='media player forked from mplayer with major cleanups'
 ffmpeg
 libass
 lua52
+libxscrnsaver
+xkbcommon
+libxpresent
+libxrandr
+libx11
 
 [deps.host]
 pkg-config
