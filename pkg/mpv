@@ -18,6 +18,8 @@ xkbcommon
 libxpresent
 libxrandr
 libx11
+zlib
+alsa-lib
 
 [deps.host]
 pkg-config
@@ -25,6 +27,7 @@ samurai
 muon
 
 [build]
+patch -p1 < "$K"/mpv-swresample.patch
 patch -p1 < "$K"/mpv-0.36.0-file2string.patch
 patch -p1 < "$K"/mpv-0.36.0-version.patch
 
