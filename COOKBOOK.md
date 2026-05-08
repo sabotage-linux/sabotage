@@ -198,12 +198,6 @@ The C compiler used. `gcc` is currently the only compiler tested and supported.
 
 The number of threads to pass to make via the -j flag.
 
-        BUTCH_BIN="/a/path/to/butch-core"
-
-If not set, `./build-stage0` will download and build `butch`. On systems lacking a
-proper libc, you may need to statically build `butch` yourself then specify it with
-this variable.
-
 	R=/               # `R` is the system root that butch will link packages into
 	S=/src            # `S` is the source directory for `butch`
 	K=/src/KEEP       # `K` is a directory of needed files and patches
