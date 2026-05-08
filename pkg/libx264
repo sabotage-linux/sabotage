@@ -8,7 +8,7 @@ pkgver=2
 desc='video encoder library for H.264/MPEG-4 AVC codec'
 
 [deps.host]
-yasm
+nasm
 
 [build]
 [ -n "$CROSS_COMPILE" ] && \
