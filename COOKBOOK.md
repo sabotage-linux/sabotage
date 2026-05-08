@@ -167,7 +167,7 @@ prevent the post-build linking of files. If the`[build]` phase calls `exit`,
 
 These recipe elements combine with `KEEP/butch_download_template.txt` as a
 `build/dl_package.sh` script. They also join
-`KEEP/butch_template_configure_cached.txt` to form `build/build_package.sh`.
+`KEEP/butch_build_template.txt` to form `build/build_package.sh`.
 
 Metapackages containing only a `[mirrors]` & `[vars]`, `[deps]` or `[build]`
 section are useful.
@@ -207,7 +207,7 @@ The number of threads to pass to make via the -j flag.
 Internal paths, useful when writing scripts and recipes. You should leave these
 all as-is, this is the intended way.
 
-	BUTCH_BUILD_TEMPLATE="$K"/butch_template_configure_cached.txt
+	BUTCH_BUILD_TEMPLATE="$K"/butch_build_template.txt
 
 The build template. It creates packages in `$R/opt/$package_name` and
 optionally supplies a `config.cache` file to speed up some from-source
