@@ -25,7 +25,7 @@ case $A in i?86) isx86=1;; esac
 isgcc3=0
 [ "$STAGE" = 0 ] || is_gcc3 && isgcc3=1
 cflags_base=
-test $isgcc3 = 0 && cflags_base=-gdwarf-3
+test $isgcc3 = 0 && cflags_base="-gdwarf-3 -fno-diagnostics-color"
 
 cflags_base="$cflags_base -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -fno-math-errno"
 cflags_size="-Os -g0 -fdata-sections -ffunction-sections"
