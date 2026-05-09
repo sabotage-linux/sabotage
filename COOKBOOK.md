@@ -53,6 +53,8 @@ To completely remove a package:
 	$ butch unlink $pkg
 	$ sed -i '/$pkg/d' /var/lib/butch.db # ... or edit by hand.
 
+or use `butch rm $pkg` - which does all of the above automatically.
+
 
 ### /src, the heart of the system
 
