@@ -406,56 +406,6 @@ You can put the above into a script which `/etc/rc.local` can execute at boot
 time.
 
 
-#### Wine
-
-Wine builds on Sabotage i386.
-To use it on x86_64, one needs to use packages built on i386 Sabotage.
-
-For example, the following 32-bit packages are required to run simple Delphi
-programs:
-
-	wine
-	musl
-	alsa-lib #for sound support
-	freetype
-	libpng
-	libsm
-	libx11
-	libxau
-	libxcb
-	libxext
-	libxi
-	libxrender
-	ncurses
-	zlib-dynamic
-
-You can get them off `/opt` from a Sabotage i386 image or rootfs.
-From `musl` we need `libc.so`.
-We also need everything from the `wine` package and the `lib/.so` from all
-other packages.
-Make a directory to put the stuff, we use `/32bit` here.
-
-	$ mkdir -p /32bit/lib
-	$ mv musl-i386/lib/libc.so /32bit/lib
-	$ ln -sf /32bit/lib/libc.so /lib/ld-musl-i386.so.1
-	$ echo "/32bit/lib:/32bit/wine/lib" > /etc/ld-musl-i386.path
-	$ cd /32bit
-	$ tar xf wine.i386.tar.xz
-	$ for p in `cat 32bit-packages.txt`; do tar xf "$p".i386.tar.xz; mv "$p"/lib/* lib/; rm -rf lib/pkgconfig; done
-	$ rm lib/*.a
-
-Now it should be possible to use `/32bit/wine/bin/wine` to execute Windows
-programs.
-Here`s a pre-made package that includes the work from the above steps:
-
-	http://mirror.wzff.de/sabotage/bin/wine-i386-bundle.tar.xz
-
-	sha512sum: 2475ac72f62a7d611ab1ca14a6a58428bd07339f81e384bf1bbbd0187b2467c371f79fee9d028149eebd3c6a80999e5676364d1bc8054022f89de8cc66169b84
-
-You only need to create the `ld-musl-i386.so` symlink and the entry in
-`/etc/ld-musl-i386.path`
-
-
 #### Timezones
 
 The `timezones` package installs timezone description files into
