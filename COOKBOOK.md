@@ -267,51 +267,6 @@ dependencies was updated in a way that requires a rebuild of all users, for
 example a soname bump due to API changes in libressl, libpng, etc, but not if
 there were only cosmetic changes (for example addition of a description tag).
 
-
-### Encrypted file systems
-
-Install the `cryptsetup` package, then follow this guide to setup your partitions:
-
-http://wiki.centos.org/HowTos/EncryptedFilesystem
-
-The **tl;dr** is:
-
-    cryptsetup -y luksFormat PARTITION
-
-Where PARTITION is the partition to be used (e.g. /dev/sda5).
-It can also be a loop-mounted file, e.g. /dev/loop0.
-
-After entering your passphrase, you need to make the transparently de/encrypted
-blockdevice available in the /dev/mapper/ namespace by picking a unique name
-like "cryptpart", henceforth called NAME.
-
-    cryptsetup luksOpen PARTITION NAME # will ask for passphrase
-
-create a filesystem with the newly
-created mapper device, e.g.
-
-    mkfs.ext4 /dev/mapper/NAME
-
-Add appropriate entries in `/etc/crypttab` and `/etc/fstab`.
-On startup, Sabotage's `rc.boot` will mount them.
-
-To mount an encrypted parition directly you can use
-
-    cryptsetup luksOpen PARTITION NAME # will ask for passphrase
-    mount /dev/mapper/NAME /mnt/SOMEDIRECTORY
-
-and to unmount:
-
-    umount /mnt/SOMEDIRECTORY
-    cryptsetup luksClose NAME
-
-By default, Sabotage does not use an initramfs, so if you require an encrypted
-root mount, you will require a small initramfs that's loaded along with your
-kernel. That initramfs can be built using pkg/initramfs, then point your
-bootloader to it.
-Or use CONFIG_INITRAMFS_SOURCE during kernel build to have it built-in.
-see https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-
 ## System Administration
 
 Sabotage does things a bit differently than your usual Linux distribution!
@@ -539,40 +494,45 @@ if your hardware clock is off, you can fix it by using
 `ntpd -dnq -p pool.ntp.org` to get the actual time, then write it to BIOS using
 `hwclock -u -w`.
 
-### encrypted partitions
+### Encrypted file systems and partitions
 
-encrypted partitions will be mapped to `/dev/mapper` after they're opened.
+Install the `cryptsetup` package first.
+Sabotage maps opened encrypted partitions into `/dev/mapper`,
+and you can use them either as regular data partitions or,
+with extra boot setup, as an encrypted root filesystem.
 
-#### creating a new encrypted partition
-encrypted partitions require a name, in this example we will use `crypart`.
-the partition we want to encrypt will be `/dev/sdb6`.
+A typical workflow for creating and using a new encrypted partition is:
 
-initialize the encrypted partition with a passphrase:
+    cryptsetup -y luksFormat /dev/sdb6
+    cryptsetup luksOpen /dev/sdb6 crypart
+    mkfs.ext4 /dev/mapper/crypart
+    mount /dev/mapper/crypart /mnt
 
-	$ cryptsetup -y luksFormat /dev/sdb6
+Here `/dev/sdb6` is the partition to encrypt, and `crypart` is the mapper name
+you choose.
+After luksOpen, the device becomes available as `/dev/mapper/crypart`.
 
-enter a passphrase when asked 
+If you want to be safe against drive failure, make a backup of the LUKS header:
 
-create the unencrypted mapper device
+    cryptsetup luksHeaderBackup /dev/sdb6 --header-backup-file=/boot/luks_header.bin
 
-    $ cryptsetup luksOpen /dev/sdb6 crypart
+To open and close an encrypted volume manually:
 
-now you can format `/dev/mapper/crypart` like an ordinary partition.
+    cryptsetup luksOpen PARTITION NAME
+    mount /dev/mapper/NAME /mnt/SOMEDIRECTORY
+    umount /mnt/SOMEDIRECTORY
+    cryptsetup luksClose NAME
 
-    $ mkfs.ext4 /dev/mapper/crypart
+For automatic mounting at boot, add the appropriate entries to /etc/crypttab
+and /etc/fstab.
+On startup, Sabotage's rc.boot will mount the configured encrypted filesystems
+after asking for the passphrase.
 
-Finally, mount the partition
+If you need an encrypted root filesystem, Sabotage does not use an initramfs
+by default, so you must provide one.
+You can build a small initramfs with `pkg/initramfs` and point your bootloader
+to it, or use CONFIG_INITRAMFS_SOURCE in the kernel build to embed it directly.
 
-    $ mount /dev/mapper/crypart /mnt
-
-you should maybe make a copy of the header so you can restore your drive
-in case of a hardware defect:
-
-    $ cryptsetup luksHeaderBackup /dev/sdb6 --header-backup-file=/boot/luks_header.bin
-
-#### automatic mounting of encrypted devices
-
-create an entry for the partition in `/etc/crypttab`. the file has information
-in the comments to assist you. after adding it, the device will be mounted on
-the next boot (the passphrase will be asked from the user during boot).
-
+For additional background and step-by-step details,
+see: http://wiki.centos.org/HowTos/EncryptedFilesystem
+and: https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
