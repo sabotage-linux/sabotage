@@ -87,7 +87,7 @@ the obvious.
 
 It is suggested to clone the upstream repo as `/src/sabotage`:
 
-	$ git clone git://github.com/sabotage-linux/sabotage /src/sabotage
+	$ git clone https://github.com/sabotage-linux/sabotage /src/sabotage
 	$ rm -rf /src/KEEP /src/pkg
 	$ ln -sf /src/sabotage/KEEP /src/KEEP
 	$ ln -sf /src/sabotage/pkg /src/pkg
