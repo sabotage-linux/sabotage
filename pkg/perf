@@ -1,13 +1,13 @@
 [vars]
 desc='profiling tool using instrumentation facilities provided by the kernel'
-LINUX_VER=5.15
+LINUX_VER=6.1
 tarball=linux-"$LINUX_VER".tar.xz
-patchver=152
-pkgver=7
+patchver=168
+pkgver=8
 
 [deps]
-kernel515-tarball
-kernel515-patch
+kernel61-tarball
+kernel61-patch
 libelf
 
 [deps.host]
