@@ -3,7 +3,7 @@ desc='profiling tool using instrumentation facilities provided by the kernel'
 LINUX_VER=6.1
 tarball=linux-"$LINUX_VER".tar.xz
 patchver=168
-pkgver=8
+pkgver=9
 
 [deps]
 kernel61-tarball
@@ -25,7 +25,7 @@ cat << EOF > hack.h
 #include <string.h>
 #include <errno.h>
 //#define sched_getcpu() (errno = ENOSYS, -1)
-#define strerror_r(a,b,c) ((strerror_r)(a,b,c),b)
+//#define strerror_r(a,b,c) ((strerror_r)(a,b,c),b)
 #endif
 EOF
 # create a gcc wrapper that filters out -s (strip) flag passed from the PoS
