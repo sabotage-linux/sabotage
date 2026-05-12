@@ -1,10 +1,11 @@
 [mirrors]
-https://sourceforge.net/projects/gnu-efi/files/gnu-efi-3.0.8.tar.bz2
+https://github.com/ncroxon/gnu-efi/archive/refs/tags/4.0.4.tar.gz
 
 [vars]
-filesize=154397
-sha512=57318fdf1fe4a2ae310c5e41b2bc466f0eebe21f12db1a87bf0a4ec636fcb353324444220597ee47f7404e446ac944634ca9d3d1aa8920b77434e9a7955938e6
-pkgver=2
+filesize=245519
+sha512=4ed273ef8203f1b2fd90855821576523b070236911a26199eec220f1bad34f63759a32b06f11a681e532a2c793339d9e66bcb90e5cde5de02d8842a40c471a06
+tarball=gnu-efi-4.0.4.tar.gz
+pkgver=3
 
 [deps]
 pciutils
