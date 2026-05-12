@@ -113,6 +113,7 @@ EOF
 
 make \
 	$PREFIXED_PATHS \
+	CC="$CC -fcommon -Wa,--noexecstack" \
 	OPTFLAGS="$optcflags -include sys/sysmacros.h" \
 	OPTLDFLAGS="$optldflags" \
 	INSTALLROOT="$butch_install_dir" \
