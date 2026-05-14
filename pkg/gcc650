@@ -143,10 +143,16 @@ export CC="$CC $static_ccflags -D_GNU_SOURCE"
 export gcc_cv_as_gdwarf_5_flag=no
 export libbacktrace_cv_lib_dwarf5=no
 
-CFLAGS="-O2 -g0" \
-CXXFLAGS="-O2 -g0" \
+# when compiling gcc 6.5.0 with -O2 it runs into an ICE
+# libgcc/libgcov-driver.c: In function 'gcov_do_dump':
+# libgcc/libgcov-driver.c:829:1: internal compiler error: in force_constant_size, at gimplify.c:659
+gcc_optlevel=-O2
+test "$gcc_major" = 6 && gcc_optlevel=-Os
+
+CFLAGS="$gcc_optlevel -g0" \
+CXXFLAGS="$gcc_optlevel -g0" \
 LDFLAGS="-s -Wl,--no-keep-memory" \
-CFLAGS_FOR_TARGET="-O2 -g0 $config_arch_target_cflags" \
+CFLAGS_FOR_TARGET="-O2 -g0 -Wa,--noexecstack $config_arch_target_cflags" \
 LDFLAGS_FOR_TARGET="-s $config_arch_target_ldflags" \
 ./configure -C --with-headers=no --prefix="$butch_prefix" \
   --disable-multilib \
