@@ -48,8 +48,13 @@ else
 	ldflags_base="$ldflags_base -s"
 fi
 
+if [ "$STAGE" = 0 ] ; then
+optcflags="-O0 -g0 $cflags_base"
+optldflags="$ldflags_base"
+else
 optcflags="$cflags_size $cflags_base"
 optldflags="$ldflags_size $ldflags_base"
+fi
 
 [ "$isx86" = 1 ] || [ "$A" = x86_64 ] && [ "$isgcc3" = 0 ] && \
 	optcflags="$optcflags -mtune=generic"
