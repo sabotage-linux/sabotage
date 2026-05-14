@@ -14,6 +14,7 @@ g++346
 g++346
 
 [build]
+export SHELL=/bin/sh
 VERSION=3.4.6
 
 test -n "$CROSS_COMPILE" && exit 0
