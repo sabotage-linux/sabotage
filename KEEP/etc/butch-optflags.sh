@@ -29,8 +29,12 @@ test $isgcc3 = 0 && cflags_base="-gdwarf-3 -fno-diagnostics-color"
 
 cflags_base="$cflags_base -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -fno-math-errno"
 
+if [ "$isgcc3" = 1 ] ; then
+cflags_size="-Os -g0 -fdata-sections -ffunction-sections"
+else
 # our size-opt baseline is -O2 with the good bits of -Os manually enabled
 cflags_size="-O2 -g0 -fdata-sections -ffunction-sections -freorder-blocks-algorithm=simple -fno-prefetch-loop-arrays -fno-align-functions  -fno-align-jumps  -fno-align-loops -fno-align-labels -fno-tree-ch -fira-region=one -fsplit-paths"
+fi
 
 cflags_speed="-O3 -fstrength-reduce -fthread-jumps -fcse-follow-jumps -fcse-skip-blocks -frerun-cse-after-loop -fexpensive-optimizations -fforce-addr -fomit-frame-pointer"
 
