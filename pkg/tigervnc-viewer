@@ -1,0 +1,64 @@
+[mirrors]
+https://github.com/TigerVNC/tigervnc/archive/refs/tags/v1.16.2/tigervnc-1.16.2.tar.gz
+
+[vars]
+filesize=2222162
+sha512=acc2a380b3dc7237d9cc1500cd55cc9a6a295ef0aba21678f53d23673b44610717d3d462377ab32e9ea0f5ca9f4959335bf8645c442a8205a7ed62696de927cc
+pkgver=1
+desc='vncviewer component of tigervnc'
+
+[deps]
+zlib
+libjpeg
+libpng
+fltk13
+gnutls
+libnettle
+
+[deps.host]
+cmake
+
+[build]
+# we build only the viewer since the server requires to be built using the
+# xorg-server sources, in the exact version that's installed.
+
+# the cmake build has no configuration to build only the viewer
+# so we have to patch our way around PAM dependencies of the server
+# the viewer requires only ftlk, but no X11 libraries, so we can follow
+# most of the logic for apple (build disables X11 and PAM for it).
+sed 's/PAM REQUIRED/PAM/' -i CMakeLists.txt
+sed 's/add_subdirectory(unix)/#add_subdirectory(unix)/' -i CMakeLists.txt
+sed 's/UNIX AND NOT APPLE/0/' -i common/rfb/CMakeLists.txt
+
+mkdir -p build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+[ -n "$CROSS_COMPILE" ] && xconfflags="
+-DCMAKE_FIND_ROOT_PATH=$butch_root_dir$butch_prefix \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR=${CROSS_COMPILE}ar \
+-DCMAKE_LD=${CROSS_COMPILE}ld \
+-DCMAKE_NM=${CROSS_COMPILE}nm \
+-DCMAKE_OBJCOPY=${CROSS_COMPILE}objcopy \
+-DCMAKE_OBJDUMP=${CROSS_COMPILE}objdump \
+-DCMAKE_STRIP=${CROSS_COMPILE}strip \
+"
+
+CFLAGS="-D_GNU_SOURCE $optcflags" \
+LDFLAGS="$optldflags -lpng -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
+CXXFLAGS="$optcflags" \
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_NOT_USING_CONFIG_FLAGS=ON \
+  -DBUILD_VIEWER=ON \
+  -DENABLE_NETTLE=ON \
+  -DENABLE_NLS=OFF \
+  -DINSTALL_SYSTEMD_UNITS=OFF \
+  ..
+make -j$MAKE_THREADS VERBOSE=1
+make DESTDIR="$butch_install_dir" install
