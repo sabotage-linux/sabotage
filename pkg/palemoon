@@ -1,14 +1,14 @@
 [mirrors]
-https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/34.2.2_Release.tar.gz
+https://repo.palemoon.org/MoonchildProductions/Pale-Moon/archive/34.3.0.1_Release.tar.gz
 
 [vars]
-filesize=5608511
-sha512=a54fcdaab847961092ff1a0387c8ee4d0f5a991cec184f86a779d68a0ad59dd73d997d63b8eb1f30d259882d1ec7efb1d67ca6e42286865f5e3c65cf11a2afca
-tarball=Pale-Moon-34.2.2_Release.tar.gz
+filesize=5608565
+sha512=a9713b7ed1073d59791434692100043636f32835d652a1f4ff61b8b24b2248cd86094f37728af62817d6ad9ed4de5c0a2ff9134d86ac9d35bf1ebbda23af0411
+tarball=Pale-Moon-34.3.0.1_Release.tar.gz
 tardir=pale-moon
-pkgver=92
-BROWSER_VERSION=34.2.2
-UXP_VERSION=20260430
+pkgver=93
+BROWSER_VERSION=34.3.0.1
+UXP_VERSION=20260609
 uchkurl=https://repo.palemoon.org/MoonchildProductions/Pale-Moon/releases
 
 [deps]
@@ -28,7 +28,7 @@ hunspell
 [deps.host]
 yasm
 perl
-python
+python3
 zip
 
 [build]
@@ -89,7 +89,7 @@ sed -i 's@0x1281@0x1290@' media/libpng/pngrutil.c
 
 
 PATCH firefox-virtualenv.patch
-PATCH firefox-virtualenv2.patch
+PATCH palemoon-34.3-virtualenv2.patch
 PATCH palemoon33-xul-order.patch
 PATCH palemoon-movq_mr-nullptr.patch
 PATCH palemoon-revert-deduction-guides.patch
