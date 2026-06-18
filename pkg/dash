@@ -1,16 +1,18 @@
 [mirrors]
-http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.11.3.tar.gz
+http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.4.tar.gz
 
 [vars]
-filesize=244507
-sha512=ffe69b8de3586aba298d936168c329524e385252e12979aa1db28761e882048eb5a80673e93a2a2227f61b52fd8b56546b78c5db9c21a022072f536267f8bc20
-pkgver=5
+filesize=261171
+sha512=383d0ea8316fea3ce523dc535173a94a22e58bfaec2dec3309d3496a864e5e67711965563db82e7e181f8d7b67a25033107b4c9453c3d6b3820c6586d1f99675
+pkgver=6
 desc="debian almquist shell, a strictly POSIX conforming shell"
 no_unlink=1
 
 [deps]
 
 [build]
+patch -p1 < "$K"/dash-redir.patch
+
 cat << EOF > nl.c
 #include <stdio.h>
 int main() {
