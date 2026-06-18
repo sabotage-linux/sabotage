@@ -13,7 +13,7 @@ the file descriptor number"
 https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html#tag_19_07
 
 diff --git a/src/parser.c b/src/parser.c
-index 412e876..7e26b5e 100644
+index 412e876..13ca0e5 100644
 --- a/src/parser.c
 +++ b/src/parser.c
 @@ -1209,7 +1209,6 @@ endword:
@@ -24,7 +24,7 @@ index 412e876..7e26b5e 100644
  		 && (*out == '\0' || is_digit(*out))) {
  			PARSEREDIR();
  			return lasttoken = TREDIR;
-@@ -1288,12 +1287,20 @@ more_heredoc:
+@@ -1288,8 +1287,16 @@ more_heredoc:
   */
  
  parseredir: {
@@ -42,17 +42,13 @@ index 412e876..7e26b5e 100644
  
  	np = (union node *)stalloc(sizeof (struct nfile));
  	if (c == '>') {
--		np->nfile.fd = 1;
-+		np->nfile.fd = fd == -1 ? 1 : fd;
- 		c = pgetc_eatbnl();
- 		if (c == '>')
- 			np->type = NAPPEND;
-@@ -1338,8 +1345,6 @@ parseredir: {
+@@ -1338,8 +1345,7 @@ parseredir: {
  			break;
  		}
  	}
 -	if (fd != '\0')
 -		np->nfile.fd = digit_val(fd);
++	if (fd != -1) np->nfile.fd = fd;
  	redirnode = np;
  	goto parseredir_return;
  }
