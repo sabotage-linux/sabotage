@@ -1,0 +1,15 @@
+[deps]
+unifont-ttf
+unifont-pcf
+
+[deps.host]
+mkfontdir
+
+[build]
+fontsdir="$butch_install_dir/share/fonts/unifont"
+mkdir -p "$fontsdir"
+install -m 0644 "$C"/unifont-10.0.05.pcf.gz "$fontsdir/"
+install -m 0644 "$C"/unifont-10.0.05.ttf "$fontsdir/"
+mkfontdir "$fontsdir"
+fc-cache
+
