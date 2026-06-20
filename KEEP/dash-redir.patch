@@ -13,10 +13,32 @@ the file descriptor number"
 https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html#tag_19_07
 
 diff --git a/src/parser.c b/src/parser.c
-index 412e876..13ca0e5 100644
+index 412e876..0e1e08e 100644
 --- a/src/parser.c
 +++ b/src/parser.c
-@@ -1209,7 +1209,6 @@ endword:
+@@ -621,9 +621,18 @@ void fixredir(union node *n, const char *text, int err)
+ 	if (!err)
+ 		n->ndup.vname = NULL;
+ 
+-	if (is_digit(text[0]) && text[1] == '\0')
+-		n->ndup.dupfd = digit_val(text[0]);
+-	else if (text[0] == '-' && text[1] == '\0')
++	if (is_digit(text[0])) {
++		int fd = 0;
++		while (is_digit(*text)) {
++			fd *= 10;
++			fd += digit_val(*text++);
++		}
++		if (*text == '\0') {
++			n->ndup.dupfd = fd;
++			return;
++		}
++	}
++	if (text[0] == '-' && text[1] == '\0')
+ 		n->ndup.dupfd = -1;
+ 	else {
+ 
+@@ -1209,7 +1218,6 @@ endword:
  	if (eofmark == NULL) {
  		if ((c == '>' || c == '<')
  		 && quotef == 0
@@ -24,7 +46,7 @@ index 412e876..13ca0e5 100644
  		 && (*out == '\0' || is_digit(*out))) {
  			PARSEREDIR();
  			return lasttoken = TREDIR;
-@@ -1288,8 +1287,16 @@ more_heredoc:
+@@ -1288,8 +1296,16 @@ more_heredoc:
   */
  
  parseredir: {
@@ -42,7 +64,7 @@ index 412e876..13ca0e5 100644
  
  	np = (union node *)stalloc(sizeof (struct nfile));
  	if (c == '>') {
-@@ -1338,8 +1345,7 @@ parseredir: {
+@@ -1338,8 +1354,7 @@ parseredir: {
  			break;
  		}
  	}
@@ -52,3 +74,16 @@ index 412e876..13ca0e5 100644
  	redirnode = np;
  	goto parseredir_return;
  }
+diff --git a/src/redir.c b/src/redir.c
+index e61d3da..a9601f2 100644
+--- a/src/redir.c
++++ b/src/redir.c
+@@ -146,7 +146,7 @@ redirect(union node *redir, int flags)
+ 		if (fd == 0)
+ 			reset_input();
+ 
+-		if (sv) {
++		if (sv && fd < 10) {
+ 			int closed;
+ 
+ 			p = &sv->renamed[fd];

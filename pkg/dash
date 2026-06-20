@@ -4,7 +4,7 @@ http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.4.tar.gz
 [vars]
 filesize=261171
 sha512=383d0ea8316fea3ce523dc535173a94a22e58bfaec2dec3309d3496a864e5e67711965563db82e7e181f8d7b67a25033107b4c9453c3d6b3820c6586d1f99675
-pkgver=6
+pkgver=7
 desc="debian almquist shell, a strictly POSIX conforming shell"
 no_unlink=1
 
@@ -34,7 +34,7 @@ LC_CTYPE=C CFLAGS="-D_GNU_SOURCE -D__KLIBC__ $optcflags -g" \
 LDFLAGS="$optldflags -static" \
   ./configure -C --prefix="$butch_prefix" $xconfflags
 
-LC_CTYPE=C make -j$MAKE_THREADS CC_FOR_BUILD="$HOSTCC"
+LC_CTYPE=C make -j$MAKE_THREADS CC_FOR_BUILD="$HOSTCC" V=1
 make DESTDIR="$butch_install_dir" install
 
 dest="$butch_install_dir""$butch_prefix"
