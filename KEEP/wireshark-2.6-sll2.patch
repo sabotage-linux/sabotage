@@ -1,0 +1,1042 @@
+this patch backports support for LINKTYPE_LINUX_SLL2 to the last gtk2
+wireshark. newer linux/tcpdump pcaps all use this new packet type,
+and without support for it opening any pcap fails with:
+
+pcap: network type 276 unknown or unsupported
+
+backported
+7e7db3e91ce50f1f3ba35f88aff83c66b5f9bf97
+d795711a49184da6761fedbd91515cdc432d3ac7
+4cb12c84faafd0ff13460fbf082ab77d41fed4a1
+2fafa27759fdda99637b7d9bc7ed3bea072733de
+87d0c6f49280dcd7af1550f98c4d9d215003ec31
+
+From 7e7db3e91ce50f1f3ba35f88aff83c66b5f9bf97 Mon Sep 17 00:00:00 2001
+From: Guy Harris <guy@alum.mit.edu>
+Date: Sat, 20 Jun 2026 16:36:13 +0100
+Subject: [PATCH] sll: add support for LINKTYPE_LINUX_SLL2.
+
+Different header, with a different size, an additional field, and with
+fields being in a different order.
+
+Distinguish between V1 and V2 by giving the version.
+
+That means we can no longer use the "ethertype" dissector as it stands,
+because the packet type field isn't at the end of the header, right
+before the payload; pull the "add the type field to the protocol tree"
+functionality out of the "ethertype" dissector and leave it up to the
+dissector calling it.
+
+diff --git a/epan/dissectors/packet-btbnep.c b/epan/dissectors/packet-btbnep.c
+index ad5ee2f..9c34c95 100644
+--- a/epan/dissectors/packet-btbnep.c
++++ b/epan/dissectors/packet-btbnep.c
+@@ -443,10 +443,12 @@ dissect_btbnep(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data _
+                  */
+                 ethertype_data_t ethertype_data;
+ 
++                proto_tree_add_uint(btbnep_tree, hf_btbnep_type, tvb,
++                                    offset - 2, 2, len_type);
++
+                 ethertype_data.etype = len_type;
+-                ethertype_data.offset_after_ethertype = offset;
++                ethertype_data.payload_offset = offset;
+                 ethertype_data.fh_tree = btbnep_tree;
+-                ethertype_data.etype_id = hf_btbnep_type;
+                 ethertype_data.trailer_id = 0;
+                 ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-cisco-metadata.c b/epan/dissectors/packet-cisco-metadata.c
+index 7ecc819..455a3f3 100644
+--- a/epan/dissectors/packet-cisco-metadata.c
++++ b/epan/dissectors/packet-cisco-metadata.c
+@@ -82,10 +82,11 @@ dissect_cmd_eth(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data
+     } else {
+ #endif
+ 
++    proto_tree_add_uint(cmd_tree, hf_eth_type, tvb, 6, 2, encap_proto);
++
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = 8;
++    ethertype_data.payload_offset = 8;
+     ethertype_data.fh_tree = cmd_tree;
+-    ethertype_data.etype_id = hf_eth_type;
+     ethertype_data.trailer_id = hf_cmd_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-cisco-ttag.c b/epan/dissectors/packet-cisco-ttag.c
+index d116de4..7989387 100644
+--- a/epan/dissectors/packet-cisco-ttag.c
++++ b/epan/dissectors/packet-cisco-ttag.c
+@@ -57,12 +57,12 @@ dissect_ttag(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_
+     offset += 6;
+ 
+     encap_proto = tvb_get_ntohs(tvb, offset);
++    proto_tree_add_uint(ttag_tree, hf_ttag_eth_type, tvb, offset, 2, encap_proto);
+     offset += 2;
+ 
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = offset;
++    ethertype_data.payload_offset = offset;
+     ethertype_data.fh_tree = ttag_tree;
+-    ethertype_data.etype_id = hf_ttag_eth_type;
+     /* ttag doesn't define a trailer, but there's no way to tell Ethertype dissector that.
+      * At least use the correct header field to reflect that and allow proper filter expression,
+      * although it will still be attached to our tree instead of Ethernet II.
+diff --git a/epan/dissectors/packet-etag.c b/epan/dissectors/packet-etag.c
+index 1035367..0b1dc2f 100644
+--- a/epan/dissectors/packet-etag.c
++++ b/epan/dissectors/packet-etag.c
+@@ -148,11 +148,11 @@ dissect_etag(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_
+     }
+ 
+     encap_proto = tvb_get_ntohs(tvb, IEEE8021BR_LEN - 2);
++    proto_tree_add_uint(etag_tree, hf_etag_etype, tvb, IEEE8021BR_LEN - 2, 2, encap_proto);
+ 
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = IEEE8021BR_LEN;
++    ethertype_data.payload_offset = IEEE8021BR_LEN;
+     ethertype_data.fh_tree = etag_tree;
+-    ethertype_data.etype_id = hf_etag_etype;
+     ethertype_data.trailer_id = hf_etag_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-eth.c b/epan/dissectors/packet-eth.c
+index a6e742e..e6ee959 100644
+--- a/epan/dissectors/packet-eth.c
++++ b/epan/dissectors/packet-eth.c
+@@ -516,10 +516,11 @@ dissect_eth_common(tvbuff_t *tvb, packet_info *pinfo, proto_tree *parent_tree,
+     proto_tree_add_item(addr_tree, hf_eth_lg, tvb, 6, 3, ENC_BIG_ENDIAN);
+     proto_tree_add_item(addr_tree, hf_eth_ig, tvb, 6, 3, ENC_BIG_ENDIAN);
+ 
++    proto_tree_add_uint(fh_tree, hf_eth_type, tvb, 12, 2, ehdr->type);
++
+     ethertype_data.etype = ehdr->type;
+-    ethertype_data.offset_after_ethertype = ETH_HEADER_SIZE;
++    ethertype_data.payload_offset = ETH_HEADER_SIZE;
+     ethertype_data.fh_tree = fh_tree;
+-    ethertype_data.etype_id = hf_eth_type;
+     ethertype_data.trailer_id = hf_eth_trailer;
+     ethertype_data.fcs_len = fcs_len;
+ 
+diff --git a/epan/dissectors/packet-ethertype.c b/epan/dissectors/packet-ethertype.c
+index 39c7354..bb92727 100644
+--- a/epan/dissectors/packet-ethertype.c
++++ b/epan/dissectors/packet-ethertype.c
+@@ -219,15 +219,11 @@ dissect_ethertype(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *dat
+ 		return 0;
+ 	ethertype_data = (ethertype_data_t*)data;
+ 
+-	/* Add the Ethernet type to the protocol tree */
+-	proto_tree_add_uint(ethertype_data->fh_tree, ethertype_data->etype_id, tvb,
+-				    ethertype_data->offset_after_ethertype - 2, 2, ethertype_data->etype);
+-
+ 	/* Get the captured length and reported length of the data
+ 	   after the Ethernet type. */
+-	captured_length = tvb_captured_length_remaining(tvb, ethertype_data->offset_after_ethertype);
++	captured_length = tvb_captured_length_remaining(tvb, ethertype_data->payload_offset);
+ 	reported_length = tvb_reported_length_remaining(tvb,
+-							ethertype_data->offset_after_ethertype);
++							ethertype_data->payload_offset);
+ 
+ 	/* Remember how much data there is after the Ethernet type,
+ 	   including any trailer and FCS. */
+@@ -246,7 +242,7 @@ dissect_ethertype(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *dat
+ 				captured_length = reported_length;
+ 		}
+ 	}
+-	next_tvb = tvb_new_subset_length_caplen(tvb, ethertype_data->offset_after_ethertype, captured_length,
++	next_tvb = tvb_new_subset_length_caplen(tvb, ethertype_data->payload_offset, captured_length,
+ 				  reported_length);
+ 
+ 	p_add_proto_data(pinfo->pool, pinfo, proto_ethertype, pinfo->curr_layer_num, GUINT_TO_POINTER((guint)ethertype_data->etype));
+@@ -292,7 +288,7 @@ dissect_ethertype(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *dat
+ 		}
+ 	}
+ 
+-	add_dix_trailer(pinfo, tree, ethertype_data->fh_tree, ethertype_data->trailer_id, tvb, next_tvb, ethertype_data->offset_after_ethertype,
++	add_dix_trailer(pinfo, tree, ethertype_data->fh_tree, ethertype_data->trailer_id, tvb, next_tvb, ethertype_data->payload_offset,
+ 			length_before, ethertype_data->fcs_len);
+ 
+ 	return tvb_captured_length(tvb);
+diff --git a/epan/dissectors/packet-fw1.c b/epan/dissectors/packet-fw1.c
+index b1530c7..526f71b 100644
+--- a/epan/dissectors/packet-fw1.c
++++ b/epan/dissectors/packet-fw1.c
+@@ -197,9 +197,10 @@ dissect_fw1(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
+   }
+ 
+   ethertype_data.etype = tvb_get_ntohs(tvb, 12);
+-  ethertype_data.offset_after_ethertype = ETH_HEADER_SIZE;
++  proto_tree_add_uint(fh_tree, hf_fw1_type, tvb, 12, 2, ethertype_data.etype);
++
++  ethertype_data.payload_offset = ETH_HEADER_SIZE;
+   ethertype_data.fh_tree = fh_tree;
+-  ethertype_data.etype_id = hf_fw1_type;
+   ethertype_data.trailer_id = hf_fw1_trailer;
+   ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-gmhdr.c b/epan/dissectors/packet-gmhdr.c
+index 508e36a..ff6ebd6 100644
+--- a/epan/dissectors/packet-gmhdr.c
++++ b/epan/dissectors/packet-gmhdr.c
+@@ -261,10 +261,12 @@ dissect_gmhdr(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U
+   } else {
+     ethertype_data_t ethertype_data;
+ 
++    proto_tree_add_uint(gmhdr_tree, hf_gmhdr_etype, tvb, offset - 2, 2,
++                        encap_proto);
++
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = offset;
++    ethertype_data.payload_offset = offset;
+     ethertype_data.fh_tree = gmhdr_tree;
+-    ethertype_data.etype_id = hf_gmhdr_etype;
+     ethertype_data.trailer_id = hf_gmhdr_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-homepna.c b/epan/dissectors/packet-homepna.c
+index c972aac..4097ad1 100644
+--- a/epan/dissectors/packet-homepna.c
++++ b/epan/dissectors/packet-homepna.c
+@@ -94,12 +94,12 @@ dissect_homepna(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data
+     offset += (control_length-2);
+ 
+     protocol = tvb_get_ntohs(tvb, offset);
++    proto_tree_add_uint(homepna_tree, hf_homepna_etype, tvb, offset, 2, protocol);
+     offset += 2;
+ 
+     ethertype_data.etype = protocol;
+-    ethertype_data.offset_after_ethertype = offset;
++    ethertype_data.payload_offset = offset;
+     ethertype_data.fh_tree = homepna_tree;
+-    ethertype_data.etype_id = hf_homepna_etype;
+     ethertype_data.trailer_id = hf_homepna_trailer;
+     ethertype_data.fcs_len = 4;
+ 
+diff --git a/epan/dissectors/packet-ieee8021ah.c b/epan/dissectors/packet-ieee8021ah.c
+index b0c941f..ced5ed6 100644
+--- a/epan/dissectors/packet-ieee8021ah.c
++++ b/epan/dissectors/packet-ieee8021ah.c
+@@ -127,7 +127,6 @@ int dissect_ieee8021ad(tvbuff_t *tvb, packet_info *pinfo,
+ 
+     encap_proto = tvb_get_ntohs(tvb, IEEE8021AD_LEN - 2);
+     ethertype_data.fh_tree = ieee8021ad_tree;
+-    ethertype_data.etype_id = hf_ieee8021ah_etype;
+     ethertype_data.trailer_id = hf_ieee8021ah_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+@@ -182,7 +181,10 @@ int dissect_ieee8021ad(tvbuff_t *tvb, packet_info *pinfo,
+                             ctci & 0x0FFF);
+ 
+         ethertype_data.etype = tvb_get_ntohs(tvb, IEEE8021AD_LEN * 2 - 2);
+-        ethertype_data.offset_after_ethertype = IEEE8021AD_LEN * 2;
++        proto_tree_add_uint(ieee8021ad_tree, hf_ieee8021ah_etype, tvb,
++                            IEEE8021AD_LEN * 2 - 2, 2, ethertype_data.etype);
++
++        ethertype_data.payload_offset = IEEE8021AD_LEN * 2;
+ 
+         /* 802.1ad tags are always followed by an ethertype; call next
+            dissector based on ethertype */
+@@ -200,8 +202,12 @@ int dissect_ieee8021ad(tvbuff_t *tvb, packet_info *pinfo,
+         /* label should be 802.1ad not .1ah */
+         proto_item_set_text(ptree, "IEEE 802.1ad, ID: %d", tci & 0x0FFF);
+ 
++        /* Add the Ethernet type to the protocol tree */
++        proto_tree_add_uint(ieee8021ad_tree, hf_ieee8021ah_etype, tvb,
++                            IEEE8021AD_LEN - 2, 2, encap_proto);
++
+         ethertype_data.etype = encap_proto;
+-        ethertype_data.offset_after_ethertype = IEEE8021AD_LEN;
++        ethertype_data.payload_offset = IEEE8021AD_LEN;
+ 
+         /* 802.1ad tags are always followed by an ethertype; call next
+            dissector based on ethertype */
+@@ -261,6 +267,8 @@ dissect_ieee8021ah_common(tvbuff_t *tvb, packet_info *pinfo,
+     }
+ 
+     encap_proto = tvb_get_ntohs(tvb, IEEE8021AH_LEN - 2);
++    proto_tree_add_uint(tree, hf_ieee8021ah_etype, tvb,
++                        IEEE8021AD_LEN - 2, 2, encap_proto);
+ 
+     /* 802.1ah I-tags are always followed by an ethertype; call next
+        dissector based on ethertype */
+@@ -269,8 +277,7 @@ dissect_ieee8021ah_common(tvbuff_t *tvb, packet_info *pinfo,
+        to next dissector, not 802.1ad tree */
+     ethertype_data.etype = encap_proto;
+     ethertype_data.fh_tree = tree;
+-    ethertype_data.offset_after_ethertype = IEEE8021AH_LEN;
+-    ethertype_data.etype_id = hf_ieee8021ah_etype;
++    ethertype_data.payload_offset = IEEE8021AH_LEN;
+     ethertype_data.trailer_id = hf_ieee8021ah_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-sll.c b/epan/dissectors/packet-sll.c
+index d4f0feb..c62a6f8 100644
+--- a/epan/dissectors/packet-sll.c
++++ b/epan/dissectors/packet-sll.c
+@@ -7,9 +7,6 @@
+  *
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+-
+-#define NEW_PROTO_TREE_API
+-
+ #include "config.h"
+ 
+ #include <epan/packet.h>
+@@ -23,6 +20,7 @@
+ #include "packet-eth.h"
+ #include "packet-ppp.h"
+ #include "packet-gre.h"
++#include "packet-arp.h"
+ #include <epan/addr_resolv.h>
+ #include <epan/etypes.h>
+ #include <epan/arptypes.h>
+@@ -37,10 +35,16 @@ typedef struct sll_tap_data {
+ } sll_tap_data;
+ 
+ /*
+- * A DLT_LINUX_SLL fake link-layer header.
++ * A LINKTYPE_LINUX_SLL fake link-layer header.
+  */
+-#define SLL_HEADER_SIZE	16		/* total header length */
+-#define SLL_ADDRLEN	8		/* length of address field */
++#define SLL_HEADER_SIZE		16	/* total header length */
++
++/*
++ * A LINKTYPE_LINUX_SLL fake link-layer header.
++ */
++#define SLL2_HEADER_SIZE	20	/* total header length */
++
++#define SLL_ADDRLEN		8	/* length of address field */
+ 
+ /*
+  * The LINUX_SLL_ values for "sll_pkttype".
+@@ -75,68 +79,25 @@ static const value_string ltype_vals[] = {
+ 
+ 
+ static dissector_handle_t sll_handle;
++static dissector_handle_t sll2_handle;
+ static dissector_handle_t ethertype_handle;
+ static dissector_handle_t netlink_handle;
+ 
+-static header_field_info *hfi_sll = NULL;
+-
+ static int proto_sll;
+ static int sll_tap = -1;
+ 
+-#define SLL_HFI_INIT HFI_INIT(proto_sll)
+-
+-static header_field_info hfi_sll_pkttype SLL_HFI_INIT =
+-	{ "Packet type",	"sll.pkttype", FT_UINT16, BASE_DEC,
+-	  VALS(packet_type_vals), 0x0, NULL, HFILL };
+-
+-/* ARP hardware type?  With Linux extensions? */
+-static header_field_info hfi_sll_hatype SLL_HFI_INIT =
+-	{ "Link-layer address type",	"sll.hatype", FT_UINT16, BASE_DEC,
+-	  NULL, 0x0, NULL, HFILL };
+-
+-static header_field_info hfi_sll_halen SLL_HFI_INIT =
+-	{ "Link-layer address length",	"sll.halen", FT_UINT16, BASE_DEC,
+-	  NULL, 0x0, NULL, HFILL };
+-
+-/* Source address if it's an Ethernet-type address */
+-static header_field_info hfi_sll_src_eth SLL_HFI_INIT =
+-	{ "Source",	"sll.src.eth", FT_ETHER, BASE_NONE,
+-	  NULL, 0x0, "Source link-layer address", HFILL };
+-
+-/* Source address if it's an IPv4 address */
+-static header_field_info hfi_sll_src_ipv4 SLL_HFI_INIT =
+-	{ "Source",	"sll.src.ipv4", FT_IPv4, BASE_NONE,
+-	  NULL, 0x0, "Source link-layer address", HFILL };
+-
+-/* Source address if it's not an Ethernet-type address */
+-static header_field_info hfi_sll_src_other SLL_HFI_INIT =
+-	{ "Source",	"sll.src.other", FT_BYTES, BASE_NONE,
+-	  NULL, 0x0, "Source link-layer address", HFILL };
+-
+-/* Unused remaining bytes */
+-static header_field_info hfi_sll_unused SLL_HFI_INIT =
+-	{ "Unused", "sll.unused", FT_BYTES, BASE_NONE,
+-	  NULL, 0x0, "Unused bytes", HFILL };
+-
+-/* if the protocol field is an internal Linux protocol type */
+-static header_field_info hfi_sll_ltype SLL_HFI_INIT =
+-	{ "Protocol",	"sll.ltype", FT_UINT16, BASE_HEX,
+-	  VALS(ltype_vals), 0x0, "Linux protocol type", HFILL };
+-
+-/* if the protocol field is a GRE protocol type */
+-static header_field_info hfi_sll_gretype SLL_HFI_INIT =
+-	{ "Protocol",	"sll.gretype", FT_UINT16, BASE_HEX,
+-	  VALS(gre_typevals), 0x0, "GRE protocol type", HFILL };
+-
+-/* registered here but handled in ethertype.c */
+-static header_field_info hfi_sll_etype SLL_HFI_INIT =
+-	{ "Protocol",	"sll.etype", FT_UINT16, BASE_HEX,
+-	  VALS(etype_vals), 0x0, "Ethernet protocol type", HFILL };
+-
+-static header_field_info hfi_sll_trailer SLL_HFI_INIT =
+-	{ "Trailer", "sll.trailer", FT_BYTES, BASE_NONE,
+-	  NULL, 0x0, NULL, HFILL };
+-
++static int hf_sll_etype = -1;
++static int hf_sll_gretype = -1;
++static int hf_sll_halen = -1;
++static int hf_sll_hatype = -1;
++static int hf_sll_ifindex = -1;
++static int hf_sll_ltype = -1;
++static int hf_sll_pkttype = -1;
++static int hf_sll_src_eth = -1;
++static int hf_sll_src_ipv4 = -1;
++static int hf_sll_src_other = -1;
++static int hf_sll_trailer = -1;
++static int hf_sll_unused = -1;
+ 
+ static gint ett_sll = -1;
+ 
+@@ -242,103 +203,80 @@ capture_sll(const guchar *pd, int offset _U_, int len, capture_packet_info_t *cp
+ 	return FALSE;
+ }
+ 
+-static int
+-dissect_sll(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
++static gboolean
++capture_sll2(const guchar *pd, int offset _U_, int len, capture_packet_info_t *cpinfo, const union wtap_pseudo_header *pseudo_header _U_)
+ {
+-	guint16 pkttype;
++	guint16 hatype;
+ 	guint16 protocol;
+-	guint16 hatype, halen;
+-	proto_item *ti;
+-	tvbuff_t *next_tvb;
+-	proto_tree *fh_tree;
+-	ethertype_data_t ethertype_data;
+-	sll_tap_data* tap_data;
+-
+-	pkttype = tvb_get_ntohs(tvb, 0);
+-
+-	/*
+-	 * Set "pinfo->p2p_dir" if the packet wasn't received
+-	 * promiscuously.
+-	 */
+-	switch (pkttype) {
+-
+-	case LINUX_SLL_HOST:
+-	case LINUX_SLL_BROADCAST:
+-	case LINUX_SLL_MULTICAST:
+-		pinfo->p2p_dir = P2P_DIR_RECV;
+-		break;
+ 
+-	case LINUX_SLL_OUTGOING:
+-		pinfo->p2p_dir = P2P_DIR_SENT;
+-		break;
+-	}
+-
+-	hatype = tvb_get_ntohs(tvb, 2);
+-	halen = tvb_get_ntohs(tvb, 4);
++	if (!BYTES_ARE_IN_FRAME(0, len, SLL2_HEADER_SIZE))
++		return FALSE;
+ 
+-	/*
+-	 * XXX - special purpose hack.  Netlink packets have a hardware
+-	 * address type of ARPHRD_NETLINK, but the protocol type value
+-	 * indicates the Netlink message type; we just hand the netlink
+-	 * dissector our *entire* packet.
+-	 *
+-	 * That's different from link-layer types such as 802.11+radiotap,
+-	 * where the payload follows the complete SLL header, and the
+-	 * protocol field in the SLL header is irrelevant; for those,
+-	 * we have the sll.hatype dissector table.
+-	 */
+-	if (hatype == ARPHRD_NETLINK) {
+-		return call_dissector(netlink_handle, tvb, pinfo, tree);
++	protocol = pntoh16(&pd[0]);
++	if (protocol <= 1536) {	/* yes, 1536 - that's how Linux does it */
++		/*
++		 * "proto" is *not* a length field, it's a Linux internal
++		 * protocol type.
++		 */
++		hatype = pntoh16(&pd[8]);
++		if (try_capture_dissector("sll.hatype", hatype, pd,
++		    SLL2_HEADER_SIZE, len, cpinfo, pseudo_header))
++			return TRUE;
++		return try_capture_dissector("sll.ltype", protocol, pd, SLL2_HEADER_SIZE, len, cpinfo, pseudo_header);
++	} else {
++		return try_capture_dissector("ethertype", protocol, pd, SLL2_HEADER_SIZE, len, cpinfo, pseudo_header);
+ 	}
++	return FALSE;
++}
+ 
+-	col_set_str(pinfo->cinfo, COL_PROTOCOL, "SLL");
+-	col_clear(pinfo->cinfo, COL_INFO);
+-
+-	col_add_str(pinfo->cinfo, COL_INFO,
+-		    val_to_str(pkttype, packet_type_vals, "Unknown (%u)"));
+-
+-	ti = proto_tree_add_protocol_format(tree, hfi_sll->id, tvb, 0,
+-			SLL_HEADER_SIZE, "Linux cooked capture");
+-	fh_tree = proto_item_add_subtree(ti, ett_sll);
+-	proto_tree_add_item(fh_tree, &hfi_sll_pkttype, tvb, 0, 2, ENC_BIG_ENDIAN);
+-
+-	tap_data = wmem_new0(wmem_file_scope(), sll_tap_data);
++static void
++add_ll_address(proto_tree *tree, packet_info *pinfo, tvbuff_t *tvb,
++    int halen_offset, int halen_len, sll_tap_data *tap_data)
++{
++	guint32 ha_len;
++	int ha_offset = halen_offset + halen_len;
+ 
+ 	/*
+ 	 * XXX - check the link-layer address type value?
+-	 * For now, we just assume halen 4 is IPv4 and halen 6 is Ethernet.
++	 * For now, we just assume ha_len 4 is IPv4 and ha_len 6
++	 * is Ethernet.
+ 	 */
+-	proto_tree_add_uint(fh_tree, &hfi_sll_hatype, tvb, 2, 2, hatype);
+-	proto_tree_add_uint(fh_tree, &hfi_sll_halen, tvb, 4, 2, halen);
++	proto_tree_add_item_ret_uint(tree, hf_sll_halen, tvb, halen_offset, halen_len, ENC_BIG_ENDIAN, &ha_len);
+ 
+-	switch (halen) {
++	switch (ha_len) {
+ 	case 4:
+-		set_address_tvb(&pinfo->dl_src, AT_IPv4, 4, tvb, 6);
++		set_address_tvb(&pinfo->dl_src, AT_IPv4, 4, tvb, ha_offset);
+ 		copy_address_shallow(&pinfo->src, &pinfo->dl_src);
+ 		copy_address_wmem(wmem_file_scope(), &tap_data->src_address, &pinfo->src);
+-		proto_tree_add_item(fh_tree, &hfi_sll_src_ipv4, tvb, 6, 4, ENC_BIG_ENDIAN);
++		proto_tree_add_item(tree, hf_sll_src_ipv4, tvb, ha_offset, 4, ENC_BIG_ENDIAN);
+ 		break;
+ 	case 6:
+-		set_address_tvb(&pinfo->dl_src, AT_ETHER, 6, tvb, 6);
++		set_address_tvb(&pinfo->dl_src, AT_ETHER, 6, tvb, ha_offset);
+ 		copy_address_shallow(&pinfo->src, &pinfo->dl_src);
+ 		copy_address_wmem(wmem_file_scope(), &tap_data->src_address, &pinfo->src);
+-		proto_tree_add_item(fh_tree, &hfi_sll_src_eth, tvb, 6, 6, ENC_NA);
++		proto_tree_add_item(tree, hf_sll_src_eth, tvb, ha_offset, 6, ENC_NA);
+ 		break;
+ 	case 0:
+ 		break;
+ 	default:
+-		proto_tree_add_item(fh_tree, &hfi_sll_src_other, tvb,
+-			    6, halen > 8 ? 8 : halen, ENC_NA);
++		proto_tree_add_item(tree, hf_sll_src_other, tvb,
++			    ha_offset, ha_len > 8 ? 8 : ha_len, ENC_NA);
+ 		break;
+ 	}
+ 
+ 	/* Not all bytes of SLL_ADDRLEN have been used. Add remaining as unused */
+-	if (SLL_ADDRLEN - halen > 0)
+-		proto_tree_add_item(fh_tree, &hfi_sll_unused, tvb, 6 + halen,
+-			SLL_ADDRLEN - halen, ENC_BIG_ENDIAN);
++	if (ha_len < SLL_ADDRLEN)
++		proto_tree_add_item(tree, hf_sll_unused, tvb, ha_offset + ha_len,
++				SLL_ADDRLEN - ha_len, ENC_NA);
++}
+ 
+-	protocol = tvb_get_ntohs(tvb, 14);
+-	next_tvb = tvb_new_subset_remaining(tvb, SLL_HEADER_SIZE);
++static guint16
++add_protocol_type(proto_tree *fh_tree, tvbuff_t *tvb, int protocol_offset,
++    int hatype)
++{
++	guint16 protocol;
++
++	protocol = tvb_get_ntohs(tvb, protocol_offset);
+ 	if (protocol <= 1536) {	/* yes, 1536 - that's how Linux does it */
+ 		/*
+ 		 * "proto" is *not* a length field, it's a Linux internal
+@@ -347,9 +285,49 @@ dissect_sll(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
+ 		 * be trailer data.
+ 		 * XXX - do the same thing we do for packets with Ethertypes?
+ 		 */
+-		proto_tree_add_uint(fh_tree, &hfi_sll_ltype, tvb, 14, 2,
+-		    protocol);
++		proto_tree_add_uint(fh_tree, hf_sll_ltype, tvb,
++		    protocol_offset, 2, protocol);
++	} else {
++		switch (hatype) {
++
++		case ARPHRD_IPGRE:
++			/*
++			 * XXX - the link-layer header appears to consist
++			 * of an IPv4 header followed by a bunch of stuff
++			 * that includes the GRE flags and version, but
++			 * cooked captures strip the link-layer header,
++			 * so we can't provide the flags and version to
++			 * the dissector.
++			 */
++			proto_tree_add_uint(fh_tree, hf_sll_gretype, tvb,
++			    protocol_offset, 2, protocol);
++			break;
++
++		default:
++			proto_tree_add_uint(fh_tree, hf_sll_etype, tvb,
++			    protocol_offset, 2, protocol);
++			break;
++		}
++	}
++	return protocol;
++}
++
++static void
++dissect_payload(proto_tree *tree, packet_info *pinfo, proto_tree *fh_tree,
++    tvbuff_t *tvb, int header_size, int hatype, guint16 protocol)
++{
++	tvbuff_t *next_tvb;
++	ethertype_data_t ethertype_data;
+ 
++	next_tvb = tvb_new_subset_remaining(tvb, header_size);
++	if (protocol <= 1536) {	/* yes, 1536 - that's how Linux does it */
++		/*
++		 * "proto" is *not* a length field, it's a Linux internal
++		 * protocol type.
++		 * We therefore cannot say how much of the packet will
++		 * be trailer data.
++		 * XXX - do the same thing we do for packets with Ethertypes?
++		 */
+ 		if (!dissector_try_uint(sll_hatype_dissector_table, hatype,
+ 		    next_tvb, pinfo, tree)) {
+ 			p_add_proto_data(pinfo->pool, pinfo, proto_sll, 0, GUINT_TO_POINTER((guint)protocol));
+@@ -360,6 +338,7 @@ dissect_sll(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
+ 		}
+ 	} else {
+ 		switch (hatype) {
++
+ 		case ARPHRD_IPGRE:
+ 			/*
+ 			 * XXX - the link-layer header appears to consist
+@@ -369,49 +348,224 @@ dissect_sll(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
+ 			 * so we can't provide the flags and version to
+ 			 * the dissector.
+ 			 */
+-			proto_tree_add_uint(fh_tree, &hfi_sll_gretype, tvb, 14, 2,
+-			    protocol);
+-			dissector_try_uint(gre_dissector_table,
+-					   protocol, next_tvb, pinfo, tree);
++			dissector_try_uint(gre_dissector_table, protocol,
++			    next_tvb, pinfo, tree);
+ 			break;
++
+ 		default:
+ 			ethertype_data.etype = protocol;
+-			ethertype_data.offset_after_ethertype = SLL_HEADER_SIZE;
++			ethertype_data.payload_offset = header_size;
+ 			ethertype_data.fh_tree = fh_tree;
+-			ethertype_data.etype_id = hfi_sll_etype.id;
+-			ethertype_data.trailer_id = hfi_sll_trailer.id;
++			ethertype_data.trailer_id = hf_sll_trailer;
+ 			ethertype_data.fcs_len = 0;
+ 
+ 			call_dissector_with_data(ethertype_handle, tvb, pinfo, tree, &ethertype_data);
+ 			break;
+ 		}
+ 	}
++}
++
++static int
++dissect_sll_common(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, int encap)
++{
++	guint16 pkttype;
++	guint16 protocol;
++	guint16 hatype;
++	int header_size;
++	int version;
++	proto_item *ti;
++	proto_tree *fh_tree;
++	sll_tap_data* tap_data;
++
++	switch (encap) {
++
++	case WTAP_ENCAP_SLL:
++		pkttype = tvb_get_ntohs(tvb, 0);
++		header_size = SLL_HEADER_SIZE;
++		version = 1;
++		break;
++
++	case WTAP_ENCAP_SLL2:
++		pkttype = tvb_get_ntohs(tvb, 10);
++		header_size = SLL2_HEADER_SIZE;
++		version = 2;
++		break;
++
++	default:
++		DISSECTOR_ASSERT_NOT_REACHED();
++	}
++
++	/*
++	 * Set "pinfo->p2p_dir" if the packet wasn't received
++	 * promiscuously.
++	 */
++	switch (pkttype) {
++
++	case LINUX_SLL_HOST:
++	case LINUX_SLL_BROADCAST:
++	case LINUX_SLL_MULTICAST:
++		pinfo->p2p_dir = P2P_DIR_RECV;
++		break;
++
++	case LINUX_SLL_OUTGOING:
++		pinfo->p2p_dir = P2P_DIR_SENT;
++		break;
++	}
++
++	switch (encap) {
++
++	case WTAP_ENCAP_SLL:
++		hatype = tvb_get_ntohs(tvb, 2);
++		break;
++
++	case WTAP_ENCAP_SLL2:
++		hatype = tvb_get_ntohs(tvb, 8);
++		break;
++
++	default:
++		DISSECTOR_ASSERT_NOT_REACHED();
++	}
++
++	/*
++	 * XXX - special purpose hack.  Netlink packets have a hardware
++	 * address type of ARPHRD_NETLINK, but the protocol type value
++	 * indicates the Netlink message type; we just hand the netlink
++	 * dissector our *entire* packet.
++	 *
++	 * That's different from link-layer types such as 802.11+radiotap,
++	 * where the payload follows the complete SLL header, and the
++	 * protocol field in the SLL header is irrelevant; for those,
++	 * we have the sll.hatype dissector table.
++	 */
++	if (hatype == ARPHRD_NETLINK) {
++		return call_dissector(netlink_handle, tvb, pinfo, tree);
++	}
++
++	col_set_str(pinfo->cinfo, COL_PROTOCOL, "SLL");
++	col_clear(pinfo->cinfo, COL_INFO);
++
++	col_add_str(pinfo->cinfo, COL_INFO,
++		    val_to_str(pkttype, packet_type_vals, "Unknown (%u)"));
++
++	ti = proto_tree_add_protocol_format(tree, proto_sll, tvb, 0,
++			header_size, "Linux cooked capture v%d", version);
++	fh_tree = proto_item_add_subtree(ti, ett_sll);
++	tap_data = wmem_new0(wmem_file_scope(), sll_tap_data);
++
++	switch (encap) {
++
++	case WTAP_ENCAP_SLL:
++		proto_tree_add_item(fh_tree, hf_sll_pkttype, tvb, 0, 2, ENC_BIG_ENDIAN);
++
++		proto_tree_add_uint(fh_tree, hf_sll_hatype, tvb, 2, 2, hatype);
++
++		add_ll_address(fh_tree, pinfo, tvb, 4, 2, tap_data);
++
++		protocol = add_protocol_type(fh_tree, tvb, 14, hatype);
++
++		dissect_payload(tree, pinfo, fh_tree, tvb, SLL_HEADER_SIZE, hatype, protocol);
++		break;
++
++	case WTAP_ENCAP_SLL2:
++		protocol = add_protocol_type(fh_tree, tvb, 0, hatype);
++
++		proto_tree_add_item(fh_tree, hf_sll_ifindex, tvb, 4, 4, ENC_BIG_ENDIAN);
++
++		proto_tree_add_uint(fh_tree, hf_sll_hatype, tvb, 8, 2, hatype);
++
++		proto_tree_add_item(fh_tree, hf_sll_pkttype, tvb, 10, 1, ENC_BIG_ENDIAN);
++
++		add_ll_address(fh_tree, pinfo, tvb, 11, 1, tap_data);
++
++		dissect_payload(tree, pinfo, fh_tree, tvb, SLL2_HEADER_SIZE, hatype, protocol);
++		break;
++
++	default:
++		DISSECTOR_ASSERT_NOT_REACHED();
++	}
+ 
+ 	tap_queue_packet(sll_tap, pinfo, tap_data);
+ 
+ 	return tvb_captured_length(tvb);
+ }
+ 
++static int
++dissect_sll_v1(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
++{
++	return dissect_sll_common(tvb, pinfo, tree, WTAP_ENCAP_SLL);
++}
++
++static int
++dissect_sll_v2(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
++{
++	return dissect_sll_common(tvb, pinfo, tree, WTAP_ENCAP_SLL2);
++}
++
+ void
+ proto_register_sll(void)
+ {
+-#ifndef HAVE_HFI_SECTION_INIT
+-	static header_field_info *hfi[] = {
+-		&hfi_sll_pkttype,
+-		/* ARP hardware type?  With Linux extensions? */
+-		&hfi_sll_hatype,
+-		&hfi_sll_halen,
+-		&hfi_sll_src_eth,
+-		&hfi_sll_src_ipv4,
+-		&hfi_sll_src_other,
+-		&hfi_sll_unused,
+-		&hfi_sll_ltype,
+-		&hfi_sll_gretype,
+-		/* registered here but handled in ethertype.c */
+-		&hfi_sll_etype,
+-		&hfi_sll_trailer,
++	static hf_register_info hf[] = {
++		{ &hf_sll_pkttype,
++			{ "Packet type", "sll.pkttype",
++			  FT_UINT16, BASE_DEC, VALS(packet_type_vals), 0x0,
++			  NULL, HFILL }
++		},
++		{ &hf_sll_hatype,
++			{ "Link-layer address type", "sll.hatype",
++			  FT_UINT32, BASE_DEC, VALS(arp_hrd_vals), 0x0,
++			  NULL, HFILL }
++		},
++		{ &hf_sll_halen,
++			{ "Link-layer address length", "sll.halen",
++			  FT_UINT16, BASE_DEC, NULL, 0x0,
++			  NULL, HFILL }
++		},
++		{ &hf_sll_src_eth,
++			{ "Source", "sll.src.eth",
++			  FT_ETHER, BASE_NONE, NULL, 0x0,
++			  "Source link-layer address", HFILL }
++		},
++		{ &hf_sll_src_ipv4,
++			{ "Source", "sll.src.ipv4",
++			  FT_IPv4, BASE_NONE, NULL, 0x0,
++			  "Source link-layer address", HFILL }
++		},
++		{ &hf_sll_src_other,
++			{ "Source", "sll.src.other",
++			  FT_BYTES, BASE_NONE, NULL, 0x0,
++			  "Source link-layer address", HFILL }
++		},
++		{ &hf_sll_unused,
++			{ "Unused", "sll.unused",
++			  FT_BYTES, BASE_NONE, NULL, 0x0,
++			  "Unused bytes", HFILL }
++		},
++		{ &hf_sll_ltype,
++			{ "Protocol", "sll.ltype",
++			  FT_UINT16, BASE_HEX, VALS(ltype_vals), 0x0,
++			  "Linux protocol type", HFILL }
++		},
++		{ &hf_sll_gretype,
++			{ "Protocol", "sll.gretype",
++			  FT_UINT16, BASE_HEX, VALS(gre_typevals), 0x0,
++			  "GRE protocol type", HFILL }
++		},
++		{ &hf_sll_etype,
++			{ "Protocol", "sll.etype",
++			  FT_UINT16, BASE_HEX, VALS(etype_vals), 0x0,
++			  "Ethernet protocol type", HFILL }
++		},
++		{ &hf_sll_trailer,
++			{ "Trailer", "sll.trailer",
++			  FT_BYTES, BASE_NONE, NULL, 0x0,
++			  NULL, HFILL }
++		},
++		{ &hf_sll_ifindex,
++			{ "Interface index", "sll.ifindex",
++			  FT_UINT16, BASE_DEC, NULL, 0x0,
++			  NULL, HFILL }
++		},
+ 	};
+-#endif
+ 
+ 	static gint *ett[] = {
+ 		&ett_sll
+@@ -423,14 +577,12 @@ proto_register_sll(void)
+ 	static decode_as_t sll_da = {"sll.ltype", "Link", "sll.ltype", 1, 0, &sll_da_values, NULL, NULL,
+ 				decode_as_default_populate_list, decode_as_default_reset, decode_as_default_change, NULL};
+ 
+-	proto_sll = proto_register_protocol("Linux cooked-mode capture",
+-	    "SLL", "sll" );
+-	hfi_sll = proto_registrar_get_nth(proto_sll);
+-
+-	proto_register_fields(proto_sll, hfi, array_length(hfi));
++	proto_sll = proto_register_protocol("Linux cooked-mode capture", "SLL", "sll" );
++	proto_register_field_array(proto_sll, hf, array_length(hf));
+ 	proto_register_subtree_array(ett, array_length(ett));
+ 
+-	sll_handle = create_dissector_handle(dissect_sll, proto_sll);
++	sll_handle = create_dissector_handle(dissect_sll_v1, proto_sll);
++	sll2_handle = create_dissector_handle(dissect_sll_v2, proto_sll);
+ 	sll_tap = register_tap("sll");
+ 
+ 	/*
+@@ -470,6 +622,7 @@ void
+ proto_reg_handoff_sll(void)
+ {
+ 	capture_dissector_handle_t sll_cap_handle;
++	capture_dissector_handle_t sll2_cap_handle;
+ 
+ 	/*
+ 	 * Get handles for the IPX and LLC dissectors.
+@@ -479,8 +632,11 @@ proto_reg_handoff_sll(void)
+ 	netlink_handle = find_dissector_add_dependency("netlink", proto_sll);
+ 
+ 	dissector_add_uint("wtap_encap", WTAP_ENCAP_SLL, sll_handle);
++	dissector_add_uint("wtap_encap", WTAP_ENCAP_SLL2, sll2_handle);
+ 	sll_cap_handle = create_capture_dissector_handle(capture_sll, proto_sll);
+ 	capture_dissector_add_uint("wtap_encap", WTAP_ENCAP_SLL, sll_cap_handle);
++	sll2_cap_handle = create_capture_dissector_handle(capture_sll2, proto_sll);
++	capture_dissector_add_uint("wtap_encap", WTAP_ENCAP_SLL2, sll2_cap_handle);
+ }
+ 
+ /*
+diff --git a/epan/dissectors/packet-tte.c b/epan/dissectors/packet-tte.c
+index b53c64a..9595b1c 100644
+--- a/epan/dissectors/packet-tte.c
++++ b/epan/dissectors/packet-tte.c
+@@ -117,9 +117,8 @@ dissect_tte(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data _U_)
+ 
+     /* call std Ethernet dissector */
+     ethertype_data.etype = tvb_get_ntohs(tvb, TTE_MAC_LENGTH * 2);
+-    ethertype_data.offset_after_ethertype = 14;
++    ethertype_data.payload_offset = TTE_HEADER_LENGTH;
+     ethertype_data.fh_tree = NULL;
+-    ethertype_data.etype_id = hf_eth_type;
+     ethertype_data.trailer_id = 0;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-vlan.c b/epan/dissectors/packet-vlan.c
+index 8f23257..59d68a2 100644
+--- a/epan/dissectors/packet-vlan.c
++++ b/epan/dissectors/packet-vlan.c
+@@ -340,10 +340,11 @@ dissect_vlan(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_
+   } else {
+     ethertype_data_t ethertype_data;
+ 
++    proto_tree_add_uint(vlan_tree, &hfi_vlan_etype, tvb, 2, 2, encap_proto);
++
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = 4;
++    ethertype_data.payload_offset = 4;
+     ethertype_data.fh_tree = vlan_tree;
+-    ethertype_data.etype_id = hfi_vlan_etype.id;
+     ethertype_data.trailer_id = hfi_vlan_trailer.id;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-vmlab.c b/epan/dissectors/packet-vmlab.c
+index c432a54..fd75bc7 100644
+--- a/epan/dissectors/packet-vmlab.c
++++ b/epan/dissectors/packet-vmlab.c
+@@ -116,13 +116,13 @@ dissect_vmlab(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U
+ 
+     /* Encapsulated Ethertype is also part of the block*/
+     encap_proto = tvb_get_ntohs(tvb, offset);
++    proto_tree_add_uint(vmlab_tree, hf_vmlab_etype, tvb, offset, 2, encap_proto);
+     offset += 2;
+ 
+     /* Now call whatever was encapsulated*/
+     ethertype_data.etype = encap_proto;
+-    ethertype_data.offset_after_ethertype = offset;
++    ethertype_data.payload_offset = offset;
+     ethertype_data.fh_tree = vmlab_tree;
+-    ethertype_data.etype_id = hf_vmlab_etype;
+     ethertype_data.trailer_id = hf_vmlab_trailer;
+     ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/dissectors/packet-vntag.c b/epan/dissectors/packet-vntag.c
+index 2e39136..1c639d2 100644
+--- a/epan/dissectors/packet-vntag.c
++++ b/epan/dissectors/packet-vntag.c
+@@ -101,10 +101,12 @@ dissect_vntag(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U
+ 
+ 		dissect_802_3(encap_proto, is_802_2, tvb, 6, pinfo, tree, vntag_tree, hf_vntag_len, hf_vntag_trailer, &ei_vntag_len, 0);
+ 	} else {
++		proto_tree_add_uint(vntag_tree, hf_vntag_etype, tvb, 4, 2,
++		    encap_proto);
++
+ 		ethertype_data.etype = encap_proto;
+-		ethertype_data.offset_after_ethertype = 6;
++		ethertype_data.payload_offset = 6;
+ 		ethertype_data.fh_tree = vntag_tree;
+-		ethertype_data.etype_id = hf_vntag_etype;
+ 		ethertype_data.trailer_id = hf_vntag_trailer;
+ 		ethertype_data.fcs_len = 0;
+ 
+diff --git a/epan/packet.h b/epan/packet.h
+index 6f78640..01859e3 100644
+--- a/epan/packet.h
++++ b/epan/packet.h
+@@ -760,9 +760,8 @@ extern void dissect_file(struct epan_dissect *edt,
+ typedef struct ethertype_data_s
+ {
+     guint16 etype;
+-    int offset_after_ethertype;
++    int payload_offset;
+     proto_tree *fh_tree;
+-    int etype_id;
+     int trailer_id;
+     int fcs_len;
+ } ethertype_data_t;
+diff --git a/wiretap/pcap-common.c b/wiretap/pcap-common.c
+index a69e038..5701790 100644
+--- a/wiretap/pcap-common.c
++++ b/wiretap/pcap-common.c
+@@ -223,7 +223,7 @@ static const struct {
+ 	 * this number as well (why can't people stick to protocols when it
+ 	 * comes to allocating/using DLT types).
+ 	 */
+-	{ 113,		WTAP_ENCAP_SLL },	/* Linux cooked capture */
++	{ 113,		WTAP_ENCAP_SLL },	/* Linux cooked capture v1 */
+ 
+ 	{ 114,		WTAP_ENCAP_LOCALTALK },	/* Localtalk */
+ 
+@@ -461,6 +461,9 @@ static const struct {
+ 	/* mPackets as specified by 802.3br */
+ 	{ 274,		WTAP_ENCAP_ETHERNET_MPACKET },
+ 
++	/* Linux cooked capture v2 */
++	{ 276,		WTAP_ENCAP_SLL2 },
++
+ 	/*
+ 	 * To repeat:
+ 	 *
+diff --git a/wiretap/wtap.c b/wiretap/wtap.c
+index 381a25c..67cf44b 100644
+--- a/wiretap/wtap.c
++++ b/wiretap/wtap.c
+@@ -400,7 +400,7 @@ static struct encap_type_info encap_table_base[] = {
+ 	{ "IEEE 802.11 plus AVS radio header", "ieee-802-11-avs" },
+ 
+ 	/* WTAP_ENCAP_SLL */
+-	{ "Linux cooked-mode capture", "linux-sll" },
++	{ "Linux cooked-mode capture v1", "linux-sll" },
+ 
+ 	/* WTAP_ENCAP_FRELAY */
+ 	{ "Frame Relay", "frelay" },
+@@ -924,6 +924,8 @@ static struct encap_type_info encap_table_base[] = {
+ 	/* WTAP_ENCAP_DOCSIS31_XRA31 */
+ 	{ "DOCSIS with Excentis XRA pseudo-header", "docsis31_xra31" },
+ 
++	/* WTAP_ENCAP_SLL2 */
++	{ "Linux cooked-mode capture v2", "linux-sll2" },
+ };
+ 
+ WS_DLL_LOCAL
+diff --git a/wiretap/wtap.h b/wiretap/wtap.h
+index 1263bfd..e30acfe 100644
+--- a/wiretap/wtap.h
++++ b/wiretap/wtap.h
+@@ -280,6 +280,7 @@ extern "C" {
+ #define WTAP_ENCAP_JUNIPER_ST                   197
+ #define WTAP_ENCAP_ETHERNET_MPACKET             198
+ #define WTAP_ENCAP_DOCSIS31_XRA31               199
++#define WTAP_ENCAP_SLL2                         200
+ 
+ /* After adding new item here, please also add new item to encap_table_base array */
+ 
+-- 
+2.47.3
+
