@@ -1,0 +1,19 @@
+hack to fix crash with ruby's irb repl
+https://github.com/ruby/readline-ext/issues/31
+
+--- a/src/readline.c.orig	2026-08-06 20:10:31.830448948 +0000
++++ b/src/readline.c	2026-08-06 20:15:19.711476677 +0000
+@@ -451,6 +451,13 @@
+ 
+ 	if (e == NULL || h == NULL)
+ 		rl_initialize();
++	else {
++		/* ruby's irb rightfully fclose()s and re-assigns the below
++		   streams as documented in the readline API; causing any
++		   stdio access to the stale pointers to segfault. */
++		if (e->el_outfile != rl_outstream) e->el_outfile = rl_outstream;
++		if (e->el_infile != rl_instream) e->el_infile = rl_instream;
++	}
+ 	if (rl_startup_hook) {
+ 		(*rl_startup_hook)();
+ 	}

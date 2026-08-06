@@ -1,21 +1,22 @@
 [mirrors]
-https://thrysoee.dk/editline/libedit-20250104-3.1.tar.gz
+https://thrysoee.dk/editline/libedit-20260512-3.1.tar.gz
 
 [vars]
-filesize=546745
-sha512=4b4a8b4b1f2cb952bbb3d128605eba9bc7cd0ad35c44b2c099f067c8bea69455bd11faae4ff20384bbe0ea901b25a1249d8323dea4ccd6141a17393f62bb8df2
-pkgver=9
+filesize=550471
+sha512=8d6d04f4d50e7f30bf426b009454400d3ad9a840ddf075cc5eabd9a551f325f923c02d56d7b4535820a613ff01c5f77074b6df9e8e83a1f6bb4124dd87133623
+pkgver=10
 
 [deps]
 termcap
 
 [build]
 patch -p1 < "$K"/libedit_readlineh.patch
+patch -p1 < "$K"/libedit_irb_segv.patch
 
 [ -n "$CROSS_COMPILE" ] && xconfflags="--host=$($CC -dumpmachine)"
 
 CFLAGS="-D_GNU_SOURCE -D_BSD_SOURCE -D__STDC_ISO_10646__ $optcflags" \
-  ./configure -C --prefix="$butch_prefix" --enable-widec $xconfflags
+  ./configure -C --prefix="$butch_prefix" $xconfflags
 make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
 
