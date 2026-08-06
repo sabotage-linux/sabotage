@@ -27,7 +27,7 @@ patch -p1 < "$K"/ruby-test_insns-lower-recursion-depth.patch
 # In many places aliasing rules are broken; play it safe
 # as it's risky with newer compilers to leave it as it is.
 export CPPFLAGS="-D_GNU_SOURCE -fno-omit-frame-pointer -fno-strict-aliasing"
-export CFLAGS="-Os -fno-omit-frame-pointer -fno-strict-aliasing"
+export CFLAGS="$optcflags -fno-omit-frame-pointer -fno-strict-aliasing"
 #export LDFLAGS="$optldflags"
 
 # the configure script does not detect isnan/isinf as macros
@@ -47,5 +47,5 @@ export ac_cv_func_isinf=yes
 
  # the elf test is broken, it uses cat -e which is gnu only
 
-make -j$MAKE_THREADS
+make -j$MAKE_THREADS V=1
 make DESTDIR="$butch_install_dir" install
