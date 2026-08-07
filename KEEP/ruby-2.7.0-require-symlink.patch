@@ -1,0 +1,24 @@
+ruby resolves symlinks when resolving "require"s, which leads to e.g.
+/lib/ruby/2.7.0/rubygems/platform.rb to be loaded once from its canonical
+location (/lib...) and a second time from /opt/ruby/lib...
+which causes warning spam like this:
+
+/lib/ruby/2.7.0/rubygems/platform.rb:198: warning: already initialized constant Gem::Platform::RUBY
+/opt/ruby/lib/ruby/2.7.0/rubygems/platform.rb:198: warning: previous definition of RUBY was here
+
+apart from wasting time loading each file twice.
+
+change it so it just returns a valid absolute filename instead of
+also resolving symlinks.
+
+--- a/load.c
++++ b/load.c
+@@ -622,7 +622,7 @@
+         rb_parser_set_context(parser, NULL, FALSE);
+         ast = (rb_ast_t *)rb_parser_load_file(parser, fname);
+         iseq = rb_iseq_new_top(&ast->body, rb_fstring_lit("<top (required)>"),
+-                               fname, rb_realpath_internal(Qnil, fname, 1), NULL);
++                               fname, rb_file_expand_path_fast(fname, Qnil), NULL);
+         rb_ast_dispose(ast);
+     }
+     rb_exec_event_hook_script_compiled(ec, iseq, Qnil);

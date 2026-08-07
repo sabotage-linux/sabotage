@@ -1,10 +1,10 @@
 [mirrors]
-https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.9.tar.xz
+https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.8.tar.xz
 
 [vars]
-filesize=11314448
-sha512=239f73eb4049ae2654b648ab927b1f74643d38a5f29572e4bd4e6aa3c53c1df29e0a995fd90d4ab9d4b2ff073fd809b12df820ccb1ddf395684bba6be1855b7a
-pkgver=6
+filesize=12105320
+sha512=4b49dff3e1c2e79d914e10418e4c03026f5d4c137dc337f5c720fe26cb9fcdcf4afc6b7c967356cf5fbe04cc5ef431174c48a035becf3e2322c2c45d3c9b2f59
+pkgver=7
 desc='interpreter for the ruby scripting language'
 
 [deps]
@@ -18,6 +18,8 @@ patch -p0 < "$K"/ruby-libressl.patch
 # thx alpine for patches
 patch -p1 < "$K"/ruby-rubygems-avoid-platform-specific-gems.patch
 patch -p1 < "$K"/ruby-test_insns-lower-recursion-depth.patch
+patch -p1 < "$K"/ruby-2.7.0-require-symlink.patch
+
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
   --with-sysroot=$butch_root_dir --with-baseruby=ruby"
@@ -43,6 +45,7 @@ export ac_cv_func_isinf=yes
   --with-mantype=man \
   --prefix="$butch_prefix" \
   rb_cv_binary_elf=yes \
+  --disable-load-relative \
   --disable-install-doc
 
  # the elf test is broken, it uses cat -e which is gnu only
