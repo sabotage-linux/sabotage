@@ -1,0 +1,17 @@
+prevent require'd modules from getting symlinks resolved.
+we need ruby to look up modules in /lib, so third-party gems
+can be found there - if ruby looks in /opt/ruby/lib it can only
+detect the ones shipping with the interpreter (as each package
+gets its own directory under /opt).
+
+--- a/load.c
++++ b/load.c
+@@ -735,7 +735,7 @@
+         return ret;
+     }
+ 
+-    VALUE realpath = rb_realpath_internal(Qnil, path, 1);
++    VALUE realpath = rb_file_expand_path_fast(path, Qnil);
+     rb_hash_aset(hash, rb_fstring(path), rb_fstring(realpath));
+     return realpath;
+ }

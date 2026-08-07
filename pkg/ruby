@@ -1,10 +1,10 @@
 [mirrors]
-https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.8.tar.xz
+https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.xz
 
 [vars]
-filesize=12105320
-sha512=4b49dff3e1c2e79d914e10418e4c03026f5d4c137dc337f5c720fe26cb9fcdcf4afc6b7c967356cf5fbe04cc5ef431174c48a035becf3e2322c2c45d3c9b2f59
-pkgver=7
+filesize=16709188
+sha512=c28d59946c0a1b8e4385a772e0651c6f4154c18ab8a2a62289c3213eb4fe937cec0942e0076cda429576e58ad277b18f4b5611e644d15b122c1cd96baf10f284
+pkgver=8
 desc='interpreter for the ruby scripting language'
 
 [deps]
@@ -14,11 +14,10 @@ gdbm
 gmp
 
 [build]
-patch -p0 < "$K"/ruby-libressl.patch
 # thx alpine for patches
 patch -p1 < "$K"/ruby-rubygems-avoid-platform-specific-gems.patch
 patch -p1 < "$K"/ruby-test_insns-lower-recursion-depth.patch
-patch -p1 < "$K"/ruby-2.7.0-require-symlink.patch
+patch -p1 < "$K"/ruby-3.4.10-require-symlink.patch
 
 [ -n "$CROSS_COMPILE" ] && \
   xconfflags="--host=$($CC -dumpmachine) \
