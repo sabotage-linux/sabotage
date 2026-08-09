@@ -4,12 +4,13 @@ https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.xz
 [vars]
 filesize=16709188
 sha512=c28d59946c0a1b8e4385a772e0651c6f4154c18ab8a2a62289c3213eb4fe937cec0942e0076cda429576e58ad277b18f4b5611e644d15b122c1cd96baf10f284
-pkgver=8
+pkgver=9
 desc='interpreter for the ruby scripting language'
 
 [deps]
 zlib
 libressl
+libyaml
 gdbm
 gmp
 
@@ -44,8 +45,7 @@ export ac_cv_func_isinf=yes
   --with-mantype=man \
   --prefix="$butch_prefix" \
   rb_cv_binary_elf=yes \
-  --disable-load-relative \
-  --disable-install-doc
+  --disable-load-relative
 
  # the elf test is broken, it uses cat -e which is gnu only
 
