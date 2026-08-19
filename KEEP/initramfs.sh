@@ -26,7 +26,10 @@ export PATH=/bin
 /bin/busybox --install -s /bin
 
 # Setup "those" directories
-mkdir -p /proc /sys /dev
+# /var/run is needed for luksv2 lockfile. it only exists for a moment during
+# cryptsetup luksOpen so it's fine if we abandon it after switch_root, as
+# no lock file persists.
+mkdir -p /proc /sys /dev /var/run
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
