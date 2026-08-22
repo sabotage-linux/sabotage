@@ -1,0 +1,11 @@
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -295,7 +295,7 @@
+ 	$(call cmd,build_OID_registry)
+ 
+ quiet_cmd_build_OID_registry = GEN     $@
+-      cmd_build_OID_registry = perl $(src)/build_OID_registry $< $@
++      cmd_build_OID_registry = awk -f $(src)/build_OID_registry $< $@
+ 
+ clean-files	+= oid_registry_data.c
+ 

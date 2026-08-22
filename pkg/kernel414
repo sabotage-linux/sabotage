@@ -42,6 +42,9 @@ then
 cp -f "$K"/build_OID_registry ./lib/
 sed -i -e 's@perl $(srctree)/$(src)/build_OID_registry@awk -f $(srctree)/$(src)/build_OID_registry@' ./lib/Makefile
 fi
+if test "$k_num" -gt 611 ; then
+dopatch linux618-oid_registry.patch
+fi
 
 LINUX_VER="$LINUX_VER"."$patchver"
 
