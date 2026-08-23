@@ -134,6 +134,39 @@ if [ "$A" = arm ] && [ "$linux_config" = "$K"/linux.config ]; then
 	linux_config="$linux_config $K/linux.config.armv${ARM_ARCH}l"
 fi
 
+# make sure no config items that are potentially incompatible with our
+# tooling / setup are activated and cause a late build error.
+awk '
+BEGIN {
+    poison["CONFIG_BUILTIN_MODULE_RANGES"] = 1
+    poison["CONFIG_SIGNED_PE_FILE_VERIFICATION"] = 1
+    poison["CONFIG_MODULE_SIG_KEY"] = 1
+    poison["CONFIG_MODULE_SIG_KEY_TYPE_RSA"] = 1
+    poison["CONFIG_SYSTEM_TRUSTED_KEYRING"] = 1
+    poison["CONFIG_SYSTEM_TRUSTED_KEYS"] = 1
+    poison["CONFIG_SECONDARY_TRUSTED_KEYRING"] = 1
+    poison["CONFIG_SYSTEM_BLACKLIST_KEYRING"] = 1
+    poison["CONFIG_SYSTEM_BLACKLIST_HASH_LIST"] = 1
+    poison["CONFIG_SYSTEM_REVOCATION_LIST"] = 1
+    poison["CONFIG_SYSTEM_REVOCATION_KEYS"] = 1
+    poison["CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE"] = 1
+    poison["CONFIG_BUILDTIME_TABLE_SORT"] = 1
+    poison["CONFIG_UNWINDER_ORC"] = 1
+    poison["CONFIG_DEBUG_INFO_BTF"] = 1
+    poison["CONFIG_OBJTOOL"] = 1
+    poison["CONFIG_HAVE_OBJTOOL_MCOUNT"] = 1
+    poison["CONFIG_HAVE_OBJTOOL_NOP_MCOUNT"] = 1
+    poison["CONFIG_HAVE_BUILDTIME_MCOUNT_SORT"] = 1
+    poison["CONFIG_BUILDTIME_MCOUNT_SORT"] = 1
+}
+/^CONFIG_[A-Z0-9_]+=/ {
+    key = $0
+    sub(/=.*/, "", key)
+    if (key in poison) {
+        print "error: " key " is poisoned!" > "/dev/stderr"
+        exit 1
+    }
+}' "$linux_config"
 cat "$linux_config" > my.config
 
 make V=1 ARCH=$ARCH defconfig HOSTCFLAGS="-D_GNU_SOURCE" \
