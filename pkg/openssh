@@ -1,11 +1,11 @@
 [mirrors]
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
-http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz
+http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz
 
 [vars]
-filesize=1856839
-sha512=087ff6fe5f6caab4c6c3001d906399e02beffad7277280f11187420c2939fd4befdcb14643862a657ce4cad2f115b82a0a1a2c99df6ee54dcd76b53647637c19
-pkgver=15
+filesize=2355372
+sha512=70696ed12bd1be04f67440415528f1ced1ef68c8ee7836e587395618d0992f3fd20c9498c44d46ad9f5806b9a73ce256fd6a2807f9c5c02e6496cf06816c749e
+pkgver=16
 service=openssh
 serviceflags="--down --log"
 
@@ -27,7 +27,7 @@ sed -i 's/SSH_VERSION.*/SSH_VERSION "OpenSSH"/' version.h
   sed -i 's/cross_compiling=maybe/cross_compiling=yes/' configure
 }
 
-CFLAGS="$optcflags" \
+CFLAGS="$optcflags -Werror=implicit-function-declaration" \
 CPPFLAGS="-D_DEFAULT_SOURCE -include stdio.h" \
 LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   ./configure -C --prefix="$butch_prefix" \
@@ -39,7 +39,9 @@ LDFLAGS="$optldflags -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
   --without-stackprotect \
   --with-md5-passwords --with-mantype=man --mandir="$butch_prefix"/share/man \
   --disable-strip --disable-lastlog --disable-utmp --disable-utmpx --disable-btmp \
-  --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline $xconfflags
+  --disable-wtmp --disable-wtmpx --disable-pututline --disable-pututxline $xconfflags \
+  ac_cv_func_arc4random=no ac_cv_func_arc4random_buf=no \
+  ac_cv_func_arc4random_uniform=no
 
 mkdir netinet
 touch netinet/in_systm.h
