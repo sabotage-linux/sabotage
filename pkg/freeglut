@@ -32,9 +32,9 @@ done
 -DCMAKE_STRIP="$CROSS_COMPILE"strip \
 "
 
-CFLAGS="-D_GNU_SOURCE $optcflags" \
+CFLAGS="-D_GNU_SOURCE $optcflags -fcommon" \
 LDFLAGS="$optldflags  -Wl,-rpath-link=$butch_root_dir$butch_prefix/lib" \
-CXXFLAGS="$optcflags" \
+CXXFLAGS="$optcflags -fcommon" \
 cmake $xconfflags \
   -DCMAKE_INSTALL_PREFIX="$butch_prefix" \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
