@@ -1,0 +1,144 @@
+#!/bin/sh
+# (C) 2016 rofl0r, licensed under the MIT license.
+# the wave sound chunk was created with milkytracker's instrument editor
+# and is licensed under the CC0 license.
+
+write_silence() {
+	local c="$1"
+	while test $c -gt 16 ; do
+		printf '\200\200\200\200\200\200\200\200\200\200\200\200\200\200\200\200'
+		c=$(($c - 16))
+	done
+	while test $c -gt 0 ; do
+		printf '\200'
+		c=$(($c - 1))
+	done
+}
+
+write_chunk() {
+	printf '\177\176\177\176\177\176\176\174\173\172\171\172\173\175\177\202'
+	printf '\205\207\210\210\207\205\201\175\170\164\161\157\160\162\166\174'
+	printf '\202\211\216\222\224\222\216\210\201\170\160\152\146\144\147\154'
+	printf '\164\175\210\221\231\235\236\233\224\212\176\162\147\137\133\133'
+	printf '\137\150\164\201\217\233\244\251\250\242\227\210\171\151\134\123'
+	printf '\117\121\131\146\166\210\231\247\260\263\260\246\227\205\161\137'
+	printf '\120\107\105\111\125\147\173\220\244\264\275\276\266\247\224\177'
+	printf '\151\130\112\104\106\116\133\156\202\225\245\260\265\262\252\234'
+	printf '\213\171\150\132\121\116\121\131\146\166\206\225\242\251\252\247'
+	printf '\237\222\204\165\150\136\131\130\134\144\157\174\210\223\234\240'
+	printf '\240\234\225\212\177\164\153\145\141\142\146\155\166\200\210\220'
+	printf '\225\227\226\222\214\204\174\166\160\154\153\155\160\165\173\201'
+	printf '\206\212\214\215\213\211\205\200\174\171\166\165\165\166\171\173'
+	printf '\176\200\202\203\203\203\202\201\177\177\176\177\177\176\177'
+}
+write_byte() {
+	printf "\\$(printf '%03o' $(($1 & 255)))"
+}
+write_word_le() {
+	write_byte $(($1 & 255))
+	write_byte $(($1 >> 8 & 255))
+	write_byte $(($1 >> 16 & 255))
+	write_byte $(($1 >> 24 & 255))
+}
+write_header() {
+	local sz="$1"
+	printf "RIFF"
+	write_word_le $(($sz + 36))
+	printf "WAVEfmt "
+	printf '\020\000\000\000\001\000\001\000\253\040\000\000\253\040\000\000'
+	printf '\001\000\010\000data'
+	write_word_le $sz
+}
+gen_wave() {
+	local chunksz=223
+	local chunkrep=10
+	local sil=10
+	local reps=1
+	local dsize=$(($reps * ($chunksz * ($chunkrep + $sil))))
+	local i=0
+	write_header $dsize
+	while test $i -lt $reps ; do
+		local j=0
+		while test $j -lt $chunkrep ; do
+			write_chunk
+			j=$(($j + 1))
+		done
+		write_silence $(($chunksz * $sil))
+		i=$(($i + 1))
+	done
+}
+
+gen_tune() {
+	tmp=$(mktemp -u).wav
+	gen_wave > "$tmp"
+}
+play_tune() {
+	aplay "$tmp">/dev/null 2>&1
+}
+clear_tune() {
+	rm "$tmp"
+}
+usage() {
+cat << EOF >&2
+sabotage alarmclock v1.0 (C) 2016 rofl0r
+----------------------------------------
+usage: $0 [--st=N] [--rep=N] hh:mm
+
+will play an alarm tune using aplay at the specified time
+(in european format i.e. hour values between 00 and 24).
+if hour or minute are less than 10, a leading zero is required
+(i.e. 08:05 rather than 8:5).
+
+optional arguments:
+--st  to adjust the sleep time in seconds between clock checks (default: $st)
+--rep to adjust the number of times the sound is played        (default: $rep)
+
+examples:
+$0 --rep=10 --st=5 09:00
+$0 18:25
+
+make sure to activate your speakers and set the volume using alsamixer.
+you can test the audio effect and volume with
+$0 --test
+
+current time: $(date "+%T (%Z)")
+EOF
+exit 1
+}
+
+st=29
+rep=60
+
+for p ; do
+	case "$p" in
+	--test)  gen_tune ; play_tune ; clear_tune ; exit 0 ;;
+	--st=[0-9]*)  st=$(printf "%s" "$p"|cut -d "=" -f 2) ;;
+	--rep=[0-9]*) rep=$(printf "%s" "$p"|cut -d "=" -f 2) ;;
+	[0-2][0-9]:[0-5][0-9]) atime="$p" ;;
+	*) usage ;;
+	esac
+done
+
+[ -z "$atime" ] && usage
+
+type aplay>/dev/null || \
+{ echo "error: aplay not found. install alsa-utils." ; exit 1 ; }
+
+ah=$(echo $atime | cut -d ":" -f 1)
+am=$(echo $atime | cut -d ":" -f 2)
+
+while : ; do
+	ch=$(date +%H)
+	cm=$(date +%M)
+	if test x$ch = x$ah -a x$am = x$cm ; then
+		gen_tune
+		i="$rep"
+		while test $i -gt 0 ; do
+			play_tune
+			i=$(($i - 1))
+		done
+		clear_tune
+		exit 0
+	fi
+	sleep $st
+done
