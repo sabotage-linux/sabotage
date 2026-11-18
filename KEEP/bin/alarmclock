@@ -1,5 +1,5 @@
 #!/bin/sh
-# (C) 2016 rofl0r, licensed under the MIT license.
+# (C) 2016-2026 rofl0r, licensed under the MIT license.
 # the wave sound chunk was created with milkytracker's instrument editor
 # and is licensed under the CC0 license.
 
@@ -80,14 +80,18 @@ clear_tune() {
 }
 usage() {
 cat << EOF >&2
-sabotage alarmclock v1.0 (C) 2016 rofl0r
+sabotage alarmclock v1.1 (C) 2016-2026 rofl0r
 ----------------------------------------
 usage: $0 [--st=N] [--rep=N] hh:mm
+       $0 [--st=N] [--rep=N] +[hh:mm:ss]
 
 will play an alarm tune using aplay at the specified time
 (in european format i.e. hour values between 00 and 24).
 if hour or minute are less than 10, a leading zero is required
 (i.e. 08:05 rather than 8:5).
+
+use the + form to sound the alarm after the given delay.
+the delay is seconds (+30), or mm:ss (+08:00), or hh:mm:ss (+00:08:00).
 
 optional arguments:
 --st  to adjust the sleep time in seconds between clock checks (default: $st)
@@ -96,6 +100,8 @@ optional arguments:
 examples:
 $0 --rep=10 --st=5 09:00
 $0 18:25
+$0 +45:00
+$0 +30
 
 make sure to activate your speakers and set the volume using alsamixer.
 you can test the audio effect and volume with
@@ -114,31 +120,50 @@ for p ; do
 	--test)  gen_tune ; play_tune ; clear_tune ; exit 0 ;;
 	--st=[0-9]*)  st=$(printf "%s" "$p"|cut -d "=" -f 2) ;;
 	--rep=[0-9]*) rep=$(printf "%s" "$p"|cut -d "=" -f 2) ;;
-	[0-2][0-9]:[0-5][0-9]) atime="$p" ;;
+	[0-2][0-9]:[0-5][0-9]) test -n "$when" && usage ; when="$p:00" ; mode=clock ;;
+	+*) test -n "$when" && usage ; when=$(echo "$p" | cut -c 2-) ; mode=delay ;;
 	*) usage ;;
 	esac
 done
 
-[ -z "$atime" ] && usage
+test -z "$when" && usage
+
+if test "$mode" = delay ; then
+	case "$when" in
+	*[!0-9:]*|:*|*:|*::*) usage ;;
+	esac
+fi
 
 type aplay>/dev/null || \
 { echo "error: aplay not found. install alsa-utils." ; exit 1 ; }
 
-ah=$(echo $atime | cut -d ":" -f 1)
-am=$(echo $atime | cut -d ":" -f 2)
+seconds() {
+	echo "$1" | awk -F ":" 'NF == 3 {print $1 * 3600 + $2 * 60 + $3}
+		NF == 2 {print $1 * 60 + $2}
+		NF == 1 {print $1}'
+}
+
+secs=$(seconds "$when")
+if test "$mode" = clock ; then
+	test $secs -le 86400 || usage
+	secs=$((secs - $(seconds $(date +%H:%M:%S))))
+	test $secs -gt -60 || secs=$((secs + 86400))
+	test $secs -lt 0 && secs=0
+fi
+deadline=$(($(date +%s) + secs))
+
+ring() {
+	gen_tune
+	i="$rep"
+	while test $i -gt 0 ; do
+		play_tune
+		i=$(($i - 1))
+	done
+	clear_tune
+}
 
 while : ; do
-	ch=$(date +%H)
-	cm=$(date +%M)
-	if test x$ch = x$ah -a x$am = x$cm ; then
-		gen_tune
-		i="$rep"
-		while test $i -gt 0 ; do
-			play_tune
-			i=$(($i - 1))
-		done
-		clear_tune
-		exit 0
-	fi
-	sleep $st
+	test "$(date +%s)" -ge "$deadline" && { ring ; exit 0 ; }
+	left=$((deadline - $(date +%s)))
+	if test $left -lt $st ; then sleep $left ; else sleep $st ; fi
 done
