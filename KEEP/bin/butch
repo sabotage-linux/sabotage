@@ -41,10 +41,6 @@ butch_no_redirect_wrapper=true exec "$K"/bin/butch "$@"
 fi
 BINDIR="$(dirname "$thisbin")"
 
-# butch-core requires these paths
-[ ! -d $C ] && mkdir -p $C
-[ ! -d $LOGPATH ] && mkdir -p $LOGPATH
-
 usage() {
 	cat <<- EOF >&2
 	butch v$($BINDIR/butch-core 2>&1 | head -n1 | sed -e 's@butch-core v@@')
@@ -132,6 +128,12 @@ case $1 in
 	install|prefetch|rebuild|update|outdated) : ;;
 	*) usage && exit 1;;
 esac
+
+if test "$prog" = butch-core ; then
+# butch-core requires these paths
+[ ! -d $C ] && mkdir -p $C
+[ ! -d $LOGPATH ] && mkdir -p $LOGPATH
+fi
 
 exec "$BINDIR"/$prog "$@"
 
