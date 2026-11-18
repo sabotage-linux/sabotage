@@ -946,9 +946,6 @@ ac_cv_header_netinet_tcp_h=${ac_cv_header_netinet_tcp_h='yes'}
 ac_cv_header_netinet_udp_h=${ac_cv_header_netinet_udp_h='yes'}
 ac_cv_header_netpacket_packet_h=${ac_cv_header_netpacket_packet_h='yes'}
 ac_cv_header_nl_types_h=${ac_cv_header_nl_types_h='yes'}
-ac_cv_header_nlist_h=${ac_cv_header_nlist_h='yes'}
-ac_cv_header_openssl_opensslv_h=${ac_cv_header_openssl_opensslv_h='yes'}
-ac_cv_header_openssl_ssl_h=${ac_cv_header_openssl_ssl_h='yes'}
 ac_cv_header_paths_h=${ac_cv_header_paths_h='yes'}
 ac_cv_header_poll_h=${ac_cv_header_poll_h='yes'}
 ac_cv_header_pthread_h=${ac_cv_header_pthread_h='yes'}
